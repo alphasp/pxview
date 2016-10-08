@@ -1,0 +1,16 @@
+{
+  "name": "pixiv",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "android": "node node_modules/react-native/local-cli/cli.js run-android",
+    "android-release": "node node_modules/react-native/local-cli/cli.js run-android --variant=release",
+    "android-clean": "cd android && ./gradlew clean",
+    "ios": "node node_modules/react-native/local-cli/cli.js run-ios",
+  },
+  "dependencies": {
+    "react": "15.3.2",
+    "react-native": "0.34.1"
+  }
+}
