@@ -1,0 +1,41 @@
+{
+    "extends": "airbnb",
+    "rules": {
+        "brace-style": [
+            2,
+            "stroustrup"
+        ],
+        "arrow-parens": [
+            2,
+            "as-needed"
+        ],
+        "no-param-reassign": 0,
+        "import/no-extraneous-dependencies": [
+            2, 
+            { 
+                "devDependencies": true 
+            }
+        ],
+        "react/jsx-filename-extension": [
+            2, 
+            { 
+                "extensions": [".js"] 
+            }
+        ],
+        "react/prop-types": [
+            0
+        ]
+    },
+    "env": {
+        "es6": true,
+        "browser": true
+    },
+    "ecmaFeatures": {
+        "jsx": true,
+        "experimentalObjectRestSpread": true
+    },
+    "plugins": [
+        "react",
+        "react-native"
+    ]
+}
