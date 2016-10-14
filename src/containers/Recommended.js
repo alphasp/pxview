@@ -9,15 +9,19 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import GridView from 'react-native-grid-view';
 import PixivApi from 'pixiv-api-client';
 // import Image from 'react-native-image-progress';
 import Loader from '../components/Loader';
-import PixivImage from '../components/PixivImage';
+import PXTouchable from '../components/PXTouchable';
+import PXImage from '../components/PXImage';
 import { fetchRecommendedIllust, fetchRecommendedIllustPublic } from '../common/actions/recommendedIllust';
 import { fetchRecommendedManga } from '../common/actions/recommendedManga';
 
 const pixiv = new PixivApi();
+const width = Dimensions.get('window').width; //full width
+const height = Dimensions.get('window').height; //full height
 
 const styles = StyleSheet.create({
   container: {
@@ -41,21 +45,28 @@ class Recommended extends Component {
     // {item.image_urls.large}
     // "https://facebook.github.io/react/img/logo_og.png"
     //console.log("img ", item.image_urls.large)
-    var width = Dimensions.get('window').width; //full width
-    var height = Dimensions.get('window').height; //full height
+
     return (
-      <View key={item.id} style={{ 
-        margin: 5,
-        backgroundColor: '#E9EBEE',
-        width: width / 2 - 10, 
-        height: width / 2 - 10,
-      }}>
-        <PixivImage 
-          source={item.image_urls.square_medium}
-          style={ styles.cardImage }
-          initHeight={ width / 2 }
-        />
-      </View>
+      <PXTouchable 
+        style={{ 
+          margin: 5,
+          backgroundColor: '#E9EBEE',
+          width: width / 2 - 10, 
+          height: width / 2 - 10,
+        }} 
+        key={ item.id } 
+        onPress={ () => this.handleOnPressItem(item) }
+      >
+        <View>
+          <PXImage 
+            uri={item.image_urls.square_medium}
+            style={[ styles.cardImage, {
+              width: width / 2 - 10, 
+              height: width / 2 - 10,
+            }]}
+          />
+        </View>
+      </PXTouchable>
     );
   }
 
@@ -72,6 +83,9 @@ class Recommended extends Component {
     )
   }
 
+  handleOnPressItem = (item) => {
+    Actions.detail({ item: item });
+  }
   render() {
     const { recommended: { items, loading, loaded }, refreshing, onRefresh, loadMoreItems } = this.props;
     return (

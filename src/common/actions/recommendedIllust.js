@@ -24,7 +24,7 @@ function requestRecommended(offset) {
   return {
     type: REQUEST_RECOMENDED_ILLUSTS,
     payload: {
-      offset: offset
+      offset
     }
   };
 }
@@ -75,7 +75,7 @@ function fetchRecommendedPublicFromApi(options, nextUrl) {
 export function fetchRecommendedIllust(options) {
   return (dispatch, getState) => {
     if (shouldFetchRecommended(getState())) {
-      return dispatch(fetchRecommendedFromApi());
+      return dispatch(fetchRecommendedFromApi(options, nextUrl));
     }
   };
 }
@@ -93,8 +93,3 @@ export function clearRecommended(){
     type: CLEAR_RECOMENDED_ILLUSTS
   };
 }
-
-export function isLoaded(state){
-  return state.recommended && state.recommended.loaded; 
-}
-

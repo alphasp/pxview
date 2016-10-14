@@ -24,7 +24,7 @@ function requestRecommended(offset) {
   return {
     type: REQUEST_RECOMENDED_MANGA,
     payload: {
-      offset: offset
+      offset
     }
   };
 }

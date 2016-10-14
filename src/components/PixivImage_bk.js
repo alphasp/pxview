@@ -8,33 +8,11 @@ import {
 } from 'react-native';
 // import Image from 'react-native-image-progress';
 import CacheableImage from 'react-native-cacheable-image';
+import FitImage from 'react-native-fit-image';
 import RNFetchBlob from 'react-native-fetch-blob'
+var task;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  cardImage: {
-    resizeMode: 'contain',
-    margin: 5,
-    height: 100
-  },
-});
-
-class PixivImage extends Component {
+class PXImage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -43,36 +21,56 @@ class PixivImage extends Component {
   }
   componentDidMount() {
     const { source } = this.props;
-    RNFetchBlob.fetch('GET', source, {
+    task = RNFetchBlob.fetch('GET', source, {
       referer: "http://www.pixiv.net"
     })
-    // when response status code is 200
-    .then(res => {
-      let base64Str = res.base64();
-      this.setState({
-        imageBase64String: `data:image/png;base64,${base64Str}`
-      })
+    task.then(res => {
+      if (!this.unmounting) {
+        let base64Str = res.base64();
+        this.setState({
+          imageBase64String: `data:image/png;base64,${base64Str}`
+        })
+      }
     })
-    // Status code is not 200
     .catch((err, statusCode) => {
       // error handling
       console.log('error fetch blob ', err)
-    })
+    });
+  }
+  componentWillUnmount() {
+    this.unmounting = true;
+    if (task) {
+      task.cancel();
+    }
   }
   render() {
     const { source, style, ...otherProps } = this.props;
     const { imageBase64String } = this.state;
+    console.log('imageBase64String ', imageBase64String ? true : false)
     return (
       imageBase64String ?
-      <Image 
+      <FitImage 
         source={{ 
           uri: imageBase64String
         }}
-        style={ style }     
+        style={style}    
+        {...otherProps} 
       /> 
       :
       null
     )
+    // return (
+    //   imageBase64String ?
+    //   <Image 
+    //     source={{ 
+    //       uri: imageBase64String
+    //     }}
+    //     style={style}    
+    //     {...otherProps} 
+    //   /> 
+    //   :
+    //   null
+    // )
     //      <ActivityIndicator animating />
     // return (
     //   <Image 
@@ -102,4 +100,4 @@ class PixivImage extends Component {
   }
 }
 
-export default PixivImage;
+export default PXImage;

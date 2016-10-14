@@ -5,7 +5,7 @@ import {
   Platform,
 } from 'react-native';
 
-const UVTouchable = (props) => {
+const PXTouchable = (props) => {
   if (Platform.OS === 'android') {
     const { style, children, ...restProps } = props;
     return (
@@ -29,4 +29,4 @@ const UVTouchable = (props) => {
   }
 }
 
-module.exports = UVTouchable;
+module.exports = PXTouchable;

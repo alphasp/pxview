@@ -9,7 +9,7 @@ import {
 // } from 'react-router-native';
 import { Actions } from 'react-native-router-flux';
 import PXTouchable from '../components/PXTouchable';
-import PixivImage from '../components/PixivImage';
+import PXImage from '../components/PXImage';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,13 +51,6 @@ class Search extends Component {
         <Text style={styles.welcome}>
           Search page
         </Text>
-        <View style={{ width: 150 }}>
-          <PixivImage 
-            source="https://i.pximg.net/c/600x1200_90/img-master/img/2015/11/11/02/08/34/53491020_p0_master1200.jpg"
-            style={ styles.cardImage }
-            initHeight="150"
-          />
-        </View>
         <PXTouchable onPress={ this.onPress }>
           <View>
             <Text>press me</Text>

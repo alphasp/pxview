@@ -15,6 +15,7 @@ import {
 } from 'react-native-router-flux';
 import { connect, Provider } from 'react-redux';
 import Tabs from './Tabs';
+import Detail from './Detail';
 import TempComp from './TempComp';
 
 global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
@@ -86,6 +87,10 @@ class App extends Component {
             <Scene key="root">
               <Scene key="scenes" navigationBarStyle={styles.header}>
                 <Scene key="tabs" component={ Tabs } title="Pixiv RN"  />
+                <Scene key="detail"
+                  title="Detail"
+                  component={ Detail }
+                />
                 <Scene key="temp" 
                   component={ TempComp } 
                   title="Temp" 
