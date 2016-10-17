@@ -11,7 +11,6 @@ import {
 import CacheableImage from 'react-native-cacheable-image';
 import FitImage from 'react-native-fit-image';
 import RNFetchBlob from 'react-native-fetch-blob'
-var task;
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -24,10 +23,10 @@ class PXImage extends Component {
   }
   componentDidMount() {
     const { uri, onFoundImageSize } = this.props;
-    task = RNFetchBlob.fetch('GET', uri, {
+    this.task = RNFetchBlob.fetch('GET', uri, {
       referer: "http://www.pixiv.net"
     })
-    task.then(res => {
+    this.task.then(res => {
       if (!this.unmounting) {
         let base64Str = res.base64();
         Image.getSize(`data:image/png;base64,${base64Str}`, (width, height) => {
@@ -50,8 +49,8 @@ class PXImage extends Component {
   }
   componentWillUnmount() {
     this.unmounting = true;
-    if (task) {
-      task.cancel();
+    if (this.task) {
+      this.task.cancel();
     }
   }
   render() {

@@ -14,7 +14,7 @@ import PixivApi from 'pixiv-api-client';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
-import { fetchRecommendedIllust, fetchRecommendedIllustPublic } from '../common/actions/recommendedIllust';
+import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic } from '../common/actions/recommendedIllust';
 import { fetchRecommendedManga } from '../common/actions/recommendedManga';
 const windowWidth = Dimensions.get('window').width; //full width
 const windowHeight = Dimensions.get('window').height; //full height

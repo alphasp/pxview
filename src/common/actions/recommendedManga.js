@@ -3,14 +3,14 @@ import qs from "qs";
 import { addError } from './error';
 import pixiv from '../helpers/ApiClient';
 
-export const REQUEST_RECOMENDED_MANGA = 'REQUEST_RECOMENDED_MANGA';
-export const RECEIVE_RECOMENDED_MANGA = 'RECEIVE_RECOMENDED_MANGA';
-export const STOP_RECOMENDED_MANGA = 'STOP_RECOMENDED_MANGA';
-export const CLEAR_RECOMENDED_MANGA = 'CLEAR_RECOMENDED_MANGA';
+export const REQUEST_RECOMMENDED_MANGAS = 'REQUEST_RECOMMENDED_MANGAS';
+export const RECEIVE_RECOMMENDED_MANGAS = 'RECEIVE_RECOMMENDED_MANGAS';
+export const STOP_RECOMMENDED_MANGAS = 'STOP_RECOMMENDED_MANGAS';
+export const CLEAR_RECOMMENDED_MANGAS = 'CLEAR_RECOMMENDED_MANGAS';
 
-function receiveRecommended(json, offset) { 
+function receiveRecommended(json, offset) {
   return {
-    type: RECEIVE_RECOMENDED_MANGA,
+    type: RECEIVE_RECOMMENDED_MANGAS,
     payload: {
       items: json.illusts,
       nextUrl: json.next_url,
@@ -22,16 +22,16 @@ function receiveRecommended(json, offset) {
 
 function requestRecommended(offset) {
   return {
-    type: REQUEST_RECOMENDED_MANGA,
+    type: REQUEST_RECOMMENDED_MANGAS,
     payload: {
       offset
     }
   };
 }
 
-function stopRecommended(){
+function stopRecommended() {
   return {
-    type: STOP_RECOMENDED_MANGA
+    type: STOP_RECOMMENDED_MANGAS
   };
 }
 
@@ -59,7 +59,7 @@ function fetchRecommendedFromApi(options, nextUrl) {
   };
 }
 
-export function fetchRecommendedManga(options) {
+export function fetchRecommendedMangas(options) {
   return (dispatch, getState) => {
     if (shouldFetchRecommended(getState())) {
       return dispatch(fetchRecommendedFromApi());
@@ -67,8 +67,8 @@ export function fetchRecommendedManga(options) {
   };
 }
 
-export function clearRecommended(){
+export function clearRecommendedMangas() {
   return {
-    type: CLEAR_RECOMENDED_MANGA
+    type: CLEAR_RECOMMENDED_MANGAS
   };
 }

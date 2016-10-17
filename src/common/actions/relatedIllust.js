@@ -68,7 +68,7 @@ function fetchRelatedIllustFromApi(illustId, options, nextUrl) {
   };
 }
 
-export function fetchRelatedIllust(illustId, options, nextUrl) {
+export function fetchRelatedIllusts(illustId, options, nextUrl) {
   return (dispatch, getState) => {
     if (shouldFetchRelatedIllust(getState(), illustId)) {
       return dispatch(fetchRelatedIllustFromApi(illustId, options, nextUrl));
@@ -76,7 +76,7 @@ export function fetchRelatedIllust(illustId, options, nextUrl) {
   };
 }
 
-export function clearRelatedIllust(illustId){
+export function clearRelatedIllusts(illustId){
   return {
     type: CLEAR_RELATED_ILLUSTS,
     payload: {

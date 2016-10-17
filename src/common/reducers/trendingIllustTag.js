@@ -1,43 +1,38 @@
 import { 
-  REQUEST_RECOMMENDED_ILLUSTS, 
-  RECEIVE_RECOMMENDED_ILLUSTS,
-  STOP_RECOMMENDED_ILLUSTS, 
-  CLEAR_RECOMMENDED_ILLUSTS,
-} from "../actions/recommendedIllust";
+  REQUEST_TRENDING_ILLUST_TAGS, 
+  RECEIVE_TRENDING_ILLUST_TAGS,
+  STOP_TRENDING_ILLUST_TAGS, 
+  CLEAR_TRENDING_ILLUST_TAGS,
+} from "../actions/trendingIllustTag";
 
-export function recommendedIllust(state = {
+export function trendingIllustTag(state = {
   loading: false,
   loaded: false,
   items: [],
-  offset: 0,
-  nextUrl: null,
 }, action) {
   switch (action.type) {
-    case CLEAR_RECOMMENDED_ILLUSTS:
+    case CLEAR_TRENDING_ILLUST_TAGS:
       return {
         ...state,
         loading: false,
         loaded: false,
         items: [],
-        offset: 0,
-        nextUrl: null,
       };
-    case REQUEST_RECOMMENDED_ILLUSTS:
+    case REQUEST_TRENDING_ILLUST_TAGS:
       return {
         ...state,
         loading: true,
       };
-    case RECEIVE_RECOMMENDED_ILLUSTS:
+
+    case RECEIVE_TRENDING_ILLUST_TAGS:
       return {
         ...state,
         loading: false,
         loaded: true,
         items: [...state.items, ...action.payload.items],
-        offset: action.payload.offset,
-        nextUrl: action.payload.nextUrl,
         lastUpdated: action.payload.receivedAt,
       };
-    case STOP_RECOMMENDED_ILLUSTS:
+    case STOP_TRENDING_ILLUST_TAGS:
       return {
         ...state,
         loading: false,

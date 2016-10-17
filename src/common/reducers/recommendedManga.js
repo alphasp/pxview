@@ -1,4 +1,4 @@
-import { REQUEST_RECOMENDED_MANGA, RECEIVE_RECOMENDED_MANGA, STOP_RECOMENDED_MANGA, CLEAR_RECOMENDED_MANGA } from "../actions/recommendedManga";
+import { REQUEST_RECOMMENDED_MANGAS, RECEIVE_RECOMMENDED_MANGAS, STOP_RECOMMENDED_MANGAS, CLEAR_RECOMMENDED_MANGAS } from "../actions/recommendedManga";
 
 export function recommendedManga(state = {
   loading: false,
@@ -8,7 +8,7 @@ export function recommendedManga(state = {
   nextUrl: null,
 }, action) {
   switch (action.type) {
-    case CLEAR_RECOMENDED_MANGA:
+    case CLEAR_RECOMMENDED_MANGAS:
       return {
         ...state,
         loading: false,
@@ -17,13 +17,12 @@ export function recommendedManga(state = {
         offset: 0,
         nextUrl: null,
       };
-    case REQUEST_RECOMENDED_MANGA:
+    case REQUEST_RECOMMENDED_MANGAS:
       return {
         ...state,
         loading: true,
       };
-
-    case RECEIVE_RECOMENDED_MANGA:
+    case RECEIVE_RECOMMENDED_MANGAS:
       return {
         ...state,
         loading: false,
@@ -33,7 +32,7 @@ export function recommendedManga(state = {
         nextUrl: action.payload.nextUrl,
         lastUpdated: action.payload.receivedAt,
       };
-    case STOP_RECOMENDED_MANGA:
+    case STOP_RECOMMENDED_MANGAS:
       return {
         ...state,
         loading: false,

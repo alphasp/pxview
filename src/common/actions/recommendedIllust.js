@@ -3,14 +3,14 @@ import qs from "qs";
 import { addError } from './error';
 import pixiv from '../helpers/ApiClient';
 
-export const REQUEST_RECOMENDED_ILLUSTS = 'REQUEST_RECOMENDED_ILLUSTS';
-export const RECEIVE_RECOMENDED_ILLUSTS = 'RECEIVE_RECOMENDED_ILLUSTS';
-export const STOP_RECOMENDED_ILLUSTS = 'STOP_RECOMENDED_ILLUSTS';
-export const CLEAR_RECOMENDED_ILLUSTS = 'CLEAR_RECOMENDED_ILLUSTS';
+export const REQUEST_RECOMMENDED_ILLUSTS = 'REQUEST_RECOMMENDED_ILLUSTS';
+export const RECEIVE_RECOMMENDED_ILLUSTS = 'RECEIVE_RECOMMENDED_ILLUSTS';
+export const STOP_RECOMMENDED_ILLUSTS = 'STOP_RECOMMENDED_ILLUSTS';
+export const CLEAR_RECOMMENDED_ILLUSTS = 'CLEAR_RECOMMENDED_ILLUSTS';
 
 function receiveRecommended(json, offset) { 
   return {
-    type: RECEIVE_RECOMENDED_ILLUSTS,
+    type: RECEIVE_RECOMMENDED_ILLUSTS,
     payload: {
       items: json.illusts,
       nextUrl: json.next_url,
@@ -22,7 +22,7 @@ function receiveRecommended(json, offset) {
 
 function requestRecommended(offset) {
   return {
-    type: REQUEST_RECOMENDED_ILLUSTS,
+    type: REQUEST_RECOMMENDED_ILLUSTS,
     payload: {
       offset
     }
@@ -31,7 +31,7 @@ function requestRecommended(offset) {
 
 function stopRecommended(){
   return {
-    type: STOP_RECOMENDED_ILLUSTS
+    type: STOP_RECOMMENDED_ILLUSTS
   };
 }
 
@@ -72,7 +72,7 @@ function fetchRecommendedPublicFromApi(options, nextUrl) {
   };
 }
 
-export function fetchRecommendedIllust(options) {
+export function fetchRecommendedIllusts(options) {
   return (dispatch, getState) => {
     if (shouldFetchRecommended(getState())) {
       return dispatch(fetchRecommendedFromApi(options, nextUrl));
@@ -80,7 +80,7 @@ export function fetchRecommendedIllust(options) {
   };
 }
 
-export function fetchRecommendedIllustPublic(options, nextUrl) {
+export function fetchRecommendedIllustsPublic(options, nextUrl) {
   return (dispatch, getState) => {
     if (shouldFetchRecommended(getState())) {
       return dispatch(fetchRecommendedPublicFromApi(options, nextUrl));
@@ -88,8 +88,8 @@ export function fetchRecommendedIllustPublic(options, nextUrl) {
   };
 }
 
-export function clearRecommended(){
+export function clearRecommendedIllusts(){
   return {
-    type: CLEAR_RECOMENDED_ILLUSTS
+    type: CLEAR_RECOMMENDED_ILLUSTS
   };
 }

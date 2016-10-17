@@ -17,6 +17,11 @@ import { connect, Provider } from 'react-redux';
 import Tabs from './Tabs';
 import Detail from './Detail';
 import TempComp from './TempComp';
+import Home from './Home';
+import Search from './Search';
+import Setting from './Setting';
+import SearchBar from '../components/SearchBar';
+import Header from '../components/Header';
 
 global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
 
@@ -71,11 +76,9 @@ const styles = StyleSheet.create({
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      gg: null,
-    };
     if (Platform.OS === 'ios') {
-      StatusBar.setBarStyle('light-content', true)
+      //StatusBar.setBarStyle('light-content', true)
+      StatusBar.setBarStyle('default');
     }
   }
   render() {
@@ -83,18 +86,45 @@ class App extends Component {
     return (
       <Provider store={ store }>
         <RouterWithRedux getSceneStyle={ getSceneStyle }>
-          <Scene key="modal" component={ Modal } >
+          <Scene key="modal" component={ Modal }>
             <Scene key="root">
               <Scene key="scenes" navigationBarStyle={styles.header}>
-                <Scene key="tabs" component={ Tabs } title="Pixiv RN"  />
+                <Scene key="tabbar">
+                <Scene key="tabs" component={ Tabs } title="Pixiv RN" tabs={true} duration={0}>
+                  <Scene key="home"
+                    title="Home"
+                    component={ Home }
+                    navigationBarStyle={styles.header}
+                    hideNavBar={true}
+                  />
+                  <Scene key="search"
+                    title="Search"
+                    component={ Search }
+                    navigationBarStyle={styles.header}
+                    renderTitle={ () => {
+                      return (
+                        <Header>
+                          <SearchBar />
+                        </Header>
+                      )
+                    }}
+                  />
+                  <Scene key="setting"
+                    title="Setting"
+                    component={ Setting }
+                    navigationBarStyle={styles.header}
+                  />
+                </Scene>
                 <Scene key="detail"
                   title="Detail"
                   component={ Detail }
+                  duration={0}
                 />
                 <Scene key="temp" 
                   component={ TempComp } 
                   title="Temp" 
                 />
+              </Scene>
               </Scene>
             </Scene>
           </Scene>

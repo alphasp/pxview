@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Recommended from './Recommended';
-import { fetchRelatedIllust, clearRelatedIllust } from '../common/actions/relatedIllust';
+import { fetchRelatedIllusts, clearRelatedIllusts } from '../common/actions/relatedIllust';
 
 class RelatedIllust extends Component {
   constructor(props) {
@@ -23,10 +23,10 @@ class RelatedIllust extends Component {
 
   componentDidMount() {
     const { dispatch, illustId } = this.props;
-    dispatch(clearRelatedIllust());
+    dispatch(clearRelatedIllusts());
     InteractionManager.runAfterInteractions(() => {
       console.log("fetchRelatedIllust ", illustId)
-      dispatch(fetchRelatedIllust(illustId));
+      dispatch(fetchRelatedIllusts(illustId));
     });
   }
 
@@ -34,7 +34,7 @@ class RelatedIllust extends Component {
     const { dispatch, relatedIllust: { nextUrl } } = this.props;
     console.log('load more ', nextUrl)
     if (nextUrl) {
-      dispatch(fetchRelatedIllust(null, null, nextUrl));
+      dispatch(fetchRelatedIllusts(null, null, nextUrl));
     }
   }
 
@@ -43,8 +43,8 @@ class RelatedIllust extends Component {
     this.setState({
       refereshing: true
     });
-    dispatch(clearRelatedIllust());
-    dispatch(fetchRelatedIllust()).finally(() => {
+    dispatch(clearRelatedIllusts());
+    dispatch(fetchRelatedIllusts()).finally(() => {
       this.setState({
         refereshing: false
       }); 

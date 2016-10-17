@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Recommended from './Recommended';
-import { fetchRecommendedManga, clearRecommended } from '../common/actions/recommendedManga';
+import { fetchRecommendedMangas, clearRecommendedMangas } from '../common/actions/recommendedManga';
 
 class RecommendedManga extends Component {
   constructor(props) {
@@ -21,13 +21,13 @@ class RecommendedManga extends Component {
   }
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(fetchRecommendedManga());
+    dispatch(fetchRecommendedMangas());
   }
 
   loadMoreItems = () => {
     const { dispatch, recommendedManga: { nextUrl }, type } = this.props;
     if (nextUrl) {
-      dispatch(fetchRecommendedManga(null, nextUrl));
+      dispatch(fetchRecommendedMangas(null, nextUrl));
     }
   }
 
@@ -36,8 +36,8 @@ class RecommendedManga extends Component {
     this.setState({
       refereshing: true
     });
-    dispatch(clearRecommended());
-    dispatch(fetchRecommendedManga()).finally(() => {
+    dispatch(clearRecommendedMangas());
+    dispatch(fetchRecommendedMangas()).finally(() => {
       this.setState({
         refereshing: false
       }); 

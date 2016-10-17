@@ -11,15 +11,13 @@ import {
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import GridView from 'react-native-grid-view';
-import PixivApi from 'pixiv-api-client';
 // import Image from 'react-native-image-progress';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
-import { fetchRecommendedIllust, fetchRecommendedIllustPublic } from '../common/actions/recommendedIllust';
+import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic } from '../common/actions/recommendedIllust';
 import { fetchRecommendedManga } from '../common/actions/recommendedManga';
 
-const pixiv = new PixivApi();
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
 
@@ -49,10 +47,10 @@ class Recommended extends Component {
     return (
       <PXTouchable 
         style={{ 
-          margin: 5,
+          margin: 1,
           backgroundColor: '#E9EBEE',
-          width: width / 2 - 10, 
-          height: width / 2 - 10,
+          width: width / 2 - 2, 
+          height: width / 2 - 2,
         }} 
         key={ item.id } 
         onPress={ () => this.handleOnPressItem(item) }
@@ -61,8 +59,8 @@ class Recommended extends Component {
           <PXImage 
             uri={item.image_urls.square_medium}
             style={[ styles.cardImage, {
-              width: width / 2 - 10, 
-              height: width / 2 - 10,
+              width: width / 2 - 2, 
+              height: width / 2 - 2,
             }]}
           />
         </View>

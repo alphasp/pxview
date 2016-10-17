@@ -4,6 +4,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
+import { DefaultRenderer, Actions, ActionConst } from 'react-native-router-flux';
 import Home from './Home';
 import Search from './Search';
 import Setting from './Setting';
@@ -20,22 +21,42 @@ import Setting from './Setting';
 class Tabs extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      gg: null,
-    };
   }
+  // onChangeTab = ({ ref }) => {
+  //   console.log('ref.props.sceneKey ', ref.props.sceneKey )
+  //   Actions[ref.props.sceneKey]();
+  // }
   render() {
-    console.log('Tabs');
-    console.log('children ', this.props.children);
+    // console.log('Tabs');
+    // console.log('children ', this.props.children);
+    // return (
+    //   <ScrollableTabView 
+    //     tabBarPosition="bottom" 
+    //     locked 
+    //     scrollWithoutAnimation
+    //   >
+    //     <Home tabLabel="Home" />
+    //     <Search tabLabel="Search" />
+    //     <Setting tabLabel="Setting" />
+    //   </ScrollableTabView>
+    // );
+    const state = this.props.navigationState;
+    console.log('ss ', state);
+    //const { navigationState: { children }, notifications } = this.props;
+    // renderTabBar={() => <TabBar /> }
     return (
       <ScrollableTabView 
         tabBarPosition="bottom" 
         locked 
-        scrollWithoutAnimation
+        scrollWithoutAnimation 
       >
-        <Home tabLabel="Home" />
-        <Search tabLabel="Search" />
-        <Setting tabLabel="Setting" />
+        {
+          state.children.map(el =>{
+            return (
+              <DefaultRenderer navigationState={el} onNavigate={this.props.onNavigate} key={el.key} tabLabel={el.title} {...el} />
+            );
+          })
+        }
       </ScrollableTabView>
     );
   }

@@ -8,56 +8,97 @@ import {
 //   withRouter,
 // } from 'react-router-native';
 import { Actions } from 'react-native-router-flux';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
+import TrendingIllustTag from './TrendingIllustTag';
+import RecommendedUser from './RecommendedUser';
+import Header from '../components/Header';
+//import { Container, Header, InputGroup, Input, Icon, Button } from 'native-base';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-
-  cardImage: {
-    //resizeMode: 'contain',
-    margin: 5,
-    //height: 100,
-    // width: 130,
-  },
+    //marginHorizontal: 10
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // backgroundColor: '#F5FCFF',
+  }
 });
 
 class Search extends Component {
-  onPress = () => {
-    console.log("press")
-    const { router } = this.props;
-    //router.push('/temp/');
-    Actions.temp();
-  }
+  // componentWillMount(){
+  //   console.log('aa')
+  //   Actions.refresh({
+  //     title: "abcd",
+  //     test: "123",
+  //     navBar: () => {
+  //       return (
+  //         <Header>
+  //           <SearchBar />
+  //         </Header>
+  //       );
+  //     }
+  //   });
+  // }
+
+  // static renderNavigationBar(props) {
+  //   return (
+  //     <Header>
+  //       <SearchBar />
+  //     </Header>
+  //   );
+  // }
+  // onPress = () => {
+  //   console.log("press")
+  //   const { router } = this.props;
+  //   //router.push('/temp/');
+  //   Actions.temp();
+  // }
 
   render() {
+    //recomended user
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Search page
-        </Text>
-        <PXTouchable onPress={ this.onPress }>
-          <View>
-            <Text>press me</Text>
-          </View>
-        </PXTouchable>
+      <View style={styles.container} >
+        <ScrollableTabView>
+          <TrendingIllustTag tabLabel="Illust/Manga" />
+          <RecommendedUser tabLabel="User" />
+        </ScrollableTabView>
       </View>
-    );
+    )
+    // return (
+    //   <View>
+    //     <View style={styles.container}>
+    //       <Text>gg {this.props.test}</Text>
+    //     </View>
+    //   </View>
+    // )
+    // return (
+    //   <View style={styles.container}>
+    //     <Text style={styles.welcome}>
+    //       Search page
+    //     </Text>
+    //     <PXTouchable onPress={ this.onPress }>
+    //       <View>
+    //         <Text>press me</Text>
+    //       </View>
+    //     </PXTouchable>
+    //   </View>
+    // );
+    // return (
+    //   <Container>
+    //     <Header searchBar rounded>
+    //       <InputGroup>
+    //           <Icon name='ios-search' />
+    //           <Input placeholder='Search' />
+    //           <Icon name='ios-people' />
+    //       </InputGroup>
+    //       <Button transparent>
+    //           Search
+    //       </Button>
+    //     </Header>
+    //   </Container>
+    // )
   }
 }
 

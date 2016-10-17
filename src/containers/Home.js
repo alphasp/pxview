@@ -3,10 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
+  StatusBar,
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import RecommendedIllust from './RecommendedIllust';
 import RecommendedManga from './RecommendedManga';
+import Header from '../components/Header';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,7 +31,7 @@ const styles = StyleSheet.create({
 
 class Home extends Component {
   render() {
-    console.log("render home")
+    //console.log("render home ", this.props)
     // return (
     //   <View style={styles.container}>
     //     <Text style={styles.welcome}>
@@ -45,12 +47,14 @@ class Home extends Component {
     //   </View>
     // );
     return (
-      <View style={styles.container} >
-        <ScrollableTabView>
-          <RecommendedIllust tabLabel="Illustrations" />
-          <RecommendedManga tabLabel="Manga" />
-        </ScrollableTabView>
-      </View>
+      <Header>
+        <View style={styles.container} >
+          <ScrollableTabView>
+            <RecommendedIllust tabLabel="Illustrations" />
+            <RecommendedManga tabLabel="Manga" />
+          </ScrollableTabView>
+        </View>
+      </Header>
     );
   }
 }

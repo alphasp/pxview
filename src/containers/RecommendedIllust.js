@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Recommended from './Recommended';
-import { fetchRecommendedIllust, fetchRecommendedIllustPublic, clearRecommended } from '../common/actions/recommendedIllust';
+import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic, clearRecommendedIllusts } from '../common/actions/recommendedIllust';
 
 class RecommendedIllust extends Component {
   constructor(props) {
@@ -22,14 +22,14 @@ class RecommendedIllust extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(fetchRecommendedIllustPublic());
+    dispatch(fetchRecommendedIllustsPublic());
   }
 
   loadMoreItems = () => {
     const { dispatch, recommendedIllust: { nextUrl } } = this.props;
     console.log('load more ', nextUrl)
     if (nextUrl) {
-      dispatch(fetchRecommendedIllustPublic(null, nextUrl));
+      dispatch(fetchRecommendedIllustsPublic(null, nextUrl));
     }
   }
 
@@ -38,8 +38,8 @@ class RecommendedIllust extends Component {
     this.setState({
       refereshing: true
     });
-    dispatch(clearRecommended());
-    dispatch(fetchRecommendedIllustPublic()).finally(() => {
+    dispatch(clearRecommendedIllusts());
+    dispatch(fetchRecommendedIllustsPublic()).finally(() => {
       this.setState({
         refereshing: false
       }); 
@@ -48,6 +48,7 @@ class RecommendedIllust extends Component {
 
   render() {
     const { recommendedIllust } = this.props;
+    console.log('rr ', recommendedIllust)
     const { refreshing } = this.state;
     return (
       <Recommended

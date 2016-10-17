@@ -10,6 +10,7 @@ import {
   RecyclerViewBackedScrollView,
   InteractionManager,
   Platform,
+  PanResponder,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -26,7 +27,7 @@ import PXImageTouchable from '../components/PXImageTouchable';
 import PXThumbnail from '../components/PXThumbnail';
 import Tags from '../components/Tags';
 import RelatedIllust from './RelatedIllust';
-import { fetchRecommendedIllust, fetchRecommendedIllustPublic } from '../common/actions/recommendedIllust';
+import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic } from '../common/actions/recommendedIllust';
 import { fetchRecommendedManga } from '../common/actions/recommendedManga';
 const windowWidth = Dimensions.get('window').width; //full width
 const windowHeight = Dimensions.get('window').height; //full height
@@ -48,6 +49,13 @@ const styles = StyleSheet.create({
     // overflow: 'hidden',
     // bottom: 200,
     // left: 0
+  },
+  header: {
+    paddingTop: 0,
+    top: 15,
+    right: 0,
+    left: 100,
+    position: 'absolute',
   },
   thumnailNameContainer: {
     flexDirection: 'row'
@@ -78,6 +86,20 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     //right: 0,
+  },
+  imagePageNumberContainer: {
+    top: 10,
+    right: 10,
+    position: 'absolute',
+    justifyContent: 'center',
+    backgroundColor: 'grey',
+    borderRadius: 10,
+    paddingHorizontal: 8,
+    // height: 32,
+  },
+  imagePageNumber: {
+    color: '#fff',
+    padding: 2
   }
 });
 
@@ -89,13 +111,32 @@ class Detail extends Component {
     })
     this.state = { 
       mounting: true,
-      bottomTabsPosition: "bottom"
+      bottomTabsPosition: "bottom",
+      isInitState: true
     };
   }
-  // componentWillMount(nextProps) {
-  //   const { item } = this.props;
-  //   Actions.refresh({ title: item.title });
-  // }
+  componentWillMount(nextProps) {
+    const { item } = this.props;
+    Actions.refresh({ 
+      renderTitle: () => {
+        return (
+          <View style={[styles.infoContainer, styles.header]}>
+            <View style={styles.thumnailNameContainer}>
+              <PXTouchable style={{ width: 30, height: 30 }}>
+                <PXThumbnail 
+                  uri={item.user.profile_image_urls.medium}
+                />
+              </PXTouchable>
+              <View style={styles.nameContainer}>
+                <Text>{item.user.name}</Text>
+                <Text>{item.user.account}</Text>
+              </View>
+            </View>
+          </View>
+        )
+      } 
+    });
+  }
 
   componentDidMount(){
     const { dispatch, product } = this.props;
@@ -104,6 +145,10 @@ class Detail extends Component {
     InteractionManager.runAfterInteractions(() => {
       this.setState({ mounting: false });
     });
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
   }
 
   renderRow = (item, sectionId, rowId) => {
@@ -218,7 +263,10 @@ class Detail extends Component {
     if (item.meta_pages && item.meta_pages.length && visibleRows.s1) {
       const visibleRowNumbers = Object.keys(visibleRows.s1).map((row) => parseInt(row));
       console.log('visible row ', visibleRowNumbers)
-      Actions.refresh({ title: `${visibleRowNumbers[0] + 1} / ${item.meta_pages.length}`});
+      //Actions.refresh({ title: `${visibleRowNumbers[0] + 1} / ${item.meta_pages.length}`});
+      this.setState({
+        imagePageNumber: `${visibleRowNumbers[0] + 1} / ${item.meta_pages.length}`
+      });
       if (visibleRowNumbers.length === 2) {
         // console.log('visible row ', visibleRowNumbers[0])
         // Actions.refresh({ title: `${visibleRowNumbers[0] + 1} of ${item.meta_pages.length}`});
@@ -229,6 +277,20 @@ class Detail extends Component {
       }
     }
   }
+  handleOnScroll = () => {
+    const { isInitState, isScrolling } = this.state;
+    if (isInitState) {
+      this.setState({
+        isInitState: false
+      });
+    }
+    this.setState({
+      isScrolling: true
+    });
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.setState({ isScrolling: false }), 500)
+  }
+
   // handleOnEndReached = () => {
   //   console.log('end reached')
   //   // this.setState({
@@ -267,7 +329,7 @@ class Detail extends Component {
 
   render() {
     const { item } = this.props;
-    const { mounting, selectedBottomTab, bottomTabsPosition } = this.state;
+    const { mounting, selectedBottomTab, bottomTabsPosition, imagePageNumber, isScrolling, isInitState } = this.state;
     const dataSource = this.dataSource.cloneWithRows(item.meta_pages);
     //let imageUrls = illust.meta_pages ?
     if (item.meta_pages && item.meta_pages.length){
@@ -311,22 +373,30 @@ class Detail extends Component {
           null
           :
           (item.meta_pages && item.meta_pages.length) ?
-          <Animatable.View style={{flex: 1}} ref="imageListContainer">
-            <ListView
-              ref="gv"
-              dataSource={dataSource}
-              renderRow={this.renderRow}
-              renderFooter={this.renderFooter2}
-              enableEmptySections={ true }
-              renderDistance={10}
-              initialListSize={1}
-              scrollRenderAheadDistance={300}
-              onChangeVisibleRows={this.handleOnChangeVisibleRows}
-              onContentSizeChange={(contentWidth, contentHeight) => console.log(contentWidth, contentHeight)}
-              onEndReached={this.handleOnEndReached}
-              onScroll={this.handleOnScroll}
-            />
-          </Animatable.View>
+          <View style={{flex: 1}}>
+            <Animatable.View style={{flex: 1}} ref="imageListContainer">
+              <ListView
+                ref="gv"
+                dataSource={dataSource}
+                renderRow={this.renderRow}
+                renderFooter={this.renderFooter2}
+                enableEmptySections={ true }
+                renderDistance={10}
+                initialListSize={1}
+                scrollRenderAheadDistance={300}
+                onChangeVisibleRows={this.handleOnChangeVisibleRows}
+                onContentSizeChange={(contentWidth, contentHeight) => console.log(contentWidth, contentHeight)}
+                onEndReached={this.handleOnEndReached}
+                onScroll={this.handleOnScroll}
+              />
+            </Animatable.View>
+            {
+              (isInitState || isScrolling) && imagePageNumber &&
+              <View style={styles.imagePageNumberContainer}>
+                <Text style={styles.imagePageNumber}>{imagePageNumber}</Text>
+              </View>
+            }
+          </View>
           :
           <ScrollView>
             <PXImageTouchable 
@@ -370,81 +440,6 @@ class Detail extends Component {
         }
       </View>
     );
-                //     <PXImage 
-                //   uri={item.user.profile_image_urls.medium}   
-                //   style={{
-                //     resizeMode: "cover",
-                //   }} 
-                // />
-    // <Image 
-    //   source={{ 
-    //     uri: "https://facebook.github.io/react/img/logo_og.png"
-    //   }}
-    //   style={{
-    //     resizeMode: "cover",
-    //     width: 30,
-    //     height: 30
-    //   }} 
-    // />
-      // "user": {
-      //   "id": 1081538,
-      //   "name": "いな◆紅楼夢 D-01b",
-      //   "account": "inadahime",
-      //   "profile_image_urls": {
-      //     "medium": "https://i2.pixiv.net/user-profile/img/2016/01/17/12/18/16/10394853_be859b3749c80617a0164279a4479551_170.png"
-      //   },
-      //   "is_followed": false
-      // },
-          //     <PXImageTouchable 
-          //   uri={item.meta_single_page.original_image_url}    
-          //   initWidth={item.width > windowWidth ? windowWidth : item.width}
-          //   initHeight={windowWidth * item.height / item.width}
-          //   style={{
-          //     backgroundColor: '#E9EBEE',
-          //   }}
-          //   imageStyle={{
-          //     resizeMode: "contain",
-          //   }}
-          // />
-          //     <PXTouchable 
-          //   style={{ 
-          //     width: item.width > windowWidth ? windowWidth : item.width,
-          //     height: windowWidth * item.height / item.width,
-          //     backgroundColor: '#E9EBEE',
-          //   }}
-          // >
-          //   <PXImage 
-          //     uri={item.meta_single_page.original_image_url}    
-          //     resizeMode={Image.resizeMode.contain}
-          //     style={{
-          //       resizeMode: "contain"
-          //     }}
-          //   />
-          // </PXTouchable>
-    //'https://i1.pixiv.net/img-original/img/2016/01/01/14/12/45/54449988_p0.jpg'
-          //     <PXTouchable 
-          //   style={{ 
-          //     backgroundColor: '#E9EBEE',
-          //     width: width,
-          //     height: item.height > height ? height : item.height
-          //   }} 
-          // >
-          //   <PXImage 
-          //     source={item.meta_single_page.original_image_url}
-          //     resizeMode={Image.resizeMode.contain}
-          //     style={[ styles.cardImage, {
-          //       flex: 1,
-          //     } ]}
-          //   />
-          // </PXTouchable>
-          // <View style={styles.imageContainer}>
-          //   <PXImage 
-          //     source={item.meta_single_page.original_image_url}
-          //     style={[ styles.cardImage, {
-          //       flex: 1,
-          //     } ]}
-          //   />
-          // </View>
   }
 }
 

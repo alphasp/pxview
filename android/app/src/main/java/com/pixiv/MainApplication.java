@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.rnfs.RNFSPackage;
@@ -29,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new RNSpinkitPackage(),
           new MainReactPackage(),
+            new VectorIconsPackage(),
             new RNFetchBlobPackage(),
             new ReactMaterialKitPackage(),
           new RNFSPackage(),
