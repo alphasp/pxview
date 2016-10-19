@@ -48,7 +48,6 @@ class RecommendedIllust extends Component {
 
   render() {
     const { recommendedIllust } = this.props;
-    console.log('rr ', recommendedIllust)
     const { refreshing } = this.state;
     return (
       <Recommended

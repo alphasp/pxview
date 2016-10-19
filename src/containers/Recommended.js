@@ -15,6 +15,7 @@ import GridView from 'react-native-grid-view';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
+import OverlayImagePages from '../components/OverlayImagePages';
 import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic } from '../common/actions/recommendedIllust';
 import { fetchRecommendedManga } from '../common/actions/recommendedManga';
 
@@ -63,6 +64,12 @@ class Recommended extends Component {
               height: width / 2 - 2,
             }]}
           />
+          {
+            (item.meta_pages && item.meta_pages.length) ?
+            <OverlayImagePages total={item.meta_pages.length} />
+            :
+            null
+          }
         </View>
       </PXTouchable>
     );
@@ -90,7 +97,7 @@ class Recommended extends Component {
       <View style={styles.container}>
         {
           !loaded && loading &&
-           <Loader />
+          <Loader />
         }
         {
           (items && items.length) ?

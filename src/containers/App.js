@@ -88,8 +88,7 @@ class App extends Component {
         <RouterWithRedux getSceneStyle={ getSceneStyle }>
           <Scene key="modal" component={ Modal }>
             <Scene key="root">
-              <Scene key="scenes" navigationBarStyle={styles.header}>
-                <Scene key="tabbar">
+              <Scene key="scenes" navigationBarStyle={styles.header} panHandlers={null}>
                 <Scene key="tabs" component={ Tabs } title="Pixiv RN" tabs={true} duration={0}>
                   <Scene key="home"
                     title="Home"
@@ -124,7 +123,6 @@ class App extends Component {
                   component={ TempComp } 
                   title="Temp" 
                 />
-              </Scene>
               </Scene>
             </Scene>
           </Scene>

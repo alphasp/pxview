@@ -1,11 +1,11 @@
 import { 
-  REQUEST_RECOMMENDED_MANGAS, 
-  RECEIVE_RECOMMENDED_MANGAS, 
-  STOP_RECOMMENDED_MANGAS, 
-  CLEAR_RECOMMENDED_MANGAS,
-} from "../actions/recommendedManga";
+  REQUEST_RECOMMENDED_USERS, 
+  RECEIVE_RECOMMENDED_USERS,
+  STOP_RECOMMENDED_USERS, 
+  CLEAR_RECOMMENDED_USERS,
+} from "../actions/recommendedUser";
 
-export function recommendedManga(state = {
+export function recommendedUser(state = {
   loading: false,
   loaded: false,
   items: [],
@@ -13,7 +13,7 @@ export function recommendedManga(state = {
   nextUrl: null,
 }, action) {
   switch (action.type) {
-    case CLEAR_RECOMMENDED_MANGAS:
+    case CLEAR_RECOMMENDED_USERS:
       return {
         ...state,
         loading: false,
@@ -22,12 +22,12 @@ export function recommendedManga(state = {
         offset: 0,
         nextUrl: null,
       };
-    case REQUEST_RECOMMENDED_MANGAS:
+    case REQUEST_RECOMMENDED_USERS:
       return {
         ...state,
         loading: true,
       };
-    case RECEIVE_RECOMMENDED_MANGAS:
+    case RECEIVE_RECOMMENDED_USERS:
       return {
         ...state,
         loading: false,
@@ -37,7 +37,7 @@ export function recommendedManga(state = {
         nextUrl: action.payload.nextUrl,
         lastUpdated: action.payload.receivedAt,
       };
-    case STOP_RECOMMENDED_MANGAS:
+    case STOP_RECOMMENDED_USERS:
       return {
         ...state,
         loading: false,

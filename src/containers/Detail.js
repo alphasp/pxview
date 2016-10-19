@@ -11,6 +11,7 @@ import {
   InteractionManager,
   Platform,
   PanResponder,
+  Linking,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -25,8 +26,10 @@ import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
 import PXImageTouchable from '../components/PXImageTouchable';
 import PXThumbnail from '../components/PXThumbnail';
+import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import Tags from '../components/Tags';
 import RelatedIllust from './RelatedIllust';
+import IllustComment from './IllustComment';
 import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic } from '../common/actions/recommendedIllust';
 import { fetchRecommendedManga } from '../common/actions/recommendedManga';
 const windowWidth = Dimensions.get('window').width; //full width
@@ -42,7 +45,6 @@ const styles = StyleSheet.create({
     // backgroundColor: '#F5FCFF',
   },
   infoContainer: {
-    //flex: 1,
     margin: 10,
     // backgroundColor: 'transparent',
     // position: 'absolute',
@@ -58,7 +60,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   thumnailNameContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+  },
+  profileContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   nameContainer: {
     flexDirection: 'column',
@@ -100,6 +107,9 @@ const styles = StyleSheet.create({
   imagePageNumber: {
     color: '#fff',
     padding: 2
+  },
+  tabContainer: {
+    flex: 1
   }
 });
 
@@ -179,7 +189,7 @@ class Detail extends Component {
     //'https://facebook.github.io/react-native/img/header_logo.png'
   }
 
-  renderFooter = () => {
+  renderInfo = () => {
     //2087.5 - 1999 = 88.5
     const { item } = this.props;
     const { selectedBottomTab, selectedBottomTabIndex } = this.state;
@@ -198,63 +208,48 @@ class Detail extends Component {
     //     width: 0
     //   }
     // }
-    console.log('fs ', footerStyle)
+    //console.log('fs ', footerStyle)
     return (
       selectedBottomTab &&
-      <View style={footerStyle}>
+      <ScrollView>
         <View style={styles.infoContainer}>
-          <View style={styles.thumnailNameContainer}>
-            <PXTouchable style={{ width: 30, height: 30 }}>
-              <PXThumbnail 
-                uri={item.user.profile_image_urls.medium}
-              />
+          <View style={styles.profileContainer}>
+            <PXTouchable style={styles.thumnailNameContainer}>
+              <PXThumbnail uri={item.user.profile_image_urls.medium} />
+              <View style={styles.nameContainer}>
+                <Text>{item.user.name}</Text>
+                <Text>{item.user.account}</Text>
+              </View>
             </PXTouchable>
-            <View style={styles.nameContainer}>
-              <Text>{item.user.name}</Text>
-              <Text>{item.user.account}</Text>
-            </View>
+            <PXTouchable>
+              <Text>Follow</Text>
+            </PXTouchable>
           </View>
           <View style={styles.captionContainer}>
             <HtmlView 
               value={item.caption}
+              onLinkPress={this.handleOnLinkPress}
             />
           </View>
           {
             <Tags tags={item.tags} />
           }
         </View>
-      </View>
+      </ScrollView>
     );
   }
-  renderFooter2 = () => {
+  renderFooter = () => {
     return (
       <View style={{height: 300}} />
     )
   }
-  renderTempMore = () => {
+  renderComments = () => {
+    const { item } = this.props;
     const { selectedBottomTab } = this.state;
-    let footerStyle = {};
-    // if (selectedBottomTab) {
-    //   //bottomTabNewStyle.height = windowHeight;
-    //   footerStyle = {
-    //     flex: 1,
-    //     width: windowWidth
-    //   }
-    // }
-    // else {
-    //   footerStyle = {
-    //     height: 0,
-    //     width: 0
-    //   }
-    // }
-    // console.log('temp ', footerStyle)
-    console.log('sbt ', selectedBottomTab)
     return (
       selectedBottomTab &&
-      <View>
-        <Text>aaa</Text>
-      </View>
-    )
+      <IllustComment illustId={item.id} />
+    );
   }
 
   handleOnChangeVisibleRows= (visibleRows, changedRows) => {
@@ -262,7 +257,7 @@ class Detail extends Component {
     const { item } = this.props;
     if (item.meta_pages && item.meta_pages.length && visibleRows.s1) {
       const visibleRowNumbers = Object.keys(visibleRows.s1).map((row) => parseInt(row));
-      console.log('visible row ', visibleRowNumbers)
+      //console.log('visible row ', visibleRowNumbers)
       //Actions.refresh({ title: `${visibleRowNumbers[0] + 1} / ${item.meta_pages.length}`});
       this.setState({
         imagePageNumber: `${visibleRowNumbers[0] + 1} / ${item.meta_pages.length}`
@@ -327,6 +322,19 @@ class Detail extends Component {
     }
   }
 
+  handleOnLinkPress = (url) => {
+    console.log('clicked link: ', url)
+    Linking.canOpenURL(url).then(supported => {
+      if (!supported) {
+        console.log('Can\'t handle url: ' + url);
+      } else {
+        return Linking.openURL(url);
+      }
+    }).catch(err => {
+      console.error('Error on link press ', err)
+    });
+  }
+
   render() {
     const { item } = this.props;
     const { mounting, selectedBottomTab, bottomTabsPosition, imagePageNumber, isScrolling, isInitState } = this.state;
@@ -336,12 +344,12 @@ class Detail extends Component {
       
     }
     else {
-      console.log('single img ', item.meta_single_page.original_image_url);
-      console.log('width ', item.width)
-      console.log('height ', item.height)
+      // console.log('single img ', item.meta_single_page.original_image_url);
+      // console.log('width ', item.width)
+      // console.log('height ', item.height)
     }
     let bottomTabNewStyle = {};
-    console.log('selectedBottomTab ', selectedBottomTab)
+    //console.log('selectedBottomTab ', selectedBottomTab)
     if (selectedBottomTab) {
       //bottomTabNewStyle.height = windowHeight;
       // bottomTabNewStyle = {
@@ -365,12 +373,12 @@ class Detail extends Component {
       //   left: 0
       // }
     }
-    console.log('bottomTabNewStyle ', bottomTabNewStyle)
+    //console.log('bottomTabNewStyle ', bottomTabNewStyle)
     return (
       <View style={styles.container}>
         {
           mounting ?
-          null
+          <Loader />
           :
           (item.meta_pages && item.meta_pages.length) ?
           <View style={{flex: 1}}>
@@ -379,13 +387,12 @@ class Detail extends Component {
                 ref="gv"
                 dataSource={dataSource}
                 renderRow={this.renderRow}
-                renderFooter={this.renderFooter2}
+                renderFooter={this.renderFooter}
                 enableEmptySections={ true }
                 renderDistance={10}
                 initialListSize={1}
                 scrollRenderAheadDistance={300}
                 onChangeVisibleRows={this.handleOnChangeVisibleRows}
-                onContentSizeChange={(contentWidth, contentHeight) => console.log(contentWidth, contentHeight)}
                 onEndReached={this.handleOnEndReached}
                 onScroll={this.handleOnScroll}
               />
@@ -423,13 +430,13 @@ class Detail extends Component {
               scrollWithoutAnimation
               onChangeTab={this.handleOnChangeTab}
             >
-              <View tabLabel="Info">
-                {this.renderFooter()}
+              <View tabLabel="Info" style={styles.tabContainer}>
+                {this.renderInfo()}
               </View>
-              <View tabLabel="More">
-                {this.renderTempMore()}
+              <View tabLabel="Comments" style={styles.tabContainer}>
+                {this.renderComments()}
               </View>
-              <View tabLabel="Related Illustrations" style={{flex: 1}}>
+              <View tabLabel="Related Illustrations" style={styles.tabContainer}>
                 {
                   selectedBottomTab &&
                   <RelatedIllust illustId={item.id} />

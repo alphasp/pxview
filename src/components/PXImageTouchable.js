@@ -7,18 +7,12 @@ import {
   Dimensions,
   RecyclerViewBackedScrollView,
 } from 'react-native';
-import { connect } from 'react-redux';
-import GridView from 'react-native-grid-view';
-import PixivApi from 'pixiv-api-client';
-// import Image from 'react-native-image-progress';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
-import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic } from '../common/actions/recommendedIllust';
-import { fetchRecommendedManga } from '../common/actions/recommendedManga';
+
 const windowWidth = Dimensions.get('window').width; //full width
 const windowHeight = Dimensions.get('window').height; //full height
-
 
 class PXImageTouchable extends Component {
   constructor(props) {

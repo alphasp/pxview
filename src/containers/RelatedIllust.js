@@ -23,7 +23,7 @@ class RelatedIllust extends Component {
 
   componentDidMount() {
     const { dispatch, illustId } = this.props;
-    dispatch(clearRelatedIllusts());
+    dispatch(clearRelatedIllusts(illustId));
     InteractionManager.runAfterInteractions(() => {
       console.log("fetchRelatedIllust ", illustId)
       dispatch(fetchRelatedIllusts(illustId));
@@ -31,20 +31,20 @@ class RelatedIllust extends Component {
   }
 
   loadMoreItems = () => {
-    const { dispatch, relatedIllust: { nextUrl } } = this.props;
-    console.log('load more ', nextUrl)
-    if (nextUrl) {
-      dispatch(fetchRelatedIllusts(null, null, nextUrl));
+    const { dispatch, relatedIllust, illustId } = this.props;
+    console.log('load more ', relatedIllust[illustId].nextUrl)
+    if (relatedIllust[illustId] && relatedIllust[illustId].nextUrl) {
+      dispatch(fetchRelatedIllusts(illustId, null, relatedIllust[illustId].nextUrl));
     }
   }
 
   handleOnRefresh = () => {
-    const { dispatch } = this.props;
+    const { dispatch, illustId } = this.props;
     this.setState({
       refereshing: true
     });
-    dispatch(clearRelatedIllusts());
-    dispatch(fetchRelatedIllusts()).finally(() => {
+    dispatch(clearRelatedIllusts(illustId));
+    dispatch(fetchRelatedIllusts(illustId)).finally(() => {
       this.setState({
         refereshing: false
       }); 

@@ -8,13 +8,14 @@ import {
 const PXTouchable = (props) => {
   if (Platform.OS === 'android') {
     const { style, children, ...restProps } = props;
+    console.log('ssstyle ', style)
     return (
       <TouchableNativeFeedback 
         background={ TouchableNativeFeedback.SelectableBackground() } 
         { ...restProps } 
       >
         {
-          children ? 
+          (children && children.props) ? 
           React.cloneElement(children, {
             style: [children.props.style, style]
           })

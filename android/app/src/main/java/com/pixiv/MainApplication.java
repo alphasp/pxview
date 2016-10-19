@@ -30,10 +30,10 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new RNSpinkitPackage(),
           new MainReactPackage(),
-            new VectorIconsPackage(),
-            new RNFetchBlobPackage(),
-            new ReactMaterialKitPackage(),
-          new RNFSPackage(),
+          new VectorIconsPackage(),
+          new RNFetchBlobPackage(),
+          new ReactMaterialKitPackage(),
+          new RNFSPackage()
       );
     }
   };

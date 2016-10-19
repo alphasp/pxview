@@ -10,6 +10,7 @@
     "ios": "node node_modules/react-native/local-cli/cli.js run-ios"
   },
   "dependencies": {
+    "moment": "^2.15.1",
     "native-base": "^0.5.9",
     "pixiv-api-client": "^0.7.0",
     "react": "15.3.2",

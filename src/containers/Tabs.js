@@ -59,6 +59,17 @@ class Tabs extends Component {
         }
       </ScrollableTabView>
     );
+    // return (
+    //   <ScrollableTabView 
+    //     tabBarPosition="bottom" 
+    //     locked 
+    //     scrollWithoutAnimation
+    //   >
+    //     <Home tabLabel="Home" />
+    //     <Search tabLabel="Search" />
+    //     <Setting tabLabel="Setting" />
+    //   </ScrollableTabView>
+    // );
   }
 }
 

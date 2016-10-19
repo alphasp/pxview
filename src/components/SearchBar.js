@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 
 const SearchBar = (props) => {
   // const { tags } = props;
-  console.log('render searchbar');
+  //console.log('render searchbar');
   return (
     <View style={styles.container}>
       <View style={styles.searchBarInputGroup}>
