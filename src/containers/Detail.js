@@ -53,14 +53,24 @@ const styles = StyleSheet.create({
     // left: 0
   },
   header: {
-    paddingTop: 0,
-    top: 15,
-    right: 0,
-    left: 100,
-    position: 'absolute',
+    // paddingTop: 0,
+    // top: 15,
+    // right: 0,
+    // left: 100,
+    // position: 'absolute',
+    ...Platform.select({
+      ios: {
+        top: 15
+      },
+    }),
+    // right: 0,
+    //left: 100,
+    // position: 'absolute',
+    alignItems: 'center'
   },
   thumnailNameContainer: {
     flexDirection: 'row',
+    alignItems: 'center'
   },
   profileContainer: {
     flexDirection: 'row',
@@ -132,11 +142,7 @@ class Detail extends Component {
         return (
           <View style={[styles.infoContainer, styles.header]}>
             <View style={styles.thumnailNameContainer}>
-              <PXTouchable style={{ width: 30, height: 30 }}>
-                <PXThumbnail 
-                  uri={item.user.profile_image_urls.medium}
-                />
-              </PXTouchable>
+              <PXThumbnailTouchable uri={item.user.profile_image_urls.medium} />
               <View style={styles.nameContainer}>
                 <Text>{item.user.name}</Text>
                 <Text>{item.user.account}</Text>
@@ -293,7 +299,7 @@ class Detail extends Component {
   //   // });
   // }
   handleOnChangeTab = ({i, ref}) => {
-    const { selectedBottomTabIndex } = this.state;
+    const { selectedBottomTabIndex, selectedBottomTab } = this.state;
     //console.log(i, selectedBottomTabIndex)
     if (i === selectedBottomTabIndex) {
       this.setState({
@@ -309,16 +315,19 @@ class Detail extends Component {
       }
     }
     else {
+      const isSwitchingTab = selectedBottomTab;
       this.setState({
         selectedBottomTab: true,
         selectedBottomTabIndex: i
       });
-      // this.refs.bottomTabs.transitionTo({bottom: 300});
-      this.refs.bottomTabs.transitionTo({ height: windowHeight - 64, backgroundColor: '#fff'}, 300);    
-      if (this.refs.imageListContainer) {
-        this.refs.imageListContainer.slideOutUp();
+      if (!isSwitchingTab) {
+        // this.refs.bottomTabs.transitionTo({bottom: 300});
+        this.refs.bottomTabs.transitionTo({ height: windowHeight - 64, backgroundColor: '#fff'}, 300);    
+        if (this.refs.imageListContainer) {
+          this.refs.imageListContainer.slideOutUp();
+        }
+        this.setState({ bottomTabsPosition: "top" });
       }
-      this.setState({ bottomTabsPosition: "top" });
     }
   }
 

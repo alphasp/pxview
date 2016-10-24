@@ -26,10 +26,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginVertical: 10
+    //alignItems: 'center'
   },
 });
 
-const Loader = (props) => {
+const Header = (props) => {
   return (
     <View style={styles.container}>
       { props.children }
@@ -37,4 +38,4 @@ const Loader = (props) => {
   );
 }
 
-export default Loader;
+export default Header;

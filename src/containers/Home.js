@@ -4,6 +4,8 @@ import {
   Text,
   View,
   StatusBar,
+  Dimensions,
+  Platform,
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import RecommendedIllust from './RecommendedIllust';
@@ -13,9 +15,9 @@ import Header from '../components/Header';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // backgroundColor: '#F5FCFF',
   },
   welcome: {
     fontSize: 20,
@@ -30,6 +32,12 @@ const styles = StyleSheet.create({
 });
 
 class Home extends Component {
+  componentDidMount() {
+    // hack for android for nested tabs https://github.com/skv-headless/react-native-scrollable-tab-view/issues/215
+    if (Platform.OS === 'android') {
+      setTimeout(() => this.tabs.goToPage(0), 0);
+    }
+  }
   render() {
     //console.log("render home ", this.props)
     // return (
@@ -49,7 +57,7 @@ class Home extends Component {
     return (
       <Header>
         <View style={styles.container} >
-          <ScrollableTabView>
+          <ScrollableTabView ref={(ref) => this.tabs = ref}>
             <RecommendedIllust tabLabel="Illustrations" />
             <RecommendedManga tabLabel="Manga" />
           </ScrollableTabView>

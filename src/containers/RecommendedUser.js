@@ -68,17 +68,24 @@ const styles = StyleSheet.create({
 class RecommendedUser extends Component {
   constructor(props) {
     super(props);
-    this.dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-    })
     this.state = { 
+      dataSource:  new ListView.DataSource({
+        rowHasChanged: (r1, r2) => r1 !== r2,
+      }),
       refreshing: false
     };
   }
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(fetchRecommendedUsers());
+    dispatch(fetchRecommendedUsers()).then(() => {
+      const { recommendedUser: { items } } = this.props;
+      const { dataSource } = this.state;
+      console.log('items ', items);
+      this.setState({
+        dataSource: dataSource.cloneWithRows(items)
+      });
+    });
   }
 
   renderRow = (item) => {
@@ -105,20 +112,22 @@ class RecommendedUser extends Component {
                   key={illust.id} 
                   onPress={() => this.handleOnPressImagePreview(illust)}
                 >
-                  <PXImage 
-                    uri={illust.image_urls.square_medium}
-                    style={[styles.cardImage, {
-                      resizeMode: 'cover',
-                      width: windowWidth / item.illusts.length - 1, 
-                      height: windowWidth / item.illusts.length - 1,
-                    }]}
-                  />
-                  {
-                    (illust.meta_pages && illust.meta_pages.length) ?
-                    <OverlayImagePages total={illust.meta_pages.length} />
-                    :
-                    null
-                  }
+                  <View>
+                    <PXImage 
+                      uri={illust.image_urls.square_medium}
+                      style={[styles.cardImage, {
+                        resizeMode: 'cover',
+                        width: windowWidth / item.illusts.length - 1, 
+                        height: windowWidth / item.illusts.length - 1,
+                      }]}
+                    />
+                    {
+                      (illust.meta_pages && illust.meta_pages.length) ?
+                      <OverlayImagePages total={illust.meta_pages.length} />
+                      :
+                      null
+                    }
+                  </View>
                 </PXTouchable>
               )
             })
@@ -186,8 +195,7 @@ class RecommendedUser extends Component {
 
   render() {
     const { recommendedUser: { items, loading, loaded } } = this.props;
-    const { refreshing } = this.state;
-    const dataSource = this.dataSource.cloneWithRows(items);
+    const { dataSource, refreshing } = this.state;
     return (
       <View style={styles.container}>
         {

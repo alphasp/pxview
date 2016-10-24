@@ -4,39 +4,41 @@ import {
   Text,
   View,
 } from 'react-native';
-
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  textContainer: {
+    flex: 1,
+    backgroundColor: 'red'
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  tabs: {
+
+  }
 });
 
 class TempComp extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      aa: null,
-    };
-  }
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          TempComp
-        </Text>
+        <View style={styles.textContainer}>
+        <Text>test test temp</Text>
+        </View>
+        <View style={styles.tabs}>
+          <ScrollableTabView 
+            tabBarPosition="bottom" 
+            locked 
+            scrollWithoutAnimation 
+            onChangeTab={()=> console.log('change tab')}
+          >
+            <View tabLabel="abc" style={styles.container}>
+              <Text>a</Text>
+            </View>
+            <View tabLabel="def">
+            </View>
+          </ScrollableTabView>
+        </View>
       </View>
     );
   }

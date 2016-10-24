@@ -57,7 +57,6 @@ class Search extends Component {
   // }
 
   render() {
-    //recomended user
     return (
       <View style={styles.container} >
         <ScrollableTabView>

@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         marginLeft: -8, 
         marginRight: -8
       }
-    })
+    }),
   },
   searchBarInputGroup: {
     flex: 1,

@@ -3,19 +3,37 @@ import {
   TouchableOpacity,
   TouchableNativeFeedback,
   Platform,
+  View,
 } from 'react-native';
 
 const PXTouchable = (props) => {
   if (Platform.OS === 'android') {
+    // return <TouchableOpacity {...props} />
     const { style, children, ...restProps } = props;
-    console.log('ssstyle ', style)
+    //console.log('children ', children)
+    return (
+      <TouchableNativeFeedback 
+        background={ TouchableNativeFeedback.SelectableBackground() } 
+        style={style}
+        { ...restProps } 
+      >
+        {
+          children ? 
+          <View style={style}>
+            { children }
+          </View>
+          :
+          null
+        }
+      </TouchableNativeFeedback>
+    )
     return (
       <TouchableNativeFeedback 
         background={ TouchableNativeFeedback.SelectableBackground() } 
         { ...restProps } 
       >
         {
-          (children && children.props) ? 
+          children ? 
           React.cloneElement(children, {
             style: [children.props.style, style]
           })

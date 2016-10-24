@@ -46,7 +46,6 @@ class PXImageTouchable extends Component {
           width: width,
           height: height
         }]}
-        onPress={onPress}
       >
         {
           loading &&

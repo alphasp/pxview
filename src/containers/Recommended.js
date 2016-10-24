@@ -56,7 +56,6 @@ class Recommended extends Component {
         key={ item.id } 
         onPress={ () => this.handleOnPressItem(item) }
       >
-        <View>
           <PXImage 
             uri={item.image_urls.square_medium}
             style={[ styles.cardImage, {
@@ -70,7 +69,6 @@ class Recommended extends Component {
             :
             null
           }
-        </View>
       </PXTouchable>
     );
   }
@@ -105,7 +103,6 @@ class Recommended extends Component {
             items={ items }
             itemsPerRow={ 2 }
             renderItem={ this.renderItem }
-            renderScrollComponent={ props => <RecyclerViewBackedScrollView {...props} />}
             onEndReachedThreshold={ 30 }
             onEndReached={ loadMoreItems }
             renderFooter={ this.renderFooter }

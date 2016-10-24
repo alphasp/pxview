@@ -89,6 +89,7 @@ class TrendingIllustTag extends Component {
     //      <Text>{ item.tag }</Text>
     //   </View>
     // )
+    
     return (
       <PXTouchable 
         style={{ 
@@ -100,17 +101,19 @@ class TrendingIllustTag extends Component {
         key={ item.tag } 
         onPress={ () => this.handleOnPressItem(item) }
       >
-        <PXImage 
-          uri={item.illust.image_urls.square_medium}
-          style={[styles.cardImage, {
+        <View>
+          <PXImage 
+            uri={item.illust.image_urls.square_medium}
+            style={[styles.cardImage, {
+              width: width / 3 - 3, 
+              height: width / 3 - 3,
+            }]}
+          />
+          <View style={[styles.tagContainer, {
             width: width / 3 - 3, 
-            height: width / 3 - 3,
-          }]}
-        />
-        <View style={[styles.tagContainer, {
-          width: width / 3 - 3, 
-        }]}>
-          <Text style={styles.tag}>{ item.tag }</Text>
+          }]}>
+            <Text style={styles.tag}>{ item.tag }</Text>
+          </View>
         </View>
       </PXTouchable>
     );
@@ -135,6 +138,9 @@ class TrendingIllustTag extends Component {
   render() {
     const { trendingIllustTag: { items, loading, loaded } } = this.props;
     const { refreshing } = this.state;
+    //not working for android
+    // renderScrollComponent={ props => <RecyclerViewBackedScrollView {...props} />}
+
     return (
       <View style={styles.container}>
         {
@@ -147,7 +153,6 @@ class TrendingIllustTag extends Component {
             items={ items }
             itemsPerRow={ 3 }
             renderItem={ this.renderItem }
-            renderScrollComponent={ props => <RecyclerViewBackedScrollView {...props} />}
             enableEmptySections={ true }
             refreshControl={
               <RefreshControl
