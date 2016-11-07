@@ -34,12 +34,16 @@ const styles = StyleSheet.create({
 });
 
 const Tags = (props) => {
-  const { tags } = props;
+  const { tags, onPressTag } = props;
   return (
     <View style={styles.container}>
       {
         tags.map(tag => 
-          <PXTouchable key={tag.name} style={styles.tagContainer}>
+          <PXTouchable 
+            key={tag.name} 
+            style={styles.tagContainer}
+            onPress={() => onPressTag(tag.name)}
+          >
             <Text style={styles.tagLabel}>{tag.name}</Text>
           </PXTouchable> 
         )

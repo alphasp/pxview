@@ -3,102 +3,44 @@ import {
   StyleSheet,
   Text,
   View,
+  ActivityIndicator,
+  Dimensions,
+  ListView,
+  RecyclerViewBackedScrollView,
+  RefreshControl,
 } from 'react-native';
-// import {
-//   withRouter,
-// } from 'react-router-native';
+import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
+import GridView from '../components/GridView';
+import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
-import TrendingIllustTag from './TrendingIllustTag';
-import RecommendedUser from './RecommendedUser';
-import Header from '../components/Header';
-//import { Container, Header, InputGroup, Input, Icon, Button } from 'native-base';
+
+const width = Dimensions.get('window').width; //full width
+const height = Dimensions.get('window').height; //full height
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //marginHorizontal: 10
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // backgroundColor: '#F5FCFF',
-  }
+  },
 });
 
 class Search extends Component {
-  // componentWillMount(){
-  //   console.log('aa')
-  //   Actions.refresh({
-  //     title: "abcd",
-  //     test: "123",
-  //     navBar: () => {
-  //       return (
-  //         <Header>
-  //           <SearchBar />
-  //         </Header>
-  //       );
-  //     }
-  //   });
-  // }
-
-  // static renderNavigationBar(props) {
-  //   return (
-  //     <Header>
-  //       <SearchBar />
-  //     </Header>
-  //   );
-  // }
-  // onPress = () => {
-  //   console.log("press")
-  //   const { router } = this.props;
-  //   //router.push('/temp/');
-  //   Actions.temp();
-  // }
-
   render() {
     return (
       <View style={styles.container} >
-        <ScrollableTabView>
-          <TrendingIllustTag tabLabel="Illust/Manga" />
-          <RecommendedUser tabLabel="User" />
+        <ScrollableTabView locked scrollWithoutAnimation>
+          <View tabLabel="Illust/Manga" />
+          <View tabLabel="User" />
         </ScrollableTabView>
       </View>
-    )
-    // return (
-    //   <View>
-    //     <View style={styles.container}>
-    //       <Text>gg {this.props.test}</Text>
-    //     </View>
-    //   </View>
-    // )
-    // return (
-    //   <View style={styles.container}>
-    //     <Text style={styles.welcome}>
-    //       Search page
-    //     </Text>
-    //     <PXTouchable onPress={ this.onPress }>
-    //       <View>
-    //         <Text>press me</Text>
-    //       </View>
-    //     </PXTouchable>
-    //   </View>
-    // );
-    // return (
-    //   <Container>
-    //     <Header searchBar rounded>
-    //       <InputGroup>
-    //           <Icon name='ios-search' />
-    //           <Input placeholder='Search' />
-    //           <Icon name='ios-people' />
-    //       </InputGroup>
-    //       <Button transparent>
-    //           Search
-    //       </Button>
-    //     </Header>
-    //   </Container>
-    // )
+    );
   }
 }
 
-export default Search;
+export default connect(state => {
+  return {
+    //trendingIllustTag: state.trendingIllustTag
+  }
+})(Search);

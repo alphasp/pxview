@@ -81,7 +81,6 @@ class RecommendedUser extends Component {
     dispatch(fetchRecommendedUsers()).then(() => {
       const { recommendedUser: { items } } = this.props;
       const { dataSource } = this.state;
-      console.log('items ', items);
       this.setState({
         dataSource: dataSource.cloneWithRows(items)
       });
@@ -208,7 +207,6 @@ class RecommendedUser extends Component {
             dataSource={dataSource}
             renderRow={this.renderRow}
             enableEmptySections={ true }
-            renderScrollComponent={ props => <RecyclerViewBackedScrollView {...props} />}
             renderFooter={this.renderFooter}
             onEndReached={this.loadMoreUsers}
             refreshControl={

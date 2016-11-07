@@ -28,6 +28,7 @@ import PXImageTouchable from '../components/PXImageTouchable';
 import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import Tags from '../components/Tags';
+import DetailTabBar from '../components/DetailTabBar';
 import RelatedIllust from './RelatedIllust';
 import IllustComment from './IllustComment';
 import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic } from '../common/actions/recommendedIllust';
@@ -40,8 +41,7 @@ const pixiv = new PixivApi();
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    alignItems: 'center',
     // backgroundColor: '#F5FCFF',
   },
   infoContainer: {
@@ -184,7 +184,7 @@ class Detail extends Component {
         style={{
           backgroundColor: '#E9EBEE',
           borderBottomWidth: StyleSheet.hairlineWidth,
-          borderBottomColor: 'red'
+          borderBottomColor: 'red',
         }}
         imageStyle={{
           resizeMode: "contain",
@@ -238,7 +238,7 @@ class Detail extends Component {
             />
           </View>
           {
-            <Tags tags={item.tags} />
+            <Tags tags={item.tags} onPressTag={this.handleOnPressTag} />
           }
         </View>
       </ScrollView>
@@ -258,7 +258,10 @@ class Detail extends Component {
     );
   }
 
-  handleOnChangeVisibleRows= (visibleRows, changedRows) => {
+  handleOnPressTag = (tag) => {
+    Actions.searchResult({ word: tag });
+  }
+  handleOnChangeVisibleRows = (visibleRows, changedRows) => {
     // Called when the set of visible rows changes. visibleRows maps { sectionID: { rowID: true }} for all the visible rows, and changedRows maps { sectionID: { rowID: true | false }} for the rows that have changed their visibility, with true indicating visible, and false indicating the view has moved out of view.
     const { item } = this.props;
     if (item.meta_pages && item.meta_pages.length && visibleRows.s1) {
@@ -346,7 +349,7 @@ class Detail extends Component {
 
   render() {
     const { item } = this.props;
-    const { mounting, selectedBottomTab, bottomTabsPosition, imagePageNumber, isScrolling, isInitState } = this.state;
+    const { mounting, selectedBottomTab, bottomTabsPosition, selectedBottomTabIndex, imagePageNumber, isScrolling, isInitState } = this.state;
     const dataSource = this.dataSource.cloneWithRows(item.meta_pages);
     //let imageUrls = illust.meta_pages ?
     if (item.meta_pages && item.meta_pages.length){
@@ -435,17 +438,21 @@ class Detail extends Component {
           !mounting &&
           <Animatable.View style={[styles.bottomTabs, bottomTabNewStyle]} ref="bottomTabs">
             <ScrollableTabView 
+              ref={(ref) => this.detailTabView = ref}
               tabBarPosition={bottomTabsPosition}
               scrollWithoutAnimation
               onChangeTab={this.handleOnChangeTab}
+              locked={true}
+              initialPage={-1}
+              renderTabBar={(ref) => <DetailTabBar isShowActiveTabColor={selectedBottomTabIndex > -1} />}
             >
-              <View tabLabel="Info" style={styles.tabContainer}>
+              <View tabLabel="ios-information-circle-outline" style={styles.tabContainer} >
                 {this.renderInfo()}
               </View>
-              <View tabLabel="Comments" style={styles.tabContainer}>
+              <View tabLabel="ios-chatboxes-outline" style={styles.tabContainer}>
                 {this.renderComments()}
               </View>
-              <View tabLabel="Related Illustrations" style={styles.tabContainer}>
+              <View tabLabel="ios-link-outline" style={styles.tabContainer}>
                 {
                   selectedBottomTab &&
                   <RelatedIllust illustId={item.id} />

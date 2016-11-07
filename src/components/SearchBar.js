@@ -5,7 +5,9 @@ import {
   Text,
   TextInput,
   Platform,
+  Animated
 } from 'react-native';
+import PXTouchable from './PXTouchable';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
@@ -60,6 +62,12 @@ const styles = StyleSheet.create({
     paddingLeft: 5
     //flex: 0.2
   },
+  placeHolderTextContainer: {
+    alignSelf: 'center', 
+  },
+  placeHolderText: {
+    color: 'gray', 
+  }
   // searchBarButton: {
   //   alignItems: 'center', 
   //   justifyContent: 'center', 
@@ -69,13 +77,33 @@ const styles = StyleSheet.create({
 });
 
 const SearchBar = (props) => {
-  // const { tags } = props;
-  //console.log('render searchbar');
+  const { isRenderPlaceHolder, enableBack, onFocus, onChangeText, onSubmitEditing, autoFocus, word } = props;
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {
+      marginLeft: enableBack && 30
+    }]}>
       <View style={styles.searchBarInputGroup}>
         <Icon style={styles.searchIcon} name="search" size={15} color="#5cafec" />
-        <TextInput style={styles.searchBarTextInput} placeholder="Enter keyword"  />
+        {
+          isRenderPlaceHolder ?
+          <PXTouchable 
+            onPress={onFocus}
+            style={[styles.searchBarTextInput, styles.placeHolderTextContainer]} 
+          >
+            <Text style={styles.placeHolderText}>Enter keyword</Text>
+          </PXTouchable>
+          :
+          <TextInput 
+            style={styles.searchBarTextInput} 
+            placeholder="Enter keyword" 
+            autoFocus={autoFocus}
+            onFocus={onFocus}
+            onChangeText={onChangeText}
+            onSubmitEditing={(e) => onSubmitEditing(e.nativeEvent.text)}
+            returnKeyType="search"
+            defaultValue={word}
+          />
+        }
       </View>
     </View>
   );

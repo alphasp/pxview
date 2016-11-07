@@ -18,7 +18,10 @@ import Tabs from './Tabs';
 import Detail from './Detail';
 import TempComp from './TempComp';
 import Home from './Home';
+import Trending from './Trending';
 import Search from './Search';
+// import SearchResult from './SearchResult';
+import SearchResultTabs from './SearchResultTabs';
 import Setting from './Setting';
 import SearchBar from '../components/SearchBar';
 import Header from '../components/Header';
@@ -81,6 +84,19 @@ class App extends Component {
       StatusBar.setBarStyle('default');
     }
   }
+  handleOnSearchFieldFocus = () => {
+    console.log('on focus');
+    Actions.search();
+  }
+  handleOnChangeSearchText = () => {
+
+  }
+  handleOnSubmitSearch = (word) => {
+    console.log('submit ', word)
+    if (word) {
+      Actions.searchResultTabs({ word: word });
+    }
+  }
   render() {
     const { store } = this.props;
     return (
@@ -88,7 +104,12 @@ class App extends Component {
         <RouterWithRedux getSceneStyle={ getSceneStyle }>
           <Scene key="modal" component={ Modal }>
             <Scene key="root">
-              <Scene key="scenes" navigationBarStyle={styles.header} panHandlers={null}>
+              <Scene 
+                key="scenes" 
+                navigationBarStyle={styles.header} 
+                panHandlers={null}
+                leftButtonStyle={{ width: 30 }}
+              >
                 <Scene key="tabs" component={ Tabs } title="Pixiv RN" tabs={true} duration={0}>
                   <Scene key="home"
                     title="Home"
@@ -96,14 +117,17 @@ class App extends Component {
                     navigationBarStyle={styles.header}
                     hideNavBar={true}
                   />
-                  <Scene key="search"
+                  <Scene key="trending"
                     title="Search"
-                    component={ Search }
+                    component={ Trending }
                     navigationBarStyle={styles.header}
                     renderTitle={ () => {
                       return (
                         <Header>
-                          <SearchBar />
+                          <SearchBar 
+                            onFocus={this.handleOnSearchFieldFocus}  
+                            isRenderPlaceHolder={true}
+                          />
                         </Header>
                       )
                     }}
@@ -119,6 +143,28 @@ class App extends Component {
                   component={ Detail }
                   duration={0}
                 />
+                <Scene key="search"
+                  title="Search"
+                  component={ Search }
+                  navigationBarStyle={styles.header}
+                  duration={0}
+                  renderTitle={ () => {
+                    return (
+                      <Header>
+                        <SearchBar 
+                          enableBack={true} 
+                          autoFocus={true} 
+                          onSubmitEditing={this.handleOnSubmitSearch}
+                        />
+                      </Header>
+                    )
+                  }}
+                />
+                <Scene key="searchResultTabs"
+                  title="Search"
+                  component={ SearchResultTabs }
+                  navigationBarStyle={styles.header}
+                />
                 <Scene key="temp" 
                   component={ TempComp } 
                   title="Temp" 
@@ -133,3 +179,9 @@ class App extends Component {
 }
 
 export default App;
+
+// <Scene key="searchResult"
+//   title="Search"
+//   component={ SearchResult }
+//   navigationBarStyle={styles.header}
+// />

@@ -25,7 +25,6 @@ class RelatedIllust extends Component {
     const { dispatch, illustId } = this.props;
     dispatch(clearRelatedIllusts(illustId));
     InteractionManager.runAfterInteractions(() => {
-      console.log("fetchRelatedIllust ", illustId)
       dispatch(fetchRelatedIllusts(illustId));
     });
   }
@@ -54,7 +53,6 @@ class RelatedIllust extends Component {
   render() {
     const { relatedIllust, illustId } = this.props;
     const { refreshing } = this.state;
-    console.log('rr ', relatedIllust)
     return (
       (relatedIllust[illustId] ? true : false) &&
       <Recommended

@@ -5,13 +5,15 @@ import {
   View,
   ActivityIndicator,
   Dimensions,
+  ListView,
   RecyclerViewBackedScrollView,
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import GridView from 'react-native-grid-view';
+//import GridView from 'react-native-grid-view';
 // import Image from 'react-native-image-progress';
+import GridView from '../components/GridView';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
@@ -23,9 +25,9 @@ const height = Dimensions.get('window').height; //full height
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // backgroundColor: '#F5FCFF',
   },
   cardImage: {
     resizeMode: 'cover',
@@ -73,17 +75,27 @@ const styles = StyleSheet.create({
 class TrendingIllustTag extends Component {
   constructor(props) {
     super(props);
+    const { items } = props;
     this.state = {
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (r1, r2) => r1 !== r2,
+      }),
       refreshing: false
     };
   }
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(fetchTrendingIllustTags());
+    dispatch(fetchTrendingIllustTags()).then(() => {
+      const { trendingIllustTag: { items } } = this.props;
+      const { dataSource } = this.state;
+      this.setState({
+        dataSource: dataSource.cloneWithRows(items)
+      });
+    });
   }
 
-  renderItem = (item) => {
+  renderRow = (item) => {
     // return (
     //   <View style={{ backgroundColor: 'red', margin: 5 }} key={item.tag}>
     //      <Text>{ item.tag }</Text>
@@ -133,11 +145,11 @@ class TrendingIllustTag extends Component {
   }
 
   handleOnPressItem = (item) => {
-    //Actions.detail({ item: item });
+    Actions.searchResult({ word: item.tag });
   }
   render() {
     const { trendingIllustTag: { items, loading, loaded } } = this.props;
-    const { refreshing } = this.state;
+    const { dataSource, refreshing } = this.state;
     //not working for android
     // renderScrollComponent={ props => <RecyclerViewBackedScrollView {...props} />}
 
@@ -150,10 +162,10 @@ class TrendingIllustTag extends Component {
         {
           (items && items.length) ?
           <GridView
-            items={ items }
-            itemsPerRow={ 3 }
-            renderItem={ this.renderItem }
-            enableEmptySections={ true }
+            dataSource={dataSource}
+            renderRow={this.renderRow}
+            enableEmptySections={true}
+            initialListSize={30}
             refreshControl={
               <RefreshControl
                 refreshing={refreshing}

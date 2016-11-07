@@ -5,9 +5,9 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { DefaultRenderer, Actions, ActionConst } from 'react-native-router-flux';
-import Home from './Home';
-import Search from './Search';
-import Setting from './Setting';
+// import Home from './Home';
+// import Search from './Search';
+// import Setting from './Setting';
 
 // const styles = StyleSheet.create({
 //   container: {
@@ -42,7 +42,6 @@ class Tabs extends Component {
     //   </ScrollableTabView>
     // );
     const state = this.props.navigationState;
-    console.log('ss ', state);
     //const { navigationState: { children }, notifications } = this.props;
     // renderTabBar={() => <TabBar /> }
     return (

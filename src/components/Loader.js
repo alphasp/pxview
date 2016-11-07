@@ -14,8 +14,10 @@ const styles = StyleSheet.create({
 });
 
 const Loader = (props) => {
+  const { verticalCenter } = props;
+  const style = (verticalCenter === false) ? { flex: 0 } : {}
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <Spinner type="ThreeBounce" />
     </View> 
   );
