@@ -6,6 +6,7 @@ import * as trendingIllustTagReducers from './trendingIllustTag';
 import * as recommendedUserReducers from './recommendedUser';
 import * as illustCommentReducers from './illustComment';
 import * as searchReducers from './search';
+import * as searchAutoCompleteReducers from './searchAutoComplete';
 import errorReducer from './error';
 // import { reducer as formReducer} from 'redux-form';
 
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
   ...trendingIllustTagReducers,
   ...recommendedUserReducers,
   ...illustCommentReducers,
-  ...searchReducers
+  ...searchReducers,
+  ...searchAutoCompleteReducers
 });
 
 export default rootReducer;

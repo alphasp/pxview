@@ -5,7 +5,7 @@ import {
   Text,
   TextInput,
   Platform,
-  Animated
+  Animated,
 } from 'react-native';
 import PXTouchable from './PXTouchable';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
 
 const SearchBar = (props) => {
   const { isRenderPlaceHolder, enableBack, onFocus, onChangeText, onSubmitEditing, autoFocus, word } = props;
+  console.log('render searchbar ', word)
   return (
     <View style={[styles.container, {
       marginLeft: enableBack && 30
@@ -90,7 +91,9 @@ const SearchBar = (props) => {
             onPress={onFocus}
             style={[styles.searchBarTextInput, styles.placeHolderTextContainer]} 
           >
-            <Text style={styles.placeHolderText}>Enter keyword</Text>
+            <Text style={styles.placeHolderText}>
+              { word || "Enter keyword" }
+            </Text>
           </PXTouchable>
           :
           <TextInput 

@@ -35,18 +35,26 @@ class SearchResult extends Component {
               enableBack={true} 
               onFocus={this.handleOnSearchFieldFocus} 
               onSubmitEditing={this.handleOnSubmitSearch}
+              onChangeText={this.handleOnChangeSearchText}
+              isRenderPlaceHolder={true}
               word={word}
             />
           </Header>
         )
       }
-    })
+    });
+
     dispatch(clearSearch(word));
     InteractionManager.runAfterInteractions(() => {
       dispatch(fetchSearch(word));
     });
   }
 
+  handleOnSearchFieldFocus = () => {
+    const { word } = this.props;
+    Actions.search({ word: word });
+  }
+  
   loadMoreItems = () => {
     const { dispatch, search, word } = this.props;
     console.log('load more ', search[word].nextUrl)
@@ -71,10 +79,9 @@ class SearchResult extends Component {
   handleOnSubmitSearch = (word) => {
     const { dispatch } = this.props;
     if (word) {
-      //todo update word in state
       dispatch(clearSearch(word));
       dispatch(fetchSearch(word));
-      Actions.refresh({ word: word, type: "replace" });
+      Actions.refresh({ word: word, type: ActionConst.REPLACE });
     }
   }
 
@@ -96,6 +103,7 @@ class SearchResult extends Component {
 
 export default connect((state, props) => {
   return {
-    search: state.search
+    search: state.search,
+    searchAutoComplete: state.searchAutoComplete
   }
 })(SearchResult);

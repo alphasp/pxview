@@ -20,11 +20,11 @@ import TempComp from './TempComp';
 import Home from './Home';
 import Trending from './Trending';
 import Search from './Search';
-// import SearchResult from './SearchResult';
-import SearchResultTabs from './SearchResultTabs';
+import SearchResult from './SearchResult';
 import Setting from './Setting';
 import SearchBar from '../components/SearchBar';
 import Header from '../components/Header';
+import { fetchSearchAutoComplete, clearSearchAutoComplete } from '../common/actions/searchAutoComplete';
 
 global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
 
@@ -88,13 +88,16 @@ class App extends Component {
     console.log('on focus');
     Actions.search();
   }
-  handleOnChangeSearchText = () => {
-
+  handleOnChangeSearchText = (word) => {
+    const { dispatch } = this.props;
+    if (word.length > 1) {
+      dispatch(fetchSearchAutoComplete(word));
+    }
   }
   handleOnSubmitSearch = (word) => {
     console.log('submit ', word)
     if (word) {
-      Actions.searchResultTabs({ word: word });
+      Actions.searchResult({ word: word, type: ActionConst.REPLACE });
     }
   }
   render() {
@@ -148,22 +151,12 @@ class App extends Component {
                   component={ Search }
                   navigationBarStyle={styles.header}
                   duration={0}
-                  renderTitle={ () => {
-                    return (
-                      <Header>
-                        <SearchBar 
-                          enableBack={true} 
-                          autoFocus={true} 
-                          onSubmitEditing={this.handleOnSubmitSearch}
-                        />
-                      </Header>
-                    )
-                  }}
                 />
-                <Scene key="searchResultTabs"
+                <Scene key="searchResult"
                   title="Search"
-                  component={ SearchResultTabs }
+                  component={ SearchResult }
                   navigationBarStyle={styles.header}
+                  duration={0}
                 />
                 <Scene key="temp" 
                   component={ TempComp } 
@@ -178,10 +171,4 @@ class App extends Component {
   }
 }
 
-export default App;
-
-// <Scene key="searchResult"
-//   title="Search"
-//   component={ SearchResult }
-//   navigationBarStyle={styles.header}
-// />
+export default connect()(App);
