@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Platform,
   StatusBar,
+  Navigator
 } from 'react-native';
 import { 
   Actions, 
@@ -41,12 +42,13 @@ const getSceneStyle = function (props, computedProps) {
     // shadowRadius: null,
   };
   if (computedProps.isActive) {
-    if (Platform.OS === 'ios') {
-      style.marginTop = computedProps.hideNavBar ? 0 : 64;
-    }
-    else {
-      style.marginTop = computedProps.hideNavBar ? 0 : 54;
-    }
+    style.marginTop = computedProps.hideNavBar ? 0 : Navigator.NavigationBar.Styles.General.TotalNavHeight;
+    // if (Platform.OS === 'ios') {
+    //   style.marginTop = computedProps.hideNavBar ? 0 : 64;
+    // }
+    // else {
+    //   style.marginTop = computedProps.hideNavBar ? 0 : 54;
+    // }
     //style.marginBottom = computedProps.hideTabBar ? 0 : 50;
   }
   return style;

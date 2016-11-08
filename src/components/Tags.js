@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     // margin: 3,
     // borderRadius: 30,
     justifyContent: 'center',
-    backgroundColor: 'red',
+    backgroundColor: '#5cafec',
     borderRadius: 15,
     paddingHorizontal: 12,
     // height: 32,
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 
   },
   tagLabel: {
-    padding: 5,
+    padding: 2,
     color: '#fff',
 
   }

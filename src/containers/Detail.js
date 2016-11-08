@@ -12,6 +12,7 @@ import {
   Platform,
   PanResponder,
   Linking,
+  Navigator,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -262,8 +263,10 @@ class Detail extends Component {
     Actions.searchResult({ word: tag });
   }
   handleOnChangeVisibleRows = (visibleRows, changedRows) => {
-    // Called when the set of visible rows changes. visibleRows maps { sectionID: { rowID: true }} for all the visible rows, and changedRows maps { sectionID: { rowID: true | false }} for the rows that have changed their visibility, with true indicating visible, and false indicating the view has moved out of view.
+    // not trigger on android
+    // https://github.com/facebook/react-native/issues/5688
     const { item } = this.props;
+    console.log('vi row ', visibleRows)
     if (item.meta_pages && item.meta_pages.length && visibleRows.s1) {
       const visibleRowNumbers = Object.keys(visibleRows.s1).map((row) => parseInt(row));
       //console.log('visible row ', visibleRowNumbers)
@@ -325,7 +328,8 @@ class Detail extends Component {
       });
       if (!isSwitchingTab) {
         // this.refs.bottomTabs.transitionTo({bottom: 300});
-        this.refs.bottomTabs.transitionTo({ height: windowHeight - 64, backgroundColor: '#fff'}, 300);    
+        const newHeight = Platform.OS == 'ios' ? windowHeight - Navigator.NavigationBar.Styles.General.TotalNavHeight : windowHeight - 100
+        this.refs.bottomTabs.transitionTo({ height: newHeight, backgroundColor: '#fff'}, 300);    
         if (this.refs.imageListContainer) {
           this.refs.imageListContainer.slideOutUp();
         }

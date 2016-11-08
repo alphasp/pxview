@@ -60,16 +60,6 @@ function fetchRecommendedFromApi(options, nextUrl) {
         };
         return dispatch(receiveRecommended(filteredResult, offset))
       })
-      // .then(json => {
-      //   const filteredResult = {
-      //     ...json,
-      //     user_previews: json.user_previews.filter(user => {
-      //       return user.illusts && users.illust.length;
-      //     })
-      //   };
-      //   console.log(filteredResult)
-      //   return dispatch(receiveRecommended(filteredResult, offset))
-      // })
       .catch(err => {
         dispatch(stopRecommended());
         dispatch(addError(err));

@@ -63,6 +63,7 @@ function fetchSearchAutoCompleteFromApi(word) {
 }
 
 export function fetchSearchAutoComplete(word) {
+  word = word.trim();
   return (dispatch, getState) => {
     if (shouldFetchSearchAutoComplete(getState(), word)) {
       return dispatch(fetchSearchAutoCompleteFromApi(word));

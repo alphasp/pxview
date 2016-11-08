@@ -36,6 +36,7 @@ class SearchResult extends Component {
               onFocus={this.handleOnSearchFieldFocus} 
               onSubmitEditing={this.handleOnSubmitSearch}
               onChangeText={this.handleOnChangeSearchText}
+              onPressRemoveTag={this.handleOnPressRemoveTag}
               isRenderPlaceHolder={true}
               word={word}
             />
@@ -78,10 +79,45 @@ class SearchResult extends Component {
 
   handleOnSubmitSearch = (word) => {
     const { dispatch } = this.props;
+    word = word.trim();
     if (word) {
       dispatch(clearSearch(word));
       dispatch(fetchSearch(word));
       Actions.refresh({ word: word, type: ActionConst.REPLACE });
+    }
+  }
+
+  handleOnPressRemoveTag = (index) => {
+    const { dispatch, word } = this.props;
+    const newWord = word.split(' ').filter((value, i) => {
+      return i !== index;
+    }).join(' ');
+    console.log('new word ', newWord);
+    //todo
+    if (newWord) {
+      dispatch(clearSearch(newWord));
+      dispatch(fetchSearch(newWord));
+      Actions.refresh({
+        word: newWord,
+        renderTitle: () => {
+          return (
+            <Header>
+              <SearchBar 
+                enableBack={true} 
+                onFocus={this.handleOnSearchFieldFocus} 
+                onSubmitEditing={this.handleOnSubmitSearch}
+                onChangeText={this.handleOnChangeSearchText}
+                onPressRemoveTag={this.handleOnPressRemoveTag}
+                isRenderPlaceHolder={true}
+                word={newWord}
+              />
+            </Header>
+          )
+        }
+      });
+    }
+    else {
+      Actions.pop();
     }
   }
 

@@ -4,9 +4,6 @@ import {
   Text,
   View,
 } from 'react-native';
-// import {
-//   withRouter,
-// } from 'react-router-native';
 import { Actions } from 'react-native-router-flux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import PXTouchable from '../components/PXTouchable';
@@ -19,29 +16,10 @@ import Header from '../components/Header';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //marginHorizontal: 10
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // backgroundColor: '#F5FCFF',
   }
 });
 
 class Trending extends Component {
-  // componentWillMount(){
-  //   console.log('aa')
-  //   Actions.refresh({
-  //     title: "abcd",
-  //     test: "123",
-  //     navBar: () => {
-  //       return (
-  //         <Header>
-  //           <SearchBar />
-  //         </Header>
-  //       );
-  //     }
-  //   });
-  // }
-
   // static renderNavigationBar(props) {
   //   return (
   //     <Header>
@@ -101,4 +79,4 @@ class Trending extends Component {
   }
 }
 
-export default Trending;
+export default Trending

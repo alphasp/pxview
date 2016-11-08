@@ -1,4 +1,4 @@
-import { REQUEST_SEARCH, RECEIVE_SEARCH, STOP_SEARCH, CLEAR_SEARCH } from "../actions/search";
+import { REQUEST_SEARCH, RECEIVE_SEARCH, STOP_SEARCH, CLEAR_SEARCH, CLEAR_ALL_SEARCH } from "../actions/search";
 //gg["newest"]["miku"]
 export function search(state = {}, action) {
   switch (action.type) {
@@ -7,6 +7,8 @@ export function search(state = {}, action) {
         ...state,
         [action.payload.word]: {},
       };
+    case CLEAR_ALL_SEARCH:
+      return {};  
     case REQUEST_SEARCH:
       return {
         ...state,

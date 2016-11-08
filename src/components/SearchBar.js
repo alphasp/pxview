@@ -6,9 +6,11 @@ import {
   TextInput,
   Platform,
   Animated,
+  TouchableWithoutFeedback,
 } from 'react-native';
-import PXTouchable from './PXTouchable';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import PXTouchable from './PXTouchable';
+import SearchTags from './SearchTags';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,15 +18,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     //justifyContent: 'space-between',
     flexDirection: 'row',
-    marginTop: 15,
     marginHorizontal: 5,
     ...Platform.select({
       ios: {
         //marginLeft: -7
+        marginTop: 15,
       },
       android: {
-        marginLeft: -8, 
-        marginRight: -8
+        marginTop: 0,
+        // marginLeft: -8, 
+        // marginRight: -8
       }
     }),
   },
@@ -43,10 +46,14 @@ const styles = StyleSheet.create({
         borderColor: 'transparent',
       },
       android: {
-        backgroundColor: '#fff',
-        borderRadius: 2,
+        // backgroundColor: '#fff',
+        // borderRadius: 2,
+        // borderColor: 'transparent',
+        // elevation: 2,
+        backgroundColor: '#D1EEFC',
+        borderRadius: 5, // this.props.rounded ? 25 : 2,
         borderColor: 'transparent',
-        elevation: 2,
+        height: 37,
       },
     })
   },
@@ -77,7 +84,7 @@ const styles = StyleSheet.create({
 });
 
 const SearchBar = (props) => {
-  const { isRenderPlaceHolder, enableBack, onFocus, onChangeText, onSubmitEditing, autoFocus, word } = props;
+  const { isRenderPlaceHolder, enableBack, onFocus, onChangeText, onSubmitEditing, onPressRemoveTag, autoFocus, word } = props;
   console.log('render searchbar ', word)
   return (
     <View style={[styles.container, {
@@ -86,15 +93,25 @@ const SearchBar = (props) => {
       <View style={styles.searchBarInputGroup}>
         <Icon style={styles.searchIcon} name="search" size={15} color="#5cafec" />
         {
-          isRenderPlaceHolder ?
+          (isRenderPlaceHolder && !word) ?
           <PXTouchable 
             onPress={onFocus}
             style={[styles.searchBarTextInput, styles.placeHolderTextContainer]} 
           >
-            <Text style={styles.placeHolderText}>
-              { word || "Enter keyword" }
-            </Text>
+            <Text style={styles.placeHolderText}>Enter keyword</Text>
           </PXTouchable>
+          :
+          (isRenderPlaceHolder && word) ?
+          <View style={[styles.searchBarTextInput, styles.placeHolderTextContainer]}>
+            <PXTouchable 
+              onPress={onFocus}
+            >
+              <SearchTags 
+                tags={word.trim().split(' ')} 
+                onPressRemove={onPressRemoveTag}
+              />
+            </PXTouchable>
+          </View>
           :
           <TextInput 
             style={styles.searchBarTextInput} 
@@ -105,6 +122,7 @@ const SearchBar = (props) => {
             onSubmitEditing={(e) => onSubmitEditing(e.nativeEvent.text)}
             returnKeyType="search"
             defaultValue={word}
+            underlineColorAndroid='transparent'
           />
         }
       </View>

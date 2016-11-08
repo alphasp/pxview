@@ -78,13 +78,18 @@ class RecommendedUser extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(fetchRecommendedUsers()).then(() => {
-      const { recommendedUser: { items } } = this.props;
+    dispatch(fetchRecommendedUsers());
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { recommendedUser: { items: prevItems } } = this.props;
+    const { recommendedUser: { items } } = nextProps;
+    if (items && items !== prevItems) {
       const { dataSource } = this.state;
       this.setState({
         dataSource: dataSource.cloneWithRows(items)
       });
-    });
+    }
   }
 
   renderRow = (item) => {

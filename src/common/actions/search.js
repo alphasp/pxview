@@ -7,6 +7,7 @@ export const REQUEST_SEARCH = 'REQUEST_SEARCH';
 export const RECEIVE_SEARCH = 'RECEIVE_SEARCH';
 export const STOP_SEARCH = 'STOP_SEARCH';
 export const CLEAR_SEARCH = 'CLEAR_SEARCH';
+export const CLEAR_ALL_SEARCH = 'CLEAR_ALL_SEARCH';
 
 function receiveSearch(json, word, options, offset) { 
   return {
@@ -71,6 +72,7 @@ function fetchSearchFromApi(word, options, nextUrl) {
 }
 
 export function fetchSearch(word, options, nextUrl) {
+  word = word.trim();
   return (dispatch, getState) => {
     if (shouldFetchSearch(getState(), word)) {
       return dispatch(fetchSearchFromApi(word, options, nextUrl));
@@ -85,5 +87,11 @@ export function clearSearch(word, options){
       word,
       options
     }
+  };
+}
+
+export function clearAllSearch(){
+  return {
+    type: CLEAR_ALL_SEARCH,
   };
 }

@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
 class Search extends Component {
   componentDidMount() {
     const { word, isRenderPlaceHolder } = this.props;
-    console.log('moutn search')
     Actions.refresh({
       renderTitle: () => {
         return (
@@ -36,6 +35,7 @@ class Search extends Component {
               autoFocus={true} 
               onSubmitEditing={this.handleOnSubmitSearch}
               onChangeText={this.handleOnChangeSearchText}
+              onPressRemoveTag={this.handleOnPressRemoveTag}
               word={word}
               isRenderPlaceHolder={isRenderPlaceHolder}
             />
@@ -60,6 +60,7 @@ class Search extends Component {
     }
   }
   handleOnSubmitSearch = (word) => {
+    word = word.trim();
     console.log('submit ', word)
     if (word) {
       Actions.searchResult({ word: word, type: ActionConst.REPLACE });
@@ -70,22 +71,25 @@ class Search extends Component {
     this.handleOnSubmitSearch(word);
   }
 
+  handleOnPressRemoveTag = (index) => {
+    const { word } = this.props;
+    const newWord = word.split(' ').splice(index, 1).join(' ');
+    if (newWord) {
+      this.handleOnSubmitSearch(newWord);
+    }
+    else {
+      Actions.pop();
+    }
+  }
+
   render() {
     const { searchAutoComplete } = this.props;
     return (
       <View style={styles.container} >
-        <ScrollableTabView locked scrollWithoutAnimation>
-          <SearchAutoCompleteResult 
-            tabLabel="Illust/Manga" 
-            searchAutoComplete={searchAutoComplete}
-            onPressItem={this.handleOnPressAutoCompleteItem}
-          />
-          <SearchAutoCompleteResult 
-            tabLabel="User" 
-            searchAutoComplete={searchAutoComplete} 
-            onPressItem={this.handleOnPressAutoCompleteItem}
-          />
-        </ScrollableTabView>
+        <SearchAutoCompleteResult 
+          searchAutoComplete={searchAutoComplete}
+          onPressItem={this.handleOnPressAutoCompleteItem}
+        />
       </View>
     );
   }
