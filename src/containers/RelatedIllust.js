@@ -10,7 +10,7 @@ import {
   InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
-import Recommended from './Recommended';
+import IllustList from '../components/IllustList';
 import { fetchRelatedIllusts, clearRelatedIllusts } from '../common/actions/relatedIllust';
 
 class RelatedIllust extends Component {
@@ -55,7 +55,7 @@ class RelatedIllust extends Component {
     const { refreshing } = this.state;
     return (
       (relatedIllust[illustId] ? true : false) &&
-      <Recommended
+      <IllustList
         recommended={relatedIllust[illustId]}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}

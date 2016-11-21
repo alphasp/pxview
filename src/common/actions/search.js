@@ -1,4 +1,3 @@
-//import { createAction } from 'redux-actions';
 import qs from "qs";
 import { addError } from './error';
 import pixiv from '../helpers/ApiClient';

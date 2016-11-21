@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class Recommended extends Component {
+class IllustList extends Component {
   constructor(props) {
     super(props);
     const { items } = props;
@@ -175,4 +175,4 @@ class Recommended extends Component {
   }
 }
 
-export default Recommended;
+export default IllustList;

@@ -11,13 +11,14 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions, ActionConst } from 'react-native-router-flux';
-import IllustList from '../components/IllustList';
+import RecommendedUser from './RecommendedUser';
 import SearchBar from '../components/SearchBar';
 import Header from '../components/Header';
-import { fetchSearch, clearSearch } from '../common/actions/search';
+import UserList from '../components/UserList';
+import { fetchSearchUser, clearSearchUser } from '../common/actions/searchUser';
 import { SearchType } from '../common/actions/searchType';
 
-class SearchResult extends Component {
+class SearchUserResult extends Component {
   constructor(props) {
     super(props);
     const { word } = props;
@@ -39,7 +40,7 @@ class SearchResult extends Component {
               onChangeText={this.handleOnChangeSearchText}
               onPressRemoveTag={this.handleOnPressRemoveTag}
               isRenderPlaceHolder={true}
-              searchType={SearchType.ILLUST}
+              searchType={SearchType.USER}
               word={word}
             />
           </Header>
@@ -47,22 +48,22 @@ class SearchResult extends Component {
       }
     });
 
-    dispatch(clearSearch(word));
+    dispatch(clearSearchUser(word));
     InteractionManager.runAfterInteractions(() => {
-      dispatch(fetchSearch(word));
+      dispatch(fetchSearchUser(word));
     });
   }
 
   handleOnSearchFieldFocus = () => {
     const { word } = this.props;
-    Actions.search({ word: word, searchType: SearchType.ILLUST });
+    Actions.search({ word: word, searchType: SearchType.USER });
   }
   
-  loadMoreItems = () => {
-    const { dispatch, search, word } = this.props;
-    console.log('load more ', search[word].nextUrl)
-    if (search[word] && search[word].nextUrl) {
-      dispatch(fetchSearch(word, null, search[word].nextUrl));
+  loadMore = () => {
+    const { dispatch, searchUser: { nextUrl }, word } = this.props;
+    console.log('load more ', nextUrl)
+    if (nextUrl) {
+      dispatch(fetchSearchUser(word, nextUrl));
     }
   }
 
@@ -71,8 +72,8 @@ class SearchResult extends Component {
     this.setState({
       refereshing: true
     });
-    dispatch(clearSearch(word));
-    dispatch(fetchSearch(word)).finally(() => {
+    dispatch(clearSearchUser(word));
+    dispatch(fetchSearchUser(word)).finally(() => {
       this.setState({
         refereshing: false
       }); 
@@ -83,8 +84,8 @@ class SearchResult extends Component {
     const { dispatch } = this.props;
     word = word.trim();
     if (word) {
-      dispatch(clearSearch(word));
-      dispatch(fetchSearch(word));
+      dispatch(clearSearchUser(word));
+      dispatch(fetchSearchUser(word));
       Actions.refresh({ word: word, type: ActionConst.REPLACE });
     }
   }
@@ -95,10 +96,9 @@ class SearchResult extends Component {
       return i !== index;
     }).join(' ');
     console.log('new word ', newWord);
-    //todo
     if (newWord) {
-      dispatch(clearSearch(newWord));
-      dispatch(fetchSearch(newWord));
+      dispatch(clearSearchUser());
+      dispatch(fetchSearchUser(newWord));
       Actions.refresh({
         word: newWord,
         renderTitle: () => {
@@ -111,6 +111,7 @@ class SearchResult extends Component {
                 onChangeText={this.handleOnChangeSearchText}
                 onPressRemoveTag={this.handleOnPressRemoveTag}
                 isRenderPlaceHolder={true}
+                searchType={SearchType.USER}
                 word={newWord}
               />
             </Header>
@@ -124,15 +125,13 @@ class SearchResult extends Component {
   }
 
   render() {
-    const { search, word, options } = this.props;
+    const { searchUser, word } = this.props;
     const { refreshing } = this.state;
-    console.log('result ', search)
     return (
-      (search[word] ? true : false) &&
-      <IllustList
-        recommended={search[word]}
+      <UserList
+        userList={searchUser}
         refreshing={refreshing}
-        loadMoreItems={this.loadMoreItems}
+        loadMore={this.loadMore}
         onRefresh={this.handleOnRefresh}
       />
     );
@@ -141,7 +140,6 @@ class SearchResult extends Component {
 
 export default connect(state => {
   return {
-    search: state.search,
-    searchAutoComplete: state.searchAutoComplete
+    searchUser: state.searchUser,
   }
-})(SearchResult);
+})(SearchUserResult);

@@ -9,7 +9,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
-import Recommended from './Recommended';
+import IllustList from '../components/IllustList';
 import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic, clearRecommendedIllusts } from '../common/actions/recommendedIllust';
 
 class RecommendedIllust extends Component {
@@ -29,7 +29,7 @@ class RecommendedIllust extends Component {
     const { dispatch, recommendedIllust: { nextUrl } } = this.props;
     console.log('load more ', nextUrl)
     if (nextUrl) {
-      dispatch(fetchRecommendedIllustsPublic(null, nextUrl));
+      dispatch(fetchRecommendedIllustsPublic("", nextUrl));
     }
   }
 
@@ -50,7 +50,7 @@ class RecommendedIllust extends Component {
     const { recommendedIllust } = this.props;
     const { refreshing } = this.state;
     return (
-      <Recommended
+      <IllustList
         recommended={recommendedIllust}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}

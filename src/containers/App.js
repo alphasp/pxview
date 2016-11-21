@@ -22,6 +22,7 @@ import Home from './Home';
 import Trending from './Trending';
 import Search from './Search';
 import SearchResult from './SearchResult';
+import SearchUserResult from './SearchUserResult';
 import Setting from './Setting';
 import SearchBar from '../components/SearchBar';
 import Header from '../components/Header';
@@ -86,8 +87,8 @@ class App extends Component {
       StatusBar.setBarStyle('default');
     }
   }
-  handleOnSearchFieldFocus = () => {
-    console.log('on focus');
+  handleOnSearchFieldFocus = (searchType) => {
+    console.log('on focus ', searchType);
     Actions.search();
   }
   handleOnChangeSearchText = (word) => {
@@ -157,6 +158,12 @@ class App extends Component {
                 <Scene key="searchResult"
                   title="Search"
                   component={ SearchResult }
+                  navigationBarStyle={styles.header}
+                  duration={0}
+                />
+                <Scene key="searchUserResult"
+                  title="Search"
+                  component={ SearchUserResult }
                   navigationBarStyle={styles.header}
                   duration={0}
                 />

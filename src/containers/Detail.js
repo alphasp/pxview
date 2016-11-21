@@ -266,7 +266,6 @@ class Detail extends Component {
     // not trigger on android
     // https://github.com/facebook/react-native/issues/5688
     const { item } = this.props;
-    console.log('vi row ', visibleRows)
     if (item.meta_pages && item.meta_pages.length && visibleRows.s1) {
       const visibleRowNumbers = Object.keys(visibleRows.s1).map((row) => parseInt(row));
       //console.log('visible row ', visibleRowNumbers)

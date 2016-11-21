@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
@@ -8,9 +8,11 @@ import {
   Animated,
   TouchableWithoutFeedback,
 } from 'react-native';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import SearchTags from './SearchTags';
+import { SearchType } from '../common/actions/searchType';
 
 const styles = StyleSheet.create({
   container: {
@@ -83,51 +85,55 @@ const styles = StyleSheet.create({
   // }
 });
 
-const SearchBar = (props) => {
-  const { isRenderPlaceHolder, enableBack, onFocus, onChangeText, onSubmitEditing, onPressRemoveTag, autoFocus, word } = props;
-  console.log('render searchbar ', word)
-  return (
-    <View style={[styles.container, {
-      marginLeft: enableBack && 30
-    }]}>
-      <View style={styles.searchBarInputGroup}>
-        <Icon style={styles.searchIcon} name="search" size={15} color="#5cafec" />
-        {
-          (isRenderPlaceHolder && !word) ?
-          <PXTouchable 
-            onPress={onFocus}
-            style={[styles.searchBarTextInput, styles.placeHolderTextContainer]} 
-          >
-            <Text style={styles.placeHolderText}>Enter keyword</Text>
-          </PXTouchable>
-          :
-          (isRenderPlaceHolder && word) ?
-          <View style={[styles.searchBarTextInput, styles.placeHolderTextContainer]}>
+class SearchBar extends Component {
+  render() {
+    const { searchType, isRenderPlaceHolder, enableBack, onFocus, onChangeText, onSubmitEditing, onPressRemoveTag, autoFocus, word } = this.props;
+    return (
+      <View style={[styles.container, {
+        marginLeft: enableBack && 30
+      }]}>
+        <View style={styles.searchBarInputGroup}>
+          <Icon style={styles.searchIcon} name="search" size={15} color="#5cafec" />
+          {
+            (isRenderPlaceHolder && !word) ?
             <PXTouchable 
-              onPress={onFocus}
+              onPress={() => onFocus(searchType)}
+              style={[styles.searchBarTextInput, styles.placeHolderTextContainer]} 
             >
-              <SearchTags 
-                tags={word.trim().split(' ')} 
-                onPressRemove={onPressRemoveTag}
-              />
+              <Text style={styles.placeHolderText}>{searchType === SearchType.USER ? "Enter nickname" : "Enter keyword"}</Text>
             </PXTouchable>
-          </View>
-          :
-          <TextInput 
-            style={styles.searchBarTextInput} 
-            placeholder="Enter keyword" 
-            autoFocus={autoFocus}
-            onFocus={onFocus}
-            onChangeText={onChangeText}
-            onSubmitEditing={(e) => onSubmitEditing(e.nativeEvent.text)}
-            returnKeyType="search"
-            defaultValue={word}
-            underlineColorAndroid='transparent'
-          />
-        }
+            :
+            (isRenderPlaceHolder && word) ?
+            <View style={[styles.searchBarTextInput, styles.placeHolderTextContainer]}>
+              <PXTouchable 
+                onPress={() => onFocus(searchType)}
+              >
+                <SearchTags 
+                  tags={word.trim().split(' ')} 
+                  onPressRemove={onPressRemoveTag}
+                />
+              </PXTouchable>
+            </View>
+            :
+            <TextInput 
+              style={styles.searchBarTextInput} 
+              placeholder={searchType === SearchType.USER ? "Enter nickname" : "Enter keyword"}
+              autoFocus={autoFocus}
+              onChangeText={(text) => onChangeText(text, searchType)}
+              onSubmitEditing={(e) => onSubmitEditing(e.nativeEvent.text, searchType)}
+              returnKeyType="search"
+              defaultValue={word}
+              underlineColorAndroid='transparent'
+            />
+          }
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
 }
 
-export default SearchBar;
+export default connect((state, { searchType }) => {
+  return {
+    searchType: searchType || state.searchType.type
+  }
+})(SearchBar);

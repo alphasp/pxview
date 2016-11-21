@@ -15,7 +15,10 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import SearchBar from '../components/SearchBar';
 import Header from '../components/Header';
 import SearchAutoCompleteResult from '../components/SearchAutoCompleteResult';
+import SearchUserAutoCompleteResult from '../components/SearchUserAutoCompleteResult';
 import { fetchSearchAutoComplete, clearSearchAutoComplete } from '../common/actions/searchAutoComplete';
+import { fetchSearchUser, clearSearchUser } from '../common/actions/searchUser';
+import { SearchType } from '../common/actions/searchType';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,6 +27,11 @@ const styles = StyleSheet.create({
 });
 
 class Search extends Component {
+  constructor(props) {
+    super(props);
+    const { word } = props;
+  }
+
   componentDidMount() {
     const { word, isRenderPlaceHolder } = this.props;
     Actions.refresh({
@@ -45,25 +53,38 @@ class Search extends Component {
     });           
   }
 
-  handleOnSearchFieldFocus = () => {
-    console.log('on focus');
-    Actions.search();
-  }
-  handleOnChangeSearchText = (word) => {
+  handleOnChangeSearchText = (word, searchType) => {
+    this.setState({ searchType })
     const { dispatch } = this.props;
-    if (word.length > 1) {
-      dispatch(fetchSearchAutoComplete(word));
+    if (searchType === SearchType.USER) {
+      if (word.length > 1) {
+        dispatch(fetchSearchUser(word));
+      }
+      else {
+        dispatch(clearSearchUser());
+        //show history searches
+      }
     }
     else {
-      dispatch(clearSearchAutoComplete());
-      //show history searches
+      if (word.length > 1) {
+        dispatch(fetchSearchAutoComplete(word));
+      }
+      else {
+        dispatch(clearSearchAutoComplete());
+        //show history searches
+      }
     }
   }
-  handleOnSubmitSearch = (word) => {
+  handleOnSubmitSearch = (word, searchType) => {
     word = word.trim();
     console.log('submit ', word)
     if (word) {
-      Actions.searchResult({ word: word, type: ActionConst.REPLACE });
+      if (searchType === SearchType.USER) {
+        Actions.searchUserResult({ word: word, type: ActionConst.REPLACE });
+      }
+      else {
+        Actions.searchResult({ word: word, type: ActionConst.REPLACE });
+      }
     }
   }
 
@@ -81,22 +102,40 @@ class Search extends Component {
       Actions.pop();
     }
   }
+  loadMoreUsers = () => {
+    const { dispatch, searchUser: { nextUrl } } = this.props;
+    if (nextUrl) {
+      dispatch(fetchSearchUser("", nextUrl));
+    }
+  }
 
   render() {
-    const { searchAutoComplete } = this.props;
+    const { searchType, searchAutoComplete, searchUser } = this.props;
     return (
-      <View style={styles.container} >
-        <SearchAutoCompleteResult 
-          searchAutoComplete={searchAutoComplete}
-          onPressItem={this.handleOnPressAutoCompleteItem}
-        />
+      <View style={styles.container}>
+        {
+          searchType  === SearchType.USER ?
+          <SearchUserAutoCompleteResult 
+            searchUserAutoComplete={searchUser}
+            onPressItem={this.handleOnPressAutoCompleteItem}
+            loadMoreItems={this.loadMoreUsers}
+          />
+          :
+          <SearchAutoCompleteResult 
+            searchAutoComplete={searchAutoComplete}
+            onPressItem={this.handleOnPressAutoCompleteItem}
+          />
+        }
+
       </View>
     );
   }
 }
 
-export default connect(state => {
+export default connect((state, { searchType }) => {
   return {
-    searchAutoComplete: state.searchAutoComplete
+    searchAutoComplete: state.searchAutoComplete,
+    searchUser: state.searchUser,
+    searchType: searchType || state.searchType.type,
   }
 })(Search);

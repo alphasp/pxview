@@ -85,7 +85,7 @@ class TrendingIllustTag extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { dispatch } = this.props; 
     dispatch(fetchTrendingIllustTags()).then(() => {
       const { trendingIllustTag: { items } } = this.props;
       const { dataSource } = this.state;
