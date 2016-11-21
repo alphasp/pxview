@@ -19,8 +19,8 @@ import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
 import { fetchTrendingIllustTags, clearTrendingIllustTags } from '../common/actions/trendingIllustTag';
 
-const width = Dimensions.get('window').width; //full width
-const height = Dimensions.get('window').height; //full height
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    flex: 1,
+    height: windowWidth / 3 - 3,
+    //flex: 1,
     //backgroundColor: 'transparent',
     //position: 'absolute',
     //alignItems: 'flex-end',
@@ -96,19 +97,13 @@ class TrendingIllustTag extends Component {
   }
 
   renderRow = (item) => {
-    // return (
-    //   <View style={{ backgroundColor: 'red', margin: 5 }} key={item.tag}>
-    //      <Text>{ item.tag }</Text>
-    //   </View>
-    // )
-    
     return (
       <PXTouchable 
         style={{ 
           margin: 1,
           backgroundColor: '#E9EBEE',
-          width: width / 3 - 3, 
-          height: width / 3 - 3,
+          width: windowWidth / 3 - 3, 
+          height: windowWidth / 3 - 3,
         }} 
         key={ item.tag } 
         onPress={ () => this.handleOnPressItem(item) }
@@ -117,12 +112,13 @@ class TrendingIllustTag extends Component {
           <PXImage 
             uri={item.illust.image_urls.square_medium}
             style={[styles.cardImage, {
-              width: width / 3 - 3, 
-              height: width / 3 - 3,
+              width: windowWidth / 3 - 3, 
+              height: windowWidth / 3 - 3,
             }]}
+            onFoundImageSize={this.handleOnFoundImageSize}
           />
           <View style={[styles.tagContainer, {
-            width: width / 3 - 3, 
+            width: windowWidth / 3 - 3, 
           }]}>
             <Text style={styles.tag}>{ item.tag }</Text>
           </View>
@@ -130,7 +126,7 @@ class TrendingIllustTag extends Component {
       </PXTouchable>
     );
   }
-
+  
   handleOnRefresh = () => {
     const { dispatch } = this.props;
     this.setState({

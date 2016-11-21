@@ -24,6 +24,7 @@ class PXImageTouchable extends Component {
       loading: true
     };
   }
+  
   handleOnFoundImageSize = (width, height) => {
     if (width && height) {
       this.setState({
