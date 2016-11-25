@@ -221,7 +221,10 @@ class Detail extends Component {
       <ScrollView>
         <View style={styles.infoContainer}>
           <View style={styles.profileContainer}>
-            <PXTouchable style={styles.thumnailNameContainer}>
+            <PXTouchable 
+              style={styles.thumnailNameContainer}
+              onPress={() => this.handleOnPressAvatar(item.user.id)}
+            >
               <PXThumbnail uri={item.user.profile_image_urls.medium} />
               <View style={styles.nameContainer}>
                 <Text>{item.user.name}</Text>
@@ -262,6 +265,11 @@ class Detail extends Component {
   handleOnPressTag = (tag) => {
     Actions.searchResult({ word: tag });
   }
+
+  handleOnPressAvatar = (userId) => {
+    Actions.userDetail({ userId });
+  }
+
   handleOnChangeVisibleRows = (visibleRows, changedRows) => {
     // not trigger on android
     // https://github.com/facebook/react-native/issues/5688

@@ -10,6 +10,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
+import debounce from 'lodash.debounce';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import SearchBar from '../components/SearchBar';
@@ -42,7 +43,7 @@ class Search extends Component {
               enableBack={true} 
               autoFocus={true} 
               onSubmitEditing={this.handleOnSubmitSearch}
-              onChangeText={this.handleOnChangeSearchText}
+              onChangeText={debounce(this.handleOnChangeSearchText, 300)}
               onPressRemoveTag={this.handleOnPressRemoveTag}
               word={word}
               isRenderPlaceHolder={isRenderPlaceHolder}
@@ -57,22 +58,17 @@ class Search extends Component {
     this.setState({ searchType })
     const { dispatch } = this.props;
     if (searchType === SearchType.USER) {
+      dispatch(clearSearchUser());
       if (word.length > 1) {
         dispatch(fetchSearchUser(word));
       }
-      else {
-        dispatch(clearSearchUser());
-        //show history searches
-      }
     }
     else {
+      dispatch(clearSearchAutoComplete());
       if (word.length > 1) {
         dispatch(fetchSearchAutoComplete(word));
       }
-      else {
-        dispatch(clearSearchAutoComplete());
-        //show history searches
-      }
+      //show history searches
     }
   }
   handleOnSubmitSearch = (word, searchType) => {
@@ -88,8 +84,8 @@ class Search extends Component {
     }
   }
 
-  handleOnPressAutoCompleteItem = (word) => {
-    this.handleOnSubmitSearch(word);
+  handleOnPressAutoCompleteItem = (word, searchType) => {
+    this.handleOnSubmitSearch(word, searchType);
   }
 
   handleOnPressRemoveTag = (index) => {
@@ -102,6 +98,11 @@ class Search extends Component {
       Actions.pop();
     }
   }
+
+  handleOnPressUser = (userId) => {
+    Actions.userDetail({ userId: userId });
+  }
+
   loadMoreUsers = () => {
     const { dispatch, searchUser: { nextUrl } } = this.props;
     if (nextUrl) {
@@ -117,7 +118,7 @@ class Search extends Component {
           searchType  === SearchType.USER ?
           <SearchUserAutoCompleteResult 
             searchUserAutoComplete={searchUser}
-            onPressItem={this.handleOnPressAutoCompleteItem}
+            onPressItem={this.handleOnPressUser}
             loadMoreItems={this.loadMoreUsers}
           />
           :

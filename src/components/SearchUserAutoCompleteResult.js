@@ -65,7 +65,7 @@ class SearchUserAutoCompleteResult extends Component {
     return (
       <PXTouchable 
         key={item.user.id} 
-        onPress={() => onPressItem(item)}
+        onPress={() => onPressItem(item.user.id)}
       >
         <View style={styles.row}>
           <View style={styles.thumnailNameContainer}>

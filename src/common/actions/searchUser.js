@@ -4,12 +4,26 @@ import pixiv from '../helpers/ApiClient';
 
 export const REQUEST_SEARCH_USER = 'REQUEST_SEARCH_USER';
 export const RECEIVE_SEARCH_USER = 'RECEIVE_SEARCH_USER';
+export const RECEIVE_SEARCH_USER_CONCAT = 'RECEIVE_SEARCH_USER_CONCAT';
 export const STOP_SEARCH_USER = 'STOP_SEARCH_USER';
 export const CLEAR_SEARCH_USER = 'CLEAR_SEARCH_USER';
 
 function receiveSearchUser(json, word, offset) { 
   return {
     type: RECEIVE_SEARCH_USER,
+    payload: {
+      items: json.user_previews,
+      nextUrl: json.next_url,
+      word,
+      offset,
+      receivedAt: Date.now(),
+    }
+  };
+}
+
+function receiveSearchUserConcat(json, word, offset) { 
+  return {
+    type: RECEIVE_SEARCH_USER_CONCAT,
     payload: {
       items: json.user_previews,
       nextUrl: json.next_url,
@@ -63,7 +77,12 @@ function fetchSearchUserFromApi(word, nextUrl) {
             return user.illusts && user.illusts.length;
           })
         };
-        return dispatch(receiveSearchUser(filteredResult, word, offset))
+        if (nextUrl) {
+          return dispatch(receiveSearchUserConcat(filteredResult, word, offset))
+        }
+        else {
+          return dispatch(receiveSearchUser(filteredResult, word, offset))
+        }
       })
       .catch(err => {
         dispatch(stopSearchUser(word, offset));

@@ -37,7 +37,6 @@ class SearchUserResult extends Component {
               enableBack={true} 
               onFocus={this.handleOnSearchFieldFocus} 
               onSubmitEditing={this.handleOnSubmitSearch}
-              onChangeText={this.handleOnChangeSearchText}
               onPressRemoveTag={this.handleOnPressRemoveTag}
               isRenderPlaceHolder={true}
               searchType={SearchType.USER}

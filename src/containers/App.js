@@ -23,6 +23,7 @@ import Trending from './Trending';
 import Search from './Search';
 import SearchResult from './SearchResult';
 import SearchUserResult from './SearchUserResult';
+import UserDetail from './UserDetail';
 import Setting from './Setting';
 import SearchBar from '../components/SearchBar';
 import Header from '../components/Header';
@@ -106,28 +107,28 @@ class App extends Component {
   render() {
     const { store } = this.props;
     return (
-      <Provider store={ store }>
-        <RouterWithRedux getSceneStyle={ getSceneStyle }>
-          <Scene key="modal" component={ Modal }>
+      <Provider store={store}>
+        <RouterWithRedux getSceneStyle={getSceneStyle}>
+          <Scene key="modal" component={Modal}>
             <Scene key="root">
               <Scene 
                 key="scenes" 
                 navigationBarStyle={styles.header} 
                 panHandlers={null}
-                leftButtonStyle={{ width: 30 }}
+                leftButtonStyle={{width: 30}}
               >
-                <Scene key="tabs" component={ Tabs } title="Pixiv RN" tabs={true} duration={0}>
+                <Scene key="tabs" component={Tabs} title="Pixiv RN" tabs={true} duration={0}>
                   <Scene key="home"
                     title="Home"
-                    component={ Home }
+                    component={Home}
                     navigationBarStyle={styles.header}
                     hideNavBar={true}
                   />
                   <Scene key="trending"
                     title="Search"
-                    component={ Trending }
+                    component={Trending}
                     navigationBarStyle={styles.header}
-                    renderTitle={ () => {
+                    renderTitle={() => {
                       return (
                         <Header>
                           <SearchBar 
@@ -140,35 +141,40 @@ class App extends Component {
                   />
                   <Scene key="setting"
                     title="Setting"
-                    component={ Setting }
+                    component={Setting}
                     navigationBarStyle={styles.header}
                   />
                 </Scene>
                 <Scene key="detail"
                   title="Detail"
-                  component={ Detail }
+                  component={Detail}
                   duration={0}
                 />
                 <Scene key="search"
                   title="Search"
-                  component={ Search }
+                  component={Search}
                   navigationBarStyle={styles.header}
                   duration={0}
                 />
                 <Scene key="searchResult"
                   title="Search"
-                  component={ SearchResult }
+                  component={SearchResult}
                   navigationBarStyle={styles.header}
                   duration={0}
                 />
                 <Scene key="searchUserResult"
                   title="Search"
-                  component={ SearchUserResult }
+                  component={SearchUserResult}
                   navigationBarStyle={styles.header}
                   duration={0}
                 />
+                <Scene key="userDetail"
+                  title="User"
+                  component={UserDetail}
+                  duration={0}
+                />
                 <Scene key="temp" 
-                  component={ TempComp } 
+                  component={TempComp} 
                   title="Temp" 
                 />
               </Scene>

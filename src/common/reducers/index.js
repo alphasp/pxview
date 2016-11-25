@@ -9,6 +9,7 @@ import * as searchReducers from './search';
 import * as searchAutoCompleteReducers from './searchAutoComplete';
 import searchUser from './searchUser';
 import searchType from './searchType';
+import userDetail from './userDetail';
 import routes from './routes';
 import errorReducer from './error';
 // import { reducer as formReducer} from 'redux-form';
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   ...searchAutoCompleteReducers,
   searchUser,
   searchType,
+  userDetail,
   routes
 });
 

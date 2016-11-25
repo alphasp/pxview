@@ -129,7 +129,10 @@ class UserList extends Component {
           }
         </View>
         <View style={styles.userInfoContainer}>
-          <PXTouchable style={styles.userInfo}>
+          <PXTouchable 
+            style={styles.userInfo}
+            onPress={() => this.handleOnPressAvatar(item)}
+          >
             <Text>{item.user.name}</Text>
           </PXTouchable>
           <PXTouchable>
@@ -144,6 +147,7 @@ class UserList extends Component {
               borderColor: '#E9EBEE',
               borderWidth: 1
             }}
+            onPress={() => this.handleOnPressAvatar(item.user.id)}
           />
         </View>
       </View>
@@ -154,9 +158,12 @@ class UserList extends Component {
     Actions.detail({ item: item });
   }
 
+  handleOnPressAvatar = (userId) => {
+    Actions.userDetail({ userId });
+  }
+
   renderFooter = () => {
     const { userList: { nextUrl } } = this.props;
-    //todo hide footer if done
     return (
       nextUrl ?
       <View style={{ marginBottom: 20 }}>

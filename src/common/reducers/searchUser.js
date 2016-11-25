@@ -1,6 +1,7 @@
 import { 
   REQUEST_SEARCH_USER, 
   RECEIVE_SEARCH_USER,
+  RECEIVE_SEARCH_USER_CONCAT,
   STOP_SEARCH_USER, 
   CLEAR_SEARCH_USER,
 } from "../actions/searchUser";
@@ -26,6 +27,15 @@ export default function searchUser(state = {
         loading: true,
       };
     case RECEIVE_SEARCH_USER:
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        items: [...action.payload.items],
+        nextUrl: action.payload.nextUrl,
+        lastUpdated: action.payload.receivedAt,
+      };
+    case RECEIVE_SEARCH_USER_CONCAT:
       return {
         ...state,
         loading: false,
