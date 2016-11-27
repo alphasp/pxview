@@ -69,7 +69,10 @@ class SearchUserAutoCompleteResult extends Component {
       >
         <View style={styles.row}>
           <View style={styles.thumnailNameContainer}>
-            <PXThumbnailTouchable uri={item.user.profile_image_urls.medium} />
+            <PXThumbnailTouchable 
+              uri={item.user.profile_image_urls.medium} 
+              onPress={() => onPressItem(item.user.id)}
+            />
             <Text>{item.user.name}</Text>
           </View>
           <PXTouchable>

@@ -6,6 +6,8 @@ import {
   Dimensions,
   ScrollView,
   Linking,
+  RefreshControl,
+  Platform,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions, ActionConst } from 'react-native-router-flux';
@@ -13,9 +15,15 @@ import HtmlView from 'react-native-htmlview';
 import Hyperlink from 'react-native-hyperlink';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import truncate from 'lodash.truncate';
+import * as Animatable from 'react-native-animatable';
+import IllustCollection from '../components/IllustCollection';
 import PXThumbnail from '../components/PXThumbnail';
+import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import Loader from '../components/Loader';
 import { fetchUserDetail, clearUserDetail } from '../common/actions/userDetail';
+import { fetchUserIllusts, clearUserIllusts } from '../common/actions/userIllust';
+import { fetchUserMangas, clearUserMangas } from '../common/actions/userManga';
+import { fetchUserBookmarkIllusts, clearUserBookmarkIllusts } from '../common/actions/userBookmarkIllust';
 
 const avatarSize = 70;
 const windowWidth = Dimensions.get('window').width;
@@ -86,18 +94,71 @@ const styles = StyleSheet.create({
     color: '#90949c',
     marginHorizontal: 5,
   },
+
+
+  navbarHeader: {
+    margin: 10,
+    ...Platform.select({
+      ios: {
+        top: 15
+      },
+    }),
+    alignItems: 'center',
+    opacity: 0,
+  },
+  thumnailNameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  nameContainer: {
+    flexDirection: 'column',
+    marginLeft: 10
+  },
 });
 
 class UserDetail extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      refreshing: false,
+      isShowTitle: false,
+    }
   }
   
   componentDidMount() {
     const { dispatch, userId } = this.props;
-    dispatch(fetchUserDetail(userId));
+    dispatch(clearUserDetail(userId));
+    dispatch(clearUserIllusts(userId));
+    dispatch(clearUserMangas(userId));
+    dispatch(clearUserBookmarkIllusts(userId));
+
+    dispatch(fetchUserDetail(userId)).then(() => {
+      const { userDetail, userId } = this.props;
+      if (userDetail[userId] && userDetail[userId].item) {
+        const user = userDetail[userId].item.user;
+        Actions.refresh({ 
+          renderTitle: () => {
+            return (
+              <Animatable.View style={styles.navbarHeader}>
+                <View style={styles.thumnailNameContainer}>
+                  <PXThumbnail uri={user.profile_image_urls.medium} />
+                  <View style={styles.nameContainer}>
+                    <Text>{user.name}</Text>
+                    <Text>{user.account}</Text>
+                  </View>
+                </View>
+              </Animatable.View>
+            )
+          } 
+        });
+      }
+    });
+    dispatch(fetchUserIllusts(userId));
+    dispatch(fetchUserMangas(userId));
+    dispatch(fetchUserBookmarkIllusts(userId));
   }
-  
+
+
   handleOnLinkPress = (url) => {
     console.log('clicked link: ', url)
     Linking.canOpenURL(url).then(supported => {
@@ -111,10 +172,85 @@ class UserDetail extends Component {
     });
   }
 
-  renderContent(detail) {
+  handleOnRefresh = () => {
+    const { dispatch, userId } = this.props;
+    this.setState({
+      refereshing: true
+    });
+    dispatch(clearUserDetail(userId));
+    dispatch(clearUserIllusts(userId));
+    dispatch(clearUserMangas(userId));
+    dispatch(clearUserBookmarkIllusts(userId));
+
+    dispatch(fetchUserIllusts(userId));
+    dispatch(fetchUserMangas(userId));
+    dispatch(fetchUserBookmarkIllusts(userId));
+    dispatch(fetchUserDetail(userId)).finally(() => {
+      this.setState({
+        refereshing: false
+      }); 
+    })
+  }
+  handleOnScroll = ({ nativeEvent }) => {
+    const { userDetail, userId } = this.props;
+    const { isShowTitle } = this.state;
+    if (userDetail[userId] && userDetail[userId].item) {
+      const user = userDetail[userId].item.user;
+      if (nativeEvent.contentOffset.y >= 135) {
+        if (!isShowTitle) {
+          this.setState({
+            isShowTitle: true
+          });
+          Actions.refresh({ 
+            renderTitle: () => {
+              return (
+                <Animatable.View style={[styles.navbarHeader, {
+                  opacity: 1,
+                }]}>
+                  <View style={styles.thumnailNameContainer}>
+                    <PXThumbnail uri={user.profile_image_urls.medium} />
+                    <View style={styles.nameContainer}>
+                      <Text>{user.name}</Text>
+                      <Text>{user.account}</Text>
+                    </View>
+                  </View>
+                </Animatable.View>
+              )
+            } 
+          });
+        }
+      }
+      else {
+        if (isShowTitle) {
+          this.setState({
+            isShowTitle: false
+          });
+          Actions.refresh({ 
+            renderTitle: () => {
+              return (
+                <Animatable.View style={[styles.navbarHeader, {
+                  opacity: 0,
+                }]}>
+                  <View style={styles.thumnailNameContainer}>
+                    <PXThumbnail uri={user.profile_image_urls.medium} />
+                    <View style={styles.nameContainer}>
+                      <Text>{user.name}</Text>
+                      <Text>{user.account}</Text>
+                    </View>
+                  </View>
+                </Animatable.View>
+              )
+            } 
+          });
+        }
+      }
+    }
+  }
+
+  renderProfile = (detail) => {
     console.log('detail ', detail)
     return (
-      <ScrollView alwaysBounceVertical={false}>
+      <View>
         <View style={styles.coverOuterContainer}>
           <View style={styles.coverInnerContainer}>
             <View style={styles.cover}>
@@ -190,7 +326,69 @@ class UserDetail extends Component {
             </Hyperlink>
           </View>
         </View>
-      </ScrollView>
+      </View>
+    )
+  }
+
+  renderIllustCollection = (items) => {
+    return (
+      <IllustCollection 
+        title="Illust Works"
+        viewAllTitle={`${items.length} Works`}  
+        items={items}
+        maxItems={6}
+      />
+    )
+  }
+
+  renderMangaCollection = (items) => {
+    return (
+      <IllustCollection 
+        title="Manga Works"
+        viewAllTitle={`${items.length} Works`}
+        items={items}
+        maxItems={6}
+      />
+    )
+  }
+
+  renderBookmarks = (items) => {
+    return (
+      <IllustCollection 
+        title="Illust/Manga Collection"
+        viewAllTitle="All"
+        items={items}
+        maxItems={6}
+      />
+    )
+  }
+
+  renderContent = (detail) => {
+    const { userIllust, userManga, userBookmarkIllust, userId } = this.props;
+    return (
+      <View>
+        {
+          this.renderProfile(detail)
+        }
+        {
+          (userIllust[userId] && !userIllust[userId].loading && userIllust[userId].items && userIllust[userId].items.length) ?
+          this.renderIllustCollection(userIllust[userId].items)
+          :
+          null
+        }
+        {
+          (userManga[userId] && !userManga[userId].loading && userManga[userId].items.length) ?
+          this.renderMangaCollection(userManga[userId].items)
+          :
+          null
+        }
+        {
+          (userBookmarkIllust[userId] && !userBookmarkIllust[userId].loading && userBookmarkIllust[userId].items && userBookmarkIllust[userId].items.length) ?
+          this.renderBookmarks(userBookmarkIllust[userId].items)
+          :
+          null
+        }
+      </View>
     )
   }
 
@@ -198,11 +396,26 @@ class UserDetail extends Component {
     //user illusts
     //bookmark illusts
     const { userDetail, userId } = this.props;
+    const { refreshing } = this.state;
     return (
       <View style={styles.container}>
         {
           (userDetail[userId] && !userDetail[userId].loading) ?
-          this.renderContent(userDetail[userId].item)
+          <ScrollView 
+            style={styles.container} 
+            onScroll={this.handleOnScroll}
+            scrollEventThrottle={100}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={this.handleOnRefresh}
+              />
+            }
+          >
+            {
+              this.renderContent(userDetail[userId].item)
+            }
+          </ScrollView>
           :
           <Loader />
         }
@@ -214,5 +427,8 @@ class UserDetail extends Component {
 export default connect(state => {
   return {
     userDetail: state.userDetail,
+    userIllust: state.userIllust,
+    userManga: state.userManga,
+    userBookmarkIllust: state.userBookmarkIllust,
   }
 })(UserDetail);

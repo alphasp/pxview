@@ -83,8 +83,8 @@ class IllustList extends Component {
           width: width / 2 - 2, 
           height: width / 2 - 2,
         }} 
-        key={ item.id } 
-        onPress={ () => this.handleOnPressItem(item) }
+        key={item.id} 
+        onPress={() => this.handleOnPressItem(item)}
       >
         <PXImage 
           uri={item.image_urls.square_medium}

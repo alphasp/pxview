@@ -169,7 +169,6 @@ class App extends Component {
                   duration={0}
                 />
                 <Scene key="userDetail"
-                  title="User"
                   component={UserDetail}
                   duration={0}
                 />
