@@ -259,10 +259,7 @@ class UserDetail extends Component {
               <PXThumbnail
                 uri={detail.user.profile_image_urls.medium}
                 size={avatarSize}
-                style={{
-                  borderColor: '#E9EBEE',
-                  borderWidth: 1,
-                }}
+              
               />
             </View>
           </View>
@@ -330,35 +327,41 @@ class UserDetail extends Component {
     )
   }
 
-  renderIllustCollection = (items) => {
+  renderIllustCollection = (data, profile) => {
+    const { userId } = this.props;
     return (
       <IllustCollection 
         title="Illust Works"
-        viewAllTitle={`${items.length} Works`}  
-        items={items}
+        viewAllTitle={`${profile.total_illusts} Works`}  
+        items={data.items}
         maxItems={6}
+        onPressViewMore={() => Actions.userIllust({ userId })}
       />
     )
   }
 
-  renderMangaCollection = (items) => {
+  renderMangaCollection = (data, profile) => {
+    const { userId } = this.props;
     return (
       <IllustCollection 
         title="Manga Works"
-        viewAllTitle={`${items.length} Works`}
-        items={items}
+        viewAllTitle={`${profile.total_manga} Works`}
+        items={data.items}
         maxItems={6}
+        onPressViewMore={() => Actions.userManga({ userId })}
       />
     )
   }
 
-  renderBookmarks = (items) => {
+  renderBookmarks = (data) => {
+    const { userId } = this.props;
     return (
       <IllustCollection 
         title="Illust/Manga Collection"
         viewAllTitle="All"
-        items={items}
+        items={data.items}
         maxItems={6}
+        onPressViewMore={() => Actions.userBookmarkIllust({ userId })}
       />
     )
   }
@@ -372,19 +375,19 @@ class UserDetail extends Component {
         }
         {
           (userIllust[userId] && !userIllust[userId].loading && userIllust[userId].items && userIllust[userId].items.length) ?
-          this.renderIllustCollection(userIllust[userId].items)
+          this.renderIllustCollection(userIllust[userId], detail.profile)
           :
           null
         }
         {
           (userManga[userId] && !userManga[userId].loading && userManga[userId].items.length) ?
-          this.renderMangaCollection(userManga[userId].items)
+          this.renderMangaCollection(userManga[userId], detail.profile)
           :
           null
         }
         {
           (userBookmarkIllust[userId] && !userBookmarkIllust[userId].loading && userBookmarkIllust[userId].items && userBookmarkIllust[userId].items.length) ?
-          this.renderBookmarks(userBookmarkIllust[userId].items)
+          this.renderBookmarks(userBookmarkIllust[userId])
           :
           null
         }

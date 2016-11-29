@@ -51,7 +51,7 @@ class RecommendedIllust extends Component {
     const { refreshing } = this.state;
     return (
       <IllustList
-        recommended={recommendedIllust}
+        data={recommendedIllust}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}

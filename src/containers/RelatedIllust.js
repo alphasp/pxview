@@ -56,7 +56,7 @@ class RelatedIllust extends Component {
     return (
       (relatedIllust[illustId] ? true : false) &&
       <IllustList
-        recommended={relatedIllust[illustId]}
+        data={relatedIllust[illustId]}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}

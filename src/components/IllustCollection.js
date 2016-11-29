@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 });
 
 const IllustCollection = (props) => {
-  const { items, title, viewAllTitle, maxItems } = props;
+  const { items, title, viewAllTitle, maxItems, onPressViewMore} = props;
   if (!items || !items.length) {
     return null;
   }
@@ -47,7 +47,9 @@ const IllustCollection = (props) => {
     <View style={styles.container}>
       <View style={styles.title}>
         <Text>{title}</Text>
-        <Text>{viewAllTitle}</Text>
+        <PXTouchable onPress={onPressViewMore}>
+          <Text>{viewAllTitle}</Text>
+        </PXTouchable>
       </View>
       <View style={styles.imagePreviews}>
         {
@@ -56,7 +58,9 @@ const IllustCollection = (props) => {
             return (
               <PXTouchable 
                 style={{ 
-                  backgroundColor: '#fff',
+                  backgroundColor: "#fff",
+                  borderColor: "#E9EBEE",
+                  borderWidth: 1,
                   width: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS, 
                   height: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS,
                 }} 

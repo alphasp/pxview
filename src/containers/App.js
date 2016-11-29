@@ -24,6 +24,9 @@ import Search from './Search';
 import SearchResult from './SearchResult';
 import SearchUserResult from './SearchUserResult';
 import UserDetail from './UserDetail';
+import UserIllust from './UserIllust';
+import UserManga from './UserManga';
+import UserBookmarkIllust from './UserBookmarkIllust';
 import Setting from './Setting';
 import SearchBar from '../components/SearchBar';
 import Header from '../components/Header';
@@ -172,7 +175,22 @@ class App extends Component {
                   component={UserDetail}
                   duration={0}
                 />
-                <Scene key="temp" 
+                <Scene key="userIllust"
+                  title="Illust Works" 
+                  component={UserIllust}
+                  duration={0}
+                />
+                <Scene key="userManga"
+                  title="Manga Works" 
+                  component={UserManga}
+                  duration={0}
+                />
+                <Scene key="userBookmarkIllust"
+                  title="Collection" 
+                  component={UserBookmarkIllust}
+                  duration={0}
+                />
+                <Scene key="temp"
                   component={TempComp} 
                   title="Temp" 
                 />

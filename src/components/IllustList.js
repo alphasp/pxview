@@ -51,8 +51,8 @@ class IllustList extends Component {
     };
   }
   componentWillReceiveProps(nextProps) {
-    const { recommended: { items: prevItems } } = this.props;
-    const { recommended: { items } } = nextProps;
+    const { data: { items: prevItems } } = this.props;
+    const { data: { items } } = nextProps;
     if (items && items !== prevItems) {
       const { dataSource } = this.state;
       this.setState({
@@ -61,20 +61,6 @@ class IllustList extends Component {
     }
   }
   renderRow = (item) => {
-    // console.log('render ', item.image_urls)
-    // console.log('meta ', item.meta_single_page)
-    // {item.image_urls.large}
-    // "https://facebook.github.io/react/img/logo_og.png"
-    //console.log("img ", item.image_urls.large)
-    // return (
-    //           <PXImage 
-    //       uri={item.image_urls.square_medium}
-    //       style={[ styles.cardImage, {
-    //         width: width / 2 - 2, 
-    //         height: width / 2 - 2,
-    //       }]}
-    //     />
-    // )
     return (
       <PXTouchable 
         style={{ 
@@ -104,8 +90,7 @@ class IllustList extends Component {
   }
 
   renderFooter = () => {
-    const { recommended: { nextUrl } } = this.props;
-    //const { nextUrl } = this.state;
+    const { data: { nextUrl } } = this.props;
     return (
       nextUrl ?
       <View style={{ 
@@ -123,7 +108,7 @@ class IllustList extends Component {
     Actions.detail({ item: item });
   }
   render() {
-    const { recommended: { items, loading, loaded }, refreshing, onRefresh, loadMoreItems } = this.props;
+    const { data: { items, loading, loaded }, refreshing, onRefresh, loadMoreItems } = this.props;
     const { dataSource } = this.state;
     return (
       <View style={styles.container}>
@@ -136,10 +121,10 @@ class IllustList extends Component {
           <GridView 
             dataSource={dataSource}
             renderRow={this.renderRow}
-            onEndReachedThreshold={ 30 }
-            onEndReached={ loadMoreItems }
-            renderFooter={ this.renderFooter }
-            enableEmptySections={ true }
+            onEndReachedThreshold={30}
+            onEndReached={loadMoreItems}
+            renderFooter={this.renderFooter}
+            enableEmptySections={true}
             refreshControl={
               <RefreshControl
                 refreshing={refreshing}

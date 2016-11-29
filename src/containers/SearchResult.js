@@ -129,7 +129,7 @@ class SearchResult extends Component {
     return (
       (search[word] ? true : false) &&
       <IllustList
-        recommended={search[word]}
+        data={search[word]}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}

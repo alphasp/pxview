@@ -10,34 +10,36 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
-import { fetchRecommendedMangas, clearRecommendedMangas } from '../common/actions/recommendedManga';
+import { fetchUserIllusts, clearUserIllusts } from '../common/actions/userIllust';
 
-class RecommendedManga extends Component {
+class UserIllust extends Component {
   constructor(props) {
     super(props);
     this.state = {
       refreshing: false
     };
   }
+
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchRecommendedMangas());
+    const { dispatch, userId } = this.props;
+    dispatch(clearUserIllusts(userId));
+    dispatch(fetchUserIllusts(userId));
   }
 
   loadMoreItems = () => {
-    const { dispatch, recommendedManga: { nextUrl }, type } = this.props;
-    if (nextUrl) {
-      dispatch(fetchRecommendedMangas("", nextUrl));
+    const { dispatch, userIllust, userId } = this.props;
+    if (userIllust[userId] && userIllust[userId].nextUrl) {
+      dispatch(fetchUserIllusts(userId, userIllust[userId].nextUrl));
     }
   }
 
   handleOnRefresh = () => {
-    const { dispatch } = this.props;
+    const { dispatch, userId } = this.props;
     this.setState({
       refereshing: true
     });
-    dispatch(clearRecommendedMangas());
-    dispatch(fetchRecommendedMangas()).finally(() => {
+    dispatch(clearUserIllusts(userId));
+    dispatch(fetchUserIllusts(userId)).finally(() => {
       this.setState({
         refereshing: false
       }); 
@@ -45,11 +47,12 @@ class RecommendedManga extends Component {
   }
 
   render() {
-    const { recommendedManga } = this.props;
+    const { userIllust, userId } = this.props;
     const { refreshing } = this.state;
+    console.log('userillust ', userIllust)
     return (
       <IllustList
-        data={recommendedManga}
+        data={userIllust[userId]}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
@@ -58,8 +61,8 @@ class RecommendedManga extends Component {
   }
 }
 
-export default connect(state => {
+export default connect((state, props) => {
   return {
-    recommendedManga: state.recommendedManga
+    userIllust: state.userIllust
   }
-})(RecommendedManga);
+})(UserIllust);
