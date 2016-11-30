@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { DefaultRenderer, Actions, ActionConst } from 'react-native-router-flux';
+import NavigationTabBar from '../components/NavigationTabBar';
 // import Home from './Home';
 // import Search from './Search';
 // import Setting from './Setting';
@@ -49,6 +50,7 @@ class Tabs extends Component {
         tabBarPosition="bottom" 
         locked 
         scrollWithoutAnimation 
+        renderTabBar={() => <NavigationTabBar />}
       >
         {
           state.children.map(el =>{

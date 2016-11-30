@@ -10,7 +10,6 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import RecommendedIllust from './RecommendedIllust';
 import RecommendedManga from './RecommendedManga';
-import Header from '../components/Header';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,6 +17,11 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
     // backgroundColor: '#F5FCFF',
+    ...Platform.select({
+      ios: {
+        marginVertical: 20
+      },
+    }),
   },
   welcome: {
     fontSize: 20,
@@ -55,14 +59,12 @@ class Home extends Component {
     //   </View>
     // );
     return (
-      <Header>
-        <View style={styles.container}>
-          <ScrollableTabView ref={(ref) => this.tabs = ref} locked scrollWithoutAnimation>
-            <RecommendedIllust tabLabel="Illustrations" />
-            <RecommendedManga tabLabel="Manga" />
-          </ScrollableTabView>
-        </View>
-      </Header>
+      <View style={styles.container}>
+        <ScrollableTabView ref={(ref) => this.tabs = ref} locked scrollWithoutAnimation>
+          <RecommendedIllust tabLabel="Illustrations" />
+          <RecommendedManga tabLabel="Manga" />
+        </ScrollableTabView>
+      </View>
     );
   }
 }

@@ -127,6 +127,7 @@ class IllustComment extends Component {
     const { refreshing } = this.state;
     if (illustComment[illustId]) {
       const { items, loading, loaded } = illustComment[illustId];
+      console.log(items)
       // console.log('comment ', illustComment[illustId])
       const dataSource = this.dataSource.cloneWithRows(items || []);
       return (

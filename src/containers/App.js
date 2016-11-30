@@ -38,7 +38,7 @@ const RouterWithRedux = connect()(Router);
 
 const getSceneStyle = function (props, computedProps) {
   const style = {
-    flex: 1,
+    //flex: 1,
     //backgroundColor:'rgba(255,255,255,0.5)'
     // backgroundColor: '#fff',
     // shadowColor: null,
@@ -47,13 +47,13 @@ const getSceneStyle = function (props, computedProps) {
     // shadowRadius: null,
   };
   if (computedProps.isActive) {
-    style.marginTop = computedProps.hideNavBar ? 0 : Navigator.NavigationBar.Styles.General.TotalNavHeight;
-    // if (Platform.OS === 'ios') {
-    //   style.marginTop = computedProps.hideNavBar ? 0 : 64;
-    // }
-    // else {
-    //   style.marginTop = computedProps.hideNavBar ? 0 : 54;
-    // }
+    //style.marginTop = computedProps.hideNavBar ? 0 : Navigator.NavigationBar.Styles.General.TotalNavHeight;
+    if (Platform.OS === 'ios') {
+      style.marginTop = computedProps.hideNavBar ? 0 : 64;
+    }
+    else {
+      style.marginTop = computedProps.hideNavBar ? 0 : 54;
+    }
     //style.marginBottom = computedProps.hideTabBar ? 0 : 50;
   }
   return style;
@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
   // },
   header: {
     backgroundColor: '#5cafec',
+    borderBottomWidth: 0
   },
   title: {
     color: '#fff'
@@ -122,13 +123,13 @@ class App extends Component {
               >
                 <Scene key="tabs" component={Tabs} title="Pixiv RN" tabs={true} duration={0}>
                   <Scene key="home"
-                    title="Home"
+                    title="home"
                     component={Home}
                     navigationBarStyle={styles.header}
                     hideNavBar={true}
                   />
                   <Scene key="trending"
-                    title="Search"
+                    title="search"
                     component={Trending}
                     navigationBarStyle={styles.header}
                     renderTitle={() => {
@@ -143,7 +144,7 @@ class App extends Component {
                     }}
                   />
                   <Scene key="setting"
-                    title="Setting"
+                    title="cog"
                     component={Setting}
                     navigationBarStyle={styles.header}
                   />

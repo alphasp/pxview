@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import GridView from 'react-native-grid-view';
 import HtmlView from 'react-native-htmlview';
 import PixivApi from 'pixiv-api-client';
 // import Image from 'react-native-image-progress';

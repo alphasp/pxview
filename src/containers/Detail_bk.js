@@ -15,7 +15,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import GridView from 'react-native-grid-view';
 import HtmlView from 'react-native-htmlview';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import * as Animatable from 'react-native-animatable';

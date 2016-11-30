@@ -13,10 +13,10 @@ import {
   PanResponder,
   Linking,
   Navigator,
+  Animated,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import GridView from 'react-native-grid-view';
 import HtmlView from 'react-native-htmlview';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import * as Animatable from 'react-native-animatable';
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     marginVertical: 10
   },
   bottomTabs: {
-    flex: 1,
+    //flex: 1,
     backgroundColor: 'transparent',
     position: 'absolute',
     overflow: 'hidden',
@@ -133,7 +133,8 @@ class Detail extends Component {
     this.state = { 
       mounting: true,
       bottomTabsPosition: "bottom",
-      isInitState: true
+      isInitState: true,
+      fadeAnim: new Animated.Value(0),
     };
   }
   componentWillMount(nextProps) {
@@ -199,7 +200,7 @@ class Detail extends Component {
   renderInfo = () => {
     //2087.5 - 1999 = 88.5
     const { item } = this.props;
-    const { selectedBottomTab, selectedBottomTabIndex } = this.state;
+    const { selectedBottomTab, selectedBottomTabIndex, fadeAnim } = this.state;
     //console.log('render footer ', item)
     let footerStyle = {};
     // if (selectedBottomTab && selectedBottomTabIndex === 0) {
@@ -217,35 +218,36 @@ class Detail extends Component {
     // }
     //console.log('fs ', footerStyle)
     return (
-      selectedBottomTab &&
-      <ScrollView>
-        <View style={styles.infoContainer}>
-          <View style={styles.profileContainer}>
-            <PXTouchable 
-              style={styles.thumnailNameContainer}
-              onPress={() => this.handleOnPressAvatar(item.user.id)}
-            >
-              <PXThumbnail uri={item.user.profile_image_urls.medium} />
-              <View style={styles.nameContainer}>
-                <Text>{item.user.name}</Text>
-                <Text>{item.user.account}</Text>
-              </View>
-            </PXTouchable>
-            <PXTouchable>
-              <Text>Follow</Text>
-            </PXTouchable>
+      <Animated.View style={{flex: 1, opacity: fadeAnim}}>
+        <ScrollView>
+          <View style={styles.infoContainer}>
+            <View style={styles.profileContainer}>
+              <PXTouchable 
+                style={styles.thumnailNameContainer}
+                onPress={() => this.handleOnPressAvatar(item.user.id)}
+              >
+                <PXThumbnail uri={item.user.profile_image_urls.medium} />
+                <View style={styles.nameContainer}>
+                  <Text>{item.user.name}</Text>
+                  <Text>{item.user.account}</Text>
+                </View>
+              </PXTouchable>
+              <PXTouchable>
+                <Text>Follow</Text>
+              </PXTouchable>
+            </View>
+            <View style={styles.captionContainer}>
+              <HtmlView 
+                value={item.caption}
+                onLinkPress={this.handleOnLinkPress}
+              />
+            </View>
+            {
+              <Tags tags={item.tags} onPressTag={this.handleOnPressTag} />
+            }
           </View>
-          <View style={styles.captionContainer}>
-            <HtmlView 
-              value={item.caption}
-              onLinkPress={this.handleOnLinkPress}
-            />
-          </View>
-          {
-            <Tags tags={item.tags} onPressTag={this.handleOnPressTag} />
-          }
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </Animated.View>
     );
   }
   renderFooter = () => {
@@ -255,10 +257,11 @@ class Detail extends Component {
   }
   renderComments = () => {
     const { item } = this.props;
-    const { selectedBottomTab } = this.state;
+    const { selectedBottomTab, fadeAnim } = this.state;
     return (
-      selectedBottomTab &&
-      <IllustComment illustId={item.id} />
+      <Animated.View style={{flex: 1, opacity: fadeAnim}}>
+        <IllustComment illustId={item.id} />
+      </Animated.View>
     );
   }
 
@@ -312,20 +315,24 @@ class Detail extends Component {
   //   // });
   // }
   handleOnChangeTab = ({i, ref}) => {
-    const { selectedBottomTabIndex, selectedBottomTab } = this.state;
+    const { selectedBottomTabIndex, selectedBottomTab, fadeAnim } = this.state;
     //console.log(i, selectedBottomTabIndex)
     if (i === selectedBottomTabIndex) {
       this.setState({
         selectedBottomTab: false,
         selectedBottomTabIndex: -1
       });
-      this.refs.bottomTabs.transitionTo({ height: 60, backgroundColor: 'transparent' }, 300);
+      this.refs.bottomTabs.transitionTo({ height: 45, backgroundColor: 'transparent' }, 300);
       InteractionManager.runAfterInteractions(() => {
         this.setState({ bottomTabsPosition: "bottom" });
       });
       if (this.refs.imageListContainer) {
         this.refs.imageListContainer.fadeIn();
       }
+      Animated.timing(          // Uses easing functions
+        fadeAnim,    // The value to drive
+        { toValue: 0 }            // Configuration
+      ).start(); 
     }
     else {
       const isSwitchingTab = selectedBottomTab;
@@ -335,12 +342,17 @@ class Detail extends Component {
       });
       if (!isSwitchingTab) {
         // this.refs.bottomTabs.transitionTo({bottom: 300});
-        const newHeight = Platform.OS == 'ios' ? windowHeight - Navigator.NavigationBar.Styles.General.TotalNavHeight : windowHeight - 100
+        const newHeight = Platform.OS == 'ios' ? windowHeight - Navigator.NavigationBar.Styles.General.TotalNavHeight : windowHeight - 76
+        //const newHeight = windowHeight - Navigator.NavigationBar.Styles.General.TotalNavHeight;
         this.refs.bottomTabs.transitionTo({ height: newHeight, backgroundColor: '#fff'}, 300);    
         if (this.refs.imageListContainer) {
           this.refs.imageListContainer.slideOutUp();
         }
         this.setState({ bottomTabsPosition: "top" });
+        Animated.timing(          // Uses easing functions
+          fadeAnim,    // The value to drive
+          { toValue: 1 }            // Configuration
+        ).start(); 
       }
     }
   }
@@ -360,7 +372,7 @@ class Detail extends Component {
 
   render() {
     const { item } = this.props;
-    const { mounting, selectedBottomTab, bottomTabsPosition, selectedBottomTabIndex, imagePageNumber, isScrolling, isInitState } = this.state;
+    const { mounting, selectedBottomTab, bottomTabsPosition, selectedBottomTabIndex, imagePageNumber, isScrolling, isInitState, fadeAnim } = this.state;
     const dataSource = this.dataSource.cloneWithRows(item.meta_pages);
     //let imageUrls = illust.meta_pages ?
     if (item.meta_pages && item.meta_pages.length){
@@ -404,7 +416,7 @@ class Detail extends Component {
           <Loader />
           :
           (item.meta_pages && item.meta_pages.length) ?
-          <View style={{flex: 1}}>
+          <View>
             <Animatable.View style={{flex: 1}} ref="imageListContainer">
               <ListView
                 ref="gv"
@@ -428,22 +440,24 @@ class Detail extends Component {
             }
           </View>
           :
-          <ScrollView>
-            <PXImageTouchable 
-              uri={item.meta_single_page.original_image_url}    
-              initWidth={item.width > windowWidth ? windowWidth : item.width}
-              initHeight={windowWidth * item.height / item.width}
-              style={{
-                backgroundColor: '#E9EBEE',
-              }}
-              imageStyle={{
-                resizeMode: "contain",
-              }}
-            />
-            {/*
-              this.renderFooter()
-            */}
-          </ScrollView>
+          <Animatable.View ref="imageListContainer">
+            <ScrollView>
+              <PXImageTouchable 
+                uri={item.meta_single_page.original_image_url}    
+                initWidth={item.width > windowWidth ? windowWidth : item.width}
+                initHeight={windowWidth * item.height / item.width}
+                style={{
+                  backgroundColor: '#E9EBEE',
+                }}
+                imageStyle={{
+                  resizeMode: "contain",
+                }}
+              />
+              {/*
+                this.renderFooter()
+              */}
+            </ScrollView>
+          </Animatable.View>
         }
         {
           !mounting &&
@@ -451,9 +465,7 @@ class Detail extends Component {
             <ScrollableTabView 
               ref={(ref) => this.detailTabView = ref}
               tabBarPosition={bottomTabsPosition}
-              scrollWithoutAnimation
               onChangeTab={this.handleOnChangeTab}
-              locked={true}
               initialPage={-1}
               renderTabBar={(ref) => <DetailTabBar isShowActiveTabColor={selectedBottomTabIndex > -1} />}
             >
@@ -465,8 +477,9 @@ class Detail extends Component {
               </View>
               <View tabLabel="ios-link-outline" style={styles.tabContainer}>
                 {
-                  selectedBottomTab &&
-                  <RelatedIllust illustId={item.id} />
+                  <Animated.View style={{flex: 1, opacity: fadeAnim}}>
+                    <RelatedIllust illustId={item.id} />
+                  </Animated.View>
                 }
               </View>
             </ScrollableTabView>
@@ -478,3 +491,5 @@ class Detail extends Component {
 }
 
 export default Detail;
+// scrollWithoutAnimation
+// locked={true}

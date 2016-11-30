@@ -5,14 +5,16 @@ import android.util.Log;
 
 import com.facebook.react.ReactApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
+import com.react.rnspinkit.RNSpinkitPackage;
+import com.react.rnspinkit.RNSpinkitPackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.rnfs.RNFSPackage;
-import com.react.rnspinkit.RNSpinkitPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
+import com.facebook.soloader.SoLoader;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,17 +31,24 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new RNSpinkitPackage(),
-          new MainReactPackage(),
-          new VectorIconsPackage(),
-          new RNFetchBlobPackage(),
-          new ReactMaterialKitPackage(),
-          new RNFSPackage()
+           new MainReactPackage(),
+            new VectorIconsPackage(),
+            new RNSpinkitPackage(),
+            new ReactMaterialKitPackage(),
+            new RNFSPackage(),
+            new RNFetchBlobPackage()
       );
     }
   };
 
   @Override
   public ReactNativeHost getReactNativeHost() {
-      return mReactNativeHost;
+    return mReactNativeHost;
+  }
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    SoLoader.init(this, /* native exopackage */ false);
   }
 }
