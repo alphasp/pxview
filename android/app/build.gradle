@@ -96,6 +96,14 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
     }
+    signingConfigs {
+        release {
+            storeFile file(PIXIV_RELEASE_STORE_FILE)
+            storePassword PIXIV_RELEASE_STORE_PASSWORD
+            keyAlias PIXIV_RELEASE_KEY_ALIAS
+            keyPassword PIXIV_RELEASE_KEY_PASSWORD
+        }
+    }
     splits {
         abi {
             reset()
@@ -103,6 +111,7 @@ android {
             universalApk false  // If true, also generate a universal APK
             include "armeabi-v7a", "x86"
         }
+        signingConfig signingConfigs.release
     }
     buildTypes {
         release {
