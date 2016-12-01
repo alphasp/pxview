@@ -67,6 +67,10 @@ class IllustComment extends Component {
     });
   }
 
+  handleOnPressUser = (userId) => {
+    Actions.userDetail({ userId });
+  }
+
   renderRow = (item) => {
     return (
       <View
@@ -75,10 +79,13 @@ class IllustComment extends Component {
       >
         <PXThumbnailTouchable
           uri={item.user.profile_image_urls.medium}
+          onPress={() => this.handleOnPressUser(item.user.id)}
         />
         <View style={styles.nameCommentContainer}>
           <View style={styles.nameContainer}>
-            <Text>{item.user.name}</Text>
+            <PXTouchable onPress={() => this.handleOnPressUser(item.user.id)}>
+              <Text>{item.user.name}</Text>
+            </PXTouchable>
             <Text style={styles.date}>{moment(item.date).format('YYYY-MM-DD HH:mm')}</Text>
           </View>
           <View style={styles.comment}>

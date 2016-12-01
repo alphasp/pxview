@@ -27,21 +27,21 @@ const PXTouchable = (props) => {
         }
       </TouchableNativeFeedback>
     )
-    return (
-      <TouchableNativeFeedback 
-        background={ TouchableNativeFeedback.SelectableBackground() } 
-        { ...restProps } 
-      >
-        {
-          children ? 
-          React.cloneElement(children, {
-            style: [children.props.style, style]
-          })
-          :
-          null
-        }
-      </TouchableNativeFeedback>
-    )
+    // return (
+    //   <TouchableNativeFeedback 
+    //     background={ TouchableNativeFeedback.SelectableBackground() } 
+    //     { ...restProps } 
+    //   >
+    //     {
+    //       children ? 
+    //       React.cloneElement(children, {
+    //         style: [children.props.style, style]
+    //       })
+    //       :
+    //       null
+    //     }
+    //   </TouchableNativeFeedback>
+    // )
   }
   else {
     return <TouchableOpacity {...props} />

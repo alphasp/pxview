@@ -24,10 +24,10 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios: {
         //marginLeft: -7
-        marginTop: 15,
+        marginTop: 40,
       },
       android: {
-        marginTop: 0,
+        marginTop: 28,
         // marginLeft: -8, 
         // marginRight: -8
       }

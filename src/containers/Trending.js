@@ -35,8 +35,6 @@ class Trending extends Component {
       <View style={styles.container} >
         <ScrollableTabView 
           onChangeTab={this.handleOnChangeTab}
-          locked 
-          scrollWithoutAnimation
         >
           <TrendingIllustTag tabLabel="Illust/Manga" />
           <RecommendedUser tabLabel="User" />

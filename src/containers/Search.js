@@ -38,17 +38,15 @@ class Search extends Component {
     Actions.refresh({
       renderTitle: () => {
         return (
-          <Header>
-            <SearchBar 
-              enableBack={true} 
-              autoFocus={true} 
-              onSubmitEditing={this.handleOnSubmitSearch}
-              onChangeText={debounce(this.handleOnChangeSearchText, 300)}
-              onPressRemoveTag={this.handleOnPressRemoveTag}
-              word={word}
-              isRenderPlaceHolder={isRenderPlaceHolder}
-            />
-          </Header>
+          <SearchBar 
+            enableBack={true} 
+            autoFocus={true} 
+            onSubmitEditing={this.handleOnSubmitSearch}
+            onChangeText={debounce(this.handleOnChangeSearchText, 300)}
+            onPressRemoveTag={this.handleOnPressRemoveTag}
+            word={word}
+            isRenderPlaceHolder={isRenderPlaceHolder}
+          />
         )
       }
     });           

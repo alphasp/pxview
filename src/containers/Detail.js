@@ -191,7 +191,6 @@ class Detail extends Component {
         imageStyle={{
           resizeMode: "contain",
         }}
-        onFoundImageSize={isLastRow ? this.onFoundImageSize : null}
       />
     )
     //'https://facebook.github.io/react-native/img/header_logo.png'

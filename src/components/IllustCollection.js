@@ -7,6 +7,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
 import OverlayImagePages from './OverlayImagePages';
@@ -34,11 +35,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 10,
+  },
+  viewAllContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  total: {
+    fontWeight: 'bold',
+    marginRight: 5,
+  },
+  chevronIcon: {
+    marginLeft: 5,
   }
 });
 
 const IllustCollection = (props) => {
-  const { items, title, viewAllTitle, maxItems, onPressViewMore} = props;
+  const { items, title, total, viewMoreTitle, maxItems, onPressViewMore} = props;
   if (!items || !items.length) {
     return null;
   }
@@ -48,7 +60,14 @@ const IllustCollection = (props) => {
       <View style={styles.title}>
         <Text>{title}</Text>
         <PXTouchable onPress={onPressViewMore}>
-          <Text>{viewAllTitle}</Text>
+          <View style={styles.viewAllContainer}>
+            {
+              total &&
+              <Text style={styles.total}>{total}</Text>
+            }
+            <Text>{viewMoreTitle}</Text>
+            <Icon name="chevron-right" style={styles.chevronIcon} />
+          </View>
         </PXTouchable>
       </View>
       <View style={styles.imagePreviews}>

@@ -32,17 +32,15 @@ class SearchUserResult extends Component {
     Actions.refresh({
       renderTitle: () => {
         return (
-          <Header>
-            <SearchBar 
-              enableBack={true} 
-              onFocus={this.handleOnSearchFieldFocus} 
-              onSubmitEditing={this.handleOnSubmitSearch}
-              onPressRemoveTag={this.handleOnPressRemoveTag}
-              isRenderPlaceHolder={true}
-              searchType={SearchType.USER}
-              word={word}
-            />
-          </Header>
+          <SearchBar 
+            enableBack={true} 
+            onFocus={this.handleOnSearchFieldFocus} 
+            onSubmitEditing={this.handleOnSubmitSearch}
+            onPressRemoveTag={this.handleOnPressRemoveTag}
+            isRenderPlaceHolder={true}
+            searchType={SearchType.USER}
+            word={word}
+          />
         )
       }
     });
@@ -102,18 +100,16 @@ class SearchUserResult extends Component {
         word: newWord,
         renderTitle: () => {
           return (
-            <Header>
-              <SearchBar 
-                enableBack={true} 
-                onFocus={this.handleOnSearchFieldFocus} 
-                onSubmitEditing={this.handleOnSubmitSearch}
-                onChangeText={this.handleOnChangeSearchText}
-                onPressRemoveTag={this.handleOnPressRemoveTag}
-                isRenderPlaceHolder={true}
-                searchType={SearchType.USER}
-                word={newWord}
-              />
-            </Header>
+            <SearchBar 
+              enableBack={true} 
+              onFocus={this.handleOnSearchFieldFocus} 
+              onSubmitEditing={this.handleOnSubmitSearch}
+              onChangeText={this.handleOnChangeSearchText}
+              onPressRemoveTag={this.handleOnPressRemoveTag}
+              isRenderPlaceHolder={true}
+              searchType={SearchType.USER}
+              word={newWord}
+            />
           )
         }
       });

@@ -60,7 +60,7 @@ class Home extends Component {
     // );
     return (
       <View style={styles.container}>
-        <ScrollableTabView ref={(ref) => this.tabs = ref} locked scrollWithoutAnimation>
+        <ScrollableTabView ref={(ref) => this.tabs = ref}>
           <RecommendedIllust tabLabel="Illustrations" />
           <RecommendedManga tabLabel="Manga" />
         </ScrollableTabView>

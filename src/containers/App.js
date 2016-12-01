@@ -134,12 +134,10 @@ class App extends Component {
                     navigationBarStyle={styles.header}
                     renderTitle={() => {
                       return (
-                        <Header>
-                          <SearchBar 
-                            onFocus={this.handleOnSearchFieldFocus}  
-                            isRenderPlaceHolder={true}
-                          />
-                        </Header>
+                        <SearchBar 
+                          onFocus={this.handleOnSearchFieldFocus}  
+                          isRenderPlaceHolder={true}
+                        />
                       )
                     }}
                   />

@@ -36,6 +36,8 @@ class PXImage extends Component {
               onFoundImageSize(width, height);
             }
           }
+        }, err => {
+          //console.error('failed to get image size ', err);
         });
         this.setState({
           imageBase64String: `data:image/png;base64,${base64Str}`

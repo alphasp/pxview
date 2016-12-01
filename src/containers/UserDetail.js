@@ -8,6 +8,7 @@ import {
   Linking,
   RefreshControl,
   Platform,
+  findNodeHandle,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions, ActionConst } from 'react-native-router-flux';
@@ -16,9 +17,12 @@ import Hyperlink from 'react-native-hyperlink';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import truncate from 'lodash.truncate';
 import * as Animatable from 'react-native-animatable';
+import { BlurView } from 'react-native-blur';
 import IllustCollection from '../components/IllustCollection';
 import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
+import PXImage from '../components/PXImage';
+import PXBlurView from '../components/PXBlurView';
 import Loader from '../components/Loader';
 import { fetchUserDetail, clearUserDetail } from '../common/actions/userDetail';
 import { fetchUserIllusts, clearUserIllusts } from '../common/actions/userIllust';
@@ -122,6 +126,7 @@ class UserDetail extends Component {
     this.state = {
       refreshing: false,
       isShowTitle: false,
+      viewRef: 0,
     }
   }
   
@@ -247,19 +252,51 @@ class UserDetail extends Component {
     }
   }
 
+  handleOnFoundImageSize = () => {
+    this.setState({ viewRef: findNodeHandle(this.refs.backgroundImage) });
+  }
+
   renderProfile = (detail) => {
-    console.log('detail ', detail)
+    // <View style={styles.cover}>
+    //         </View>
+    const { viewRef } = this.state;
     return (
       <View>
         <View style={styles.coverOuterContainer}>
           <View style={styles.coverInnerContainer}>
-            <View style={styles.cover}>
-            </View>
+            <PXImage
+              uri={detail.user.profile_image_urls.medium}
+              style={{
+                resizeMode: "cover",
+                width: windowWidth,
+                height: 100,
+                 backgroundColor: 'transparent',
+              }}
+              ref="backgroundImage"
+              onFoundImageSize={this.handleOnFoundImageSize}
+            >
+              <BlurView 
+                blurType="light" 
+                blurAmount={20}
+                blurRadius={15}
+                downsampleFactor={10}
+                overlayColor={'rgba(255, 255, 255, 0.3)'}
+                viewRef={viewRef}
+                style={{
+                  position:'absolute', left:0, right:0, top:0, bottom:0
+                }}
+              >
+                <View style={{
+                  width: windowWidth,
+                  height: 100,
+                }}
+                />
+              </BlurView>
+            </PXImage>
             <View style={styles.avatarContainer}>
               <PXThumbnail
                 uri={detail.user.profile_image_urls.medium}
                 size={avatarSize}
-              
               />
             </View>
           </View>
@@ -332,7 +369,8 @@ class UserDetail extends Component {
     return (
       <IllustCollection 
         title="Illust Works"
-        viewAllTitle={`${profile.total_illusts} Works`}  
+        total={profile.total_illusts}
+        viewMoreTitle="Works"  
         items={data.items}
         maxItems={6}
         onPressViewMore={() => Actions.userIllust({ userId })}
@@ -345,7 +383,8 @@ class UserDetail extends Component {
     return (
       <IllustCollection 
         title="Manga Works"
-        viewAllTitle={`${profile.total_manga} Works`}
+        total={profile.total_manga}
+        viewMoreTitle="Works"
         items={data.items}
         maxItems={6}
         onPressViewMore={() => Actions.userManga({ userId })}
@@ -358,7 +397,7 @@ class UserDetail extends Component {
     return (
       <IllustCollection 
         title="Illust/Manga Collection"
-        viewAllTitle="All"
+        viewMoreTitle="All"
         items={data.items}
         maxItems={6}
         onPressViewMore={() => Actions.userBookmarkIllust({ userId })}

@@ -31,18 +31,16 @@ class SearchResult extends Component {
     Actions.refresh({
       renderTitle: () => {
         return (
-          <Header>
-            <SearchBar 
-              enableBack={true} 
-              onFocus={this.handleOnSearchFieldFocus} 
-              onSubmitEditing={this.handleOnSubmitSearch}
-              onChangeText={this.handleOnChangeSearchText}
-              onPressRemoveTag={this.handleOnPressRemoveTag}
-              isRenderPlaceHolder={true}
-              searchType={SearchType.ILLUST}
-              word={word}
-            />
-          </Header>
+          <SearchBar 
+            enableBack={true} 
+            onFocus={this.handleOnSearchFieldFocus} 
+            onSubmitEditing={this.handleOnSubmitSearch}
+            onChangeText={this.handleOnChangeSearchText}
+            onPressRemoveTag={this.handleOnPressRemoveTag}
+            isRenderPlaceHolder={true}
+            searchType={SearchType.ILLUST}
+            word={word}
+          />
         )
       }
     });
@@ -103,16 +101,14 @@ class SearchResult extends Component {
         word: newWord,
         renderTitle: () => {
           return (
-            <Header>
-              <SearchBar 
-                enableBack={true} 
-                onFocus={this.handleOnSearchFieldFocus} 
-                onSubmitEditing={this.handleOnSubmitSearch}
-                onPressRemoveTag={this.handleOnPressRemoveTag}
-                isRenderPlaceHolder={true}
-                word={newWord}
-              />
-            </Header>
+            <SearchBar 
+              enableBack={true} 
+              onFocus={this.handleOnSearchFieldFocus} 
+              onSubmitEditing={this.handleOnSubmitSearch}
+              onPressRemoveTag={this.handleOnPressRemoveTag}
+              isRenderPlaceHolder={true}
+              word={newWord}
+            />
           )
         }
       });
