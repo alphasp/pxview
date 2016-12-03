@@ -25,7 +25,7 @@ class PXImageTouchable extends Component {
     };
   }
   
-  handleOnFoundImageSize = (width, height) => {
+  handleOnFoundImageSize = (width, height, url) => {
     if (width && height) {
       this.setState({
         width: (width > windowWidth) ? windowWidth : width,
@@ -33,7 +33,7 @@ class PXImageTouchable extends Component {
         loading: false
       })
       if (this.props.onFoundImageSize) {
-        this.props.onFoundImageSize(width > windowWidth ? windowWidth : width, (width > windowWidth ? windowWidth : width) * height / width);
+        this.props.onFoundImageSize(width > windowWidth ? windowWidth : width, (width > windowWidth ? windowWidth : width) * height / width, url);
       }
     }
   }
@@ -47,6 +47,7 @@ class PXImageTouchable extends Component {
           width: width,
           height: height
         }]}
+        onPress={onPress}
       >
         {
           loading &&

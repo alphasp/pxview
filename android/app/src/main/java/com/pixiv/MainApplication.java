@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.reactnative.photoview.PhotoViewPackage;
 import com.cmcewen.blurview.BlurViewPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new RNSpinkitPackage(),
            new MainReactPackage(),
+            new PhotoViewPackage(),
             new BlurViewPackage(),
             new VectorIconsPackage(),
             new RNSpinkitPackage(),

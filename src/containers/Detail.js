@@ -30,6 +30,7 @@ import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import Tags from '../components/Tags';
 import DetailTabBar from '../components/DetailTabBar';
+import ImagesViewer from '../components/ImagesViewer';
 import RelatedIllust from './RelatedIllust';
 import IllustComment from './IllustComment';
 import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic } from '../common/actions/recommendedIllust';
@@ -126,15 +127,32 @@ const styles = StyleSheet.create({
 
 class Detail extends Component {
   constructor(props) {
+    const { item } = props;
     super(props);
     this.dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
-    })
+    });
+    let images;
+    if (item.meta_pages && item.meta_pages.length) {
+      images = item.meta_pages.map(image => {
+        return {
+          url: image.image_urls.original,
+        }
+      });
+    }
+    else {
+      images = [{
+        url: item.meta_single_page.original_image_url,
+      }]
+    }
     this.state = { 
       mounting: true,
       bottomTabsPosition: "bottom",
       isInitState: true,
       fadeAnim: new Animated.Value(0),
+      images: images,
+      viewerIndex: 0,
+      showViewer: false,
     };
   }
   componentWillMount(nextProps) {
@@ -170,6 +188,7 @@ class Detail extends Component {
   }
 
   renderRow = (item, sectionId, rowId) => {
+    const index = parseInt(rowId);
     const { item: baseItem } = this.props;
     const isLastRow = (baseItem.meta_pages.length - 1) == rowId;
     // console.log('render ', item.image_urls)
@@ -179,8 +198,8 @@ class Detail extends Component {
     //console.log("img ", item.image_urls.large)
     return (
       <PXImageTouchable 
-        key={item.image_urls.original}
-        uri={item.image_urls.original}
+        key={item.image_urls.large}
+        uri={item.image_urls.large}
         initWidth={windowWidth}
         initHeight={200}
         style={{
@@ -191,6 +210,8 @@ class Detail extends Component {
         imageStyle={{
           resizeMode: "contain",
         }}
+        onPress={() => this.handleOnPressImage(index)}
+        onFoundImageSize={(width, height, url) => this.handleOnFoundImageSize(index, url)}
       />
     )
     //'https://facebook.github.io/react-native/img/header_logo.png'
@@ -369,9 +390,36 @@ class Detail extends Component {
     });
   }
 
+  handleOnFoundImageSize = (index, url) => {
+    const { images } = this.state;
+    var gg = {
+      index,
+      url
+    }
+    console.log('gg ', gg)
+    this.setState({
+      images: images.map((item, i) => {
+        return index === i ? {
+          ...item,
+          cache: url
+        }
+        :
+        item
+      })
+    })
+  }
+
+  handleOnPressImage = (index) => {
+    console.log('aa')
+    this.setState({
+      viewerIndex: index,
+      showViewer: true
+    });
+  }
+
   render() {
     const { item } = this.props;
-    const { mounting, selectedBottomTab, bottomTabsPosition, selectedBottomTabIndex, imagePageNumber, isScrolling, isInitState, fadeAnim } = this.state;
+    const { mounting, selectedBottomTab, bottomTabsPosition, selectedBottomTabIndex, imagePageNumber, isScrolling, isInitState, fadeAnim, viewerIndex, showViewer, images } = this.state;
     const dataSource = this.dataSource.cloneWithRows(item.meta_pages);
     //let imageUrls = illust.meta_pages ?
     if (item.meta_pages && item.meta_pages.length){
@@ -451,6 +499,8 @@ class Detail extends Component {
                 imageStyle={{
                   resizeMode: "contain",
                 }}
+                onPress={() => this.handleOnPressImage(0)}
+                onFoundImageSize={(width, height, url) => this.handleOnFoundImageSize(0, url)}
               />
               {/*
                 this.renderFooter()
@@ -483,6 +533,10 @@ class Detail extends Component {
               </View>
             </ScrollableTabView>
           </Animatable.View>
+        }
+        {
+          showViewer &&
+          <ImagesViewer items={images} viewerIndex={viewerIndex} />
         }
       </View>
     );

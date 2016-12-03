@@ -141,6 +141,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-photo-view')
     compile project(':react-native-blur')
     compile project(':react-native-vector-icons')
     compile project(':react-native-spinkit')

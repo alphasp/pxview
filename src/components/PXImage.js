@@ -28,19 +28,19 @@ class PXImage extends Component {
     })
     this.task.then(res => {
       if (!this.unmounting) {
-        let base64Str = res.base64();
-        Image.getSize(`data:image/png;base64,${base64Str}`, (width, height) => {
+        const base64Str = `data:image/png;base64,${res.base64()}`;
+        Image.getSize(base64Str, (width, height) => {
           if (!this.unmounting) {
             this.setState({width, height});
             if (onFoundImageSize) {
-              onFoundImageSize(width, height);
+              onFoundImageSize(width, height, base64Str);
             }
           }
         }, err => {
           //console.error('failed to get image size ', err);
         });
         this.setState({
-          imageBase64String: `data:image/png;base64,${base64Str}`
+          imageBase64String: base64Str
         })
       }
     })

@@ -4,7 +4,8 @@ import {
   View,
   ListView,
   Dimensions,
-  RecyclerViewBackedScrollView
+  RecyclerViewBackedScrollView,
+  ScrollView
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -12,6 +13,8 @@ const styles = StyleSheet.create({
     //justifyContent: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    // justifyContent: 'space-between',
+    // alignItems: 'flex-start',
     //alignItems: 'flex-start',
     //width: Dimensions.get('window').width //full width
   },
