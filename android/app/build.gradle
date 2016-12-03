@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: 'io.fabric'
 
 import com.android.build.OutputFile
 
@@ -138,9 +139,11 @@ android {
 
 repositories {
     maven { url 'https://github.com/500px/500px-android-blur/raw/master/releases/' }
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
+    compile project(':react-native-fabric')
     compile project(':react-native-photo-view')
     compile project(':react-native-blur')
     compile project(':react-native-vector-icons')
@@ -148,6 +151,9 @@ dependencies {
     compile project(':react-native-material-kit')
     compile project(':react-native-fs')
     compile project(':react-native-fetch-blob')
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+        transitive = true;
+    }
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
@@ -156,9 +162,11 @@ dependencies {
 buildscript {
     repositories {
         maven { url 'https://github.com/500px/500px-android-blur/raw/master/releases/' }
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath 'com.fivehundredpx:blurringview:1.0.0'
+        classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 
