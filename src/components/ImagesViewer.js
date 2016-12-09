@@ -5,8 +5,10 @@ import {
   View,
   Dimensions,
 } from 'react-native';
-import Swiper from 'react-native-swiper'
-import PhotoView from 'react-native-photo-view'
+import Swiper from 'react-native-swiper';
+import PhotoView from 'react-native-photo-view';
+//import PXPhotoView from './PXPhotoView';
+
 const { width, height } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
@@ -37,7 +39,7 @@ const styles = StyleSheet.create({
   photo: {
     width,
     height,
-    flex: 1
+    //flex: 1
   },
   text: {
     color: '#fff',
@@ -58,7 +60,6 @@ const styles = StyleSheet.create({
 
 const ImagesViewer = (props) => {
   const { items, viewerIndex } = props;
-  console.log(viewerIndex)
   return (
     <View style={styles.wrapper}>
       <Swiper 
@@ -88,3 +89,12 @@ const ImagesViewer = (props) => {
 }
 
 export default ImagesViewer;
+
+// <PXPhotoView
+//   uri={item.url}
+//   resizeMode='contain'
+//   minimumZoomScale={0.5}
+//   maximumZoomScale={3}
+//   androidScaleType='fitCenter'
+//   style={styles.photo} 
+// />

@@ -6,8 +6,10 @@ import {
   Image,
   RefreshControl,
   Dimensions,
+  Platform,
 } from 'react-native';
 // import Image from 'react-native-image-progress';
+import moment from 'moment';
 import CacheableImage from 'react-native-cacheable-image';
 import FitImage from 'react-native-fit-image';
 import RNFetchBlob from 'react-native-fetch-blob'
@@ -18,29 +20,38 @@ class PXImage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageBase64String: null
+      imageUri: null
     }
   }
+  
   componentDidMount() {
     const { uri, onFoundImageSize } = this.props;
-    this.task = RNFetchBlob.fetch('GET', uri, {
-      referer: "http://www.pixiv.net"
-    })
+    this.task = RNFetchBlob
+      .config({
+        fileCache : true,
+        appendExt: 'png',
+        key: uri,
+        session: moment().startOf('day'),
+      }).fetch('GET', uri, {
+        referer: "http://www.pixiv.net",
+        //'Cache-Control' : 'no-store'
+      });
     this.task.then(res => {
       if (!this.unmounting) {
-        const base64Str = `data:image/png;base64,${res.base64()}`;
-        Image.getSize(base64Str, (width, height) => {
+        //const base64Str = `data:image/png;base64,${res.base64()}`;
+        const filePath = Platform.OS === 'android' ? 'file://' + res.path()  : '' + res.path();
+        Image.getSize(filePath, (width, height) => {
           if (!this.unmounting) {
             this.setState({width, height});
             if (onFoundImageSize) {
-              onFoundImageSize(width, height, base64Str);
+              onFoundImageSize(width, height, filePath);
             }
           }
         }, err => {
           //console.error('failed to get image size ', err);
         });
         this.setState({
-          imageBase64String: base64Str
+          imageUri: filePath
         })
       }
     })
@@ -57,14 +68,14 @@ class PXImage extends Component {
   }
   render() {
     const { style, ...otherProps } = this.props;
-    const { imageBase64String, width, height } = this.state;
-    // console.log('imageBase64String ', imageBase64String ? true : false)
+    const { imageUri, width, height } = this.state;
+    // console.log('imageUri ', imageUri ? true : false)
     //height = <user-chosen width> * original height / original width
     return (
-      (imageBase64String && width && height) ?
+      (imageUri && width && height) ?
       <Image 
         source={{ 
-          uri: imageBase64String
+          uri: imageUri
         }}
         style={[{
           width: width > windowWidth ? windowWidth : width,
@@ -76,10 +87,10 @@ class PXImage extends Component {
       null
     )
     // return (
-    //   imageBase64String ?
+    //   imageUri ?
     //   <Image 
     //     source={{ 
-    //       uri: imageBase64String
+    //       uri: imageUri
     //     }}
     //     style={style}    
     //     {...otherProps} 
