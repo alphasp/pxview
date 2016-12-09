@@ -53,7 +53,6 @@ class Search extends Component {
   }
 
   handleOnChangeSearchText = (word, searchType) => {
-    this.setState({ searchType })
     const { dispatch } = this.props;
     if (searchType === SearchType.USER) {
       dispatch(clearSearchUser());

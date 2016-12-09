@@ -11,21 +11,22 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions, ActionConst } from 'react-native-router-flux';
-import IllustList from '../components/IllustList';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import SearchBar from '../components/SearchBar';
-import Header from '../components/Header';
-import { fetchSearch, clearSearch } from '../common/actions/search';
+
+import SearchResultNewest from './SearchResultNewest';
+import SearchResultOldest from './SearchResultOldest';
+import { fetchSearch, clearSearch, SortType } from '../common/actions/search';
 import { SearchType } from '../common/actions/searchType';
 
-class SearchResult extends Component {
-  constructor(props) {
-    super(props);
-    const { word } = props;
-    this.state = {
-      refreshing: false
-    };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
   }
+});
 
+class SearchResultTabs extends Component {
   componentDidMount() {
     const { dispatch, word } = this.props;
     Actions.refresh({
@@ -34,20 +35,25 @@ class SearchResult extends Component {
           <SearchBar 
             enableBack={true} 
             onFocus={this.handleOnSearchFieldFocus} 
-            onSubmitEditing={this.handleOnSubmitSearch}
-            onChangeText={this.handleOnChangeSearchText}
             onPressRemoveTag={this.handleOnPressRemoveTag}
             isRenderPlaceHolder={true}
+            isRenderRightButton={true}
             searchType={SearchType.ILLUST}
             word={word}
           />
         )
-      }
-    });
+      },
+      renderRightButton: () => {
+        return (
+          <Icon 
+            name="sliders" 
+            size={20} 
+            onPress={this.handleOnPressFilterButton}
+            color="#fff"
+          />
+        )
+      },
 
-    dispatch(clearSearch(word));
-    InteractionManager.runAfterInteractions(() => {
-      dispatch(fetchSearch(word));
     });
   }
 
@@ -56,36 +62,26 @@ class SearchResult extends Component {
     Actions.search({ word: word, searchType: SearchType.ILLUST });
   }
   
-  loadMoreItems = () => {
-    const { dispatch, search, word } = this.props;
-    console.log('load more ', search[word].nextUrl)
-    if (search[word] && search[word].nextUrl) {
-      dispatch(fetchSearch(word, null, search[word].nextUrl));
-    }
+  handleOnPressFilterButton = () => {
+    console.log('on right');
+    const searchFilter = { 
+      target: null, 
+      duration: null
+    };
+    Actions.searchFilter({ searchFilter });
   }
 
-  handleOnRefresh = () => {
-    const { dispatch, word } = this.props;
-    this.setState({
-      refereshing: true
-    });
-    dispatch(clearSearch(word));
-    dispatch(fetchSearch(word)).finally(() => {
-      this.setState({
-        refereshing: false
-      }); 
-    })
-  }
-
-  handleOnSubmitSearch = (word) => {
-    const { dispatch } = this.props;
-    word = word.trim();
-    if (word) {
-      dispatch(clearSearch(word));
-      dispatch(fetchSearch(word));
-      Actions.refresh({ word: word, type: ActionConst.REPLACE });
-    }
-  }
+  // handleOnSubmitSearch = (word) => {
+  //   const { dispatch } = this.props;
+  //   word = word.trim();
+  //   if (word) {
+  //     //todo
+  //     dispatch(clearSearch(word, null, SortType.ASC));
+  //     dispatch(clearSearch(word, null, SortType.DESC));
+  //     dispatch(fetchSearch(word));
+  //     Actions.refresh({ word: word, type: ActionConst.REPLACE });
+  //   }
+  // }
 
   handleOnPressRemoveTag = (index) => {
     const { dispatch, word } = this.props;
@@ -119,24 +115,17 @@ class SearchResult extends Component {
   }
 
   render() {
-    const { search, word, options } = this.props;
-    const { refreshing } = this.state;
-    console.log('result ', search)
+    const { word } = this.props;
     return (
-      (search[word] ? true : false) &&
-      <IllustList
-        data={search[word]}
-        refreshing={refreshing}
-        loadMoreItems={this.loadMoreItems}
-        onRefresh={this.handleOnRefresh}
-      />
+      <View style={styles.container} >
+        <ScrollableTabView>
+          <SearchResultNewest tabLabel="Newest" word={word} />
+          <SearchResultOldest tabLabel="Oldest" word={word} />
+        </ScrollableTabView>
+      </View>
     );
   }
 }
 
-export default connect(state => {
-  return {
-    search: state.search,
-    searchAutoComplete: state.searchAutoComplete
-  }
-})(SearchResult);
+
+export default connect()(SearchResultTabs);

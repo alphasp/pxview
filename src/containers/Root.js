@@ -5,7 +5,7 @@ import isEmpty from 'lodash.isempty';
 //import routes from '../routes';
 import App from './App';
 import configureStore from '../common/store/configureStore';
-import { clearAllSearch } from '../common/actions/search';
+import { clearAllSearch, SortType } from '../common/actions/search';
 
 const store = configureStore();
 
@@ -31,9 +31,12 @@ function observeStore(store, select, onChange) {
 
 observeStore(store, select, (state) => {
   if ((state.name === "trending") || (state.name === "tabs")) {
-    const { search } = store.getState();
-    if (!isEmpty(search)) {
-      store.dispatch(clearAllSearch());
+    const { searchNewest, searchOldest } = store.getState();
+    if (!isEmpty(searchNewest)) {
+      store.dispatch(clearAllSearch(SortType.DESC));
+    }
+    if (!isEmpty(searchOldest)) {
+      store.dispatch(clearAllSearch(SortType.ASC));
     }
   }
 });

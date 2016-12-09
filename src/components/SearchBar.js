@@ -87,10 +87,11 @@ const styles = StyleSheet.create({
 
 class SearchBar extends Component {
   render() {
-    const { searchType, isRenderPlaceHolder, enableBack, onFocus, onChangeText, onSubmitEditing, onPressRemoveTag, autoFocus, word } = this.props;
+    const { searchType, isRenderPlaceHolder, isRenderRightButton, enableBack, onFocus, onChangeText, onSubmitEditing, onPressRemoveTag, autoFocus, word } = this.props;
     return (
       <View style={[styles.container, {
-        marginLeft: enableBack && 30
+        marginLeft: enableBack && 30,
+        marginRight: isRenderRightButton && 35
       }]}>
         <View style={styles.searchBarInputGroup}>
           <Icon style={styles.searchIcon} name="search" size={15} color="#5cafec" />

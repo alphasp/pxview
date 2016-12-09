@@ -7,8 +7,12 @@ export const RECEIVE_SEARCH = 'RECEIVE_SEARCH';
 export const STOP_SEARCH = 'STOP_SEARCH';
 export const CLEAR_SEARCH = 'CLEAR_SEARCH';
 export const CLEAR_ALL_SEARCH = 'CLEAR_ALL_SEARCH';
+export const SortType = {
+  ASC: 'ASC',
+  DESC: 'DESC',
+};
 
-function receiveSearch(json, word, options, offset) { 
+function receiveSearch(json, word, options, sortType, offset) { 
   return {
     type: RECEIVE_SEARCH,
     payload: {
@@ -16,81 +20,95 @@ function receiveSearch(json, word, options, offset) {
       nextUrl: json.next_url,
       word,
       offset,
+      sortType: sortType,
       receivedAt: Date.now(),
     }
   };
 }
 
-function requestSearch(word, options, offset) {
+function requestSearch(word, options, sortType, offset) {
   return {
     type: REQUEST_SEARCH,
     payload: {
       word,
       options,
-      offset
+      sortType,
+      offset,
     }
   };
 }
 
-function stopSearch(word, options, offset){
+function stopSearch(word, options, sortType, offset){
   return {
     type: STOP_SEARCH,
     payload: {
       word,
       options,
-      offset
+      sortType,
+      offset,
     }
   };
 }
 
-function shouldFetchSearch(state, word) {
+function shouldFetchSearch(searchState, word) {
   if (!word) {
     return false;
   }
-  const results = state.search[word];
+  const results = searchState[word];
   if (results && results.loading) {
     return false;
-  } else {
+  } 
+  else {
     return true;
   }
 }
 
-function fetchSearchFromApi(word, options, nextUrl) {
+function fetchSearchFromApi(word, options = {}, sortType, nextUrl) {
   return dispatch => {
+    if (sortType === SortType.ASC) {
+      options = {
+        ...options,
+        sort: 'date_asc'
+      }
+    }
     const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.searchIllust(word, options);
     const params = qs.parse(nextUrl);
     const offset = params.offset || "0";
-    dispatch(requestSearch(word, options, offset));
+    dispatch(requestSearch(word, options, sortType, offset));
     return promise
-      .then(json => dispatch(receiveSearch(json, word, options, offset)))
+      .then(json => dispatch(receiveSearch(json, word, options, sortType, offset)))
       .catch(err => {
-        dispatch(stopSearch(word, options, offset));
+        dispatch(stopSearch(word, options, sortType, offset));
         dispatch(addError(err));
       });
   };
 }
 
-export function fetchSearch(word, options, nextUrl) {
+export function fetchSearch(word, options, sortType, nextUrl, searchState) {
   word = word.trim();
   return (dispatch, getState) => {
-    if (shouldFetchSearch(getState(), word)) {
-      return dispatch(fetchSearchFromApi(word, options, nextUrl));
+    if (shouldFetchSearch(searchState, word)) {
+      return dispatch(fetchSearchFromApi(word, options, sortType, nextUrl));
     }
   };
 }
 
-export function clearSearch(word, options){
+export function clearSearch(word, options, sortType){
   return {
     type: CLEAR_SEARCH,
     payload: {
       word,
-      options
+      options,
+      sortType
     }
   };
 }
 
-export function clearAllSearch(){
+export function clearAllSearch(sortType){
   return {
     type: CLEAR_ALL_SEARCH,
+    payload: {
+      sortType
+    }
   };
 }

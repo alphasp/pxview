@@ -19,19 +19,9 @@ const styles = StyleSheet.create({
     // backgroundColor: '#F5FCFF',
     ...Platform.select({
       ios: {
-        marginVertical: 20
+        marginTop: 15
       },
     }),
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
 

@@ -1,6 +1,6 @@
 import { REQUEST_SEARCH, RECEIVE_SEARCH, STOP_SEARCH, CLEAR_SEARCH, CLEAR_ALL_SEARCH } from "../actions/search";
 //gg["newest"]["miku"]
-export function search(state = {}, action) {
+export default function search(state = {}, action) {
   switch (action.type) {
     case CLEAR_SEARCH:
       return {

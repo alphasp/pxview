@@ -21,7 +21,8 @@ import TempComp from './TempComp';
 import Home from './Home';
 import Trending from './Trending';
 import Search from './Search';
-import SearchResult from './SearchResult';
+// import SearchResult from './SearchResult';
+import SearchResultTabs from './SearchResultTabs';
 import SearchUserResult from './SearchUserResult';
 import UserDetail from './UserDetail';
 import UserIllust from './UserIllust';
@@ -30,6 +31,7 @@ import UserBookmarkIllust from './UserBookmarkIllust';
 import Setting from './Setting';
 import SearchBar from '../components/SearchBar';
 import Header from '../components/Header';
+import SearchFilterModal from '../components/SearchFilterModal';
 import { fetchSearchAutoComplete, clearSearchAutoComplete } from '../common/actions/searchAutoComplete';
 
 global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
@@ -160,7 +162,7 @@ class App extends Component {
                 />
                 <Scene key="searchResult"
                   title="Search"
-                  component={SearchResult}
+                  component={SearchResultTabs}
                   navigationBarStyle={styles.header}
                   duration={0}
                 />
@@ -188,6 +190,14 @@ class App extends Component {
                   title="Collection" 
                   component={UserBookmarkIllust}
                   duration={0}
+                />
+                <Scene key="searchFilter" 
+                  component={SearchFilterModal}
+                  direction="vertical"  
+                  panHandlers={null}
+                  rightButtonImage={null} 
+                  onRight={null}
+                  hideTabBar={false}
                 />
                 <Scene key="temp"
                   component={TempComp} 

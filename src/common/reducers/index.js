@@ -5,8 +5,9 @@ import * as relatedIllustReducers from './relatedIllust';
 import * as trendingIllustTagReducers from './trendingIllustTag';
 import * as recommendedUserReducers from './recommendedUser';
 import * as illustCommentReducers from './illustComment';
-import * as searchReducers from './search';
 import * as searchAutoCompleteReducers from './searchAutoComplete';
+import createFilteredReducer from './createFilteredReducer';
+import search from './search';
 import searchUser from './searchUser';
 import searchType from './searchType';
 import userDetail from './userDetail';
@@ -15,6 +16,7 @@ import userManga from './userManga';
 import userBookmarkIllust from './userBookmarkIllust';
 import routes from './routes';
 import errorReducer from './error';
+import { SortType } from '../actions/search';
 // import { reducer as formReducer} from 'redux-form';
 
 const rootReducer = combineReducers({
@@ -26,7 +28,8 @@ const rootReducer = combineReducers({
   ...trendingIllustTagReducers,
   ...recommendedUserReducers,
   ...illustCommentReducers,
-  ...searchReducers,
+  searchNewest: createFilteredReducer(search, action => action.payload && action.payload.sortType === SortType.DESC),
+  searchOldest: createFilteredReducer(search, action => action.payload && action.payload.sortType == SortType.ASC),
   ...searchAutoCompleteReducers,
   searchUser,
   searchType,
@@ -34,7 +37,7 @@ const rootReducer = combineReducers({
   userIllust,
   userManga,
   userBookmarkIllust,
-  routes
+  routes,
 });
 
 export default rootReducer;
