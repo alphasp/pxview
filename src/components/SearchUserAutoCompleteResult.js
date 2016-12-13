@@ -12,6 +12,7 @@ import dismissKeyboard from 'dismissKeyboard';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import PXThumbnailTouchable from './PXThumbnailTouchable';
+import FollowButton from './FollowButton';
 import Loader from './Loader';
 import Separator from './Separator';
 
@@ -28,6 +29,9 @@ const styles = StyleSheet.create({
   thumnailNameContainer: {
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  username: {
+    marginLeft: 5,
   },
   separatorContainer: {
     paddingLeft: 10, 
@@ -73,11 +77,9 @@ class SearchUserAutoCompleteResult extends Component {
               uri={item.user.profile_image_urls.medium} 
               onPress={() => onPressItem(item.user.id)}
             />
-            <Text>{item.user.name}</Text>
+            <Text style={styles.username}>{item.user.name}</Text>
           </View>
-          <PXTouchable>
-            <Text>Follow</Text>
-          </PXTouchable>    
+          <FollowButton isFollow={false} />
         </View>
       </PXTouchable>
     )

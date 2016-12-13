@@ -24,6 +24,7 @@ import PixivApi from 'pixiv-api-client';
 // import Image from 'react-native-image-progress';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
+import FollowButton from '../components/FollowButton';
 import PXImage from '../components/PXImage';
 import PXImageTouchable from '../components/PXImageTouchable';
 import PXThumbnail from '../components/PXThumbnail';
@@ -252,9 +253,7 @@ class Detail extends Component {
                   <Text>{item.user.account}</Text>
                 </View>
               </PXTouchable>
-              <PXTouchable>
-                <Text>Follow</Text>
-              </PXTouchable>
+              <FollowButton isFollow={false} />
             </View>
             <View style={styles.captionContainer}>
               <HtmlView 

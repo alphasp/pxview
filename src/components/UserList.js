@@ -16,6 +16,7 @@ import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
 import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
+import FollowButton from '../components/FollowButton';
 import OverlayImagePages from '../components/OverlayImagePages';
 
 const windowWidth = Dimensions.get('window').width; //full width
@@ -41,7 +42,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     //margin: 5,
     marginLeft: 80,
-    marginVertical: 5
+    marginRight: 5,
+    marginVertical: 5,
     //left: 70,
   },
   userInfo: {
@@ -134,9 +136,7 @@ class UserList extends Component {
           >
             <Text>{item.user.name}</Text>
           </PXTouchable>
-          <PXTouchable>
-            <Text>Follow</Text>
-          </PXTouchable>
+          <FollowButton isFollow={false} />
         </View>
         <View style={styles.avatarContainer}>
           <PXThumbnailTouchable
