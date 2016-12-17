@@ -27,6 +27,13 @@ const styles = StyleSheet.create({
 });
 
 class SearchResultTabs extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchOptions: {}
+    };
+  }
+
   componentDidMount() {
     const { dispatch, word } = this.props;
     Actions.refresh({
@@ -57,9 +64,12 @@ class SearchResultTabs extends Component {
     });
   }
 
+  search = (word, options) => {
+    Actions.search({ word: word, searchType: SearchType.ILLUST, options });
+  }
   handleOnSearchFieldFocus = () => {
     const { word } = this.props;
-    Actions.search({ word: word, searchType: SearchType.ILLUST });
+    this.search(word);
   }
   
   handleOnPressFilterButton = () => {
@@ -68,9 +78,23 @@ class SearchResultTabs extends Component {
       target: null, 
       duration: null
     };
-    Actions.searchFilter({ searchFilter });
+    Actions.searchFilter({ searchFilter, onPressApplyFilter: this.handleOnPressApplyFilter });
   }
 
+  handleOnPressApplyFilter = (target, duration) => {
+    const { dispatch, word } = this.props;
+    Actions.pop();
+    //Actions.search({ word: word, searchType: SearchType.ILLUST });
+    //this.search(word, { duration, search_target: target });
+    const options = { 
+      duration: duration || undefined, 
+      search_target: target || undefined, 
+    };
+    console.log('apply filter')
+    this.setState({
+      searchOptions: options
+    })
+  }
   // handleOnSubmitSearch = (word) => {
   //   const { dispatch } = this.props;
   //   word = word.trim();
@@ -116,11 +140,13 @@ class SearchResultTabs extends Component {
 
   render() {
     const { word } = this.props;
+    const { searchOptions } = this.state;
+    console.log(this.props)
     return (
       <View style={styles.container} >
         <ScrollableTabView>
-          <SearchResultNewest tabLabel="Newest" word={word} />
-          <SearchResultOldest tabLabel="Oldest" word={word} />
+          <SearchResultNewest tabLabel="Newest" word={word} options={searchOptions} />
+          <SearchResultOldest tabLabel="Oldest" word={word} options={searchOptions} />
         </ScrollableTabView>
       </View>
     );

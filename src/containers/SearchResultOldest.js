@@ -23,11 +23,24 @@ class SearchResultOldest extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, word } = this.props;
+    const { dispatch, word, options } = this.props;
     dispatch(clearSearch(word, null, SortType.ASC));
     InteractionManager.runAfterInteractions(() => {
-      this.search(word);
+      this.search(word, options);
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { options: prevOptions } = this.props;
+    const { dispatch, options, word } = nextProps;
+    if (options && options !== prevOptions) {
+      console.log('options ', options);
+      console.log('prevOptions ', prevOptions);
+      const { dataSource } = this.state;
+      dispatch(clearSearch(word, null, SortType.ASC));
+      console.log(console.log('receive new options ', options))
+      this.search(word, options);
+    }
   }
 
   loadMoreItems = () => {
@@ -59,6 +72,7 @@ class SearchResultOldest extends Component {
   render() {
     const { search, word, options } = this.props;
     const { refreshing } = this.state;
+    console.log('render SearchResultOldest ')
     return (
       (search[word] ? true : false) &&
       <IllustList

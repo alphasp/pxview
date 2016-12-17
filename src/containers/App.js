@@ -195,9 +195,6 @@ class App extends Component {
                   component={SearchFilterModal}
                   direction="vertical"  
                   panHandlers={null}
-                  rightButtonImage={null} 
-                  onRight={null}
-                  hideTabBar={false}
                 />
                 <Scene key="temp"
                   component={TempComp} 

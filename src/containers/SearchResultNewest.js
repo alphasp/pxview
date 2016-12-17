@@ -23,11 +23,22 @@ class SearchResultNewest extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, word } = this.props;
+    const { dispatch, word, options } = this.props;
     dispatch(clearSearch(word, null, SortType.DESC));
     InteractionManager.runAfterInteractions(() => {
-      this.search(word);
+      this.search(word, options);
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { options: prevOptions } = this.props;
+    const { dispatch, options, word } = nextProps;
+    if (options && options !== prevOptions) {
+      const { dataSource } = this.state;
+      dispatch(clearSearch(word, null, SortType.DESC));
+      console.log(console.log('receive new options ', options))
+      this.search(word, options);
+    }
   }
 
   loadMoreItems = () => {
@@ -59,7 +70,7 @@ class SearchResultNewest extends Component {
   render() {
     const { search, word, options } = this.props;
     const { refreshing } = this.state;
-    console.log('ss ', search)
+    console.log('render SearchResultNewest ')
     return (
       (search[word] ? true : false) &&
       <IllustList

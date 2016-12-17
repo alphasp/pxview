@@ -5,7 +5,8 @@ import {
   View,
   ListView,
   Platform,
-  Dimensions
+  Dimensions,
+  Button,
 } from 'react-native';
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux';
@@ -57,6 +58,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#8E8E8E',
     // paddingLeft: 10,
     // paddingRight: 10
+  },
+  searchFilterButtonContainer: {
+    position: 'absolute', 
+    bottom: 0, 
+    left: 0, 
+    right: 0,
+  },
+  searchFilterButton: {
+    backgroundColor: '#5cafec',
+    padding: 10,
+    alignItems: 'center',
+    //margin: 10,
+  },
+  searchFilterButtonText: {
+    color: '#fff',
   },
 });
 
@@ -180,24 +196,21 @@ class SearchFilterModal extends Component {
     const { onPressApplyFilter } = this.props;
     const { target, duration } = this.state;
     const dataSource = this.dataSource.cloneWithRowsAndSections(data);
-    const { width, height } = Dimensions.get('window');
-    const h = Platform.OS === "ios" ? 120 : 137
     return (
       <View style={styles.container}>
-        <View style={{width: width, height: height - h}}>
-          <ListView
-            dataSource={dataSource}
-            renderRow={this.renderRow}
-            renderSectionHeader={this.renderSectionHeader}
-            renderSeparator={this.renderSeparator}
-            keyboardShouldPersistTaps
-          />  
-        </View>
-        <View style={{width: width, height: h}}>
+        <ListView
+          dataSource={dataSource}
+          renderRow={this.renderRow}
+          renderSectionHeader={this.renderSectionHeader}
+          renderSeparator={this.renderSeparator}
+          keyboardShouldPersistTaps
+        />  
+        <View style={styles.searchFilterButtonContainer}>
           <PXTouchable 
             onPress={() => onPressApplyFilter(target, duration)}
+            style={styles.searchFilterButton}
           >
-            <Text>Apply Search duration</Text>
+            <Text style={styles.searchFilterButtonText}>Apply Search Duration</Text>
           </PXTouchable> 
         </View>
       </View>

@@ -29,7 +29,7 @@ const rootReducer = combineReducers({
   ...recommendedUserReducers,
   ...illustCommentReducers,
   searchNewest: createFilteredReducer(search, action => action.payload && action.payload.sortType === SortType.DESC),
-  searchOldest: createFilteredReducer(search, action => action.payload && action.payload.sortType == SortType.ASC),
+  searchOldest: createFilteredReducer(search, action => action.payload && action.payload.sortType === SortType.ASC),
   ...searchAutoCompleteReducers,
   searchUser,
   searchType,
