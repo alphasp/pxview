@@ -12,24 +12,27 @@ export const SortType = {
   DESC: 'DESC',
 };
 
-function receiveSearch(json, word, options, sortType, offset) { 
+function receiveSearch(json, navigationStateKey, word, options, sortType, offset) { 
   return {
     type: RECEIVE_SEARCH,
     payload: {
       items: json.illusts,
       nextUrl: json.next_url,
+      navigationStateKey,
       word,
+      options,
       offset,
-      sortType: sortType,
+      sortType,
       receivedAt: Date.now(),
     }
   };
 }
 
-function requestSearch(word, options, sortType, offset) {
+function requestSearch(navigationStateKey, word, options, sortType, offset) {
   return {
     type: REQUEST_SEARCH,
     payload: {
+      navigationStateKey,
       word,
       options,
       sortType,
@@ -38,7 +41,7 @@ function requestSearch(word, options, sortType, offset) {
   };
 }
 
-function stopSearch(word, options, sortType, offset){
+function stopSearch(navigationStateKey, word, options, sortType, offset){
   return {
     type: STOP_SEARCH,
     payload: {
@@ -50,11 +53,11 @@ function stopSearch(word, options, sortType, offset){
   };
 }
 
-function shouldFetchSearch(searchState, word) {
-  if (!word) {
+function shouldFetchSearch(searchState, navigationStateKey) {
+  if (!navigationStateKey) {
     return false;
   }
-  const results = searchState[word];
+  const results = searchState[navigationStateKey];
   if (results && results.loading) {
     return false;
   } 
@@ -63,7 +66,7 @@ function shouldFetchSearch(searchState, word) {
   }
 }
 
-function fetchSearchFromApi(word, options = {}, sortType, nextUrl) {
+function fetchSearchFromApi(navigationStateKey, word, options = {}, sortType, nextUrl) {
   return dispatch => {
     if (sortType === SortType.ASC) {
       options = {
@@ -74,29 +77,30 @@ function fetchSearchFromApi(word, options = {}, sortType, nextUrl) {
     const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.searchIllust(word, options);
     const params = qs.parse(nextUrl);
     const offset = params.offset || "0";
-    dispatch(requestSearch(word, options, sortType, offset));
+    dispatch(requestSearch(navigationStateKey, word, options, sortType, offset));
     return promise
-      .then(json => dispatch(receiveSearch(json, word, options, sortType, offset)))
+      .then(json => dispatch(receiveSearch(json, navigationStateKey, word, options, sortType, offset)))
       .catch(err => {
-        dispatch(stopSearch(word, options, sortType, offset));
+        dispatch(stopSearch(navigationStateKey, word, options, sortType, offset));
         dispatch(addError(err));
       });
   };
 }
 
-export function fetchSearch(word, options, sortType, nextUrl, searchState) {
+export function fetchSearch(navigationStateKey, word, options, sortType, nextUrl, searchState) {
   word = word.trim();
   return (dispatch, getState) => {
-    if (shouldFetchSearch(searchState, word)) {
-      return dispatch(fetchSearchFromApi(word, options, sortType, nextUrl));
+    if (shouldFetchSearch(searchState, navigationStateKey)) {
+      return dispatch(fetchSearchFromApi(navigationStateKey, word, options, sortType, nextUrl));
     }
   };
 }
 
-export function clearSearch(word, options, sortType){
+export function clearSearch(navigationStateKey, word, options, sortType){
   return {
     type: CLEAR_SEARCH,
     payload: {
+      navigationStateKey,
       word,
       options,
       sortType

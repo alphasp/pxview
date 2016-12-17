@@ -74,11 +74,9 @@ class SearchResultTabs extends Component {
   
   handleOnPressFilterButton = () => {
     console.log('on right');
-    const searchFilter = { 
-      target: null, 
-      duration: null
-    };
-    Actions.searchFilter({ searchFilter, onPressApplyFilter: this.handleOnPressApplyFilter });
+    const { searchOptions } = this.state;
+    console.log('so ', searchOptions);
+    Actions.searchFilter({ searchFilter: searchOptions, onPressApplyFilter: this.handleOnPressApplyFilter });
   }
 
   handleOnPressApplyFilter = (target, duration) => {
@@ -86,13 +84,12 @@ class SearchResultTabs extends Component {
     Actions.pop();
     //Actions.search({ word: word, searchType: SearchType.ILLUST });
     //this.search(word, { duration, search_target: target });
-    const options = { 
-      duration: duration || undefined, 
-      search_target: target || undefined, 
-    };
     console.log('apply filter')
     this.setState({
-      searchOptions: options
+      searchOptions: {
+        duration: duration || undefined, 
+        target: target || undefined, 
+      }
     })
   }
   // handleOnSubmitSearch = (word) => {
@@ -139,14 +136,23 @@ class SearchResultTabs extends Component {
   }
 
   render() {
-    const { word } = this.props;
+    const { navigationState, word } = this.props;
     const { searchOptions } = this.state;
-    console.log(this.props)
     return (
       <View style={styles.container} >
         <ScrollableTabView>
-          <SearchResultNewest tabLabel="Newest" word={word} options={searchOptions} />
-          <SearchResultOldest tabLabel="Oldest" word={word} options={searchOptions} />
+          <SearchResultNewest 
+            tabLabel="Newest" 
+            word={word} 
+            options={searchOptions} 
+            navigationStateKey={navigationState.key}
+          />
+          <SearchResultOldest 
+            tabLabel="Oldest" 
+            word={word} 
+            options={searchOptions}
+            navigationStateKey={navigationState.key}
+          />
         </ScrollableTabView>
       </View>
     );

@@ -23,8 +23,8 @@ class SearchResultOldest extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, word, options } = this.props;
-    dispatch(clearSearch(word, null, SortType.ASC));
+    const { dispatch, navigationStateKey, word, options } = this.props;
+    dispatch(clearSearch(navigationStateKey, word, null, SortType.ASC));
     InteractionManager.runAfterInteractions(() => {
       this.search(word, options);
     });
@@ -32,32 +32,30 @@ class SearchResultOldest extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { options: prevOptions } = this.props;
-    const { dispatch, options, word } = nextProps;
+    const { dispatch, navigationStateKey, word, options } = nextProps;
     if (options && options !== prevOptions) {
-      console.log('options ', options);
-      console.log('prevOptions ', prevOptions);
       const { dataSource } = this.state;
-      dispatch(clearSearch(word, null, SortType.ASC));
+      dispatch(clearSearch(navigationStateKey, word, null, SortType.ASC));
       console.log(console.log('receive new options ', options))
       this.search(word, options);
     }
   }
 
   loadMoreItems = () => {
-    const { dispatch, search, word } = this.props;
-    console.log('load more ', search[word].nextUrl)
-    if (search[word] && search[word].nextUrl) {
-      this.search(word, null, search[word].nextUrl);
+    const { dispatch, navigationStateKey, search, word } = this.props;
+    console.log('load more ', search[navigationStateKey].nextUrl)
+    if (search[navigationStateKey] && search[navigationStateKey].nextUrl) {
+      this.search(word, null, search[navigationStateKey].nextUrl);
     }
   }
 
   handleOnRefresh = () => {
-    const { dispatch, word } = this.props;
+    const { dispatch, word, options } = this.props;
     this.setState({
       refereshing: true
     });
     dispatch(clearSearch(word, null, SortType.ASC));
-    this.search(word, { sort: 'date_asc' }, null).finally(() => {
+    this.search(word, options, null).finally(() => {
       this.setState({
         refereshing: false
       }); 
@@ -65,18 +63,17 @@ class SearchResultOldest extends Component {
   }
 
   search = (word, options, nextUrl) => {
-    const { dispatch, search } = this.props;
-    return dispatch(fetchSearch(word, options, SortType.ASC, nextUrl, search));
+    const { dispatch, navigationStateKey, search } = this.props;
+    return dispatch(fetchSearch(navigationStateKey, word, options, SortType.ASC, nextUrl, search));
   }
 
   render() {
-    const { search, word, options } = this.props;
+    const { navigationStateKey, search, word, options } = this.props;
     const { refreshing } = this.state;
-    console.log('render SearchResultOldest ')
     return (
-      (search[word] ? true : false) &&
+      (search[navigationStateKey] ? true : false) &&
       <IllustList
-        data={search[word]}
+        data={search[navigationStateKey]}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}

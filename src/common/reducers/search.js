@@ -6,15 +6,16 @@ export default function search(state = {}, action) {
     case CLEAR_SEARCH:
       return {
         ...state,
-        [action.payload.word]: {},
+        [action.payload.navigationStateKey]: {},
       };
     case CLEAR_ALL_SEARCH:
       return {};  
     case REQUEST_SEARCH:
       return {
         ...state,
-        [action.payload.word]: {
-          ...state[action.payload.word],
+        [action.payload.navigationStateKey]: {
+          ...state[action.payload.navigationStateKey],
+          word: action.payload.word,
           options: action.payload.options,
           loading: true
         }
@@ -23,12 +24,13 @@ export default function search(state = {}, action) {
     case RECEIVE_SEARCH:
       return {
         ...state,
-        [action.payload.word]: {
-          ...state[action.payload.word],
+        [action.payload.navigationStateKey]: {
+          ...state[action.payload.navigationStateKey],
+          word: action.payload.word,
           options: action.payload.options,
           loading: false,
           loaded: true,
-          items: (state[action.payload.word] && state[action.payload.word].items) ? [...state[action.payload.word].items, ...action.payload.items] : action.payload.items,
+          items: (state[action.payload.navigationStateKey] && state[action.payload.navigationStateKey].items) ? [...state[action.payload.navigationStateKey].items, ...action.payload.items] : action.payload.items,
           offset: action.payload.offset,
           nextUrl: action.payload.nextUrl,
           lastUpdated: action.payload.receivedAt
@@ -37,8 +39,9 @@ export default function search(state = {}, action) {
     case STOP_SEARCH:
       return {
         ...state,
-        [action.payload.word]: {
-          ...state[action.payload.word],
+        [action.payload.navigationStateKey]: {
+          ...state[action.payload.navigationStateKey],
+          word: action.payload.word,
           options: action.payload.options,
           loading: false
         }
