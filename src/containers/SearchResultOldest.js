@@ -24,18 +24,20 @@ class SearchResultOldest extends Component {
 
   componentDidMount() {
     const { dispatch, navigationStateKey, word, options } = this.props;
-    dispatch(clearSearch(navigationStateKey, word, null, SortType.ASC));
+    dispatch(clearSearch(navigationStateKey, SortType.ASC));
     InteractionManager.runAfterInteractions(() => {
       this.search(word, options);
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { options: prevOptions } = this.props;
+    const { options: prevOptions, word: prevWord } = this.props;
     const { dispatch, navigationStateKey, word, options } = nextProps;
-    if (options && options !== prevOptions) {
+    console.log('oldest word ', word)
+    console.log('oldest prevword ', prevWord);
+    if ((word !== prevWord) || (options && options !== prevOptions)) {
       const { dataSource } = this.state;
-      dispatch(clearSearch(navigationStateKey, word, null, SortType.ASC));
+      dispatch(clearSearch(navigationStateKey, SortType.ASC));
       console.log(console.log('receive new options ', options))
       this.search(word, options);
     }
@@ -54,7 +56,7 @@ class SearchResultOldest extends Component {
     this.setState({
       refereshing: true
     });
-    dispatch(clearSearch(word, null, SortType.ASC));
+    dispatch(clearSearch(word, SortType.ASC));
     this.search(word, options, null).finally(() => {
       this.setState({
         refereshing: false

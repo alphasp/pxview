@@ -96,13 +96,11 @@ export function fetchSearch(navigationStateKey, word, options, sortType, nextUrl
   };
 }
 
-export function clearSearch(navigationStateKey, word, options, sortType){
+export function clearSearch(navigationStateKey, sortType){
   return {
     type: CLEAR_SEARCH,
     payload: {
       navigationStateKey,
-      word,
-      options,
       sortType
     }
   };

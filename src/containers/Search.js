@@ -30,11 +30,13 @@ const styles = StyleSheet.create({
 class Search extends Component {
   constructor(props) {
     super(props);
-    const { word } = props;
+    // this.state = {
+    //   isShowSearchHistories: true
+    // };
   }
 
   componentDidMount() {
-    const { word, isRenderPlaceHolder } = this.props;
+    const { dispatch, word, isRenderPlaceHolder, searchType } = this.props;
     Actions.refresh({
       renderTitle: () => {
         return (
@@ -70,13 +72,19 @@ class Search extends Component {
   }
   handleOnSubmitSearch = (word, searchType) => {
     word = word.trim();
-    console.log('submit ', word)
     if (word) {
-      if (searchType === SearchType.USER) {
-        Actions.searchUserResult({ word: word, type: ActionConst.REPLACE });
+      const { isPopAndReplaceOnSubmit } = this.props;
+      if (isPopAndReplaceOnSubmit) {
+        Actions.pop();
+        setTimeout(() => Actions.refresh({ word: word, type: ActionConst.REPLACE }), 0);
       }
       else {
-        Actions.searchResult({ word: word, type: ActionConst.REPLACE });
+        if (searchType === SearchType.USER) {
+          Actions.searchUserResult({ word: word, type: ActionConst.REPLACE });
+        }
+        else {
+          Actions.searchResult({ word: word, type: ActionConst.REPLACE });
+        }
       }
     }
   }

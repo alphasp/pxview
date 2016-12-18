@@ -29,6 +29,22 @@ class SearchUserResult extends Component {
 
   componentDidMount() {
     const { dispatch, word } = this.props;
+    this.refreshNavigationBar(word);
+    dispatch(clearSearchUser(word));
+    InteractionManager.runAfterInteractions(() => {
+      dispatch(fetchSearchUser(word));
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { word: prevWord } = this.props;
+    const { word } = nextProps;
+    if (word !== prevWord) {
+      this.refreshNavigationBar(word);
+    }
+  }
+
+  refreshNavigationBar = (word) => {
     Actions.refresh({
       renderTitle: () => {
         return (
@@ -44,16 +60,11 @@ class SearchUserResult extends Component {
         )
       }
     });
-
-    dispatch(clearSearchUser(word));
-    InteractionManager.runAfterInteractions(() => {
-      dispatch(fetchSearchUser(word));
-    });
   }
 
   handleOnSearchFieldFocus = () => {
     const { word } = this.props;
-    Actions.search({ word: word, searchType: SearchType.USER });
+    Actions.search({ word: word, searchType: SearchType.USER, isPopAndReplaceOnSubmit: true });
   }
   
   loadMore = () => {

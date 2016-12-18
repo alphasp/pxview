@@ -24,19 +24,18 @@ class SearchResultNewest extends Component {
 
   componentDidMount() {
     const { dispatch, navigationStateKey, word, options } = this.props;
-    dispatch(clearSearch(navigationStateKey, word, null, SortType.DESC));
+    dispatch(clearSearch(navigationStateKey, SortType.DESC));
     InteractionManager.runAfterInteractions(() => {
       this.search(word, options);
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { options: prevOptions } = this.props;
+    const { options: prevOptions, word: prevWord } = this.props;
     const { dispatch, navigationStateKey, word, options } = nextProps;
-    if (options && options !== prevOptions) {
+    if ((word !== prevWord) || (options && options !== prevOptions)) {
       const { dataSource } = this.state;
-      dispatch(clearSearch(navigationStateKey, word, null, SortType.DESC));
-      console.log(console.log('receive new options ', options))
+      dispatch(clearSearch(navigationStateKey, SortType.DESC));
       this.search(word, options);
     }
   }
@@ -50,11 +49,11 @@ class SearchResultNewest extends Component {
   }
 
   handleOnRefresh = () => {
-    const { dispatch, word, options } = this.props;
+    const { dispatch, navigationStateKey, word, options } = this.props;
     this.setState({
       refereshing: true
     });
-    dispatch(clearSearch(navigationStateKey, word, null, SortType.DESC));
+    dispatch(clearSearch(navigationStateKey, SortType.DESC));
     this.search(word, options, null).finally(() => {
       this.setState({
         refereshing: false

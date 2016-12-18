@@ -92,7 +92,7 @@ class SearchUserAutoCompleteResult extends Component {
   }
 
   renderFooter = () => {
-    const { searchUserAutoComplete: { nextUrl } } = this.props;
+    const { searchUserAutoComplete: { items, nextUrl } } = this.props;
     return (
       nextUrl ?
       <View style={{ marginBottom: 20 }}>

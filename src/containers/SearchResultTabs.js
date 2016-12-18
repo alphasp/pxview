@@ -36,6 +36,18 @@ class SearchResultTabs extends Component {
 
   componentDidMount() {
     const { dispatch, word } = this.props;
+    this.refreshNavigationBar(word);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { word: prevWord } = this.props;
+    const { word } = nextProps;
+    if (word !== prevWord) {
+      this.refreshNavigationBar(word);
+    }
+  }
+
+  refreshNavigationBar = (word) => {
     Actions.refresh({
       renderTitle: () => {
         return (
@@ -60,30 +72,23 @@ class SearchResultTabs extends Component {
           />
         )
       },
-
     });
   }
 
-  search = (word, options) => {
-    Actions.search({ word: word, searchType: SearchType.ILLUST, options });
-  }
   handleOnSearchFieldFocus = () => {
     const { word } = this.props;
-    this.search(word);
+    const { searchOptions } = this.state;
+    Actions.search({ word: word, searchType: SearchType.ILLUST, options: searchOptions, isPopAndReplaceOnSubmit: true });
   }
   
   handleOnPressFilterButton = () => {
-    console.log('on right');
     const { searchOptions } = this.state;
-    console.log('so ', searchOptions);
     Actions.searchFilter({ searchFilter: searchOptions, onPressApplyFilter: this.handleOnPressApplyFilter });
   }
 
   handleOnPressApplyFilter = (target, duration) => {
     const { dispatch, word } = this.props;
     Actions.pop();
-    //Actions.search({ word: word, searchType: SearchType.ILLUST });
-    //this.search(word, { duration, search_target: target });
     console.log('apply filter')
     this.setState({
       searchOptions: {
@@ -105,15 +110,12 @@ class SearchResultTabs extends Component {
   // }
 
   handleOnPressRemoveTag = (index) => {
-    const { dispatch, word } = this.props;
+    const { dispatch, navigationState, word } = this.props;
     const newWord = word.split(' ').filter((value, i) => {
       return i !== index;
     }).join(' ');
     console.log('new word ', newWord);
-    //todo
     if (newWord) {
-      dispatch(clearSearch(newWord));
-      dispatch(fetchSearch(newWord));
       Actions.refresh({
         word: newWord,
         renderTitle: () => {
