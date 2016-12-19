@@ -10,6 +10,7 @@ import {
   InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'multireducer';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import RecommendedUser from './RecommendedUser';
 import SearchBar from '../components/SearchBar';
@@ -28,18 +29,20 @@ class SearchUserResult extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, word } = this.props;
+    const { dispatch, word, fetchSearchUser, clearSearchUser } = this.props;
     this.refreshNavigationBar(word);
-    dispatch(clearSearchUser(word));
+    clearSearchUser();
     InteractionManager.runAfterInteractions(() => {
-      dispatch(fetchSearchUser(word));
+      fetchSearchUser(word);
     });
   }
 
   componentWillReceiveProps(nextProps) {
     const { word: prevWord } = this.props;
-    const { word } = nextProps;
+    const { dispatch, word, fetchSearchUser, clearSearchUser } = nextProps;
     if (word !== prevWord) {
+      clearSearchUser();
+      fetchSearchUser(word);
       this.refreshNavigationBar(word);
     }
   }
@@ -51,7 +54,6 @@ class SearchUserResult extends Component {
           <SearchBar 
             enableBack={true} 
             onFocus={this.handleOnSearchFieldFocus} 
-            onSubmitEditing={this.handleOnSubmitSearch}
             onPressRemoveTag={this.handleOnPressRemoveTag}
             isRenderPlaceHolder={true}
             searchType={SearchType.USER}
@@ -68,45 +70,35 @@ class SearchUserResult extends Component {
   }
   
   loadMore = () => {
-    const { dispatch, searchUser: { nextUrl }, word } = this.props;
+    const { dispatch, searchUser: { nextUrl }, word, fetchSearchUser } = this.props;
     console.log('load more ', nextUrl)
     if (nextUrl) {
-      dispatch(fetchSearchUser(word, nextUrl));
+      fetchSearchUser(word, nextUrl);
     }
   }
 
   handleOnRefresh = () => {
-    const { dispatch, word } = this.props;
+    const { dispatch, word, fetchSearchUser, clearSearchUser } = this.props;
     this.setState({
       refereshing: true
     });
-    dispatch(clearSearchUser(word));
-    dispatch(fetchSearchUser(word)).finally(() => {
+    clearSearchUser();
+    fetchSearchUser(word).finally(() => {
       this.setState({
         refereshing: false
       }); 
     })
   }
 
-  handleOnSubmitSearch = (word) => {
-    const { dispatch } = this.props;
-    word = word.trim();
-    if (word) {
-      dispatch(clearSearchUser(word));
-      dispatch(fetchSearchUser(word));
-      Actions.refresh({ word: word, type: ActionConst.REPLACE });
-    }
-  }
-
   handleOnPressRemoveTag = (index) => {
-    const { dispatch, word } = this.props;
+    const { dispatch, word, fetchSearchUser, clearSearchUser } = this.props;
     const newWord = word.split(' ').filter((value, i) => {
       return i !== index;
     }).join(' ');
     console.log('new word ', newWord);
     if (newWord) {
-      dispatch(clearSearchUser());
-      dispatch(fetchSearchUser(newWord));
+      clearSearchUser();
+      fetchSearchUser(newWord);
       Actions.refresh({
         word: newWord,
         renderTitle: () => {
@@ -114,8 +106,6 @@ class SearchUserResult extends Component {
             <SearchBar 
               enableBack={true} 
               onFocus={this.handleOnSearchFieldFocus} 
-              onSubmitEditing={this.handleOnSubmitSearch}
-              onChangeText={this.handleOnChangeSearchText}
               onPressRemoveTag={this.handleOnPressRemoveTag}
               isRenderPlaceHolder={true}
               searchType={SearchType.USER}
@@ -148,4 +138,5 @@ export default connect(state => {
   return {
     searchUser: state.searchUser,
   }
-})(SearchUserResult);
+},(dispatch) => bindActionCreators({ fetchSearchUser, clearSearchUser }, dispatch, 'searchUser')
+)(SearchUserResult);

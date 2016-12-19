@@ -15,6 +15,7 @@ import PXThumbnailTouchable from './PXThumbnailTouchable';
 import FollowButton from './FollowButton';
 import Loader from './Loader';
 import Separator from './Separator';
+import SearchHistory from './SearchHistory';
 
 const styles = StyleSheet.create({
   container: {
@@ -104,10 +105,19 @@ class SearchUserAutoCompleteResult extends Component {
   }
 
   render() {
-    const { searchUserAutoComplete: { items, loading, loaded }, loadMoreItems } = this.props;
+    const { searchUserAutoComplete: { items, loading, loaded }, loadMoreItems, searchHistory, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressRemoveClearSearchHistory } = this.props;
     const { dataSource } = this.state;
     return (
       <View style={styles.container}>
+        {
+          !loaded && !loading &&
+          <SearchHistory 
+            items={searchHistory.items}
+            onPressItem={onPressSearchHistoryItem}
+            onPressRemoveSearchHistoryItem={onPressRemoveSearchHistoryItem}
+            onPressRemoveClearSearchHistory={onPressRemoveClearSearchHistory}
+          />
+        }
         {
           !loaded && loading &&
           <Loader />

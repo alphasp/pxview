@@ -1,6 +1,7 @@
 import qs from "qs";
 import { addError } from './error';
 import pixiv from '../helpers/ApiClient';
+import { addSearchHistory } from './searchHistory';
 
 export const REQUEST_SEARCH = 'REQUEST_SEARCH';
 export const RECEIVE_SEARCH = 'RECEIVE_SEARCH';
@@ -91,6 +92,7 @@ export function fetchSearch(navigationStateKey, word, options, sortType, nextUrl
   word = word.trim();
   return (dispatch, getState) => {
     if (shouldFetchSearch(searchState, navigationStateKey)) {
+      //dispatch(addSearchHistory(word));
       return dispatch(fetchSearchFromApi(navigationStateKey, word, options, sortType, nextUrl));
     }
   };

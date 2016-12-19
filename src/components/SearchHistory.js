@@ -11,9 +11,7 @@ import {
 import dismissKeyboard from 'dismissKeyboard';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
-import Loader from './Loader';
 import Separator from './Separator';
-import SearchHistory from './SearchHistory';
 
 const styles = StyleSheet.create({
   container: {
@@ -33,9 +31,17 @@ const styles = StyleSheet.create({
     height: StyleSheet.hairlineWidth,
     backgroundColor: '#8E8E8E',
   },
+  searchHistoryContainer: {
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  searchHistoryTitle: {
+    fontWeight: 'bold',
+  },
 });
 
-class SearchAutoCompleteResult extends Component {
+class SearchHistory extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,10 +50,19 @@ class SearchAutoCompleteResult extends Component {
       })
     };
   }
+
+  componentDidMount() {
+    const { items } = this.props;
+    const { dataSource } = this.state;
+    this.setState({
+      dataSource: dataSource.cloneWithRows(items)
+    });
+  }
+
   componentWillReceiveProps(nextProps) {
-    const { searchAutoComplete: { items: prevItems } } = this.props;
-    const { searchAutoComplete: { items } } = nextProps;
-    if (items && items !== prevItems) {
+    const { items: prevItems } = this.props;
+    const { items } = nextProps;
+    if (items !== prevItems) {
       const { dataSource } = this.state;
       this.setState({
         dataSource: dataSource.cloneWithRows(items)
@@ -56,7 +71,7 @@ class SearchAutoCompleteResult extends Component {
   }
 
   renderRow = (item) => {
-    const { onPressItem } = this.props;
+    const { onPressItem, onPressRemoveSearchHistoryItem } = this.props;
     return (
       <PXTouchable 
         key={item} 
@@ -64,6 +79,7 @@ class SearchAutoCompleteResult extends Component {
       >
         <View style={styles.row}>
           <Text>{item}</Text>
+          <Icon name="times" size={16} color="#A9A9A9" onPress={() => onPressRemoveSearchHistoryItem(item)} />
         </View>
       </PXTouchable>
     )
@@ -76,23 +92,16 @@ class SearchAutoCompleteResult extends Component {
   }
 
   render() {
-    const { searchAutoComplete: { items, loading, loaded },  searchHistory, onPressItem, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressRemoveClearSearchHistory } = this.props;
+    const { items, onPressRemoveClearSearchHistory } = this.props;
     const { dataSource } = this.state;
     return (
       <View style={styles.container}>
-        {
-          !loaded && !loading &&
-          <SearchHistory 
-            items={searchHistory.items}
-            onPressItem={onPressSearchHistoryItem}
-            onPressRemoveSearchHistoryItem={onPressRemoveSearchHistoryItem}
-            onPressRemoveClearSearchHistory={onPressRemoveClearSearchHistory}
-          />
-        }
-        {
-          !loaded && loading &&
-          <Loader />
-        }
+        <View style={styles.searchHistoryContainer}>
+          <Text style={styles.searchHistoryTitle}>Search history</Text>
+          <PXTouchable onPress={onPressRemoveClearSearchHistory}>
+            <Text style={styles.searchHistoryTitle}>CLEAR ALL</Text>
+          </PXTouchable>
+        </View>
         {
           (items && items.length) ?
           <ListView 
@@ -111,4 +120,4 @@ class SearchAutoCompleteResult extends Component {
   }
 }
 
-export default SearchAutoCompleteResult;
+export default SearchHistory;
