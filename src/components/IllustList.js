@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   cardImage: {
     resizeMode: 'cover',
     //margin: 5,
-    height: Dimensions.get('window').width / 2, //require for <Image />
+    height: Dimensions.get('window').width / 3, //require for <Image />
     // width: 130,
   },
 });
@@ -66,8 +66,8 @@ class IllustList extends Component {
         style={{ 
           margin: 1,
           backgroundColor: '#E9EBEE',
-          width: width / 2 - 2, 
-          height: width / 2 - 2,
+          width: width / 3 - 2, 
+          height: width / 3 - 2,
         }} 
         key={item.id} 
         onPress={() => this.handleOnPressItem(item)}
@@ -75,8 +75,8 @@ class IllustList extends Component {
         <PXImage 
           uri={item.image_urls.square_medium}
           style={[ styles.cardImage, {
-            width: width / 2 - 2, 
-            height: width / 2 - 2,
+            width: width / 3 - 2, 
+            height: width / 3 - 2,
           }]}
         />
         {
@@ -121,6 +121,7 @@ class IllustList extends Component {
           <GridView 
             dataSource={dataSource}
             renderRow={this.renderRow}
+            pageSize={30}
             onEndReachedThreshold={30}
             onEndReached={loadMoreItems}
             renderFooter={this.renderFooter}
