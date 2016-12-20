@@ -28,6 +28,7 @@ import UserDetail from './UserDetail';
 import UserIllust from './UserIllust';
 import UserManga from './UserManga';
 import UserBookmarkIllust from './UserBookmarkIllust';
+import Ranking from './Ranking';
 import Setting from './Setting';
 import SearchBar from '../components/SearchBar';
 import Header from '../components/Header';
@@ -130,6 +131,12 @@ class App extends Component {
                     navigationBarStyle={styles.header}
                     hideNavBar={true}
                   />
+                  <Scene key="ranking"
+                    title="trophy"
+                    component={Ranking}
+                    navigationBarStyle={styles.header}
+                    hideNavBar={true}
+                  />
                   <Scene key="trending"
                     title="search"
                     component={Trending}
@@ -195,6 +202,7 @@ class App extends Component {
                   component={SearchFilterModal}
                   direction="vertical"  
                   panHandlers={null}
+
                 />
                 <Scene key="temp"
                   component={TempComp} 

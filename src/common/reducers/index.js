@@ -16,9 +16,11 @@ import userDetail from './userDetail';
 import userIllust from './userIllust';
 import userManga from './userManga';
 import userBookmarkIllust from './userBookmarkIllust';
+import ranking from './ranking';
 import routes from './routes';
 import errorReducer from './error';
 import { SortType } from '../actions/search';
+import { RankingMode } from '../actions/ranking';
 import { ReducerKeys } from '../actions/searchUser';
 // import { reducer as formReducer} from 'redux-form';
 
@@ -33,9 +35,10 @@ const rootReducer = combineReducers({
   ...illustCommentReducers,
   searchNewest: createFilteredReducer(search, action => action.payload && action.payload.sortType === SortType.DESC),
   searchOldest: createFilteredReducer(search, action => action.payload && action.payload.sortType === SortType.ASC),
+  ranking,
   ...searchAutoCompleteReducers,
   searchUser: multireducer(searchUser, 'searchUser') ,
-  searchUserAutoComplete: multireducer(searchUser, 'searchUserAutoComplete') ,
+  searchUserAutoComplete: multireducer(searchUser, 'searchUserAutoComplete'),
   searchHistory,
   searchType,
   userDetail,

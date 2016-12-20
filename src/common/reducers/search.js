@@ -17,6 +17,7 @@ export default function search(state = {}, action) {
           ...state[action.payload.navigationStateKey],
           word: action.payload.word,
           options: action.payload.options,
+          offset: action.payload.offset,
           loading: true
         }
       };
@@ -43,6 +44,7 @@ export default function search(state = {}, action) {
           ...state[action.payload.navigationStateKey],
           word: action.payload.word,
           options: action.payload.options,
+          offset: action.payload.offset,
           loading: false
         }
       };
