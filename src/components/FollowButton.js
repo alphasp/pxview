@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     borderColor: '#5cafec',
     borderWidth: 1,
     borderRadius: 5,
+    alignItems: 'center',
   },
   buttonText: {
     padding: 10,
@@ -26,9 +27,9 @@ const styles = StyleSheet.create({
 });
 
 const FollowButton = (props) => {
-  const { isFollow } = props;
+  const { isFollow, onPress, onLongPress } = props;
   return (
-    <PXTouchable style={styles.button}>
+    <PXTouchable style={styles.button} onPress={onPress} onLongPress={onLongPress}>
       <Text style={styles.buttonText}>{isFollow ? "Following" : "Follow"}</Text>
     </PXTouchable> 
   );
