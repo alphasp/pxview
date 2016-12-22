@@ -10,7 +10,6 @@ import {
   InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'multireducer';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import RecommendedUser from './RecommendedUser';
 import SearchBar from '../components/SearchBar';
@@ -29,20 +28,20 @@ class SearchUserResult extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, word, fetchSearchUser, clearSearchUser } = this.props;
+    const { dispatch, word } = this.props;
     this.refreshNavigationBar(word);
     clearSearchUser();
     InteractionManager.runAfterInteractions(() => {
-      fetchSearchUser(word);
+      dispatch(fetchSearchUser(word));
     });
   }
 
   componentWillReceiveProps(nextProps) {
     const { word: prevWord } = this.props;
-    const { dispatch, word, fetchSearchUser, clearSearchUser } = nextProps;
+    const { dispatch, word } = nextProps;
     if (word !== prevWord) {
-      clearSearchUser();
-      fetchSearchUser(word);
+      dispatch(clearSearchUser());
+      dispatch(fetchSearchUser(word));
       this.refreshNavigationBar(word);
     }
   }
@@ -70,20 +69,20 @@ class SearchUserResult extends Component {
   }
   
   loadMore = () => {
-    const { dispatch, searchUser: { nextUrl }, word, fetchSearchUser } = this.props;
+    const { dispatch, searchUser: { nextUrl }, word } = this.props;
     console.log('load more ', nextUrl)
     if (nextUrl) {
-      fetchSearchUser(word, nextUrl);
+      dispatch(fetchSearchUser(word, nextUrl));
     }
   }
 
   handleOnRefresh = () => {
-    const { dispatch, word, fetchSearchUser, clearSearchUser } = this.props;
+    const { dispatch, word } = this.props;
     this.setState({
       refereshing: true
     });
-    clearSearchUser();
-    fetchSearchUser(word).finally(() => {
+    dispatch(clearSearchUser());
+    dispatch(fetchSearchUser(word)).finally(() => {
       this.setState({
         refereshing: false
       }); 
@@ -91,14 +90,14 @@ class SearchUserResult extends Component {
   }
 
   handleOnPressRemoveTag = (index) => {
-    const { dispatch, word, fetchSearchUser, clearSearchUser } = this.props;
+    const { dispatch, word } = this.props;
     const newWord = word.split(' ').filter((value, i) => {
       return i !== index;
     }).join(' ');
     console.log('new word ', newWord);
     if (newWord) {
-      clearSearchUser();
-      fetchSearchUser(newWord);
+      dispatch(clearSearchUser());
+      dispatch(fetchSearchUser(newWord));
       Actions.refresh({
         word: newWord,
         renderTitle: () => {
@@ -138,5 +137,4 @@ export default connect(state => {
   return {
     searchUser: state.searchUser,
   }
-},(dispatch) => bindActionCreators({ fetchSearchUser, clearSearchUser }, dispatch, 'searchUser')
-)(SearchUserResult);
+})(SearchUserResult);

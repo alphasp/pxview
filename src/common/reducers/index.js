@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import multireducer from 'multireducer';
 import * as recommendedIllustReducers from './recommendedIllust';
 import * as recommendedMangaReducers from './recommendedManga';
 import * as relatedIllustReducers from './relatedIllust';
@@ -10,6 +9,7 @@ import * as searchAutoCompleteReducers from './searchAutoComplete';
 import createFilteredReducer from './createFilteredReducer';
 import search from './search';
 import searchUser from './searchUser';
+import searchUserAutoComplete from './searchUserAutoComplete';
 import searchHistory from './searchHistory';
 import searchType from './searchType';
 import userDetail from './userDetail';
@@ -21,7 +21,6 @@ import routes from './routes';
 import errorReducer from './error';
 import { SortType } from '../actions/search';
 import { RankingMode } from '../actions/ranking';
-import { ReducerKeys } from '../actions/searchUser';
 // import { reducer as formReducer} from 'redux-form';
 
 const rootReducer = combineReducers({
@@ -37,8 +36,8 @@ const rootReducer = combineReducers({
   searchOldest: createFilteredReducer(search, action => action.payload && action.payload.sortType === SortType.ASC),
   ranking,
   ...searchAutoCompleteReducers,
-  searchUser: multireducer(searchUser, 'searchUser') ,
-  searchUserAutoComplete: multireducer(searchUser, 'searchUserAutoComplete'),
+  searchUser,
+  searchUserAutoComplete,
   searchHistory,
   searchType,
   userDetail,

@@ -6,17 +6,17 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "android": "node node_modules/react-native/local-cli/cli.js run-android",
     "android-release": "node node_modules/react-native/local-cli/cli.js run-android --variant=release",
+    "android-release-new": "react-native run-android --configuration=release",
     "android-clean": "cd android && ./gradlew clean",
-    "ios": "node node_modules/react-native/local-cli/cli.js run-ios"
+    "ios": "react-native run-ios"
   },
   "dependencies": {
     "lodash.debounce": "^4.0.8",
     "lodash.isempty": "^4.4.0",
     "lodash.truncate": "^4.4.2",
     "moment": "^2.15.1",
-    "multireducer": "^3.0.3",
     "native-base": "^0.5.9",
-    "pixiv-api-client": "^0.8.0",
+    "pixiv-api-client": "^0.9.1",
     "react": "15.4.1",
     "react-addons-shallow-compare": "^15.4.1",
     "react-native": "^0.38.0",
@@ -47,7 +47,6 @@
   },
   "devDependencies": {
     "babel-jest": "17.0.2",
-    "babel-preset-es2015": "^6.18.0",
     "babel-preset-react-native": "1.9.0",
     "jest": "17.0.3",
     "react-test-renderer": "15.4.1"

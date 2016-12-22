@@ -10,7 +10,6 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'multireducer';
 import debounce from 'lodash.debounce';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -19,7 +18,7 @@ import Header from '../components/Header';
 import SearchAutoCompleteResult from '../components/SearchAutoCompleteResult';
 import SearchUserAutoCompleteResult from '../components/SearchUserAutoCompleteResult';
 import { fetchSearchAutoComplete, clearSearchAutoComplete } from '../common/actions/searchAutoComplete';
-import { fetchSearchUser, clearSearchUser } from '../common/actions/searchUser';
+import { fetchSearchUserAutoComplete, clearSearchUserAutoComplete } from '../common/actions/searchUserAutoComplete';
 import { addSearchHistory ,removeSearchHistory, clearSearchHistory } from '../common/actions/searchHistory';
 import { SearchType } from '../common/actions/searchType';
 
@@ -38,7 +37,7 @@ class Search extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, word, isRenderPlaceHolder, searchType, fetchSearchUserAutoComplete, clearSearchUserAutoComplete } = this.props;
+    const { dispatch, word, isRenderPlaceHolder, searchType } = this.props;
     Actions.refresh({
       renderTitle: () => {
         return (
@@ -55,19 +54,19 @@ class Search extends Component {
       }
     });  
     if (searchType === SearchType.USER) {
-      clearSearchUserAutoComplete();
+      dispatch(clearSearchUserAutoComplete());
     }
     else {
-      clearSearchAutoComplete();
+      dispatch(clearSearchAutoComplete());
     }         
   }
 
   handleOnChangeSearchText = (word, searchType) => {
-    const { dispatch, fetchSearchUserAutoComplete, clearSearchUserAutoComplete } = this.props;
+    const { dispatch } = this.props;
     if (searchType === SearchType.USER) {
-      clearSearchUserAutoComplete();
+      dispatch(clearSearchUserAutoComplete());
       if (word.length > 1) {
-        fetchSearchUserAutoComplete(word);
+        dispatch(fetchSearchUserAutoComplete(word));
       }
     }
     else {
@@ -132,9 +131,9 @@ class Search extends Component {
   }
 
   loadMoreUsers = () => {
-    const { dispatch, searchUserAutoComplete: { nextUrl }, fetchSearchUserAutoComplete } = this.props;
+    const { dispatch, searchUserAutoComplete: { nextUrl } } = this.props;
     if (nextUrl) {
-      fetchSearchUserAutoComplete("", nextUrl);
+      dispatch(fetchSearchUserAutoComplete("", nextUrl));
     }
   }
 
@@ -175,5 +174,4 @@ export default connect((state, { searchType }) => {
     searchHistory: state.searchHistory,
     searchType: searchType || state.searchType.type,
   }
-}, (dispatch) => bindActionCreators({ fetchSearchUserAutoComplete: fetchSearchUser, clearSearchUserAutoComplete: clearSearchUser }, dispatch, 'searchUserAutoComplete')
-)(Search);
+})(Search);
