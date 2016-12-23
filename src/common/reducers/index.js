@@ -21,10 +21,9 @@ import routes from './routes';
 import errorReducer from './error';
 import { SortType } from '../actions/search';
 import { RankingMode } from '../actions/ranking';
-// import { reducer as formReducer} from 'redux-form';
+import { reducer as formReducer } from 'redux-form';
 
 const rootReducer = combineReducers({
-  //form: formReducer,
   error: errorReducer,
   ...recommendedIllustReducers,
   ...recommendedMangaReducers,
@@ -45,6 +44,7 @@ const rootReducer = combineReducers({
   userManga,
   userBookmarkIllust,
   routes,
+  form: formReducer,
 });
 
 export default rootReducer;

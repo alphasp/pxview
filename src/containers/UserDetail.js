@@ -270,7 +270,7 @@ class UserDetail extends Component {
                 resizeMode: "cover",
                 width: windowWidth,
                 height: 100,
-                 backgroundColor: 'transparent',
+                backgroundColor: 'transparent',
               }}
               ref="backgroundImage"
               onFoundImageSize={this.handleOnFoundImageSize}

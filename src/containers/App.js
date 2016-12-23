@@ -29,6 +29,8 @@ import UserIllust from './UserIllust';
 import UserManga from './UserManga';
 import UserBookmarkIllust from './UserBookmarkIllust';
 import Ranking from './Ranking';
+import UserProfile from './UserProfile';
+import Login from './Login';
 import Setting from './Setting';
 import SearchBar from '../components/SearchBar';
 import Header from '../components/Header';
@@ -150,9 +152,9 @@ class App extends Component {
                       )
                     }}
                   />
-                  <Scene key="setting"
-                    title="cog"
-                    component={Setting}
+                  <Scene key="userProfile"
+                    title="user"
+                    component={UserProfile}
                     navigationBarStyle={styles.header}
                   />
                 </Scene>
@@ -202,7 +204,10 @@ class App extends Component {
                   component={SearchFilterModal}
                   direction="vertical"  
                   panHandlers={null}
-
+                />
+                <Scene key="login"
+                  title="Login"
+                  component={Login}
                 />
                 <Scene key="temp"
                   component={TempComp} 
