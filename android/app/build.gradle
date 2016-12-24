@@ -143,6 +143,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-vector-icons')
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
@@ -150,7 +151,6 @@ dependencies {
     compile project(':react-native-fabric')
     compile project(':react-native-photo-view')
     compile project(':react-native-blur')
-    compile project(':react-native-vector-icons')
     compile project(':react-native-spinkit')
     compile project(':react-native-material-kit')
     compile project(':react-native-fs')

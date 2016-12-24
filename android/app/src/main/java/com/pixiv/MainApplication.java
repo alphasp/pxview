@@ -5,12 +5,12 @@ import android.util.Log;
 
 import com.squareup.leakcanary.LeakCanary;
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 import com.smixx.fabric.FabricPackage;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.cmcewen.blurview.BlurViewPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
@@ -38,10 +38,10 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new RNSpinkitPackage(),
            new MainReactPackage(),
+            new VectorIconsPackage(),
             new FabricPackage(),
             new PhotoViewPackage(),
             new BlurViewPackage(),
-            new VectorIconsPackage(),
             new RNSpinkitPackage(),
             new ReactMaterialKitPackage(),
             new RNFSPackage(),
