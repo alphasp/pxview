@@ -24,9 +24,11 @@ import PXBlurView from '../components/PXBlurView';
 import PXTouchable from '../components/PXTouchable';
 import Loader from '../components/Loader';
 import OutlineButton from '../components/OutlineButton';
+import { logout } from '../common/actions/auth';
 
 const avatarSize = 70;
 const windowWidth = Dimensions.get('window').width;
+const defaultProfileImage = 'https://source.pixiv.net/common/images/no_profile.png';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,6 +47,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // backgroundColor: '#5cafec',
     // flex: 1,
+  },
+  profileImage: {
+    resizeMode: "cover",
+    width: windowWidth,
+    height: 150,
+    backgroundColor: 'transparent',
   },
   avatarContainer: {
     position: 'absolute',
@@ -121,19 +129,22 @@ const menuList = [
 
 const menuList2 = [
   {
+    id: 'settings',
     title: 'Settings',
     icon: 'cog',
     type: 'font-awesome'
   },
   {
+    id: 'feedback',
     title: 'Feedback',
     icon: 'comment-o',
     type: 'font-awesome'
   }, 
   {
+    id: 'logout',
     title: 'Logout',
     icon: 'sign-out',
-    type: 'font-awesome'
+    type: 'font-awesome',
   }
 ];
 
@@ -173,12 +184,18 @@ class UserProfile extends Component {
     // });
   }
 
-  handleOnFoundImageSize = () => {
+  handleOnAvatarImageLoaded = () => {
     this.setState({ viewRef: findNodeHandle(this.refs.backgroundImage) });
   }
 
   handleOnPressListItem = (item) => {
+    const { dispatch } = this.props;
     console.log('on press ', item);
+    switch (item.id) {
+      case 'logout':
+        dispatch(logout());
+        break;
+    }
   }
 
   handleOnPressSignUp = () => {
@@ -197,14 +214,15 @@ class UserProfile extends Component {
     Actions.login();
   }
 
-  renderProfile = (detail) => {
+  renderProfile = (user) => {
     // <View style={styles.cover}>
     //         </View>
     const { viewRef } = this.state;
     return (
       <View style={styles.coverContainer}>
         <PXImage
-          uri={"https://i1.pixiv.net/user-profile/img/2015/08/14/06/18/11/9747272_927eca2c02baf6f1b0145902934fa70a_170.jpg"}
+          key={(user && user.profile_image_urls.px_170x170) || defaultProfileImage}
+          uri={(user && user.profile_image_urls.px_170x170) || defaultProfileImage}
           style={{
             resizeMode: "cover",
             width: windowWidth,
@@ -229,20 +247,26 @@ class UserProfile extends Component {
           </BlurView>
           <View style={styles.coverInnerContainer}>
             <PXThumbnailTouchable
-              uri={"https://i1.pixiv.net/user-profile/img/2015/08/14/06/18/11/9747272_927eca2c02baf6f1b0145902934fa70a_170.jpg"}
+              key={user && user.profile_image_urls.px_170x170 || defaultProfileImage}
+              uri={user && user.profile_image_urls.px_170x170 || defaultProfileImage}
               size={avatarSize}
             />
-            <View style={styles.authActionContainer}>
-              <OutlineButton 
-                text="Sign Up"
-                onPress={this.handleOnPressSignUp} 
-              />
-              <OutlineButton 
-                text="Login" 
-                style={{marginLeft: 5}} 
-                onPress={this.handleOnPressLogin}
-              />
-            </View>
+            {
+              user ?
+              <Text>{user.name}</Text>
+              :
+              <View style={styles.authActionContainer}>
+                <OutlineButton 
+                  text="Sign Up"
+                  onPress={this.handleOnPressSignUp} 
+                />
+                <OutlineButton 
+                  text="Login" 
+                  style={{marginLeft: 5}} 
+                  onPress={this.handleOnPressLogin}
+                />
+              </View>
+            }
           </View>
         </PXImage>
       </View>
@@ -250,7 +274,6 @@ class UserProfile extends Component {
   }
 
   renderList = (list) => {
-    console.log(list)
     return (
       <List>
         {
@@ -271,14 +294,16 @@ class UserProfile extends Component {
     //user illusts
     //bookmark illusts
     //const { userDetail, userId } = this.props;
-    const { refreshing } = this.state;
+    const { user } = this.props;
+    console.log("user ", user)
+    
     return (
       <View style={styles.container}>
         {
           <ScrollView 
             style={styles.container} 
           >
-            {this.renderProfile()}
+            {this.renderProfile(user)}
             {this.renderList(menuList)}
             {this.renderList(menuList2)}
           </ScrollView>
@@ -288,4 +313,8 @@ class UserProfile extends Component {
   }
 }
 
-export default connect()(UserProfile);
+export default connect(state => {
+  return {
+    user: state.auth.user,
+  }
+})(UserProfile);

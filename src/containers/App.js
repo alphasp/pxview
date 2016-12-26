@@ -15,6 +15,7 @@ import {
   ActionConst,
 } from 'react-native-router-flux';
 import { connect, Provider } from 'react-redux';
+import Master from './Master';
 import Tabs from './Tabs';
 import Detail from './Detail';
 import TempComp from './TempComp';
@@ -113,13 +114,14 @@ class App extends Component {
       Actions.searchResult({ word: word, type: ActionConst.REPLACE });
     }
   }
+
   render() {
     const { store } = this.props;
     return (
       <Provider store={store}>
         <RouterWithRedux getSceneStyle={getSceneStyle}>
           <Scene key="modal" component={Modal}>
-            <Scene key="root">
+            <Scene key="root" component={Master}>
               <Scene 
                 key="scenes" 
                 navigationBarStyle={styles.header} 

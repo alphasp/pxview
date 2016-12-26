@@ -93,7 +93,7 @@ class Search extends Component {
           Actions.searchResult({ word: word, type: ActionConst.REPLACE });
         }
       }
-      dispatch(addSearchHistory(word));
+     //dispatch(addSearchHistory(word));
     }
   }
 

@@ -9,13 +9,13 @@ import {
 const PXTouchable = (props) => {
   if (Platform.OS === 'android') {
     // return <TouchableOpacity {...props} />
-    const { style, children, ...restProps } = props;
+    const { style, children, ...otherProps } = props;
     //console.log('children ', children)
     return (
       <TouchableNativeFeedback 
         background={ TouchableNativeFeedback.SelectableBackground() } 
         style={style}
-        { ...restProps } 
+        {...otherProps} 
       >
         {
           children ? 

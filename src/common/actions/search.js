@@ -92,7 +92,7 @@ export function fetchSearch(navigationStateKey, word, options, sortType, nextUrl
   word = word.trim();
   return (dispatch, getState) => {
     if (shouldFetchSearch(searchState, navigationStateKey)) {
-      //dispatch(addSearchHistory(word));
+      dispatch(addSearchHistory(word));
       return dispatch(fetchSearchFromApi(navigationStateKey, word, options, sortType, nextUrl));
     }
   };

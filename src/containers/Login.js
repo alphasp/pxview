@@ -7,20 +7,14 @@ import {
   Linking,
 } from 'react-native';
 import dismissKeyboard from 'dismissKeyboard';
-import { Actions } from 'react-native-router-flux';
+import { Actions, ActionConst } from 'react-native-router-flux';
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { FormLabel, FormInput, Button } from 'react-native-elements'
-import PXFormInput from '../components/PXFormInput';
-// import UVButton from '../components/UVButton';
-// import FacebookLoginButton from '../components/FacebookLoginButton';
-// import FloatingTextField from '../components/FloatingTextField';
-
-// import { login, facebookLogin } from "../../common/actions/auth.native";
-// import { addError } from '../../common/actions/error';
-// import { MessageBar, MessageBarManager } from 'react-native-message-bar';
+import { FormLabel, FormInput, Button } from 'react-native-elements';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
+import PXFormInput from '../components/PXFormInput';
+import { login } from '../common/actions/auth';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,7 +32,6 @@ const styles = StyleSheet.create({
 
 const validate = (values, props) => {
   const errors = {};
-  console.log('validate ', values)
   if (!values.email) {
     errors.email = "Email address/Pixiv ID is required";
   }
@@ -56,32 +49,22 @@ class Login extends Component {
     };
   }
   
-  submit = (values) => {
+  submit = (data) => {
+    //Actions.pop({ refresh: { test: 'abaer' }})
+    // Actions.tabs();
+    // Actions.userProfile({ type: ActionConst.RESET });
+    const { dispatch } = this.props;
+    const { email, password } = data;
     dismissKeyboard();
-    console.log('submit ', values);
-    const { email, password } = values;
     this.setState({
       loading: true
     });
-    setTimeout(() => {
+    dispatch(login(email, password)).then(() => {
       this.setState({
         loading: false
       });
-    }, 2000);
-    // dispatch(login(email, password)).then(() => {
-    //   this.setState({
-    //     loading: false
-    //   });
-    //   // const { error } = this.props;
-    //   // if (error){
-    //   //   console.log("error ", error)
-    //   //   MessageBarManager.showAlert({
-    //   //     message: error,
-    //   //     titleNumberOfLines: 0,
-    //   //     alertType: 'error',
-    //   //   });
-    //   // }
-    // });
+      Actions.pop();
+    });
   }
 
   handleOnPressSignUp = () => {
@@ -95,40 +78,6 @@ class Login extends Component {
       }
     }).catch(err => console.error('An error occurred', err));
   }
-
-
-  handleFacebookLogin = (err, response) => {
-    const { dispatch } = this.props;
-    let promise = null;
-    if (err || !response.accessToken){
-      console.log("err ", err)
-      promise = dispatch(addError("Failed to login with your facebook account, please try again. ", err));
-    }
-    else if (response.accessToken){
-      //console.log("token ", response.accessToken);
-      promise = dispatch(facebookLogin(response.accessToken));
-    }
-    this.setState({
-      loading: true
-    });
-    promise.then(() => {
-      this.setState({
-        loading: false
-      });
-      // const { error } = this.props;
-      // if (error){
-      //   MessageBarManager.showAlert({
-      //     message: error,
-      //     titleNumberOfLines: 0,
-      //     alertType: 'error',
-      //   });
-      // }
-      // ga.event({ 
-      //   category: 'User',
-      //   action: 'Logged in with Facebook'
-      // });
-    });
-  };
 
   render() {
     const { handleSubmit, error } = this.props;

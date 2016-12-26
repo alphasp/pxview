@@ -23,7 +23,6 @@ class Tabs extends Component {
   constructor(props) {
     super(props);
   }
-
   // onChangeTab = ({ ref }) => {
   //   console.log('ref.props.sceneKey ', ref.props.sceneKey )
   //   Actions[ref.props.sceneKey]();

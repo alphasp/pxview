@@ -17,14 +17,15 @@ import userIllust from './userIllust';
 import userManga from './userManga';
 import userBookmarkIllust from './userBookmarkIllust';
 import ranking from './ranking';
+import auth from './auth';
 import routes from './routes';
-import errorReducer from './error';
+import error from './error';
 import { SortType } from '../actions/search';
 import { RankingMode } from '../actions/ranking';
 import { reducer as formReducer } from 'redux-form';
 
 const rootReducer = combineReducers({
-  error: errorReducer,
+  error,
   ...recommendedIllustReducers,
   ...recommendedMangaReducers,
   ...relatedIllustReducers,
@@ -43,6 +44,7 @@ const rootReducer = combineReducers({
   userIllust,
   userManga,
   userBookmarkIllust,
+  auth,
   routes,
   form: formReducer,
 });

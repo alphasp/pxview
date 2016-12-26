@@ -4,7 +4,7 @@ import PXThumbnail from './PXThumbnail';
 
 class PXThumbnailTouchable extends Component {
   render() {
-    const { uri, size, style, thumbnailStyle, onPress } = this.props;
+    const { uri, size, style, thumbnailStyle, onPress, ...otherProps } = this.props;
     return (
       <PXTouchable 
         style={[style, {
@@ -13,6 +13,7 @@ class PXThumbnailTouchable extends Component {
           borderRadius: size ? size / 2 : 15,
         }]}
         onPress={onPress}
+        {...otherProps}
       >
         <PXThumbnail 
           uri={uri}
