@@ -125,7 +125,7 @@ class Search extends Component {
     dispatch(removeSearchHistory(item));
   }
 
-  handleOnPressRemoveClearSearchHistory = () => {
+  handleOnPressClearSearchHistory = () => {
     const { dispatch } = this.props;
     dispatch(clearSearchHistory());
   }
@@ -149,7 +149,7 @@ class Search extends Component {
             onPressItem={this.handleOnPressUser}
             onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
             onPressRemoveSearchHistoryItem={this.handleOnPressRemoveSearchHistoryItem}
-            onPressRemoveClearSearchHistory={this.handleOnPressRemoveClearSearchHistory}
+            onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
             loadMoreItems={this.loadMoreUsers}
           />
           :
@@ -159,7 +159,7 @@ class Search extends Component {
             onPressItem={this.handleOnPressAutoCompleteItem}
             onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
             onPressRemoveSearchHistoryItem={this.handleOnPressRemoveSearchHistoryItem}
-            onPressRemoveClearSearchHistory={this.handleOnPressRemoveClearSearchHistory}
+            onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
           />
         }
       </View>

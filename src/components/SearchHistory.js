@@ -92,13 +92,13 @@ class SearchHistory extends Component {
   }
 
   render() {
-    const { items, onPressRemoveClearSearchHistory } = this.props;
+    const { items, onPressClearSearchHistory } = this.props;
     const { dataSource } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.searchHistoryContainer}>
           <Text style={styles.searchHistoryTitle}>Search history</Text>
-          <PXTouchable onPress={onPressRemoveClearSearchHistory}>
+          <PXTouchable onPress={onPressClearSearchHistory}>
             <Text style={styles.searchHistoryTitle}>CLEAR ALL</Text>
           </PXTouchable>
         </View>

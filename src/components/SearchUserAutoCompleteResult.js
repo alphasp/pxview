@@ -105,7 +105,7 @@ class SearchUserAutoCompleteResult extends Component {
   }
 
   render() {
-    const { searchUserAutoComplete: { items, loading, loaded }, loadMoreItems, searchHistory, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressRemoveClearSearchHistory } = this.props;
+    const { searchUserAutoComplete: { items, loading, loaded }, loadMoreItems, searchHistory, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressClearSearchHistory } = this.props;
     const { dataSource } = this.state;
     return (
       <View style={styles.container}>
@@ -115,7 +115,7 @@ class SearchUserAutoCompleteResult extends Component {
             items={searchHistory.items}
             onPressItem={onPressSearchHistoryItem}
             onPressRemoveSearchHistoryItem={onPressRemoveSearchHistoryItem}
-            onPressRemoveClearSearchHistory={onPressRemoveClearSearchHistory}
+            onPressClearSearchHistory={onPressClearSearchHistory}
           />
         }
         {
