@@ -7,6 +7,7 @@ import {
   Platform,
   Animated,
   ListView,
+  Dimensions,
 } from 'react-native';
 import dismissKeyboard from 'dismissKeyboard';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1, 
   },
-  row: {
+  listItemContainer: {
     padding: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -39,6 +40,9 @@ const styles = StyleSheet.create({
   searchHistoryTitle: {
     fontWeight: 'bold',
   },
+  searchHistoryText: {
+    width: Dimensions.get('window').width - 45,
+  }
 });
 
 class SearchHistory extends Component {
@@ -73,15 +77,20 @@ class SearchHistory extends Component {
   renderRow = (item) => {
     const { onPressItem, onPressRemoveSearchHistoryItem } = this.props;
     return (
-      <PXTouchable 
-        key={item} 
-        onPress={() => onPressItem(item)}
-      >
-        <View style={styles.row}>
+      <View style={styles.row} key={item}>
+        <PXTouchable 
+          onPress={() => onPressItem(item)} 
+          style={styles.searchHistoryText}
+        >
           <Text>{item}</Text>
-          <Icon name="times" size={16} color="#A9A9A9" onPress={() => onPressRemoveSearchHistoryItem(item)} />
-        </View>
-      </PXTouchable>
+        </PXTouchable>
+        <Icon 
+          name="times" 
+          size={16} 
+          color="#A9A9A9" 
+          onPress={() => onPressRemoveSearchHistoryItem(item)} 
+        />
+      </View>
     )
   }
 
