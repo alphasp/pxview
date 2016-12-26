@@ -52,11 +52,11 @@ class SearchResultOldest extends Component {
   }
 
   handleOnRefresh = () => {
-    const { dispatch, word, options } = this.props;
+    const { dispatch, navigationStateKey, word, options } = this.props;
     this.setState({
       refereshing: true
     });
-    dispatch(clearSearch(word, SortType.ASC));
+    dispatch(clearSearch(navigationStateKey, SortType.ASC));
     this.search(word, options, null).finally(() => {
       this.setState({
         refereshing: false
