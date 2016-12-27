@@ -64,6 +64,8 @@ const styles = StyleSheet.create({
     bottom: 0, 
     left: 0, 
     right: 0,
+    padding: 10,
+    backgroundColor: '#fff',
   },
   searchFilterButton: {
     backgroundColor: '#5cafec',

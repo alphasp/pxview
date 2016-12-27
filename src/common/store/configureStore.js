@@ -33,7 +33,7 @@ export default function configureStore() {
   //const store = createStore(rootReducer, undefined, middleware);
 
   persistStore(store, { 
-    whitelist: ['searchHistory'],
+    whitelist: ['searchHistory', 'auth'],
     storage: AsyncStorage,
   }, () => {
     console.log('rehydration complete');

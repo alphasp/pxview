@@ -77,7 +77,7 @@ class SearchHistory extends Component {
   renderRow = (item) => {
     const { onPressItem, onPressRemoveSearchHistoryItem } = this.props;
     return (
-      <View style={styles.row} key={item}>
+      <View style={styles.listItemContainer} key={item}>
         <PXTouchable 
           onPress={() => onPressItem(item)} 
           style={styles.searchHistoryText}
