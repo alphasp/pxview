@@ -54,7 +54,7 @@ class Tabs extends Component {
         {
           state.children.map(el =>{
             return (
-              <DefaultRenderer navigationState={el} onNavigate={this.props.onNavigate} key={el.key} tabLabel={el.title} {...el} />
+              <DefaultRenderer navigationState={el} onNavigate={this.props.onNavigate} key={el.key} tabLabel={{title: el.title, icon: el.icon, iconType: el.iconType}} {...el} />
             );
           })
         }

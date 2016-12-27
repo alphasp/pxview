@@ -130,19 +130,22 @@ class App extends Component {
               >
                 <Scene key="tabs" component={Tabs} title="Pixiv RN" tabs={true} duration={0}>
                   <Scene key="home"
-                    title="home"
+                    title="Home"
+                    icon="home"
                     component={Home}
                     navigationBarStyle={styles.header}
                     hideNavBar={true}
                   />
                   <Scene key="ranking"
-                    title="trophy"
+                    title="Ranking"
+                    icon="trophy"
                     component={Ranking}
                     navigationBarStyle={styles.header}
                     hideNavBar={true}
                   />
                   <Scene key="trending"
-                    title="search"
+                    title="Search"
+                    icon="search"
                     component={Trending}
                     navigationBarStyle={styles.header}
                     renderTitle={() => {
@@ -154,8 +157,16 @@ class App extends Component {
                       )
                     }}
                   />
+                  <Scene key="new"
+                    title="New"
+                    icon="fiber-new"
+                    iconType="material"
+                    component={Setting}
+                    navigationBarStyle={styles.header}
+                  />
                   <Scene key="userProfile"
-                    title="user"
+                    title="Profile"
+                    icon="user"
                     component={UserProfile}
                     navigationBarStyle={styles.header}
                   />
