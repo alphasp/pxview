@@ -60,10 +60,6 @@ const styles = StyleSheet.create({
     // paddingRight: 10
   },
   searchFilterButtonContainer: {
-    position: 'absolute', 
-    bottom: 0, 
-    left: 0, 
-    right: 0,
     padding: 10,
     backgroundColor: '#fff',
   },

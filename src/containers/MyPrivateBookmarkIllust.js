@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
-import { fetchUserBookmarkIllusts, clearUserBookmarkIllusts } from '../common/actions/userBookmarkIllust';
+import { fetchMyPrivateBookmarkIllusts, clearMyPrivateBookmarkIllusts } from '../common/actions/myPrivateBookmarkIllust';
 
-class UserBookmarkIllust extends Component {
+class MyPrivateBookmarkIllust extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,8 +22,8 @@ class UserBookmarkIllust extends Component {
 
   componentDidMount() {
     const { dispatch, userId, tag } = this.props;
-    dispatch(clearUserBookmarkIllusts(userId));
-    dispatch(fetchUserBookmarkIllusts(userId, tag));
+    dispatch(clearMyPrivateBookmarkIllusts(userId));
+    dispatch(fetchMyPrivateBookmarkIllusts(userId, tag));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,16 +31,16 @@ class UserBookmarkIllust extends Component {
     const { dispatch, userId, tag } = nextProps;
     if ((userId !== prevUserId) || (tag !== prevTag)) {
       const { dataSource } = this.state;
-      dispatch(clearUserBookmarkIllusts(userId));
-      dispatch(fetchUserBookmarkIllusts(userId, tag));
+      dispatch(clearMyPrivateBookmarkIllusts(userId));
+      dispatch(fetchMyPrivateBookmarkIllusts(userId, tag));
     }
   }
 
 
   loadMoreItems = () => {
-    const { dispatch, userBookmarkIllust, tag, userId } = this.props;
-    if (userBookmarkIllust[userId] && userBookmarkIllust[userId].nextUrl) {
-      dispatch(fetchUserBookmarkIllusts(userId, tag, userBookmarkIllust[userId].nextUrl));
+    const { dispatch, myPrivateBookmarkIllust: { nextUrl }, tag, userId } = this.props;
+    if (nextUrl) {
+      dispatch(fetchMyPrivateBookmarkIllusts(userId, tag, nextUrl));
     }
   }
 
@@ -49,8 +49,8 @@ class UserBookmarkIllust extends Component {
     this.setState({
       refereshing: true
     });
-    dispatch(clearUserBookmarkIllusts(userId));
-    dispatch(fetchUserBookmarkIllusts(userId, tag)).finally(() => {
+    dispatch(clearMyPrivateBookmarkIllusts(userId));
+    dispatch(fetchMyPrivateBookmarkIllusts(userId, tag)).finally(() => {
       this.setState({
         refereshing: false
       }); 
@@ -58,25 +58,21 @@ class UserBookmarkIllust extends Component {
   }
 
   render() {
-    const { userBookmarkIllust, userId } = this.props;
+    const { myPrivateBookmarkIllust, userId } = this.props;
     const { refreshing } = this.state;
-    console.log('userBookmarkIllust ', userBookmarkIllust)
     return (
-      userBookmarkIllust[userId] ?
       <IllustList
-        data={userBookmarkIllust[userId]}
+        data={myPrivateBookmarkIllust}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
-      :
-      null
     );
   }
 }
 
 export default connect((state, props) => {
   return {
-    userBookmarkIllust: state.userBookmarkIllust
+    myPrivateBookmarkIllust: state.myPrivateBookmarkIllust
   }
-})(UserBookmarkIllust);
+})(MyPrivateBookmarkIllust);

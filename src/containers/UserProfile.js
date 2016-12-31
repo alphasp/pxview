@@ -106,21 +106,25 @@ const styles = StyleSheet.create({
 
 const menuList = [
   {
+    id: 'works', 
     title: 'Submitted Works',
     icon: 'picture-o',
     type: 'font-awesome',
   },
   {
+    id: 'connection',
     title: 'My Connection',
     icon: 'users',
     type: 'font-awesome',
   },
   {
+    id: 'collection',
     title: 'Collection',
     icon: 'heart',
     type: 'font-awesome',
   },
   {
+    id: 'history',
     title: 'Browsing History',
     icon: 'clock-o',
     type: 'font-awesome',
@@ -189,9 +193,13 @@ class UserProfile extends Component {
   }
 
   handleOnPressListItem = (item) => {
-    const { dispatch } = this.props;
+    const { dispatch, user } = this.props;
     console.log('on press ', item);
     switch (item.id) {
+      case 'collection':
+        //require user login
+        Actions.myCollection({ userId: user.id});
+        break;
       case 'logout':
         dispatch(logout());
         break;

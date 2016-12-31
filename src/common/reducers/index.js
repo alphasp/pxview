@@ -16,6 +16,7 @@ import userDetail from './userDetail';
 import userIllust from './userIllust';
 import userManga from './userManga';
 import userBookmarkIllust from './userBookmarkIllust';
+import myPrivateBookmarkIllust from './myPrivateBookmarkIllust';
 import ranking from './ranking';
 import auth from './auth';
 import routes from './routes';
@@ -44,6 +45,7 @@ const rootReducer = combineReducers({
   userIllust,
   userManga,
   userBookmarkIllust,
+  myPrivateBookmarkIllust,
   auth,
   routes,
   form: formReducer,

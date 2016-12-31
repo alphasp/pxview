@@ -29,6 +29,7 @@ import UserDetail from './UserDetail';
 import UserIllust from './UserIllust';
 import UserManga from './UserManga';
 import UserBookmarkIllust from './UserBookmarkIllust';
+import MyCollection from './MyCollection';
 import Ranking from './Ranking';
 import UserProfile from './UserProfile';
 import Login from './Login';
@@ -211,6 +212,11 @@ class App extends Component {
                 <Scene key="userBookmarkIllust"
                   title="Collection" 
                   component={UserBookmarkIllust}
+                  duration={0}
+                />
+                <Scene key="myCollection"
+                  title="Collection" 
+                  component={MyCollection}
                   duration={0}
                 />
                 <Scene key="searchFilter" 

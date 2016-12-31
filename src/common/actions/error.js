@@ -8,7 +8,7 @@ export function addError(error) {
       return resolve(dispatch({
         type: ADD_ERROR,
         error: true,
-        payload: error || 'Something bad happened'
+        payload: typeof error === 'string' ? error : 'Something bad happened'
       }));
     });
   };

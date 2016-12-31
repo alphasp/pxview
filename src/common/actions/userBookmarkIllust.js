@@ -53,9 +53,13 @@ function shouldFetchUserBookmarkIllust(state, userId) {
   }
 }
 
-function fetchUserBookmarkIllustFromApi(userId, nextUrl) {
+function fetchUserBookmarkIllustFromApi(userId, tag, nextUrl) {
   return dispatch => {
-    const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.userBookmarksIllust(userId);
+    let options = {};
+    if (tag) {
+      options.tag = tag;
+    }
+    const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.userBookmarksIllust(userId, options);
     const params = qs.parse(nextUrl);
     const offset = params.offset || "0";
     dispatch(requestUserBookmarkIllust(userId, offset));
@@ -68,10 +72,10 @@ function fetchUserBookmarkIllustFromApi(userId, nextUrl) {
   };
 }
 
-export function fetchUserBookmarkIllusts(userId, nextUrl) {
+export function fetchUserBookmarkIllusts(userId, tag, nextUrl) {
   return (dispatch, getState) => {
     if (shouldFetchUserBookmarkIllust(getState()), userId) {
-      return dispatch(fetchUserBookmarkIllustFromApi(userId, nextUrl));
+      return dispatch(fetchUserBookmarkIllustFromApi(userId, tag, nextUrl));
     }
   };
 }

@@ -12,6 +12,8 @@ import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic, clearRecommendedIllusts } from '../common/actions/recommendedIllust';
 
+import { fetchRanking, clearRanking, RankingMode } from '../common/actions/ranking';
+
 class RecommendedIllust extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +25,7 @@ class RecommendedIllust extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchRecommendedIllustsPublic());
+    dispatch(fetchRanking('DAILY'));
   }
 
   loadMoreItems = () => {
@@ -62,6 +65,7 @@ class RecommendedIllust extends Component {
 
 export default connect(state => {
   return {
-    recommendedIllust: state.recommendedIllust
+    recommendedIllust: state.recommendedIllust,
+    ranking: state.ranking['DAILY']
   }
 })(RecommendedIllust);
