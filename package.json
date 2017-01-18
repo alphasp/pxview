@@ -20,7 +20,7 @@
     "react-addons-shallow-compare": "^15.4.1",
     "react-native": "^0.38.0",
     "react-native-animatable": "^0.6.1",
-    "react-native-blur": "^1.2.0",
+    "react-native-blur": "^2.0.0",
     "react-native-cacheable-image": "^1.2.0",
     "react-native-elements": "^0.8.1",
     "react-native-fabric": "^0.3.2",
