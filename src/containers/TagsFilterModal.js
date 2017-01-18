@@ -8,8 +8,11 @@ import {
   TouchableWithoutFeedback,
   Modal,
 } from 'react-native';
-import PXTouchable from './PXTouchable';
-import FollowButton from './FollowButton';
+import { connect } from 'react-redux';
+import PXTouchable from '../components/PXTouchable';
+//import TagsFilterModal from '../components/TagsFilterModal';
+import * as bookmarkTagActionCreators from '../common/actions/bookmarkTag';
+// import { TagType } from '../common/actions/bookmarkTag';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,52 +48,40 @@ const styles = StyleSheet.create({
   },
 });
 
-const data = {
-  tags: [
-    {
-      name: 'All', //
-      value: '',
-    },
-    {
-      name: 'Uncategorized', //未分類
-      value: '未分類',
-    },
-    {
-      name: 'C91',
-      value: 'C91',
-      count: 1,
-    },
-    {
-      name: 'ポケモン',
-      value: 'ポケモン',
-      count: 2,
-    },
-    {
-      name: 'Fate/GrandOrder',
-      value: 'Fate/GrandOrder',
-      count: 2,
-    }
-  ],
-}
-
 class TagsFilterModal extends Component {
   constructor(props) {
     super(props);
-    //const { searchFilter: { target, duration } } = props;
-    this.dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-      sectionHeaderHasChanged: (s1,s2) => s1 !== s2
-    })
     this.state = {
-      // tag: tag || 'all',
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (r1, r2) => r1 !== r2,
+        sectionHeaderHasChanged: (s1,s2) => s1 !== s2
+      }),
       tag: 'all',
+      refreshing: false
     };
+  }
+
+  componentDidMount() {
+    const { fetchBookmarkTag, clearBookmarkTag, tagType } = this.props;
+    clearBookmarkTag(tagType);
+    fetchBookmarkTag(tagType);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { bookmarkTag: { items: prevItems } } = this.props;
+    const { bookmarkTag: { items } } = nextProps;
+    if (items && items !== prevItems) {
+      const { dataSource } = this.state;
+      this.setState({
+        dataSource: dataSource.cloneWithRows(items)
+      });
+    }
   }
 
   renderRow = (item) => {
     //const { target, duration } = this.state;
     const { tag, onSelectTag } = this.props;
-    const isSelected = item.name === tag;
+    const isSelected = item.value === tag;
     return (
       <PXTouchable 
         key={item.name} 
@@ -121,16 +112,54 @@ class TagsFilterModal extends Component {
     )
   }
 
-  // onSwitchPrivateValue = (value) => {
-  //   this.setState({ isPrivate: value });
+  loadMoreItems = () => {
+    const { bookmarkTag: { nextUrl }, tagType } = this.props;
+    console.log('load more ', nextUrl)
+    if (nextUrl) {
+      fetchBookmarkTag(tagType, nextUrl);
+    }
+  }
+
+  handleOnRefresh = () => {
+    const { fetchBookmarkTag, clearBookmarkTag, tagType } = this.props;
+    this.setState({
+      refereshing: true
+    });
+    clearBookmarkTag(tagType);
+    fetchBookmarkTag(tagType).finally(() => {
+      this.setState({
+        refereshing: false
+      }); 
+    })
+  }
+
+  // render() {
+  //   const { bookmarkTag, tag, isOpen, onPressCloseButton, onSelectTag } = this.props;
+  //   const { refreshing } = this.state;
+  //   // return (
+  //   //   <View></View>
+  //   // )
+  //   return (
+  //     <TagsFilterModal
+  //       data={bookmarkTag}
+  //       isOpen={isOpen}
+  //       onPressCloseButton={onPressCloseButton}
+  //       onSelectTag={onSelectTag}
+  //       tag={tag}
+  //       refreshing={refreshing}
+  //       loadMoreItems={this.loadMoreItems}
+  //       onRefresh={this.handleOnRefresh}
+  //     />
+  //   );
   // }
 
   render() {
-    // const { isOpen, selectedUserId, isFollowSelectedUser, onPressCloseButton, onPressFollowButton } = this.props;
-    // const { isPrivate } = this.state;
-    const { isOpen, onPressCloseButton } = this.props;
-    //const { target, duration } = this.state;
-    const dataSource = this.dataSource.cloneWithRowsAndSections(data);
+    // const { bookmarkTag: { items, loading, loaded}, tag, isOpen, onPressCloseButton, onSelectTag } = this.props;
+    // const { refreshing } = this.state;
+
+    const { bookmarkTag: { items, loading, loaded }, onSelectTag, loadMoreItems, isOpen, onPressCloseButton } = this.props;
+    const { dataSource, refreshing } = this.state;
+    // const dataSource = this.dataSource.cloneWithRowsAndSections(data);
     return (
       <View>
         <Modal
@@ -158,4 +187,8 @@ class TagsFilterModal extends Component {
   }
 }
 
-export default TagsFilterModal;
+export default connect((state, props) => {
+  return {
+    bookmarkTag: state.bookmarkTag[props.tagType]
+  }
+}, bookmarkTagActionCreators)(TagsFilterModal);

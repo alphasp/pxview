@@ -60,10 +60,13 @@ class Login extends Component {
       loading: true
     });
     dispatch(login(email, password)).then(() => {
+      const { auth } = this.props;
       this.setState({
         loading: false
       });
-      Actions.pop();
+      if (auth.user) {
+        Actions.pop();
+      }
     });
   }
 
@@ -110,4 +113,8 @@ const LoginForm = reduxForm({
   validate
 })(Login);
 
-export default connect()(LoginForm);
+export default connect(state =>{
+  return {
+    auth: state.auth
+  }
+})(LoginForm);

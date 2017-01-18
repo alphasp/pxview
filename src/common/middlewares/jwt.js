@@ -17,7 +17,7 @@ export default jwt = ({ dispatch, getState }) => next => action => {
       const timeDiff = datetimeNow.diff(lastUpdatedDatetime, 'seconds');
       const isExpired = timeDiff > auth.user.expiresIn;
       // console.log('isExpired ', isExpired);
-      console.log(timeDiff > auth.user.expiresIn)
+      // console.log(timeDiff > auth.user.expiresIn)
       if (isExpired) {
         // return next(requestRefreshToken()).finally(() => {
         //   return next(action)

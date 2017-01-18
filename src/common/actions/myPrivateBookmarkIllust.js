@@ -52,9 +52,15 @@ function shouldFetchMyPrivateBookmarkIllust(state, userId) {
   }
 }
 
-function fetchMyPrivateBookmarkIllustFromApi(userId, nextUrl) {
+function fetchMyPrivateBookmarkIllustFromApi(userId, tag, nextUrl) {
   return dispatch => {
-    const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.userBookmarksIllust(userId, { restrict: 'private' } );
+    let options = {
+      restrict: 'private'
+    };
+    if (tag) {
+      options.tag = tag;
+    }
+    const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.userBookmarksIllust(userId, options);
     const params = qs.parse(nextUrl);
     const offset = params.offset || "0";
     dispatch(requestMyPrivateBookmarkIllust(userId, offset));
@@ -67,10 +73,10 @@ function fetchMyPrivateBookmarkIllustFromApi(userId, nextUrl) {
   };
 }
 
-export function fetchMyPrivateBookmarkIllusts(userId, nextUrl) {
+export function fetchMyPrivateBookmarkIllusts(userId, tag, nextUrl) {
   return (dispatch, getState) => {
     if (shouldFetchMyPrivateBookmarkIllust(getState()), userId) {
-      return dispatch(fetchMyPrivateBookmarkIllustFromApi(userId, nextUrl));
+      return dispatch(fetchMyPrivateBookmarkIllustFromApi(userId, tag, nextUrl));
     }
   };
 }

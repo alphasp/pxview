@@ -87,7 +87,7 @@ function fetchRankingFromApi(rankingMode, options = {}, nextUrl) {
         dispatch(receiveRanking(json, rankingMode, options, offset))
       })
       .catch(err => {
-        dispatch(stopRanking(rankingMode, options, rankingMode));
+        dispatch(stopRanking(rankingMode, options, offset));
         dispatch(addError(err));
       });
   };
@@ -112,9 +112,9 @@ export function clearRanking(rankingMode){
 
 export function clearAllRanking(rankingMode){
   return {
-    type: CLEAR_ALL_SEARCH,
+    type: CLEAR_ALL_RANKING,
     payload: {
-      sortType
+      rankingMode
     }
   };
 }

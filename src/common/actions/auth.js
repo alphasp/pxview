@@ -131,13 +131,13 @@ function postLogin(email, password) {
     // });
 
     return pixiv.login(email, password).then(json => {
-      dispatch(successLogin(json));
+      return dispatch(successLogin(json));
       //Actions.pop();
       //Actions.pop({ refresh: { test: true }})
     }).catch(err => {
       dispatch(failedLogin());
       console.log('err on login ', err)
-      dispatch(addError((err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : ""));
+      return dispatch(addError((err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : ""));
     });
   };
 }

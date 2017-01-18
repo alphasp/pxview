@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import PXTouchable from '../components/PXTouchable';
-import TagsFilterModal from '../components/TagsFilterModal';
+import TagsFilterModal from './TagsFilterModal';
 import MyPrivateBookmarkIllust from './MyPrivateBookmarkIllust';
 import UserBookmarkIllust from './UserBookmarkIllust';
-
+import { TagType } from '../common/actions/bookmarkTag';
 
 const styles = StyleSheet.create({
   container: {
@@ -66,6 +66,7 @@ class MyCollection extends Component {
 
   handleOnSelectTag = (tag) => {
     const { currentTabIndex } = this.state;
+    console.log(currentTabIndex, tag)
     newState = { 
       isOpenFilterModal: false 
     };
@@ -78,7 +79,7 @@ class MyCollection extends Component {
     this.setState(newState);
   }
 
-  handleOnChangeTab = (i, ref) => {
+  handleOnChangeTab = ({ i, ref }) => {
     this.setState({
       currentTabIndex: i
     })
@@ -101,12 +102,26 @@ class MyCollection extends Component {
             <Text style={styles.filterButtonText}>Filter Results</Text>
           </PXTouchable> 
         </View>
-        <TagsFilterModal 
-          isOpen={isOpenFilterModal}
-          onPressCloseButton={this.handleOnPressCloseFilterButton}
-          onSelectTag={this.handleOnSelectTag}
-          tag={currentTabIndex === 0 ? selectedPublicTag : selectedPrivateTag}
-        />
+        {
+          currentTabIndex === 0 &&
+          <TagsFilterModal 
+            tagType={TagType.PUBLIC}
+            isOpen={isOpenFilterModal}
+            onPressCloseButton={this.handleOnPressCloseFilterButton}
+            onSelectTag={this.handleOnSelectTag}
+            tag={selectedPublicTag}
+          />
+        }
+        {
+          currentTabIndex === 1 &&
+          <TagsFilterModal 
+            tagType={TagType.PRIVATE}
+            isOpen={isOpenFilterModal}
+            onPressCloseButton={this.handleOnPressCloseFilterButton}
+            onSelectTag={this.handleOnSelectTag}
+            tag={selectedPrivateTag}
+          />
+        }
       </View>
     );
   }
