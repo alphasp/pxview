@@ -13,7 +13,6 @@ import com.reactnative.photoview.PhotoViewPackage;
 import com.cmcewen.blurview.BlurViewPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
-import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.rnfs.RNFSPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactInstanceManager;
@@ -43,7 +42,6 @@ public class MainApplication extends Application implements ReactApplication {
             new PhotoViewPackage(),
             new BlurViewPackage(),
             new RNSpinkitPackage(),
-            new ReactMaterialKitPackage(),
             new RNFSPackage(),
             new RNFetchBlobPackage()
       );
