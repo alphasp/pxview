@@ -1,6 +1,7 @@
 //import jwtDecode from "jwt-decode";
 // import { push } from 'react-router-redux'
 import { Actions, ActionConst } from 'react-native-router-flux';
+import * as Keychain from 'react-native-keychain';
 import { addError, resetError } from './error';
 import pixiv from '../helpers/ApiClient';
 
@@ -131,7 +132,9 @@ function postLogin(email, password) {
     // });
 
     return pixiv.login(email, password).then(json => {
-      return dispatch(successLogin(json));
+      return Keychain.setGenericPassword(email, password).then(() => {
+        return dispatch(successLogin(json));
+      });      
       //Actions.pop();
       //Actions.pop({ refresh: { test: true }})
     }).catch(err => {
@@ -153,6 +156,7 @@ function shouldPostLogin(state, email, password) {
   }
 }
 
+
 export function login(email, password) {
   return (dispatch, getState) => {
     if (shouldPostLogin(getState(), email, password)) {
@@ -163,7 +167,10 @@ export function login(email, password) {
 
 export function logout() {
   return (dispatch, getState) => {
-    dispatch(logUserOut());
+    Keychain.resetGenericPassword()
+      .then(function() {
+        dispatch(logUserOut());
+      });
     //Actions.pop();
     //Actions.tabs({ type: ActionConst.RESET });
   }
@@ -176,12 +183,16 @@ export function requestRefreshToken(dispatch) {
   //   dispatch(failedRefreshToken());
   //   return dispatch(addError((err && err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : err));
   // });
-  const promise = pixiv.login('mysticmana', 'tester123').then(json => {
-    return dispatch(successRefreshToken(json));
-  }).catch(err => {
-    dispatch(failedRefreshToken());
-    return dispatch(addError((err && err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : err));
-  });
+  const promise = Keychain.getGenericPassword()
+    .then(credentials => {
+      console.log('cre ', credentials);
+      return pixiv.login(credentials.username, credentials.password).then(json => {
+        return dispatch(successRefreshToken(json));
+      }).catch(err => {
+        dispatch(failedRefreshToken());
+        return dispatch(addError((err && err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : err));
+      });
+    });
   dispatch(refreshToken(Promise.resolve()));
   return promise;
 } 

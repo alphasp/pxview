@@ -87,7 +87,7 @@ class Login extends Component {
     const { loading } = this.state;
     return (
       <View style={ styles.container }>
-        <Field name="email" component={PXFormInput} label="Email address/Pixiv ID" />
+        <Field name="email" component={PXFormInput} label="Email address/Pixiv ID" autoCapitalize="none" />
         <Field name="password" component={PXFormInput} label="Password" secureTextEntry={true} />
         <Button 
           title='Login' 
