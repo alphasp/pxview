@@ -201,7 +201,7 @@ class SearchFilterModal extends Component {
           renderRow={this.renderRow}
           renderSectionHeader={this.renderSectionHeader}
           renderSeparator={this.renderSeparator}
-          keyboardShouldPersistTaps
+          keyboardShouldPersistTaps="always"
         />  
         <View style={styles.searchFilterButtonContainer}>
           <PXTouchable 

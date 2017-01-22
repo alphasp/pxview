@@ -198,7 +198,12 @@ class UserProfile extends Component {
     switch (item.id) {
       case 'collection':
         //require user login
-        Actions.myCollection({ userId: user.id});
+        if (!user) {
+          Actions.login();
+        }
+        else {
+          Actions.myCollection({ userId: user.id });
+        }
         break;
       case 'logout':
         dispatch(logout());

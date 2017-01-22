@@ -19,6 +19,7 @@ import userBookmarkIllust from './userBookmarkIllust';
 import myPrivateBookmarkIllust from './myPrivateBookmarkIllust';
 import bookmarkTag from './bookmarkTag';
 import ranking from './ranking';
+import followingUserIllust from './followingUserIllust';
 import auth from './auth';
 import routes from './routes';
 import error from './error';
@@ -47,6 +48,7 @@ const rootReducer = combineReducers({
   userManga,
   userBookmarkIllust,
   myPrivateBookmarkIllust,
+  followingUserIllust,
   bookmarkTag,
   auth,
   routes,

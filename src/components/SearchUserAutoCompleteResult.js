@@ -80,7 +80,7 @@ class SearchUserAutoCompleteResult extends Component {
             />
             <Text style={styles.username}>{item.user.name}</Text>
           </View>
-          <FollowButton isFollow={false} />
+          <FollowButton isFollow={item.user.is_followed} />
         </View>
       </PXTouchable>
     )
@@ -129,7 +129,7 @@ class SearchUserAutoCompleteResult extends Component {
             renderRow={this.renderRow}
             renderSeparator={this.renderSeparator}
             enableEmptySections={true}
-            keyboardShouldPersistTaps={true}
+            keyboardShouldPersistTaps="always"
             onScroll={dismissKeyboard}
             onEndReached={loadMoreItems}
             renderFooter={this.renderFooter}

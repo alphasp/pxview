@@ -31,6 +31,7 @@ import UserManga from './UserManga';
 import UserBookmarkIllust from './UserBookmarkIllust';
 import MyCollection from './MyCollection';
 import Ranking from './Ranking';
+import NewWork from './NewWork';
 import UserProfile from './UserProfile';
 import Login from './Login';
 import Setting from './Setting';
@@ -135,14 +136,12 @@ class App extends Component {
                     icon="home"
                     component={Home}
                     navigationBarStyle={styles.header}
-                    hideNavBar={true}
                   />
                   <Scene key="ranking"
                     title="Ranking"
                     icon="trophy"
                     component={Ranking}
                     navigationBarStyle={styles.header}
-                    hideNavBar={true}
                   />
                   <Scene key="trending"
                     title="Search"
@@ -162,7 +161,7 @@ class App extends Component {
                     title="New"
                     icon="fiber-new"
                     iconType="material"
-                    component={Setting}
+                    component={NewWork}
                     navigationBarStyle={styles.header}
                   />
                   <Scene key="userProfile"

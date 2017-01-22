@@ -53,7 +53,7 @@ const SearchTags = (props) => {
     <View style={styles.container}>
       <ScrollView 
         horizontal={true}
-        keyboardShouldPersistTaps={true}
+        keyboardShouldPersistTaps="always"
       >
         {
           tags.map((tag, index) => 

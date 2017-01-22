@@ -253,7 +253,7 @@ class Detail extends Component {
                   <Text>{item.user.account}</Text>
                 </View>
               </PXTouchable>
-              <FollowButton isFollow={false} />
+              <FollowButton isFollow={item.user.is_followed} />
             </View>
             <View style={styles.captionContainer}>
               <HtmlView 

@@ -59,10 +59,10 @@ function fetchRecommendedFromApi(options, nextUrl) {
   };
 }
 
-export function fetchRecommendedMangas(options) {
+export function fetchRecommendedMangas(options, nextUrl) {
   return (dispatch, getState) => {
     if (shouldFetchRecommended(getState())) {
-      return dispatch(fetchRecommendedFromApi());
+      return dispatch(fetchRecommendedFromApi(options, nextUrl));
     }
   };
 }

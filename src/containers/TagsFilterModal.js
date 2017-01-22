@@ -176,7 +176,7 @@ class TagsFilterModal extends Component {
                   dataSource={dataSource}
                   renderRow={this.renderRow}
                   renderSectionHeader={this.renderSectionHeader}
-                  keyboardShouldPersistTaps
+                  keyboardShouldPersistTaps="always"
                 />  
               </View>
             </TouchableWithoutFeedback>

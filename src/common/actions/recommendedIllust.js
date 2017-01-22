@@ -72,7 +72,7 @@ function fetchRecommendedPublicFromApi(options, nextUrl) {
   };
 }
 
-export function fetchRecommendedIllusts(options) {
+export function fetchRecommendedIllusts(options, nextUrl) {
   return (dispatch, getState) => {
     if (shouldFetchRecommended(getState())) {
       return dispatch(fetchRecommendedFromApi(options, nextUrl));

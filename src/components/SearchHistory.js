@@ -118,7 +118,7 @@ class SearchHistory extends Component {
             renderRow={this.renderRow}
             renderSeparator={this.renderSeparator}
             enableEmptySections={true}
-            keyboardShouldPersistTaps={true}
+            keyboardShouldPersistTaps="always"
             onScroll={dismissKeyboard}
           />
           :
