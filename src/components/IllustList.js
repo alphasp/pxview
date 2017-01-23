@@ -18,6 +18,7 @@ import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
 import OverlayImagePages from '../components/OverlayImagePages';
+import OverlayLikeButton from '../components/OverlayLikeButton';
 import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic } from '../common/actions/recommendedIllust';
 import { fetchRecommendedManga } from '../common/actions/recommendedManga';
 import Spinner from 'react-native-spinkit';
@@ -61,6 +62,7 @@ class IllustList extends Component {
     }
   }
   renderRow = (item) => {
+    const { onPressLikeButton } = this.props;
     return (
       <PXTouchable 
         style={{ 
@@ -85,6 +87,7 @@ class IllustList extends Component {
           :
           null
         }
+        <OverlayLikeButton isLike={item.is_bookmarked} onPress={() => this.handleOnPressLikeButton(item)} />
       </PXTouchable>
     );
   }
@@ -107,6 +110,11 @@ class IllustList extends Component {
   handleOnPressItem = (item) => {
     Actions.detail({ item: item });
   }
+
+  handleOnPressLikeButton = (item) => {
+    console.log('on press ', item.id, item.title);
+  }
+
   render() {
     const { data: { items, loading, loaded }, refreshing, onRefresh, loadMoreItems, onScroll } = this.props;
     const { dataSource } = this.state;
