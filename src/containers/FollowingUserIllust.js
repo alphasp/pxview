@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
-import { fetchFollowingUserIllusts, clearFollowingUserIllusts } from '../common/actions/followingUserIllust';
+import * as followingUserActionCreators from '../common/actions/followingUserIllust';
 
 class FollowingUserIllust extends Component {
   constructor(props) {
@@ -21,25 +21,25 @@ class FollowingUserIllust extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchFollowingUserIllusts());
+    const { fetchFollowingUserIllusts } = this.props;
+    fetchFollowingUserIllusts();
   }
 
   loadMoreItems = () => {
-    const { dispatch, followingUserIllust: { nextUrl } } = this.props;
+    const { fetchFollowingUserIllusts, followingUserIllust: { nextUrl } } = this.props;
     console.log('load more ', nextUrl)
     if (nextUrl) {
-      dispatch(fetchFollowingUserIllusts("", nextUrl));
+      fetchFollowingUserIllusts("", nextUrl);
     }
   }
 
   handleOnRefresh = () => {
-    const { dispatch } = this.props;
+    const { fetchFollowingUserIllusts, clearFollowingUserIllusts } = this.props;
     this.setState({
       refereshing: true
     });
-    dispatch(clearFollowingUserIllusts());
-    dispatch(fetchFollowingUserIllusts()).finally(() => {
+    clearFollowingUserIllusts();
+    fetchFollowingUserIllusts().finally(() => {
       this.setState({
         refereshing: false
       }); 
@@ -64,4 +64,4 @@ export default connect(state => {
   return {
     followingUserIllust: state.followingUserIllust,
   }
-})(FollowingUserIllust);
+}, followingUserActionCreators)(FollowingUserIllust);

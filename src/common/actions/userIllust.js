@@ -8,7 +8,7 @@ export const STOP_USER_ILLUSTS = 'STOP_USER_ILLUSTS';
 export const CLEAR_USER_ILLUSTS = 'CLEAR_USER_ILLUSTS';
 export const CLEAR_ALL_USER_ILLUSTS = 'CLEAR_ALL_USER_ILLUSTS';
 
-function receiveUserIllust(json, userId, offset) { 
+function receiveUserIllusts(json, userId, offset) { 
   return {
     type: RECEIVE_USER_ILLUSTS,
     payload: {
@@ -21,7 +21,7 @@ function receiveUserIllust(json, userId, offset) {
   };
 }
 
-function requestUserIllust(userId, offset) {
+function requestUserIllusts(userId, offset) {
   return {
     type: REQUEST_USER_ILLUSTS,
     payload: {
@@ -31,7 +31,7 @@ function requestUserIllust(userId, offset) {
   };
 }
 
-function stopUserIllust(userId){
+function stopUserIllusts(userId){
   return {
     type: STOP_USER_ILLUSTS,
     payload: {
@@ -40,7 +40,7 @@ function stopUserIllust(userId){
   };
 }
 
-function shouldFetchUserIllust(state, userId) {
+function shouldFetchUserIllusts(state, userId) {
   if (!userId) {
     return false;
   }
@@ -53,16 +53,16 @@ function shouldFetchUserIllust(state, userId) {
   }
 }
 
-function fetchUserIllustFromApi(userId, nextUrl) {
+function fetchUserIllustsFromApi(userId, nextUrl) {
   return dispatch => {
     const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.userIllusts(userId);
     const params = qs.parse(nextUrl);
     const offset = params.offset || "0";
-    dispatch(requestUserIllust(userId, offset));
+    dispatch(requestUserIllusts(userId, offset));
     return promise
-      .then(json => dispatch(receiveUserIllust(json, userId, offset)))
+      .then(json => dispatch(receiveUserIllusts(json, userId, offset)))
       .catch(err => {
-        dispatch(stopUserIllust(userId));
+        dispatch(stopUserIllusts(userId));
         dispatch(addError(err));
       });
   };
@@ -70,13 +70,13 @@ function fetchUserIllustFromApi(userId, nextUrl) {
 
 export function fetchUserIllusts(userId, nextUrl) {
   return (dispatch, getState) => {
-    if (shouldFetchUserIllust(getState()), userId) {
-      return dispatch(fetchUserIllustFromApi(userId, nextUrl));
+    if (shouldFetchUserIllusts(getState()), userId) {
+      return dispatch(fetchUserIllustsFromApi(userId, nextUrl));
     }
   };
 }
 
-export function clearUserIllusts(userId){
+export function clearUserIllusts(userId) {
   return {
     type: CLEAR_USER_ILLUSTS,
     payload: {
@@ -85,7 +85,7 @@ export function clearUserIllusts(userId){
   };
 }
 
-export function clearAllUserIllusts(){
+export function clearAllUserIllusts() {
   return {
     type: CLEAR_ALL_USER_ILLUSTS,
   };

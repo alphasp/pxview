@@ -44,8 +44,10 @@ const styles = StyleSheet.create({
 class MyCollection extends Component {
   constructor(props) {
     super(props);
+    //this.offset = 0;
     this.state = { 
       currentTabIndex: 0,
+      //isShowFilterButton: true,
       isOpenFilterModal: false,
       selectedPublicTag: '',
       selectedPrivateTag: '',
@@ -85,9 +87,25 @@ class MyCollection extends Component {
     })
   }
 
+  // handleOnScroll = (e) => {
+  //   console.log('e ', e.nativeEvent.contentOffset.y);
+  //   const currentOffset = e.nativeEvent.contentOffset.y;
+  //   if (currentOffset > this.offset) {
+  //     this.setState({
+  //       isShowFilterButton: false
+  //     });
+  //   }
+  //   else {
+  //     this.setState({
+  //       isShowFilterButton: true
+  //     });
+  //   }
+  //   this.offset = currentOffset;
+  // }
+
   render() {
     const { userId } = this.props;
-    const { currentTabIndex, isOpenFilterModal, selectedPublicTag, selectedPrivateTag } = this.state;
+    const { currentTabIndex, isShowFilterButton, isOpenFilterModal, selectedPublicTag, selectedPrivateTag } = this.state;
     return (
       <View style={styles.container}>
         <ScrollableTabView ref={(ref) => this.tabs = ref} onChangeTab={this.handleOnChangeTab}>

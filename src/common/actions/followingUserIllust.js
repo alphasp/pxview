@@ -8,7 +8,7 @@ export const RECEIVE_FOLLOWING_USER_ILLUSTS = 'RECEIVE_FOLLOWING_USER_ILLUSTS';
 export const STOP_FOLLOWING_USER_ILLUSTS = 'STOP_FOLLOWING_USER_ILLUSTS';
 export const CLEAR_FOLLOWING_USER_ILLUSTS = 'CLEAR_FOLLOWING_USER_ILLUSTS';
 
-function receiveFollowingUserIllust(json, offset) {
+function receiveFollowingUserIllusts(json, offset) {
   return {
     type: RECEIVE_FOLLOWING_USER_ILLUSTS,
     payload: {
@@ -20,7 +20,7 @@ function receiveFollowingUserIllust(json, offset) {
   };
 }
 
-function requestFollowingUserIllust(offset) {
+function requestFollowingUserIllusts(offset) {
   return {
     type: REQUEST_FOLLOWING_USER_ILLUSTS,
     payload: {
@@ -29,13 +29,13 @@ function requestFollowingUserIllust(offset) {
   };
 }
 
-function stopFollowingUserIllust() {
+function stopFollowingUserIllusts() {
   return {
     type: STOP_FOLLOWING_USER_ILLUSTS
   };
 }
 
-function shouldFetchFollowingUserIllust(state) {
+function shouldFetchFollowingUserIllusts(state) {
   const results = state.followingUserIllust;
   if (results && results.loading) {
     return false;
@@ -49,11 +49,11 @@ function fetchFollowingUserIllustsFromApi(options, nextUrl) {
     const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.illustFollow(options);
     const params = qs.parse(nextUrl);
     const offset = params.offset || "0";
-    dispatch(requestFollowingUserIllust(offset));
+    dispatch(requestFollowingUserIllusts(offset));
     return promise
-      .then(json => dispatch(receiveFollowingUserIllust(json, offset)))
+      .then(json => dispatch(receiveFollowingUserIllusts(json, offset)))
       .catch(err => {
-        dispatch(stopFollowingUserIllust());
+        dispatch(stopFollowingUserIllusts());
         dispatch(addError(err));
       });
   };
@@ -61,13 +61,13 @@ function fetchFollowingUserIllustsFromApi(options, nextUrl) {
 
 export function fetchFollowingUserIllusts(options, nextUrl) {
   return (dispatch, getState) => {
-    if (shouldFetchFollowingUserIllust(getState())) {
+    if (shouldFetchFollowingUserIllusts(getState())) {
       return dispatch(fetchFollowingUserIllustsFromApi(options, nextUrl));
     }
   };
 }
 
-export function clearFollowingUserIllust() {
+export function clearFollowingUserIllusts() {
   return {
     type: CLEAR_FOLLOWING_USER_ILLUSTS
   };

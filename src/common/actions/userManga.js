@@ -8,7 +8,7 @@ export const STOP_USER_MANGAS = 'STOP_USER_MANGAS';
 export const CLEAR_USER_MANGAS = 'CLEAR_USER_MANGAS';
 export const CLEAR_ALL_USER_MANGAS = 'CLEAR_ALL_USER_MANGAS';
 
-function receiveUserManga(json, userId, offset) { 
+function receiveUserMangas(json, userId, offset) { 
   return {
     type: RECEIVE_USER_MANGAS,
     payload: {
@@ -21,7 +21,7 @@ function receiveUserManga(json, userId, offset) {
   };
 }
 
-function requestUserManga(userId, offset) {
+function requestUserMangas(userId, offset) {
   return {
     type: REQUEST_USER_MANGAS,
     payload: {
@@ -31,7 +31,7 @@ function requestUserManga(userId, offset) {
   };
 }
 
-function stopUserManga(userId){
+function stopUserMangas(userId){
   return {
     type: STOP_USER_MANGAS,
     payload: {
@@ -40,7 +40,7 @@ function stopUserManga(userId){
   };
 }
 
-function shouldFetchUserManga(state, userId) {
+function shouldFetchUserMangas(state, userId) {
   if (!userId) {
     return false;
   }
@@ -53,16 +53,16 @@ function shouldFetchUserManga(state, userId) {
   }
 }
 
-function fetchUserMangaFromApi(userId, nextUrl) {
+function fetchUserMangasFromApi(userId, nextUrl) {
   return dispatch => {
     const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.userIllusts(userId, { type: 'manga' });
     const params = qs.parse(nextUrl);
     const offset = params.offset || "0";
-    dispatch(requestUserManga(userId, offset));
+    dispatch(requestUserMangas(userId, offset));
     return promise
-      .then(json => dispatch(receiveUserManga(json, userId, offset)))
+      .then(json => dispatch(receiveUserMangas(json, userId, offset)))
       .catch(err => {
-        dispatch(stopUserManga(userId));
+        dispatch(stopUserMangas(userId));
         dispatch(addError(err));
       });
   };
@@ -70,13 +70,13 @@ function fetchUserMangaFromApi(userId, nextUrl) {
 
 export function fetchUserMangas(userId, nextUrl) {
   return (dispatch, getState) => {
-    if (shouldFetchUserManga(getState()), userId) {
-      return dispatch(fetchUserMangaFromApi(userId, nextUrl));
+    if (shouldFetchUserMangas(getState()), userId) {
+      return dispatch(fetchUserMangasFromApi(userId, nextUrl));
     }
   };
 }
 
-export function clearUserMangas(userId){
+export function clearUserMangas(userId) {
   return {
     type: CLEAR_USER_MANGAS,
     payload: {
@@ -85,7 +85,7 @@ export function clearUserMangas(userId){
   };
 }
 
-export function clearAllUserMangas(){
+export function clearAllUserMangas() {
   return {
     type: CLEAR_ALL_USER_MANGAS,
   };

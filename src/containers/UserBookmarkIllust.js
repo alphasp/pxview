@@ -58,7 +58,7 @@ class UserBookmarkIllust extends Component {
   }
 
   render() {
-    const { userBookmarkIllust, userId } = this.props;
+    const { userBookmarkIllust, userId, onScroll } = this.props;
     const { refreshing } = this.state;
     console.log('userBookmarkIllust ', userBookmarkIllust)
     return (
@@ -68,6 +68,7 @@ class UserBookmarkIllust extends Component {
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
+        onScroll={onScroll}
       />
       :
       null

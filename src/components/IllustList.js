@@ -108,7 +108,7 @@ class IllustList extends Component {
     Actions.detail({ item: item });
   }
   render() {
-    const { data: { items, loading, loaded }, refreshing, onRefresh, loadMoreItems } = this.props;
+    const { data: { items, loading, loaded }, refreshing, onRefresh, loadMoreItems, onScroll } = this.props;
     const { dataSource } = this.state;
     return (
       <View style={styles.container}>
@@ -126,6 +126,7 @@ class IllustList extends Component {
             onEndReached={loadMoreItems}
             renderFooter={this.renderFooter}
             enableEmptySections={true}
+            onScroll={onScroll}
             refreshControl={
               <RefreshControl
                 refreshing={refreshing}

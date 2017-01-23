@@ -185,7 +185,6 @@ export function requestRefreshToken(dispatch) {
   // });
   const promise = Keychain.getGenericPassword()
     .then(credentials => {
-      console.log('cre ', credentials);
       return pixiv.login(credentials.username, credentials.password).then(json => {
         return dispatch(successRefreshToken(json));
       }).catch(err => {
