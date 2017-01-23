@@ -158,7 +158,7 @@ class App extends Component {
                     }}
                   />
                   <Scene key="new"
-                    title="New"
+                    title="Newest"
                     icon="fiber-new"
                     iconType="material"
                     component={NewWork}

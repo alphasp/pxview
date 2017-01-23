@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import FollowingUserIllust from './FollowingUserIllust';
+import NewIllust from './NewIllust';
+import NewManga from './NewManga';
 import Setting from './Setting';
 
 const styles = StyleSheet.create({
@@ -29,8 +31,8 @@ class NewWork extends Component {
       <View style={styles.container}>
         <ScrollableTabView ref={(ref) => this.tabs = ref}>
           <FollowingUserIllust tabLabel="Following" />
-          <Setting tabLabel="Newest Illust" />
-          <Setting tabLabel="Newest Manga" />
+          <NewIllust tabLabel="Newest Illust" />
+          <NewManga tabLabel="Newest Manga" />
           <Setting tabLabel="My Pixiv" />
         </ScrollableTabView>
       </View>
