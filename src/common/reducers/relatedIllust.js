@@ -1,4 +1,13 @@
-import { REQUEST_RELATED_ILLUSTS, RECEIVE_RELATED_ILLUSTS, STOP_RELATED_ILLUSTS, CLEAR_RELATED_ILLUSTS } from "../actions/relatedIllust";
+import { 
+  REQUEST_RELATED_ILLUSTS, 
+  RECEIVE_RELATED_ILLUSTS, 
+  STOP_RELATED_ILLUSTS, 
+  CLEAR_RELATED_ILLUSTS 
+} from "../actions/relatedIllust";
+import { 
+  BOOKMARK_ILLUST, 
+  UNBOOKMARK_ILLUST,
+} from "../actions/bookmarkIllust";
 
 export function relatedIllust(state = {}, action) {
   switch (action.type) {
@@ -37,6 +46,38 @@ export function relatedIllust(state = {}, action) {
           loading: false
         }
       };
+    case BOOKMARK_ILLUST:
+      return state[action.payload.illustId] ? 
+        {
+          ...state,
+          [action.payload.illustId]: {
+            ...state[action.payload.illustId],
+            items: state[action.payload.illustId].items.map(item =>
+              item.id === action.payload.illustId ?
+              { ...item, is_bookmarked: true } 
+              :
+              item
+            )
+          }
+        }
+        :
+        state 
+    case UNBOOKMARK_ILLUST:
+      return state[action.payload.illustId] ? 
+        {
+          ...state,
+          [action.payload.illustId]: {
+            ...state[action.payload.illustId],
+            items: state[action.payload.illustId].items.map(item =>
+              item.id === action.payload.illustId ?
+              { ...item, is_bookmarked: false } 
+              :
+              item
+            )
+          }
+        }
+        :
+        state 
     default:
       return state;
   }

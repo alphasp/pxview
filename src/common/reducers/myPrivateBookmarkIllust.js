@@ -4,6 +4,10 @@ import {
   STOP_MY_PRIVATE_BOOKMARK_ILLUSTS, 
   CLEAR_MY_PRIVATE_BOOKMARK_ILLUSTS,
 } from "../actions/myPrivateBookmarkIllust";
+import { 
+  BOOKMARK_ILLUST, 
+  UNBOOKMARK_ILLUST,
+} from "../actions/bookmarkIllust";
 
 export default function userIllust(state = {
   loading: false,
@@ -42,6 +46,26 @@ export default function userIllust(state = {
         ...state,
         loading: false,
       };
+    case BOOKMARK_ILLUST:
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item.id === action.payload.illustId ?
+          { ...item, is_bookmarked: true } 
+          :
+          item
+        )
+      }
+    case UNBOOKMARK_ILLUST:
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item.id === action.payload.illustId ?
+          { ...item, is_bookmarked: false } 
+          :
+          item
+        )
+      }
     default:
       return state;
   }

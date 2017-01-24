@@ -22,6 +22,7 @@ import ranking from './ranking';
 import followingUserIllust from './followingUserIllust';
 import newIllust from './newIllust';
 import newManga from './newManga';
+import bookmarkIllust from './bookmarkIllust';
 import auth from './auth';
 import routes from './routes';
 import error from './error';
@@ -54,6 +55,7 @@ const rootReducer = combineReducers({
   newIllust,
   newManga,
   bookmarkTag,
+  bookmarkIllust,
   auth,
   routes,
   form: formReducer,

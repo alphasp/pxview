@@ -5,6 +5,10 @@ import {
   CLEAR_USER_MANGAS,
   CLEAR_ALL_USER_MANGAS,
 } from "../actions/userManga";
+import { 
+  BOOKMARK_ILLUST, 
+  UNBOOKMARK_ILLUST,
+} from "../actions/bookmarkIllust";
 
 export default function userIllust(state = {}, action) {
   switch (action.type) {
@@ -44,6 +48,38 @@ export default function userIllust(state = {}, action) {
           loading: false
         }
       };
+    case BOOKMARK_ILLUST:
+      return state[action.payload.userId] ? 
+        {
+          ...state,
+          [action.payload.userId]: {
+            ...state[action.payload.userId],
+            items: state[action.payload.userId].items.map(item =>
+              item.id === action.payload.illustId ?
+              { ...item, is_bookmarked: true } 
+              :
+              item
+            )
+          }
+        }
+        :
+        state;
+    case UNBOOKMARK_ILLUST:
+      return state[action.payload.userId] ? 
+        {
+          ...state,
+          [action.payload.userId]: {
+            ...state[action.payload.userId],
+            items: state[action.payload.userId].items.map(item =>
+              item.id === action.payload.illustId ?
+              { ...item, is_bookmarked: false } 
+              :
+              item
+            )
+          }
+        }
+        :
+        state;
     default:
       return state;
   }

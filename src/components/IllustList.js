@@ -19,9 +19,7 @@ import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
 import OverlayImagePages from '../components/OverlayImagePages';
 import OverlayLikeButton from '../components/OverlayLikeButton';
-import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic } from '../common/actions/recommendedIllust';
-import { fetchRecommendedManga } from '../common/actions/recommendedManga';
-import Spinner from 'react-native-spinkit';
+import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
@@ -112,7 +110,16 @@ class IllustList extends Component {
   }
 
   handleOnPressLikeButton = (item) => {
-    console.log('on press ', item.id, item.title);
+    const { bookmarkIllust, unbookmarkIllust } = this.props;
+    console.log('is_bookmarked ', item.is_bookmarked);
+    if (item.is_bookmarked) {
+      unbookmarkIllust(item.id);
+    }
+    else {
+      bookmarkIllust(item.id);
+    }
+    // console.log(this.props);
+    // console.log('on press ', item.id, item.title);
   }
 
   render() {
@@ -170,4 +177,4 @@ class IllustList extends Component {
   }
 }
 
-export default IllustList;
+export default connect(null, bookmarkIllustActionCreators)(IllustList);

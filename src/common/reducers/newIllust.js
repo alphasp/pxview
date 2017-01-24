@@ -4,8 +4,12 @@ import {
   STOP_NEW_ILLUSTS, 
   CLEAR_NEW_ILLUSTS,
 } from "../actions/newIllust";
+import { 
+  BOOKMARK_ILLUST, 
+  UNBOOKMARK_ILLUST,
+} from "../actions/bookmarkIllust";
 
-export default function followingUserIllust(state = {
+export default function newIllust(state = {
   loading: false,
   loaded: false,
   items: [],
@@ -42,6 +46,26 @@ export default function followingUserIllust(state = {
         ...state,
         loading: false,
       };
+    case BOOKMARK_ILLUST:
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item.id === action.payload.illustId ?
+          { ...item, is_bookmarked: true } 
+          :
+          item
+        )
+      }
+    case UNBOOKMARK_ILLUST:
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item.id === action.payload.illustId ?
+          { ...item, is_bookmarked: false } 
+          :
+          item
+        )
+      }
     default:
       return state;
   }
