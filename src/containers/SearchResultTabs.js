@@ -14,9 +14,7 @@ import { Actions, ActionConst } from 'react-native-router-flux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SearchBar from '../components/SearchBar';
-
-import SearchResultNewest from './SearchResultNewest';
-import SearchResultOldest from './SearchResultOldest';
+import SearchResult from './SearchResult';
 import { fetchSearch, clearSearch, SortType } from '../common/actions/search';
 import { SearchType } from '../common/actions/searchType';
 
@@ -143,16 +141,18 @@ class SearchResultTabs extends Component {
     return (
       <View style={styles.container} >
         <ScrollableTabView>
-          <SearchResultNewest 
+          <SearchResult 
             tabLabel="Newest" 
             word={word} 
             options={searchOptions} 
+            sortType={SortType.DESC}
             navigationStateKey={navigationState.key}
           />
-          <SearchResultOldest 
+          <SearchResult 
             tabLabel="Oldest" 
             word={word} 
             options={searchOptions}
+            sortType={SortType.ASC}
             navigationStateKey={navigationState.key}
           />
         </ScrollableTabView>

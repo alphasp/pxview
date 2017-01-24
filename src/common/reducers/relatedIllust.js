@@ -61,7 +61,7 @@ export function relatedIllust(state = {}, action) {
           }
         }
         :
-        state 
+        state; 
     case UNBOOKMARK_ILLUST:
       return state[action.payload.illustId] ? 
         {
@@ -77,7 +77,7 @@ export function relatedIllust(state = {}, action) {
           }
         }
         :
-        state 
+        state;
     default:
       return state;
   }

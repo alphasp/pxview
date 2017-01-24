@@ -122,6 +122,7 @@ function bookmarkIllustFromApi(illustId, bookmarkActionType, bookmarkType, tags)
         );
       })
       .catch(err => {
+        console.log('err ', err)
         dispatch(
           bookmarkActionType === BookmarkActionType.BOOKMARK ? 
           bookmarkIllustFailure(illustId, bookmarkType, tags)

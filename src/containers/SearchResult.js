@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import { fetchSearch, clearSearch, SortType } from '../common/actions/search';
 
-class SearchResultOldest extends Component {
+class SearchResult extends Component {
   constructor(props) {
     super(props);
     const { word } = props;
@@ -23,8 +23,8 @@ class SearchResultOldest extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, navigationStateKey, word, options } = this.props;
-    dispatch(clearSearch(navigationStateKey, SortType.ASC));
+    const { dispatch, navigationStateKey, sortType, word, options } = this.props;
+    dispatch(clearSearch(navigationStateKey, sortType));
     InteractionManager.runAfterInteractions(() => {
       this.search(word, options);
     });
@@ -32,13 +32,10 @@ class SearchResultOldest extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { options: prevOptions, word: prevWord } = this.props;
-    const { dispatch, navigationStateKey, word, options } = nextProps;
-    console.log('oldest word ', word)
-    console.log('oldest prevword ', prevWord);
+    const { dispatch, navigationStateKey, sortType, word, options } = nextProps;
     if ((word !== prevWord) || (options && options !== prevOptions)) {
       const { dataSource } = this.state;
-      dispatch(clearSearch(navigationStateKey, SortType.ASC));
-      console.log(console.log('receive new options ', options))
+      dispatch(clearSearch(navigationStateKey, sortType));
       this.search(word, options);
     }
   }
@@ -52,11 +49,11 @@ class SearchResultOldest extends Component {
   }
 
   handleOnRefresh = () => {
-    const { dispatch, navigationStateKey, word, options } = this.props;
+    const { dispatch, navigationStateKey, sortType, word, options } = this.props;
     this.setState({
       refereshing: true
     });
-    dispatch(clearSearch(navigationStateKey, SortType.ASC));
+    dispatch(clearSearch(navigationStateKey, sortType));
     this.search(word, options, null).finally(() => {
       this.setState({
         refereshing: false
@@ -65,13 +62,14 @@ class SearchResultOldest extends Component {
   }
 
   search = (word, options, nextUrl) => {
-    const { dispatch, navigationStateKey, search } = this.props;
-    return dispatch(fetchSearch(navigationStateKey, word, options, SortType.ASC, nextUrl, search));
+    const { dispatch, navigationStateKey, sortType, search } = this.props;
+    return dispatch(fetchSearch(navigationStateKey, word, options, sortType, nextUrl, search));
   }
 
   render() {
     const { navigationStateKey, search, word, options } = this.props;
     const { refreshing } = this.state;
+    console.log('new rr ', search)
     return (
       (search[navigationStateKey] ? true : false) &&
       <IllustList
@@ -84,8 +82,8 @@ class SearchResultOldest extends Component {
   }
 }
 
-export default connect(state => {
+export default connect((state, props) => {
   return {
-    search: state.searchOldest,
+    search: state.search[props.sortType],
   }
-})(SearchResultOldest);
+})(SearchResult);
