@@ -91,9 +91,9 @@ class IllustList extends Component {
   }
 
   renderFooter = () => {
-    const { data: { nextUrl } } = this.props;
+    const { data: { nextUrl, loading } } = this.props;
     return (
-      nextUrl ?
+      (nextUrl && loading) ?
       <View style={{ 
         width: width,
         marginBottom: 20
