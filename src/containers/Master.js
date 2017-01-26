@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
+  DeviceEventEmitter,
 } from 'react-native';
 import { connect } from 'react-redux'
 import { DefaultRenderer } from 'react-native-router-flux';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import { Actions } from 'react-native-router-flux';
+import Toast, { DURATION } from 'react-native-easy-toast'
 import { resetError } from '../common/actions/error';
 
 const styles = StyleSheet.create({
@@ -25,10 +27,17 @@ class Master extends Component {
 
   componentDidMount() {
     MessageBarManager.registerMessageBar(this.messageBarAlert);
+    this.listener = DeviceEventEmitter.addListener('showToast', (text) => {
+      this.toast.show(text, DURATION.LENGTH_LONG);
+    });
+    //DeviceEventEmitter.emit('showToast', 'Maximum of tags is 10');
   }
 
   componentWillUnmount() {
     MessageBarManager.unregisterMessageBar();
+    if (this.listener) {
+      this.listener.remove();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -58,7 +67,8 @@ class Master extends Component {
     return (
       <View style={styles.container}>
         <DefaultRenderer navigationState={children[0]} onNavigate={this.props.onNavigate} />
-        <MessageBar ref={(ref) => this.messageBarAlert = ref}/>
+        <MessageBar ref={ref => this.messageBarAlert = ref}/>
+        <Toast ref={ref => this.toast = ref} />
       </View>
     );
   }

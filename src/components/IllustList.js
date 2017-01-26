@@ -13,12 +13,13 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 //import GridView from 'react-native-grid-view';
 // import Image from 'react-native-image-progress';
-import GridView from '../components/GridView';
-import Loader from '../components/Loader';
-import PXTouchable from '../components/PXTouchable';
-import PXImage from '../components/PXImage';
-import OverlayImagePages from '../components/OverlayImagePages';
-import OverlayLikeButton from '../components/OverlayLikeButton';
+import GridView from './GridView';
+import Loader from './Loader';
+import PXTouchable from './PXTouchable';
+import PXImage from './PXImage';
+import OverlayImagePages from './OverlayImagePages';
+import OverlayLikeButton from './OverlayLikeButton';
+import BookmarkModal from '../containers/BookmarkModal';
 import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
 
 const width = Dimensions.get('window').width; //full width
@@ -46,7 +47,10 @@ class IllustList extends Component {
     this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2,
-      })
+      }),
+      isOpenBookmarkModal: false,
+      selectedIllustId: null,
+      isBookmark: false,
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -85,7 +89,11 @@ class IllustList extends Component {
           :
           null
         }
-        <OverlayLikeButton isLike={item.is_bookmarked} onPress={() => this.handleOnPressLikeButton(item)} />
+        <OverlayLikeButton 
+          isLike={item.is_bookmarked} 
+          onPress={() => this.handleOnPressLikeButton(item)} 
+          onLongPress={() => this.handleOnLongPressLikeButton(item)}
+        />
       </PXTouchable>
     );
   }
@@ -122,9 +130,25 @@ class IllustList extends Component {
     // console.log('on press ', item.id, item.title);
   }
 
+  handleOnLongPressLikeButton = (item) => {
+    this.setState({
+      isOpenBookmarkModal: true,
+      selectedIllustId: item.id,
+      isBookmark: item.is_bookmarked,
+    })
+  }
+
+  handleOnPressCloseBookmarkModalButton = () => {
+    this.setState({
+      isOpenBookmarkModal: false,
+      selectedIllustId: null,
+      isBookmark: false,
+    })
+  }
+
   render() {
     const { data: { items, loading, loaded }, refreshing, onRefresh, loadMoreItems, onScroll } = this.props;
-    const { dataSource } = this.state;
+    const { dataSource, isOpenBookmarkModal, selectedIllustId, isBookmark } = this.state;
     return (
       <View style={styles.container}>
         {
@@ -152,26 +176,14 @@ class IllustList extends Component {
           :
           null
         }
-        {/*
-          (items && items.length) ?
-          <GridView
-            items={ items }
-            itemsPerRow={ 2 }
-            renderItem={ this.renderItem }
-            onEndReachedThreshold={ 30 }
-            onEndReached={ loadMoreItems }
-            renderFooter={ this.renderFooter }
-            enableEmptySections={ true }
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-              />
-            }
+        {
+          isOpenBookmarkModal && selectedIllustId &&
+          <BookmarkModal 
+            illustId={selectedIllustId}
+            isBookmark={isBookmark}
+            onPressCloseButton={this.handleOnPressCloseBookmarkModalButton}
           />
-          :
-          null
-        */}
+        }
       </View>
     );
   }

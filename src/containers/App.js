@@ -132,7 +132,7 @@ class App extends Component {
               >
                 <Scene key="tabs" component={Tabs} title="Pixiv RN" tabs={true} duration={0}>
                   <Scene key="home"
-                    title="Home"
+                    title="Pixiv RN"
                     icon="home"
                     component={Home}
                     navigationBarStyle={styles.header}

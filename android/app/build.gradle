@@ -143,6 +143,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-material-kit')
     compile project(':react-native-keychain')
     compile project(':react-native-vector-icons')
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'

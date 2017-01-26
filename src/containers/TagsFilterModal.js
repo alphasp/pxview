@@ -10,9 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import PXTouchable from '../components/PXTouchable';
-//import TagsFilterModal from '../components/TagsFilterModal';
 import * as bookmarkTagActionCreators from '../common/actions/bookmarkTag';
-// import { TagType } from '../common/actions/bookmarkTag';
 
 const styles = StyleSheet.create({
   container: {
@@ -57,7 +55,6 @@ class TagsFilterModal extends Component {
         sectionHeaderHasChanged: (s1,s2) => s1 !== s2
       }),
       tag: 'all',
-      refreshing: false
     };
   }
 
@@ -112,54 +109,9 @@ class TagsFilterModal extends Component {
     )
   }
 
-  loadMoreItems = () => {
-    const { bookmarkTag: { nextUrl }, tagType } = this.props;
-    console.log('load more ', nextUrl)
-    if (nextUrl) {
-      fetchBookmarkTag(tagType, nextUrl);
-    }
-  }
-
-  handleOnRefresh = () => {
-    const { fetchBookmarkTag, clearBookmarkTag, tagType } = this.props;
-    this.setState({
-      refereshing: true
-    });
-    clearBookmarkTag(tagType);
-    fetchBookmarkTag(tagType).finally(() => {
-      this.setState({
-        refereshing: false
-      }); 
-    })
-  }
-
-  // render() {
-  //   const { bookmarkTag, tag, isOpen, onPressCloseButton, onSelectTag } = this.props;
-  //   const { refreshing } = this.state;
-  //   // return (
-  //   //   <View></View>
-  //   // )
-  //   return (
-  //     <TagsFilterModal
-  //       data={bookmarkTag}
-  //       isOpen={isOpen}
-  //       onPressCloseButton={onPressCloseButton}
-  //       onSelectTag={onSelectTag}
-  //       tag={tag}
-  //       refreshing={refreshing}
-  //       loadMoreItems={this.loadMoreItems}
-  //       onRefresh={this.handleOnRefresh}
-  //     />
-  //   );
-  // }
-
   render() {
-    // const { bookmarkTag: { items, loading, loaded}, tag, isOpen, onPressCloseButton, onSelectTag } = this.props;
-    // const { refreshing } = this.state;
-
-    const { bookmarkTag: { items, loading, loaded }, onSelectTag, loadMoreItems, isOpen, onPressCloseButton } = this.props;
-    const { dataSource, refreshing } = this.state;
-    // const dataSource = this.dataSource.cloneWithRowsAndSections(data);
+    const { bookmarkTag: { items, loading, loaded }, onSelectTag, isOpen, onPressCloseButton } = this.props;
+    const { dataSource } = this.state;
     return (
       <View>
         <Modal

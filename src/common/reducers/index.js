@@ -24,6 +24,7 @@ import newIllust from './newIllust';
 import newManga from './newManga';
 import myPixiv from './myPixiv';
 import bookmarkIllust from './bookmarkIllust';
+import illustBookmarkDetail from './illustBookmarkDetail';
 import auth from './auth';
 import routes from './routes';
 import error from './error';
@@ -59,6 +60,7 @@ const rootReducer = combineReducers({
   myPixiv,
   bookmarkTag,
   bookmarkIllust,
+  illustBookmarkDetail,
   auth,
   routes,
   form: formReducer,
