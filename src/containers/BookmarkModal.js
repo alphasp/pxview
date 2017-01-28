@@ -15,7 +15,9 @@ import { MKCheckbox } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Toast, { DURATION } from 'react-native-easy-toast'
 import PXTouchable from '../components/PXTouchable';
-import * as illustBookmarkDetailctionCreators from '../common/actions/illustBookmarkDetail';
+import * as illustBookmarkDetailActionCreators from '../common/actions/illustBookmarkDetail';
+import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
+import { BookmarkType } from '../common/actions/bookmarkIllust';
 
 const MAX_TAGS_COUNT = 10;
 
@@ -65,6 +67,7 @@ const styles = StyleSheet.create({
   },
   tagText: {
     fontSize: 12,
+    flex: 1, //wrap text
   }
 });
 
@@ -136,28 +139,6 @@ class BookmarkModal extends Component {
     }
     console.log('selectedTagsCount ', selectedTagsCount)
     const updatedTags = tags.map(tag => {
-      //isRegistered = tag.name === selectedTag ? (selectedTagsCount < MAX_TAGS_COUNT ? !tag.is_registered : false) : tag.is_registered;
-      // if (tag.name === selectedTag && tag.editable) {
-      //   // if (isRegistered) {
-      //   //   selectedTagsCount++;
-      //   // }
-      //   // else {
-      //   //   selectedTagsCount--;
-      //   // }
-      //   console.log('selected ', tag.name, isRegistered, selectedTagsCount)
-      //   console.log('new ', {
-      //     ...tag,
-      //     is_registered: isRegistered,
-      //     editable: (selectedTagsCount < MAX_TAGS_COUNT || isRegistered) ? true : false,
-      //   });
-      // }
-      // if (tag.name === 'レム') {
-      //   console.log('gg ', {
-      //     ...tag,
-      //     is_registered: isRegistered,
-      //     editable: (selectedTagsCount < MAX_TAGS_COUNT || isRegistered) ? true : false,
-      //   });
-      // }
       const isRegistered = tag.name === checkedTag.name ? !tag.is_registered : tag.is_registered;
       return {
         ...tag,
@@ -178,6 +159,21 @@ class BookmarkModal extends Component {
     return tags.reduce((count, tag) => {
       return tag.is_registered ? ++count : count;
     }, 0);
+  }
+
+  handleOnPressLike = () => {
+    const { illustId, isBookmark, bookmarkIllust, onPressCloseButton } = this.props;
+    const { tags, isPrivate } = this.state;
+    const selectedTags = tags.filter(tag => tag.is_registered).map(tag => tag.name);
+    const bookmarkType = isPrivate ? BookmarkType.PRIVATE : BookmarkType.PUBLIC;
+    bookmarkIllust(illustId, bookmarkType, selectedTags);
+    onPressCloseButton();
+  }
+
+  handleOnPressRemove = () => {
+    const { illustId, unbookmarkIllust, onPressCloseButton } = this.props;
+    unbookmarkIllust(illustId);
+    onPressCloseButton();
   }
 
   renderRow = (item) => {
@@ -235,11 +231,14 @@ class BookmarkModal extends Component {
                 <View style={[styles.actionContainer, !isBookmark && {justifyContent: "center"}]}>
                   {
                     isBookmark &&
-                    <PXTouchable>
+                    <PXTouchable onPress={this.handleOnPressRemove}>
                       <Text>Remove Like</Text>
                     </PXTouchable>
                   }
-                  <PXTouchable style={!isBookmark && {flexDirection: "row", alignItems: "center"}}>
+                  <PXTouchable 
+                    style={!isBookmark && {flexDirection: "row", alignItems: "center"}}
+                    onPress={this.handleOnPressLike}
+                  >
                     {
                       !isBookmark &&
                       <Icon
@@ -265,4 +264,4 @@ export default connect((state, props) => {
   return {
     illustBookmarkDetail: state.illustBookmarkDetail
   }
-}, illustBookmarkDetailctionCreators)(BookmarkModal);
+}, { ...illustBookmarkDetailActionCreators, ...bookmarkIllustActionCreators })(BookmarkModal);

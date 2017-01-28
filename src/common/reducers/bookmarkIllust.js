@@ -30,6 +30,23 @@ export default function bookmarkIllust(state = {
         ...state,
         loading: false,
       };
+    case UNBOOKMARK_ILLUST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UNBOOKMARK_ILLUST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        lastUpdated: action.payload.receivedAt,
+      };
+    case UNBOOKMARK_ILLUST_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return state;
   }

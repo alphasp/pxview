@@ -35,6 +35,16 @@ class OverlayLikeButton extends Component {
     };
   }
   
+  componentWillReceiveProps(nextProps) {
+    const { isLike: prevIsLike } = this.props;
+    const { isLike } = nextProps;
+    if (isLike !== prevIsLike) {
+      this.setState({
+        isLike
+      });
+    }
+  }
+  
   handleOnPress = () => {
     const { onPress } = this.props;
     const { isLike } = this.state;

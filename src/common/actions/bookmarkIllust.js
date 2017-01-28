@@ -100,6 +100,8 @@ function shouldBookmarkIllust(state, illustId) {
 }
 
 function bookmarkIllustFromApi(illustId, bookmarkActionType, bookmarkType, tags)  {
+  const bookmarkTypeString = bookmarkType === BookmarkType.PRIVATE ? 'private' : 'public';
+  console.log(illustId, bookmarkActionType, bookmarkTypeString)
   return dispatch => {
     dispatch(
       bookmarkActionType === BookmarkActionType.BOOKMARK ? 
@@ -109,20 +111,19 @@ function bookmarkIllustFromApi(illustId, bookmarkActionType, bookmarkType, tags)
     );
     const promise = 
       bookmarkActionType === BookmarkActionType.BOOKMARK ? 
-      pixiv.bookmarkIllust(illustId)
+      pixiv.bookmarkIllust(illustId, bookmarkTypeString, tags)
       : 
-      pixiv.unbookmarkIllust(illustId, bookmarkType, tags);
+      pixiv.unbookmarkIllust(illustId);
     return promise
       .then(json => {
         dispatch(
           bookmarkActionType === BookmarkActionType.BOOKMARK ? 
           bookmarkIllustSuccess(illustId, bookmarkType, tags)
           :
-          unbookmarkIllustSuccess(illustId, bookmarkType, tags)
+          unbookmarkIllustSuccess(illustId, bookmarkType)
         );
       })
       .catch(err => {
-        console.log('err ', err)
         dispatch(
           bookmarkActionType === BookmarkActionType.BOOKMARK ? 
           bookmarkIllustFailure(illustId, bookmarkType, tags)
