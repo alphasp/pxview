@@ -156,23 +156,19 @@ class Detail extends Component {
       showViewer: false,
     };
   }
-  componentWillMount(nextProps) {
-    const { item } = this.props;
-    Actions.refresh({ 
-      renderTitle: () => {
-        return (
-          <View style={[styles.infoContainer, styles.header]}>
-            <View style={styles.thumnailNameContainer}>
-              <PXThumbnailTouchable uri={item.user.profile_image_urls.medium} />
-              <View style={styles.nameContainer}>
-                <Text>{item.user.name}</Text>
-                <Text>{item.user.account}</Text>
-              </View>
-            </View>
+  static renderTitle(props) {
+    const { item } = props;
+    return (
+      <View style={[styles.infoContainer, styles.header]}>
+        <View style={styles.thumnailNameContainer}>
+          <PXThumbnailTouchable uri={item.user.profile_image_urls.medium} />
+          <View style={styles.nameContainer}>
+            <Text>{item.user.name}</Text>
+            <Text>{item.user.account}</Text>
           </View>
-        )
-      } 
-    });
+        </View>
+      </View>
+    );
   }
 
   componentDidMount(){

@@ -130,6 +130,24 @@ class UserDetail extends Component {
     }
   }
   
+  static renderTitle(props) {
+    const { userDetail, userId } = props;
+    if (userDetail && userDetail[userId] && userDetail[userId].item) {
+      const user = userDetail[userId].item.user;
+      return (
+        <Animatable.View style={styles.navbarHeader}>
+          <View style={styles.thumnailNameContainer}>
+            <PXThumbnail uri={user.profile_image_urls.medium} />
+            <View style={styles.nameContainer}>
+              <Text>{user.name}</Text>
+              <Text>{user.account}</Text>
+            </View>
+          </View>
+        </Animatable.View>
+      )
+    }
+  }
+
   componentDidMount() {
     const { dispatch, userId } = this.props;
     dispatch(clearUserDetail(userId));
@@ -137,27 +155,7 @@ class UserDetail extends Component {
     dispatch(clearUserMangas(userId));
     dispatch(clearUserBookmarkIllusts(userId));
 
-    dispatch(fetchUserDetail(userId)).then(() => {
-      const { userDetail, userId } = this.props;
-      if (userDetail[userId] && userDetail[userId].item) {
-        const user = userDetail[userId].item.user;
-        Actions.refresh({ 
-          renderTitle: () => {
-            return (
-              <Animatable.View style={styles.navbarHeader}>
-                <View style={styles.thumnailNameContainer}>
-                  <PXThumbnail uri={user.profile_image_urls.medium} />
-                  <View style={styles.nameContainer}>
-                    <Text>{user.name}</Text>
-                    <Text>{user.account}</Text>
-                  </View>
-                </View>
-              </Animatable.View>
-            )
-          } 
-        });
-      }
-    });
+    dispatch(fetchUserDetail(userId));
     dispatch(fetchUserIllusts(userId));
     dispatch(fetchUserMangas(userId));
     dispatch(fetchUserBookmarkIllusts(userId));
