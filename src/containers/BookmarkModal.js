@@ -4,15 +4,17 @@ import {
   StyleSheet,
   Platform,
   Text,
+  TextInput,
   ListView,
   TouchableWithoutFeedback,
   Modal,
   Switch,
-  DeviceEventEmitter,
+  Keyboard,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { MKCheckbox } from 'react-native-material-kit';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Toast, { DURATION } from 'react-native-easy-toast'
 import PXTouchable from '../components/PXTouchable';
 import * as illustBookmarkDetailActionCreators from '../common/actions/illustBookmarkDetail';
@@ -47,6 +49,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  newTagContainer: {
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  tagInput: {
+    height: 40, 
+    backgroundColor: '#E9EBEE', 
+    padding: 10, 
+    flex: 1, 
+    marginRight: 10
   },
   actionContainer: {
     padding: 10,
@@ -83,6 +98,7 @@ class BookmarkModal extends Component {
       tags: [],
       isPrivate: false,
       selectedTagsCount: 0,
+      newTag: null,
     };
   }
 
@@ -176,6 +192,43 @@ class BookmarkModal extends Component {
     onPressCloseButton();
   }
 
+  handleOnPressAddTag = () => {
+    const { newTag, tags, dataSource } = this.state;
+    if (!newTag) {
+      return;
+    }
+    console.log('add tag ', newTag);
+    const isExistingTag = tags.some(tag => tag.name === newTag);
+    const newTagEntry = {
+      name: newTag, 
+      is_registered: true,
+      editable: true,
+    };
+    let updatedTags;
+    if (isExistingTag) {
+      const excludeExistingTagTags = tags.filter(tag => tag.name !== newTag);
+      updatedTags = [newTagEntry, ...excludeExistingTagTags];
+    }
+    else {
+      updatedTags = [newTagEntry, ...tags];
+      if (this.countSelectedTags(updatedTags) > MAX_TAGS_COUNT) {
+        this.toast.show(`Maximum of tags is ${MAX_TAGS_COUNT}`, DURATION.LENGTH_LONG);
+        this.setState({
+          newTag: null
+        });
+        return;
+      }
+    }
+
+    this.setState({
+      dataSource: dataSource.cloneWithRows(updatedTags),
+      tags: updatedTags,
+      selectedTagsCount: this.countSelectedTags(updatedTags),
+      newTag: null
+    })
+    this.tagInput.setNativeProps({ text: '' });
+  }
+
   renderRow = (item) => {
     const { tag, onSelectTag } = this.props;
     const { selectedTagsCount } = this.state;
@@ -208,7 +261,7 @@ class BookmarkModal extends Component {
           onRequestClose={onPressCloseButton}
         >
           <PXTouchable style={styles.container} onPress={onPressCloseButton}>
-            <TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View style={styles.innerContainer}>
                 <View style={styles.titleContainer}>
                   <Text style={styles.title}>
@@ -218,6 +271,18 @@ class BookmarkModal extends Component {
                 <View style={styles.subTitleContainer}>
                   <Text>Collection Tags</Text>
                   <Text>{selectedTagsCount} / 10</Text>
+                </View>
+                <View style={styles.newTagContainer}>
+                  <TextInput
+                    ref={(ref) => this.tagInput = ref}
+                    style={styles.tagInput}
+                    placeholder="Add tag"
+                    autoCorrect={false}
+                    onChangeText={(text) => this.setState({newTag: text})}
+                  />
+                  <PXTouchable onPress={this.handleOnPressAddTag}>
+                    <Icon name="plus" size={20}/>
+                  </PXTouchable>
                 </View>
                 <ListView
                   dataSource={dataSource}
@@ -241,7 +306,7 @@ class BookmarkModal extends Component {
                   >
                     {
                       !isBookmark &&
-                      <Icon
+                      <MaterialIcon
                         name="favorite"
                         color="rgb(210, 212, 216)"
                         size={20} 
