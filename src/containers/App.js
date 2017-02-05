@@ -30,6 +30,7 @@ import UserIllust from './UserIllust';
 import UserManga from './UserManga';
 import UserBookmarkIllust from './UserBookmarkIllust';
 import MyCollection from './MyCollection';
+import MyConnection from './MyConnection';
 import Ranking from './Ranking';
 import NewWork from './NewWork';
 import UserProfile from './UserProfile';
@@ -216,6 +217,11 @@ class App extends Component {
                 <Scene key="myCollection"
                   title="Collection" 
                   component={MyCollection}
+                  duration={0}
+                />
+                <Scene key="myConnection"
+                  title="Connection" 
+                  component={MyConnection}
                   duration={0}
                 />
                 <Scene key="searchFilter" 

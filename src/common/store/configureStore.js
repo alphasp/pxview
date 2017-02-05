@@ -14,11 +14,12 @@ import { DONE_REFRESH_TOKEN } from '../actions/auth';
 export default function configureStore() {
   let enhancer;
   if (__DEVELOPMENT__) {
-    enhancer = compose(
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    enhancer = composeEnhancers(
       autoRehydrate({ log: true }),
       applyMiddleware(invariant(), jwt, thunk, createActionBuffer(REHYDRATE)),   
       //applyMiddleware(jwt, thunk, createActionBuffer(REHYDRATE)), 
-      devTools(),
+      //devTools(),
     )
   }
   else {

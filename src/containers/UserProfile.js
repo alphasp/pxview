@@ -205,6 +205,14 @@ class UserProfile extends Component {
           Actions.myCollection({ userId: user.id });
         }
         break;
+      case 'connection':
+        if (!user) {
+          Actions.login();
+        }
+        else {
+          Actions.myConnection({ userId: user.id });
+        }
+        break;  
       case 'logout':
         dispatch(logout());
         break;

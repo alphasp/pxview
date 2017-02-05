@@ -141,7 +141,7 @@ class UserList extends Component {
             <Text>{item.user.name}</Text>
           </PXTouchable>
           <FollowButton 
-            isFollow={item.user.isFollowed} 
+            isFollow={item.user.is_followed} 
             onLongPress={() => this.openFollowModal(item.user)}
             onPress={() => this.handleOnPressFollowButton(item.user)}
           />

@@ -7,7 +7,7 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import RankingList from './RankingList';
 import { RankingMode } from '../common/actions/ranking';
 
@@ -34,7 +34,10 @@ class Ranking extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollableTabView ref={(ref) => this.tabs = ref}>
+        <ScrollableTabView 
+          ref={(ref) => this.tabs = ref} 
+          renderTabBar={() => <ScrollableTabBar />}
+        >
           <RankingList tabLabel="Daily" rankingMode={RankingMode.DAILY} />
           <RankingList tabLabel="Weekly" rankingMode={RankingMode.WEEKLY} />
           <RankingList tabLabel="Monthly" rankingMode={RankingMode.MONTHLY} />
