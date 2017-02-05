@@ -52,7 +52,7 @@ function shouldFetchUserMyPixiv(state, userId) {
 
 function fetchUserMyPixivFromApi(userId, nextUrl) {
   return dispatch => {
-    const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.userFollower(userId);
+    const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.userMyPixiv(userId);
     const params = qs.parse(nextUrl);
     const offset = params.offset || "0";
     dispatch(fetchUserMyPixivRequest(userId, offset));
