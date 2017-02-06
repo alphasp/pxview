@@ -22,7 +22,7 @@ import * as userFollowingActionCreators from '../common/actions/userFollowing';
 
 class UserFollowing extends Component {
   static propTypes = {
-    userId: PropTypes.string.isRequired,
+    userId: PropTypes.number.isRequired,
     userFollowing: PropTypes.object.isRequired,
     followingType: PropTypes.string.isRequired,
     fetchUserFollowing: PropTypes.func.isRequired,

@@ -119,7 +119,6 @@ class IllustList extends Component {
 
   handleOnPressLikeButton = (item) => {
     const { bookmarkIllust, unbookmarkIllust } = this.props;
-    console.log('is_bookmarked ', item.is_bookmarked);
     if (item.is_bookmarked) {
       unbookmarkIllust(item.id);
     }
@@ -144,6 +143,18 @@ class IllustList extends Component {
       selectedIllustId: null,
       isBookmark: false,
     })
+  }
+
+  handleOnPressModalLikeButton = (illustId, bookmarkType, selectedTags) => {
+    const { bookmarkIllust, unbookmarkIllust } = this.props;
+    bookmarkIllust(illustId, bookmarkType, selectedTags);
+    this.handleOnPressCloseBookmarkModalButton();
+  }
+
+  handleOnPressModalRemoveButton = (illustId) => {
+    const { bookmarkIllust, unbookmarkIllust } = this.props;
+    unbookmarkIllust(illustId);
+    this.handleOnPressCloseBookmarkModalButton();
   }
 
   render() {
@@ -181,6 +192,8 @@ class IllustList extends Component {
           <BookmarkModal 
             illustId={selectedIllustId}
             isBookmark={isBookmark}
+            onPressLikeButton={this.handleOnPressModalLikeButton}
+            onPressRemoveButton={this.handleOnPressModalRemoveButton}
             onPressCloseButton={this.handleOnPressCloseBookmarkModalButton}
           />
         }

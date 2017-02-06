@@ -87,18 +87,6 @@ function unbookmarkIllustFailure(illustId, bookmarkType, tags) {
   };
 }
 
-function shouldBookmarkIllust(state, illustId) {
-  if (!illustId) {
-    return false;
-  }
-  const results = state.bookmarkIllust;
-  if (results && results.loading) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
 function bookmarkIllustFromApi(illustId, bookmarkActionType, bookmarkType, tags)  {
   const bookmarkTypeString = bookmarkType === BookmarkType.PRIVATE ? 'private' : 'public';
   console.log(illustId, bookmarkActionType, bookmarkTypeString)
@@ -137,16 +125,12 @@ function bookmarkIllustFromApi(illustId, bookmarkActionType, bookmarkType, tags)
 
 export function bookmarkIllust(illustId, bookmarkType, tags) {
   return (dispatch, getState) => {
-    //if (shouldBookmarkIllust(getState(), illustId)) {
     return dispatch(bookmarkIllustFromApi(illustId, BookmarkActionType.BOOKMARK, bookmarkType, tags)); 
-    //}
   };
 }
 
 export function unbookmarkIllust(illustId, bookmarkType, tags) {
   return (dispatch, getState) => {
-    //if (shouldBookmarkIllust(getState(), illustId)) {
     return dispatch(bookmarkIllustFromApi(illustId, BookmarkActionType.UNBOOKMARK, bookmarkType, tags));
-    //}
   };
 }

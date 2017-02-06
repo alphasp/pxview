@@ -24,7 +24,7 @@ const avatarSize = 50;
 
 class UserFollower extends Component {
   static propTypes = {
-    userId: PropTypes.string.isRequired,
+    userId: PropTypes.number.isRequired,
     userFollower: PropTypes.object.isRequired,
     fetchUserFollower: PropTypes.func.isRequired,
     clearUserFollower: PropTypes.func.isRequired,

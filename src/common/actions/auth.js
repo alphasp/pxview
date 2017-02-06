@@ -47,6 +47,7 @@ function successLogin(json) {
     payload: {
       user: {
         ...json.user,
+        id: parseInt(json.user.id),
         accessToken: json.access_token,
         refreshToken: json.refresh_token, //not working now
         expiresIn: json.expires_in,

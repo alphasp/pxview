@@ -28,6 +28,7 @@ import newManga from './newManga';
 import myPixiv from './myPixiv';
 import bookmarkIllust from './bookmarkIllust';
 import illustBookmarkDetail from './illustBookmarkDetail';
+import userFollowDetail from './userFollowDetail';
 import auth from './auth';
 import routes from './routes';
 import error from './error';
@@ -59,6 +60,7 @@ const rootReducer = combineReducers({
   myPrivateBookmarkIllust,
   userFollowing,
   userFollower,
+  userFollowDetail,
   userMyPixiv,
   followingUserIllust,
   newIllust,

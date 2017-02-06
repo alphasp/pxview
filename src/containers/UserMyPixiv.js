@@ -22,7 +22,7 @@ import * as userMyPixivActionCreators from '../common/actions/userMyPixiv';
 
 class UserMyPixiv extends Component {
   static propTypes = {
-    userId: PropTypes.string.isRequired,
+    userId: PropTypes.number.isRequired,
     userMyPixiv: PropTypes.object.isRequired,
     fetchUserMyPixiv: PropTypes.func.isRequired,
     clearUserMyPixiv: PropTypes.func.isRequired,

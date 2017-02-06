@@ -18,7 +18,9 @@ import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import FollowButton from '../components/FollowButton';
 import OverlayImagePages from '../components/OverlayImagePages';
-import FollowModal from '../components/FollowModal';
+import FollowModal from '../containers/FollowModal';
+import * as followUserActionCreators from '../common/actions/followUser';
+import { FollowType } from '../common/actions/followUser';
 
 const windowWidth = Dimensions.get('window').width; //full width
 const windowHeight = Dimensions.get('window').height; //full height
@@ -142,7 +144,7 @@ class UserList extends Component {
           </PXTouchable>
           <FollowButton 
             isFollow={item.user.is_followed} 
-            onLongPress={() => this.openFollowModal(item.user)}
+            onLongPress={() => this.handleOnLongPressFollowButton(item.user)}
             onPress={() => this.handleOnPressFollowButton(item.user)}
           />
         </View>
@@ -161,13 +163,7 @@ class UserList extends Component {
     );
   }
 
-  openFollowModal = (user) => {
-    console.log('open modal ', user);
-    // if is_followed, call userFollowDetail to get 
-    //"follow_detail": {
-    // 	"is_followed": true,
-    // 	"restrict": "private"
-    // }
+  handleOnLongPressFollowButton = (user) => {
     this.setState({
       selectedUserId: user.id,
       isFollowSelectedUser: user.is_followed,
@@ -184,17 +180,25 @@ class UserList extends Component {
   }
 
   handleOnPressFollowButton = (user) => {
-    this.followUser(user.id, user.is_followed);
+    if (user.is_followed) {
+      this.unFollowUser(user.id);
+    }
+    else {
+      this.followUser(user.id, FollowType.PUBLIC);
+    }
   }
 
-  handleOnPressFollowButtonFromModal = (isPrivate) => {
-    const { selectedUserId, isFollowSelectedUser } = this.state;
-    this.followUser(selectedUserId, isFollowSelectedUser, isPrivate);
+  handleOnPressModalFollowButton = (userId, followType) => {
+    this.followUser(userId, followType);
+    this.handleOnPressCloseFollowModalButton();
+  }
+
+  handleOnPressModalRemoveButton = (userId) => {
+    this.unFollowUser(userId);
     this.handleOnPressCloseFollowModalButton();
   }
 
   handleOnPressCloseFollowModalButton = () => {
-    console.log('close modal');
     this.setState({
       selectedUserId: null,
       isFollow: false,
@@ -202,10 +206,16 @@ class UserList extends Component {
     });
   }
 
-  followUser = (userId, isFollow, isPrivate) => {
-    console.log(`${isPrivate ? 'Private ' : ''}${isFollow ? 'Unfollow' : 'Follow'} user ${userId}`);  
+  followUser = (userId, followType) => {
+    const { followUser } = this.props;
+    followUser(userId, followType);
   }
-  
+
+  unFollowUser = (userId) => {
+    const { unFollowUser } = this.props;
+    unFollowUser(userId);
+  }
+
   renderFooter = () => {
     const { userList: { nextUrl } } = this.props;
     return (
@@ -245,15 +255,21 @@ class UserList extends Component {
           :
           null
         }
-        <FollowModal 
-          isOpen={isOpenFollowModal}
-          isFollowSelectedUser={isFollowSelectedUser}
-          onPressFollowButton={this.handleOnPressFollowButtonFromModal}
-          onPressCloseButton={this.handleOnPressCloseFollowModalButton}
-        />
+        {
+          isOpenFollowModal && selectedUserId &&
+          <FollowModal 
+            userId={selectedUserId}
+            isOpen={isOpenFollowModal}
+            isFollow={isFollowSelectedUser}
+            onPressFollowButton={this.handleOnPressModalFollowButton}
+            onPressRemoveButton={this.handleOnPressModalRemoveButton}
+            onPressCloseButton={this.handleOnPressCloseFollowModalButton}
+          />
+        }
       </View>
     );
   }
 }
 
-export default UserList;
+//followActionCreators
+export default connect(null, followUserActionCreators)(UserList);

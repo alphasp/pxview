@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   View,
   StyleSheet,
@@ -18,7 +18,6 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Toast, { DURATION } from 'react-native-easy-toast'
 import PXTouchable from '../components/PXTouchable';
 import * as illustBookmarkDetailActionCreators from '../common/actions/illustBookmarkDetail';
-import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
 import { BookmarkType } from '../common/actions/bookmarkIllust';
 
 const MAX_TAGS_COUNT = 10;
@@ -87,6 +86,15 @@ const styles = StyleSheet.create({
 });
 
 class BookmarkModal extends Component {
+  static propTypes = {
+    illustId: PropTypes.number.isRequired,
+    isBookmark: PropTypes.bool.isRequired,
+    onPressLikeButton: PropTypes.func.isRequired,
+    onPressCloseButton: PropTypes.func.isRequired,
+    fetchIllustBookmarkDetail: PropTypes.func.isRequired,
+    clearIllustBookmarkDetail: PropTypes.func.isRequired,
+  }
+
   constructor(props) {
     super(props);
     const { isBookmark } = props;
@@ -177,19 +185,17 @@ class BookmarkModal extends Component {
     }, 0);
   }
 
-  handleOnPressLike = () => {
-    const { illustId, isBookmark, bookmarkIllust, onPressCloseButton } = this.props;
+  handleOnPressLikeButton = () => {
+    const { illustId, isBookmark, onPressLikeButton } = this.props;
     const { tags, isPrivate } = this.state;
     const selectedTags = tags.filter(tag => tag.is_registered).map(tag => tag.name);
     const bookmarkType = isPrivate ? BookmarkType.PRIVATE : BookmarkType.PUBLIC;
-    bookmarkIllust(illustId, bookmarkType, selectedTags);
-    onPressCloseButton();
+    onPressLikeButton(illustId, bookmarkType, selectedTags);
   }
 
-  handleOnPressRemove = () => {
-    const { illustId, unbookmarkIllust, onPressCloseButton } = this.props;
-    unbookmarkIllust(illustId);
-    onPressCloseButton();
+  handleOnPressRemoveButton = () => {
+    const { illustId, onPressCloseButton } = this.props;
+    onPressCloseButton(illustId);
   }
 
   handleOnPressAddTag = () => {
@@ -296,13 +302,13 @@ class BookmarkModal extends Component {
                 <View style={[styles.actionContainer, !isBookmark && {justifyContent: "center"}]}>
                   {
                     isBookmark &&
-                    <PXTouchable onPress={this.handleOnPressRemove}>
+                    <PXTouchable onPress={this.handleOnPressRemoveButton}>
                       <Text>Remove Like</Text>
                     </PXTouchable>
                   }
                   <PXTouchable 
                     style={!isBookmark && {flexDirection: "row", alignItems: "center"}}
-                    onPress={this.handleOnPressLike}
+                    onPress={this.handleOnPressLikeButton}
                   >
                     {
                       !isBookmark &&
@@ -329,4 +335,4 @@ export default connect((state, props) => {
   return {
     illustBookmarkDetail: state.illustBookmarkDetail
   }
-}, { ...illustBookmarkDetailActionCreators, ...bookmarkIllustActionCreators })(BookmarkModal);
+}, illustBookmarkDetailActionCreators)(BookmarkModal);
