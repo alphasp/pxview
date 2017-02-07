@@ -8,7 +8,10 @@ import {
   BOOKMARK_ILLUST, 
   UNBOOKMARK_ILLUST,
 } from "../actions/bookmarkIllust";
-
+import { 
+  FOLLOW_USER, 
+  UNFOLLOW_USER,
+} from "../actions/followUser";
 export default function newIllust(state = {
   loading: false,
   loaded: false,
@@ -62,6 +65,38 @@ export default function newIllust(state = {
         items: state.items.map(item =>
           item.id === action.payload.illustId ?
           { ...item, is_bookmarked: false } 
+          :
+          item
+        )
+      }
+    case FOLLOW_USER:
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item.user && item.user.id === action.payload.userId ?
+          { 
+            ...item, 
+            user: {
+              ...user,
+              is_followed: true 
+            }
+          } 
+          :
+          item
+        )
+      }
+    case UNFOLLOW_USER:
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item.user && item.user.id === action.payload.userId ?
+          { 
+            ...item, 
+            user: {
+              ...user,
+              is_followed: false 
+            }
+          } 
           :
           item
         )
