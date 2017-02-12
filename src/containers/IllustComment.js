@@ -16,45 +16,19 @@ import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
 import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
-import OverlayImagePages from '../components/OverlayImagePages';
+import CommentList from '../components/CommentList';
 import { 
   fetchIllustComments, 
   clearIllustComments, 
 } from '../common/actions/illustComment';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  commentContainer: {
-    flexDirection: 'row',
-    margin: 10
-  },
-  nameCommentContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    marginLeft: 10,
-  },
-  nameContainer: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  date: {
-    marginLeft: 10,
-    fontSize: 10
-  },
-  comment: {
-    marginTop: 5
-  }
-});
-
 class IllustComment extends Component {
   constructor(props) {
     super(props);
-    this.dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-    })
     this.state = { 
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (r1, r2) => r1 !== r2,
+      }),
       refreshing: false
     };
   }
@@ -67,37 +41,9 @@ class IllustComment extends Component {
     });
   }
 
-  handleOnPressUser = (userId) => {
-    Actions.userDetail({ userId });
-  }
-
-  renderRow = (item) => {
-    return (
-      <View
-        key={item.id}
-        style={styles.commentContainer}
-      >
-        <PXThumbnailTouchable
-          uri={item.user.profile_image_urls.medium}
-          onPress={() => this.handleOnPressUser(item.user.id)}
-        />
-        <View style={styles.nameCommentContainer}>
-          <View style={styles.nameContainer}>
-            <PXTouchable onPress={() => this.handleOnPressUser(item.user.id)}>
-              <Text>{item.user.name}</Text>
-            </PXTouchable>
-            <Text style={styles.date}>{moment(item.date).format('YYYY-MM-DD HH:mm')}</Text>
-          </View>
-          <View style={styles.comment}>
-            <Text>{item.comment}</Text>
-          </View>
-        </View>
-      </View>
-    );
-  }
-
   loadMoreComments = () => {
     const { dispatch, illustComment, illustId } = this.props;
+    console.log('load more ', illustComment[illustId].nextUrl)
     if (illustComment[illustId] && illustComment[illustId].nextUrl) {
       dispatch(fetchIllustComments(illustId, null, illustComment[illustId].nextUrl));
     }
@@ -116,63 +62,27 @@ class IllustComment extends Component {
     })
   }
 
-  renderFooter = () => {
-    const { illustComment, illustId } = this.props;
-    const { nextUrl } = illustComment[illustId];
-    return (
-      nextUrl ?
-      <View style={{ marginBottom: 20 }}>
-        <Loader />
-      </View>
-      :
-      null
-    )
-  }
-
   render() {
-    const { illustComment, illustId } = this.props;
-    const { refreshing } = this.state;
-    if (illustComment[illustId]) {
-      const { items, loading, loaded } = illustComment[illustId];
-      //console.log(items)
-      // console.log('comment ', illustComment[illustId])
-      const dataSource = this.dataSource.cloneWithRows(items || []);
-      return (
-        <View style={styles.container}>
-          {
-            !loaded && loading &&
-            <Loader />
-          }
-          {
-            (items && items.length) ?
-            <ListView
-              dataSource={dataSource}
-              renderRow={this.renderRow}
-              enableEmptySections={ true }
-              renderScrollComponent={ props => <RecyclerViewBackedScrollView {...props} />}
-              renderFooter={this.renderFooter}
-              onEndReached={this.loadMoreComments}
-              refreshControl={
-                <RefreshControl
-                  refreshing={refreshing}
-                  onRefresh={this.handleOnRefresh}
-                />
-              }
-            />
-            :
-            null
-          }
-        </View>
-      );
-    }
-    else {
-      return null;
-    }
+    const { illustComment, illustId, navigation, isFeatureInDetailPage, maxItems } = this.props;
+    const { dataSource, refreshing } = this.state;
+    return (
+      (illustComment[illustId] ? true : false) &&
+      <CommentList
+        data={illustComment[illustId]}
+        refreshing={refreshing}
+        loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
+        onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
+        maxItems={isFeatureInDetailPage && maxItems}
+        navigation={navigation}
+      />
+    );
   }
 }
 
-export default connect(state => {
+export default connect((state, props) => {
+  const { illustId, navigation } = props;
   return {
-    illustComment: state.illustComment
+    illustComment: state.illustComment,
+    illustId: navigation.state.params.illustId || illustId
   }
 })(IllustComment);

@@ -27,7 +27,8 @@ class MyConnection extends Component {
   }
 
   render() {
-    const { userId } = this.props;
+    //const { userId } = this.props;
+    const { userId } = this.props.navigation.state.params;
     return (
       <View style={styles.container}>
         <ScrollableTabView renderTabBar={() => <ScrollableTabBar />}>

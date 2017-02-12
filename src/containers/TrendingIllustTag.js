@@ -141,7 +141,8 @@ class TrendingIllustTag extends Component {
   }
 
   handleOnPressItem = (item) => {
-    Actions.searchResult({ word: item.tag });
+    const { navigate } = this.props.navigation;
+    navigate('SearchResult', { word: item.tag });
   }
   render() {
     const { trendingIllustTag: { items, loading, loaded } } = this.props;
@@ -177,8 +178,8 @@ class TrendingIllustTag extends Component {
   }
 }
 
-export default connect(state => {
+export default connect((state, props) => {
   return {
-    trendingIllustTag: state.trendingIllustTag
+    trendingIllustTag: state.trendingIllustTag,
   }
 })(TrendingIllustTag);

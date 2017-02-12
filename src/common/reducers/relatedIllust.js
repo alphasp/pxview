@@ -33,7 +33,6 @@ export function relatedIllust(state = {}, action) {
           loading: false,
           loaded: true,
           items: (state[action.payload.illustId] && state[action.payload.illustId].items) ? [...state[action.payload.illustId].items, ...action.payload.items] : action.payload.items,
-          offset: action.payload.offset,
           nextUrl: action.payload.nextUrl,
           lastUpdated: action.payload.receivedAt
         }

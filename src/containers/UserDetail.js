@@ -121,16 +121,30 @@ const styles = StyleSheet.create({
 });
 
 class UserDetail extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      refreshing: false,
-      isShowTitle: false,
-      viewRef: 0,
+  static navigationOptions = {
+    header: ({ state, setParams, goBack } , defaultHeader) => {
+      const { isShowTitle, isScrolled, user } = state.params;
+      const title = (user && isScrolled) ? (
+        <Animatable.View 
+          style={styles.thumnailNameContainer} 
+          animation={isShowTitle ? "fadeIn" : "fadeOut"}
+          duration={300}
+        >
+          <PXThumbnailTouchable uri={user.profile_image_urls.medium} />
+          <View style={styles.nameContainer}>
+            <Text>{user.name}</Text>
+            <Text>{user.account}</Text>
+          </View>
+        </Animatable.View>
+      ) : null;
+      return {
+        ...defaultHeader,
+        title,
+      }
     }
   }
   
-  static renderTitle(props) {
+  /*static renderTitle(props) {
     const { userDetail, userId } = props;
     if (userDetail && userDetail[userId] && userDetail[userId].item) {
       const user = userDetail[userId].item.user;
@@ -145,6 +159,14 @@ class UserDetail extends Component {
           </View>
         </Animatable.View>
       )
+    }
+  }*/
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      refreshing: false,
+      viewRef: 0,
     }
   }
 
@@ -161,6 +183,14 @@ class UserDetail extends Component {
     dispatch(fetchUserBookmarkIllusts(userId));
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { userDetail: prevUserDetail } = this.props;
+    const { userDetail, userId, navigation: { setParams } } = nextProps;
+    if (userDetail && userDetail[userId] && userDetail[userId].item && userDetail[userId].item !== prevUserDetail[userId].item) {
+      const { dataSource } = this.state;
+      setParams({ user: userDetail[userId].item.user });
+    }
+  }
 
   handleOnLinkPress = (url) => {
     console.log('clicked link: ', url)
@@ -194,57 +224,21 @@ class UserDetail extends Component {
       }); 
     })
   }
+
   handleOnScroll = ({ nativeEvent }) => {
-    const { userDetail, userId } = this.props;
-    const { isShowTitle } = this.state;
+    const { userDetail, userId, navigation: { setParams, state: { params: { isShowTitle, isScrolled } } } } = this.props;
+    if (!isScrolled) {
+      setParams({ isScrolled: true });
+    }
     if (userDetail[userId] && userDetail[userId].item) {
-      const user = userDetail[userId].item.user;
       if (nativeEvent.contentOffset.y >= 135) {
         if (!isShowTitle) {
-          this.setState({
-            isShowTitle: true
-          });
-          Actions.refresh({ 
-            renderTitle: () => {
-              return (
-                <Animatable.View style={[styles.navbarHeader, {
-                  opacity: 1,
-                }]}>
-                  <View style={styles.thumnailNameContainer}>
-                    <PXThumbnail uri={user.profile_image_urls.medium} />
-                    <View style={styles.nameContainer}>
-                      <Text>{user.name}</Text>
-                      <Text>{user.account}</Text>
-                    </View>
-                  </View>
-                </Animatable.View>
-              )
-            } 
-          });
+          setParams({ isShowTitle: true });
         }
       }
       else {
         if (isShowTitle) {
-          this.setState({
-            isShowTitle: false
-          });
-          Actions.refresh({ 
-            renderTitle: () => {
-              return (
-                <Animatable.View style={[styles.navbarHeader, {
-                  opacity: 0,
-                }]}>
-                  <View style={styles.thumnailNameContainer}>
-                    <PXThumbnail uri={user.profile_image_urls.medium} />
-                    <View style={styles.nameContainer}>
-                      <Text>{user.name}</Text>
-                      <Text>{user.account}</Text>
-                    </View>
-                  </View>
-                </Animatable.View>
-              )
-            } 
-          });
+          setParams({ isShowTitle: false });
         }
       }
     }
@@ -363,7 +357,7 @@ class UserDetail extends Component {
   }
 
   renderIllustCollection = (data, profile) => {
-    const { userId } = this.props;
+    const { userId, navigation } = this.props;
     return (
       <IllustCollection 
         title="Illust Works"
@@ -372,12 +366,13 @@ class UserDetail extends Component {
         items={data.items}
         maxItems={6}
         onPressViewMore={() => Actions.userIllust({ userId })}
+        navigation={navigation}
       />
     )
   }
 
   renderMangaCollection = (data, profile) => {
-    const { userId } = this.props;
+    const { userId, navigation } = this.props;
     return (
       <IllustCollection 
         title="Manga Works"
@@ -386,12 +381,13 @@ class UserDetail extends Component {
         items={data.items}
         maxItems={6}
         onPressViewMore={() => Actions.userManga({ userId })}
+        navigation={navigation}
       />
     )
   }
 
   renderBookmarks = (data) => {
-    const { userId } = this.props;
+    const { userId, navigation } = this.props;
     return (
       <IllustCollection 
         title="Illust/Manga Collection"
@@ -399,6 +395,7 @@ class UserDetail extends Component {
         items={data.items}
         maxItems={6}
         onPressViewMore={() => Actions.userBookmarkIllust({ userId })}
+        navigation={navigation}
       />
     )
   }
@@ -444,7 +441,7 @@ class UserDetail extends Component {
           <ScrollView 
             style={styles.container} 
             onScroll={this.handleOnScroll}
-            scrollEventThrottle={100}
+            scrollEventThrottle={16}
             refreshControl={
               <RefreshControl
                 refreshing={refreshing}
@@ -464,11 +461,13 @@ class UserDetail extends Component {
   }
 }
 
-export default connect(state => {
+export default connect((state, props) => {
+  const { userId, navigation } = props;
   return {
     userDetail: state.userDetail,
     userIllust: state.userIllust,
     userManga: state.userManga,
     userBookmarkIllust: state.userBookmarkIllust,
+    userId: navigation.state.params.userId || userId
   }
 })(UserDetail);

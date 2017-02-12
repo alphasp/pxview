@@ -84,6 +84,7 @@ function successRefreshToken(json) {
     payload: {
       user: {
         ...json.user,
+        id: parseInt(json.user.id),
         accessToken: json.access_token,
         refreshToken: json.refresh_token,
         expiresIn: json.expires_in,

@@ -51,22 +51,26 @@ class RelatedIllust extends Component {
   }
 
   render() {
-    const { relatedIllust, illustId } = this.props;
+    const { relatedIllust, illustId, isFeatureInDetailPage, maxItems, navigation } = this.props;
     const { refreshing } = this.state;
     return (
       (relatedIllust[illustId] ? true : false) &&
       <IllustList
         data={relatedIllust[illustId]}
         refreshing={refreshing}
-        loadMoreItems={this.loadMoreItems}
-        onRefresh={this.handleOnRefresh}
+        loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
+        onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
+        maxItems={isFeatureInDetailPage && maxItems}
+        navigation={navigation}
       />
     );
   }
 }
 
 export default connect((state, props) => {
+  const { illustId, navigation } = props;
   return {
-    relatedIllust: state.relatedIllust
+    relatedIllust: state.relatedIllust,
+    illustId: navigation.state.params.illustId || illustId
   }
 })(RelatedIllust);

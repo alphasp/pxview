@@ -8,35 +8,32 @@ export const RECEIVE_RELATED_ILLUSTS = 'RECEIVE_RELATED_ILLUSTS';
 export const STOP_RELATED_ILLUSTS = 'STOP_RELATED_ILLUSTS';
 export const CLEAR_RELATED_ILLUSTS = 'CLEAR_RELATED_ILLUSTS';
 
-function receiveRelatedIllust(json, illustId, offset) { 
+function receiveRelatedIllust(json, illustId) { 
   return {
     type: RECEIVE_RELATED_ILLUSTS,
     payload: {
       items: json.illusts,
       nextUrl: json.next_url,
       illustId,
-      offset: offset,
       receivedAt: Date.now(),
     }
   };
 }
 
-function requestRelatedIllust(illustId, offset) {
+function requestRelatedIllust(illustId) {
   return {
     type: REQUEST_RELATED_ILLUSTS,
     payload: {
       illustId,
-      offset
     }
   };
 }
 
-function stopRelatedIllust(illustId, offset){
+function stopRelatedIllust(illustId){
   return {
     type: STOP_RELATED_ILLUSTS,
     payload: {
       illustId,
-      offset
     }
   };
 }
@@ -56,13 +53,11 @@ function shouldFetchRelatedIllust(state, illustId) {
 function fetchRelatedIllustFromApi(illustId, options, nextUrl) {
   return dispatch => {
     const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.illustRelated(illustId, options);
-    const params = qs.parse(nextUrl);
-    const offset = params.offset || "0";
-    dispatch(requestRelatedIllust(illustId, offset));
+    dispatch(requestRelatedIllust(illustId));
     return promise
-      .then(json => dispatch(receiveRelatedIllust(json, illustId, offset)))
+      .then(json => dispatch(receiveRelatedIllust(json, illustId)))
       .catch(err => {
-        dispatch(stopRelatedIllust(illustId, offset));
+        dispatch(stopRelatedIllust(illustId));
         dispatch(addError(err));
       });
   };

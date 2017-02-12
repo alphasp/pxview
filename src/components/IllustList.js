@@ -53,16 +53,18 @@ class IllustList extends Component {
       isBookmark: false,
     };
   }
+
   componentWillReceiveProps(nextProps) {
     const { data: { items: prevItems } } = this.props;
-    const { data: { items } } = nextProps;
+    const { data: { items }, maxItems } = nextProps;
     if (items && items !== prevItems) {
       const { dataSource } = this.state;
       this.setState({
-        dataSource: dataSource.cloneWithRows(items)
+        dataSource: dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items)
       });
     }
   }
+  
   renderRow = (item) => {
     const { onPressLikeButton } = this.props;
     return (
@@ -114,7 +116,8 @@ class IllustList extends Component {
   }
 
   handleOnPressItem = (item) => {
-    Actions.detail({ item: item });
+    const { navigate } = this.props.navigation;
+    navigate('Detail', { item });
   }
 
   handleOnPressLikeButton = (item) => {

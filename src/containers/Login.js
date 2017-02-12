@@ -53,7 +53,7 @@ class Login extends Component {
     //Actions.pop({ refresh: { test: 'abaer' }})
     // Actions.tabs();
     // Actions.userProfile({ type: ActionConst.RESET });
-    const { dispatch } = this.props;
+    const { dispatch, navigation: { goBack } } = this.props;
     const { email, password } = data;
     dismissKeyboard();
     this.setState({
@@ -65,7 +65,8 @@ class Login extends Component {
         loading: false
       });
       if (auth.user) {
-        Actions.pop();
+        // Actions.pop();
+        goBack();
       }
     });
   }

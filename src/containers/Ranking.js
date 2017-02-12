@@ -32,15 +32,16 @@ class Ranking extends Component {
     }
   }
   render() {
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <ScrollableTabView 
           ref={(ref) => this.tabs = ref} 
           renderTabBar={() => <ScrollableTabBar />}
         >
-          <RankingList tabLabel="Daily" rankingMode={RankingMode.DAILY} />
-          <RankingList tabLabel="Weekly" rankingMode={RankingMode.WEEKLY} />
-          <RankingList tabLabel="Monthly" rankingMode={RankingMode.MONTHLY} />
+          <RankingList tabLabel="Daily" rankingMode={RankingMode.DAILY} navigation={navigation} />
+          <RankingList tabLabel="Weekly" rankingMode={RankingMode.WEEKLY} navigation={navigation} />
+          <RankingList tabLabel="Monthly" rankingMode={RankingMode.MONTHLY} navigation={navigation} />
         </ScrollableTabView>
       </View>
     );

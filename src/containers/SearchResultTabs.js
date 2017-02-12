@@ -10,10 +10,11 @@ import {
   InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import SearchBar from '../components/SearchBar';
+import PXSearchBar from '../components/PXSearchBar';
 import SearchResult from './SearchResult';
 import { fetchSearch, clearSearch, SortType } from '../common/actions/search';
 import { SearchType } from '../common/actions/searchType';
@@ -25,14 +26,89 @@ const styles = StyleSheet.create({
 });
 
 class SearchResultTabs extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchOptions: {}
-    };
+  static navigationOptions = {
+    header: (props, defaultHeader) => {
+      const { state, setParams, navigate, goBack, dispatch } = props;
+      const { word, searchOptions } = state.params;
+      return {
+        ...defaultHeader,
+        title: word ? (
+          <PXSearchBar 
+            enableBack={true} 
+            onFocus={() => navigate("Search", {
+              word, 
+              searchType: SearchType.ILLUST, 
+              options: searchOptions || {}, 
+              isPopAndReplaceOnSubmit: true,
+              searchResultKey: state.key
+            })}
+            isRenderPlaceHolder={true}
+            searchType={SearchType.ILLUST}
+            word={word}
+          />
+        ) : null,
+        right: (
+          <Icon 
+            name="sliders" 
+            size={20} 
+            color="#037aff"
+            style={{padding: 10}}
+            onPress={() => navigate("SearchFilterModal", { 
+              searchFilter: searchOptions || {}, 
+              onPressApplyFilter: (target, duration) => {
+                {/*setParams({
+                  searchOptions: {
+                    duration: duration || undefined,
+                    target: target || undefined,
+                  }
+                })*/}
+                goBack(null);
+                setTimeout(() => setParams({
+                  searchOptions: {
+                    duration: duration || undefined,
+                    target: target || undefined,
+                  },
+                }), 0)
+                {/*setTimeout(() => dispatch(NavigationActions.setParams({
+                  params: {
+                    searchOptions: {
+                      duration: duration || undefined,
+                      target: target || undefined,
+                    },
+                  },
+                  key: state.key
+                })), 100)*/}
+              }
+            })}
+          />
+        )
+      }
+    }
   }
 
-  componentDidMount() {
+ 
+//                 {/*console.log('state key ', state.key)
+//                 const backAction = NavigationActions.back({
+//                   action: dispatch(NavigationActions.setParams({
+//                     searchOptions: {
+//                       duration: duration || undefined,
+//                       target: target || undefined,
+//                     },
+//                     key: state.key
+//                   }))
+//                 })
+//                 dispatch(backAction)*/}
+
+//               }
+//             })}
+  constructor(props) {
+    super(props);
+    // this.state = {
+    //   searchOptions: {}
+    // };
+  }
+
+  /*componentDidMount() {
     const { dispatch, word } = this.props;
     this.refreshNavigationBar(word);
   }
@@ -71,30 +147,32 @@ class SearchResultTabs extends Component {
         )
       },
     });
-  }
+  }*/
 
-  handleOnSearchFieldFocus = () => {
-    const { word } = this.props;
-    const { searchOptions } = this.state;
-    Actions.search({ word: word, searchType: SearchType.ILLUST, options: searchOptions, isPopAndReplaceOnSubmit: true });
-  }
+  // handleOnSearchFieldFocus = () => {
+  //   const { word } = this.props;
+  //   const { searchOptions } = this.state;
+  //   Actions.search({ word: word, searchType: SearchType.ILLUST, options: searchOptions, isPopAndReplaceOnSubmit: true });
+  // }
   
-  handleOnPressFilterButton = () => {
-    const { searchOptions } = this.state;
-    Actions.searchFilter({ searchFilter: searchOptions, onPressApplyFilter: this.handleOnPressApplyFilter });
-  }
+  // handleOnPressFilterButton = () => {
+  //   const { searchOptions } = this.state;
+  //   Actions.searchFilter({ searchFilter: searchOptions, onPressApplyFilter: this.handleOnPressApplyFilter });
+  // }
 
-  handleOnPressApplyFilter = (target, duration) => {
-    const { dispatch, word } = this.props;
-    Actions.pop();
-    console.log('apply filter')
-    this.setState({
-      searchOptions: {
-        duration: duration || undefined, 
-        target: target || undefined, 
-      }
-    })
-  }
+  // handleOnPressApplyFilter = (target, duration) => {
+  //   const { dispatch, word } = this.props;
+  //   Actions.pop();
+  //   console.log('apply filter')
+  //   this.setState({
+  //     searchOptions: {
+  //       duration: duration || undefined, 
+  //       target: target || undefined, 
+  //     }
+  //   })
+  // }
+
+
   // handleOnSubmitSearch = (word) => {
   //   const { dispatch } = this.props;
   //   word = word.trim();
@@ -108,7 +186,7 @@ class SearchResultTabs extends Component {
   // }
 
   handleOnPressRemoveTag = (index) => {
-    const { dispatch, navigationState, word } = this.props;
+    const { dispatch, word } = this.props;
     const newWord = word.split(' ').filter((value, i) => {
       return i !== index;
     }).join(' ');
@@ -136,8 +214,8 @@ class SearchResultTabs extends Component {
   }
 
   render() {
-    const { navigationState, word } = this.props;
-    const { searchOptions } = this.state;
+    const { navigationStateKey, word, navigation } = this.props;
+    const { searchOptions } = navigation.state.params;
     return (
       <View style={styles.container} >
         <ScrollableTabView>
@@ -146,14 +224,16 @@ class SearchResultTabs extends Component {
             word={word} 
             options={searchOptions} 
             sortType={SortType.DESC}
-            navigationStateKey={navigationState.key}
+            navigation={navigation}
+            navigationStateKey={navigationStateKey}
           />
           <SearchResult 
             tabLabel="Oldest" 
             word={word} 
             options={searchOptions}
             sortType={SortType.ASC}
-            navigationStateKey={navigationState.key}
+            navigation={navigation}
+            navigationStateKey={navigationStateKey}
           />
         </ScrollableTabView>
       </View>
@@ -161,5 +241,9 @@ class SearchResultTabs extends Component {
   }
 }
 
-
-export default connect()(SearchResultTabs);
+export default connect((state, props) => {
+  return {
+    word: props.navigation.state.params.word,
+    navigationStateKey: props.navigation.state.key
+  }
+})(SearchResultTabs);

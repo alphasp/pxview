@@ -67,9 +67,9 @@ class SearchResult extends Component {
   }
 
   render() {
-    const { navigationStateKey, search, word, options } = this.props;
+    console.log('sr ', this.props)
+    const { search, word, options, navigation, navigationStateKey } = this.props;
     const { refreshing } = this.state;
-    console.log('new rr ', search)
     return (
       (search[navigationStateKey] ? true : false) &&
       <IllustList
@@ -77,6 +77,7 @@ class SearchResult extends Component {
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
+        navigation={navigation}
       />
     );
   }

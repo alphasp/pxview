@@ -4,6 +4,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
 import { DefaultRenderer, Actions } from 'react-native-router-flux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import PXTouchable from '../components/PXTouchable';
@@ -11,6 +12,7 @@ import PXImage from '../components/PXImage';
 import TrendingIllustTag from './TrendingIllustTag';
 import RecommendedUser from './RecommendedUser';
 import Header from '../components/Header';
+import PXSearchBar from '../components/PXSearchBar';
 import { setSearchType, SearchType } from '../common/actions/searchType';
 
 const styles = StyleSheet.create({
@@ -20,6 +22,11 @@ const styles = StyleSheet.create({
 });
 
 class Trending extends Component {
+  // <SearchBar 
+  //   onFocus={this.handleOnSearchFieldFocus}  
+  //   isRenderPlaceHolder={true}
+  // />
+
   handleOnChangeTab = ({ i, ref }) => {
     const { dispatch } = this.props;
     const placeHolderText = (i === 1) ? "Enter nickname" : "Enter keyword";
@@ -30,14 +37,27 @@ class Trending extends Component {
       dispatch(setSearchType(SearchType.ILLUST));
     }
   }
+
+  handleOnSearchFieldFocus = (searchType) => {
+    console.log('on focus ', searchType);
+    // Actions.search();
+    const { navigate } = this.props.navigation;
+    navigate('Login');
+  }
+
   render() {
+    const { navigation } = this.props;
     return (
       <View style={styles.container} >
+        <PXSearchBar 
+          onFocus={this.handleOnSearchFieldFocus}  
+          isRenderFullHeader={true} 
+        />
         <ScrollableTabView 
           onChangeTab={this.handleOnChangeTab}
         >
-          <TrendingIllustTag tabLabel="Illust/Manga" />
-          <RecommendedUser tabLabel="User" />
+          <TrendingIllustTag tabLabel="Illust/Manga" navigation={navigation} />
+          <RecommendedUser tabLabel="User" navigation={navigation} />
         </ScrollableTabView>
       </View>
     )
@@ -85,4 +105,4 @@ class Trending extends Component {
   }
 }
 
-export default Trending
+export default connect()(Trending);

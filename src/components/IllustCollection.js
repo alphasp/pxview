@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 });
 
 const IllustCollection = (props) => {
-  const { items, title, total, viewMoreTitle, maxItems, onPressViewMore} = props;
+  const { navigation: { navigate }, items, title, total, viewMoreTitle, maxItems, onPressViewMore} = props;
   if (!items || !items.length) {
     return null;
   }
@@ -84,7 +84,7 @@ const IllustCollection = (props) => {
                   height: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS,
                 }} 
                 key={illust.id} 
-                onPress={() => Actions.detail({ item: illust })}
+                onPress={() => navigate('Detail', { item: illust })}
               >
                 <View>
                   <PXImage 

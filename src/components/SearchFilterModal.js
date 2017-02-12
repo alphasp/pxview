@@ -124,7 +124,8 @@ const data = {
 class SearchFilterModal extends Component {
   constructor(props) {
     super(props);
-    const { searchFilter: { target, duration } } = props;
+    console.log('sf ', props)
+    const { searchFilter: { target, duration } } = props.navigation.state.params;
     this.dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
       sectionHeaderHasChanged: (s1,s2) => s1 !== s2
@@ -191,7 +192,7 @@ class SearchFilterModal extends Component {
   }
 
   render() {
-    const { onPressApplyFilter } = this.props;
+    const { onPressApplyFilter } = this.props.navigation.state.params;
     const { target, duration } = this.state;
     const dataSource = this.dataSource.cloneWithRowsAndSections(data);
     return (

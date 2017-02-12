@@ -47,7 +47,7 @@ class RecommendedIllust extends Component {
   }
 
   render() {
-    const { recommendedIllust } = this.props;
+    const { recommendedIllust, navigation } = this.props;
     const { refreshing } = this.state;
     return (
       <IllustList
@@ -55,6 +55,7 @@ class RecommendedIllust extends Component {
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
+        navigation={navigation}
       />
     );
   }

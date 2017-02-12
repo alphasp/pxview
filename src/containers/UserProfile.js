@@ -153,6 +153,12 @@ const menuList2 = [
 ];
 
 class UserProfile extends Component {
+  static navigationOptions = {
+    header: {
+      visible: false,
+    },
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -193,24 +199,25 @@ class UserProfile extends Component {
   }
 
   handleOnPressListItem = (item) => {
-    const { dispatch, user } = this.props;
+    const { dispatch, user, navigation: { navigate } } = this.props;
     console.log('on press ', item);
     switch (item.id) {
       case 'collection':
         //require user login
         if (!user) {
-          Actions.login();
+          this.handleOnPressLogin();
         }
         else {
-          Actions.myCollection({ userId: user.id });
+          navigate('MyCollection', { userId: user.id });
         }
         break;
       case 'connection':
         if (!user) {
-          Actions.login();
+          this.handleOnPressLogin();
         }
         else {
-          Actions.myConnection({ userId: user.id });
+          // Actions.myConnection({ userId: user.id });
+          navigate('MyConnection', { userId: user.id });
         }
         break;  
       case 'logout':
@@ -232,7 +239,8 @@ class UserProfile extends Component {
   }
 
   handleOnPressLogin = () => {
-    Actions.login();
+    const { navigation: { navigate } } = this.props;
+    navigate("Login");
   }
 
   renderProfile = (user) => {
@@ -317,6 +325,7 @@ class UserProfile extends Component {
     //const { userDetail, userId } = this.props;
     const { user } = this.props;
     console.log("user ", user)
+    console.log('pp ', this.props)
     
     return (
       <View style={styles.container}>

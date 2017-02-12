@@ -32,7 +32,9 @@ class Home extends Component {
       setTimeout(() => this.tabs.goToPage(0), 0);
     }
   }
+  
   render() {
+    const { navigation } = this.props;
     //console.log("render home ", this.props)
     // return (
     //   <View style={styles.container}>
@@ -51,8 +53,8 @@ class Home extends Component {
     return (
       <View style={styles.container}>
         <ScrollableTabView ref={(ref) => this.tabs = ref}>
-          <RecommendedIllust tabLabel="Illustrations" />
-          <RecommendedManga tabLabel="Manga" />
+          <RecommendedIllust tabLabel="Illustrations" navigation={navigation} />
+          <RecommendedManga tabLabel="Manga" navigation={navigation} />
         </ScrollableTabView>
       </View>
     );

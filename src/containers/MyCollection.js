@@ -8,6 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from '../components/PXTouchable';
 import TagsFilterModal from './TagsFilterModal';
 import MyPrivateBookmarkIllust from './MyPrivateBookmarkIllust';
@@ -26,22 +27,27 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  filterButtonContainer: {
-    padding: 10,
-    backgroundColor: '#fff',
-  },
-  filterButton: {
-    backgroundColor: '#5cafec',
-    padding: 10,
-    alignItems: 'center',
-    //margin: 10,
-  },
-  filterButtonText: {
-    color: '#fff',
-  },
 });
 
 class MyCollection extends Component {
+  static navigationOptions = {
+    header: ({ state, setParams }, defaultHeader) => {
+      return {
+        ...defaultHeader,
+        right: (
+          <Icon 
+            name="sliders" 
+            size={20} 
+            onPress={() => setParams({isOpenFilterModal: true})}
+            color="#037aff"
+            style={{
+              padding: 10
+            }}
+          />
+        ),
+      }
+    }
+  }
   constructor(props) {
     super(props);
     //this.offset = 0;
@@ -54,30 +60,34 @@ class MyCollection extends Component {
     };
   }
 
-  handleOnPressFilterButton = () => {
-    this.setState({
-      isOpenFilterModal: true
-    });
-  }
+  // handleOnPressFilterButton = () => {
+  //   const { navigation: { setParams } } = this.props;
+  //   setParams({
+  //     isOpenFilterModal: true 
+  //   });
+  // }
 
   handleOnPressCloseFilterButton = () => {
-    this.setState({
-      isOpenFilterModal: false
+    const { navigation: { setParams } } = this.props;
+    setParams({
+      isOpenFilterModal: false 
     });
   }
 
   handleOnSelectTag = (tag) => {
+    const { navigation: { setParams } } = this.props;
     const { currentTabIndex } = this.state;
     console.log(currentTabIndex, tag)
-    newState = { 
-      isOpenFilterModal: false 
-    };
+    newState = {};
     if (currentTabIndex === 0) {
       newState.selectedPublicTag = tag;
     }
     else {
       newState.selectedPrivateTag = tag;
     }
+    setParams({
+      isOpenFilterModal: false 
+    });
     this.setState(newState);
   }
 
@@ -104,27 +114,20 @@ class MyCollection extends Component {
   // }
 
   render() {
-    const { userId } = this.props;
-    const { currentTabIndex, isShowFilterButton, isOpenFilterModal, selectedPublicTag, selectedPrivateTag } = this.state;
+    const { userId, isOpenFilterModal} = this.props.navigation.state.params;
+    console.log('open ', isOpenFilterModal)
+    const { currentTabIndex, isShowFilterButton, selectedPublicTag, selectedPrivateTag } = this.state;
     return (
       <View style={styles.container}>
         <ScrollableTabView ref={(ref) => this.tabs = ref} onChangeTab={this.handleOnChangeTab}>
           <UserBookmarkIllust tabLabel="Illustrations (Public)" userId={userId} tag={selectedPublicTag} />
           <MyPrivateBookmarkIllust tabLabel="Illustrations (Private)" userId={userId} tag={selectedPrivateTag} />
         </ScrollableTabView>
-        <View style={styles.filterButtonContainer}>
-          <PXTouchable 
-            style={styles.filterButton}
-            onPress={this.handleOnPressFilterButton}
-          >
-            <Text style={styles.filterButtonText}>Filter Results</Text>
-          </PXTouchable> 
-        </View>
         {
           currentTabIndex === 0 &&
           <TagsFilterModal 
             tagType={TagType.PUBLIC}
-            isOpen={isOpenFilterModal}
+            isOpen={isOpenFilterModal || false}
             onPressCloseButton={this.handleOnPressCloseFilterButton}
             onSelectTag={this.handleOnSelectTag}
             tag={selectedPublicTag}
@@ -134,7 +137,7 @@ class MyCollection extends Component {
           currentTabIndex === 1 &&
           <TagsFilterModal 
             tagType={TagType.PRIVATE}
-            isOpen={isOpenFilterModal}
+            isOpen={isOpenFilterModal || false}
             onPressCloseButton={this.handleOnPressCloseFilterButton}
             onSelectTag={this.handleOnSelectTag}
             tag={selectedPrivateTag}

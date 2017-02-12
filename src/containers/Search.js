@@ -13,13 +13,17 @@ import { connect } from 'react-redux';
 import debounce from 'lodash.debounce';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import SearchBar from '../components/SearchBar';
+import PXSearchBar from '../components/PXSearchBar';
 import Header from '../components/Header';
 import SearchAutoCompleteResult from '../components/SearchAutoCompleteResult';
 import SearchUserAutoCompleteResult from '../components/SearchUserAutoCompleteResult';
-import { fetchSearchAutoComplete, clearSearchAutoComplete } from '../common/actions/searchAutoComplete';
-import { fetchSearchUserAutoComplete, clearSearchUserAutoComplete } from '../common/actions/searchUserAutoComplete';
-import { addSearchHistory ,removeSearchHistory, clearSearchHistory } from '../common/actions/searchHistory';
+// import { fetchSearchAutoComplete, clearSearchAutoComplete } from '../common/actions/searchAutoComplete';
+// import { fetchSearchUserAutoComplete, clearSearchUserAutoComplete } from '../common/actions/searchUserAutoComplete';
+// import { addSearchHistory ,removeSearchHistory, clearSearchHistory } from '../common/actions/searchHistory';
+
+import * as searchAutoCompleteActionCreators from '../common/actions/searchAutoComplete';
+import * as searchUserAutoCompleteActionCreators from '../common/actions/searchUserAutoComplete';
+import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import { SearchType } from '../common/actions/searchType';
 
 const styles = StyleSheet.create({
@@ -28,7 +32,50 @@ const styles = StyleSheet.create({
   },
 });
 
+// handleOnSubmitSearch = (word) => {
+//   word = word.trim();
+//   if (word) {
+//     const { dispatch, searchType, isPopAndReplaceOnSubmit } = this.props;
+//     if (isPopAndReplaceOnSubmit) {
+//       Actions.pop();
+//       setTimeout(() => Actions.refresh({ word: word, type: ActionConst.REPLACE }), 0)
+//       //setTimeout(() => Actions.pop(), 0);
+//     }
+//     else {
+//       if (searchType === SearchType.USER) {
+//         Actions.searchUserResult({ word: word, type: ActionConst.REPLACE });
+//       }
+//       else {
+//         Actions.searchResult({ word: word, type: ActionConst.REPLACE });
+//       }
+//     }
+//     //dispatch(addSearchHistory(word));
+//   }
+// }
+
 class Search extends Component {
+  static navigationOptions = {
+    header: (props, defaultHeader) => {
+      const { state, setParams, navigate, goBack, dispatch } = props;
+      const { word, searchOptions, isRenderPlaceHolder, onChangeSearchText, onSubmitSearch } = state.params;
+      return {
+        ...defaultHeader,
+        title: (
+          <PXSearchBar 
+            enableBack={true} 
+            isRenderPlaceHolder={true}
+            autoFocus={true} 
+            onChangeText={onChangeSearchText && debounce(onChangeSearchText, 300)}
+            onSubmitEditing={onSubmitSearch}
+            isRenderPlaceHolder={false}
+            searchType={SearchType.ILLUST}
+            word={word}
+          />
+        ),
+      }
+    }
+  }
+
   constructor(props) {
     super(props);
     // this.state = {
@@ -37,8 +84,16 @@ class Search extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, word, isRenderPlaceHolder, searchType } = this.props;
-    Actions.refresh({
+    // const { dispatch, word, isRenderPlaceHolder, searchType } = this.props;
+    const { 
+      navigation, 
+      fetchSearchAutoComplete, clearSearchAutoComplete, 
+      fetchSearchUserAutoComplete, clearSearchUserAutoComplete,
+      addSearchHistory, removeSearchHistory, clearSearchHistory 
+    } = this.props;
+    const { setParams } = navigation;
+    const { word, isRenderPlaceHolder, searchType } = navigation.state.params;
+    /*Actions.refresh({
       renderTitle: () => {
         return (
           <SearchBar 
@@ -52,45 +107,60 @@ class Search extends Component {
           />
         )
       }
-    });  
+    });  */
     if (searchType === SearchType.USER) {
-      dispatch(clearSearchUserAutoComplete());
+      clearSearchUserAutoComplete();
     }
     else {
-      dispatch(clearSearchAutoComplete());
-    }         
+      clearSearchAutoComplete();
+    }  
+    setParams({
+      onChangeSearchText: this.handleOnChangeSearchText,
+      onSubmitSearch: this.handleOnSubmitSearch
+    });    
   }
 
   handleOnChangeSearchText = (word, searchType) => {
-    const { dispatch } = this.props;
+    const { fetchSearchAutoComplete, clearSearchAutoComplete, fetchSearchUserAutoComplete, clearSearchUserAutoComplete } = this.props;
     if (searchType === SearchType.USER) {
-      dispatch(clearSearchUserAutoComplete());
+      clearSearchUserAutoComplete();
       if (word.length > 1) {
-        dispatch(fetchSearchUserAutoComplete(word));
+        fetchSearchUserAutoComplete(word);
       }
     }
     else {
-      dispatch(clearSearchAutoComplete());
+      clearSearchAutoComplete();
       if (word.length > 1) {
-        dispatch(fetchSearchAutoComplete(word));
+        fetchSearchAutoComplete(word);
       }
     }
   }
+
   handleOnSubmitSearch = (word) => {
     word = word.trim();
     if (word) {
-      const { dispatch, searchType, isPopAndReplaceOnSubmit } = this.props;
+      const { navigation, searchType, isPopAndReplaceOnSubmit } = this.props;
+      const { navigate, goBack, setParams } = navigation;
+      console.log('navigation ', navigation)
+      goBack(null);
       if (isPopAndReplaceOnSubmit) {
-        Actions.pop();
-        setTimeout(() => Actions.refresh({ word: word, type: ActionConst.REPLACE }), 0)
+        setTimeout(() => setParams({ word }), 0)
         //setTimeout(() => Actions.pop(), 0);
       }
       else {
         if (searchType === SearchType.USER) {
-          Actions.searchUserResult({ word: word, type: ActionConst.REPLACE });
+         // Actions.searchUserResult({ word: word, type: ActionConst.REPLACE });
         }
         else {
-          Actions.searchResult({ word: word, type: ActionConst.REPLACE });
+          // const navigationAction = NavigationActions.replace({
+          //   routeName: 'SearchResult',
+          //   params: { word },
+          // })
+          // setTimeout(() => this.props.navigation.dispatch(navigationAction), 0);
+
+
+          setTimeout(() => navigate('SearchResult', { word }), 0)
+          //Actions.searchResult({ word: word, type: ActionConst.REPLACE });
         }
       }
      //dispatch(addSearchHistory(word));
@@ -167,11 +237,18 @@ class Search extends Component {
   }
 }
 
-export default connect((state, { searchType }) => {
+export default connect((state, props) => {
+  const { word, searchType, isPopAndReplaceOnSubmit } = props;
   return {
     searchAutoComplete: state.searchAutoComplete,
     searchUserAutoComplete: state.searchUserAutoComplete,
     searchHistory: state.searchHistory,
     searchType: searchType || state.searchType.type,
+    word,
+    isPopAndReplaceOnSubmit 
   }
+}, { 
+  ...searchAutoCompleteActionCreators, 
+  ...searchUserAutoCompleteActionCreators, 
+  ...searchHistoryActionCreators, 
 })(Search);

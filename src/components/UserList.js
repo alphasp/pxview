@@ -172,7 +172,8 @@ class UserList extends Component {
   }
 
   handleOnPressImagePreview= (item) => {
-    Actions.detail({ item: item });
+    const { navigate } = this.props.navigation;
+    navigate('Detail', { item });
   }
 
   handleOnPressAvatar = (userId) => {

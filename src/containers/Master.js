@@ -5,10 +5,12 @@ import {
   DeviceEventEmitter,
 } from 'react-native';
 import { connect } from 'react-redux'
+import { addNavigationHelpers } from 'react-navigation';
 import { DefaultRenderer } from 'react-native-router-flux';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import { Actions } from 'react-native-router-flux';
-import Toast, { DURATION } from 'react-native-easy-toast'
+import Toast, { DURATION } from 'react-native-easy-toast';
+import AppNavigator from '../navigations/AppNavigator';
 import { resetError } from '../common/actions/error';
 
 const styles = StyleSheet.create({
@@ -63,14 +65,16 @@ class Master extends Component {
   }
 
   render() {
-    const { navigationState: { children } } = this.props;
+    // const { navigationState: { children } } = this.props;
     return (
       <View style={styles.container}>
-        <DefaultRenderer navigationState={children[0]} onNavigate={this.props.onNavigate} />
+        <AppNavigator />
         <MessageBar ref={ref => this.messageBarAlert = ref}/>
         <Toast ref={ref => this.toast = ref} />
       </View>
     );
+    //        <DefaultRenderer navigationState={children[0]} onNavigate={this.props.onNavigate} />
+
   }
 }
 

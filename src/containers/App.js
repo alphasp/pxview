@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Platform,
   StatusBar,
-  Navigator
+  Navigator,
+  DeviceEventEmitter,
 } from 'react-native';
 import { 
   Actions, 
@@ -16,30 +17,7 @@ import {
 } from 'react-native-router-flux';
 import { connect, Provider } from 'react-redux';
 import Master from './Master';
-import Tabs from './Tabs';
-import Detail from './Detail';
-import TempComp from './TempComp';
-import Home from './Home';
-import Trending from './Trending';
-import Search from './Search';
-// import SearchResult from './SearchResult';
-import SearchResultTabs from './SearchResultTabs';
-import SearchUserResult from './SearchUserResult';
-import UserDetail from './UserDetail';
-import UserIllust from './UserIllust';
-import UserManga from './UserManga';
-import UserBookmarkIllust from './UserBookmarkIllust';
-import MyCollection from './MyCollection';
-import MyConnection from './MyConnection';
-import Ranking from './Ranking';
-import NewWork from './NewWork';
-import UserProfile from './UserProfile';
-import Login from './Login';
-import Setting from './Setting';
-import SearchBar from '../components/SearchBar';
-import Header from '../components/Header';
-import SearchFilterModal from '../components/SearchFilterModal';
-import { fetchSearchAutoComplete, clearSearchAutoComplete } from '../common/actions/searchAutoComplete';
+import { resetError } from '../common/actions/error';
 
 global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
 
@@ -101,9 +79,10 @@ class App extends Component {
       StatusBar.setBarStyle('default');
     }
   }
+
   handleOnSearchFieldFocus = (searchType) => {
     console.log('on focus ', searchType);
-    Actions.search();
+    //Actions.search();
   }
   handleOnChangeSearchText = (word) => {
     const { dispatch } = this.props;
@@ -114,7 +93,7 @@ class App extends Component {
   handleOnSubmitSearch = (word) => {
     console.log('submit ', word)
     if (word) {
-      Actions.searchResult({ word: word, type: ActionConst.REPLACE });
+      //Actions.searchResult({ word: word, type: ActionConst.REPLACE });
     }
   }
 
@@ -122,125 +101,7 @@ class App extends Component {
     const { store } = this.props;
     return (
       <Provider store={store}>
-        <RouterWithRedux getSceneStyle={getSceneStyle}>
-          <Scene key="modal" component={Modal}>
-            <Scene key="root" component={Master}>
-              <Scene 
-                key="scenes" 
-                navigationBarStyle={styles.header} 
-                panHandlers={null}
-                leftButtonStyle={{width: 30}}
-              >
-                <Scene key="tabs" component={Tabs} title="Pixiv RN" tabs={true} duration={0}>
-                  <Scene key="home"
-                    title="Pixiv RN"
-                    icon="home"
-                    component={Home}
-                    navigationBarStyle={styles.header}
-                  />
-                  <Scene key="ranking"
-                    title="Ranking"
-                    icon="trophy"
-                    component={Ranking}
-                    navigationBarStyle={styles.header}
-                  />
-                  <Scene key="trending"
-                    title="Search"
-                    icon="search"
-                    component={Trending}
-                    navigationBarStyle={styles.header}
-                    renderTitle={() => {
-                      return (
-                        <SearchBar 
-                          onFocus={this.handleOnSearchFieldFocus}  
-                          isRenderPlaceHolder={true}
-                        />
-                      )
-                    }}
-                  />
-                  <Scene key="new"
-                    title="Newest"
-                    icon="fiber-new"
-                    iconType="material"
-                    component={NewWork}
-                    navigationBarStyle={styles.header}
-                  />
-                  <Scene key="userProfile"
-                    title="Profile"
-                    icon="user"
-                    component={UserProfile}
-                    navigationBarStyle={styles.header}
-                  />
-                </Scene>
-                <Scene key="detail"
-                  title="Detail"
-                  component={Detail}
-                  duration={0}
-                />
-                <Scene key="search"
-                  title="Search"
-                  component={Search}
-                  navigationBarStyle={styles.header}
-                  duration={0}
-                />
-                <Scene key="searchResult"
-                  title="Search"
-                  component={SearchResultTabs}
-                  navigationBarStyle={styles.header}
-                  duration={0}
-                />
-                <Scene key="searchUserResult"
-                  title="Search"
-                  component={SearchUserResult}
-                  navigationBarStyle={styles.header}
-                  duration={0}
-                />
-                <Scene key="userDetail"
-                  component={UserDetail}
-                  duration={0}
-                />
-                <Scene key="userIllust"
-                  title="Illust Works" 
-                  component={UserIllust}
-                  duration={0}
-                />
-                <Scene key="userManga"
-                  title="Manga Works" 
-                  component={UserManga}
-                  duration={0}
-                />
-                <Scene key="userBookmarkIllust"
-                  title="Collection" 
-                  component={UserBookmarkIllust}
-                  duration={0}
-                />
-                <Scene key="myCollection"
-                  title="Collection" 
-                  component={MyCollection}
-                  duration={0}
-                />
-                <Scene key="myConnection"
-                  title="Connection" 
-                  component={MyConnection}
-                  duration={0}
-                />
-                <Scene key="searchFilter" 
-                  component={SearchFilterModal}
-                  direction="vertical"  
-                  panHandlers={null}
-                />
-                <Scene key="login"
-                  title="Login"
-                  component={Login}
-                />
-                <Scene key="temp"
-                  component={TempComp} 
-                  title="Temp" 
-                />
-              </Scene>
-            </Scene>
-          </Scene>
-        </RouterWithRedux>
+        <Master />
       </Provider>
     );
   }

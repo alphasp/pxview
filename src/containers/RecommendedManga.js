@@ -45,7 +45,7 @@ class RecommendedManga extends Component {
   }
 
   render() {
-    const { recommendedManga } = this.props;
+    const { recommendedManga, navigation } = this.props;
     const { refreshing } = this.state;
     return (
       <IllustList
@@ -53,6 +53,7 @@ class RecommendedManga extends Component {
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
+        navigation={navigation}
       />
     );
   }
