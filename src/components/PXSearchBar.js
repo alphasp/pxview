@@ -13,6 +13,8 @@ import { SearchBar } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import SearchTags from './SearchTags';
+import * as searchAutoCompleteActionCreators from '../common/actions/searchAutoComplete';
+import * as searchUserAutoCompleteActionCreators from '../common/actions/searchUserAutoComplete';
 import { SearchType } from '../common/actions/searchType';
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
@@ -88,10 +90,48 @@ const styles = StyleSheet.create({
 });
 
 class PXSearchBar extends Component {
+  handleOnChangeSearchText = (word, searchType) => {
+    const { fetchSearchAutoComplete, clearSearchAutoComplete, fetchSearchUserAutoComplete, clearSearchUserAutoComplete } = this.props;
+    if (searchType === SearchType.USER) {
+      clearSearchUserAutoComplete();
+      if (word.length > 1) {
+        fetchSearchUserAutoComplete(word);
+      }
+    }
+    else {
+      clearSearchAutoComplete();
+      if (word.length > 1) {
+        fetchSearchAutoComplete(word);
+      }
+    }
+  }
+
+  handleOnSubmitSearch = (word, searchType) => {
+    const { navigation, isPushNewSearch } = this.props;
+    word = word.trim();
+    if (word) {
+      const { navigate, setParams, searchType } = navigation;
+      if (searchType === SearchType.USER) {
+        // Actions.searchUserResult({ word: word, type: ActionConst.REPLACE });
+      }
+      else {
+        console.log('isPushNewSearch ', isPushNewSearch)
+        if (isPushNewSearch) {
+          navigate('SearchResult', { word });
+        }
+        setTimeout(() => {
+          setParams({
+            isFocusSearchBar: false,
+            word
+          });
+        }, 0);
+      }
+    }
+  }
+
   render() {
     const { searchType, isRenderFullHeader, isRenderPlaceHolder, enableBack, onFocus, onChangeText, onSubmitEditing, onPressRemoveTag, autoFocus, word } = this.props;
     const style = {}
-    console.log('isRenderPlaceHolder ', isRenderPlaceHolder)
     return (
       <View style={[styles.container, !isRenderFullHeader && {
         flex: 1,
@@ -104,8 +144,8 @@ class PXSearchBar extends Component {
             placeholder={searchType === SearchType.USER ? "Enter nickname" : "Enter keyword"}
             autoFocus={autoFocus}
             onFocus={() => onFocus && onFocus(searchType)}
-            onChangeText={(text) => !isRenderPlaceHolder ? onChangeText(text, searchType) : onFocus(searchType)}
-            onSubmitEditing={(e) => !isRenderPlaceHolder && onSubmitEditing(e.nativeEvent.text, searchType)}
+            onChangeText={(text) => !isRenderPlaceHolder ? this.handleOnChangeSearchText(text, searchType) : onFocus(searchType)}
+            onSubmitEditing={(e) => !isRenderPlaceHolder && this.handleOnSubmitSearch(e.nativeEvent.text, searchType)}
             returnKeyType="search"
             defaultValue={word}
             underlineColorAndroid='transparent'
@@ -120,4 +160,7 @@ export default connect((state, { searchType }) => {
   return {
     searchType: searchType || state.searchType.type
   }
+}, {  
+  ...searchAutoCompleteActionCreators, 
+  ...searchUserAutoCompleteActionCreators
 })(PXSearchBar);

@@ -60,23 +60,9 @@ class SearchResultTabs extends Component {
             })}
             searchType={SearchType.ILLUST}
             word={word}
+            navigation={navigation}
           />
         ) : null,
-        /*title: word ? (
-          <PXSearchBar 
-            enableBack={true} 
-            onFocus={() => navigate("Search", {
-              word, 
-              searchType: SearchType.ILLUST, 
-              options: searchOptions || {}, 
-              isPopAndReplaceOnSubmit: true,
-              searchResultKey: state.key
-            })}
-            isRenderPlaceHolder={true}
-            searchType={SearchType.ILLUST}
-            word={word}
-          />
-        ) : null,*/
         right: (
           <Icon 
             name="sliders" 
@@ -86,28 +72,13 @@ class SearchResultTabs extends Component {
             onPress={() => navigate("SearchFilterModal", { 
               searchFilter: searchOptions || {}, 
               onPressApplyFilter: (target, duration) => {
-                {/*setParams({
-                  searchOptions: {
-                    duration: duration || undefined,
-                    target: target || undefined,
-                  }
-                })*/}
                 goBack(null);
                 setTimeout(() => setParams({
                   searchOptions: {
                     duration: duration || undefined,
                     target: target || undefined,
                   },
-                }), 0)
-                {/*setTimeout(() => dispatch(NavigationActions.setParams({
-                  params: {
-                    searchOptions: {
-                      duration: duration || undefined,
-                      target: target || undefined,
-                    },
-                  },
-                  key: state.key
-                })), 100)*/}
+                }), 0);
               }
             })}
           />
@@ -116,117 +87,12 @@ class SearchResultTabs extends Component {
     }
   }
 
- 
-//                 {/*console.log('state key ', state.key)
-//                 const backAction = NavigationActions.back({
-//                   action: dispatch(NavigationActions.setParams({
-//                     searchOptions: {
-//                       duration: duration || undefined,
-//                       target: target || undefined,
-//                     },
-//                     key: state.key
-//                   }))
-//                 })
-//                 dispatch(backAction)*/}
-
-//               }
-//             })}
   constructor(props) {
     super(props);
     // this.state = {
     //   searchOptions: {}
     // };
   }
-
-  // onFocusSearchBar = (navigation) => {
-  //   const { setParams, goBack, state }  = navigation;
-  //   const { isFocusSearchBar } = state.params;
-  //   if (isFocusSearchBar) {
-  //     setParams({
-  //       isFocusSearchBar: false
-  //     });
-  //   }
-  //   else {
-  //     goBack();
-  //   }
-  // }
-
-  /*componentDidMount() {
-    const { dispatch, word } = this.props;
-    this.refreshNavigationBar(word);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { word: prevWord } = this.props;
-    const { word } = nextProps;
-    if (word !== prevWord) {
-      this.refreshNavigationBar(word);
-    }
-  }
-
-  refreshNavigationBar = (word) => {
-    Actions.refresh({
-      renderTitle: () => {
-        return (
-          <SearchBar 
-            enableBack={true} 
-            onFocus={this.handleOnSearchFieldFocus} 
-            onPressRemoveTag={this.handleOnPressRemoveTag}
-            isRenderPlaceHolder={true}
-            isRenderRightButton={true}
-            searchType={SearchType.ILLUST}
-            word={word}
-          />
-        )
-      },
-      renderRightButton: () => {
-        return (
-          <Icon 
-            name="sliders" 
-            size={20} 
-            onPress={this.handleOnPressFilterButton}
-            color="#fff"
-          />
-        )
-      },
-    });
-  }*/
-
-  // handleOnSearchFieldFocus = () => {
-  //   const { word } = this.props;
-  //   const { searchOptions } = this.state;
-  //   Actions.search({ word: word, searchType: SearchType.ILLUST, options: searchOptions, isPopAndReplaceOnSubmit: true });
-  // }
-  
-  // handleOnPressFilterButton = () => {
-  //   const { searchOptions } = this.state;
-  //   Actions.searchFilter({ searchFilter: searchOptions, onPressApplyFilter: this.handleOnPressApplyFilter });
-  // }
-
-  // handleOnPressApplyFilter = (target, duration) => {
-  //   const { dispatch, word } = this.props;
-  //   Actions.pop();
-  //   console.log('apply filter')
-  //   this.setState({
-  //     searchOptions: {
-  //       duration: duration || undefined, 
-  //       target: target || undefined, 
-  //     }
-  //   })
-  // }
-
-
-  // handleOnSubmitSearch = (word) => {
-  //   const { dispatch } = this.props;
-  //   word = word.trim();
-  //   if (word) {
-  //     //todo
-  //     dispatch(clearSearch(word, null, SortType.ASC));
-  //     dispatch(clearSearch(word, null, SortType.DESC));
-  //     dispatch(fetchSearch(word));
-  //     Actions.refresh({ word: word, type: ActionConst.REPLACE });
-  //   }
-  // }
 
   handleOnPressRemoveTag = (index) => {
     const { dispatch, word } = this.props;

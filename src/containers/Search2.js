@@ -75,6 +75,27 @@ class Search2 extends Component {
     }
   }
 
+  submitSearch = (word, searchType)  => {
+    word = word.trim();
+    if (word) {
+      const { navigation: { navigate, setParams }, isPushNewSearch } = this.props;
+      if (searchType === SearchType.USER) {
+        // Actions.searchUserResult({ word: word, type: ActionConst.REPLACE });
+      }
+      else {
+        if (isPushNewSearch) {
+          navigate('SearchResult', { word });
+        }
+        setTimeout(() => {
+          setParams({
+            isFocusSearchBar: false,
+            word
+          });
+        }, 0);
+      }
+    }
+  }
+
   // handleOnSubmitSearch = (word) => {
   //   word = word.trim();
   //   if (word) {
@@ -107,13 +128,11 @@ class Search2 extends Component {
   // }
 
   handleOnPressAutoCompleteItem = (word) => {
-    const { onSubmitSearch } = this.props;
-    onSubmitSearch(word);
+    this.submitSearch(word);
   }
 
   handleOnPressSearchHistoryItem = (word) => {
-    const { onSubmitSearch } = this.props;
-    onSubmitSearch(word);
+    this.submitSearch(word);
   }
 
   handleOnPressUser = (userId) => {
@@ -126,7 +145,7 @@ class Search2 extends Component {
     const newWord = word.split(' ').slice(index, 1).join(' ');
     if (newWord) {
       const { onSubmitSearch } = this.props;
-      onSubmitSearch(word);
+      submitSearch(word);
     }
     else {
       Actions.pop();
@@ -154,9 +173,18 @@ class Search2 extends Component {
     const { searchType, searchAutoComplete, searchUserAutoComplete, searchHistory } = this.props;
     return (
       <View style={styles.container}>
-        {
-          searchType  === SearchType.USER ?
+        <ScrollableTabView>
+          <SearchAutoCompleteResult 
+            tabLabel="Illust/Manga"
+            searchAutoComplete={searchAutoComplete}
+            searchHistory={searchHistory}
+            onPressItem={this.handleOnPressAutoCompleteItem}
+            onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
+            onPressRemoveSearchHistoryItem={this.handleOnPressRemoveSearchHistoryItem}
+            onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
+          />
           <SearchUserAutoCompleteResult 
+            tabLabel="User"
             searchUserAutoComplete={searchUserAutoComplete}
             searchHistory={searchHistory}
             onPressItem={this.handleOnPressUser}
@@ -165,16 +193,7 @@ class Search2 extends Component {
             onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
             loadMoreItems={this.loadMoreUsers}
           />
-          :
-          <SearchAutoCompleteResult 
-            searchAutoComplete={searchAutoComplete}
-            searchHistory={searchHistory}
-            onPressItem={this.handleOnPressAutoCompleteItem}
-            onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
-            onPressRemoveSearchHistoryItem={this.handleOnPressRemoveSearchHistoryItem}
-            onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
-          />
-        }
+        </ScrollableTabView>
       </View>
     );
   }

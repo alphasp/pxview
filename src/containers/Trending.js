@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
 
 class Trending extends Component {
   static navigationOptions = {
-    header: (props, defaultHeader) => {
-      const { state, setParams, navigate, goBack, dispatch } = props;
+    header: (navigation, defaultHeader) => {
+      const { state, setParams, navigate, goBack, dispatch } = navigation;
       return {
         ...defaultHeader,
         title: (
@@ -37,6 +37,8 @@ class Trending extends Component {
               isFocusSearchBar: true
             })}
             searchType={SearchType.ILLUST}
+            navigation={navigation}
+            isPushNewSearch={true}
           />
         ),
         // titleStyle: {
@@ -46,15 +48,15 @@ class Trending extends Component {
       }
     }
   }
-  
+
   handleOnChangeTab = ({ i, ref }) => {
-    const { dispatch } = this.props;
+    const { setSearchType } = this.props;
     const placeHolderText = (i === 1) ? "Enter nickname" : "Enter keyword";
     if (i === 1) {
-      dispatch(setSearchType(SearchType.USER));
+      setSearchType(SearchType.USER);
     }
     else {
-      dispatch(setSearchType(SearchType.ILLUST));
+      setSearchType(SearchType.ILLUST);
     }
   }
 
@@ -62,36 +64,9 @@ class Trending extends Component {
     console.log('on focus ', searchType);
     // Actions.search();
     const { navigate, setParams } = this.props.navigation;
-    navigate('Login');
     setParams({
       isFocusSearchBar: true
     });
-  }
-
-  handleOnSubmitSearch = (word) => {
-    word = word.trim();
-    if (word) {
-      const { navigation: { navigate, setParams }, searchType } = this.props;
-      if (searchType === SearchType.USER) {
-        // Actions.searchUserResult({ word: word, type: ActionConst.REPLACE });
-      }
-      else {
-        // Keyboard.dismiss();
-        // setParams({
-        //   isFocusSearchBar: false,
-        //   word
-        // });
-        navigate('SearchResult', { word });
-        setTimeout(() => {
-          setParams({
-            isFocusSearchBar: false,
-            word
-          });
-        }, 0);
-        // setTimeout(() => navigate('SearchResult', { word }), 0)
-        //Actions.searchResult({ word: word, type: ActionConst.REPLACE });
-      }
-    }
   }
 
   render() {
@@ -107,52 +82,11 @@ class Trending extends Component {
         </ScrollableTabView>
         { 
           params && params.isFocusSearchBar &&
-          <Search2 navigation={navigation} onSubmitSearch={this.handleOnSubmitSearch} />
+          <Search2 navigation={navigation} isPushNewSearch={true} />
         }
       </View>
-    )
-        //     <ScrollableTabView 
-        //   onChangeTab={this.handleOnChangeTab}
-        //   locked 
-        //   scrollWithoutAnimation
-        // >
-        //   <TrendingIllustTag tabLabel="Illust/Manga" />
-        //   <RecommendedUser tabLabel="User" />
-        // </ScrollableTabView>
-    // return (
-    //   <View>
-    //     <View style={styles.container}>
-    //       <Text>gg {this.props.test}</Text>
-    //     </View>
-    //   </View>
-    // )
-    // return (
-    //   <View style={styles.container}>
-    //     <Text style={styles.welcome}>
-    //       Search page
-    //     </Text>
-    //     <PXTouchable onPress={ this.onPress }>
-    //       <View>
-    //         <Text>press me</Text>
-    //       </View>
-    //     </PXTouchable>
-    //   </View>
-    // );
-    // return (
-    //   <Container>
-    //     <Header searchBar rounded>
-    //       <InputGroup>
-    //           <Icon name='ios-search' />
-    //           <Input placeholder='Search' />
-    //           <Icon name='ios-people' />
-    //       </InputGroup>
-    //       <Button transparent>
-    //           Search
-    //       </Button>
-    //     </Header>
-    //   </Container>
-    // )
+    );
   }
 }
 
-export default connect()(Trending);
+export default connect(null, setSearchType)(Trending);
