@@ -97,7 +97,7 @@ class RecommendedUser extends Component {
   }
 
   render() {
-    const { recommendedUser } = this.props;
+    const { recommendedUser, navigation } = this.props;
     const { refreshing } = this.state;
     return (
       <UserList
@@ -105,6 +105,7 @@ class RecommendedUser extends Component {
         refreshing={refreshing}
         loadMore={this.loadMore}
         onRefresh={this.handleOnRefresh}
+        navigation={navigation}
       />
     );
   }

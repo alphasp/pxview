@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TabNavigator } from 'react-navigation';
+import { TabNavigator, TabRouter } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import HomeNavigator from './HomeNavigator';
 import RankingNavigator from './RankingNavigator';
@@ -24,11 +24,20 @@ const MainNavigator = TabNavigator({
     path: '/home',
     navigationOptions: {
       title: 'home',
-      tabBar: () => ({
+      // tabBar: () => ({
+      //   label: 'Home',
+      //   icon: ({ tintColor, focused }) => (
+      //     renderTabBarIcon(tintColor, focused, "home")
+      //   ),
+      // }),
+      tabBar: ({ state }) => ({
         label: 'Home',
-        icon: ({tintColor, focused}) => (
+        icon: ({ tintColor, focused }) => (
           renderTabBarIcon(tintColor, focused, "home")
         ),
+        onTabPress: (props) => {
+          console.log('on tab press ', props)
+        }
       }),
     } 
   },
@@ -93,4 +102,28 @@ const MainNavigator = TabNavigator({
   lazyLoad: true,
 });
 
-export default MainNavigator
+const router = MainNavigator.router;
+MainNavigator.router = {
+  ...MainNavigator.router,
+  getPathAndParamsForState(state) {
+    console.log('path params ', state);
+    return router.getPathAndParamsForState(state);
+  },
+  // getStateForAction(action, state) {
+  //   console.log('router ', action, state)
+  //   return router.getStateForAction(action, state);
+  //   // if (
+  //   //   state &&
+  //   //   action.type === NavigationActions.BACK &&
+  //   //   state.routes[state.index].params.isEditing
+  //   // ) {
+  //   //   // Returning null from getStateForAction means that the action
+  //   //   // has been handled/blocked, but there is not a new state
+  //   //   return null;
+  //   // }
+  //   // console.log('getStateForAction ', action, state)
+  //   // return MainNavigator.router.getStateForAction(action, state);
+  // },
+};
+
+export default MainNavigator;

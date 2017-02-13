@@ -8,12 +8,15 @@ import {
   RecyclerViewBackedScrollView,
   RefreshControl,
   InteractionManager,
+  Keyboard,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, CardStack } from 'react-navigation';
+const { BackButton } = CardStack.Header;
 import { Actions, ActionConst } from 'react-native-router-flux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Search2 from './Search2';
 import PXSearchBar from '../components/PXSearchBar';
 import SearchResult from './SearchResult';
 import { fetchSearch, clearSearch, SortType } from '../common/actions/search';
@@ -25,14 +28,41 @@ const styles = StyleSheet.create({
   }
 });
 
+onPressBackButton = (navigation) => {
+  const { setParams, goBack, state }  = navigation;
+  const { isFocusSearchBar } = state.params;
+  if (isFocusSearchBar) {
+    Keyboard.dismiss();
+    setParams({
+      isFocusSearchBar: false
+    });
+  }
+  else {
+    goBack();
+  }
+}
+
 class SearchResultTabs extends Component {
   static navigationOptions = {
-    header: (props, defaultHeader) => {
-      const { state, setParams, navigate, goBack, dispatch } = props;
-      const { word, searchOptions } = state.params;
+    header: (navigation, defaultHeader) => {
+      const { state, setParams, navigate, goBack, dispatch } = navigation;
+      const { word, searchOptions, isFocusSearchBar } = state.params;
       return {
         ...defaultHeader,
+        left: (
+          <BackButton onPress={() => onPressBackButton(navigation)} />
+        ),
         title: word ? (
+          <PXSearchBar 
+            enableBack={true} 
+            onFocus={() => setParams({
+              isFocusSearchBar: true
+            })}
+            searchType={SearchType.ILLUST}
+            word={word}
+          />
+        ) : null,
+        /*title: word ? (
           <PXSearchBar 
             enableBack={true} 
             onFocus={() => navigate("Search", {
@@ -46,7 +76,7 @@ class SearchResultTabs extends Component {
             searchType={SearchType.ILLUST}
             word={word}
           />
-        ) : null,
+        ) : null,*/
         right: (
           <Icon 
             name="sliders" 
@@ -107,6 +137,19 @@ class SearchResultTabs extends Component {
     //   searchOptions: {}
     // };
   }
+
+  // onFocusSearchBar = (navigation) => {
+  //   const { setParams, goBack, state }  = navigation;
+  //   const { isFocusSearchBar } = state.params;
+  //   if (isFocusSearchBar) {
+  //     setParams({
+  //       isFocusSearchBar: false
+  //     });
+  //   }
+  //   else {
+  //     goBack();
+  //   }
+  // }
 
   /*componentDidMount() {
     const { dispatch, word } = this.props;
@@ -213,9 +256,28 @@ class SearchResultTabs extends Component {
     }
   }
 
+  handleOnSubmitSearch = (word) => {
+    word = word.trim();
+    if (word) {
+      const { navigation: { setParams }, searchType } = this.props;
+      if (searchType === SearchType.USER) {
+        // Actions.searchUserResult({ word: word, type: ActionConst.REPLACE });
+      }
+      else {
+        Keyboard.dismiss();
+        setParams({
+          isFocusSearchBar: false,
+          word
+        });
+        //setTimeout(() => navigate('SearchResult', { word }), 0)
+        //Actions.searchResult({ word: word, type: ActionConst.REPLACE });
+      }
+    }
+  }
+
   render() {
     const { navigationStateKey, word, navigation } = this.props;
-    const { searchOptions } = navigation.state.params;
+    const { searchOptions, isFocusSearchBar } = navigation.state.params;
     return (
       <View style={styles.container} >
         <ScrollableTabView>
@@ -236,6 +298,10 @@ class SearchResultTabs extends Component {
             navigationStateKey={navigationStateKey}
           />
         </ScrollableTabView>
+        { 
+          isFocusSearchBar &&
+          <Search2 navigation={navigation} onSubmitSearch={this.handleOnSubmitSearch} />
+        }
       </View>
     );
   }

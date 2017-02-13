@@ -177,7 +177,8 @@ class UserList extends Component {
   }
 
   handleOnPressAvatar = (userId) => {
-    Actions.userDetail({ userId });
+    const { navigate } = this.props.navigation;
+    navigate('UserDetail', { userId });
   }
 
   handleOnPressFollowButton = (user) => {

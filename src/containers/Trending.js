@@ -3,9 +3,11 @@ import {
   StyleSheet,
   Text,
   View,
+  Keyboard
 } from 'react-native';
 import { connect } from 'react-redux';
-import { DefaultRenderer, Actions } from 'react-native-router-flux';
+import { CardStack } from 'react-navigation';
+const { BackButton } = CardStack.Header;
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
@@ -13,6 +15,7 @@ import TrendingIllustTag from './TrendingIllustTag';
 import RecommendedUser from './RecommendedUser';
 import Header from '../components/Header';
 import PXSearchBar from '../components/PXSearchBar';
+import Search2 from './Search2';
 import { setSearchType, SearchType } from '../common/actions/searchType';
 
 const styles = StyleSheet.create({
@@ -22,11 +25,28 @@ const styles = StyleSheet.create({
 });
 
 class Trending extends Component {
-  // <SearchBar 
-  //   onFocus={this.handleOnSearchFieldFocus}  
-  //   isRenderPlaceHolder={true}
-  // />
-
+  static navigationOptions = {
+    header: (props, defaultHeader) => {
+      const { state, setParams, navigate, goBack, dispatch } = props;
+      return {
+        ...defaultHeader,
+        title: (
+          <PXSearchBar 
+            enableBack={true} 
+            onFocus={() => setParams({
+              isFocusSearchBar: true
+            })}
+            searchType={SearchType.ILLUST}
+          />
+        ),
+        // titleStyle: {
+        //   left: 0,
+        //   right: 0,
+        // },
+      }
+    }
+  }
+  
   handleOnChangeTab = ({ i, ref }) => {
     const { dispatch } = this.props;
     const placeHolderText = (i === 1) ? "Enter nickname" : "Enter keyword";
@@ -41,24 +61,54 @@ class Trending extends Component {
   handleOnSearchFieldFocus = (searchType) => {
     console.log('on focus ', searchType);
     // Actions.search();
-    const { navigate } = this.props.navigation;
+    const { navigate, setParams } = this.props.navigation;
     navigate('Login');
+    setParams({
+      isFocusSearchBar: true
+    });
+  }
+
+  handleOnSubmitSearch = (word) => {
+    word = word.trim();
+    if (word) {
+      const { navigation: { navigate, setParams }, searchType } = this.props;
+      if (searchType === SearchType.USER) {
+        // Actions.searchUserResult({ word: word, type: ActionConst.REPLACE });
+      }
+      else {
+        // Keyboard.dismiss();
+        // setParams({
+        //   isFocusSearchBar: false,
+        //   word
+        // });
+        navigate('SearchResult', { word });
+        setTimeout(() => {
+          setParams({
+            isFocusSearchBar: false,
+            word
+          });
+        }, 0);
+        // setTimeout(() => navigate('SearchResult', { word }), 0)
+        //Actions.searchResult({ word: word, type: ActionConst.REPLACE });
+      }
+    }
   }
 
   render() {
     const { navigation } = this.props;
+    const { params } = navigation.state;
     return (
       <View style={styles.container} >
-        <PXSearchBar 
-          onFocus={this.handleOnSearchFieldFocus}  
-          isRenderFullHeader={true} 
-        />
         <ScrollableTabView 
           onChangeTab={this.handleOnChangeTab}
         >
           <TrendingIllustTag tabLabel="Illust/Manga" navigation={navigation} />
           <RecommendedUser tabLabel="User" navigation={navigation} />
         </ScrollableTabView>
+        { 
+          params && params.isFocusSearchBar &&
+          <Search2 navigation={navigation} onSubmitSearch={this.handleOnSubmitSearch} />
+        }
       </View>
     )
         //     <ScrollableTabView 
