@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import Loader from './Loader';
 import Separator from './Separator';
-import SearchHistory from './SearchHistory';
+// import SearchHistory from './SearchHistory';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,37 +35,19 @@ const styles = StyleSheet.create({
   },
 });
 
-class SearchAutoCompleteResult extends Component {
+class SearchAutoCompleteList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2,
-      })
+      }),
     };
   }
 
-  componentDidMount() {
-    const { dispatch, navigationStateKey, sortType, word, options } = this.props;
-    dispatch(clearSearch(navigationStateKey, sortType));
-    InteractionManager.runAfterInteractions(() => {
-      this.search(word, options);
-    });
-  }
-
   componentWillReceiveProps(nextProps) {
-    const { options: prevOptions, word: prevWord } = this.props;
-    const { dispatch, navigationStateKey, sortType, word, options } = nextProps;
-    if ((word !== prevWord) || (options && options !== prevOptions)) {
-      const { dataSource } = this.state;
-      dispatch(clearSearch(navigationStateKey, sortType));
-      this.search(word, options);
-    }
-  }
-  
-  componentWillReceiveProps(nextProps) {
-    const { searchAutoComplete: { items: prevItems } } = this.props;
-    const { searchAutoComplete: { items } } = nextProps;
+    const { data: { items: prevItems } } = this.props;
+    const { data: { items }, maxItems } = nextProps;
     if (items && items !== prevItems) {
       const { dataSource } = this.state;
       this.setState({
@@ -95,19 +77,10 @@ class SearchAutoCompleteResult extends Component {
   }
 
   render() {
-    const { searchAutoComplete: { items, loading, loaded },  searchHistory, onPressItem, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressClearSearchHistory } = this.props;
+    const { data: { items, loading, loaded } } = this.props;
     const { dataSource } = this.state;
     return (
       <View style={styles.container}>
-        {
-          !loaded && !loading &&
-          <SearchHistory 
-            items={searchHistory.items}
-            onPressItem={onPressSearchHistoryItem}
-            onPressRemoveSearchHistoryItem={onPressRemoveSearchHistoryItem}
-            onPressClearSearchHistory={onPressClearSearchHistory}
-          />
-        }
         {
           !loaded && loading &&
           <Loader />
@@ -126,8 +99,8 @@ class SearchAutoCompleteResult extends Component {
           null
         }
       </View>
-    );
+    )
   }
 }
 
-export default SearchAutoCompleteResult;
+export default SearchAutoCompleteList;

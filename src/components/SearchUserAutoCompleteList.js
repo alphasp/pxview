@@ -11,6 +11,8 @@ import {
 import dismissKeyboard from 'dismissKeyboard';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
+import PXThumbnailTouchable from './PXThumbnailTouchable';
+import FollowButton from './FollowButton';
 import Loader from './Loader';
 import Separator from './Separator';
 import SearchHistory from './SearchHistory';
@@ -22,7 +24,15 @@ const styles = StyleSheet.create({
   row: {
     padding: 10,
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  thumnailNameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  username: {
+    marginLeft: 5,
   },
   separatorContainer: {
     paddingLeft: 10, 
@@ -35,37 +45,19 @@ const styles = StyleSheet.create({
   },
 });
 
-class SearchAutoCompleteResult extends Component {
+class SearchUserAutoCompleteList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2,
-      })
+      }),
     };
   }
 
-  componentDidMount() {
-    const { dispatch, navigationStateKey, sortType, word, options } = this.props;
-    dispatch(clearSearch(navigationStateKey, sortType));
-    InteractionManager.runAfterInteractions(() => {
-      this.search(word, options);
-    });
-  }
-
   componentWillReceiveProps(nextProps) {
-    const { options: prevOptions, word: prevWord } = this.props;
-    const { dispatch, navigationStateKey, sortType, word, options } = nextProps;
-    if ((word !== prevWord) || (options && options !== prevOptions)) {
-      const { dataSource } = this.state;
-      dispatch(clearSearch(navigationStateKey, sortType));
-      this.search(word, options);
-    }
-  }
-  
-  componentWillReceiveProps(nextProps) {
-    const { searchAutoComplete: { items: prevItems } } = this.props;
-    const { searchAutoComplete: { items } } = nextProps;
+    const { data: { items: prevItems } } = this.props;
+    const { data: { items }, maxItems } = nextProps;
     if (items && items !== prevItems) {
       const { dataSource } = this.state;
       this.setState({
@@ -78,11 +70,18 @@ class SearchAutoCompleteResult extends Component {
     const { onPressItem } = this.props;
     return (
       <PXTouchable 
-        key={item} 
-        onPress={() => onPressItem(item)}
+        key={item.user.id} 
+        onPress={() => onPressItem(item.user.id)}
       >
         <View style={styles.row}>
-          <Text>{item}</Text>
+          <View style={styles.thumnailNameContainer}>
+            <PXThumbnailTouchable 
+              uri={item.user.profile_image_urls.medium} 
+              onPress={() => onPressItem(item.user.id)}
+            />
+            <Text style={styles.username}>{item.user.name}</Text>
+          </View>
+          <FollowButton isFollow={item.user.is_followed} />
         </View>
       </PXTouchable>
     )
@@ -94,20 +93,23 @@ class SearchAutoCompleteResult extends Component {
     )
   }
 
+  renderFooter = () => {
+    const { data: { items, nextUrl } } = this.props;
+    return (
+      nextUrl ?
+      <View style={{ marginBottom: 20 }}>
+        <Loader />
+      </View>
+      :
+      null
+    )
+  }
+
   render() {
-    const { searchAutoComplete: { items, loading, loaded },  searchHistory, onPressItem, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressClearSearchHistory } = this.props;
+    const { data: { items, loading, loaded }, loadMoreItems } = this.props;
     const { dataSource } = this.state;
     return (
       <View style={styles.container}>
-        {
-          !loaded && !loading &&
-          <SearchHistory 
-            items={searchHistory.items}
-            onPressItem={onPressSearchHistoryItem}
-            onPressRemoveSearchHistoryItem={onPressRemoveSearchHistoryItem}
-            onPressClearSearchHistory={onPressClearSearchHistory}
-          />
-        }
         {
           !loaded && loading &&
           <Loader />
@@ -121,13 +123,15 @@ class SearchAutoCompleteResult extends Component {
             enableEmptySections={true}
             keyboardShouldPersistTaps="always"
             onScroll={dismissKeyboard}
+            onEndReached={loadMoreItems}
+            renderFooter={this.renderFooter}
           />
           :
           null
         }
       </View>
-    );
+    )
   }
 }
 
-export default SearchAutoCompleteResult;
+export default SearchUserAutoCompleteList;

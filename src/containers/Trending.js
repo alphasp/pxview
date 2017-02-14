@@ -17,6 +17,7 @@ import Header from '../components/Header';
 import PXSearchBar from '../components/PXSearchBar';
 import Search2 from './Search2';
 import { setSearchType, SearchType } from '../common/actions/searchType';
+import { SearchBar } from 'react-native-elements'
 
 const styles = StyleSheet.create({
   container: {
@@ -24,21 +25,65 @@ const styles = StyleSheet.create({
   }
 });
 
+const onPressBackButton = (navigation) => {
+  const { setParams, goBack, state }  = navigation;
+  const { isFocusSearchBar } = state.params;
+  if (isFocusSearchBar) {
+    console.log('trending on press back button')
+    Keyboard.dismiss();
+    setParams({
+      isFocusSearchBar: false,
+      word: null
+    });
+  }
+  else {
+    goBack();
+  }
+}
+
+
+const handleOnChangeSearchText = (setParams) => (word, searchType) => {
+  setParams({ word });
+}
+
+/*const SearchBar = ({ navigation, text }) => (
+  <PXSearchBar 
+    ref='searchBar'
+    textInputRef='email'
+    enableBack={true} 
+    onFocus={() => navigation.setParams({
+      isFocusSearchBar: true
+    })}
+    onChangeText={handleOnChangeSearchText(setParams)}
+    searchType={SearchType.ILLUST}
+    navigation={navigation}
+    isPushNewSearch={true}
+  />
+)
+const MyConnectedTitle = connect(storeState => ({ text: storeState.title }))(MyTitle);*/
+
 class Trending extends Component {
   static navigationOptions = {
     header: (navigation, defaultHeader) => {
-      const { state, setParams, navigate, goBack, dispatch } = navigation;
+      const { state, setParams, navigate } = navigation;
       return {
         ...defaultHeader,
+        left: (state.params && state.params.isFocusSearchBar) ? (
+          <BackButton onPress={() => onPressBackButton(navigation)} />
+        ) : null,
         title: (
           <PXSearchBar 
+            ref='searchBar'
+            textInputRef='email'
             enableBack={true} 
             onFocus={() => setParams({
               isFocusSearchBar: true
             })}
+            onChangeText={handleOnChangeSearchText(setParams)}
             searchType={SearchType.ILLUST}
             navigation={navigation}
             isPushNewSearch={true}
+            word={state.params && state.params.word}
           />
         ),
         // titleStyle: {
@@ -51,7 +96,6 @@ class Trending extends Component {
 
   handleOnChangeTab = ({ i, ref }) => {
     const { setSearchType } = this.props;
-    const placeHolderText = (i === 1) ? "Enter nickname" : "Enter keyword";
     if (i === 1) {
       setSearchType(SearchType.USER);
     }
@@ -70,10 +114,10 @@ class Trending extends Component {
   }
 
   render() {
-    const { navigation } = this.props;
+    const { searchType, navigation } = this.props;
     const { params } = navigation.state;
     return (
-      <View style={styles.container} >
+      <View style={styles.container}>
         <ScrollableTabView 
           onChangeTab={this.handleOnChangeTab}
         >
@@ -82,11 +126,20 @@ class Trending extends Component {
         </ScrollableTabView>
         { 
           params && params.isFocusSearchBar &&
-          <Search2 navigation={navigation} isPushNewSearch={true} />
+          <Search2 
+            word={params.word}
+            navigation={navigation} 
+            isPushNewSearch={true} 
+            searchType={searchType} 
+          />
         }
       </View>
     );
   }
 }
 
-export default connect(null, setSearchType)(Trending);
+export default connect((state, props) => {
+  return {
+    searchType: state.searchType.type,
+  }
+}, { setSearchType })(Trending);

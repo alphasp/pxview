@@ -90,21 +90,22 @@ const styles = StyleSheet.create({
 });
 
 class PXSearchBar extends Component {
-  handleOnChangeSearchText = (word, searchType) => {
-    const { fetchSearchAutoComplete, clearSearchAutoComplete, fetchSearchUserAutoComplete, clearSearchUserAutoComplete } = this.props;
-    if (searchType === SearchType.USER) {
-      clearSearchUserAutoComplete();
-      if (word.length > 1) {
-        fetchSearchUserAutoComplete(word);
-      }
-    }
-    else {
-      clearSearchAutoComplete();
-      if (word.length > 1) {
-        fetchSearchAutoComplete(word);
-      }
-    }
-  }
+  // handleOnChangeSearchText = (word, searchType) => {
+  //   const { fetchSearchAutoComplete, clearSearchAutoComplete, fetchSearchUserAutoComplete, clearSearchUserAutoComplete } = this.props;
+  //   console.log('handleOnChangeSearchText ', searchType, word)
+  //   if (searchType === SearchType.USER) {
+  //     clearSearchUserAutoComplete();
+  //     if (word.length > 1) {
+  //       fetchSearchUserAutoComplete(word);
+  //     }
+  //   }
+  //   else {
+  //     clearSearchAutoComplete();
+  //     if (word.length > 1) {
+  //       fetchSearchAutoComplete(word);
+  //     }
+  //   }
+  // }
 
   handleOnSubmitSearch = (word, searchType) => {
     const { navigation, isPushNewSearch } = this.props;
@@ -130,7 +131,7 @@ class PXSearchBar extends Component {
   }
 
   render() {
-    const { searchType, isRenderFullHeader, isRenderPlaceHolder, enableBack, onFocus, onChangeText, onSubmitEditing, onPressRemoveTag, autoFocus, word } = this.props;
+    const { searchType, isRenderFullHeader, isRenderPlaceHolder, onFocus, onChangeText, onSubmitEditing, onPressRemoveTag, autoFocus, word } = this.props;
     const style = {}
     return (
       <View style={[styles.container, !isRenderFullHeader && {
@@ -144,7 +145,7 @@ class PXSearchBar extends Component {
             placeholder={searchType === SearchType.USER ? "Enter nickname" : "Enter keyword"}
             autoFocus={autoFocus}
             onFocus={() => onFocus && onFocus(searchType)}
-            onChangeText={(text) => !isRenderPlaceHolder ? this.handleOnChangeSearchText(text, searchType) : onFocus(searchType)}
+            onChangeText={(text) => !isRenderPlaceHolder ? onChangeText(text, searchType) : onFocus(searchType)}
             onSubmitEditing={(e) => !isRenderPlaceHolder && this.handleOnSubmitSearch(e.nativeEvent.text, searchType)}
             returnKeyType="search"
             defaultValue={word}
@@ -158,7 +159,7 @@ class PXSearchBar extends Component {
 
 export default connect((state, { searchType }) => {
   return {
-    searchType: searchType || state.searchType.type
+    searchType: state.searchType.type //searchType || state.searchType.type
   }
 }, {  
   ...searchAutoCompleteActionCreators, 

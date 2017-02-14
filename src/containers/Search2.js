@@ -9,6 +9,7 @@ import {
   ListView,
   RecyclerViewBackedScrollView,
   RefreshControl,
+  InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
 import debounce from 'lodash.debounce';
@@ -16,16 +17,12 @@ import { Actions, ActionConst } from 'react-native-router-flux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import PXSearchBar from '../components/PXSearchBar';
 import Header from '../components/Header';
-import SearchAutoCompleteResult from '../components/SearchAutoCompleteResult';
-import SearchUserAutoCompleteResult from '../components/SearchUserAutoCompleteResult';
-// import { fetchSearchAutoComplete, clearSearchAutoComplete } from '../common/actions/searchAutoComplete';
-// import { fetchSearchUserAutoComplete, clearSearchUserAutoComplete } from '../common/actions/searchUserAutoComplete';
-// import { addSearchHistory ,removeSearchHistory, clearSearchHistory } from '../common/actions/searchHistory';
-
+import SearchAutoCompleteResult from './SearchAutoCompleteResult';
+import SearchUserAutoCompleteResult from './SearchUserAutoCompleteResult';
 import * as searchAutoCompleteActionCreators from '../common/actions/searchAutoComplete';
 import * as searchUserAutoCompleteActionCreators from '../common/actions/searchUserAutoComplete';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
-import { SearchType } from '../common/actions/searchType';
+import { setSearchType, SearchType } from '../common/actions/searchType';
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
@@ -48,84 +45,39 @@ class Search2 extends Component {
     super(props);
   }
 
-  componentDidMount() {
-    // const { dispatch, word, isRenderPlaceHolder, searchType } = this.props;
-    const { searchType, clearSearchUserAutoComplete, clearSearchAutoComplete } = this.props;
-    if (searchType === SearchType.USER) {
-      clearSearchUserAutoComplete();
-    }
-    else {
-      clearSearchAutoComplete();
-    }
-  }
+  // componentDidMount() {
+  //   // const { dispatch, word, isRenderPlaceHolder, searchType } = this.props;
+  //   const { searchType, clearSearchUserAutoComplete, clearSearchAutoComplete } = this.props;
+  //   if (searchType === SearchType.USER) {
+  //     clearSearchUserAutoComplete();
+  //   }
+  //   else {
+  //     clearSearchAutoComplete();
+  //   }
+  //   // InteractionManager.runAfterInteractions(() => {
+  //   //   // Workaround for #470: github.com/skv-headless/react-native-scrollable-tab-view/issues/470
+  //   //   setTimeout(() => {
+  //   //     this.scrollableTabView._updateScrollValue(searchType === SearchType.USER ? 1 : 0);
+  //   //   }, 0);
+  //   // });
+  // }
 
-  handleOnChangeSearchText = (word, searchType) => {
-    const { fetchSearchAutoComplete, clearSearchAutoComplete, fetchSearchUserAutoComplete, clearSearchUserAutoComplete } = this.props;
-    if (searchType === SearchType.USER) {
-      clearSearchUserAutoComplete();
-      if (word.length > 1) {
-        fetchSearchUserAutoComplete(word);
-      }
-    }
-    else {
-      clearSearchAutoComplete();
-      if (word.length > 1) {
-        fetchSearchAutoComplete(word);
-      }
-    }
-  }
-
-  submitSearch = (word, searchType)  => {
+  submitSearch = (word)  => {
     word = word.trim();
     if (word) {
-      const { navigation: { navigate, setParams }, isPushNewSearch } = this.props;
-      if (searchType === SearchType.USER) {
-        // Actions.searchUserResult({ word: word, type: ActionConst.REPLACE });
+      const { navigation: { navigate, setParams }, isPushNewSearch, searchType } = this.props;
+      console.log('submit search ', searchType)
+      if (isPushNewSearch) {
+        navigate('SearchResult', { word, searchType });
       }
-      else {
-        if (isPushNewSearch) {
-          navigate('SearchResult', { word });
-        }
-        setTimeout(() => {
-          setParams({
-            isFocusSearchBar: false,
-            word
-          });
-        }, 0);
-      }
+      setTimeout(() => {
+        setParams({
+          isFocusSearchBar: false,
+          word
+        });
+      }, 0);
     }
   }
-
-  // handleOnSubmitSearch = (word) => {
-  //   word = word.trim();
-  //   if (word) {
-  //     const { navigation, searchType, isPopAndReplaceOnSubmit } = this.props;
-  //     const { navigate, goBack, setParams } = navigation;
-  //     console.log('navigation ', navigation)
-  //     goBack(null);
-  //     if (isPopAndReplaceOnSubmit) {
-  //       setTimeout(() => setParams({ word }), 0)
-  //       //setTimeout(() => Actions.pop(), 0);
-  //     }
-  //     else {
-  //       if (searchType === SearchType.USER) {
-  //        // Actions.searchUserResult({ word: word, type: ActionConst.REPLACE });
-  //       }
-  //       else {
-  //         // const navigationAction = NavigationActions.replace({
-  //         //   routeName: 'SearchResult',
-  //         //   params: { word },
-  //         // })
-  //         // setTimeout(() => this.props.navigation.dispatch(navigationAction), 0);
-
-
-  //         setTimeout(() => navigate('SearchResult', { word }), 0)
-  //         //Actions.searchResult({ word: word, type: ActionConst.REPLACE });
-  //       }
-  //     }
-  //    //dispatch(addSearchHistory(word));
-  //   }
-  // }
 
   handleOnPressAutoCompleteItem = (word) => {
     this.submitSearch(word);
@@ -170,7 +122,7 @@ class Search2 extends Component {
   }
 
   render() {
-    const { searchType, searchAutoComplete, searchUserAutoComplete, searchHistory } = this.props;
+    const { word, searchType, searchAutoComplete, searchUserAutoComplete, searchHistory } = this.props;
     return (
       <View style={styles.container}>
         <ScrollableTabView>
@@ -182,6 +134,7 @@ class Search2 extends Component {
             onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
             onPressRemoveSearchHistoryItem={this.handleOnPressRemoveSearchHistoryItem}
             onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
+            word={word}
           />
           <SearchUserAutoCompleteResult 
             tabLabel="User"
@@ -192,6 +145,7 @@ class Search2 extends Component {
             onPressRemoveSearchHistoryItem={this.handleOnPressRemoveSearchHistoryItem}
             onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
             loadMoreItems={this.loadMoreUsers}
+            word={word}
           />
         </ScrollableTabView>
       </View>
@@ -205,7 +159,7 @@ export default connect((state, props) => {
     searchAutoComplete: state.searchAutoComplete,
     searchUserAutoComplete: state.searchUserAutoComplete,
     searchHistory: state.searchHistory,
-    searchType: searchType || state.searchType.type,
+    searchType: state.searchType.type, //searchType || state.searchType.type,
     word,
     isPopAndReplaceOnSubmit 
   }
@@ -213,4 +167,5 @@ export default connect((state, props) => {
   ...searchAutoCompleteActionCreators, 
   ...searchUserAutoCompleteActionCreators, 
   ...searchHistoryActionCreators, 
+  setSearchType
 })(Search2);

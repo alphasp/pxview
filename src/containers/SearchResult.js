@@ -16,7 +16,6 @@ import { fetchSearch, clearSearch, SortType } from '../common/actions/search';
 class SearchResult extends Component {
   constructor(props) {
     super(props);
-    const { word } = props;
     this.state = {
       refreshing: false
     };
@@ -33,8 +32,9 @@ class SearchResult extends Component {
   componentWillReceiveProps(nextProps) {
     const { options: prevOptions, word: prevWord } = this.props;
     const { dispatch, navigationStateKey, sortType, word, options } = nextProps;
-    if ((word !== prevWord) || (options && options !== prevOptions)) {
-      const { dataSource } = this.state;
+    if ((word && word !== prevWord) || (options && options !== prevOptions)) {
+      console.log('word prevWord ', word, prevWord);
+      console.log('options prevOptions ', options, prevOptions);
       dispatch(clearSearch(navigationStateKey, sortType));
       this.search(word, options);
     }
@@ -67,7 +67,6 @@ class SearchResult extends Component {
   }
 
   render() {
-    console.log('sr ', this.props)
     const { search, word, options, navigation, navigationStateKey } = this.props;
     const { refreshing } = this.state;
     return (

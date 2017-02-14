@@ -29,7 +29,7 @@ class SearchUserResult extends Component {
 
   componentDidMount() {
     const { dispatch, word } = this.props;
-    this.refreshNavigationBar(word);
+    // this.refreshNavigationBar(word);
     clearSearchUser();
     InteractionManager.runAfterInteractions(() => {
       dispatch(fetchSearchUser(word));
@@ -42,10 +42,10 @@ class SearchUserResult extends Component {
     if (word !== prevWord) {
       dispatch(clearSearchUser());
       dispatch(fetchSearchUser(word));
-      this.refreshNavigationBar(word);
+      // this.refreshNavigationBar(word);
     }
   }
-
+/*
   refreshNavigationBar = (word) => {
     Actions.refresh({
       renderTitle: () => {
@@ -61,7 +61,7 @@ class SearchUserResult extends Component {
         )
       }
     });
-  }
+  }*/
 
   handleOnSearchFieldFocus = () => {
     const { word } = this.props;
@@ -120,7 +120,7 @@ class SearchUserResult extends Component {
   }
 
   render() {
-    const { searchUser, word } = this.props;
+    const { searchUser, word, navigation } = this.props;
     const { refreshing } = this.state;
     return (
       <UserList
@@ -128,13 +128,15 @@ class SearchUserResult extends Component {
         refreshing={refreshing}
         loadMore={this.loadMore}
         onRefresh={this.handleOnRefresh}
+        navigation={navigation}
       />
     );
   }
 }
 
-export default connect(state => {
+export default connect((state, props) => {
   return {
     searchUser: state.searchUser,
+    word: props.navigation.state.params.word,
   }
 })(SearchUserResult);

@@ -10,11 +10,9 @@ const TrendingNavigator = StackNavigator({
   Trending: { 
     screen: Trending,
     path: '/',
-    // navigationOptions: {
-    //   header: {
-    //     visible: false,
-    //   }
-    // },
+    // initialRouteParams: {
+    //   isFocusSearchBar: false // not working now
+    // }
   },
   Detail: { 
     screen: Detail,

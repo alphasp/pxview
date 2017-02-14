@@ -102,28 +102,38 @@ const MainNavigator = TabNavigator({
   lazyLoad: true,
 });
 
-const router = MainNavigator.router;
-MainNavigator.router = {
-  ...MainNavigator.router,
-  getPathAndParamsForState(state) {
-    console.log('path params ', state);
-    return router.getPathAndParamsForState(state);
-  },
-  // getStateForAction(action, state) {
-  //   console.log('router ', action, state)
-  //   return router.getStateForAction(action, state);
-  //   // if (
-  //   //   state &&
-  //   //   action.type === NavigationActions.BACK &&
-  //   //   state.routes[state.index].params.isEditing
-  //   // ) {
-  //   //   // Returning null from getStateForAction means that the action
-  //   //   // has been handled/blocked, but there is not a new state
-  //   //   return null;
-  //   // }
-  //   // console.log('getStateForAction ', action, state)
-  //   // return MainNavigator.router.getStateForAction(action, state);
-  // },
-};
+// const router = MainNavigator.router;
+// MainNavigator.router = {
+//   ...MainNavigator.router,
+//   getStateForAction(action, state) {
+//     console.log('router ', action, state)
+//     if (state && state.index && state.routes) {
+//     // if (state && action.type === 'goBackAndSetParams') {
+//       const lastRoute = state.routes[state.index].routes.find(route => route.key === action.key);
+//       console.log('last route ', lastRoute)
+//       if (lastRoute) {
+//         const params = {
+//           ...lastRoute.params,
+//           ...action.params,
+//         };
+//         return {
+//           ...state,
+//           routes: state.routes.map(route => {
+//             return {
+//               ...route,
+//               routes: route.routes.map(r => 
+//                 r.key === action.key ?
+//                 { ...r, params }
+//                 :
+//                 r
+//               )
+//             }
+//           }),
+//         };
+//       }
+//     }
+//     return router.getStateForAction(action, state);
+//   },
+// };
 
 export default MainNavigator;
