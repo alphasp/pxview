@@ -76,8 +76,9 @@ const styles = StyleSheet.create({
 
 
 const typeName = {
-  target: "Target",
-  duration: "Duration"
+  target: 'Target',
+  duration: 'Duration',
+  sort: 'Sort By'
 }
 const data = {
   target: [
@@ -118,21 +119,33 @@ const data = {
       value: "within_last_month",
       type: "duration"
     }
+  ],
+  sort: [
+    {
+      name: "Newest",
+      value: "date_desc",
+      type: "sort"
+    },
+    {
+      name: "Oldest",
+      value: "date_asc",
+      type: "sort"
+    },
   ]
 }
 
 class SearchFilterModal extends Component {
   constructor(props) {
     super(props);
-    console.log('sf ', props)
-    const { searchFilter: { target, duration } } = props.navigation.state.params;
+    const { searchFilter: { target, duration, sort } } = props.navigation.state.params;
     this.dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
       sectionHeaderHasChanged: (s1,s2) => s1 !== s2
     })
     this.state = {
       target: target || 'partial_match_for_tags',
-      duration: duration || ''
+      duration: duration || '',
+      sort: sort || 'date_desc'
     };
   }
   renderSectionHeader = (sectionData, type) => {
@@ -146,7 +159,7 @@ class SearchFilterModal extends Component {
   }
 
   renderRow = (item) => {
-    const { target, duration } = this.state;
+    const { target, duration, sort } = this.state;
     return (
       <PXTouchable 
         key={item.id} 
@@ -155,21 +168,14 @@ class SearchFilterModal extends Component {
         <View style={styles.row}>
           <Text>{item.name}</Text>
           {
-            item.type === "target" &&
-            item.value === target &&
+            ((item.type === "target" && item.value === target) ||
+            (item.type === "duration" && item.value === duration) ||
+            (item.type === "sort" && item.value === sort)) &&
             <Icon 
               name="check"
               color="#2196F3" 
             />
-          }
-          {
-            item.type === "duration" &&
-            item.value === duration &&
-            <Icon 
-              name="check"
-              color="#2196F3" 
-            />
-          }
+          }          
         </View>
       </PXTouchable>
     )
@@ -189,11 +195,14 @@ class SearchFilterModal extends Component {
     else if (filterType === 'duration') {
       this.setState({ duration: value });
     }
+    else if (filterType === 'sort') {
+      this.setState({ sort: value });
+    }
   }
 
   render() {
     const { onPressApplyFilter } = this.props.navigation.state.params;
-    const { target, duration } = this.state;
+    const { target, duration, sort } = this.state;
     const dataSource = this.dataSource.cloneWithRowsAndSections(data);
     return (
       <View style={styles.container}>
@@ -206,7 +215,7 @@ class SearchFilterModal extends Component {
         />  
         <View style={styles.searchFilterButtonContainer}>
           <PXTouchable 
-            onPress={() => onPressApplyFilter(target, duration)}
+            onPress={() => onPressApplyFilter(target, duration, sort)}
             style={styles.searchFilterButton}
           >
             <Text style={styles.searchFilterButtonText}>Apply Search Duration</Text>

@@ -10,6 +10,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 import { Actions } from 'react-native-router-flux';
 //import GridView from 'react-native-grid-view';
 // import Image from 'react-native-image-progress';
@@ -43,11 +44,12 @@ const styles = StyleSheet.create({
 class IllustList extends Component {
   constructor(props) {
     super(props);
-    const { items } = props;
+    const { data: { items }, maxItems } = props;
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2,
+    });
     this.state = {
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-      }),
+      dataSource: (items && items.length) ? dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items) : dataSource,
       isOpenBookmarkModal: false,
       selectedIllustId: null,
       isBookmark: false,
@@ -205,4 +207,4 @@ class IllustList extends Component {
   }
 }
 
-export default connect(null, bookmarkIllustActionCreators)(IllustList);
+export default withNavigation(connect(null, bookmarkIllustActionCreators)(IllustList));

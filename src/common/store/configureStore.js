@@ -9,7 +9,7 @@ import { AsyncStorage } from 'react-native';
 import rootReducer from '../reducers';
 import jwt from '../middlewares/jwt';
 import pixiv from '../helpers/ApiClient';
-import { DONE_REFRESH_TOKEN } from '../actions/auth';
+import { requestRefreshToken } from '../actions/auth';
 
 export default function configureStore() {
   let enhancer;
@@ -44,10 +44,12 @@ export default function configureStore() {
     storage: AsyncStorage,
   }, () => {
     console.log('rehydration complete');
-    const { auth } = store.getState();
-    if (auth && auth.user && auth.user.accessToken) {
-      pixiv.setAuthToken(auth.user.accessToken);
-    }
+    //const { auth } = store.getState();
+    
+    requestRefreshToken(store.dispatch);
+    // if (auth && auth.user && auth.user.accessToken) {
+    //   pixiv.setAuthToken(auth.user.accessToken);
+    // }
   });
   if (module.hot) {
     module.hot.accept('../reducers', () =>

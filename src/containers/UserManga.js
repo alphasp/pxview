@@ -51,12 +51,15 @@ class UserManga extends Component {
     const { userManga, userId } = this.props;
     const { refreshing } = this.state;
     return (
+      userManga[userId] ?
       <IllustList
         data={userManga[userId]}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
+      :
+      null
     );
   }
 }

@@ -48,4 +48,4 @@ const PXTouchable = (props) => {
   }
 }
 
-module.exports = PXTouchable;
+export default PXTouchable;

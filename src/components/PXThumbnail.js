@@ -5,16 +5,18 @@ import {
 } from 'react-native';
 import PXImage from './PXImage';
 
+const defaultSize = 30;
+
 const PXThumbnail = (props) => {
   const { uri, size, style, ...otherProps } = props;
   return (
     <PXImage
       uri={uri}  
       style={[{
-        resizeMode: "contain",
-        borderRadius: size ? size / 2 : 15,
-        width: size || 30,
-        height: size || 30
+        resizeMode: "cover",
+        borderRadius: size ? size / 2 : defaultSize / 2,
+        width: size || defaultSize,
+        height: size || defaultSize
       }, style]} 
       { ...otherProps }
     />

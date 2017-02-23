@@ -34,11 +34,13 @@ class IllustComment extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, illustId } = this.props;
-    dispatch(clearIllustComments(illustId));
-    InteractionManager.runAfterInteractions(() => {
-      dispatch(fetchIllustComments(illustId));
-    });
+    const { dispatch, illustComment, illustId } = this.props;
+    if (!illustComment[illustId] || !illustComment[illustId].items) {
+      dispatch(clearIllustComments(illustId));
+      InteractionManager.runAfterInteractions(() => {
+        dispatch(fetchIllustComments(illustId));
+      });
+    }
   }
 
   loadMoreComments = () => {
@@ -65,6 +67,7 @@ class IllustComment extends Component {
   render() {
     const { illustComment, illustId, navigation, isFeatureInDetailPage, maxItems } = this.props;
     const { dataSource, refreshing } = this.state;
+    console.log('comments ', illustComment[illustId])
     return (
       (illustComment[illustId] ? true : false) &&
       <CommentList

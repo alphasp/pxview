@@ -6,6 +6,7 @@ import isEmpty from 'lodash.isempty';
 import App from './App';
 import configureStore from '../common/store/configureStore';
 import { clearAllSearch, SortType } from '../common/actions/search';
+// GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 const store = configureStore();
 

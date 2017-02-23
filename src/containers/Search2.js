@@ -22,7 +22,7 @@ import SearchUserAutoCompleteResult from './SearchUserAutoCompleteResult';
 import * as searchAutoCompleteActionCreators from '../common/actions/searchAutoComplete';
 import * as searchUserAutoCompleteActionCreators from '../common/actions/searchUserAutoComplete';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
-import { setSearchType, SearchType } from '../common/actions/searchType';
+import { SearchType } from '../common/actions/searchType';
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
@@ -117,15 +117,17 @@ class Search2 extends Component {
   loadMoreUsers = () => {
     const { fetchSearchUserAutoComplete, searchUserAutoComplete: { nextUrl } } = this.props;
     if (nextUrl) {
-      fetchSearchUserAutoComplete("", nextUrl);
+      fetchSearchUserAutoComplete('', nextUrl);
     }
   }
 
   render() {
-    const { word, searchType, searchAutoComplete, searchUserAutoComplete, searchHistory } = this.props;
+    const { word, searchType, searchAutoComplete, searchUserAutoComplete, searchHistory, onChangeSearchTab } = this.props;
     return (
       <View style={styles.container}>
-        <ScrollableTabView>
+        <ScrollableTabView
+          initialPage={searchType === SearchType.USER ? 1 : 0}
+        >
           <SearchAutoCompleteResult 
             tabLabel="Illust/Manga"
             searchAutoComplete={searchAutoComplete}
@@ -159,7 +161,6 @@ export default connect((state, props) => {
     searchAutoComplete: state.searchAutoComplete,
     searchUserAutoComplete: state.searchUserAutoComplete,
     searchHistory: state.searchHistory,
-    searchType: state.searchType.type, //searchType || state.searchType.type,
     word,
     isPopAndReplaceOnSubmit 
   }
@@ -167,5 +168,4 @@ export default connect((state, props) => {
   ...searchAutoCompleteActionCreators, 
   ...searchUserAutoCompleteActionCreators, 
   ...searchHistoryActionCreators, 
-  setSearchType
 })(Search2);

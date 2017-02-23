@@ -22,8 +22,8 @@ import PXSearchBar from '../components/PXSearchBar';
 import PXTouchable from '../components/PXTouchable';
 import SearchResult from './SearchResult';
 import SearchUserResult from './SearchUserResult';
-import { fetchSearch, clearSearch, SortType } from '../common/actions/search';
-import { SearchType } from '../common/actions/searchType';
+import { fetchSearch, clearSearch } from '../common/actions/search';
+import { setSearchType, SearchType } from '../common/actions/searchType';
 import { clearSearchAutoComplete } from '../common/actions/searchAutoComplete';
 import { clearSearchUserAutoComplete } from '../common/actions/searchUserAutoComplete';
 
@@ -58,7 +58,7 @@ class SearchResultTabs extends Component {
   static navigationOptions = {
     header: (navigation, defaultHeader) => {
       const { state, setParams, navigate, goBack, dispatch } = navigation;
-      const { word, newWord, searchOptions, isFocusSearchBar } = state.params;
+      const { word, newWord, searchOptions, searchType, isFocusSearchBar } = state.params;
       return {
         ...defaultHeader,
         left: (
@@ -70,7 +70,7 @@ class SearchResultTabs extends Component {
             onFocus={() => setParams({
               isFocusSearchBar: true
             })}
-            searchType={SearchType.ILLUST}
+            searchType={searchType}
             word={newWord !== undefined ? newWord : word}
             onChangeText={handleOnChangeSearchText(setParams)}
             navigation={navigation}
@@ -79,20 +79,23 @@ class SearchResultTabs extends Component {
         //disabled
         right: (
           <PXTouchable
+            disabled={searchType === SearchType.USER}
             onPress={() => navigate("SearchFilterModal", { 
               searchFilter: searchOptions || {}, 
-              onPressApplyFilter: (target, duration) => {
+              onPressApplyFilter: (target, duration, sort) => {
                 goBack(null);
                 setTimeout(() => setParams({
                   searchOptions: {
-                    duration: duration || undefined,
-                    target: target || undefined,
+                    duration,
+                    target,
+                    sort
                   },
                 }), 0);
                 setParams({
                   searchOptions: {
-                    duration: duration || undefined,
-                    target: target || undefined,
+                    duration,
+                    target,
+                    sort
                   },
                 })
                 {/*this.props.navigation.dispatch({
@@ -110,7 +113,7 @@ class SearchResultTabs extends Component {
             <Icon 
               name="sliders" 
               size={20} 
-              color="#037aff"
+              color={searchType === SearchType.USER ? "grey" : "#037aff"}
               style={{padding: 10}}
             />
           </PXTouchable>
@@ -121,18 +124,28 @@ class SearchResultTabs extends Component {
 
   constructor(props) {
     super(props);
-    // this.state = {
-    //   searchOptions: {}
-    // };
+    const { searchType } = props;
+    this.state = {
+      initSearchType: searchType
+    };
   }
 
   componentDidMount() {
-    const { clearSearchAutoComplete, clearSearchUserAutoComplete, navigation } = this.props;
+    const { searchType, clearSearchAutoComplete, clearSearchUserAutoComplete, navigation } = this.props;
     const { setParams } = navigation;
     setParams({ 
+      searchType,
       clearSearchAutoComplete, 
-      clearSearchUserAutoComplete 
+      clearSearchUserAutoComplete
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { searchType: prevSearchType } = this.props;
+    const { searchType, navigation: { setParams } } = nextProps;
+    if (searchType !== prevSearchType) {
+      setParams({ searchType });
+    }
   }
 
   handleOnPressRemoveTag = (index) => {
@@ -163,36 +176,30 @@ class SearchResultTabs extends Component {
     }
   }
 
-  // handleOnSubmitSearch = (word) => {
-  //   word = word.trim();
-  //   if (word) {
-  //     const { navigation: { setParams }, searchType } = this.props;
-  //     if (searchType === SearchType.USER) {
-  //       // Actions.searchUserResult({ word: word, type: ActionConst.REPLACE });
-  //     }
-  //     else {
-  //       Keyboard.dismiss();
-  //       setParams({
-  //         isFocusSearchBar: false,
-  //         word
-  //       });
-  //       //setTimeout(() => navigate('SearchResult', { word }), 0)
-  //       //Actions.searchResult({ word: word, type: ActionConst.REPLACE });
-  //     }
-  //   }
-  // }
+  handleOnChangeTab = ({ i, ref }) => {
+    const { setSearchType } = this.props;
+    if (i === 1) {
+      setSearchType(SearchType.USER);
+    }
+    else {
+      setSearchType(SearchType.ILLUST);
+    }
+  }
 
   render() {
     const { searchType, navigationStateKey, navigation } = this.props;
+    const { initSearchType } = this.state;
     const { word, newWord, searchOptions, isFocusSearchBar } = navigation.state.params;
     return (
       <View style={styles.container} >
-        <ScrollableTabView initialPage={searchType === SearchType.USER ? 1 : 0}>
+        <ScrollableTabView 
+          initialPage={initSearchType === SearchType.USER ? 1 : 0}
+          onChangeTab={this.handleOnChangeTab}
+        >
           <SearchResult 
             tabLabel="Illust/Manga" 
             word={word} 
             options={searchOptions} 
-            sortType={SortType.DESC}
             navigation={navigation}
             navigationStateKey={navigationStateKey}
           />
@@ -221,4 +228,9 @@ export default connect((state, props) => {
     word: props.navigation.state.params.word,
     navigationStateKey: props.navigation.state.key
   }
-}, { clearSearchAutoComplete, clearSearchUserAutoComplete })(SearchResultTabs);
+}, { clearSearchAutoComplete, clearSearchUserAutoComplete, setSearchType })(SearchResultTabs);
+
+
+//result tabs [0, 1]
+//1
+//s tabs [0, 1]

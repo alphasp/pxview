@@ -1,6 +1,7 @@
 import { StackNavigator } from 'react-navigation';
 import Ranking from '../containers/Ranking';
 import Detail from '../containers/Detail';
+import IllustComment from '../containers/IllustComment';
 import RelatedIllust from '../containers/RelatedIllust';
 
 const RankingNavigator = StackNavigator({
@@ -16,6 +17,12 @@ const RankingNavigator = StackNavigator({
   Detail: { 
     screen: Detail,
     path: '/detail'
+  },
+  IllustComment: {
+    screen: IllustComment,
+    navigationOptions: {
+      title: "User Comments",
+    },
   },
   RelatedIllust: {
     screen: RelatedIllust,

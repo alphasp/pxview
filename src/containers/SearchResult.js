@@ -22,8 +22,8 @@ class SearchResult extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, navigationStateKey, sortType, word, options } = this.props;
-    dispatch(clearSearch(navigationStateKey, sortType));
+    const { dispatch, navigationStateKey, word, options } = this.props;
+    dispatch(clearSearch(navigationStateKey));
     InteractionManager.runAfterInteractions(() => {
       this.search(word, options);
     });
@@ -31,11 +31,11 @@ class SearchResult extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { options: prevOptions, word: prevWord } = this.props;
-    const { dispatch, navigationStateKey, sortType, word, options } = nextProps;
+    const { dispatch, navigationStateKey, word, options } = nextProps;
     if ((word && word !== prevWord) || (options && options !== prevOptions)) {
       console.log('word prevWord ', word, prevWord);
       console.log('options prevOptions ', options, prevOptions);
-      dispatch(clearSearch(navigationStateKey, sortType));
+      dispatch(clearSearch(navigationStateKey));
       this.search(word, options);
     }
   }
@@ -49,11 +49,11 @@ class SearchResult extends Component {
   }
 
   handleOnRefresh = () => {
-    const { dispatch, navigationStateKey, sortType, word, options } = this.props;
+    const { dispatch, navigationStateKey, word, options } = this.props;
     this.setState({
       refereshing: true
     });
-    dispatch(clearSearch(navigationStateKey, sortType));
+    dispatch(clearSearch(navigationStateKey));
     this.search(word, options, null).finally(() => {
       this.setState({
         refereshing: false
@@ -62,8 +62,8 @@ class SearchResult extends Component {
   }
 
   search = (word, options, nextUrl) => {
-    const { dispatch, navigationStateKey, sortType, search } = this.props;
-    return dispatch(fetchSearch(navigationStateKey, word, options, sortType, nextUrl, search));
+    const { dispatch, navigationStateKey, search } = this.props;
+    return dispatch(fetchSearch(navigationStateKey, word, options, nextUrl, search));
   }
 
   render() {
@@ -84,6 +84,6 @@ class SearchResult extends Component {
 
 export default connect((state, props) => {
   return {
-    search: state.search[props.sortType],
+    search: state.search,
   }
 })(SearchResult);

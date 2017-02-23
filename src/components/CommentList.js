@@ -40,15 +40,20 @@ const styles = StyleSheet.create({
   },
   comment: {
     marginTop: 5
+  },
+  nullResultContainer: {
+    alignItems: 'center'
   }
 });
 class CommentList extends Component {
   constructor(props) {
     super(props);
+    const { data: { items }, maxItems } = props;
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2,
+    });
     this.state = {
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-      }),
+      dataSource: (items && items.length) ? dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items) : dataSource
     };
   }
 
@@ -142,6 +147,12 @@ class CommentList extends Component {
           />
           :
           null
+        }
+        {
+          loaded && (!items || !items.length) &&
+          <View style={styles.nullResultContainer}>
+            <Text>No comments</Text>
+          </View>
         }
       </View>
     );

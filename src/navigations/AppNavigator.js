@@ -3,6 +3,7 @@ import { StackNavigator } from 'react-navigation';
 import MainNavigator from './MainNavigator';
 import Login from '../containers/Login';
 import SearchFilterModal from '../components/SearchFilterModal';
+import PXWebView from '../components/PXWebView';
 
 const AppNavigator = StackNavigator({
   Main: { 
@@ -35,6 +36,9 @@ const AppNavigator = StackNavigator({
     navigationOptions: {
       title: "Display Options",
     },
+  },
+  Web: {
+    screen: PXWebView
   }
 }, {
   // navigationOptions: {
@@ -44,6 +48,7 @@ const AppNavigator = StackNavigator({
   //     }
   //   }
   // },
+  mode: 'modal',
   cardStyle: {
     backgroundColor: '#fff'
   },

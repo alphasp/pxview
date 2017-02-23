@@ -51,18 +51,23 @@ class UserIllust extends Component {
     const { refreshing } = this.state;
     console.log('userillust ', userIllust)
     return (
+      userIllust[userId] ?
       <IllustList
         data={userIllust[userId]}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
+      :
+      null
     );
   }
 }
 
 export default connect((state, props) => {
+  console.log('p ', props)
   return {
-    userIllust: state.userIllust
+    userIllust: state.userIllust,
+    userId: props.userId || props.navigation.state.params.userId
   }
 })(UserIllust);

@@ -202,6 +202,15 @@ class UserProfile extends Component {
     const { dispatch, user, navigation: { navigate } } = this.props;
     console.log('on press ', item);
     switch (item.id) {
+      case 'works': 
+        if (!user) {
+          this.handleOnPressLogin();
+        }
+        else {
+          navigate('MyWorks', { userId: user.id });
+        }
+        //navigate('Web', { source: { uri: 'https://touch.pixiv.net/setting_user.php?ref=ios-app' } });
+        break;
       case 'collection':
         //require user login
         if (!user) {

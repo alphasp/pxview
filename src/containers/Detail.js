@@ -243,6 +243,12 @@ class Detail extends Component {
         <View>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Comments</Text>
+            <PXTouchable onPress={this.handleOnPressViewMoreComments}>
+              <View style={styles.viewMoreContainer}>
+                <Text>View More</Text>
+                <Icon name="chevron-right" style={styles.chevronIcon} />
+              </View>
+            </PXTouchable>
           </View>
           <IllustComment illustId={item.id} isFeatureInDetailPage={true} maxItems={6} navigation={navigation} />
         </View>
@@ -356,6 +362,16 @@ class Detail extends Component {
     this.setState({
       viewerIndex: index,
       showViewer: true
+    });
+  }
+
+  handleOnPressViewMoreComments = () => {
+    const { navigate } = this.props.navigation;
+    const { item } = this.props.navigation.state.params;
+    console.log('navigate item ', item.id)
+    navigate('IllustComment', {
+      illustId: item.id,
+      navigation: this.props.navigation
     });
   }
 

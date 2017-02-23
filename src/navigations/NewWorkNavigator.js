@@ -1,5 +1,6 @@
 import { StackNavigator } from 'react-navigation';
 import NewWork from '../containers/NewWork';
+import IllustComment from '../containers/IllustComment';
 import Detail from '../containers/Detail';
 
 const NewWorkNavigator = StackNavigator({
@@ -8,6 +9,12 @@ const NewWorkNavigator = StackNavigator({
     path: '/',
     navigationOptions: {
       title: "New",
+    },
+  },
+  IllustComment: {
+    screen: IllustComment,
+    navigationOptions: {
+      title: "User Comments",
     },
   },
   Detail: { 

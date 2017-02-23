@@ -55,7 +55,7 @@ function shouldFetchUserIllusts(state, userId) {
 
 function fetchUserIllustsFromApi(userId, nextUrl) {
   return dispatch => {
-    const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.userIllusts(userId);
+    const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.userIllusts(userId, { type: 'illust' });
     const params = qs.parse(nextUrl);
     const offset = params.offset || "0";
     dispatch(requestUserIllusts(userId, offset));

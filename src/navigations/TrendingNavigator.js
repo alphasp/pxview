@@ -2,6 +2,7 @@ import { StackNavigator } from 'react-navigation';
 import Trending from '../containers/Trending';
 import Detail from '../containers/Detail';
 import UserDetail from '../containers/UserDetail';
+import IllustComment from '../containers/IllustComment';
 import RelatedIllust from '../containers/RelatedIllust';
 import Search from '../containers/Search';
 import SearchResultTabs from '../containers/SearchResultTabs'; //todo
@@ -20,6 +21,12 @@ const TrendingNavigator = StackNavigator({
   },
   UserDetail: {
     screen: UserDetail,
+  },
+  IllustComment: {
+    screen: IllustComment,
+    navigationOptions: {
+      title: "User Comments",
+    },
   },
   RelatedIllust: {
     screen: RelatedIllust,

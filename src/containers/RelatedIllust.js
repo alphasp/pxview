@@ -13,6 +13,12 @@ import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import { fetchRelatedIllusts, clearRelatedIllusts } from '../common/actions/relatedIllust';
 
+const styles = StyleSheet.create({
+  nullResultContainer: {
+    alignItems: 'center'
+  }
+});
+
 class RelatedIllust extends Component {
   constructor(props) {
     super(props);
@@ -53,8 +59,10 @@ class RelatedIllust extends Component {
   render() {
     const { relatedIllust, illustId, isFeatureInDetailPage, maxItems, navigation } = this.props;
     const { refreshing } = this.state;
+    if (!relatedIllust[illustId]){
+      return null;
+    }
     return (
-      (relatedIllust[illustId] ? true : false) &&
       <IllustList
         data={relatedIllust[illustId]}
         refreshing={refreshing}

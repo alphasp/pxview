@@ -3,7 +3,9 @@ import UserProfile from '../containers/UserProfile';
 import MyConnection from '../containers/MyConnection';
 import MyCollection from '../containers/MyCollection';
 import Detail from '../containers/Detail';
+import IllustComment from '../containers/IllustComment';
 import RelatedIllust from '../containers/RelatedIllust';
+import MyWorks from '../containers/MyWorks';
 
 const UserProfileNavigator = StackNavigator({
   UserProfile: { 
@@ -31,6 +33,12 @@ const UserProfileNavigator = StackNavigator({
     screen: Detail,
     path: '/detail'
   },
+  IllustComment: {
+    screen: IllustComment,
+    navigationOptions: {
+      title: "User Comments",
+    },
+  },
   RelatedIllust: {
     screen: RelatedIllust,
     path: '/relatedillust',
@@ -38,6 +46,12 @@ const UserProfileNavigator = StackNavigator({
       title: 'Related Works',
     },
   },
+  MyWorks: {
+    screen: MyWorks,
+    navigationOptions: {
+      title: 'My Works',
+    },
+  }
 }, {
   headerMode: 'screen',
   navigationOptions: {
