@@ -9,6 +9,7 @@ import {
   RecyclerViewBackedScrollView,
   RefreshControl,
 } from 'react-native';
+import FlatList from 'react-native/Libraries/Experimental/FlatList';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { Actions } from 'react-native-router-flux';
@@ -67,7 +68,7 @@ class IllustList extends Component {
     }
   }
   
-  renderRow = (item) => {
+  renderRow = ({ item }) => {
     const { onPressLikeButton } = this.props;
     return (
       <PXTouchable 
@@ -171,7 +172,7 @@ class IllustList extends Component {
           !loaded && loading &&
           <Loader />
         }
-        {
+        {/*{
           (items && items.length) ?
           <GridView 
             dataSource={dataSource}
@@ -180,6 +181,29 @@ class IllustList extends Component {
             onEndReachedThreshold={30}
             onEndReached={loadMoreItems}
             renderFooter={this.renderFooter}
+            enableEmptySections={true}
+            onScroll={onScroll}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
+          />
+          :
+          null
+        }*/}
+        {
+          (items && items.length) ?
+          <FlatList
+            data={items}
+            numColumns={3}
+            keyExtractor={(item, index) => item.id}
+            ItemComponent={this.renderRow}
+            pageSize={30}
+            onEndReachedThreshold={30}
+            onEndReached={loadMoreItems}
+            FooterComponent={this.renderFooter}
             enableEmptySections={true}
             onScroll={onScroll}
             refreshControl={

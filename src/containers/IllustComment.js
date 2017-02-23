@@ -67,7 +67,6 @@ class IllustComment extends Component {
   render() {
     const { illustComment, illustId, navigation, isFeatureInDetailPage, maxItems } = this.props;
     const { dataSource, refreshing } = this.state;
-    console.log('comments ', illustComment[illustId])
     return (
       (illustComment[illustId] ? true : false) &&
       <CommentList
