@@ -65,7 +65,6 @@ class UserIllust extends Component {
 }
 
 export default connect((state, props) => {
-  console.log('p ', props)
   return {
     userIllust: state.userIllust,
     userId: props.userId || props.navigation.state.params.userId

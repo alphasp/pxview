@@ -16,7 +16,8 @@ const PXThumbnail = (props) => {
         resizeMode: "cover",
         borderRadius: size ? size / 2 : defaultSize / 2,
         width: size || defaultSize,
-        height: size || defaultSize
+        height: size || defaultSize,
+        backgroundColor: '#E9EBEE',
       }, style]} 
       { ...otherProps }
     />

@@ -46,29 +46,30 @@ class IllustList extends Component {
   constructor(props) {
     super(props);
     const { data: { items }, maxItems } = props;
-    const dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-    });
+    // const dataSource = new ListView.DataSource({
+    //   rowHasChanged: (r1, r2) => r1 !== r2,
+    // });
     this.state = {
-      dataSource: (items && items.length) ? dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items) : dataSource,
+      //dataSource: (items && items.length) ? dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items) : dataSource,
       isOpenBookmarkModal: false,
       selectedIllustId: null,
       isBookmark: false,
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { data: { items: prevItems } } = this.props;
-    const { data: { items }, maxItems } = nextProps;
-    if (items && items !== prevItems) {
-      const { dataSource } = this.state;
-      this.setState({
-        dataSource: dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items)
-      });
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   const { data: { items: prevItems } } = this.props;
+  //   const { data: { items }, maxItems } = nextProps;
+  //   if (items && items !== prevItems) {
+  //     const { dataSource } = this.state;
+  //     this.setState({
+  //       dataSource: dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items)
+  //     });
+  //   }
+  // }
   
   renderRow = ({ item }) => {
+    console.log('render row ', item)
     const { onPressLikeButton } = this.props;
     return (
       <PXTouchable 
@@ -164,7 +165,7 @@ class IllustList extends Component {
   }
 
   render() {
-    const { data: { items, loading, loaded }, refreshing, onRefresh, loadMoreItems, onScroll } = this.props;
+    const { data: { items, loading, loaded }, refreshing, onRefresh, loadMoreItems, onScroll, maxItems } = this.props;
     const { dataSource, isOpenBookmarkModal, selectedIllustId, isBookmark } = this.state;
     return (
       <View style={styles.container}>
@@ -196,12 +197,21 @@ class IllustList extends Component {
         {
           (items && items.length) ?
           <FlatList
-            data={items}
+            data={maxItems ? items.slice(0, maxItems) : items}
             numColumns={3}
             keyExtractor={(item, index) => item.id}
             ItemComponent={this.renderRow}
-            pageSize={30}
-            onEndReachedThreshold={30}
+            getItemLayout={(data, index, horizontal) => {
+              return {
+                length: Dimensions.get('window').width / 3,
+                offset: (Dimensions.get('window').width / 3 - 3) * index, 
+                index
+              };
+            }}
+            shouldItemUpdate={(prev, next) => {
+              return prev.id !== next.id
+            }}
+            onEndReachedThreshold={1}
             onEndReached={loadMoreItems}
             FooterComponent={this.renderFooter}
             enableEmptySections={true}

@@ -84,9 +84,14 @@ const styles = StyleSheet.create({
     // position: 'absolute',
     alignItems: 'center'
   },
+  headerThumnailNameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 16
+  },
   thumnailNameContainer: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   profileContainer: {
     flexDirection: 'row',
@@ -122,18 +127,21 @@ const styles = StyleSheet.create({
 
 class Detail extends Component {
   static navigationOptions = {
-    header: ({ state, setParams, goBack }, defaultHeader) => {
+    header: ({ state, setParams, navigate, goBack }, defaultHeader) => {
       const { item } = state.params;
       return {
         ...defaultHeader,
         title: (
-          <View style={styles.thumnailNameContainer}>
-            <PXThumbnailTouchable uri={item.user.profile_image_urls.medium} />
+          <PXTouchable 
+            style={styles.headerThumnailNameContainer} 
+            onPress={() => navigate('UserDetail', { userId: item.user.id })}
+          >
+            <PXThumbnail uri={item.user.profile_image_urls.medium} />
             <View style={styles.nameContainer}>
               <Text>{item.user.name}</Text>
               <Text>{item.user.account}</Text>
             </View>
-          </View>
+          </PXTouchable>
         ),
       }
     }
@@ -169,9 +177,6 @@ class Detail extends Component {
   }
 
   componentDidMount(){
-    const { dispatch, product } = this.props;
-    //may not working because component may not unmount on pop
-    //dispatch(loadProduct({}, product));
     InteractionManager.runAfterInteractions(() => {
       this.setState({ mounting: false });
     });
@@ -344,7 +349,6 @@ class Detail extends Component {
       index,
       url
     }
-    console.log('gg ', gg)
     this.setState({
       images: images.map((item, i) => {
         return index === i ? {
@@ -358,7 +362,6 @@ class Detail extends Component {
   }
 
   handleOnPressImage = (index) => {
-    console.log('aa')
     this.setState({
       viewerIndex: index,
       showViewer: true
@@ -368,7 +371,6 @@ class Detail extends Component {
   handleOnPressViewMoreComments = () => {
     const { navigate } = this.props.navigation;
     const { item } = this.props.navigation.state.params;
-    console.log('navigate item ', item.id)
     navigate('IllustComment', {
       illustId: item.id,
       navigation: this.props.navigation
@@ -378,7 +380,6 @@ class Detail extends Component {
   handleOnPressViewMoreRelatedIllust = () => {
     const { navigate } = this.props.navigation;
     const { item } = this.props.navigation.state.params;
-    console.log('navigate item ', item.id)
     navigate('RelatedIllust', {
       illustId: item.id,
       navigation: this.props.navigation
