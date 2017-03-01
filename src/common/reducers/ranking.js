@@ -11,11 +11,13 @@ import {
   UNBOOKMARK_ILLUST,
 } from "../actions/bookmarkIllust";
 
-export default function search(state = {
-  [RankingMode.DAILY]: { items: [] },
-  [RankingMode.WEEKLY]: { items: [] },
-  [RankingMode.MONTHLY]: { items: [] },
-}, action) {
+function getDefaultState() {
+  return Object.keys(RankingMode).reduce((prev, key) => {
+    prev[key] = { items: [] };
+    return prev;
+  }, {});
+}
+export default function search(state = getDefaultState(), action) {
   switch (action.type) {
     case CLEAR_RANKING:
       return {

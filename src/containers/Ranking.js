@@ -39,9 +39,13 @@ class Ranking extends Component {
           ref={(ref) => this.tabs = ref} 
           renderTabBar={() => <ScrollableTabBar />}
         >
-          <RankingList tabLabel="Daily" rankingMode={RankingMode.DAILY} navigation={navigation} />
-          <RankingList tabLabel="Weekly" rankingMode={RankingMode.WEEKLY} navigation={navigation} />
-          <RankingList tabLabel="Monthly" rankingMode={RankingMode.MONTHLY} navigation={navigation} />
+          <RankingList tabLabel="Daily" rankingMode={RankingMode.DAILY} />
+          <RankingList tabLabel="Male" rankingMode={RankingMode.DAILY_MALE} />
+          <RankingList tabLabel="Female" rankingMode={RankingMode.DAILY_FEMALE} />
+          <RankingList tabLabel="Original" rankingMode={RankingMode.WEEKLY_ORIGINAL} />
+          <RankingList tabLabel="Rookie" rankingMode={RankingMode.WEEKLY_ROOKIE} />
+          <RankingList tabLabel="Weekly" rankingMode={RankingMode.WEEKLY} />
+          <RankingList tabLabel="Monthly" rankingMode={RankingMode.MONTHLY} />
         </ScrollableTabView>
       </View>
     );

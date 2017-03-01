@@ -11,6 +11,10 @@ export const CLEAR_ALL_RANKING = 'CLEAR_ALL_RANKING';
 
 export const RankingMode = {
   DAILY: 'DAILY',
+  DAILY_MALE: 'DAILY_MALE',
+  DAILY_FEMALE: 'DAILY_FEMALE',
+  WEEKLY_ORIGINAL: 'WEEKLY_ORIGINAL',
+  WEEKLY_ROOKIE: 'WEEKLY_ROOKIE',
   WEEKLY: 'WEEKLY',
   MONTHLY: 'MONTHLY',
 };
@@ -69,11 +73,23 @@ function fetchRankingFromApi(rankingMode, options = {}, nextUrl) {
       case RankingMode.DAILY:
         options.mode = 'day';
         break;
+      case RankingMode.DAILY_MALE:
+        options.mode = 'day_male';
+        break;
+      case RankingMode.DAILY_FEMALE:
+        options.mode = 'day_female';
+      case RankingMode.WEEKLY_ORIGINAL:
+        options.mode = 'week_original';
+        break;
+      case RankingMode.WEEKLY_ROOKIE:
+        options.mode = 'week_rookie';
+        break;
       case RankingMode.WEEKLY:
         options.mode = 'week';
         break;
       case RankingMode.MONTHLY:
         options.mode = 'month';
+        break;
         break;
     }
   }

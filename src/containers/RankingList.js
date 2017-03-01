@@ -47,7 +47,7 @@ class RankingList extends Component {
   }
 
   render() {
-    const { ranking, navigation } = this.props;
+    const { ranking } = this.props;
     const { refreshing } = this.state;
     return (
       <IllustList
@@ -55,7 +55,6 @@ class RankingList extends Component {
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
-        navigation={navigation}
       />
     );
   }
