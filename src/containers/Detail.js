@@ -307,6 +307,14 @@ class Detail extends Component {
           // visible row is visibleRowNumbers[1]
       }
     }
+    else {
+      const { imagePageNumber } = this.state;
+      if (imagePageNumber) {
+        this.setState({
+          imagePageNumber: null
+        });
+      }
+    }
   }
 
   handleOnScroll = () => {
@@ -397,7 +405,7 @@ class Detail extends Component {
           mounting ?
           <Loader />
           :
-          (item.meta_pages && item.meta_pages.length) ?
+          (item.page_count > 1) ?
           <View>
             <Animatable.View style={{flex: 1}} ref="imageListContainer">
               <ListView
@@ -425,7 +433,7 @@ class Detail extends Component {
           <Animatable.View ref="imageListContainer">
             <ScrollView>
               <PXImageTouchable 
-                uri={item.meta_single_page.original_image_url}    
+                uri={item.image_urls.large}    
                 initWidth={item.width > windowWidth ? windowWidth : item.width}
                 initHeight={windowWidth * item.height / item.width}
                 style={{
