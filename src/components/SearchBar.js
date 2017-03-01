@@ -19,7 +19,7 @@ const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
 
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
+    flex: 1,
     paddingTop: STATUSBAR_HEIGHT,
     backgroundColor: Platform.OS === 'ios' ? '#EFEFF2' : '#FFF',
     shadowColor: 'black',
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
   },
   appBar: {
     height: APPBAR_HEIGHT,
+    flex: 1,
   },
   searchBarInputGroup: {
     flex: 1,

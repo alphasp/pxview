@@ -66,9 +66,10 @@ class Trending extends Component {
   static navigationOptions = {
     header: (navigation, defaultHeader) => {
       const { state, setParams, navigate } = navigation;
+      const isRenderBackButton = (state.params && state.params.isFocusSearchBar);
       return {
         ...defaultHeader,
-        left: (state.params && state.params.isFocusSearchBar) ? (
+        left: isRenderBackButton ? (
           <BackButton onPress={() => onPressBackButton(navigation)} />
         ) : null,
         title: (
@@ -84,6 +85,7 @@ class Trending extends Component {
             navigation={navigation}
             isPushNewSearch={true}
             word={state.params && state.params.word}
+            isRenderBackButton={isRenderBackButton}
           />
         ),
         // titleStyle: {

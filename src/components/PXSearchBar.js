@@ -7,6 +7,7 @@ import {
   Platform,
   Animated,
   TouchableWithoutFeedback,
+  Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { SearchBar } from 'react-native-elements'
@@ -19,23 +20,27 @@ import { SearchType } from '../common/actions/searchType';
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
+const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
+    // //flex: 1,
+    // paddingTop: STATUSBAR_HEIGHT,
+    // //backgroundColor: Platform.OS === 'ios' ? '#EFEFF2' : '#FFF',
+    // shadowColor: 'black',
+    // shadowOpacity: 0.1,
+    // shadowRadius: StyleSheet.hairlineWidth,
+    // shadowOffset: {
+    //   height: StyleSheet.hairlineWidth,
+    // },
+    // elevation: 4,
+    // marginHorizontal: 5,
+    // height: STATUSBAR_HEIGHT + APPBAR_HEIGHT,
+    width: windowWidth,
     //flex: 1,
-    paddingTop: STATUSBAR_HEIGHT,
-    //backgroundColor: Platform.OS === 'ios' ? '#EFEFF2' : '#FFF',
-    shadowColor: 'black',
-    shadowOpacity: 0.1,
-    shadowRadius: StyleSheet.hairlineWidth,
-    shadowOffset: {
-      height: StyleSheet.hairlineWidth,
-    },
-    elevation: 4,
-    marginHorizontal: 5,
-  },
-  appBar: {
-    height: APPBAR_HEIGHT,
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    // marginHorizontal: 16
   },
   searchBarInputGroup: {
     flex: 1,
@@ -131,27 +136,40 @@ class PXSearchBar extends Component {
   }
 
   render() {
-    const { searchType, isRenderFullHeader, isRenderPlaceHolder, onFocus, onChangeText, onSubmitEditing, onPressRemoveTag, autoFocus, word } = this.props;
-    const style = {}
+    const { searchType, isRenderBackButton, isRenderRightButton, isRenderPlaceHolder, onFocus, onChangeText, onSubmitEditing, onPressRemoveTag, autoFocus, word } = this.props;
+    let style = {};
+    if (isRenderBackButton && isRenderRightButton) {
+      style = {
+        width: windowWidth - 68,
+        //marginHorizontal: 54
+      };
+    }
+    else if (isRenderBackButton) {
+      style = {
+        width: windowWidth - 34,
+        marginLeft: 34
+      };
+    }
+    else if (isRenderRightButton) {
+      style = {
+        width: windowWidth - 34,
+        marginRight: 34
+      };
+    }
     return (
-      <View style={[styles.container, !isRenderFullHeader && {
-        flex: 1,
-        paddingTop: 0
-      }]}>
-        <View style={styles.appBar}>
-          <SearchBar
-            containerStyle={{backgroundColor: "#fff", borderTopWidth: 0, borderBottomWidth: 0}}
-            lightTheme
-            placeholder={searchType === SearchType.USER ? "Enter nickname" : "Enter keyword"}
-            autoFocus={autoFocus}
-            onFocus={() => onFocus && onFocus(searchType)}
-            onChangeText={(text) => !isRenderPlaceHolder ? onChangeText(text, searchType) : onFocus(searchType)}
-            onSubmitEditing={(e) => !isRenderPlaceHolder && this.handleOnSubmitSearch(e.nativeEvent.text, searchType)}
-            returnKeyType="search"
-            defaultValue={word}
-            underlineColorAndroid='transparent'
-          />
-        </View>
+      <View style={[styles.container, style]}>
+        <SearchBar
+          containerStyle={{backgroundColor: "#fff", borderTopWidth: 0, borderBottomWidth: 0}}
+          lightTheme
+          placeholder={searchType === SearchType.USER ? "Enter nickname" : "Enter keyword"}
+          autoFocus={autoFocus}
+          onFocus={() => onFocus && onFocus(searchType)}
+          onChangeText={(text) => !isRenderPlaceHolder ? onChangeText(text, searchType) : onFocus(searchType)}
+          onSubmitEditing={(e) => !isRenderPlaceHolder && this.handleOnSubmitSearch(e.nativeEvent.text, searchType)}
+          returnKeyType="search"
+          defaultValue={word}
+          underlineColorAndroid='transparent'
+        />
       </View>
     );
   }

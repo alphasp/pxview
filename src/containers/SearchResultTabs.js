@@ -74,6 +74,8 @@ class SearchResultTabs extends Component {
             word={newWord !== undefined ? newWord : word}
             onChangeText={handleOnChangeSearchText(setParams)}
             navigation={navigation}
+            isRenderBackButton={true}
+            isRenderRightButton={true}
           />
         ),
         //disabled
