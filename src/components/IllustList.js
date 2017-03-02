@@ -8,8 +8,9 @@ import {
   ListView,
   RecyclerViewBackedScrollView,
   RefreshControl,
+  FlatList
 } from 'react-native';
-import FlatList from 'react-native/Libraries/Experimental/FlatList';
+// import FlatList from 'react-native/Libraries/Experimental/FlatList';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { Actions } from 'react-native-router-flux';
@@ -69,7 +70,6 @@ class IllustList extends Component {
   // }
   
   renderRow = ({ item }) => {
-    console.log('render row ', item)
     const { onPressLikeButton } = this.props;
     return (
       <PXTouchable 
@@ -200,7 +200,7 @@ class IllustList extends Component {
             data={maxItems ? items.slice(0, maxItems) : items}
             numColumns={3}
             keyExtractor={(item, index) => item.id}
-            ItemComponent={this.renderRow}
+            renderItem={this.renderRow}
             getItemLayout={(data, index, horizontal) => {
               return {
                 length: Dimensions.get('window').width / 3,

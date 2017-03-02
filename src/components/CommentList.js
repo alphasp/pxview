@@ -8,8 +8,8 @@ import {
   ListView,
   RecyclerViewBackedScrollView,
   RefreshControl,
+  FlatList
 } from 'react-native';
-import FlatList from 'react-native/Libraries/Experimental/FlatList';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import Loader from '../components/Loader';
@@ -154,7 +154,7 @@ class CommentList extends Component {
           <FlatList
             data={items}
             keyExtractor={(item, index) => item.id}
-            ItemComponent={this.renderRow}
+            renderItem={this.renderRow}
           />
           :
           null
