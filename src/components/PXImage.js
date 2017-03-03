@@ -17,61 +17,74 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 class PXImage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      imageUri: null
-    }
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     imageUri: null
+  //   }
+  // }
   
-  componentDidMount() {
-    const { uri, onFoundImageSize } = this.props;
-    this.task = RNFetchBlob
-      .config({
-        fileCache : true,
-        appendExt: 'png',
-        key: uri,
-        session: moment().startOf('day'),
-      }).fetch('GET', uri, {
-        referer: "http://www.pixiv.net",
-        //'Cache-Control' : 'no-store'
-      });
-    this.task.then(res => {
-      if (!this.unmounting) {
-        //const base64Str = `data:image/png;base64,${res.base64()}`;
-        const filePath = Platform.OS === 'android' ? 'file://' + res.path()  : '' + res.path();
-        Image.getSize(filePath, (width, height) => {
-          if (!this.unmounting) {
-            this.setState({width, height});
-            if (onFoundImageSize) {
-              onFoundImageSize(width, height, filePath);
-            }
-          }
-        }, err => {
-          //console.error('failed to get image size ', err);
-        });
-        this.setState({
-          imageUri: filePath
-        })
-      }
-    })
-    .catch((err, statusCode) => {
-      // error handling
-      console.log('error fetch blob ', err)
-    });
-  }
-  componentWillUnmount() {
-    this.unmounting = true;
-    if (this.task) {
-      this.task.cancel();
-    }
-  }
+  // componentDidMount() {
+  //   const { uri, onFoundImageSize } = this.props;
+  //   this.task = RNFetchBlob
+  //     .config({
+  //       fileCache : true,
+  //       appendExt: 'png',
+  //       key: uri,
+  //       session: moment().startOf('day'),
+  //     }).fetch('GET', uri, {
+  //       referer: "http://www.pixiv.net",
+  //       //'Cache-Control' : 'no-store'
+  //     });
+  //   this.task.then(res => {
+  //     if (!this.unmounting) {
+  //       //const base64Str = `data:image/png;base64,${res.base64()}`;
+  //       const filePath = Platform.OS === 'android' ? 'file://' + res.path()  : '' + res.path();
+  //       Image.getSize(filePath, (width, height) => {
+  //         if (!this.unmounting) {
+  //           this.setState({width, height});
+  //           if (onFoundImageSize) {
+  //             onFoundImageSize(width, height, filePath);
+  //           }
+  //         }
+  //       }, err => {
+  //         //console.error('failed to get image size ', err);
+  //       });
+  //       this.setState({
+  //         imageUri: filePath
+  //       })
+  //     }
+  //   })
+  //   .catch((err, statusCode) => {
+  //     // error handling
+  //     console.log('error fetch blob ', err)
+  //   });
+  // }
+  // componentWillUnmount() {
+  //   this.unmounting = true;
+  //   if (this.task) {
+  //     this.task.cancel();
+  //   }
+  // }
+
   render() {
-    const { style, ...otherProps } = this.props;
-    const { imageUri, width, height } = this.state;
+    const { style, uri, ...otherProps } = this.props;
+    // const { imageUri, width, height } = this.state;
     // console.log('imageUri ', imageUri ? true : false)
     //height = <user-chosen width> * original height / original width
     return (
+      <Image 
+        source={{ 
+          uri,
+          headers: {
+            referer: "http://www.pixiv.net"
+          }
+        }}
+        style={style}    
+        {...otherProps} 
+      /> 
+    )
+    /*return (
       (imageUri && width && height) ?
       <Image 
         source={{ 
@@ -85,7 +98,7 @@ class PXImage extends Component {
       /> 
       :
       null
-    )
+    )*/
     // return (
     //   imageUri ?
     //   <Image 

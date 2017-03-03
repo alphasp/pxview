@@ -25,12 +25,11 @@ import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
 import FollowButton from '../components/FollowButton';
 import PXImage from '../components/PXImage';
-import PXImageTouchable from '../components/PXImageTouchable';
+import PXCacheImageTouchable from '../components/PXCacheImageTouchable';
 import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import Tags from '../components/Tags';
 // import DetailTabBar from '../components/DetailTabBar';
-import ImagesViewer from '../components/ImagesViewer';
 import RelatedIllust from './RelatedIllust';
 import IllustComment from './IllustComment';
 const windowWidth = Dimensions.get('window').width; //full width
@@ -143,6 +142,18 @@ class Detail extends Component {
             </View>
           </PXTouchable>
         ),
+        right: (
+          <PXTouchable 
+            onPress={() => console.log('press options')}
+            style={{marginVertical: 10, marginHorizontal: 20}}
+          >
+            <Icon 
+              name="ellipsis-v" 
+              size={20} 
+              
+            />
+          </PXTouchable>
+        )
       }
     }
   }
@@ -154,25 +165,15 @@ class Detail extends Component {
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
     const { item } = this.props.navigation.state.params;
-    let images;
-    if (item.meta_pages && item.meta_pages.length) {
-      images = item.meta_pages.map(image => {
-        return {
-          url: image.image_urls.original,
-        }
-      });
-    }
-    else {
-      images = [{
-        url: item.meta_single_page.original_image_url,
-      }]
-    }
+    const images = item.page_count > 1 ? item.meta_pages.map(page => {
+      return {
+        url: page.image_urls.original
+      };
+    }) : [{ url: item.meta_single_page.original_image_url }];
     this.state = { 
       mounting: true,
       isInitState: true,
-      images: images,
-      viewerIndex: 0,
-      showViewer: false,
+      images
     };
   }
 
@@ -196,7 +197,7 @@ class Detail extends Component {
     // "https://facebook.github.io/react/img/logo_og.png"
     //console.log("img ", item.image_urls.large)
     return (
-      <PXImageTouchable 
+      <PXCacheImageTouchable 
         key={item.image_urls.large}
         uri={item.image_urls.large}
         initWidth={windowWidth}
@@ -370,9 +371,11 @@ class Detail extends Component {
   }
 
   handleOnPressImage = (index) => {
-    this.setState({
-      viewerIndex: index,
-      showViewer: true
+    const { navigate } = this.props.navigation;
+    const { images } = this.state;
+    navigate('ImagesViewer', {
+      images: images,
+      viewerIndex: index
     });
   }
 
@@ -397,7 +400,7 @@ class Detail extends Component {
   render() {
     // const { item } = this.props;
     const { item } = this.props.navigation.state.params;
-    const { mounting, imagePageNumber, isScrolling, isInitState, viewerIndex, showViewer, images } = this.state;
+    const { mounting, imagePageNumber, isScrolling, isInitState, images } = this.state;
     const dataSource = this.dataSource.cloneWithRows(item.meta_pages);
     return (
       <View style={styles.container}>
@@ -432,7 +435,7 @@ class Detail extends Component {
           :
           <Animatable.View ref="imageListContainer">
             <ScrollView>
-              <PXImageTouchable 
+              <PXCacheImageTouchable 
                 uri={item.image_urls.large}    
                 initWidth={item.width > windowWidth ? windowWidth : item.width}
                 initHeight={windowWidth * item.height / item.width}
@@ -448,10 +451,6 @@ class Detail extends Component {
               {this.renderFooter()}
             </ScrollView>
           </Animatable.View>
-        }
-        {
-          showViewer &&
-          <ImagesViewer items={images} viewerIndex={viewerIndex} />
         }
       </View>
     );
