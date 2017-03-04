@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
 import com.facebook.react.ReactApplication;
+import cl.json.RNSharePackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.oblador.keychain.KeychainPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -38,6 +39,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new RNSpinkitPackage(),
            new MainReactPackage(),
+            new RNSharePackage(),
             new ReactMaterialKitPackage(),
             new KeychainPackage(),
             new VectorIconsPackage(),

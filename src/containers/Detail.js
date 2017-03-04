@@ -20,6 +20,7 @@ import { Actions } from 'react-native-router-flux';
 import HtmlView from 'react-native-htmlview';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Animatable from 'react-native-animatable';
+import Share, { ShareSheet, Button } from 'react-native-share';
 // import Image from 'react-native-image-progress';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
 class Detail extends Component {
   static navigationOptions = {
     header: ({ state, setParams, navigate, goBack }, defaultHeader) => {
-      const { item } = state.params;
+      const { item, openBottomSheet, shareOptions } = state.params;
       return {
         ...defaultHeader,
         title: (
@@ -143,16 +144,22 @@ class Detail extends Component {
           </PXTouchable>
         ),
         right: (
-          <PXTouchable 
-            onPress={() => console.log('press options')}
-            style={{marginVertical: 10, marginHorizontal: 20}}
-          >
-            <Icon 
-              name="ellipsis-v" 
-              size={20} 
-              
-            />
-          </PXTouchable>
+          <View style={{flexDirection: "row"}}>
+            <PXTouchable onPress={() => Share.open(shareOptions).catch((err) => { err && console.log(err); })}>
+              <Icon 
+                name="share-alt" 
+                size={20} 
+                style={{paddingVertical: 10, paddingHorizontal: 10}}
+              />
+            </PXTouchable>
+            <PXTouchable onPress={openBottomSheet}>
+              <Icon 
+                name="ellipsis-v" 
+                style={{paddingVertical: 10, paddingHorizontal: 20}}
+                size={20} 
+              />
+            </PXTouchable>
+          </View>
         )
       }
     }
@@ -166,10 +173,8 @@ class Detail extends Component {
     });
     const { item } = this.props.navigation.state.params;
     const images = item.page_count > 1 ? item.meta_pages.map(page => {
-      return {
-        url: page.image_urls.original
-      };
-    }) : [{ url: item.meta_single_page.original_image_url }];
+      return page.image_urls.original;
+    }) : [item.meta_single_page.original_image_url];
     this.state = { 
       mounting: true,
       isInitState: true,
@@ -177,7 +182,18 @@ class Detail extends Component {
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
+    const { navigation, screenProps: { openBottomSheet } } = this.props;
+    const { item } = navigation.state.params;
+    const { images } = this.state;
+    const shareOptions = {
+      message: `${item.title} | ${item.user.name} #pixivrn`, //todo
+      url: `http://www.pixiv.net/member_illust.php?illust_id=${item.id}&mode=medium`,
+    };
+    navigation.setParams({ 
+      openBottomSheet: () => openBottomSheet(images), 
+      shareOptions 
+    });
     InteractionManager.runAfterInteractions(() => {
       this.setState({ mounting: false });
     });
@@ -211,7 +227,6 @@ class Detail extends Component {
           resizeMode: "contain",
         }}
         onPress={() => this.handleOnPressImage(index)}
-        onFoundImageSize={(width, height, url) => this.handleOnFoundImageSize(index, url)}
       />
     )
     //'https://facebook.github.io/react-native/img/header_logo.png'
@@ -352,23 +367,6 @@ class Detail extends Component {
     });
   }
 
-  handleOnFoundImageSize = (index, url) => {
-    const { images } = this.state;
-    var gg = {
-      index,
-      url
-    }
-    this.setState({
-      images: images.map((item, i) => {
-        return index === i ? {
-          ...item,
-          cache: url
-        }
-        :
-        item
-      })
-    })
-  }
 
   handleOnPressImage = (index) => {
     const { navigate } = this.props.navigation;
@@ -399,7 +397,7 @@ class Detail extends Component {
 
   render() {
     // const { item } = this.props;
-    const { item } = this.props.navigation.state.params;
+    const { item, isShowBottomSheet } = this.props.navigation.state.params;
     const { mounting, imagePageNumber, isScrolling, isInitState, images } = this.state;
     const dataSource = this.dataSource.cloneWithRows(item.meta_pages);
     return (
@@ -446,7 +444,6 @@ class Detail extends Component {
                   resizeMode: "contain",
                 }}
                 onPress={() => this.handleOnPressImage(0)}
-                onFoundImageSize={(width, height, url) => this.handleOnFoundImageSize(0, url)}
               />
               {this.renderFooter()}
             </ScrollView>

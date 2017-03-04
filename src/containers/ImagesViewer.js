@@ -11,6 +11,7 @@ import PhotoView from 'react-native-photo-view';
 import RNFetchBlob from 'react-native-fetch-blob';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from '../components/PXTouchable';
+import Loader from '../components/Loader';
 //import PXPhotoView from './PXPhotoView';
 
 const { width, height } = Dimensions.get('window');
@@ -27,23 +28,24 @@ const styles = StyleSheet.create({
   //   // height: 32,
   // },
 
-  wrapper: {
-    // backgroundColor: '#000',
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
+  container: {
+    // // backgroundColor: '#000',
+    // position: 'absolute',
+    // top: 0,
+    // right: 0,
+    // bottom: 0,
+    // left: 0,
+    flex: 1,
   },
   slide: {
-    flex: 1,
+    //flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
   photo: {
     width,
     height,
-    //flex: 1
+    flex: 1,
   },
   text: {
     color: '#fff',
@@ -62,46 +64,18 @@ const styles = StyleSheet.create({
   },
 });
 
-const downloadImage = (images, index) => {
-  const { dirs } = RNFetchBlob.fs;
-  const imageUrl = images[index].url;
-  const fileName = imageUrl.split('/').pop().split('#')[0].split('?')[0];
-  this.task = RNFetchBlob
-    .config({
-      path :`${dirs.DocumentDir}/${fileName}`,
-      //appendExt: 'png',
-      //key: uri,
-      //session: moment().startOf('day'),
-    }).fetch('GET', imageUrl, {
-      referer: "http://www.pixiv.net",
-      //'Cache-Control' : 'no-store'
-    }).then(res => {
-      console.log('The file saved to ', res.path());
-      CameraRoll.saveToCameraRoll(res.path()).then(result => {
-        console.log('save succeeded to camera roll ', result);
-      }).catch(err => {
-        console.log('save failed to camera roll ', err);
-      });
-    })
-    .catch((err, statusCode) => {
-      // error handling
-      console.log('error fetch blob ', err)
-    });
-}
-
 class ImagesViewer extends Component {
   static navigationOptions = {
     header: (navigation, defaultHeader) => {
-      const { state, setParams, navigate, goBack, dispatch } = navigation;
-      const { images, viewerIndex } = state.params;
+      const { openBottomSheet } = navigation.state.params;
       return {
         ...defaultHeader,
         right: (
-          <PXTouchable onPress={() => downloadImage(images, viewerIndex)}>
+          <PXTouchable onPress={openBottomSheet}>
             <Icon 
-              name="floppy-o" 
+              name="ellipsis-v" 
               size={20} 
-              style={{padding: 10}}
+              style={{paddingVertical: 10, paddingHorizontal: 20}}
             />
           </PXTouchable>
         )
@@ -109,34 +83,59 @@ class ImagesViewer extends Component {
     }
   }
 
-  onMomentumScrollEnd = (e, state, context) => {
-    const { setParams } = this.props.navigation;
-    const { index } = state
-    setParams({
-      viewerIndex: index
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true
+    };
+  }
+
+  componentDidMount() {
+    const { navigation, screenProps: { openBottomSheet } } = this.props;
+    const { images, viewerIndex } = navigation.state.params;
+    const openImages = [images[viewerIndex]];
+    navigation.setParams({ 
+      openBottomSheet: () => openBottomSheet(openImages)
     });
+  }
+
+  handleOnMomentumScrollEnd = (e, state, context) => {
+    const { setParams } = this.props.navigation;
+    const { index } = state;
+    setParams({ viewerIndex: index });
+  }
+
+  handleOnImageLoaded = () => {
+    console.log('loaded')
+    this.setState({ loading: false });
   }
 
   render() {
     const { images, viewerIndex } = this.props.navigation.state.params;
+    const { loading } = this.state;
     console.log('viewerIndex ', viewerIndex)
     return (
-      <View style={styles.wrapper}>
+      <View style={styles.container}>
         <Swiper 
           index={viewerIndex} 
-          onMomentumScrollEnd={this.onMomentumScrollEnd}
+          onMomentumScrollEnd={this.handleOnMomentumScrollEnd}
         >
           {
             images.map((image, i) => {
               return (
                 <View key={i} style={styles.slide}>
+                  {
+                    loading &&
+                    <Loader />
+                  }
                   <PhotoView
                     source={{
-                      uri: image.url,
+                      uri: image,
                       headers: {
                         referer: "http://www.pixiv.net"
                       }
                     }}
+                    onLoad={this.handleOnImageLoaded}
                     resizeMode='contain'
                     minimumZoomScale={0.5}
                     maximumZoomScale={3}
@@ -150,6 +149,41 @@ class ImagesViewer extends Component {
         </Swiper>
       </View>
     );
+    /*return (
+      <View style={styles.container}>
+        <Swiper 
+          index={viewerIndex} 
+          onMomentumScrollEnd={this.handleOnMomentumScrollEnd}
+        >
+          {
+            images.map((image, i) => {
+              return (
+                <View key={i} style={styles.slide}>
+                  {
+                    loading &&
+                    <Loader />
+                  }
+                  <PhotoView
+                    source={{
+                      uri: image,
+                      headers: {
+                        referer: "http://www.pixiv.net"
+                      }
+                    }}
+                    onLoad={this.handleOnImageLoaded}
+                    resizeMode='contain'
+                    minimumZoomScale={0.5}
+                    maximumZoomScale={3}
+                    androidScaleType='fitCenter'
+                    style={styles.photo} 
+                  />
+                </View>
+              )
+            })
+          }
+        </Swiper>
+      </View>
+    );*/
   }
 }
 

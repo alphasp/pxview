@@ -38,6 +38,7 @@
     "react-native-photo-view": "^1.2.0",
     "react-native-router-flux": "^3.37.0",
     "react-native-scrollable-tab-view": "^0.7.2",
+    "react-native-share": "^1.0.19",
     "react-native-spinkit": "^1.0.0",
     "react-native-swiper": "^1.5.4",
     "react-native-tags": "^0.1.1",
