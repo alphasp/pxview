@@ -77,7 +77,7 @@ export default function newIllust(state = {
           { 
             ...item, 
             user: {
-              ...user,
+              ...item.user,
               is_followed: true 
             }
           } 
@@ -93,7 +93,7 @@ export default function newIllust(state = {
           { 
             ...item, 
             user: {
-              ...user,
+              ...item.user,
               is_followed: false 
             }
           } 
