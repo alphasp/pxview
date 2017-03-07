@@ -14,7 +14,6 @@ import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic, clearRecommende
 import { denormalize } from 'normalizr';
 import Schemas from '../common/constants/schemas';
 
-
 class RecommendedIllust extends Component {
   constructor(props) {
     super(props);
@@ -71,6 +70,6 @@ export default connect(state => {
     recommendedIllust: {
       ...recommendedIllust,
       items: denormalizedItems
-    },//state.recommendedIllust,
+    },
   }
 })(RecommendedIllust);

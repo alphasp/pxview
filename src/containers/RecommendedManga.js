@@ -11,6 +11,8 @@ import {
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import { fetchRecommendedMangas, clearRecommendedMangas } from '../common/actions/recommendedManga';
+import { denormalize } from 'normalizr';
+import Schemas from '../common/constants/schemas';
 
 class RecommendedManga extends Component {
   constructor(props) {
@@ -60,7 +62,12 @@ class RecommendedManga extends Component {
 }
 
 export default connect(state => {
+  const { entities, recommendedManga } = state;
+  const denormalizedItems = denormalize(recommendedManga.items, Schemas.ILLUST_ARRAY, entities);
   return {
-    recommendedManga: state.recommendedManga
+    recommendedManga: {
+      ...recommendedManga,
+      items: denormalizedItems
+    }
   }
 })(RecommendedManga);

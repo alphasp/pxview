@@ -1,20 +1,23 @@
 //import { createAction } from 'redux-actions';
 import qs from "qs";
+import { normalize } from 'normalizr';
 import { addError } from './error';
 import pixiv from '../helpers/ApiClient';
+import Schemas from '../constants/schemas';
 
 export const REQUEST_RECOMMENDED_MANGAS = 'REQUEST_RECOMMENDED_MANGAS';
 export const RECEIVE_RECOMMENDED_MANGAS = 'RECEIVE_RECOMMENDED_MANGAS';
 export const STOP_RECOMMENDED_MANGAS = 'STOP_RECOMMENDED_MANGAS';
 export const CLEAR_RECOMMENDED_MANGAS = 'CLEAR_RECOMMENDED_MANGAS';
 
-function receiveRecommended(json, offset) {
+function receiveRecommended(normalized, nextUrl, offset) { 
   return {
     type: RECEIVE_RECOMMENDED_MANGAS,
     payload: {
-      items: json.illusts,
-      nextUrl: json.next_url,
-      offset: offset,
+      entities: normalized.entities,
+      items: normalized.result,
+      nextUrl,
+      offset,
       receivedAt: Date.now(),
     }
   };
@@ -51,7 +54,10 @@ function fetchRecommendedFromApi(options, nextUrl) {
     const offset = params.offset || "0";
     dispatch(requestRecommended(offset));
     return promise
-      .then(json => dispatch(receiveRecommended(json, offset)))
+      .then(json => {
+        const normalized = normalize(json.illusts, Schemas.ILLUST_ARRAY);
+        dispatch(receiveRecommended(normalized, json.next_url, offset));
+      })
       .catch(err => {
         dispatch(stopRecommended());
         dispatch(addError(err));

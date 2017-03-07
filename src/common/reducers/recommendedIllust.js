@@ -4,10 +4,6 @@ import {
   STOP_RECOMMENDED_ILLUSTS, 
   CLEAR_RECOMMENDED_ILLUSTS,
 } from "../actions/recommendedIllust";
-import { 
-  BOOKMARK_ILLUST, 
-  UNBOOKMARK_ILLUST,
-} from "../actions/bookmarkIllust";
 
 export function recommendedIllust(state = {
   loading: false,
@@ -46,26 +42,6 @@ export function recommendedIllust(state = {
         ...state,
         loading: false,
       };
-    // case BOOKMARK_ILLUST:
-    //   return {
-    //     ...state,
-    //     items: state.items.map(item =>
-    //       item.id === action.payload.illustId ?
-    //       { ...item, is_bookmarked: true } 
-    //       :
-    //       item
-    //     )
-    //   }
-    // case UNBOOKMARK_ILLUST:
-    //   return {
-    //     ...state,
-    //     items: state.items.map(item =>
-    //       item.id === action.payload.illustId ?
-    //       { ...item, is_bookmarked: false } 
-    //       :
-    //       item
-    //     )
-    //   }
     default:
       return state;
   }
