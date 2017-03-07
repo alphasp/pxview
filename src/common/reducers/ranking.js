@@ -64,68 +64,6 @@ export default function search(state = getDefaultState(), action) {
           loading: false
         }
       };
-    case BOOKMARK_ILLUST:
-      return {
-        ...state,
-        [RankingMode.DAILY]: {
-          ...state[RankingMode.DAILY],
-          items: state[RankingMode.DAILY].items.map(item =>
-            item.id === action.payload.illustId ?
-            { ...item, is_bookmarked: true } 
-            :
-            item
-          )
-        },
-        [RankingMode.WEEKLY]: {
-          ...state[RankingMode.WEEKLY],
-          items: state[RankingMode.WEEKLY].items.map(item =>
-            item.id === action.payload.illustId ?
-            { ...item, is_bookmarked: true } 
-            :
-            item
-          )
-        },
-        [RankingMode.MONTHLY]: {
-          ...state[RankingMode.MONTHLY],
-          items: state[RankingMode.MONTHLY].items.map(item =>
-            item.id === action.payload.illustId ?
-            { ...item, is_bookmarked: true } 
-            :
-            item
-          )
-        },
-      };
-    case UNBOOKMARK_ILLUST:
-      return {
-        ...state,
-        [RankingMode.DAILY]: {
-          ...state[RankingMode.DAILY],
-          items: state[RankingMode.DAILY].items.map(item =>
-            item.id === action.payload.illustId ?
-            { ...item, is_bookmarked: false } 
-            :
-            item
-          )
-        },
-        [RankingMode.WEEKLY]: {
-          ...state[RankingMode.WEEKLY],
-          items: state[RankingMode.WEEKLY].items.map(item =>
-            item.id === action.payload.illustId ?
-            { ...item, is_bookmarked: false } 
-            :
-            item
-          )
-        },
-        [RankingMode.MONTHLY]: {
-          ...state[RankingMode.MONTHLY],
-          items: state[RankingMode.MONTHLY].items.map(item =>
-            item.id === action.payload.illustId ?
-            { ...item, is_bookmarked: false } 
-            :
-            item
-          )
-        },
-      };
     default:
       return state;
   }

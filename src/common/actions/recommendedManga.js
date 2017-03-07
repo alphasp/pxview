@@ -1,4 +1,3 @@
-//import { createAction } from 'redux-actions';
 import qs from "qs";
 import { normalize } from 'normalizr';
 import { addError } from './error';

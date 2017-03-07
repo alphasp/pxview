@@ -9,9 +9,9 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { denormalize } from 'normalizr';
 import IllustList from '../components/IllustList';
 import { fetchRecommendedMangas, clearRecommendedMangas } from '../common/actions/recommendedManga';
-import { denormalize } from 'normalizr';
 import Schemas from '../common/constants/schemas';
 
 class RecommendedManga extends Component {

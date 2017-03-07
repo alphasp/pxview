@@ -1,7 +1,8 @@
-//import { createAction } from 'redux-actions';
 import qs from "qs";
+import { normalize } from 'normalizr';
 import { addError } from './error';
 import pixiv from '../helpers/ApiClient';
+import Schemas from '../constants/schemas';
 
 export const REQUEST_RANKING = 'REQUEST_RANKING';
 export const RECEIVE_RANKING = 'RECEIVE_RANKING';
@@ -19,15 +20,16 @@ export const RankingMode = {
   MONTHLY: 'MONTHLY',
 };
 
-function receiveRanking(json, rankingMode, options, offset) { 
+function receiveRanking(normalized, nextUrl, rankingMode, options, offset) { 
   return {
     type: RECEIVE_RANKING,
     payload: {
-      items: json.illusts,
+      entities: normalized.entities,
+      items: normalized.result,
       rankingMode,
       options,
       offset,
-      nextUrl: json.next_url,
+      nextUrl,
       receivedAt: Date.now(),
     }
   };
@@ -90,7 +92,6 @@ function fetchRankingFromApi(rankingMode, options = {}, nextUrl) {
       case RankingMode.MONTHLY:
         options.mode = 'month';
         break;
-        break;
     }
   }
   return dispatch => {
@@ -100,7 +101,8 @@ function fetchRankingFromApi(rankingMode, options = {}, nextUrl) {
     dispatch(requestRanking(rankingMode, options, offset));
     return promise
       .then(json => {
-        dispatch(receiveRanking(json, rankingMode, options, offset))
+        const normalized = normalize(json.illusts, Schemas.ILLUST_ARRAY);
+        dispatch(receiveRanking(normalized, json.next_url, rankingMode, options, offset));
       })
       .catch(err => {
         dispatch(stopRanking(rankingMode, options, offset));
