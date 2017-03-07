@@ -1,20 +1,23 @@
 //import { createAction } from 'redux-actions';
 import qs from "qs";
+import { normalize } from 'normalizr';
 import { addError } from './error';
 import pixiv from '../helpers/ApiClient';
+import Schemas from '../constants/schemas';
 
 export const REQUEST_RECOMMENDED_ILLUSTS = 'REQUEST_RECOMMENDED_ILLUSTS';
 export const RECEIVE_RECOMMENDED_ILLUSTS = 'RECEIVE_RECOMMENDED_ILLUSTS';
 export const STOP_RECOMMENDED_ILLUSTS = 'STOP_RECOMMENDED_ILLUSTS';
 export const CLEAR_RECOMMENDED_ILLUSTS = 'CLEAR_RECOMMENDED_ILLUSTS';
 
-function receiveRecommended(json, offset) { 
+function receiveRecommended(normalized, nextUrl, offset) { 
   return {
     type: RECEIVE_RECOMMENDED_ILLUSTS,
     payload: {
-      items: json.illusts,
-      nextUrl: json.next_url,
-      offset: offset,
+      entities: normalized.entities,
+      items: normalized.result,
+      nextUrl,
+      offset,
       receivedAt: Date.now(),
     }
   };
@@ -64,7 +67,10 @@ function fetchRecommendedPublicFromApi(options, nextUrl) {
     const offset = params.offset || "0";
     dispatch(requestRecommended(offset));
     return promise
-      .then(json => dispatch(receiveRecommended(json, offset)))
+      .then(json => {
+        const normalized = normalize(json.illusts, Schemas.ILLUST_ARRAY);
+        dispatch(receiveRecommended(normalized, json.next_url, offset));
+      })
       .catch(err => {
         dispatch(stopRecommended());
         dispatch(addError(err));

@@ -208,9 +208,6 @@ class IllustList extends Component {
                 index
               };
             }}
-            shouldItemUpdate={(prev, next) => {
-              return prev.id !== next.id
-            }}
             onEndReachedThreshold={1}
             onEndReached={loadMoreItems}
             FooterComponent={this.renderFooter}

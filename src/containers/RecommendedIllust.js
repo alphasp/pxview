@@ -11,6 +11,9 @@ import {
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic, clearRecommendedIllusts } from '../common/actions/recommendedIllust';
+import { denormalize } from 'normalizr';
+import Schemas from '../common/constants/schemas';
+
 
 class RecommendedIllust extends Component {
   constructor(props) {
@@ -62,7 +65,12 @@ class RecommendedIllust extends Component {
 }
 
 export default connect(state => {
+  const { entities, recommendedIllust } = state;
+  const denormalizedItems = denormalize(recommendedIllust.items, Schemas.ILLUST_ARRAY, entities);
   return {
-    recommendedIllust: state.recommendedIllust,
+    recommendedIllust: {
+      ...recommendedIllust,
+      items: denormalizedItems
+    },//state.recommendedIllust,
   }
 })(RecommendedIllust);
