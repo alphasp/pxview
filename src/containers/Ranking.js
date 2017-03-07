@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import RankingList from './RankingList';
+import PastRanking from './PastRanking';
 import { RankingMode } from '../common/actions/ranking';
 
 const styles = StyleSheet.create({
@@ -46,6 +47,7 @@ class Ranking extends Component {
           <RankingList tabLabel="Rookie" rankingMode={RankingMode.WEEKLY_ROOKIE} />
           <RankingList tabLabel="Weekly" rankingMode={RankingMode.WEEKLY} />
           <RankingList tabLabel="Monthly" rankingMode={RankingMode.MONTHLY} />
+          <PastRanking tabLabel="Past Ranking" />
         </ScrollableTabView>
       </View>
     );
