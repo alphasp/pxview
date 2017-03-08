@@ -9,7 +9,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
+import { denormalize } from 'normalizr';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
@@ -19,6 +19,7 @@ import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import OverlayImagePages from '../components/OverlayImagePages';
 import UserList from '../components/UserList';
 import { fetchRecommendedUsers, clearRecommendedUsers } from '../common/actions/recommendedUser';
+import Schemas from '../common/constants/schemas';
 
 const windowWidth = Dimensions.get('window').width; //full width
 const windowHeight = Dimensions.get('window').height; //full height
@@ -112,7 +113,12 @@ class RecommendedUser extends Component {
 }
 
 export default connect(state => {
+  const { entities, recommendedUser } = state;
+  const denormalizedItems = denormalize(recommendedUser.items, Schemas.USER_PREVIEW_ARRAY, entities);
   return {
-    recommendedUser: state.recommendedUser
+    recommendedUser: {
+      ...recommendedUser,
+      items: denormalizedItems
+    },
   }
 })(RecommendedUser);

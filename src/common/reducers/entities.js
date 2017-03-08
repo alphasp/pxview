@@ -3,10 +3,15 @@ import {
   BOOKMARK_ILLUST, 
   UNBOOKMARK_ILLUST,
 } from "../actions/bookmarkIllust";
+import { 
+  FOLLOW_USER, 
+  UNFOLLOW_USER,
+} from "../actions/followUser";
 
 export default function entities(state = {
   illusts: {},
   users: {}, 
+  recommendedUsers: {}
 }, action) {
   if (action && action.payload && action.payload.entities) {
     return merge({}, state, action.payload.entities);
@@ -38,8 +43,33 @@ export default function entities(state = {
           };
         }, {})
       }
+    case FOLLOW_USER:
+      return {
+        ...state,
+        users: Object.keys(state.users).reduce((prev, id) => {
+          return {
+            ...prev,
+            [id]: state.users[id].id === action.payload.userId ?
+              { ...state.users[id], is_followed: true }
+              :
+              state.users[id]
+          };
+        }, {})
+      }
+    case UNFOLLOW_USER:
+      return {
+        ...state,
+        users: Object.keys(state.users).reduce((prev, id) => {
+          return {
+            ...prev,
+            [id]: state.users[id].id === action.payload.userId ?
+              { ...state.users[id], is_followed: false }
+              :
+              state.users[id]
+          };
+        }, {})
+      }
     default:
       return state;
   }
-  return state;
 }

@@ -1,20 +1,23 @@
-//import { createAction } from 'redux-actions';
 import qs from "qs";
+import { normalize, denormalize } from 'normalizr';
 import { addError } from './error';
 import pixiv from '../helpers/ApiClient';
+import Schemas from '../constants/schemas';
 
 export const REQUEST_RECOMMENDED_USERS = 'REQUEST_RECOMMENDED_USERS';
 export const RECEIVE_RECOMMENDED_USERS = 'RECEIVE_RECOMMENDED_USERS';
 export const STOP_RECOMMENDED_USERS = 'STOP_RECOMMENDED_USERS';
 export const CLEAR_RECOMMENDED_USERS = 'CLEAR_RECOMMENDED_USERS';
 
-function receiveRecommended(json, offset) { 
+
+function receiveRecommended(normalized, nextUrl, offset) { 
   return {
     type: RECEIVE_RECOMMENDED_USERS,
     payload: {
-      items: json.user_previews,
-      nextUrl: json.next_url,
-      offset: offset,
+      entities: normalized.entities,
+      items: normalized.result,
+      nextUrl,
+      offset,
       receivedAt: Date.now(),
     }
   };
@@ -54,11 +57,17 @@ function fetchRecommendedFromApi(options, nextUrl) {
       .then(json => {
         const filteredResult = {
           ...json,
-          user_previews: json.user_previews.filter(user => {
-            return user.illusts && user.illusts.length;
+          user_previews: json.user_previews.filter(result => {
+            return result.illusts && result.illusts.length;
+          }).map(result => {
+            return {
+              ...result,
+              id: result.user.id
+            }
           })
         };
-        return dispatch(receiveRecommended(filteredResult, offset))
+        const normalized = normalize(filteredResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
+        dispatch(receiveRecommended(normalized, json.next_url, offset));
       })
       .catch(err => {
         dispatch(stopRecommended());
