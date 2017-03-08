@@ -1,5 +1,5 @@
 import qs from "qs";
-import { normalize, denormalize } from 'normalizr';
+import { normalize } from 'normalizr';
 import { addError } from './error';
 import pixiv from '../helpers/ApiClient';
 import Schemas from '../constants/schemas';

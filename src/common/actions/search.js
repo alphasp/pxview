@@ -1,6 +1,8 @@
 import qs from "qs";
+import { normalize } from 'normalizr';
 import { addError } from './error';
 import pixiv from '../helpers/ApiClient';
+import Schemas from '../constants/schemas';
 import { addSearchHistory } from './searchHistory';
 
 export const REQUEST_SEARCH = 'REQUEST_SEARCH';
@@ -13,12 +15,13 @@ export const SortType = {
   DESC: 'DESC',
 };
 
-function receiveSearch(json, navigationStateKey, word, options, offset) { 
+function receiveSearch(normalized, nextUrl, navigationStateKey, word, options, offset) { 
   return {
     type: RECEIVE_SEARCH,
     payload: {
-      items: json.illusts,
-      nextUrl: json.next_url,
+      entities: normalized.entities,
+      items: normalized.result,
+      nextUrl,
       navigationStateKey,
       word,
       options,
@@ -51,12 +54,8 @@ function stopSearch(navigationStateKey, word, options, offset){
   };
 }
 
-function shouldFetchSearch(searchState, navigationStateKey) {
-  if (!navigationStateKey) {
-    return false;
-  }
-  const results = searchState[navigationStateKey];
-  if (results && results.loading) {
+function shouldFetchSearch(searchState) {
+  if (searchState && searchState.loading) {
     return false;
   } 
   else {
@@ -79,7 +78,11 @@ function fetchSearchFromApi(navigationStateKey, word, options = {}, nextUrl) {
     const offset = params.offset || "0";
     dispatch(requestSearch(navigationStateKey, word, options, offset));
     return promise
-      .then(json => dispatch(receiveSearch(json, navigationStateKey, word, options, offset)))
+      .then(json => {
+        const normalized = normalize(json.illusts, Schemas.ILLUST_ARRAY);
+        dispatch(receiveSearch(normalized, json.next_url, navigationStateKey, word, options, offset));
+        // dispatch(receiveSearch(json, navigationStateKey, word, options, offset))
+      })
       .catch(err => {
         dispatch(stopSearch(navigationStateKey, word, options, offset));
         dispatch(addError(err));
@@ -90,7 +93,7 @@ function fetchSearchFromApi(navigationStateKey, word, options = {}, nextUrl) {
 export function fetchSearch(navigationStateKey, word, options, nextUrl, searchState) {
   word = word.trim();
   return (dispatch, getState) => {
-    if (shouldFetchSearch(searchState, navigationStateKey)) {
+    if (shouldFetchSearch(searchState)) {
       dispatch(addSearchHistory(word));
       return dispatch(fetchSearchFromApi(navigationStateKey, word, options, nextUrl));
     }

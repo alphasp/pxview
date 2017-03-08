@@ -5,12 +5,9 @@ import {
   CLEAR_SEARCH, 
   CLEAR_ALL_SEARCH,
 } from "../actions/search";
-import { 
-  BOOKMARK_ILLUST, 
-  UNBOOKMARK_ILLUST,
-} from "../actions/bookmarkIllust";
 //gg["newest"]["miku"]
 //navigationState.key
+
 export default function search(state = {}, action) {
   switch (action.type) {
     case CLEAR_SEARCH:
@@ -58,38 +55,6 @@ export default function search(state = {}, action) {
           loading: false
         }
       };
-    case BOOKMARK_ILLUST:
-      return {
-        ...state,
-        ...Object.keys(state).reduce((prev, key) => {
-          prev[key] = {
-            ...state[key],
-            items: state[key].items.map(item => 
-              item.id === action.payload.illustId ?
-              { ...item, is_bookmarked: true } 
-              :
-              item
-            )
-          };
-          return prev;
-        }, {}),
-      }
-    case UNBOOKMARK_ILLUST:
-      return {
-        ...state,
-        ...Object.keys(state).reduce((prev, key) => {
-          prev[key] = {
-            ...state[key],
-            items: state[key].items.map(item => 
-              item.id === action.payload.illustId ?
-              { ...item, is_bookmarked: false } 
-              :
-              item
-            )
-          };
-          return prev;
-        }, {}),
-      }
     default:
       return state;
   }

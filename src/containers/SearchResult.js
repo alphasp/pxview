@@ -10,8 +10,10 @@ import {
   InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { denormalize } from 'normalizr';
 import IllustList from '../components/IllustList';
 import { fetchSearch, clearSearch, SortType } from '../common/actions/search';
+import Schemas from '../common/constants/schemas';
 
 class SearchResult extends Component {
   constructor(props) {
@@ -42,9 +44,9 @@ class SearchResult extends Component {
 
   loadMoreItems = () => {
     const { dispatch, navigationStateKey, search, word } = this.props;
-    console.log('load more ', search[navigationStateKey].nextUrl)
-    if (search[navigationStateKey] && search[navigationStateKey].nextUrl) {
-      this.search(word, null, search[navigationStateKey].nextUrl);
+    console.log('load more ', search.nextUrl)
+    if (search && search.nextUrl) {
+      this.search(word, null, search.nextUrl);
     }
   }
 
@@ -70,9 +72,8 @@ class SearchResult extends Component {
     const { search, word, options, navigation, navigationStateKey } = this.props;
     const { refreshing } = this.state;
     return (
-      (search[navigationStateKey] ? true : false) &&
       <IllustList
-        data={search[navigationStateKey]}
+        data={search}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
@@ -83,7 +84,17 @@ class SearchResult extends Component {
 }
 
 export default connect((state, props) => {
+  const { navigationStateKey } = props;
+  const { entities, search } = state;
+  // let denormalizedItems = [];
+  // if (search[navigationStateKey]) {
+  //   denormalizedItems = denormalize(search[navigationStateKey].items, Schemas.ILLUST_ARRAY, entities);
+  // }
+  // console.log('de ', denormalizedItems)
   return {
-    search: state.search,
+    search: {
+      ...search[navigationStateKey],
+      items: search[navigationStateKey] ? denormalize(search[navigationStateKey].items, Schemas.ILLUST_ARRAY, entities) : []
+    },
   }
 })(SearchResult);
