@@ -47,7 +47,7 @@ class Ranking extends Component {
           <RankingList tabLabel="Rookie" rankingMode={RankingMode.WEEKLY_ROOKIE} />
           <RankingList tabLabel="Weekly" rankingMode={RankingMode.WEEKLY} />
           <RankingList tabLabel="Monthly" rankingMode={RankingMode.MONTHLY} />
-          <PastRanking tabLabel="Past Ranking" />
+          <PastRanking tabLabel="Past Ranking"  {...this.props} />
         </ScrollableTabView>
       </View>
     );

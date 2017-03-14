@@ -4,23 +4,50 @@ import {
   Text,
   TextInput,
   View,
-  ActivityIndicator,
   Dimensions,
-  RecyclerViewBackedScrollView,
-  RefreshControl,
-  Picker
 } from 'react-native';
 import { connect } from 'react-redux';
 import DatePicker from 'react-native-datepicker';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import IllustList from '../components/IllustList';
+import PXTouchable from '../components/PXTouchable';
 //import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic, clearRecommendedIllusts } from '../common/actions/recommendedIllust';
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  filterContainer: {
+    flexDirection: 'row', 
+    justifyContent: 'space-between',
+    margin: 10,
+  },
+  rankingPickerContainer: {
+    marginRight: 10,
+  },
+  rankingPicker: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: 'gray', 
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    height: 42
+  },
+  rankingPickerText: {
+    padding: 10
+  },
+  rankingPickerIcon: {
+    paddingLeft: 5
+  }
+});
 
 class PastRanking extends Component {
   constructor(props) {
     super(props);
     this.state = {
       refreshing: false,
-      date: "2016-05-15"
+      date: new Date()
     };
   }
 
@@ -51,32 +78,46 @@ class PastRanking extends Component {
   // }
 
   render() {
+    console.log(this.props)
+    const { screenProps: { openRankingModeBottomSheet } } = this.props;
     return (
-      <View>
-        <TextInput 
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}} 
-          value="placeholder"
-        />
-        <Picker
-          selectedValue={this.state.language}
-          onValueChange={(lang) => this.setState({language: lang})}>
-          <Picker.Item label="Java" value="java" />
-          <Picker.Item label="JavaScript" value="js" />
-        </Picker>
-        <DatePicker
-          style={{width: 200}}
-          date={this.state.date}
-          mode="date"
-          placeholder="select date"
-          format="YYYY-MM-DD"
-          minDate="2016-05-01"
-          maxDate="2016-06-01"
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          
-          onDateChange={(date) => {this.setState({date: date})}}
-        />
-
+      <View style={styles.container}>
+        <View style={styles.filterContainer}>
+          <PXTouchable 
+            style={styles.rankingPickerContainer}
+            onPress={openRankingModeBottomSheet}
+          >
+            <View style={styles.rankingPicker}>
+              <Text style={styles.rankingPickerText}>Illust Daily Ranking</Text>
+              <Icon 
+                name="caret-down" 
+                size={24} 
+                style={styles.rankingPickerIcon}
+              />
+            </View>
+          </PXTouchable>
+          <DatePicker
+            style={{flex: 1, borderColor: 'gray', borderWidth: 1}}
+            customStyles={{
+              dateInput: {
+                borderWidth: 0
+              },
+              dateTouchBody: {
+                height: null
+              }
+            }}
+            date={this.state.date}
+            mode="date"
+            placeholder="select date"
+            format="YYYY-MM-DD"
+            minDate="2007-09-13"
+            maxDate={new Date()}
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            showIcon={true}
+            onDateChange={(date) => {this.setState({date: date})}}
+          />
+        </View>
       </View>
     )
     /*const { recommendedIllust, navigation } = this.props;
