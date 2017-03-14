@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { denormalize } from 'normalizr';
+// import { createSelector } from 'reselect'
 import IllustList from '../components/IllustList';
 import { fetchSearch, clearSearch, SortType } from '../common/actions/search';
 import Schemas from '../common/constants/schemas';
@@ -82,6 +83,35 @@ class SearchResult extends Component {
     );
   }
 }
+
+// const makeGetSearch  = () => {
+//   return createSelector(
+//     [
+//       state => state.entities,
+//       (state, props) => state.search[props.navigationStateKey]
+//     ],
+//     (entities, search) => {
+//       console.log('ss')
+//       return {
+//         ...search,
+//         items: (search && search.items) ? denormalize(search.items, Schemas.ILLUST_ARRAY, entities) : []
+//       }
+//     }
+//   )
+// }
+
+// const makeMapStateToProps = () => {
+//   const getSearch = makeGetSearch();
+//   const mapStateToProps = (state, props) => {
+//     console.log('recompute ', getSearch.recomputations())
+//     return {
+//       search: getSearch(state, props)
+//     }
+//   }
+//   return mapStateToProps
+// }
+
+// export default connect(makeMapStateToProps)(SearchResult);
 
 export default connect((state, props) => {
   const { navigationStateKey } = props;

@@ -100,9 +100,14 @@ class ImagesViewer extends Component {
   }
 
   handleOnMomentumScrollEnd = (e, state, context) => {
-    const { setParams } = this.props.navigation;
+    const { navigation, screenProps: { openBottomSheet } } = this.props;
+    const { images } = navigation.state.params;
     const { index } = state;
-    setParams({ viewerIndex: index });
+    const openImages = [images[index]];
+   navigation.setParams({ 
+      viewerIndex: index,
+      openBottomSheet: () => openBottomSheet(openImages)
+    });
   }
 
   handleOnImageLoaded = () => {

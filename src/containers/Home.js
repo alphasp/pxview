@@ -35,21 +35,6 @@ class Home extends Component {
   
   render() {
     const { navigation } = this.props;
-    //console.log("render home ", this.props)
-    // return (
-    //   <View style={styles.container}>
-    //     <Text style={styles.welcome}>
-    //       Welcome to React Native!
-    //     </Text>
-    //     <Text style={styles.instructions}>
-    //       To get started, edit index.ios.js
-    //     </Text>
-    //     <Text style={styles.instructions}>
-    //       Press Cmd+R to reload,{'\n'}
-    //       Cmd+D or shake for dev menu
-    //     </Text>
-    //   </View>
-    // );
     return (
       <View style={styles.container}>
         <ScrollableTabView ref={(ref) => this.tabs = ref}>

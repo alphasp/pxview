@@ -60,7 +60,6 @@ class UserBookmarkIllust extends Component {
   render() {
     const { userBookmarkIllust, userId, onScroll } = this.props;
     const { refreshing } = this.state;
-    console.log('userBookmarkIllust ', userBookmarkIllust)
     return (
       userBookmarkIllust[userId] ?
       <IllustList
@@ -78,6 +77,7 @@ class UserBookmarkIllust extends Component {
 
 export default connect((state, props) => {
   return {
-    userBookmarkIllust: state.userBookmarkIllust
+    userBookmarkIllust: state.userBookmarkIllust,
+    userId: props.userId || props.navigation.state.params.userId
   }
 })(UserBookmarkIllust);

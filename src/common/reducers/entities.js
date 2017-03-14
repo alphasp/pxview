@@ -18,6 +18,16 @@ export default function entities(state = {
   }
   switch (action.type) {
     case BOOKMARK_ILLUST:
+      // let illusts = { ...state.illusts };
+      // illusts[action.payload.illustId] = Object.assign({}, {
+      //   ...state.illusts[action.payload.illustId],
+      //   is_bookmarked: true
+      // });
+      // console.log('illusts[action.payload.illustId] ', illusts[action.payload.illustId])
+      // return {
+      //   ...state,
+      //   illusts
+      // }
       return {
         ...state,
         illusts: Object.keys(state.illusts).reduce((prev, id) => {

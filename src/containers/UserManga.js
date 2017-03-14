@@ -66,6 +66,7 @@ class UserManga extends Component {
 
 export default connect((state, props) => {
   return {
-    userManga: state.userManga
+    userManga: state.userManga,
+    userId: props.userId || props.navigation.state.params.userId
   }
 })(UserManga);
