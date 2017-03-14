@@ -74,7 +74,7 @@ function fetchUserBookmarkIllustFromApi(userId, tag, nextUrl) {
 
 export function fetchUserBookmarkIllusts(userId, tag, nextUrl) {
   return (dispatch, getState) => {
-    if (shouldFetchUserBookmarkIllust(getState()), userId) {
+    if (shouldFetchUserBookmarkIllust(getState(), userId)) {
       return dispatch(fetchUserBookmarkIllustFromApi(userId, tag, nextUrl));
     }
   };

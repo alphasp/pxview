@@ -70,7 +70,7 @@ function fetchUserMangasFromApi(userId, nextUrl) {
 
 export function fetchUserMangas(userId, nextUrl) {
   return (dispatch, getState) => {
-    if (shouldFetchUserMangas(getState()), userId) {
+    if (shouldFetchUserMangas(getState(), userId)) {
       return dispatch(fetchUserMangasFromApi(userId, nextUrl));
     }
   };

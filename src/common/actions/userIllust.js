@@ -70,7 +70,7 @@ function fetchUserIllustsFromApi(userId, nextUrl) {
 
 export function fetchUserIllusts(userId, nextUrl) {
   return (dispatch, getState) => {
-    if (shouldFetchUserIllusts(getState()), userId) {
+    if (shouldFetchUserIllusts(getState(), userId)) {
       return dispatch(fetchUserIllustsFromApi(userId, nextUrl));
     }
   };

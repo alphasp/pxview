@@ -75,7 +75,7 @@ function fetchMyPrivateBookmarkIllustFromApi(userId, tag, nextUrl) {
 
 export function fetchMyPrivateBookmarkIllusts(userId, tag, nextUrl) {
   return (dispatch, getState) => {
-    if (shouldFetchMyPrivateBookmarkIllust(getState()), userId) {
+    if (shouldFetchMyPrivateBookmarkIllust(getState(), userId)) {
       return dispatch(fetchMyPrivateBookmarkIllustFromApi(userId, tag, nextUrl));
     }
   };
