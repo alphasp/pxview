@@ -9,6 +9,7 @@ import {
   RefreshControl,
   Platform,
   findNodeHandle,
+  InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions, ActionConst } from 'react-native-router-flux';
@@ -177,10 +178,12 @@ class UserDetail extends Component {
     dispatch(clearUserMangas(userId));
     dispatch(clearUserBookmarkIllusts(userId));
 
-    dispatch(fetchUserDetail(userId));
-    dispatch(fetchUserIllusts(userId));
-    dispatch(fetchUserMangas(userId));
-    dispatch(fetchUserBookmarkIllusts(userId));
+    InteractionManager.runAfterInteractions(() => {
+      dispatch(fetchUserDetail(userId));
+      dispatch(fetchUserIllusts(userId));
+      dispatch(fetchUserMangas(userId));
+      dispatch(fetchUserBookmarkIllusts(userId));
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -365,7 +368,7 @@ class UserDetail extends Component {
         viewMoreTitle="Works"  
         items={data.items}
         maxItems={6}
-        onPressViewMore={() => Actions.userIllust({ userId })}
+        onPressViewMore={() => navigation.navigate('UserIllust', { userId })}
         navigation={navigation}
       />
     )
@@ -380,7 +383,7 @@ class UserDetail extends Component {
         viewMoreTitle="Works"
         items={data.items}
         maxItems={6}
-        onPressViewMore={() => Actions.userManga({ userId })}
+        onPressViewMore={() => navigation.navigate('UserManga', { userId })}
         navigation={navigation}
       />
     )
@@ -394,7 +397,7 @@ class UserDetail extends Component {
         viewMoreTitle="All"
         items={data.items}
         maxItems={6}
-        onPressViewMore={() => Actions.userBookmarkIllust({ userId })}
+        onPressViewMore={() => navigation.navigate('UserBookmarkIllust', { userId })}
         navigation={navigation}
       />
     )
@@ -437,7 +440,7 @@ class UserDetail extends Component {
     return (
       <View style={styles.container}>
         {
-          (userDetail[userId] && !userDetail[userId].loading) ?
+          (userDetail[userId] && userDetail[userId].loading === false) ?
           <ScrollView 
             style={styles.container} 
             onScroll={this.handleOnScroll}
