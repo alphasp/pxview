@@ -5,12 +5,16 @@ import {
   TextInput,
   View,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import DatePicker from 'react-native-datepicker';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import IonicIcon from 'react-native-vector-icons/Ionicons';
 import IllustList from '../components/IllustList';
 import PXTouchable from '../components/PXTouchable';
+import PXBottomSheet from '../components/PXBottomSheet';
+import { RANKING, R18_RANKING } from '../common/constants/illustRanking';
 //import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic, clearRecommendedIllusts } from '../common/actions/recommendedIllust';
 
 
@@ -39,6 +43,21 @@ const styles = StyleSheet.create({
   },
   rankingPickerIcon: {
     paddingLeft: 5
+  },
+  bottomSheetText: {
+    marginLeft: 32
+  },
+  bottomSheetListItem: {
+    flexDirection: "row", 
+    justifyContent: "flex-start", 
+    alignItems: "center",
+    height: 48
+  },
+  bottomSheetCancelIcon: {
+    marginLeft: 3
+  },
+  bottomSheetCancelText: {
+    marginLeft: 36
   }
 });
 
@@ -47,45 +66,35 @@ class PastRanking extends Component {
     super(props);
     this.state = {
       refreshing: false,
+      isOpenRankingModeBottomSheet: false,
       date: new Date()
     };
   }
 
-  // componentDidMount() {
-  //   const { dispatch } = this.props;
-  //   dispatch(fetchRecommendedIllustsPublic());
-  // }
+  openRankingModeBottomSheet = () => {
+    this.setState({ isOpenRankingModeBottomSheet: true });
+  }
 
-  // loadMoreItems = () => {
-  //   const { dispatch, recommendedIllust: { nextUrl } } = this.props;
-  //   console.log('load more ', nextUrl)
-  //   if (nextUrl) {
-  //     dispatch(fetchRecommendedIllustsPublic("", nextUrl));
-  //   }
-  // }
+  handleOnCancelRankingModeBottomSheet = () => {
+    this.setState({ isOpenRankingModeBottomSheet: false });
+  }
 
-  // handleOnRefresh = () => {
-  //   const { dispatch } = this.props;
-  //   this.setState({
-  //     refereshing: true
-  //   });
-  //   dispatch(clearRecommendedIllusts());
-  //   dispatch(fetchRecommendedIllustsPublic()).finally(() => {
-  //     this.setState({
-  //       refereshing: false
-  //     }); 
-  //   })
-  // }
-
+  handleOnPressRankingMode = (ranking) => {
+    console.log('selected ', ranking)
+    this.handleOnCancelRankingModeBottomSheet();
+  }
+  
   render() {
-    console.log(this.props)
-    const { screenProps: { openRankingModeBottomSheet } } = this.props;
+    //const { screenProps: { openRankingModeBottomSheet } } = this.props;
+    const { user } = this.props;
+    const { isOpenRankingModeBottomSheet } = this.state;
+    // onPress={openRankingModeBottomSheet}
     return (
       <View style={styles.container}>
         <View style={styles.filterContainer}>
           <PXTouchable 
             style={styles.rankingPickerContainer}
-            onPress={openRankingModeBottomSheet}
+            onPress={this.openRankingModeBottomSheet}
           >
             <View style={styles.rankingPicker}>
               <Text style={styles.rankingPickerText}>Illust Daily Ranking</Text>
@@ -118,24 +127,67 @@ class PastRanking extends Component {
             onDateChange={(date) => {this.setState({date: date})}}
           />
         </View>
+        <PXBottomSheet 
+          visible={isOpenRankingModeBottomSheet} 
+          onCancel={this.handleOnCancelRankingModeBottomSheet}
+        >
+          <ScrollView>
+            {
+              Object.keys(RANKING).map(ranking => {
+                return (
+                  <PXTouchable key={ranking} onPress={() => this.handleOnPressRankingMode(ranking)}>
+                    <View style={styles.bottomSheetListItem}>
+                      <IonicIcon 
+                        name="md-funnel" 
+                        size={24} 
+                      />
+                      <Text style={styles.bottomSheetText}>
+                        {RANKING[ranking].en}
+                      </Text>
+                    </View>
+                  </PXTouchable>
+                )
+              })
+            }
+            {
+              user &&
+              Object.keys(R18_RANKING).map(ranking => {
+                return (
+                  <PXTouchable key={ranking} onPress={() => this.handleOnPressRankingMode(ranking)}>
+                    <View style={styles.bottomSheetListItem}>
+                      <IonicIcon 
+                        name="md-funnel" 
+                        size={24} 
+                      />
+                      <Text style={styles.bottomSheetText}>
+                        {R18_RANKING[ranking].en}
+                      </Text>
+                    </View>
+                  </PXTouchable>
+                )
+              })
+            }
+            <PXTouchable onPress={this.handleOnCancelRankingModeBottomSheet}>
+              <View style={styles.bottomSheetListItem}>
+                <IonicIcon 
+                  name="md-close" 
+                  size={24} 
+                  style={styles.bottomSheetCancelIcon}
+                />
+                <Text style={[styles.bottomSheetText, styles.bottomSheetCancelText]}>
+                  Cancel
+                </Text>
+              </View>
+            </PXTouchable>
+          </ScrollView>
+        </PXBottomSheet>
       </View>
     )
-    /*const { recommendedIllust, navigation } = this.props;
-    const { refreshing } = this.state;
-    return (
-      <IllustList
-        data={recommendedIllust}
-        refreshing={refreshing}
-        loadMoreItems={this.loadMoreItems}
-        onRefresh={this.handleOnRefresh}
-        navigation={navigation}
-      />
-    );*/
   }
 }
 
 export default connect(state => {
   return {
-    //recommendedIllust: state.recommendedIllust,
+    user: state.auth.user
   }
 })(PastRanking);
