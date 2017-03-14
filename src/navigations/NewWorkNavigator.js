@@ -1,28 +1,63 @@
 import { StackNavigator } from 'react-navigation';
 import NewWork from '../containers/NewWork';
-import IllustComment from '../containers/IllustComment';
 import Detail from '../containers/Detail';
+import UserDetail from '../containers/UserDetail';
+import IllustComment from '../containers/IllustComment';
+import UserIllust from '../containers/UserIllust';
+import UserManga from '../containers/UserManga';
+import UserBookmarkIllust from '../containers/UserBookmarkIllust';
+import RelatedIllust from '../containers/RelatedIllust';
+import SearchResultTabs from '../containers/SearchResultTabs'; //todo
 
 const NewWorkNavigator = StackNavigator({
   NewWork: { 
     screen: NewWork,
-    path: '/',
     navigationOptions: {
-      title: "New",
-    },
-  },
-  IllustComment: {
-    screen: IllustComment,
-    navigationOptions: {
-      title: "User Comments",
+      header: {
+        visible: false
+      }
     },
   },
   Detail: { 
     screen: Detail,
-    path: '/detail'
   },
+  UserDetail: {
+    screen: UserDetail,
+  },
+  IllustComment: {
+    screen: IllustComment,
+    navigationOptions: {
+      title: 'User Comments',
+    },
+  },
+  RelatedIllust: {
+    screen: RelatedIllust,
+    navigationOptions: {
+      title: 'Related Works',
+    },
+  },
+  UserIllust: {
+    screen: UserIllust,
+    navigationOptions: {
+      title: 'User Illusts',
+    }
+  },
+  UserManga: {
+    screen: UserManga,
+    navigationOptions: {
+      title: 'User Mangas',
+    }
+  },
+  UserBookmarkIllust: {
+    screen: UserBookmarkIllust,
+    navigationOptions: {
+      title: 'Collection',
+    }
+  },
+  SearchResult: {
+    screen: SearchResultTabs,
+  }
 }, {
-  headerMode: "none",
   navigationOptions: {
     header: ({ state, setParams }, defaultHeader) => ({
       ...defaultHeader,
@@ -34,6 +69,7 @@ const NewWorkNavigator = StackNavigator({
   cardStyle: {
     backgroundColor: '#fff'
   },
+  headerMode: 'screen'
 });
 
 export default NewWorkNavigator;

@@ -3,21 +3,21 @@ import Trending from '../containers/Trending';
 import Detail from '../containers/Detail';
 import UserDetail from '../containers/UserDetail';
 import IllustComment from '../containers/IllustComment';
+import UserIllust from '../containers/UserIllust';
+import UserManga from '../containers/UserManga';
+import UserBookmarkIllust from '../containers/UserBookmarkIllust';
 import RelatedIllust from '../containers/RelatedIllust';
-import Search from '../containers/Search';
 import SearchResultTabs from '../containers/SearchResultTabs'; //todo
 
 const TrendingNavigator = StackNavigator({
   Trending: { 
     screen: Trending,
-    path: '/',
     // initialRouteParams: {
     //   isFocusSearchBar: false // not working now
     // }
   },
   Detail: { 
     screen: Detail,
-    path: '/detail'
   },
   UserDetail: {
     screen: UserDetail,
@@ -25,22 +25,36 @@ const TrendingNavigator = StackNavigator({
   IllustComment: {
     screen: IllustComment,
     navigationOptions: {
-      title: "User Comments",
+      title: 'User Comments',
     },
   },
   RelatedIllust: {
     screen: RelatedIllust,
-    path: '/relatedillust',
     navigationOptions: {
       title: 'Related Works',
     },
   },
-  Search: {
-    screen: Search
+  UserIllust: {
+    screen: UserIllust,
+    navigationOptions: {
+      title: 'User Illusts',
+    }
+  },
+  UserManga: {
+    screen: UserManga,
+    navigationOptions: {
+      title: 'User Mangas',
+    }
+  },
+  UserBookmarkIllust: {
+    screen: UserBookmarkIllust,
+    navigationOptions: {
+      title: 'Collection',
+    }
   },
   SearchResult: {
     screen: SearchResultTabs,
-  },
+  }
 }, {
   navigationOptions: {
     header: ({ state, setParams }, defaultHeader) => ({
