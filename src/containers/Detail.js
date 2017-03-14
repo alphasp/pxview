@@ -195,7 +195,10 @@ class Detail extends Component {
       shareOptions 
     });
     InteractionManager.runAfterInteractions(() => {
-      this.setState({ mounting: false });
+      console.log('done mouting')
+      if (this.detailView) {
+        this.setState({ mounting: false });
+      }
     });
   }
 
@@ -401,7 +404,7 @@ class Detail extends Component {
     const { mounting, imagePageNumber, isScrolling, isInitState, images } = this.state;
     const dataSource = this.dataSource.cloneWithRows(item.meta_pages);
     return (
-      <View style={styles.container}>
+      <View style={styles.container} ref={(ref) => this.detailView = ref }>
         {
           mounting ?
           <Loader />
