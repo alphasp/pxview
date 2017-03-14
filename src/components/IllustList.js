@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import {
   StyleSheet,
   Text,
@@ -43,6 +43,43 @@ const styles = StyleSheet.create({
   },
 });
 
+/*class IllustItem extends PureComponent {
+  render() {
+    const { item, onPressItem, onPressLikeButton, onLongPressLikeButton } = this.props;
+    return (
+      <PXTouchable 
+        style={{ 
+          margin: 1,
+          backgroundColor: '#E9EBEE',
+          width: width / 3 - 2, 
+          height: width / 3 - 2,
+        }} 
+        key={item.id} 
+        onPress={onPressItem}
+      >
+        <PXImage 
+          uri={item.image_urls.square_medium}
+          style={[ styles.cardImage, {
+            width: width / 3 - 2, 
+            height: width / 3 - 2,
+          }]}
+        />
+        {
+          (item.meta_pages && item.meta_pages.length) ?
+          <OverlayImagePages total={item.meta_pages.length} />
+          :
+          null
+        }
+        <OverlayLikeButton 
+          isLike={item.is_bookmarked} 
+          onPress={onPressLikeButton} 
+          onLongPress={onLongPressLikeButton}
+        />
+      </PXTouchable>
+    );
+  }
+}*/
+
 class IllustList extends Component {
   constructor(props) {
     super(props);
@@ -70,8 +107,14 @@ class IllustList extends Component {
   // }
   
   renderRow = ({ item }) => {
-    const { onPressLikeButton } = this.props;
+    //console.log('render row ', item.id)
     return (
+      /*<IllustItem 
+        item={item} 
+        onPressItem={() => this.handleOnPressItem(item)}
+        onPressLikeButton={() => this.handleOnPressLikeButton(item)} 
+        onLongPressLikeButton={() => this.handleOnLongPressLikeButton(item)}
+      />*/
       <PXTouchable 
         style={{ 
           margin: 1,
@@ -204,11 +247,18 @@ class IllustList extends Component {
             getItemLayout={(data, index, horizontal) => {
               return {
                 length: Dimensions.get('window').width / 3,
-                offset: (Dimensions.get('window').width / 3 - 3) * index, 
+                offset: (Dimensions.get('window').width / 3) * index, 
                 index
               };
             }}
-            onEndReachedThreshold={1}
+            shouldItemUpdate={(prev, next) => {
+              //console.log(prev.item.is_bookmarked !== next.item.is_bookmarked, prev.item, next.item, prev.index, next.index)
+              return (prev.item.is_bookmarked !== next.item.is_bookmarked) || (prev.item.user.is_followed !== next.item.user.is_followed)
+            }}
+            legacyImplementation={false}
+            debug={false}
+            disableVirtualization={false}
+            onEndReachedThreshold={10}
             onEndReached={loadMoreItems}
             FooterComponent={this.renderFooter}
             enableEmptySections={true}
