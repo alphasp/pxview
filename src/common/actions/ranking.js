@@ -18,6 +18,7 @@ export const RankingMode = {
   WEEKLY_ROOKIE: 'WEEKLY_ROOKIE',
   WEEKLY: 'WEEKLY',
   MONTHLY: 'MONTHLY',
+  PAST: 'PAST'
 };
 
 function receiveRanking(normalized, nextUrl, rankingMode, options, offset) { 

@@ -25,7 +25,7 @@ import PXBlurView from '../components/PXBlurView';
 import PXTouchable from '../components/PXTouchable';
 import Loader from '../components/Loader';
 import OutlineButton from '../components/OutlineButton';
-import { logout } from '../common/actions/auth';
+import * as authActionCreators from '../common/actions/auth';
 import * as i18nActionCreators from '../common/actions/i18n';
 
 const avatarSize = 70;
@@ -201,7 +201,7 @@ class UserProfile extends Component {
   }
 
   handleOnPressListItem = (item) => {
-    const { dispatch, user, navigation: { navigate } } = this.props;
+    const { user, navigation: { navigate }, logout } = this.props;
     console.log('on press ', item);
     switch (item.id) {
       case 'works': 
@@ -237,7 +237,7 @@ class UserProfile extends Component {
         setLanguage('ja');
         break;
       case 'logout':
-        dispatch(logout());
+        logout();
         break;
     }
   }
@@ -361,4 +361,4 @@ export default connect(state => {
   return {
     user: state.auth.user,
   }
-}, i18nActionCreators)(UserProfile);
+}, { ...authActionCreators, ...i18nActionCreators })(UserProfile);

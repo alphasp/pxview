@@ -5,13 +5,14 @@ import {
   View,
   ActivityIndicator,
   Dimensions,
-  RecyclerViewBackedScrollView,
   RefreshControl,
+  InteractionManager
 } from 'react-native';
 import { connect } from 'react-redux';
 import { denormalize } from 'normalizr';
 import IllustList from '../components/IllustList';
-import { fetchRanking, clearRanking, RankingMode } from '../common/actions/ranking';
+import * as rankingActionCreators from '../common/actions/ranking';
+import { RankingMode } from '../common/actions/ranking';
 import Schemas from '../common/constants/schemas';
 
 class RankingList extends Component {
@@ -23,25 +24,39 @@ class RankingList extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, rankingMode } = this.props;
-    dispatch(fetchRanking(rankingMode));
+    const { rankingMode, options, fetchRanking } = this.props;
+    InteractionManager.runAfterInteractions(() => {
+      fetchRanking(rankingMode, options);
+    });
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    const { options: prevOptions } = this.props;
+    const { options, rankingMode, fetchRanking, clearRanking } = nextProps;
+    if (options && ((options.mode !== prevOptions.mode) || (options.date !== prevOptions.date))) {
+      InteractionManager.runAfterInteractions(() => {
+        clearRanking(rankingMode);
+        fetchRanking(rankingMode, options);
+      });
+    }
   }
 
   loadMoreItems = () => {
-    const { dispatch, ranking: { nextUrl }, rankingMode } = this.props;
+    const { ranking: { nextUrl }, rankingMode, options, fetchRanking } = this.props;
     console.log('load more ', nextUrl)
     if (nextUrl) {
-      dispatch(fetchRanking(rankingMode, null, nextUrl));
+      fetchRanking(rankingMode, options, nextUrl);
     }
   }
 
   handleOnRefresh = () => {
-    const { dispatch, rankingMode } = this.props;
+    const { rankingMode, fetchRanking, clearRanking } = this.props;
     this.setState({
       refereshing: true
     });
-    dispatch(clearRanking(rankingMode));
-    dispatch(fetchRanking(rankingMode)).finally(() => {
+    clearRanking(rankingMode);
+    fetchRanking(rankingMode).finally(() => {
       this.setState({
         refereshing: false
       }); 
@@ -71,4 +86,4 @@ export default connect((state, props) => {
       items: denormalizedItems
     }
   }
-})(RankingList);
+}, rankingActionCreators)(RankingList);

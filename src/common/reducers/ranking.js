@@ -25,11 +25,7 @@ export default function search(state = getDefaultState(), action) {
         [action.payload.rankingMode]: { items: [] },
       };
     case CLEAR_ALL_RANKING:
-      return {
-        [RankingMode.DAILY]: { items: [] },
-        [RankingMode.WEEKLY]: { items: [] },
-        [RankingMode.MONTHLY]: { items: [] },
-      };  
+      return getDefaultState();  
     case REQUEST_RANKING:
       return {
         ...state,

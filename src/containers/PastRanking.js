@@ -8,15 +8,15 @@ import {
   ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import DatePicker from 'react-native-datepicker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IonicIcon from 'react-native-vector-icons/Ionicons';
-import IllustList from '../components/IllustList';
+import RankingList from './RankingList';
 import PXTouchable from '../components/PXTouchable';
 import PXBottomSheet from '../components/PXBottomSheet';
 import { RANKING, R18_RANKING } from '../common/constants/illustRanking';
-//import { fetchRecommendedIllusts, fetchRecommendedIllustsPublic, clearRecommendedIllusts } from '../common/actions/recommendedIllust';
-
+import { RankingMode } from '../common/actions/ranking';
 
 const styles = StyleSheet.create({
   container: {
@@ -58,6 +58,17 @@ const styles = StyleSheet.create({
   },
   bottomSheetCancelText: {
     marginLeft: 36
+  },
+  datePicker: {
+    flex: 1, 
+    borderColor: 'gray', 
+    borderWidth: 1
+  },
+  dateInput: {
+    borderWidth: 0
+  },
+  dateTouchBody: {
+    height: null
   }
 });
 
@@ -67,7 +78,8 @@ class PastRanking extends Component {
     this.state = {
       refreshing: false,
       isOpenRankingModeBottomSheet: false,
-      date: new Date()
+      date: moment().subtract(2, 'days').format('YYYY-MM-DD'),
+      mode: 'day'
     };
   }
 
@@ -79,15 +91,18 @@ class PastRanking extends Component {
     this.setState({ isOpenRankingModeBottomSheet: false });
   }
 
-  handleOnPressRankingMode = (ranking) => {
-    console.log('selected ', ranking)
+  handleOnPressRankingMode = (mode) => {
+    this.setState({ mode })
     this.handleOnCancelRankingModeBottomSheet();
   }
   
+  handleOnDateChange = (date) => {
+    this.setState({ date });
+  }
+
   render() {
     const { user, screenProps: { strings } } = this.props;
-    const { isOpenRankingModeBottomSheet } = this.state;
-    // onPress={openRankingModeBottomSheet}
+    const { refreshing, date, mode, isOpenRankingModeBottomSheet } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.filterContainer}>
@@ -96,7 +111,7 @@ class PastRanking extends Component {
             onPress={this.openRankingModeBottomSheet}
           >
             <View style={styles.rankingPicker}>
-              <Text style={styles.rankingPickerText}>Illust Daily Ranking</Text>
+              <Text style={styles.rankingPickerText}>Illust {strings[`${mode}_ranking`]} Ranking</Text>
               <Icon 
                 name="caret-down" 
                 size={24} 
@@ -105,27 +120,27 @@ class PastRanking extends Component {
             </View>
           </PXTouchable>
           <DatePicker
-            style={{flex: 1, borderColor: 'gray', borderWidth: 1}}
+            style={styles.datePicker}
             customStyles={{
-              dateInput: {
-                borderWidth: 0
-              },
-              dateTouchBody: {
-                height: null
-              }
+              dateInput: styles.dateInput,
+              dateTouchBody: styles.dateTouchBody
             }}
-            date={this.state.date}
+            date={date}
             mode="date"
             placeholder="select date"
             format="YYYY-MM-DD"
             minDate="2007-09-13"
             maxDate={new Date()}
-            confirmBtnText={strings.confirm}
+            confirmBtnText={strings.ok}
             cancelBtnText={strings.cancel}
             showIcon={true}
-            onDateChange={(date) => {this.setState({date: date})}}
+            onDateChange={this.handleOnDateChange}
           />
         </View>
+        <RankingList 
+          rankingMode={RankingMode.PAST} 
+          options={{ date, mode }}
+        />
         <PXBottomSheet 
           visible={isOpenRankingModeBottomSheet} 
           onCancel={this.handleOnCancelRankingModeBottomSheet}
@@ -174,7 +189,7 @@ class PastRanking extends Component {
                   style={styles.bottomSheetCancelIcon}
                 />
                 <Text style={[styles.bottomSheetText, styles.bottomSheetCancelText]}>
-                  Cancel
+                  {strings.cancel}
                 </Text>
               </View>
             </PXTouchable>

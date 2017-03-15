@@ -171,7 +171,9 @@ export function logout() {
   return (dispatch, getState) => {
     Keychain.resetGenericPassword()
       .then(function() {
-        dispatch(logUserOut());
+        return pixiv.logout().then(() => {
+          dispatch(logUserOut());
+        });
       });
     //Actions.pop();
     //Actions.tabs({ type: ActionConst.RESET });

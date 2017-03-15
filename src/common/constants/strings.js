@@ -1,6 +1,6 @@
 export default {
   en: {
-    confirm: 'Confirm',
+    ok: 'OK',
     cancel: 'Cancel',
     day_ranking: 'Daily',
     week_ranking: "Weekly",
@@ -17,7 +17,7 @@ export default {
     past_ranking: 'Past Ranking'
   },
   ja: {
-    confirm: '',
+    ok: 'OK',
     cancel: 'キャンセル',
     day_ranking: 'デイリー',
     week_ranking: "ウィークリー",
