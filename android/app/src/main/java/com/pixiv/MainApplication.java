@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
 import com.facebook.react.ReactApplication;
+import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
 import cl.json.RNSharePackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.oblador.keychain.KeychainPackage;
@@ -39,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new RNSpinkitPackage(),
            new MainReactPackage(),
+            new ReactNativeLocalizationPackage(),
             new RNSharePackage(),
             new ReactMaterialKitPackage(),
             new KeychainPackage(),

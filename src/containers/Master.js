@@ -16,6 +16,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import IonicIcon from 'react-native-vector-icons/Ionicons';
 import AppNavigator from '../navigations/AppNavigator';
 import PXTouchable from '../components/PXTouchable';
+import { localizedStrings } from '../common/helpers/i18n';
 import { resetError } from '../common/actions/error';
 import { RANKING, R18_RANKING } from '../common/constants/illustRanking';
 
@@ -156,7 +157,8 @@ class Master extends Component {
         <AppNavigator 
           screenProps={{
             openBottomSheet: this.openBottomSheet,
-            openRankingModeBottomSheet: this.openRankingModeBottomSheet
+            openRankingModeBottomSheet: this.openRankingModeBottomSheet,
+            strings: localizedStrings
           }} 
         />
         <MessageBar ref={ref => this.messageBarAlert = ref}/>
@@ -254,6 +256,7 @@ export default connect(state => {
   return {
     error: state.error,
     routes: state.routes,
-    user: state.auth.user
+    user: state.auth.user,
+    lang: state.i18n.lang
   }
 })(Master);

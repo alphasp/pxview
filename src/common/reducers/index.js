@@ -32,6 +32,7 @@ import illustBookmarkDetail from './illustBookmarkDetail';
 import userFollowDetail from './userFollowDetail';
 import auth from './auth';
 import routes from './routes';
+import i18n from './i18n';
 import error from './error';
 import { SortType } from '../actions/search';
 import { RankingMode } from '../actions/ranking';
@@ -73,6 +74,7 @@ const rootReducer = combineReducers({
   illustBookmarkDetail,
   auth,
   routes,
+  i18n,
   form: formReducer,
 });
 

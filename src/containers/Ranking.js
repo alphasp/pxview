@@ -33,21 +33,21 @@ class Ranking extends Component {
     }
   }
   render() {
-    const { navigation } = this.props;
+    const { navigation, screenProps: { strings } } = this.props;
     return (
       <View style={styles.container}>
         <ScrollableTabView 
           ref={(ref) => this.tabs = ref} 
           renderTabBar={() => <ScrollableTabBar />}
         >
-          <RankingList tabLabel="Daily" rankingMode={RankingMode.DAILY} />
-          <RankingList tabLabel="Male" rankingMode={RankingMode.DAILY_MALE} />
-          <RankingList tabLabel="Female" rankingMode={RankingMode.DAILY_FEMALE} />
-          <RankingList tabLabel="Original" rankingMode={RankingMode.WEEKLY_ORIGINAL} />
-          <RankingList tabLabel="Rookie" rankingMode={RankingMode.WEEKLY_ROOKIE} />
-          <RankingList tabLabel="Weekly" rankingMode={RankingMode.WEEKLY} />
-          <RankingList tabLabel="Monthly" rankingMode={RankingMode.MONTHLY} />
-          <PastRanking tabLabel="Past Ranking"  {...this.props} />
+          <RankingList tabLabel={strings.day_ranking} rankingMode={RankingMode.DAILY} />
+          <RankingList tabLabel={strings.day_male_ranking} rankingMode={RankingMode.DAILY_MALE} />
+          <RankingList tabLabel={strings.day_female_ranking} rankingMode={RankingMode.DAILY_FEMALE} />
+          <RankingList tabLabel={strings.week_original_ranking} rankingMode={RankingMode.WEEKLY_ORIGINAL} />
+          <RankingList tabLabel={strings.week_rookie_ranking} rankingMode={RankingMode.WEEKLY_ROOKIE} />
+          <RankingList tabLabel={strings.week_ranking} rankingMode={RankingMode.WEEKLY} />
+          <RankingList tabLabel={strings.month_ranking} rankingMode={RankingMode.MONTHLY} />
+          <PastRanking tabLabel={strings.past_ranking}  {...this.props} />
         </ScrollableTabView>
       </View>
     );

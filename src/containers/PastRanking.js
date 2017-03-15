@@ -85,8 +85,7 @@ class PastRanking extends Component {
   }
   
   render() {
-    //const { screenProps: { openRankingModeBottomSheet } } = this.props;
-    const { user } = this.props;
+    const { user, screenProps: { strings } } = this.props;
     const { isOpenRankingModeBottomSheet } = this.state;
     // onPress={openRankingModeBottomSheet}
     return (
@@ -121,8 +120,8 @@ class PastRanking extends Component {
             format="YYYY-MM-DD"
             minDate="2007-09-13"
             maxDate={new Date()}
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
+            confirmBtnText={strings.confirm}
+            cancelBtnText={strings.cancel}
             showIcon={true}
             onDateChange={(date) => {this.setState({date: date})}}
           />
@@ -142,7 +141,7 @@ class PastRanking extends Component {
                         size={24} 
                       />
                       <Text style={styles.bottomSheetText}>
-                        {RANKING[ranking].en}
+                        {strings[`${ranking}_ranking`]}
                       </Text>
                     </View>
                   </PXTouchable>
@@ -160,7 +159,7 @@ class PastRanking extends Component {
                         size={24} 
                       />
                       <Text style={styles.bottomSheetText}>
-                        {R18_RANKING[ranking].en}
+                        {strings[`${ranking}_ranking`]}
                       </Text>
                     </View>
                   </PXTouchable>

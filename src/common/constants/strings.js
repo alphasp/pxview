@@ -1,0 +1,35 @@
+export default {
+  en: {
+    confirm: 'Confirm',
+    cancel: 'Cancel',
+    day_ranking: 'Daily',
+    week_ranking: "Weekly",
+    month_ranking: "Monthly",
+    day_male_ranking: 'Male',
+    day_female_ranking: 'Female',
+    week_rookie_ranking: "Rookie",
+    week_original_ranking: "Original",
+    day_r18_ranking: 'R18 Daily',
+    day_male_r18_ranking: 'R18 Male',
+    day_female_r18_ranking: 'R18 Female',
+    week_r18_ranking: 'R18 Weekly',
+    week_r18g_ranking: 'R18G Weekly',
+    past_ranking: 'Past Ranking'
+  },
+  ja: {
+    confirm: '',
+    cancel: 'キャンセル',
+    day_ranking: 'デイリー',
+    week_ranking: "ウィークリー",
+    month_ranking: "マンスリー",
+    day_male_ranking: '男子に人気',
+    day_female_ranking: '女子に人気',
+    week_rookie_ranking: "ルーキー",
+    week_original_ranking: "オリジナル",
+    day_r18_ranking: 'R18 デイリー',
+    day_male_r18_ranking: 'R18 男子に人気',
+    day_female_r18_ranking: 'R18 女子に人気',
+    week_r18_ranking: 'R18 ウィークリー',
+    week_r18g_ranking: 'R18G ウィークリー',
+  }
+}

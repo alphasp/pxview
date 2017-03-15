@@ -16,6 +16,7 @@ import { List, ListItem } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from 'react-native-blur';
+import LocalizedStrings from 'react-native-localization';
 import IllustCollection from '../components/IllustCollection';
 import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
@@ -25,6 +26,7 @@ import PXTouchable from '../components/PXTouchable';
 import Loader from '../components/Loader';
 import OutlineButton from '../components/OutlineButton';
 import { logout } from '../common/actions/auth';
+import * as i18nActionCreators from '../common/actions/i18n';
 
 const avatarSize = 70;
 const windowWidth = Dimensions.get('window').width;
@@ -228,7 +230,12 @@ class UserProfile extends Component {
           // Actions.myConnection({ userId: user.id });
           navigate('MyConnection', { userId: user.id });
         }
-        break;  
+        break; 
+      case 'settings':
+        //temp
+        const { setLanguage } = this.props;
+        setLanguage('ja');
+        break;
       case 'logout':
         dispatch(logout());
         break;
@@ -334,8 +341,6 @@ class UserProfile extends Component {
     //const { userDetail, userId } = this.props;
     const { user } = this.props;
     console.log("user ", user)
-    console.log('pp ', this.props)
-    
     return (
       <View style={styles.container}>
         {
@@ -356,4 +361,4 @@ export default connect(state => {
   return {
     user: state.auth.user,
   }
-})(UserProfile);
+}, i18nActionCreators)(UserProfile);

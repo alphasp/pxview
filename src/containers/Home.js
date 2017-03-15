@@ -34,12 +34,12 @@ class Home extends Component {
   }
   
   render() {
-    const { navigation } = this.props;
+    const { navigation, screenProps } = this.props;
     return (
       <View style={styles.container}>
         <ScrollableTabView ref={(ref) => this.tabs = ref}>
-          <RecommendedIllust tabLabel="Illustrations" navigation={navigation} />
-          <RecommendedManga tabLabel="Manga" navigation={navigation} />
+          <RecommendedIllust tabLabel="Illustrations" navigation={navigation} screenProps={screenProps} />
+          <RecommendedManga tabLabel="Manga" navigation={navigation} screenProps={screenProps} />
         </ScrollableTabView>
       </View>
     );
