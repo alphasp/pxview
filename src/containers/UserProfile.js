@@ -201,7 +201,7 @@ class UserProfile extends Component {
   }
 
   handleOnPressListItem = (item) => {
-    const { user, navigation: { navigate }, logout } = this.props;
+    const { user, navigation: { navigate }, screenProps, logout } = this.props;
     console.log('on press ', item);
     switch (item.id) {
       case 'works': 
@@ -209,7 +209,7 @@ class UserProfile extends Component {
           this.handleOnPressLogin();
         }
         else {
-          navigate('MyWorks', { userId: user.id });
+          navigate('MyWorks', { userId: user.id, screenProps });
         }
         //navigate('Web', { source: { uri: 'https://touch.pixiv.net/setting_user.php?ref=ios-app' } });
         break;
@@ -219,7 +219,7 @@ class UserProfile extends Component {
           this.handleOnPressLogin();
         }
         else {
-          navigate('MyCollection', { userId: user.id });
+          navigate('MyCollection', { userId: user.id, screenProps });
         }
         break;
       case 'connection':
@@ -228,7 +228,7 @@ class UserProfile extends Component {
         }
         else {
           // Actions.myConnection({ userId: user.id });
-          navigate('MyConnection', { userId: user.id });
+          navigate('MyConnection', { userId: user.id, screenProps });
         }
         break; 
       case 'settings':

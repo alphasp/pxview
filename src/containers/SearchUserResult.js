@@ -14,7 +14,7 @@ import { Actions, ActionConst } from 'react-native-router-flux';
 import RecommendedUser from './RecommendedUser';
 import SearchBar from '../components/SearchBar';
 import Header from '../components/Header';
-import UserList from '../components/UserList';
+import UserListContainer from './UserListContainer';
 import { fetchSearchUser, clearSearchUser } from '../common/actions/searchUser';
 import { SearchType } from '../common/actions/searchType';
 
@@ -120,15 +120,16 @@ class SearchUserResult extends Component {
   }
 
   render() {
-    const { searchUser, word, navigation } = this.props;
+    const { searchUser, word, navigation, screenProps } = this.props;
     const { refreshing } = this.state;
     return (
-      <UserList
+      <UserListContainer
         userList={searchUser}
         refreshing={refreshing}
         loadMore={this.loadMore}
         onRefresh={this.handleOnRefresh}
         navigation={navigation}
+        screenProps={screenProps}
       />
     );
   }

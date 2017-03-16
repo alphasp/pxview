@@ -29,13 +29,32 @@ class MyConnection extends Component {
   render() {
     //const { userId } = this.props;
     const { userId } = this.props.navigation.state.params;
+    const screenProps = this.props.screenProps || this.props.navigation.state.params.screenProps;
     return (
       <View style={styles.container}>
         <ScrollableTabView renderTabBar={() => <ScrollableTabBar />}>
-          <UserFollowing tabLabel="Following (Public)" userId={userId} followingType={FollowingType.PUBLIC} />
-          <UserFollowing tabLabel="Following (Private)" userId={userId} followingType={FollowingType.PRIVATE} />
-          <UserFollower tabLabel="Followers" userId={userId} />
-          <UserMyPixiv tabLabel="My Pixiv" userId={userId} />
+          <UserFollowing 
+            tabLabel="Following (Public)" 
+            userId={userId} 
+            followingType={FollowingType.PUBLIC}
+            screenProps={screenProps}
+          />
+          <UserFollowing 
+            tabLabel="Following (Private)" 
+            userId={userId} 
+            followingType={FollowingType.PRIVATE} 
+            screenProps={screenProps}
+          />
+          <UserFollower 
+            tabLabel="Followers" 
+            userId={userId} 
+            screenProps={screenProps}
+          />
+          <UserMyPixiv 
+            tabLabel="My Pixiv" 
+            userId={userId} 
+            screenProps={screenProps}
+          />
         </ScrollableTabView>
       </View>
     );

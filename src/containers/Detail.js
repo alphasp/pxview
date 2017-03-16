@@ -24,7 +24,7 @@ import Share, { ShareSheet, Button } from 'react-native-share';
 // import Image from 'react-native-image-progress';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
-import FollowButton from '../components/FollowButton';
+import FollowButtonContainer from './FollowButtonContainer';
 import PXImage from '../components/PXImage';
 import PXCacheImageTouchable from '../components/PXCacheImageTouchable';
 import PXThumbnail from '../components/PXThumbnail';
@@ -236,7 +236,7 @@ class Detail extends Component {
   }
 
   renderFooter = () => {
-    const { navigation } = this.props;
+    const { navigation, screenProps } = this.props;
     const { item } = navigation.state.params;
     return (
       <View>
@@ -252,7 +252,7 @@ class Detail extends Component {
                 <Text>{item.user.account}</Text>
               </View>
             </PXTouchable>
-            <FollowButton isFollow={item.user.is_followed} />
+            <FollowButtonContainer user={item.user} screenProps={screenProps} />
           </View>
           <View style={styles.captionContainer}>
             <HtmlView 

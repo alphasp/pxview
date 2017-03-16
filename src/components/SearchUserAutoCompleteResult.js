@@ -12,7 +12,7 @@ import dismissKeyboard from 'dismissKeyboard';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import PXThumbnailTouchable from './PXThumbnailTouchable';
-import FollowButton from './FollowButton';
+import FollowButtonContainer from '../containers/FollowButtonContainer';
 import Loader from './Loader';
 import Separator from './Separator';
 import SearchHistory from './SearchHistory';
@@ -66,7 +66,7 @@ class SearchUserAutoCompleteResult extends Component {
   }
 
   renderRow = (item) => {
-    const { onPressItem } = this.props;
+    const { onPressItem, screenProps } = this.props;
     return (
       <PXTouchable 
         key={item.user.id} 
@@ -80,7 +80,7 @@ class SearchUserAutoCompleteResult extends Component {
             />
             <Text style={styles.username}>{item.user.name}</Text>
           </View>
-          <FollowButton isFollow={item.user.is_followed} />
+          <FollowButtonContainer user={item.user} screenProps={screenProps} />
         </View>
       </PXTouchable>
     )

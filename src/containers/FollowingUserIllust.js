@@ -38,8 +38,18 @@ class FollowingUserIllust extends Component {
   }
 
   componentDidMount() {
-    const { user, fetchFollowingUserIllusts } = this.props;
+    const { user, fetchFollowingUserIllusts, clearFollowingUserIllusts } = this.props;
     if (user) {
+      clearFollowingUserIllusts();
+      fetchFollowingUserIllusts();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { user: prevUser } = this.props;
+    const { user, fetchFollowingUserIllusts, clearFollowingUserIllusts } = nextProps;
+    if (user && user !== prevUser) {
+      clearFollowingUserIllusts();
       fetchFollowingUserIllusts();
     }
   }

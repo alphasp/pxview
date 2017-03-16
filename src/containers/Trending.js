@@ -116,15 +116,23 @@ class Trending extends Component {
   }
 
   render() {
-    const { searchType, navigation } = this.props;
+    const { searchType, navigation, screenProps } = this.props;
     const { params } = navigation.state;
     return (
       <View style={styles.container}>
         <ScrollableTabView 
           onChangeTab={this.handleOnChangeTab}
         >
-          <TrendingIllustTag tabLabel="Illust/Manga" navigation={navigation} />
-          <RecommendedUser tabLabel="User" navigation={navigation} />
+          <TrendingIllustTag 
+            tabLabel="Illust/Manga" 
+            navigation={navigation} 
+            screenProps={screenProps} 
+          />
+          <RecommendedUser 
+            tabLabel="User" 
+            navigation={navigation}
+            screenProps={screenProps}
+          />
         </ScrollableTabView>
         { 
           params && params.isFocusSearchBar &&

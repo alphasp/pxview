@@ -17,7 +17,7 @@ import PXImage from '../components/PXImage';
 import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import OverlayImagePages from '../components/OverlayImagePages';
-import UserList from '../components/UserList';
+import UserListContainer from './UserListContainer';
 import * as userFollowerActionCreators from '../common/actions/userFollower';
 
 const avatarSize = 50;
@@ -62,15 +62,17 @@ class UserFollower extends Component {
   }
 
   render() {
-    const { userFollower, userId } = this.props;
+    const { userFollower, userId, navigation, screenProps } = this.props;
     const { refreshing } = this.state;
     return (
       userFollower[userId] ?
-      <UserList
+      <UserListContainer
         userList={userFollower[userId]}
         refreshing={refreshing}
         loadMore={this.loadMore}
         onRefresh={this.handleOnRefresh}
+        navigation={navigation}
+        screenProps={screenProps}
       />
       :
       null

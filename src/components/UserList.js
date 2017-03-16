@@ -16,11 +16,8 @@ import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
 import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
-import FollowButton from '../components/FollowButton';
+import FollowButtonContainer from '../containers/FollowButtonContainer';
 import OverlayImagePages from '../components/OverlayImagePages';
-import FollowModal from '../containers/FollowModal';
-import * as followUserActionCreators from '../common/actions/followUser';
-import { FollowType } from '../common/actions/followUser';
 
 const windowWidth = Dimensions.get('window').width; //full width
 const windowHeight = Dimensions.get('window').height; //full height
@@ -73,9 +70,6 @@ class UserList extends Component {
       dataSource:  new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2,
       }),
-      selectedUserId: null,
-      isFollowSelectedUser: false,
-      isOpenFollowModal: false,
     };
   }
 
@@ -91,6 +85,7 @@ class UserList extends Component {
   }
 
   renderRow = (item) => {
+    const { screenProps } = this.props;
     return (
       <View
         key={item.user.id}
@@ -142,11 +137,7 @@ class UserList extends Component {
           >
             <Text>{item.user.name}</Text>
           </PXTouchable>
-          <FollowButton 
-            isFollow={item.user.is_followed} 
-            onLongPress={() => this.handleOnLongPressFollowButton(item.user)}
-            onPress={() => this.handleOnPressFollowButton(item.user)}
-          />
+          <FollowButtonContainer user={item.user} screenProps={screenProps} />
         </View>
         <View style={styles.avatarContainer}>
           <PXThumbnailTouchable
@@ -163,14 +154,6 @@ class UserList extends Component {
     );
   }
 
-  handleOnLongPressFollowButton = (user) => {
-    this.setState({
-      selectedUserId: user.id,
-      isFollowSelectedUser: user.is_followed,
-      isOpenFollowModal: true,
-    });
-  }
-
   handleOnPressImagePreview= (item) => {
     const { navigate } = this.props.navigation;
     navigate('Detail', { item });
@@ -179,43 +162,6 @@ class UserList extends Component {
   handleOnPressAvatar = (userId) => {
     const { navigate } = this.props.navigation;
     navigate('UserDetail', { userId });
-  }
-
-  handleOnPressFollowButton = (user) => {
-    if (user.is_followed) {
-      this.unFollowUser(user.id);
-    }
-    else {
-      this.followUser(user.id, FollowType.PUBLIC);
-    }
-  }
-
-  handleOnPressModalFollowButton = (userId, followType) => {
-    this.followUser(userId, followType);
-    this.handleOnPressCloseFollowModalButton();
-  }
-
-  handleOnPressModalRemoveButton = (userId) => {
-    this.unFollowUser(userId);
-    this.handleOnPressCloseFollowModalButton();
-  }
-
-  handleOnPressCloseFollowModalButton = () => {
-    this.setState({
-      selectedUserId: null,
-      isFollow: false,
-      isOpenFollowModal: false
-    });
-  }
-
-  followUser = (userId, followType) => {
-    const { followUser } = this.props;
-    followUser(userId, followType);
-  }
-
-  unFollowUser = (userId) => {
-    const { unFollowUser } = this.props;
-    unFollowUser(userId);
   }
 
   renderFooter = () => {
@@ -232,7 +178,7 @@ class UserList extends Component {
 
   render() {
     const { userList: { items, loading, loaded }, loadMore, refreshing, onRefresh } = this.props;
-    const { dataSource, selectedUserId, isFollowSelectedUser, isOpenFollowModal } = this.state;
+    const { dataSource } = this.state;
     return (
       <View style={styles.container}>
         {
@@ -257,21 +203,9 @@ class UserList extends Component {
           :
           null
         }
-        {
-          isOpenFollowModal && selectedUserId &&
-          <FollowModal 
-            userId={selectedUserId}
-            isOpen={isOpenFollowModal}
-            isFollow={isFollowSelectedUser}
-            onPressFollowButton={this.handleOnPressModalFollowButton}
-            onPressRemoveButton={this.handleOnPressModalRemoveButton}
-            onPressCloseButton={this.handleOnPressCloseFollowModalButton}
-          />
-        }
       </View>
     );
   }
 }
 
-//followActionCreators
-export default connect(null, followUserActionCreators)(UserList);
+export default UserList;

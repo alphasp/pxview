@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   StyleSheet,
   Text,
@@ -42,6 +42,14 @@ const validate = (values, props) => {
 };
 
 class Login extends Component {
+  static propTypes = {
+    user: PropTypes.object,
+    navigation: PropTypes.object,
+    login: PropTypes.func.isRequired,
+    onLoginSuccess: PropTypes.func,
+    handleSubmit: PropTypes.func
+  }
+
   constructor(props) {
     super();
     this.state = {
@@ -53,19 +61,22 @@ class Login extends Component {
     //Actions.pop({ refresh: { test: 'abaer' }})
     // Actions.tabs();
     // Actions.userProfile({ type: ActionConst.RESET });
-    const { dispatch, navigation: { goBack } } = this.props;
+    const { navigation: { goBack }, login } = this.props;
     const { email, password } = data;
     dismissKeyboard();
     this.setState({
       loading: true
     });
-    dispatch(login(email, password)).then(() => {
-      const { auth } = this.props;
+    login(email, password).then(() => {
+      const { user, onLoginSuccess } = this.props;
       this.setState({
         loading: false
       });
-      if (auth.user) {
+      if (user) {
         goBack();
+        if (onLoginSuccess) {
+          onLoginSuccess();
+        }
       }
     });
   }
@@ -83,10 +94,10 @@ class Login extends Component {
   }
 
   render() {
-    const { handleSubmit, error } = this.props;
+    const { handleSubmit } = this.props;
     const { loading } = this.state;
     return (
-      <View style={ styles.container }>
+      <View style={styles.container}>
         <Field name="email" component={PXFormInput} label="Email address/Pixiv ID" autoCapitalize="none" />
         <Field name="password" component={PXFormInput} label="Password" secureTextEntry={true} />
         <Button 
@@ -113,8 +124,9 @@ const LoginForm = reduxForm({
   validate
 })(Login);
 
-export default connect(state =>{
+export default connect((state, props) => {
   return {
-    auth: state.auth
+    user: state.auth.user,
+    onLoginSuccess: props.onLoginSuccess || (props.navigation.state && props.navigation.state.params.onLoginSuccess)
   }
-})(LoginForm);
+}, { login })(LoginForm);

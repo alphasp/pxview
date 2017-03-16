@@ -17,7 +17,7 @@ import PXImage from '../components/PXImage';
 import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import OverlayImagePages from '../components/OverlayImagePages';
-import UserList from '../components/UserList';
+import UserListContainer from './UserListContainer';
 import { fetchRecommendedUsers, clearRecommendedUsers } from '../common/actions/recommendedUser';
 import Schemas from '../common/constants/schemas';
 
@@ -98,15 +98,16 @@ class RecommendedUser extends Component {
   }
 
   render() {
-    const { recommendedUser, navigation } = this.props;
+    const { recommendedUser, navigation, screenProps } = this.props;
     const { refreshing } = this.state;
     return (
-      <UserList
+      <UserListContainer
         userList={recommendedUser}
         refreshing={refreshing}
         loadMore={this.loadMore}
         onRefresh={this.handleOnRefresh}
         navigation={navigation}
+        screenProps={screenProps}
       />
     );
   }
