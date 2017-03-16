@@ -8,6 +8,7 @@ import UserManga from '../containers/UserManga';
 import UserBookmarkIllust from '../containers/UserBookmarkIllust';
 import RelatedIllust from '../containers/RelatedIllust';
 import SearchResultTabs from '../containers/SearchResultTabs'; //todo
+import RecommendedUser from '../containers/RecommendedUser';
 
 const NewWorkNavigator = StackNavigator({
   NewWork: { 
@@ -56,6 +57,12 @@ const NewWorkNavigator = StackNavigator({
   },
   SearchResult: {
     screen: SearchResultTabs,
+  },
+  RecommendedUser: {
+    screen: RecommendedUser,
+    navigationOptions: {
+      title: 'Recommended Users',
+    }
   }
 }, {
   navigationOptions: {

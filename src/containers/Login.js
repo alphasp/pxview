@@ -65,7 +65,6 @@ class Login extends Component {
         loading: false
       });
       if (auth.user) {
-        // Actions.pop();
         goBack();
       }
     });

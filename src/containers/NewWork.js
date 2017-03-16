@@ -7,11 +7,13 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
+import { connect } from 'react-redux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import FollowingUserIllust from './FollowingUserIllust';
 import NewIllust from './NewIllust';
 import NewManga from './NewManga';
 import MyPixiv from './MyPixiv';
+import Login from './Login';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,24 +31,25 @@ const styles = StyleSheet.create({
 
 class NewWork extends Component {
   render() {
-    //pixiv.illustNew
-    //pixiv.mangaNew
-    //mypixiv?
-    //pixiv.illustFollow 
-    // options - object (optional)
-    // restrict - one of all | public | private (default: all)
+    const { user, navigation, screenProps } = this.props;
     return (
       <View style={styles.container}>
         <ScrollableTabView ref={(ref) => this.tabs = ref}>
-          <FollowingUserIllust tabLabel="Following" />
-          <NewIllust tabLabel="Illust" />
-          <NewManga tabLabel="Manga" />
-          <MyPixiv tabLabel="My Pixiv" />
+          <FollowingUserIllust tabLabel="Following" screenProps={screenProps} navigation={navigation} user={user} />
+          <NewIllust tabLabel="Illust" screenProps={screenProps} />
+          <NewManga tabLabel="Manga" screenProps={screenProps} />
+          {
+            user &&
+            <MyPixiv tabLabel="My Pixiv" screenProps={screenProps} />
+          }
         </ScrollableTabView>
-      </View>
+      </View> 
     );
   }
 }
 
-
-export default NewWork;
+export default connect(state => {
+  return {
+    user: state.auth.user
+  }
+})(NewWork);

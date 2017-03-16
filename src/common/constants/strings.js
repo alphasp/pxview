@@ -14,7 +14,10 @@ export default {
     day_female_r18_ranking: 'R18 Female',
     week_r18_ranking: 'R18 Weekly',
     week_r18g_ranking: 'R18G Weekly',
-    past_ranking: 'Past Ranking'
+    past_ranking: 'Past Ranking',
+    followUserNullState: 'You are not following anyone yet',
+    newWorkFollowNullState: 'Follow your favourite users to keep up to date with their latest works',
+    findRecommendedUsers: 'Recommended Users'
   },
   ja: {
     ok: 'OK',
@@ -31,5 +34,9 @@ export default {
     day_female_r18_ranking: 'R18 女子に人気',
     week_r18_ranking: 'R18 ウィークリー',
     week_r18g_ranking: 'R18G ウィークリー',
+    past_ranking: '過去のランキング',
+    followUserNullState: 'ユーザーをフォローしていません',
+    newWorkFollowNullState: '好きなユーザーをフォローして最新投稿を追いかけましょう',
+    findRecommendedUsers: 'オススメのユーザーを見る'
   }
 }
