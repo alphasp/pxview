@@ -16,10 +16,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import IonicIcon from 'react-native-vector-icons/Ionicons';
 import AppNavigator from '../navigations/AppNavigator';
 import PXTouchable from '../components/PXTouchable';
-import FollowModal from './FollowModal';
+import ModalRoot from './ModalRoot';
 import { localizedStrings } from '../common/helpers/i18n';
 import { resetError } from '../common/actions/error';
-import * as followUserActionCreators from '../common/actions/followUser';
 import { RANKING, R18_RANKING } from '../common/constants/illustRanking';
 
 const styles = StyleSheet.create({
@@ -54,9 +53,6 @@ class Master extends Component {
       isShowBottomSheet: false,
       isShowRankingModeBottomSheet: false,
       imageUrls: [],
-      isOpenFollowModal: false,
-      selectedUserId: null,
-      isFollowSelectedUser: false
     };
   }
 
@@ -104,27 +100,6 @@ class Master extends Component {
 
   openRankingModeBottomSheet = (selectedUserId) => {
     this.setState({ isShowRankingModeBottomSheet: true });
-  }
-
-  openFollowModal = (selectedUserId, isFollowSelectedUser) => {
-    this.setState({ isOpenFollowModal: true, selectedUserId, isFollowSelectedUser });
-  }
-
-  handleOnPressModalFollowButton = (userId, followType) => {
-    this.followUser(userId, followType);
-    this.handleOnPressCloseFollowModalButton();
-  }
-
-  handleOnPressCloseFollowModalButton = () => {
-    this.setState({
-      selectedUserId: null,
-      isOpenFollowModal: false
-    });
-  }
-
-  handleOnPressModalRemoveButton = (userId) => {
-    this.unFollowUser(userId);
-    this.handleOnPressCloseFollowModalButton();
   }
 
   handleOnCancelBottomSheet = () => {
@@ -175,31 +150,21 @@ class Master extends Component {
     this.handleOnCancelRankingModeBottomSheet();
   }
 
-  followUser = (userId, followType) => {
-    const { followUser } = this.props;
-    followUser(userId, followType);
-  }
-
-  unFollowUser = (userId) => {
-    const { unFollowUser } = this.props;
-    unFollowUser(userId);
-  }
-
   render() {
     const { user } = this.props;
-    const { isShowBottomSheet, isShowRankingModeBottomSheet, imageUrls, isOpenFollowModal, selectedUserId, isFollowSelectedUser } = this.state;
+    const { isShowBottomSheet, isShowRankingModeBottomSheet, imageUrls } = this.state;
     return (
       <View style={styles.container}>
         <AppNavigator 
           screenProps={{
             openBottomSheet: this.openBottomSheet,
             openRankingModeBottomSheet: this.openRankingModeBottomSheet,
-            openFollowModal: this.openFollowModal,
             strings: localizedStrings
           }} 
         />
         <MessageBar ref={ref => this.messageBarAlert = ref}/>
         <Toast ref={ref => this.toast = ref} />
+        <ModalRoot />
         <ShareSheet 
           visible={isShowBottomSheet}
           onCancel={this.handleOnCancelBottomSheet}
@@ -284,17 +249,6 @@ class Master extends Component {
             </PXTouchable>
           </View>
         </ShareSheet>
-        {
-          isOpenFollowModal && selectedUserId &&
-          <FollowModal 
-            userId={selectedUserId}
-            isOpen={isOpenFollowModal}
-            isFollow={isFollowSelectedUser}
-            onPressFollowButton={this.handleOnPressModalFollowButton}
-            onPressRemoveButton={this.handleOnPressModalRemoveButton}
-            onPressCloseButton={this.handleOnPressCloseFollowModalButton}
-          />
-        }
       </View>
     );
   }
@@ -305,6 +259,6 @@ export default connect(state => {
     error: state.error,
     routes: state.routes,
     user: state.auth.user,
-    lang: state.i18n.lang
+    lang: state.i18n.lang,
   }
-}, followUserActionCreators)(Master);
+})(Master);

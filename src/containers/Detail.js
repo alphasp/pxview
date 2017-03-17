@@ -21,7 +21,7 @@ import HtmlView from 'react-native-htmlview';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Animatable from 'react-native-animatable';
 import Share, { ShareSheet, Button } from 'react-native-share';
-// import Image from 'react-native-image-progress';
+import { denormalize } from 'normalizr';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
 import FollowButtonContainer from './FollowButtonContainer';
@@ -33,6 +33,8 @@ import Tags from '../components/Tags';
 // import DetailTabBar from '../components/DetailTabBar';
 import RelatedIllust from './RelatedIllust';
 import IllustComment from './IllustComment';
+import Schemas from '../common/constants/schemas';
+
 const windowWidth = Dimensions.get('window').width; //full width
 const windowHeight = Dimensions.get('window').height; //full height
 
@@ -171,7 +173,7 @@ class Detail extends Component {
     this.dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
-    const { item } = this.props.navigation.state.params;
+    const { item } = props;
     const images = item.page_count > 1 ? item.meta_pages.map(page => {
       return page.image_urls.original;
     }) : [item.meta_single_page.original_image_url];
@@ -183,16 +185,16 @@ class Detail extends Component {
   }
 
   componentDidMount() {
-    const { navigation, screenProps: { openBottomSheet } } = this.props;
-    const { item } = navigation.state.params;
+    const { item, navigation, screenProps: { openBottomSheet } } = this.props;
     const { images } = this.state;
     const shareOptions = {
       message: `${item.title} | ${item.user.name} #pixivrn`, //todo
       url: `http://www.pixiv.net/member_illust.php?illust_id=${item.id}&mode=medium`,
     };
     navigation.setParams({ 
+      item,
       openBottomSheet: () => openBottomSheet(images), 
-      shareOptions 
+      shareOptions,
     });
     InteractionManager.runAfterInteractions(() => {
       console.log('done mouting')
@@ -208,13 +210,6 @@ class Detail extends Component {
 
   renderRow = (item, sectionId, rowId) => {
     const index = parseInt(rowId);
-    const { item: baseItem } = this.props.navigation.state.params;
-    const isLastRow = (baseItem.meta_pages.length - 1) == rowId;
-    // console.log('render ', item.image_urls)
-    // console.log('meta ', item.meta_single_page)
-    // {item.image_urls.large}
-    // "https://facebook.github.io/react/img/logo_og.png"
-    //console.log("img ", item.image_urls.large)
     return (
       <PXCacheImageTouchable 
         key={item.image_urls.large}
@@ -236,8 +231,7 @@ class Detail extends Component {
   }
 
   renderFooter = () => {
-    const { navigation, screenProps } = this.props;
-    const { item } = navigation.state.params;
+    const { item, navigation, screenProps } = this.props;
     return (
       <View>
         <View style={styles.infoContainer}>
@@ -309,7 +303,7 @@ class Detail extends Component {
     // not trigger on android
     // https://github.com/facebook/react-native/issues/5688
     // const { item } = this.props;
-    const { item } = this.props.navigation.state.params;
+    const { item } = this.props;
     if (item.meta_pages && item.meta_pages.length && visibleRows.s1) {
       const visibleRowNumbers = Object.keys(visibleRows.s1).map((row) => parseInt(row));
       //console.log('visible row ', visibleRowNumbers)
@@ -381,8 +375,7 @@ class Detail extends Component {
   }
 
   handleOnPressViewMoreComments = () => {
-    const { navigate } = this.props.navigation;
-    const { item } = this.props.navigation.state.params;
+    const { item, navigation: { navigate } } = this.props.navigation;
     navigate('IllustComment', {
       illustId: item.id,
       navigation: this.props.navigation
@@ -390,8 +383,7 @@ class Detail extends Component {
   }
 
   handleOnPressViewMoreRelatedIllust = () => {
-    const { navigate } = this.props.navigation;
-    const { item } = this.props.navigation.state.params;
+    const { item, navigation: { navigate } } = this.props;
     navigate('RelatedIllust', {
       illustId: item.id,
       navigation: this.props.navigation
@@ -399,10 +391,11 @@ class Detail extends Component {
   }
 
   render() {
-    // const { item } = this.props;
-    const { item, isShowBottomSheet } = this.props.navigation.state.params;
+    const { item, navigation } = this.props;
+    const { isShowBottomSheet } = navigation.state.params;
     const { mounting, imagePageNumber, isScrolling, isInitState, images } = this.state;
     const dataSource = this.dataSource.cloneWithRows(item.meta_pages);
+    console.log('user ', item.user)
     return (
       <View style={styles.container} ref={(ref) => this.detailView = ref }>
         {
@@ -457,6 +450,8 @@ class Detail extends Component {
   }
 }
 
-export default Detail;
-// scrollWithoutAnimation
-// locked={true}
+export default connect((state, props) => {
+  const { entities } = state;
+  const item = denormalize(props.navigation.state.params.item.id, Schemas.ILLUST, entities);
+  return { item }
+})(Detail);

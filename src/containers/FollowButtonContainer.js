@@ -11,7 +11,9 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import FollowButton from '../components/FollowButton';
 import * as followUserActionCreators from '../common/actions/followUser';
+import * as modalActionCreators from '../common/actions/modal';
 import { FollowType } from '../common/actions/followUser';
+import modalType from '../common/constants/modalType';
 
 class FollowButtonContainer extends Component {
   static propTypes = {
@@ -20,6 +22,7 @@ class FollowButtonContainer extends Component {
     followUser: PropTypes.func.isRequired,
     unFollowUser: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
+    openModal: PropTypes.func.isRequired
   }
 
   handleOnPressFollowButton = () => {
@@ -43,7 +46,7 @@ class FollowButtonContainer extends Component {
 
   handleOnLongPressFollowButton = () => {
     console.log('fbc ', this.props)
-    const { authUser, user, navigation: { navigate }, screenProps: { openFollowModal }, onLongPress } = this.props;
+    const { authUser, user, navigation: { navigate }, openModal } = this.props;
     if (!authUser) {
       navigate('Login', {
         onLoginSuccess: () => {
@@ -52,9 +55,10 @@ class FollowButtonContainer extends Component {
       });
     }
     else {
-      if (openFollowModal) {
-        openFollowModal(user.id, user.is_followed);
-      }
+      openModal(modalType.FOLLOW, { 
+        userId: user.id,
+        isFollow: user.is_followed
+      })
     }
   }
 
@@ -85,4 +89,4 @@ export default withNavigation(connect((state, props) => {
   return {
     authUser: state.auth.user
   }
-}, followUserActionCreators)(FollowButtonContainer));
+}, { ...followUserActionCreators, ...modalActionCreators })(FollowButtonContainer));

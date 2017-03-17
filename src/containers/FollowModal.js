@@ -12,6 +12,8 @@ import { connect } from 'react-redux';
 import PXTouchable from '../components/PXTouchable';
 import FollowButton from '../components/FollowButton';
 import * as userFollowDetailActionCreators from '../common/actions/userFollowDetail';
+import * as followUserActionCreators from '../common/actions/followUser';
+import * as modalActionCreators from '../common/actions/modal';
 import { FollowType } from '../common/actions/followUser';
 
 const styles = StyleSheet.create({
@@ -53,11 +55,9 @@ class FollowModal extends Component {
   static propTypes = {
     userId: PropTypes.number.isRequired,
     isFollow: PropTypes.bool.isRequired,
-    onPressFollowButton: PropTypes.func.isRequired,
-    onPressRemoveButton: PropTypes.func.isRequired,
-    onPressCloseButton: PropTypes.func.isRequired,
     fetchUserFollowDetail: PropTypes.func.isRequired,
     clearUserFollowDetail: PropTypes.func.isRequired,
+    closeModal: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -93,27 +93,49 @@ class FollowModal extends Component {
     const { userId, onPressFollowButton } = this.props;
     const { isPrivate } = this.state;
     const followType = isPrivate ? FollowType.PRIVATE : FollowType.PUBLIC;
-    onPressFollowButton(userId, followType);
+    this.followUser(userId, followType);
+    this.handleOnModalClose();
   }
 
   handleOnPressRemoveButton = () => {
     const { userId, onPressRemoveButton } = this.props;
-    onPressRemoveButton(userId);
+    this.unFollowUser(userId);
+    this.handleOnModalClose();
+  }
+
+  handleOnPressModalRemoveButton = (userId) => {
+    this.unFollowUser(userId);
+    this.handleOnModalClose();
+  }
+
+  handleOnModalClose = () => {
+    const { closeModal } = this.props;
+    closeModal();
+  }
+
+  followUser = (userId, followType) => {
+    const { followUser } = this.props;
+    followUser(userId, followType);
+  }
+
+  unFollowUser = (userId) => {
+    const { unFollowUser } = this.props;
+    unFollowUser(userId);
   }
 
   render() {
-    const { isOpen, isFollow, onPressCloseButton } = this.props;
+    const { isFollow } = this.props;
     const { isPrivate } = this.state;
     return (
       <View>
         <Modal
           animationType="fade"
           transparent={true}
-          visible={isOpen}
-          onRequestClose={onPressCloseButton}
+          visible={true}
+          onRequestClose={this.handleOnModalClose}
           onShow={() => console.log('on show modal')}
         >
-          <PXTouchable style={styles.container} onPress={onPressCloseButton}>
+          <PXTouchable style={styles.container} onPress={this.handleOnModalClose}>
             <TouchableWithoutFeedback>
               <View style={styles.innerContainer}>
                 <View style={styles.titleContainer}>
@@ -159,5 +181,9 @@ export default connect((state, props) => {
   return {
     userFollowDetail: state.userFollowDetail
   }
-}, { ...userFollowDetailActionCreators })(FollowModal);
+}, { 
+  ...userFollowDetailActionCreators, 
+  ...followUserActionCreators, 
+  ...modalActionCreators 
+})(FollowModal);
 
