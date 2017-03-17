@@ -19,7 +19,6 @@ import PXTouchable from '../components/PXTouchable';
 import ModalRoot from './ModalRoot';
 import { localizedStrings } from '../common/helpers/i18n';
 import { resetError } from '../common/actions/error';
-import { RANKING, R18_RANKING } from '../common/constants/illustRanking';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,7 +50,6 @@ class Master extends Component {
     super(props);
     this.state = {
       isShowBottomSheet: false,
-      isShowRankingModeBottomSheet: false,
       imageUrls: [],
     };
   }
@@ -98,18 +96,10 @@ class Master extends Component {
     this.setState({ isShowBottomSheet: true, imageUrls });
   }
 
-  openRankingModeBottomSheet = (selectedUserId) => {
-    this.setState({ isShowRankingModeBottomSheet: true });
-  }
-
   handleOnCancelBottomSheet = () => {
     //const { setParams } = this.props.navigation;
     console.log('handleOnCancelBottomSheet')
     this.setState({ isShowBottomSheet: false });
-  }
-
-  handleOnCancelRankingModeBottomSheet = () => {
-    this.setState({ isShowRankingModeBottomSheet: false });
   }
 
   handleOnPressSaveImages = () => {
@@ -145,20 +135,14 @@ class Master extends Component {
     });
   }
 
-  handleOnPressRankingMode = (ranking) => {
-    console.log('selected ', ranking)
-    this.handleOnCancelRankingModeBottomSheet();
-  }
-
   render() {
     const { user } = this.props;
-    const { isShowBottomSheet, isShowRankingModeBottomSheet, imageUrls } = this.state;
+    const { isShowBottomSheet, imageUrls } = this.state;
     return (
       <View style={styles.container}>
         <AppNavigator 
           screenProps={{
             openBottomSheet: this.openBottomSheet,
-            openRankingModeBottomSheet: this.openRankingModeBottomSheet,
             strings: localizedStrings
           }} 
         />
@@ -183,60 +167,6 @@ class Master extends Component {
             </PXTouchable>
             <PXTouchable onPress={this.handleOnCancelBottomSheet}>
               <View style={styles.bottomSheetListItem}>              
-                <IonicIcon 
-                  name="md-close" 
-                  size={24} 
-                  style={styles.bottomSheetCancelIcon}
-                />
-                <Text style={[styles.bottomSheetText, styles.bottomSheetCancelText]}>
-                  Cancel
-                </Text>
-              </View>
-            </PXTouchable>
-          </View>
-        </ShareSheet>
-        <ShareSheet 
-          visible={isShowRankingModeBottomSheet}
-          onCancel={this.handleOnCancelRankingModeBottomSheet}
-        >
-          <View style={styles.bottomSheet}>
-            {
-              Object.keys(RANKING).map(ranking => {
-                return (
-                  <PXTouchable key={ranking} onPress={() => this.handleOnPressRankingMode(ranking)}>
-                    <View style={styles.bottomSheetListItem}>
-                      <IonicIcon 
-                        name="md-funnel" 
-                        size={24} 
-                      />
-                      <Text style={styles.bottomSheetText}>
-                        {RANKING[ranking].en}
-                      </Text>
-                    </View>
-                  </PXTouchable>
-                )
-              })
-            }
-            {
-              user &&
-              Object.keys(R18_RANKING).map(ranking => {
-                return (
-                  <PXTouchable key={ranking} onPress={() => this.handleOnPressRankingMode(ranking)}>
-                    <View style={styles.bottomSheetListItem}>
-                      <IonicIcon 
-                        name="md-funnel" 
-                        size={24} 
-                      />
-                      <Text style={styles.bottomSheetText}>
-                        {R18_RANKING[ranking].en}
-                      </Text>
-                    </View>
-                  </PXTouchable>
-                )
-              })
-            }
-            <PXTouchable onPress={this.handleOnCancelRankingModeBottomSheet}>
-              <View style={styles.bottomSheetListItem}>
                 <IonicIcon 
                   name="md-close" 
                   size={24} 
