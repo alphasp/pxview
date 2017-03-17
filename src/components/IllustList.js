@@ -21,7 +21,7 @@ import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
 import OverlayImagePages from './OverlayImagePages';
-import OverlayLikeButton from './OverlayLikeButton';
+import OverlayBookmarkButton from './OverlayBookmarkButton';
 import BookmarkModal from '../containers/BookmarkModal';
 import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
 
@@ -70,8 +70,8 @@ const styles = StyleSheet.create({
           :
           null
         }
-        <OverlayLikeButton 
-          isLike={item.is_bookmarked} 
+        <OverlayBookmarkButton 
+          isBookmark={item.is_bookmarked} 
           onPress={onPressLikeButton} 
           onLongPress={onLongPressLikeButton}
         />
@@ -138,8 +138,8 @@ class IllustList extends Component {
           :
           null
         }
-        <OverlayLikeButton 
-          isLike={item.is_bookmarked} 
+        <OverlayBookmarkButton 
+          isBookmark={item.is_bookmarked} 
           onPress={() => this.handleOnPressLikeButton(item)} 
           onLongPress={() => this.handleOnLongPressLikeButton(item)}
         />

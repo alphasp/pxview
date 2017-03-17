@@ -26,35 +26,35 @@ const styles = StyleSheet.create({
   }
 });
 
-class OverlayLikeButton extends Component {
+class OverlayBookmarkButton extends Component {
   constructor(props) {
-    const { isLike } = props;
+    const { isBookmark } = props;
     super(props);
     this.state = {
-      isLike,
+      isBookmark,
     };
   }
   
   componentWillReceiveProps(nextProps) {
-    const { isLike: prevIsLike } = this.props;
-    const { isLike } = nextProps;
-    if (isLike !== prevIsLike) {
+    const { isBookmark: prevIsBookmark } = this.props;
+    const { isBookmark } = nextProps;
+    if (isBookmark !== prevIsBookmark) {
       this.setState({
-        isLike
+        isBookmark
       });
     }
   }
   
   handleOnPress = () => {
     const { onPress } = this.props;
-    const { isLike } = this.state;
-    // const promise = isLike ? Promise.resolve() : this.view.rubberBand(800);
-    if (!isLike) {
+    const { isBookmark } = this.state;
+    // const promise = isBookmark ? Promise.resolve() : this.view.rubberBand(800);
+    if (!isBookmark) {
       this.view.rubberBand();
     }
-    this.view.transitionTo({ color: isLike ? 'rgb(210, 212, 216)' : 'rgb(255,102,102)' });
+    this.view.transitionTo({ color: isBookmark ? 'rgb(210, 212, 216)' : 'rgb(255,102,102)' });
     this.setState({
-      isLike: !isLike
+      isBookmark: !isBookmark
     });
     if (onPress) {
       onPress();
@@ -71,9 +71,9 @@ class OverlayLikeButton extends Component {
 
   render() {
     const { onPress, onLongPress } = this.props;
-    const { isLike } = this.state;
-    // const backgroundColor = isLike ? 'rgb(255,102,102)' : 'rgb(210, 212, 216)';
-    const color = isLike ? 'rgb(255,102,102)' : 'rgb(210, 212, 216)';
+    const { isBookmark } = this.state;
+    // const backgroundColor = isBookmark ? 'rgb(255,102,102)' : 'rgb(210, 212, 216)';
+    const color = isBookmark ? 'rgb(255,102,102)' : 'rgb(210, 212, 216)';
     // return (
     //   <TouchableWithoutFeedback onPress={this.handleOnPress}>
     //     <View style={styles.container}>
@@ -101,7 +101,7 @@ class OverlayLikeButton extends Component {
     //   <View>
     //     <View style={styles.container}>
     //       <AnimatableIcon
-    //         name={isLike ? "favorite" : "favorite-border"}
+    //         name={isBookmark ? "favorite" : "favorite-border"}
     //         ref={(ref) => this.view = ref} 
     //         style={{color: "rgb(210, 212, 216)"}} 
     //         size={20} 
@@ -110,7 +110,7 @@ class OverlayLikeButton extends Component {
     //     </View>
     //     <View style={styles.container}>
     //       <AnimatableIcon
-    //         name={isLike ? "favorite-border" : "favorite"}
+    //         name={isBookmark ? "favorite-border" : "favorite"}
     //         ref={(ref) => this.view = ref} 
     //         style={{backgroundColor: "#fff"}} 
     //         size={20} 
@@ -121,4 +121,4 @@ class OverlayLikeButton extends Component {
   }
 }
 
-export default OverlayLikeButton;
+export default OverlayBookmarkButton;
