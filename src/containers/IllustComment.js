@@ -35,12 +35,10 @@ class IllustComment extends Component {
 
   componentDidMount() {
     const { dispatch, illustComment, illustId } = this.props;
-    if (!illustComment[illustId] || !illustComment[illustId].items) {
+    InteractionManager.runAfterInteractions(() => {
       dispatch(clearIllustComments(illustId));
-      InteractionManager.runAfterInteractions(() => {
-        dispatch(fetchIllustComments(illustId));
-      });
-    }
+      dispatch(fetchIllustComments(illustId));
+    });
   }
 
   loadMoreComments = () => {

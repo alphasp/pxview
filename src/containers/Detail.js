@@ -375,7 +375,7 @@ class Detail extends Component {
   }
 
   handleOnPressViewMoreComments = () => {
-    const { item, navigation: { navigate } } = this.props.navigation;
+    const { item, navigation: { navigate } } = this.props;
     navigate('IllustComment', {
       illustId: item.id,
       navigation: this.props.navigation
@@ -395,7 +395,6 @@ class Detail extends Component {
     const { isShowBottomSheet } = navigation.state.params;
     const { mounting, imagePageNumber, isScrolling, isInitState, images } = this.state;
     const dataSource = this.dataSource.cloneWithRows(item.meta_pages);
-    console.log('user ', item.user)
     return (
       <View style={styles.container} ref={(ref) => this.detailView = ref }>
         {

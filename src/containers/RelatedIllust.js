@@ -10,8 +10,10 @@ import {
   InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { denormalize } from 'normalizr';
 import IllustList from '../components/IllustList';
-import { fetchRelatedIllusts, clearRelatedIllusts } from '../common/actions/relatedIllust';
+import * as relatedIllustActionCreators from '../common/actions/relatedIllust';
+import Schemas from '../common/constants/schemas';
 
 const styles = StyleSheet.create({
   nullResultContainer: {
@@ -28,43 +30,51 @@ class RelatedIllust extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, illustId } = this.props;
-    dispatch(clearRelatedIllusts(illustId));
+    const { relatedIllust, illustId, fetchRelatedIllusts, clearRelatedIllusts } = this.props;
+    // will render blank unless scrolled
+    // https://github.com/facebook/react-native/issues/10142
+    // if (!relatedIllust) {
+    //   clearRelatedIllusts(illustId);
+    //   InteractionManager.runAfterInteractions(() => {
+    //     fetchRelatedIllusts(illustId);
+    //   });
+    // }
     InteractionManager.runAfterInteractions(() => {
-      dispatch(fetchRelatedIllusts(illustId));
+      clearRelatedIllusts(illustId);
+      fetchRelatedIllusts(illustId);
     });
   }
 
   loadMoreItems = () => {
-    const { dispatch, relatedIllust, illustId } = this.props;
-    console.log('load more ', relatedIllust[illustId].nextUrl)
-    if (relatedIllust[illustId] && relatedIllust[illustId].nextUrl) {
-      dispatch(fetchRelatedIllusts(illustId, null, relatedIllust[illustId].nextUrl));
+    const { relatedIllust, illustId, fetchRelatedIllusts } = this.props;
+    console.log('load more ', relatedIllust.nextUrl)
+    if (relatedIllust && relatedIllust.nextUrl) {
+      fetchRelatedIllusts(illustId, null, relatedIllust.nextUrl);
     }
   }
 
   handleOnRefresh = () => {
-    const { dispatch, illustId } = this.props;
+    const { illustId, fetchRelatedIllusts, clearRelatedIllusts } = this.props;
     this.setState({
       refereshing: true
     });
-    dispatch(clearRelatedIllusts(illustId));
-    dispatch(fetchRelatedIllusts(illustId)).finally(() => {
+    clearRelatedIllusts(illustId);
+    fetchRelatedIllusts(illustId).finally(() => {
       this.setState({
         refereshing: false
       }); 
-    })
+    });
   }
 
   render() {
     const { relatedIllust, illustId, isFeatureInDetailPage, maxItems, navigation } = this.props;
     const { refreshing } = this.state;
-    if (!relatedIllust[illustId]){
+    if (!relatedIllust) {
       return null;
     }
     return (
       <IllustList
-        data={relatedIllust[illustId]}
+        data={relatedIllust}
         refreshing={refreshing}
         loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
         onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
@@ -75,10 +85,24 @@ class RelatedIllust extends Component {
   }
 }
 
+const defaultItems = [];
 export default connect((state, props) => {
-  const { illustId, navigation } = props;
-  return {
-    relatedIllust: state.relatedIllust,
-    illustId: navigation.state.params.illustId || illustId
+  const { entities, relatedIllust } = state;
+  const illustId = props.navigation.state.params.illustId || props.illustId;
+  if (relatedIllust[illustId]) {
+    const denormalizedItems = denormalize(relatedIllust[illustId].items, Schemas.ILLUST_ARRAY, entities);
+    return {
+      relatedIllust: {
+        ...relatedIllust[illustId],
+        items: denormalizedItems || defaultItems
+      },
+      illustId
+    }
   }
-})(RelatedIllust);
+  else {
+    return {
+      relatedIllust: null,
+      illustId
+    }
+  }
+}, relatedIllustActionCreators)(RelatedIllust);
