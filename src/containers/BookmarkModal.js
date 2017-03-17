@@ -10,6 +10,7 @@ import {
   Modal,
   Switch,
   Keyboard,
+  Dimensions
 } from 'react-native';
 import { connect } from 'react-redux';
 import { MKCheckbox } from 'react-native-material-kit';
@@ -18,6 +19,8 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Toast, { DURATION } from 'react-native-easy-toast'
 import PXTouchable from '../components/PXTouchable';
 import * as illustBookmarkDetailActionCreators from '../common/actions/illustBookmarkDetail';
+import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
+import * as modalActionCreators from '../common/actions/modal';
 import { BookmarkType } from '../common/actions/bookmarkIllust';
 
 const MAX_TAGS_COUNT = 10;
@@ -26,7 +29,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 80,
+    padding: 60,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   innerContainer: {
@@ -89,10 +92,11 @@ class BookmarkModal extends Component {
   static propTypes = {
     illustId: PropTypes.number.isRequired,
     isBookmark: PropTypes.bool.isRequired,
-    onPressLikeButton: PropTypes.func.isRequired,
-    onPressCloseButton: PropTypes.func.isRequired,
     fetchIllustBookmarkDetail: PropTypes.func.isRequired,
     clearIllustBookmarkDetail: PropTypes.func.isRequired,
+    bookmarkIllust: PropTypes.func.isRequired,
+    unbookmarkIllust: PropTypes.func.isRequired,
+    closeModal: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -185,17 +189,24 @@ class BookmarkModal extends Component {
     }, 0);
   }
 
-  handleOnPressLikeButton = () => {
-    const { illustId, isBookmark, onPressLikeButton } = this.props;
+  handleOnPressBookmarkButton = () => {
+    const { illustId, isBookmark, onPressBookmarkButton } = this.props;
     const { tags, isPrivate } = this.state;
     const selectedTags = tags.filter(tag => tag.is_registered).map(tag => tag.name);
     const bookmarkType = isPrivate ? BookmarkType.PRIVATE : BookmarkType.PUBLIC;
-    onPressLikeButton(illustId, bookmarkType, selectedTags);
+    this.bookmarkIllust(illustId, bookmarkType, selectedTags);
+    this.handleOnModalClose();
   }
 
   handleOnPressRemoveButton = () => {
-    const { illustId, onPressCloseButton } = this.props;
-    onPressCloseButton(illustId);
+    const { illustId } = this.props;
+    this.unbookmarkIllust(illustId);
+    this.handleOnModalClose();
+  }
+
+  handleOnModalClose = () => {
+    const { closeModal } = this.props;
+    closeModal();
   }
 
   handleOnPressAddTag = () => {
@@ -235,6 +246,16 @@ class BookmarkModal extends Component {
     this.tagInput.setNativeProps({ text: '' });
   }
 
+  bookmarkIllust = (id, bookmarkType, selectedTags) => {
+    const { bookmarkIllust } = this.props;
+    bookmarkIllust(id, bookmarkType, selectedTags);
+  }
+
+  unbookmarkIllust = (id) => {
+    const { unbookmarkIllust } = this.props;
+    unbookmarkIllust(id);
+  }
+
   renderRow = (item) => {
     const { tag, onSelectTag } = this.props;
     const { selectedTagsCount } = this.state;
@@ -256,17 +277,17 @@ class BookmarkModal extends Component {
   }
 
   render() {
-    const { illustBookmarkDetail: { item, loading, loaded }, isBookmark, onSelectTag, isOpen, onPressCloseButton } = this.props;
+    const { illustBookmarkDetail: { item, loading, loaded }, isBookmark, onSelectTag } = this.props;
     const { dataSource, tags, selectedTagsCount, isPrivate } = this.state;
     return (
       <View>
         <Modal
           animationType="fade"
           transparent={true}
-          visible={isOpen}
-          onRequestClose={onPressCloseButton}
+          visible={true}
+          onRequestClose={this.handleOnModalClose}
         >
-          <PXTouchable style={styles.container} onPress={onPressCloseButton}>
+          <PXTouchable style={styles.container} onPress={this.handleOnModalClose}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View style={styles.innerContainer}>
                 <View style={styles.titleContainer}>
@@ -290,11 +311,13 @@ class BookmarkModal extends Component {
                     <Icon name="plus" size={20}/>
                   </PXTouchable>
                 </View>
-                <ListView
-                  dataSource={dataSource}
-                  renderRow={this.renderRow}
-                  keyboardShouldPersistTaps="always"
-                />  
+                <View style={{maxHeight: Dimensions.get('window').height - 300}}>
+                  <ListView
+                    dataSource={dataSource}
+                    renderRow={this.renderRow}
+                    keyboardShouldPersistTaps="always"
+                  />  
+                </View>
                 <View style={styles.row}>
                   <Text>Private</Text>
                   <Switch value={isPrivate} onValueChange={this.handleOnChangeIsPrivate} />
@@ -308,7 +331,7 @@ class BookmarkModal extends Component {
                   }
                   <PXTouchable 
                     style={!isBookmark && {flexDirection: "row", alignItems: "center"}}
-                    onPress={this.handleOnPressLikeButton}
+                    onPress={this.handleOnPressBookmarkButton}
                   >
                     {
                       !isBookmark &&
@@ -335,4 +358,8 @@ export default connect((state, props) => {
   return {
     illustBookmarkDetail: state.illustBookmarkDetail
   }
-}, illustBookmarkDetailActionCreators)(BookmarkModal);
+}, {
+  ...illustBookmarkDetailActionCreators,
+  ...bookmarkIllustActionCreators, 
+  ...modalActionCreators
+})(BookmarkModal);

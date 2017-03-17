@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import FollowModal from './FollowModal'
-// import ConfirmLogoutModal from './ConfirmLogoutModal'
+import BookmarkModal from './BookmarkModal';
 
 const MODAL_COMPONENTS = {
   'FOLLOW': FollowModal,
-  // 'CONFIRM_LOGOUT': ConfirmLogoutModal,
-  /* other modals */
+  'BOOKMARK': BookmarkModal
 }
 
 class ModalRoot extends Component {

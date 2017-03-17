@@ -25,7 +25,7 @@ class FollowButtonContainer extends Component {
     openModal: PropTypes.func.isRequired
   }
 
-  handleOnPressFollowButton = () => {
+  handleOnPress = () => {
     const { authUser, user, navigation: { navigate } } = this.props;
     if (!authUser) {
       navigate('Login', {
@@ -44,8 +44,7 @@ class FollowButtonContainer extends Component {
     }
   }
 
-  handleOnLongPressFollowButton = () => {
-    console.log('fbc ', this.props)
+  handleOnLongPress = () => {
     const { authUser, user, navigation: { navigate }, openModal } = this.props;
     if (!authUser) {
       navigate('Login', {
@@ -77,8 +76,8 @@ class FollowButtonContainer extends Component {
     return (
       <FollowButton 
         isFollow={user.is_followed} 
-        onLongPress={this.handleOnLongPressFollowButton}
-        onPress={this.handleOnPressFollowButton}
+        onLongPress={this.handleOnLongPress}
+        onPress={this.handleOnPress}
         {...restProps}
       />
     );

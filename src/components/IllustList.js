@@ -21,7 +21,7 @@ import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
 import OverlayImagePages from './OverlayImagePages';
-import OverlayBookmarkButton from './OverlayBookmarkButton';
+import OverlayBookmarkButtonContainer from '../containers/OverlayBookmarkButtonContainer';
 import BookmarkModal from '../containers/BookmarkModal';
 import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
 
@@ -87,12 +87,9 @@ class IllustList extends Component {
     // const dataSource = new ListView.DataSource({
     //   rowHasChanged: (r1, r2) => r1 !== r2,
     // });
-    this.state = {
-      //dataSource: (items && items.length) ? dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items) : dataSource,
-      isOpenBookmarkModal: false,
-      selectedIllustId: null,
-      isBookmark: false,
-    };
+    // this.state = {
+    //   dataSource: (items && items.length) ? dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items) : dataSource,
+    // };
   }
 
   // componentWillReceiveProps(nextProps) {
@@ -107,7 +104,6 @@ class IllustList extends Component {
   // }
   
   renderRow = ({ item }) => {
-    //console.log('render row ', item.id)
     return (
       /*<IllustItem 
         item={item} 
@@ -138,11 +134,7 @@ class IllustList extends Component {
           :
           null
         }
-        <OverlayBookmarkButton 
-          isBookmark={item.is_bookmarked} 
-          onPress={() => this.handleOnPressLikeButton(item)} 
-          onLongPress={() => this.handleOnLongPressLikeButton(item)}
-        />
+        <OverlayBookmarkButtonContainer item={item} />
       </PXTouchable>
     );
   }
@@ -167,49 +159,9 @@ class IllustList extends Component {
     navigate('Detail', { item });
   }
 
-  handleOnPressLikeButton = (item) => {
-    const { bookmarkIllust, unbookmarkIllust } = this.props;
-    if (item.is_bookmarked) {
-      unbookmarkIllust(item.id);
-    }
-    else {
-      bookmarkIllust(item.id);
-    }
-    // console.log(this.props);
-    // console.log('on press ', item.id, item.title);
-  }
-
-  handleOnLongPressLikeButton = (item) => {
-    this.setState({
-      isOpenBookmarkModal: true,
-      selectedIllustId: item.id,
-      isBookmark: item.is_bookmarked,
-    })
-  }
-
-  handleOnPressCloseBookmarkModalButton = () => {
-    this.setState({
-      isOpenBookmarkModal: false,
-      selectedIllustId: null,
-      isBookmark: false,
-    })
-  }
-
-  handleOnPressModalLikeButton = (illustId, bookmarkType, selectedTags) => {
-    const { bookmarkIllust, unbookmarkIllust } = this.props;
-    bookmarkIllust(illustId, bookmarkType, selectedTags);
-    this.handleOnPressCloseBookmarkModalButton();
-  }
-
-  handleOnPressModalRemoveButton = (illustId) => {
-    const { bookmarkIllust, unbookmarkIllust } = this.props;
-    unbookmarkIllust(illustId);
-    this.handleOnPressCloseBookmarkModalButton();
-  }
-
   render() {
     const { data: { items, loading, loaded }, refreshing, onRefresh, loadMoreItems, onScroll, maxItems } = this.props;
-    const { dataSource, isOpenBookmarkModal, selectedIllustId, isBookmark } = this.state;
+    // const { dataSource } = this.state;
     return (
       <View style={styles.container}>
         {
@@ -272,16 +224,6 @@ class IllustList extends Component {
           />
           :
           null
-        }
-        {
-          isOpenBookmarkModal && selectedIllustId &&
-          <BookmarkModal 
-            illustId={selectedIllustId}
-            isBookmark={isBookmark}
-            onPressLikeButton={this.handleOnPressModalLikeButton}
-            onPressRemoveButton={this.handleOnPressModalRemoveButton}
-            onPressCloseButton={this.handleOnPressCloseBookmarkModalButton}
-          />
         }
       </View>
     );
