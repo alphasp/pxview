@@ -1,5 +1,7 @@
 import qs from "qs";
+import { normalize } from 'normalizr';
 import { addError } from './error';
+import Schemas from '../constants/schemas';
 import pixiv from '../helpers/ApiClient';
 
 export const REQUEST_MY_PRIVATE_BOOKMARK_ILLUSTS = 'REQUEST_MY_PRIVATE_BOOKMARK_ILLUSTS';
@@ -7,12 +9,12 @@ export const RECEIVE_MY_PRIVATE_BOOKMARK_ILLUSTS = 'RECEIVE_MY_PRIVATE_BOOKMARK_
 export const STOP_MY_PRIVATE_BOOKMARK_ILLUSTS = 'STOP_MY_PRIVATE_BOOKMARK_ILLUSTS';
 export const CLEAR_MY_PRIVATE_BOOKMARK_ILLUSTS = 'CLEAR_MY_PRIVATE_BOOKMARK_ILLUSTS';
 
-function receiveMyPrivateBookmarkIllust(json, userId, offset) { 
+function receiveMyPrivateBookmarkIllust(normalized, userId, offset) { 
   return {
     type: RECEIVE_MY_PRIVATE_BOOKMARK_ILLUSTS,
     payload: {
-      items: json.illusts,
-      nextUrl: json.next_url,
+      entities: normalized.entities,
+      items: normalized.result,
       userId,
       offset,
       receivedAt: Date.now(),
@@ -65,7 +67,10 @@ function fetchMyPrivateBookmarkIllustFromApi(userId, tag, nextUrl) {
     const offset = params.offset || "0";
     dispatch(requestMyPrivateBookmarkIllust(userId, offset));
     return promise
-      .then(json => dispatch(receiveMyPrivateBookmarkIllust(json, userId, offset)))
+      .then(json => {
+        const normalized = normalize(json.illusts, Schemas.ILLUST_ARRAY);
+        dispatch(receiveMyPrivateBookmarkIllust(normalized, userId, offset));
+      })
       .catch(err => {
         dispatch(stopMyPrivateBookmarkIllust(userId));
         dispatch(addError(err));

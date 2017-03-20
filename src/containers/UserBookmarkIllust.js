@@ -73,14 +73,6 @@ class UserBookmarkIllust extends Component {
   }
 }
 
-// export default connect((state, props) => {
-//   return {
-//     userBookmarkIllust: state.userBookmarkIllust,
-//     userId: props.userId || props.navigation.state.params.userId
-//   }
-// })(UserBookmarkIllust);
-
-
 const defaultItems = [];
 
 export default connect((state, props) => {

@@ -5,10 +5,6 @@ import {
   CLEAR_USER_BOOKMARK_ILLUSTS,
   CLEAR_ALL_USER_BOOKMARK_ILLUSTS,
 } from "../actions/userBookmarkIllust";
-import { 
-  BOOKMARK_ILLUST, 
-  UNBOOKMARK_ILLUST,
-} from "../actions/bookmarkIllust";
 
 export default function userIllust(state = {}, action) {
   switch (action.type) {
