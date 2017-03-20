@@ -1,5 +1,7 @@
 import qs from "qs";
+import { normalize } from 'normalizr';
 import { addError } from './error';
+import Schemas from '../constants/schemas';
 import pixiv from '../helpers/ApiClient';
 
 export const REQUEST_USER_DETAIL = 'REQUEST_USER_DETAIL';
@@ -8,20 +10,18 @@ export const STOP_USER_DETAIL = 'STOP_USER_DETAIL';
 export const CLEAR_USER_DETAIL = 'CLEAR_USER_DETAIL';
 export const CLEAR_ALL_USER_DETAIL = 'CLEAR_ALL_USER_DETAIL';
 
-function receiveUserDetail(json, userId) { 
+function receiveUserDetail(normalized, userId) { 
   return {
     type: RECEIVE_USER_DETAIL,
     payload: {
-      item: {
-        user: json.user,
-        profile: json.profile,
-        workspace: json.workspace,
-      },
+      entities: normalized.entities,
+      item: normalized.result,
       userId,
       receivedAt: Date.now(),
     }
   };
 }
+
 
 function requestUserDetail(userId) {
   return {
@@ -57,7 +57,14 @@ function fetchUserDetailFromApi(userId) {
   return dispatch => {
     dispatch(requestUserDetail(userId));
     return pixiv.userDetail(userId)
-      .then(json => dispatch(receiveUserDetail(json, userId)))
+      .then(json => {
+        const transformedResult = {
+          ...json,
+          id: json.user.id
+        };
+        const normalized = normalize(transformedResult, Schemas.USER_PROFILE);
+        dispatch(receiveUserDetail(normalized, userId));
+      })
       .catch(err => {
         dispatch(stopUserDetail(userId));
         dispatch(addError(err));

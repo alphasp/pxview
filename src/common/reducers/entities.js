@@ -11,7 +11,8 @@ import {
 export default function entities(state = {
   illusts: {},
   users: {}, 
-  recommendedUsers: {}
+  userPreviews: {},
+  userProfiles: {}
 }, action) {
   if (action && action.payload && action.payload.entities) {
     return merge({}, state, action.payload.entities);

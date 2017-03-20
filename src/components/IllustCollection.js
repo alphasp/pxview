@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
 import OverlayImagePages from './OverlayImagePages';
+import OverlayBookmarkButtonContainer from '../containers/OverlayBookmarkButtonContainer';
 
 const windowWidth = Dimensions.get('window').width; //full width
 const windowHeight = Dimensions.get('window').height; //full height
@@ -73,7 +74,7 @@ const IllustCollection = (props) => {
       <View style={styles.imagePreviews}>
         {
           illusts && illusts.length &&
-          illusts.map(illust => {
+          illusts.map(item => {
             return (
               <PXTouchable 
                 style={{ 
@@ -83,12 +84,12 @@ const IllustCollection = (props) => {
                   width: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS, 
                   height: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS,
                 }} 
-                key={illust.id} 
-                onPress={() => navigate('Detail', { item: illust })}
+                key={item.id} 
+                onPress={() => navigate('Detail', { item: item })}
               >
                 <View>
                   <PXImage 
-                    uri={illust.image_urls ? illust.image_urls.square_medium : ""}
+                    uri={item.image_urls ? item.image_urls.square_medium : ""}
                     style={[styles.cardImage, {
                       resizeMode: 'cover',
                       width: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS, 
@@ -96,11 +97,12 @@ const IllustCollection = (props) => {
                     }]}
                   />
                   {
-                    (illust.meta_pages && illust.meta_pages.length) ?
-                    <OverlayImagePages total={illust.meta_pages.length} />
+                    (item.meta_pages && item.meta_pages.length) ?
+                    <OverlayImagePages total={item.meta_pages.length} />
                     :
                     null
                   }
+                  <OverlayBookmarkButtonContainer item={item} />
                 </View>
               </PXTouchable>
             )

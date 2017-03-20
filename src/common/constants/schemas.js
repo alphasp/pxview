@@ -2,9 +2,8 @@ import { schema, arrayOf } from 'normalizr';
 
 const illustSchema = new schema.Entity('illusts');
 const userSchema = new schema.Entity('users');
-const userPreviewSchema = new schema.Entity('userPreviews', {}, {
-  // idAttribute: (value, parent, key) => value.user.id
-});
+const userPreviewSchema = new schema.Entity('userPreviews');
+const userProfileSchema = new schema.Entity('userProfile');
 
 illustSchema.define({
   user: userSchema,
@@ -19,12 +18,17 @@ userPreviewSchema.define({
   illusts: [illustSchema]
 });
 
+userProfileSchema.define({
+  user: userSchema
+})
+
 const Schemas = {
   ILLUST: illustSchema,
   ILLUST_ARRAY: [illustSchema], //schema.Array(illustSchema)
   USER: userSchema,
   USER_ARRAY: [userSchema],
-  USER_PREVIEW_ARRAY: [userPreviewSchema]
+  USER_PREVIEW_ARRAY: [userPreviewSchema],
+  USER_PROFILE: userProfileSchema
 }
 
 export default Schemas;

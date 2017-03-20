@@ -25,10 +25,10 @@ import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import PXImage from '../components/PXImage';
 import PXBlurView from '../components/PXBlurView';
 import Loader from '../components/Loader';
-import { fetchUserDetail, clearUserDetail } from '../common/actions/userDetail';
-import { fetchUserIllusts, clearUserIllusts } from '../common/actions/userIllust';
-import { fetchUserMangas, clearUserMangas } from '../common/actions/userManga';
-import { fetchUserBookmarkIllusts, clearUserBookmarkIllusts } from '../common/actions/userBookmarkIllust';
+import * as userDetailActionCreators from '../common/actions/userDetail';
+import * as userIllustActionCreators from '../common/actions/userIllust';
+import * as userMangaActionCreators from '../common/actions/userManga';
+import * as userBookmarkIllustlActionCreators from '../common/actions/userBookmarkIllust';
 import Schemas from '../common/constants/schemas';
 
 const avatarSize = 70;
@@ -155,24 +155,35 @@ class UserDetail extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, userId } = this.props;
-    dispatch(clearUserDetail(userId));
-    dispatch(clearUserIllusts(userId));
-    dispatch(clearUserMangas(userId));
-    dispatch(clearUserBookmarkIllusts(userId));
-
+    const { 
+      userId, userDetail,
+      navigation: { setParams },
+      fetchUserDetail,  clearUserDetail,
+      fetchUserIllusts, clearUserIllusts,
+      fetchUserMangas,  clearUserMangas,
+      fetchUserBookmarkIllusts, clearUserBookmarkIllusts
+    } = this.props;
     InteractionManager.runAfterInteractions(() => {
-      dispatch(fetchUserDetail(userId));
-      dispatch(fetchUserIllusts(userId));
-      dispatch(fetchUserMangas(userId));
-      dispatch(fetchUserBookmarkIllusts(userId));
+      if (!userDetail || !userDetail.item) {
+        clearUserDetail(userId);
+        clearUserIllusts(userId);
+        clearUserMangas(userId);
+        clearUserBookmarkIllusts(userId);
+        fetchUserDetail(userId);
+        fetchUserIllusts(userId);
+        fetchUserMangas(userId);
+        fetchUserBookmarkIllusts(userId);
+      }
+      else {
+        setParams({ user: userDetail.item.user });
+      }
     });
   }
 
   componentWillReceiveProps(nextProps) {
     const { userDetail: prevUserDetail } = this.props;
     const { userDetail, userId, navigation: { setParams } } = nextProps;
-    if (userDetail && userDetail && userDetail.item && userDetail.item !== prevUserDetail.item) {
+    if (userDetail && userDetail.item && !prevUserDetail.item) {
       const { dataSource } = this.state;
       setParams({ user: userDetail.item.user });
     }
@@ -192,19 +203,24 @@ class UserDetail extends Component {
   }
 
   handleOnRefresh = () => {
-    const { dispatch, userId } = this.props;
+    const { 
+      userId, 
+      fetchUserDetail,  clearUserDetail,
+      fetchUserIllusts, clearUserIllusts,
+      fetchUserMangas,  clearUserMangas,
+      fetchUserBookmarkIllusts, clearUserBookmarkIllusts
+    } = this.props;
     this.setState({
       refereshing: true
     });
-    dispatch(clearUserDetail(userId));
-    dispatch(clearUserIllusts(userId));
-    dispatch(clearUserMangas(userId));
-    dispatch(clearUserBookmarkIllusts(userId));
-
-    dispatch(fetchUserIllusts(userId));
-    dispatch(fetchUserMangas(userId));
-    dispatch(fetchUserBookmarkIllusts(userId));
-    dispatch(fetchUserDetail(userId)).finally(() => {
+    clearUserDetail(userId);
+    clearUserIllusts(userId);
+    clearUserMangas(userId);
+    clearUserBookmarkIllusts(userId);
+    fetchUserDetail(userId);
+    fetchUserIllusts(userId);
+    fetchUserMangas(userId);
+    fetchUserBookmarkIllusts(userId).finally(() => {
       this.setState({
         refereshing: false
       }); 
@@ -414,14 +430,12 @@ class UserDetail extends Component {
   }
 
   render() {
-    //user illusts
-    //bookmark illusts
     const { userDetail: { loaded, loading, item }, userId } = this.props;
     const { refreshing } = this.state;
     return (
       <View style={styles.container}>
         {
-          !loaded && loading &&
+          (!item || (!loaded && loading)) &&
           <Loader />
         }
         {
@@ -452,12 +466,12 @@ class UserDetail extends Component {
 const defaultItems = [];
 const defaultObject = {};
 
-const denormalizedData = (data, schema, entities) => {
+const denormalizedData = (data, denormalizeKey, schema, entities) => {
   if (data) {
-    const denormalizedItems = denormalize(data.items, Schemas.ILLUST_ARRAY, entities);
+    const denormalizedItems = denormalize(data[denormalizeKey], schema, entities);
     return {
       ...data,
-      items: denormalizedItems
+      [denormalizeKey]: denormalizedItems
     };
   }
   else {
@@ -465,15 +479,19 @@ const denormalizedData = (data, schema, entities) => {
   }
 }
 
-
 export default connect((state, props) => {
   const { entities, userDetail, userIllust, userManga, userBookmarkIllust } = state;
   const userId = props.userId || props.navigation.state.params.userId;
   return {
-    userDetail: userDetail[userId] || defaultObject,
-    userIllust: denormalizedData(userIllust[userId], Schemas.ILLUST_ARRAY, entities),
-    userManga: denormalizedData(userManga[userId], Schemas.ILLUST_ARRAY, entities),
-    userBookmarkIllust: denormalizedData(userBookmarkIllust[userId], Schemas.ILLUST_ARRAY, entities),
+    userDetail: denormalizedData(userDetail[userId], 'item', Schemas.USER_PROFILE, entities) || defaultObject,
+    userIllust: denormalizedData(userIllust[userId], 'items', Schemas.ILLUST_ARRAY, entities),
+    userManga: denormalizedData(userManga[userId], 'items', Schemas.ILLUST_ARRAY, entities),
+    userBookmarkIllust: denormalizedData(userBookmarkIllust[userId], 'items', Schemas.ILLUST_ARRAY, entities),
     userId
   }
+}, {
+  ...userDetailActionCreators,
+  ...userIllustActionCreators,
+  ...userMangaActionCreators,
+  ...userBookmarkIllustlActionCreators
 })(UserDetail);

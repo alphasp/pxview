@@ -165,7 +165,7 @@ class IllustList extends Component {
     return (
       <View style={styles.container}>
         {
-          !loaded && loading &&
+          (!items || (!loaded && loading)) &&
           <Loader />
         }
         {/*{

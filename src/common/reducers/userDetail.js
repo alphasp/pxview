@@ -30,7 +30,7 @@ export default function userDetail(state = {}, action) {
           ...state[action.payload.userId],
           loading: false,
           loaded: true,
-          item: (state[action.payload.userId] && state[action.payload.userId].item) ? [...state[action.payload.userId].items, ...action.payload.item] : action.payload.item,
+          item: action.payload.item,
           lastUpdated: action.payload.receivedAt
         }
       };
