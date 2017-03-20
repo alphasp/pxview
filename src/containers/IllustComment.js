@@ -23,6 +23,15 @@ import {
 } from '../common/actions/illustComment';
 
 class IllustComment extends Component {
+  static navigationOptions = {
+    header: ({ state, setParams, navigate, goBack }, defaultHeader) => {
+      return {
+        ...defaultHeader,
+        backTitle: null
+      }
+    }
+  }
+
   constructor(props) {
     super(props);
     this.state = { 

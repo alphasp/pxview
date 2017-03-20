@@ -22,6 +22,15 @@ const styles = StyleSheet.create({
 });
 
 class RelatedIllust extends Component {
+  static navigationOptions = {
+    header: ({ state, setParams, navigate, goBack }, defaultHeader) => {
+      return {
+        ...defaultHeader,
+        backTitle: null
+      }
+    }
+  }
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -79,16 +88,16 @@ class RelatedIllust extends Component {
         loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
         onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
         maxItems={isFeatureInDetailPage && maxItems}
-        navigation={navigation}
       />
     );
   }
 }
 
 const defaultItems = [];
+
 export default connect((state, props) => {
   const { entities, relatedIllust } = state;
-  const illustId = props.navigation.state.params.illustId || props.illustId;
+  const illustId = props.illustId || props.navigation.state.params.illustId;
   if (relatedIllust[illustId]) {
     const denormalizedItems = denormalize(relatedIllust[illustId].items, Schemas.ILLUST_ARRAY, entities);
     return {
@@ -101,7 +110,7 @@ export default connect((state, props) => {
   }
   else {
     return {
-      relatedIllust: null,
+      relatedIllust: {},
       illustId
     }
   }

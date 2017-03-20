@@ -34,6 +34,7 @@ class MyCollection extends Component {
     header: ({ state, setParams }, defaultHeader) => {
       return {
         ...defaultHeader,
+        backTitle: null,
         right: (
           <Icon 
             name="sliders" 
