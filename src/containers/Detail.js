@@ -7,6 +7,7 @@ import {
   Dimensions,
   ScrollView,
   ListView,
+  FlatList,
   RecyclerViewBackedScrollView,
   InteractionManager,
   Platform,
@@ -170,9 +171,6 @@ class Detail extends Component {
   constructor(props) {
     // const { item } = props;
     super(props);
-    this.dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-    });
     const { item } = props;
     const images = item.page_count > 1 ? item.meta_pages.map(page => {
       return page.image_urls.original;
@@ -208,8 +206,7 @@ class Detail extends Component {
     clearTimeout(this.timer);
   }
 
-  renderRow = (item, sectionId, rowId) => {
-    const index = parseInt(rowId);
+  renderRow = ({ item, index }) => {
     return (
       <PXCacheImageTouchable 
         key={item.image_urls.large}
@@ -227,7 +224,6 @@ class Detail extends Component {
         onPress={() => this.handleOnPressImage(index)}
       />
     )
-    //'https://facebook.github.io/react-native/img/header_logo.png'
   }
 
   renderFooter = () => {
@@ -299,24 +295,25 @@ class Detail extends Component {
     navigate('UserDetail', { userId });
   }
 
-  handleOnChangeVisibleRows = (visibleRows, changedRows) => {
+  handleOnViewableItemsChanged = ({ viewableItems, changed }) => {
+    console.log('viewableItems ', viewableItems)
+    console.log('changed ', changed)
     // not trigger on android
     // https://github.com/facebook/react-native/issues/5688
     // const { item } = this.props;
     const { item } = this.props;
-    if (item.meta_pages && item.meta_pages.length && visibleRows.s1) {
-      const visibleRowNumbers = Object.keys(visibleRows.s1).map((row) => parseInt(row));
+    if (item.meta_pages && item.meta_pages.length && viewableItems && viewableItems.length) {
       //console.log('visible row ', visibleRowNumbers)
       //Actions.refresh({ title: `${visibleRowNumbers[0] + 1} / ${item.meta_pages.length}`});
       this.setState({
-        imagePageNumber: `${visibleRowNumbers[0] + 1} / ${item.meta_pages.length}`
+        imagePageNumber: `${viewableItems[0].index + 1} / ${item.meta_pages.length}`
       });
-      if (visibleRowNumbers.length === 2) {
+      if (viewableItems.length === 2) {
         // console.log('visible row ', visibleRowNumbers[0])
         // Actions.refresh({ title: `${visibleRowNumbers[0] + 1} of ${item.meta_pages.length}`});
           // visible row is visibleRowNumbers[0]
       }
-      if (visibleRowNumbers.length === 3) {
+      if (viewableItems.length === 3) {
           // visible row is visibleRowNumbers[1]
       }
     }
@@ -394,7 +391,6 @@ class Detail extends Component {
     const { item, navigation } = this.props;
     const { isShowBottomSheet } = navigation.state.params;
     const { mounting, imagePageNumber, isScrolling, isInitState, images } = this.state;
-    const dataSource = this.dataSource.cloneWithRows(item.meta_pages);
     return (
       <View style={styles.container} ref={(ref) => this.detailView = ref }>
         {
@@ -403,21 +399,18 @@ class Detail extends Component {
           :
           (item.page_count > 1) ?
           <View>
-            <Animatable.View style={{flex: 1}} ref="imageListContainer">
-              <ListView
-                ref="gv"
-                dataSource={dataSource}
-                renderRow={this.renderRow}
-                renderFooter={this.renderFooter}
-                enableEmptySections={ true }
-                renderDistance={10}
-                initialListSize={1}
-                scrollRenderAheadDistance={300}
-                onChangeVisibleRows={this.handleOnChangeVisibleRows}
-                onEndReached={this.handleOnEndReached}
+            <View style={{flex: 1}}>
+              <FlatList
+                data={item.meta_pages}
+                keyExtractor={(item, index) => item.image_urls.large}
+                renderItem={this.renderRow}
+                debug={false}
+                disableVirtualization={false}
+                FooterComponent={this.renderFooter}
                 onScroll={this.handleOnScroll}
+                onViewableItemsChanged={this.handleOnViewableItemsChanged}
               />
-            </Animatable.View>
+            </View>
             {
               (isInitState || isScrolling) && imagePageNumber &&
               <View style={styles.imagePageNumberContainer}>
@@ -426,23 +419,21 @@ class Detail extends Component {
             }
           </View>
           :
-          <Animatable.View ref="imageListContainer">
-            <ScrollView>
-              <PXCacheImageTouchable 
-                uri={item.image_urls.large}    
-                initWidth={item.width > windowWidth ? windowWidth : item.width}
-                initHeight={windowWidth * item.height / item.width}
-                style={{
-                  backgroundColor: '#E9EBEE',
-                }}
-                imageStyle={{
-                  resizeMode: "contain",
-                }}
-                onPress={() => this.handleOnPressImage(0)}
-              />
-              {this.renderFooter()}
-            </ScrollView>
-          </Animatable.View>
+          <ScrollView>
+            <PXCacheImageTouchable 
+              uri={item.image_urls.large}    
+              initWidth={item.width > windowWidth ? windowWidth : item.width}
+              initHeight={windowWidth * item.height / item.width}
+              style={{
+                backgroundColor: '#E9EBEE',
+              }}
+              imageStyle={{
+                resizeMode: "contain",
+              }}
+              onPress={() => this.handleOnPressImage(0)}
+            />
+            {this.renderFooter()}
+          </ScrollView>
         }
       </View>
     );
