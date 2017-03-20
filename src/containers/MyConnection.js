@@ -20,6 +20,15 @@ const styles = StyleSheet.create({
 });
 
 class MyConnection extends Component {
+  static navigationOptions = {
+    header: ({ state, setParams, navigate, goBack }, defaultHeader) => {
+      return {
+        ...defaultHeader,
+        backTitle: null
+      }
+    }
+  }
+
   handleOnChangeTab = ({ i, ref }) => {
     this.setState({
       currentTabIndex: i

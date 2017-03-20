@@ -1,5 +1,7 @@
 import qs from "qs";
+import { normalize } from 'normalizr';
 import { addError } from './error';
+import Schemas from '../constants/schemas';
 import pixiv from '../helpers/ApiClient';
 
 export const REQUEST_USER_MANGAS = 'REQUEST_USER_MANGAS';
@@ -8,12 +10,13 @@ export const STOP_USER_MANGAS = 'STOP_USER_MANGAS';
 export const CLEAR_USER_MANGAS = 'CLEAR_USER_MANGAS';
 export const CLEAR_ALL_USER_MANGAS = 'CLEAR_ALL_USER_MANGAS';
 
-function receiveUserMangas(json, userId, offset) { 
+function receiveUserMangas(normalized, nextUrl, userId, offset) { 
   return {
     type: RECEIVE_USER_MANGAS,
     payload: {
-      items: json.illusts,
-      nextUrl: json.next_url,
+      entities: normalized.entities,
+      items: normalized.result,
+      nextUrl,
       userId,
       offset,
       receivedAt: Date.now(),
@@ -60,7 +63,10 @@ function fetchUserMangasFromApi(userId, nextUrl) {
     const offset = params.offset || "0";
     dispatch(requestUserMangas(userId, offset));
     return promise
-      .then(json => dispatch(receiveUserMangas(json, userId, offset)))
+      .then(json => {
+        const normalized = normalize(json.illusts, Schemas.ILLUST_ARRAY);
+        dispatch(receiveUserMangas(normalized, json.next_url, userId, offset));
+      })
       .catch(err => {
         dispatch(stopUserMangas(userId));
         dispatch(addError(err));

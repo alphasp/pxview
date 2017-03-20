@@ -9,6 +9,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 import UserList from '../components/UserList';
 import * as followUserActionCreators from '../common/actions/followUser';
 
@@ -25,4 +26,4 @@ class UserListContainer extends Component {
   }
 }
 
-export default connect(null, followUserActionCreators)(UserListContainer);
+export default withNavigation(connect(null, followUserActionCreators)(UserListContainer));

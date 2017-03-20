@@ -10,12 +10,13 @@ export const STOP_USER_BOOKMARK_ILLUSTS = 'STOP_USER_BOOKMARK_ILLUSTS';
 export const CLEAR_USER_BOOKMARK_ILLUSTS = 'CLEAR_USER_BOOKMARK_ILLUSTS';
 export const CLEAR_ALL_USER_BOOKMARK_ILLUSTS = 'CLEAR_ALL_USER_BOOKMARK_ILLUSTS';
 
-function receiveUserBookmarkIllust(normalized, userId, offset) { 
+function receiveUserBookmarkIllust(normalized, nextUrl, userId, offset) { 
   return {
     type: RECEIVE_USER_BOOKMARK_ILLUSTS,
     payload: {
       entities: normalized.entities,
       items: normalized.result,
+      nextUrl,
       userId,
       offset,
       receivedAt: Date.now(),
@@ -68,7 +69,7 @@ function fetchUserBookmarkIllustFromApi(userId, tag, nextUrl) {
     return promise
       .then(json => {
         const normalized = normalize(json.illusts, Schemas.ILLUST_ARRAY);
-        dispatch(receiveUserBookmarkIllust(normalized, userId, offset));
+        dispatch(receiveUserBookmarkIllust(normalized, json.next_url, userId, offset));
       })
       .catch(err => {
         dispatch(stopUserBookmarkIllust(userId));

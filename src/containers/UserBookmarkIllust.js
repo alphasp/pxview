@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  ActivityIndicator,
-  Dimensions,
-  RecyclerViewBackedScrollView,
-  RefreshControl,
+  InteractionManager
 } from 'react-native';
 import { connect } from 'react-redux';
 import { denormalize } from 'normalizr';
@@ -15,6 +11,15 @@ import * as userBookmarkIllustActionCreators from '../common/actions/userBookmar
 import Schemas from '../common/constants/schemas';
 
 class UserBookmarkIllust extends Component {
+  static navigationOptions = {
+    header: ({ state, setParams, navigate, goBack }, defaultHeader) => {
+      return {
+        ...defaultHeader,
+        backTitle: null
+      }
+    }
+  }
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -24,8 +29,10 @@ class UserBookmarkIllust extends Component {
 
   componentDidMount() {
     const { userId, tag, fetchUserBookmarkIllusts, clearUserBookmarkIllusts } = this.props;
-    clearUserBookmarkIllusts(userId);
-    fetchUserBookmarkIllusts(userId, tag);
+    InteractionManager.runAfterInteractions(() => {
+      clearUserBookmarkIllusts(userId);
+      fetchUserBookmarkIllusts(userId, tag);
+    });
   }
 
   componentWillReceiveProps(nextProps) {

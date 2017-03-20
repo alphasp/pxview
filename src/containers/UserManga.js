@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  ActivityIndicator,
-  Dimensions,
-  RecyclerViewBackedScrollView,
-  RefreshControl,
+  InteractionManager
 } from 'react-native';
 import { connect } from 'react-redux';
+import { denormalize } from 'normalizr';
 import IllustList from '../components/IllustList';
-import { fetchUserMangas, clearUserMangas } from '../common/actions/userManga';
+import * as userMangaActionCreators from '../common/actions/userManga';
+import Schemas from '../common/constants/schemas';
 
 class UserManga extends Component {
+  static navigationOptions = {
+    header: ({ state, setParams, navigate, goBack }, defaultHeader) => {
+      return {
+        ...defaultHeader,
+        backTitle: null
+      }
+    }
+  }
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -21,26 +28,28 @@ class UserManga extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, userId } = this.props;
-    dispatch(clearUserMangas(userId));
-    dispatch(fetchUserMangas(userId));
+    const { userId, fetchUserMangas, clearUserMangas } = this.props;
+    InteractionManager.runAfterInteractions(() => {
+      clearUserMangas(userId);
+      fetchUserMangas(userId);
+    });
   }
 
   loadMoreItems = () => {
-    const { dispatch, userManga: { nextUrl }, userId } = this.props;
+    const { userManga: { nextUrl }, userId, fetchUserMangas } = this.props;
     console.log('load more ', nextUrl)
     if (nextUrl) {
-      dispatch(fetchUserMangas(userId, nextUrl));
+      fetchUserMangas(userId, nextUrl);
     }
   }
 
   handleOnRefresh = () => {
-    const { dispatch, userId } = this.props;
+    const { userId, fetchUserMangas, clearUserMangas } = this.props;
     this.setState({
       refereshing: true
     });
-    dispatch(clearUserMangas(userId));
-    dispatch(fetchUserMangas(userId)).finally(() => {
+    clearUserMangas(userId);
+    fetchUserMangas(userId).finally(() => {
       this.setState({
         refereshing: false
       }); 
@@ -51,22 +60,35 @@ class UserManga extends Component {
     const { userManga, userId } = this.props;
     const { refreshing } = this.state;
     return (
-      userManga[userId] ?
       <IllustList
-        data={userManga[userId]}
+        data={userManga}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
-      :
-      null
     );
   }
 }
 
+const defaultItems = [];
+
 export default connect((state, props) => {
-  return {
-    userManga: state.userManga,
-    userId: props.userId || props.navigation.state.params.userId
+  const { entities, userManga } = state;
+  const userId = props.userId || props.navigation.state.params.userId;
+  if (userManga[userId]) {
+    const denormalizedItems = denormalize(userManga[userId].items, Schemas.ILLUST_ARRAY, entities);
+    return {
+      userManga: {
+        ...userManga[userId],
+        items: denormalizedItems || defaultItems
+      },
+      userId
+    }
   }
-})(UserManga);
+  else {
+    return {
+      userManga: {},
+      userId
+    }
+  }
+}, userMangaActionCreators)(UserManga);
