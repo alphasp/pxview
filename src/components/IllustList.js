@@ -213,7 +213,6 @@ class IllustList extends Component {
             onEndReachedThreshold={10}
             onEndReached={loadMoreItems}
             FooterComponent={this.renderFooter}
-            enableEmptySections={true}
             onScroll={onScroll}
             refreshControl={
               <RefreshControl

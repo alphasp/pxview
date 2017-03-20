@@ -104,7 +104,7 @@ class ImagesViewer extends Component {
     const { images } = navigation.state.params;
     const { index } = state;
     const openImages = [images[index]];
-   navigation.setParams({ 
+    navigation.setParams({ 
       viewerIndex: index,
       openBottomSheet: () => openBottomSheet(openImages)
     });

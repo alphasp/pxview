@@ -9,8 +9,10 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { denormalize } from 'normalizr';
 import IllustList from '../components/IllustList';
-import { fetchUserBookmarkIllusts, clearUserBookmarkIllusts } from '../common/actions/userBookmarkIllust';
+import * as userBookmarkIllustActionCreators from '../common/actions/userBookmarkIllust';
+import Schemas from '../common/constants/schemas';
 
 class UserBookmarkIllust extends Component {
   constructor(props) {
@@ -21,36 +23,36 @@ class UserBookmarkIllust extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, userId, tag } = this.props;
-    dispatch(clearUserBookmarkIllusts(userId));
-    dispatch(fetchUserBookmarkIllusts(userId, tag));
+    const { userId, tag, fetchUserBookmarkIllusts, clearUserBookmarkIllusts } = this.props;
+    clearUserBookmarkIllusts(userId);
+    fetchUserBookmarkIllusts(userId, tag);
   }
 
   componentWillReceiveProps(nextProps) {
     const { userId: prevUserId, tag: prevTag } = this.props;
-    const { dispatch, userId, tag } = nextProps;
+    const { userId, tag, fetchUserBookmarkIllusts, clearUserBookmarkIllusts } = nextProps;
     if ((userId !== prevUserId) || (tag !== prevTag)) {
       const { dataSource } = this.state;
-      dispatch(clearUserBookmarkIllusts(userId));
-      dispatch(fetchUserBookmarkIllusts(userId, tag));
+      clearUserBookmarkIllusts(userId);
+      fetchUserBookmarkIllusts(userId, tag);
     }
   }
 
 
   loadMoreItems = () => {
-    const { dispatch, userBookmarkIllust, tag, userId } = this.props;
+    const { userBookmarkIllust, tag, userId, fetchUserBookmarkIllusts } = this.props;
     if (userBookmarkIllust[userId] && userBookmarkIllust[userId].nextUrl) {
-      dispatch(fetchUserBookmarkIllusts(userId, tag, userBookmarkIllust[userId].nextUrl));
+      fetchUserBookmarkIllusts(userId, tag, userBookmarkIllust[userId].nextUrl);
     }
   }
 
   handleOnRefresh = () => {
-    const { dispatch, userId, tag } = this.props;
+    const { userId, tag, clearUserBookmarkIllusts, fetchUserBookmarkIllusts } = this.props;
     this.setState({
       refereshing: true
     });
-    dispatch(clearUserBookmarkIllusts(userId));
-    dispatch(fetchUserBookmarkIllusts(userId, tag)).finally(() => {
+    clearUserBookmarkIllusts(userId);
+    fetchUserBookmarkIllusts(userId, tag).finally(() => {
       this.setState({
         refereshing: false
       }); 
@@ -58,26 +60,46 @@ class UserBookmarkIllust extends Component {
   }
 
   render() {
-    const { userBookmarkIllust, userId, onScroll } = this.props;
+    const { userBookmarkIllust, userId } = this.props;
     const { refreshing } = this.state;
     return (
-      userBookmarkIllust[userId] ?
       <IllustList
-        data={userBookmarkIllust[userId]}
+        data={userBookmarkIllust}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
-        onScroll={onScroll}
       />
-      :
-      null
     );
   }
 }
 
+// export default connect((state, props) => {
+//   return {
+//     userBookmarkIllust: state.userBookmarkIllust,
+//     userId: props.userId || props.navigation.state.params.userId
+//   }
+// })(UserBookmarkIllust);
+
+
+const defaultItems = [];
+
 export default connect((state, props) => {
-  return {
-    userBookmarkIllust: state.userBookmarkIllust,
-    userId: props.userId || props.navigation.state.params.userId
+  const { entities, userBookmarkIllust } = state;
+  const userId = props.userId || props.navigation.state.params.userId;
+  if (userBookmarkIllust[userId]) {
+    const denormalizedItems = denormalize(userBookmarkIllust[userId].items, Schemas.ILLUST_ARRAY, entities);
+    return {
+      userBookmarkIllust: {
+        ...userBookmarkIllust[userId],
+        items: denormalizedItems || defaultItems
+      },
+      userId
+    }
   }
-})(UserBookmarkIllust);
+  else {
+    return {
+      userBookmarkIllust: {},
+      userId
+    }
+  }
+}, userBookmarkIllustActionCreators)(UserBookmarkIllust);

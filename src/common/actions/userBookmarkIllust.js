@@ -1,5 +1,7 @@
 import qs from "qs";
+import { normalize } from 'normalizr';
 import { addError } from './error';
+import Schemas from '../constants/schemas';
 import pixiv from '../helpers/ApiClient';
 
 export const REQUEST_USER_BOOKMARK_ILLUSTS = 'REQUEST_USER_BOOKMARK_ILLUSTS';
@@ -8,12 +10,12 @@ export const STOP_USER_BOOKMARK_ILLUSTS = 'STOP_USER_BOOKMARK_ILLUSTS';
 export const CLEAR_USER_BOOKMARK_ILLUSTS = 'CLEAR_USER_BOOKMARK_ILLUSTS';
 export const CLEAR_ALL_USER_BOOKMARK_ILLUSTS = 'CLEAR_ALL_USER_BOOKMARK_ILLUSTS';
 
-function receiveUserBookmarkIllust(json, userId, offset) { 
+function receiveUserBookmarkIllust(normalized, userId, offset) { 
   return {
     type: RECEIVE_USER_BOOKMARK_ILLUSTS,
     payload: {
-      items: json.illusts,
-      nextUrl: json.next_url,
+      entities: normalized.entities,
+      items: normalized.result,
       userId,
       offset,
       receivedAt: Date.now(),
@@ -64,7 +66,10 @@ function fetchUserBookmarkIllustFromApi(userId, tag, nextUrl) {
     const offset = params.offset || "0";
     dispatch(requestUserBookmarkIllust(userId, offset));
     return promise
-      .then(json => dispatch(receiveUserBookmarkIllust(json, userId, offset)))
+      .then(json => {
+        const normalized = normalize(json.illusts, Schemas.ILLUST_ARRAY);
+        dispatch(receiveUserBookmarkIllust(normalized, userId, offset));
+      })
       .catch(err => {
         dispatch(stopUserBookmarkIllust(userId));
         dispatch(addError(err));
