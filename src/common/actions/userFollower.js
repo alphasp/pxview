@@ -1,5 +1,7 @@
 import qs from "qs";
+import { normalize } from 'normalizr';
 import { addError } from './error';
+import Schemas from '../constants/schemas';
 import pixiv from '../helpers/ApiClient';
 
 export const FETCH_USER_FOLLOWER_REQUEST = 'FETCH_USER_FOLLOWER_REQUEST';
@@ -18,14 +20,15 @@ function fetchUserFollowerRequest(userId, offset) {
   };
 }
 
-function fetchUserFollowerSuccess(json, userId, offset) { 
+function fetchUserFollowerSuccess(normalized, nextUrl, userId, offset) { 
   return {
     type: FETCH_USER_FOLLOWER_SUCCESS,
     payload: {
+      entities: normalized.entities,
+      items: normalized.result,
+      nextUrl,
       userId,
       offset,
-      items: json.user_previews,
-      nextUrl: json.next_url,
       receivedAt: Date.now(),
     }
   };
@@ -58,7 +61,19 @@ function fetchUserFollowerFromApi(userId, nextUrl) {
     const offset = params.offset || "0";
     dispatch(fetchUserFollowerRequest(userId, offset));
     return promise
-      .then(json => dispatch(fetchUserFollowerSuccess(json, userId, offset)))
+      .then(json => {
+        const mappedResult = {
+          ...json,
+          user_previews: json.user_previews.map(result => {
+            return {
+              ...result,
+              id: result.user.id
+            }
+          })
+        };
+        const normalized = normalize(mappedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
+        dispatch(fetchUserFollowerSuccess(normalized, json.next_url, userId, offset));
+      })
       .catch(err => {
         dispatch(fetchUserFollowerFailure(userId));
         dispatch(addError(err));

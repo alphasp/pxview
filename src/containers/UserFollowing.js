@@ -1,21 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  ListView,
-  RecyclerViewBackedScrollView,
-  RefreshControl,
-} from 'react-native';
 import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Loader from '../components/Loader';
-import PXTouchable from '../components/PXTouchable';
-import PXImage from '../components/PXImage';
-import PXThumbnail from '../components/PXThumbnail';
-import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
-import OverlayImagePages from '../components/OverlayImagePages';
 import UserListContainer from './UserListContainer';
 import * as userFollowingActionCreators from '../common/actions/userFollowing';
 import { denormalizedData } from '../common/helpers/normalizrHelper';
@@ -42,7 +26,7 @@ class UserFollowing extends Component {
   }
 
   loadMore = () => {
-    const { fetchUserFollowing, userFollowing, userId } = this.props;
+    const { fetchUserFollowing, userFollowing, userId, followingType } = this.props;
     if (userFollowing && userFollowing.nextUrl) {
       fetchUserFollowing(userId, followingType, userFollowing.nextUrl);
     }

@@ -38,6 +38,7 @@ export default function userFollowing(state = {
         ...state,
         [action.payload.followingType]: {
           [action.payload.userId]: {
+            ...state[action.payload.followingType][action.payload.userId],
             loading: true
           }
         }
@@ -61,6 +62,7 @@ export default function userFollowing(state = {
         ...state,
         [action.payload.followingType]: {
           [action.payload.userId]: {
+            ...state[action.payload.followingType][action.payload.userId],
             loading: false
           }
         }

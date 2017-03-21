@@ -1,24 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  ListView,
-  RecyclerViewBackedScrollView,
-  RefreshControl,
-} from 'react-native';
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Loader from '../components/Loader';
-import PXTouchable from '../components/PXTouchable';
-import PXImage from '../components/PXImage';
-import PXThumbnail from '../components/PXThumbnail';
-import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
-import OverlayImagePages from '../components/OverlayImagePages';
 import UserListContainer from './UserListContainer';
 import * as userFollowerActionCreators from '../common/actions/userFollower';
+import { denormalizedData } from '../common/helpers/normalizrHelper';
+import Schemas from '../common/constants/schemas';
 
 const avatarSize = 50;
 
@@ -43,8 +28,8 @@ class UserFollower extends Component {
 
   loadMore = () => {
     const { fetchUserFollower, userFollower, userId } = this.props;
-    if (userFollower[userId] && userFollower[userId].nextUrl) {
-      fetchUserFollower(userId, userFollower[userId].nextUrl);
+    if (userFollower && userFollower.nextUrl) {
+      fetchUserFollower(userId, userFollower.nextUrl);
     }
   }
 
@@ -65,23 +50,23 @@ class UserFollower extends Component {
     const { userFollower, userId, navigation, screenProps } = this.props;
     const { refreshing } = this.state;
     return (
-      userFollower[userId] ?
       <UserListContainer
-        userList={userFollower[userId]}
+        userList={userFollower}
         refreshing={refreshing}
         loadMore={this.loadMore}
         onRefresh={this.handleOnRefresh}
         navigation={navigation}
         screenProps={screenProps}
       />
-      :
-      null
     );
   }
 }
 
 export default connect((state, props) => {
+  const { entities, userFollower } = state;
+  const userId = props.userId || props.navigation.state.params.userId;
   return {
-    userFollower: state.userFollower
+    userFollower: denormalizedData(userFollower[userId], 'items', Schemas.USER_PREVIEW_ARRAY, entities),
+    userId
   }
 }, userFollowerActionCreators)(UserFollower);

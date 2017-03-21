@@ -1,24 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  ListView,
-  RecyclerViewBackedScrollView,
-  RefreshControl,
-} from 'react-native';
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Loader from '../components/Loader';
-import PXTouchable from '../components/PXTouchable';
-import PXImage from '../components/PXImage';
-import PXThumbnail from '../components/PXThumbnail';
-import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
-import OverlayImagePages from '../components/OverlayImagePages';
 import UserListContainer from './UserListContainer';
 import * as userMyPixivActionCreators from '../common/actions/userMyPixiv';
+import { denormalizedData } from '../common/helpers/normalizrHelper';
+import Schemas from '../common/constants/schemas';
 
 class UserMyPixiv extends Component {
   static propTypes = {
@@ -63,23 +48,23 @@ class UserMyPixiv extends Component {
     const { userMyPixiv, userId, navigation, screenProps } = this.props;
     const { refreshing } = this.state;
     return (
-      userMyPixiv[userId] ?
       <UserListContainer
-        userList={userMyPixiv[userId]}
+        userList={userMyPixiv}
         refreshing={refreshing}
         loadMore={this.loadMore}
         onRefresh={this.handleOnRefresh}
         navigation={navigation}
         screenProps={navigation}
       />
-      :
-      null
     );
   }
 }
 
 export default connect((state, props) => {
+  const { entities, userMyPixiv } = state;
+  const userId = props.userId || props.navigation.state.params.userId;
   return {
-    userMyPixiv: state.userMyPixiv
+    userMyPixiv: denormalizedData(userMyPixiv[userId], 'items', Schemas.USER_PREVIEW_ARRAY, entities),
+    userId
   }
 }, userMyPixivActionCreators)(UserMyPixiv);

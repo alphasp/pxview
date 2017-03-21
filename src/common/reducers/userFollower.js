@@ -20,6 +20,7 @@ export default function userFollower(state = {}, action) {
       return {
         ...state,
         [action.payload.userId]: {
+          ...state[action.payload.userId],
           loading: true
         }
       };

@@ -20,6 +20,7 @@ export default function userMyPixiv(state = {}, action) {
       return {
         ...state,
         [action.payload.userId]: {
+          ...state[action.payload.userId],
           loading: true
         }
       };
@@ -39,6 +40,7 @@ export default function userMyPixiv(state = {}, action) {
       return {
         ...state,
         [action.payload.userId]: {
+          ...state[action.payload.userId],
           loading: false
         }
       };

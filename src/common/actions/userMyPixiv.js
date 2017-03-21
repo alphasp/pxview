@@ -1,5 +1,7 @@
 import qs from "qs";
+import { normalize } from 'normalizr';
 import { addError } from './error';
+import Schemas from '../constants/schemas';
 import pixiv from '../helpers/ApiClient';
 
 export const FETCH_USER_MY_PIXIV_REQUEST = 'FETCH_USER_MY_PIXIV_REQUEST';
@@ -18,14 +20,15 @@ function fetchUserMyPixivRequest(userId, offset) {
   };
 }
 
-function fetchUserMyPixivSuccess(json, userId, offset) { 
+function fetchUserMyPixivSuccess(normalized, nextUrl, userId, offset) { 
   return {
     type: FETCH_USER_MY_PIXIV_SUCCESS,
     payload: {
+      entities: normalized.entities,
+      items: normalized.result,
+      nextUrl,
       userId,
       offset,
-      items: json.user_previews,
-      nextUrl: json.next_url,
       receivedAt: Date.now(),
     }
   };
@@ -57,7 +60,19 @@ function fetchUserMyPixivFromApi(userId, nextUrl) {
     const offset = params.offset || "0";
     dispatch(fetchUserMyPixivRequest(userId, offset));
     return promise
-      .then(json => dispatch(fetchUserMyPixivSuccess(json, userId, offset)))
+      .then(json => {
+        const mappedResult = {
+          ...json,
+          user_previews: json.user_previews.map(result => {
+            return {
+              ...result,
+              id: result.user.id
+            }
+          })
+        };
+        const normalized = normalize(mappedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
+        dispatch(fetchUserMyPixivSuccess(normalized, json.next_url, userId, offset));
+      })
       .catch(err => {
         dispatch(fetchUserMyPixivFailure(userId));
         dispatch(addError(err));
