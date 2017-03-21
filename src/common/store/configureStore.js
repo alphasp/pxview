@@ -9,7 +9,7 @@ import { AsyncStorage } from 'react-native';
 import rootReducer from '../reducers';
 import jwt from '../middlewares/jwt';
 import pixiv from '../helpers/ApiClient';
-import { requestRefreshToken } from '../actions/auth';
+import { requestRefreshToken, DONE_REFRESH_TOKEN, SUCCESS_REFRESH_TOKEN } from '../actions/auth';
 
 export default function configureStore() {
   let enhancer;
@@ -17,7 +17,7 @@ export default function configureStore() {
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
     enhancer = composeEnhancers(
       autoRehydrate({ log: true }),
-      applyMiddleware(invariant(), jwt, thunk, createActionBuffer(REHYDRATE)),   
+      applyMiddleware(invariant(), createActionBuffer(DONE_REFRESH_TOKEN), createActionBuffer(REHYDRATE), jwt, thunk),   
       //applyMiddleware(jwt, thunk, createActionBuffer(REHYDRATE)), 
       //devTools(),
     )
@@ -25,7 +25,7 @@ export default function configureStore() {
   else {
     enhancer = compose(
       autoRehydrate({ log: true }),
-      applyMiddleware(jwt, thunk, createActionBuffer(REHYDRATE)), 
+      applyMiddleware(createActionBuffer(DONE_REFRESH_TOKEN), createActionBuffer(REHYDRATE), jwt, thunk)
     )
   }
   const store = createStore(rootReducer, undefined, enhancer);
@@ -46,7 +46,7 @@ export default function configureStore() {
     console.log('rehydration complete');
     //const { auth } = store.getState();
     
-    requestRefreshToken(store.dispatch);
+    requestRefreshToken(store.dispatch); 
     // if (auth && auth.user && auth.user.accessToken) {
     //   pixiv.setAuthToken(auth.user.accessToken);
     // }

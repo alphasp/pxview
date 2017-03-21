@@ -9,7 +9,7 @@ export const RECEIVE_RECOMMENDED_ILLUSTS = 'RECEIVE_RECOMMENDED_ILLUSTS';
 export const STOP_RECOMMENDED_ILLUSTS = 'STOP_RECOMMENDED_ILLUSTS';
 export const CLEAR_RECOMMENDED_ILLUSTS = 'CLEAR_RECOMMENDED_ILLUSTS';
 
-function receiveRecommended(normalized, nextUrl, offset) { 
+function receiveRecommended(normalized, nextUrl, offset, isPublicRecommended) { 
   return {
     type: RECEIVE_RECOMMENDED_ILLUSTS,
     payload: {
@@ -17,16 +17,18 @@ function receiveRecommended(normalized, nextUrl, offset) {
       items: normalized.result,
       nextUrl,
       offset,
+      isPublicRecommended,
       receivedAt: Date.now(),
     }
   };
 }
 
-function requestRecommended(offset) {
+function requestRecommended(offset, isPublicRecommended) {
   return {
     type: REQUEST_RECOMMENDED_ILLUSTS,
     payload: {
-      offset
+      offset,
+      isPublicRecommended
     }
   };
 }
@@ -46,13 +48,17 @@ function shouldFetchRecommended(state) {
   }
 }
 
-//todo
 function fetchRecommendedFromApi(options, nextUrl) {
-  //const { nextUrl } = getState().recommended.nextUrl;
   return dispatch => {
-    dispatch(requestRecommended());
-    return pixiv.illustRecommended(options, nextUrl)
-      .then(json => dispatch(receiveRecommended(json)))
+    const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.illustRecommended(options);
+    const params = qs.parse(nextUrl);
+    const offset = params.offset || "0";
+    dispatch(requestRecommended(offset, false));
+    return promise
+      .then(json => {
+        const normalized = normalize(json.illusts, Schemas.ILLUST_ARRAY);
+        dispatch(receiveRecommended(normalized, json.next_url, offset, false));
+      })
       .catch(err => {
         dispatch(stopRecommended());
         dispatch(addError(err));
@@ -65,11 +71,11 @@ function fetchRecommendedPublicFromApi(options, nextUrl) {
     const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.illustRecommendedPublic(options);
     const params = qs.parse(nextUrl);
     const offset = params.offset || "0";
-    dispatch(requestRecommended(offset));
+    dispatch(requestRecommended(offset, true));
     return promise
       .then(json => {
         const normalized = normalize(json.illusts, Schemas.ILLUST_ARRAY);
-        dispatch(receiveRecommended(normalized, json.next_url, offset));
+        dispatch(receiveRecommended(normalized, json.next_url, offset, true));
       })
       .catch(err => {
         dispatch(stopRecommended());
@@ -80,16 +86,15 @@ function fetchRecommendedPublicFromApi(options, nextUrl) {
 
 export function fetchRecommendedIllusts(options, nextUrl) {
   return (dispatch, getState) => {
-    if (shouldFetchRecommended(getState())) {
-      return dispatch(fetchRecommendedFromApi(options, nextUrl));
-    }
-  };
-}
-
-export function fetchRecommendedIllustsPublic(options, nextUrl) {
-  return (dispatch, getState) => {
-    if (shouldFetchRecommended(getState())) {
-      return dispatch(fetchRecommendedPublicFromApi(options, nextUrl));
+    const state = getState();
+    if (shouldFetchRecommended(state)) {
+      const { auth: { user } } = state;
+      if (user) {
+        return dispatch(fetchRecommendedFromApi(options, nextUrl));
+      }
+      else {
+        return dispatch(fetchRecommendedPublicFromApi(options, nextUrl));
+      }
     }
   };
 }

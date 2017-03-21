@@ -127,6 +127,6 @@ const LoginForm = reduxForm({
 export default connect((state, props) => {
   return {
     user: state.auth.user,
-    onLoginSuccess: props.onLoginSuccess || (props.navigation.state && props.navigation.state.params.onLoginSuccess)
+    onLoginSuccess: props.onLoginSuccess || (props.navigation.state && props.navigation.state.params && props.navigation.state.params.onLoginSuccess)
   }
 }, { login })(LoginForm);

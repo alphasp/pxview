@@ -11,7 +11,8 @@ import {
 import { connect } from 'react-redux';
 import { denormalize } from 'normalizr';
 import IllustList from '../components/IllustList';
-import { fetchRecommendedMangas, clearRecommendedMangas } from '../common/actions/recommendedManga';
+import * as recommendedMangaActionCreators from '../common/actions/recommendedManga';
+import { denormalizedData } from '../common/helpers/normalizrHelper';
 import Schemas from '../common/constants/schemas';
 
 class RecommendedManga extends Component {
@@ -22,24 +23,24 @@ class RecommendedManga extends Component {
     };
   }
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchRecommendedMangas());
+    const { fetchRecommendedMangas } = this.props;
+    fetchRecommendedMangas();
   }
 
   loadMoreItems = () => {
-    const { dispatch, recommendedManga: { nextUrl }, type } = this.props;
+    const { recommendedManga: { nextUrl }, fetchRecommendedMangas } = this.props;
     if (nextUrl) {
-      dispatch(fetchRecommendedMangas("", nextUrl));
+      fetchRecommendedMangas('', nextUrl);
     }
   }
 
   handleOnRefresh = () => {
-    const { dispatch } = this.props;
+    const { fetchRecommendedMangas, clearRecommendedMangas } = this.props;
     this.setState({
       refereshing: true
     });
-    dispatch(clearRecommendedMangas());
-    dispatch(fetchRecommendedMangas()).finally(() => {
+    clearRecommendedMangas();
+    fetchRecommendedMangas().finally(() => {
       this.setState({
         refereshing: false
       }); 
@@ -63,11 +64,7 @@ class RecommendedManga extends Component {
 
 export default connect(state => {
   const { entities, recommendedManga } = state;
-  const denormalizedItems = denormalize(recommendedManga.items, Schemas.ILLUST_ARRAY, entities);
   return {
-    recommendedManga: {
-      ...recommendedManga,
-      items: denormalizedItems
-    }
+    recommendedManga: denormalizedData(recommendedManga, 'items', Schemas.ILLUST_ARRAY, entities),
   }
-})(RecommendedManga);
+}, recommendedMangaActionCreators)(RecommendedManga);

@@ -10,6 +10,7 @@ export function recommendedIllust(state = {
   loaded: false,
   items: [],
   offset: 0,
+  isPublicRecommended: true,
   nextUrl: null,
 }, action) {
   switch (action.type) {
@@ -26,6 +27,7 @@ export function recommendedIllust(state = {
       return {
         ...state,
         loading: true,
+        isPublicRecommended: action.payload.isPublicRecommended,
       };
     case RECEIVE_RECOMMENDED_ILLUSTS:
       return {
@@ -35,6 +37,7 @@ export function recommendedIllust(state = {
         items: [...state.items, ...action.payload.items],
         offset: action.payload.offset,
         nextUrl: action.payload.nextUrl,
+        isPublicRecommended: action.payload.isPublicRecommended,
         lastUpdated: action.payload.receivedAt,
       };
     case STOP_RECOMMENDED_ILLUSTS:

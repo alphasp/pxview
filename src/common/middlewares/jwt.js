@@ -1,10 +1,10 @@
 import moment from 'moment';
-import { login, requestRefreshToken, successRefreshToken, REQUEST_REFRESH_TOKEN, SUCCESS_REFRESH_TOKEN } from '../actions/auth';
+import { login, requestRefreshToken, successRefreshToken, REQUEST_REFRESH_TOKEN, SUCCESS_REFRESH_TOKEN, DONE_REFRESH_TOKEN } from '../actions/auth';
 import { REHYDRATE } from 'redux-persist/constants'
 
 export default jwt = ({ dispatch, getState }) => next => action => {
   //console.log('action ', action, typeof action);
-  if (action.type === REHYDRATE || action.type === SUCCESS_REFRESH_TOKEN || action.type === REQUEST_REFRESH_TOKEN) {
+  if (action.type === REHYDRATE || action.type === SUCCESS_REFRESH_TOKEN || action.type === REQUEST_REFRESH_TOKEN || action.type === DONE_REFRESH_TOKEN) {
     return next(action);
   }
   if (typeof action === 'function') {

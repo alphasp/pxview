@@ -12,6 +12,7 @@ export const LOGOUT = 'LOGOUT';
 export const REQUEST_REFRESH_TOKEN = 'REQUEST_REFRESH_TOKEN';
 export const SUCCESS_REFRESH_TOKEN = 'SUCCESS_REFRESH_TOKEN';
 export const FAILED_REFRESH_TOKEN = 'FAILED_REFRESH_TOKEN';
+export const DONE_REFRESH_TOKEN = 'DONE_REFRESH_TOKEN';
 
 const defaultUser = {
   "access_token": "-L9fVk2G8esw5Oqx7W7URMUgHx5S1SwNjrDOKlnPXBM",
@@ -100,6 +101,12 @@ function failedRefreshToken() {
   };
 }
 
+function doneRefreshToken() {
+  return {
+    type: DONE_REFRESH_TOKEN
+  }
+}
+
 function postLogin(email, password) {
   return dispatch => {
     dispatch(resetError());
@@ -169,12 +176,11 @@ export function login(email, password) {
 
 export function logout() {
   return (dispatch, getState) => {
-    Keychain.resetGenericPassword()
-      .then(function() {
-        return pixiv.logout().then(() => {
-          dispatch(logUserOut());
-        });
+    Keychain.resetGenericPassword().then(() => {
+      return pixiv.logout().then(() => {
+        dispatch(logUserOut());
       });
+    });
     //Actions.pop();
     //Actions.tabs({ type: ActionConst.RESET });
   }
@@ -187,24 +193,26 @@ export function requestRefreshToken(dispatch) {
   //   dispatch(failedRefreshToken());
   //   return dispatch(addError((err && err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : err));
   // });
+  dispatch(refreshToken(Promise.resolve()));
   const promise = Keychain.getGenericPassword()
     .then(credentials => {
       if (credentials.username && credentials.password) {
         return pixiv.login(credentials.username, credentials.password).then(json => {
-          return dispatch(successRefreshToken(json));
+          dispatch(successRefreshToken(json));
+          dispatch(doneRefreshToken());
         }).catch(err => {
           dispatch(failedRefreshToken());
           //An error occured, please try again
-          return dispatch(addError((err && err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : err));
+          dispatch(addError((err && err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : err));
+          dispatch(doneRefreshToken());
         });
       }
       else {
-        return Promise.resolve();
+        return dispatch(doneRefreshToken());
       }
     });
-  dispatch(refreshToken(Promise.resolve()));
   return promise;
-} 
+}
 
 // export function requestRefreshToken() {
 //   return (dispatch, getState) => {
