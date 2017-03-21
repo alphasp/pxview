@@ -9,26 +9,28 @@ export const RECEIVE_RECOMMENDED_ILLUSTS = 'RECEIVE_RECOMMENDED_ILLUSTS';
 export const STOP_RECOMMENDED_ILLUSTS = 'STOP_RECOMMENDED_ILLUSTS';
 export const CLEAR_RECOMMENDED_ILLUSTS = 'CLEAR_RECOMMENDED_ILLUSTS';
 
-function receiveRecommended(normalized, nextUrl, offset, isPublicRecommended) { 
+function receiveRecommended(normalized, nextUrl, isPublicRecommended, offset, url) { 
   return {
     type: RECEIVE_RECOMMENDED_ILLUSTS,
     payload: {
       entities: normalized.entities,
       items: normalized.result,
       nextUrl,
-      offset,
       isPublicRecommended,
+      offset,
+      url,
       receivedAt: Date.now(),
     }
   };
 }
 
-function requestRecommended(offset, isPublicRecommended) {
+function requestRecommended(isPublicRecommended, offset, url) {
   return {
     type: REQUEST_RECOMMENDED_ILLUSTS,
     payload: {
+      isPublicRecommended,
       offset,
-      isPublicRecommended
+      url
     }
   };
 }
@@ -53,11 +55,11 @@ function fetchRecommendedFromApi(options, nextUrl) {
     const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.illustRecommended(options);
     const params = qs.parse(nextUrl);
     const offset = params.offset || "0";
-    dispatch(requestRecommended(offset, false));
+    dispatch(requestRecommended(false, offset, nextUrl));
     return promise
       .then(json => {
         const normalized = normalize(json.illusts, Schemas.ILLUST_ARRAY);
-        dispatch(receiveRecommended(normalized, json.next_url, offset, false));
+        dispatch(receiveRecommended(normalized, json.next_url, false, offset, nextUrl));
       })
       .catch(err => {
         dispatch(stopRecommended());
@@ -71,11 +73,11 @@ function fetchRecommendedPublicFromApi(options, nextUrl) {
     const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.illustRecommendedPublic(options);
     const params = qs.parse(nextUrl);
     const offset = params.offset || "0";
-    dispatch(requestRecommended(offset, true));
+    dispatch(requestRecommended(true, offset, nextUrl));
     return promise
       .then(json => {
         const normalized = normalize(json.illusts, Schemas.ILLUST_ARRAY);
-        dispatch(receiveRecommended(normalized, json.next_url, offset, true));
+        dispatch(receiveRecommended(normalized, json.next_url, true, offset, nextUrl));
       })
       .catch(err => {
         dispatch(stopRecommended());

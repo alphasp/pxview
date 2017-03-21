@@ -10,6 +10,7 @@ export function recommendedIllust(state = {
   loaded: false,
   items: [],
   offset: 0,
+  url: null,
   isPublicRecommended: true,
   nextUrl: null,
 }, action) {
@@ -21,12 +22,14 @@ export function recommendedIllust(state = {
         loaded: false,
         items: [],
         offset: 0,
+        url: null,
         nextUrl: null,
       };
     case REQUEST_RECOMMENDED_ILLUSTS:
       return {
         ...state,
         loading: true,
+        url: null,
         isPublicRecommended: action.payload.isPublicRecommended,
       };
     case RECEIVE_RECOMMENDED_ILLUSTS:
@@ -37,6 +40,7 @@ export function recommendedIllust(state = {
         items: [...state.items, ...action.payload.items],
         offset: action.payload.offset,
         nextUrl: action.payload.nextUrl,
+        url: null,
         isPublicRecommended: action.payload.isPublicRecommended,
         lastUpdated: action.payload.receivedAt,
       };

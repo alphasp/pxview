@@ -18,6 +18,16 @@ class RecommendedIllust extends Component {
     fetchRecommendedIllusts();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { user: prevUser } = this.props;
+    const { user } = nextProps;
+    if ((!user && prevUser) || (user && !prevUser)) {
+      const { fetchRecommendedIllusts, clearRecommendedIllusts } = this.props;
+      clearRecommendedIllusts();
+      fetchRecommendedIllusts();
+    }
+  }
+
   loadMoreItems = () => {
     const { recommendedIllust: { nextUrl }, fetchRecommendedIllusts } = this.props;
     console.log('load more ', nextUrl)
@@ -55,8 +65,9 @@ class RecommendedIllust extends Component {
 }
 
 export default connect(state => {
-  const { entities, recommendedIllust } = state;
+  const { entities, recommendedIllust, user } = state;
   return {
     recommendedIllust: denormalizedData(recommendedIllust, 'items', Schemas.ILLUST_ARRAY, entities),
+    user: state.auth.user
   }
 }, recommendedIllustActionCreators)(RecommendedIllust);
