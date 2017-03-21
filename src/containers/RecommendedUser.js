@@ -9,7 +9,6 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { denormalize } from 'normalizr';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
@@ -19,6 +18,7 @@ import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import OverlayImagePages from '../components/OverlayImagePages';
 import UserListContainer from './UserListContainer';
 import { fetchRecommendedUsers, clearRecommendedUsers } from '../common/actions/recommendedUser';
+import { denormalizedData } from '../common/helpers/normalizrHelper';
 import Schemas from '../common/constants/schemas';
 
 const windowWidth = Dimensions.get('window').width; //full width
@@ -115,11 +115,7 @@ class RecommendedUser extends Component {
 
 export default connect(state => {
   const { entities, recommendedUser } = state;
-  const denormalizedItems = denormalize(recommendedUser.items, Schemas.USER_PREVIEW_ARRAY, entities);
   return {
-    recommendedUser: {
-      ...recommendedUser,
-      items: denormalizedItems
-    },
+    recommendedUser: denormalizedData(recommendedUser, 'items', Schemas.USER_PREVIEW_ARRAY, entities),
   }
 })(RecommendedUser);

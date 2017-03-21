@@ -9,7 +9,6 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
@@ -19,6 +18,8 @@ import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import OverlayImagePages from '../components/OverlayImagePages';
 import UserListContainer from './UserListContainer';
 import * as userFollowingActionCreators from '../common/actions/userFollowing';
+import { denormalizedData } from '../common/helpers/normalizrHelper';
+import Schemas from '../common/constants/schemas';
 
 class UserFollowing extends Component {
   static propTypes = {
@@ -42,8 +43,8 @@ class UserFollowing extends Component {
 
   loadMore = () => {
     const { fetchUserFollowing, userFollowing, userId } = this.props;
-    if (userFollowing[userId] && userFollowing[userId].nextUrl) {
-      fetchUserFollowing(userId, followingType, userFollowing[userId].nextUrl);
+    if (userFollowing && userFollowing.nextUrl) {
+      fetchUserFollowing(userId, followingType, userFollowing.nextUrl);
     }
   }
 
@@ -64,23 +65,23 @@ class UserFollowing extends Component {
     const { userFollowing, userId, navigation, screenProps } = this.props;
     const { refreshing } = this.state;
     return (
-      userFollowing[userId] ?
       <UserListContainer
-        userList={userFollowing[userId]}
+        userList={userFollowing}
         refreshing={refreshing}
         loadMore={this.loadMore}
         onRefresh={this.handleOnRefresh}
         navigation={navigation}
         screenProps={screenProps}
       />
-      :
-      null
     );
   }
 }
 
 export default connect((state, props) => {
+  const { entities, userFollowing } = state;
+  const userId = props.userId || props.navigation.state.params.userId;
   return {
-    userFollowing: state.userFollowing[props.followingType]
+    userFollowing: denormalizedData(userFollowing[props.followingType][userId], 'items', Schemas.USER_PREVIEW_ARRAY, entities),
+    userId
   }
 }, userFollowingActionCreators)(UserFollowing);

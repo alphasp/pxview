@@ -29,6 +29,7 @@ import * as userDetailActionCreators from '../common/actions/userDetail';
 import * as userIllustActionCreators from '../common/actions/userIllust';
 import * as userMangaActionCreators from '../common/actions/userManga';
 import * as userBookmarkIllustlActionCreators from '../common/actions/userBookmarkIllust';
+import { denormalizedData } from '../common/helpers/normalizrHelper';
 import Schemas from '../common/constants/schemas';
 
 const avatarSize = 70;
@@ -463,27 +464,11 @@ class UserDetail extends Component {
   }
 }
 
-const defaultItems = [];
-const defaultObject = {};
-
-const denormalizedData = (data, denormalizeKey, schema, entities) => {
-  if (data) {
-    const denormalizedItems = denormalize(data[denormalizeKey], schema, entities);
-    return {
-      ...data,
-      [denormalizeKey]: denormalizedItems
-    };
-  }
-  else {
-    return data;
-  }
-}
-
 export default connect((state, props) => {
   const { entities, userDetail, userIllust, userManga, userBookmarkIllust } = state;
   const userId = props.userId || props.navigation.state.params.userId;
   return {
-    userDetail: denormalizedData(userDetail[userId], 'item', Schemas.USER_PROFILE, entities) || defaultObject,
+    userDetail: denormalizedData(userDetail[userId], 'item', Schemas.USER_PROFILE, entities),
     userIllust: denormalizedData(userIllust[userId], 'items', Schemas.ILLUST_ARRAY, entities),
     userManga: denormalizedData(userManga[userId], 'items', Schemas.ILLUST_ARRAY, entities),
     userBookmarkIllust: denormalizedData(userBookmarkIllust[userId], 'items', Schemas.ILLUST_ARRAY, entities),

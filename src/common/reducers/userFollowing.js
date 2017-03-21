@@ -6,10 +6,6 @@ import {
   CLEAR_ALL_USER_FOLLOWING,
   FollowingType
 } from '../actions/userFollowing';
-// import { 
-//   BOOKMARK_ILLUST, 
-//   UNBOOKMARK_ILLUST,
-// } from '../actions/bookmarkIllust';
 
 const defaultStateByUserFollowingType = {
   loading: false,

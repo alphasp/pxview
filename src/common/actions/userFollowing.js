@@ -1,5 +1,7 @@
 import qs from "qs";
+import { normalize } from 'normalizr';
 import { addError } from './error';
+import Schemas from '../constants/schemas';
 import pixiv from '../helpers/ApiClient';
 
 export const FETCH_USER_FOLLOWING_REQUEST = 'FETCH_USER_FOLLOWING_REQUEST';
@@ -24,15 +26,16 @@ function fetchUserFollowingRequest(userId, followingType, offset) {
   };
 }
 
-function fetchUserFollowingSuccess(json, userId, followingType, offset) { 
+function fetchUserFollowingSuccess(normalized, nextUrl, userId, followingType, offset) { 
   return {
     type: FETCH_USER_FOLLOWING_SUCCESS,
     payload: {
+      entities: normalized.entities,
+      items: normalized.result,
+      nextUrl,
       userId,
       followingType,
       offset,
-      items: json.user_previews,
-      nextUrl: json.next_url,
       receivedAt: Date.now(),
     }
   };
@@ -69,7 +72,19 @@ function fetchUserFollowingFromApi(userId, followingType, nextUrl) {
     const offset = params.offset || "0";
     dispatch(fetchUserFollowingRequest(userId, followingType, offset));
     return promise
-      .then(json => dispatch(fetchUserFollowingSuccess(json, userId, followingType, offset)))
+      .then(json => {
+        const mappedResult = {
+          ...json,
+          user_previews: json.user_previews.map(result => {
+            return {
+              ...result,
+              id: result.user.id
+            }
+          })
+        };
+        const normalized = normalize(mappedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
+        dispatch(fetchUserFollowingSuccess(normalized, json.next_url, userId, followingType, offset));
+      })
       .catch(err => {
         dispatch(fetchUserFollowingFailure(userId, followingType));
         dispatch(addError(err));
