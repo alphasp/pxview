@@ -5,10 +5,13 @@ import isEmpty from 'lodash.isempty';
 //import routes from '../routes';
 import App from './App';
 import configureStore from '../common/store/configureStore';
+import ApiClient from '../common/helpers/ApiClient';
 import { clearAllSearch, SortType } from '../common/actions/search';
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 const store = configureStore();
+
+ApiClient.setStore(store);
 
 function select(state) {
   return state.routes.scene;
