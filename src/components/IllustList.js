@@ -203,16 +203,12 @@ class IllustList extends Component {
                 index
               };
             }}
-            shouldItemUpdate={(prev, next) => {
-              //console.log(prev.item.is_bookmarked !== next.item.is_bookmarked, prev.item, next.item, prev.index, next.index)
-              return (prev.item.is_bookmarked !== next.item.is_bookmarked) || (prev.item.user.is_followed !== next.item.user.is_followed)
-            }}
             legacyImplementation={false}
             debug={false}
             disableVirtualization={false}
             onEndReachedThreshold={0}
             onEndReached={loadMoreItems}
-            FooterComponent={this.renderFooter}
+            ListFooterComponent={this.renderFooter}
             onScroll={onScroll}
             refreshControl={
               <RefreshControl
