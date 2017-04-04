@@ -210,7 +210,7 @@ class IllustList extends Component {
             legacyImplementation={false}
             debug={false}
             disableVirtualization={false}
-            onEndReachedThreshold={10}
+            onEndReachedThreshold={0}
             onEndReached={loadMoreItems}
             FooterComponent={this.renderFooter}
             onScroll={onScroll}
