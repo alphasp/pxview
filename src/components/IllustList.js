@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -17,6 +17,7 @@ import { Actions } from 'react-native-router-flux';
 //import GridView from 'react-native-grid-view';
 // import Image from 'react-native-image-progress';
 import GridView from './GridView';
+import IllustItem from './IllustItem';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
@@ -31,111 +32,16 @@ const height = Dimensions.get('window').height; //full height
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // backgroundColor: '#F5FCFF',
-  },
-  cardImage: {
-    resizeMode: 'cover',
-    //margin: 5,
-    height: Dimensions.get('window').width / 3, //require for <Image />
-    // width: 130,
   },
 });
 
-/*class IllustItem extends PureComponent {
-  render() {
-    const { item, onPressItem, onPressLikeButton, onLongPressLikeButton } = this.props;
-    return (
-      <PXTouchable 
-        style={{ 
-          margin: 1,
-          backgroundColor: '#E9EBEE',
-          width: width / 3 - 2, 
-          height: width / 3 - 2,
-        }} 
-        key={item.id} 
-        onPress={onPressItem}
-      >
-        <PXImage 
-          uri={item.image_urls.square_medium}
-          style={[ styles.cardImage, {
-            width: width / 3 - 2, 
-            height: width / 3 - 2,
-          }]}
-        />
-        {
-          (item.meta_pages && item.meta_pages.length) ?
-          <OverlayImagePages total={item.meta_pages.length} />
-          :
-          null
-        }
-        <OverlayBookmarkButton 
-          isBookmark={item.is_bookmarked} 
-          onPress={onPressLikeButton} 
-          onLongPress={onLongPressLikeButton}
-        />
-      </PXTouchable>
-    );
-  }
-}*/
-
 class IllustList extends Component {
-  constructor(props) {
-    super(props);
-    const { data: { items }, maxItems } = props;
-    // const dataSource = new ListView.DataSource({
-    //   rowHasChanged: (r1, r2) => r1 !== r2,
-    // });
-    // this.state = {
-    //   dataSource: (items && items.length) ? dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items) : dataSource,
-    // };
-  }
-
-  // componentWillReceiveProps(nextProps) {
-  //   const { data: { items: prevItems } } = this.props;
-  //   const { data: { items }, maxItems } = nextProps;
-  //   if (items && items !== prevItems) {
-  //     const { dataSource } = this.state;
-  //     this.setState({
-  //       dataSource: dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items)
-  //     });
-  //   }
-  // }
-  
   renderRow = ({ item }) => {
     return (
-      /*<IllustItem 
+      <IllustItem 
         item={item} 
         onPressItem={() => this.handleOnPressItem(item)}
-        onPressLikeButton={() => this.handleOnPressLikeButton(item)} 
-        onLongPressLikeButton={() => this.handleOnLongPressLikeButton(item)}
-      />*/
-      <PXTouchable 
-        style={{ 
-          margin: 1,
-          backgroundColor: '#E9EBEE',
-          width: width / 3 - 2, 
-          height: width / 3 - 2,
-        }} 
-        key={item.id} 
-        onPress={() => this.handleOnPressItem(item)}
-      >
-        <PXImage 
-          uri={item.image_urls.square_medium}
-          style={[ styles.cardImage, {
-            width: width / 3 - 2, 
-            height: width / 3 - 2,
-          }]}
-        />
-        {
-          (item.meta_pages && item.meta_pages.length) ?
-          <OverlayImagePages total={item.meta_pages.length} />
-          :
-          null
-        }
-        <OverlayBookmarkButtonContainer item={item} />
-      </PXTouchable>
+      />
     );
   }
 
@@ -206,7 +112,7 @@ class IllustList extends Component {
             legacyImplementation={false}
             debug={false}
             disableVirtualization={false}
-            onEndReachedThreshold={0}
+            onEndReachedThreshold={0.1}
             onEndReached={loadMoreItems}
             ListFooterComponent={this.renderFooter}
             onScroll={onScroll}
