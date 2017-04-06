@@ -1,18 +1,17 @@
 //import jwtDecode from "jwt-decode";
 // import { push } from 'react-router-redux'
-import { Actions, ActionConst } from 'react-native-router-flux';
 import * as Keychain from 'react-native-keychain';
 import { addError, resetError } from './error';
 import pixiv from '../helpers/ApiClient';
 
-export const REQUEST_LOGIN = 'REQUEST_LOGIN';
-export const SUCCESS_LOGIN = 'SUCCESS_LOGIN';
-export const FAILED_LOGIN = 'FAILED_LOGIN';
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const LOGOUT = 'LOGOUT';
-export const REQUEST_REFRESH_TOKEN = 'REQUEST_REFRESH_TOKEN';
-export const SUCCESS_REFRESH_TOKEN = 'SUCCESS_REFRESH_TOKEN';
-export const FAILED_REFRESH_TOKEN = 'FAILED_REFRESH_TOKEN';
-export const DONE_REFRESH_TOKEN = 'DONE_REFRESH_TOKEN';
+export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST';
+export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS';
+export const REFRESH_TOKEN_FAILURE = 'REFRESH_TOKEN_FAILURE';
+export const REFRESH_TOKEN_DONE = 'REFRESH_TOKEN_DONE';
 
 const defaultUser = {
   "access_token": "-L9fVk2G8esw5Oqx7W7URMUgHx5S1SwNjrDOKlnPXBM",
@@ -36,15 +35,19 @@ const defaultUser = {
   }
 }
 
-function requestLogin() {
+export function requestLogin(email, password) {
   return {
-    type: REQUEST_LOGIN
+    type: LOGIN_REQUEST,
+    payload: {
+      email,
+      password
+    }
   };
 }
 
-function successLogin(json) {
+export function successLogin(json) {
   return {
-    type: SUCCESS_LOGIN,
+    type: LOGIN_SUCCESS,
     payload: {
       user: {
         ...json.user,
@@ -58,13 +61,13 @@ function successLogin(json) {
   };
 }
 
-function failedLogin() {
+export function failedLogin() {
   return {
-    type: FAILED_LOGIN
+    type: LOGIN_FAILURE
   };
 }
 
-function logUserOut() {
+export function logUserOut() {
   return {
     type: LOGOUT
   }
@@ -72,7 +75,7 @@ function logUserOut() {
 
 function refreshToken(refreshTokenPromise) {
   return {
-    type: REQUEST_REFRESH_TOKEN,
+    type: REFRESH_TOKEN_REQUEST,
     payload: {
       refreshTokenPromise
     }
@@ -81,7 +84,7 @@ function refreshToken(refreshTokenPromise) {
 
 function successRefreshToken(json) {
   return {
-    type: SUCCESS_REFRESH_TOKEN,
+    type: REFRESH_TOKEN_SUCCESS,
     payload: {
       user: {
         ...json.user,
@@ -97,13 +100,13 @@ function successRefreshToken(json) {
 
 function failedRefreshToken() {
   return {
-    type: FAILED_REFRESH_TOKEN
+    type: REFRESH_TOKEN_FAILURE
   };
 }
 
 function doneRefreshToken() {
   return {
-    type: DONE_REFRESH_TOKEN
+    type: REFRESH_TOKEN_DONE
   }
 }
 
@@ -166,13 +169,24 @@ function shouldPostLogin(state, email, password) {
 }
 
 
+// export function login(email, password) {
+//   return (dispatch, getState) => {
+//     if (shouldPostLogin(getState(), email, password)) {
+//       return dispatch(postLogin(email, password));
+//     }
+//   };
+// }
+
 export function login(email, password) {
-  return (dispatch, getState) => {
-    if (shouldPostLogin(getState(), email, password)) {
-      return dispatch(postLogin(email, password));
+  return {
+    type: LOGIN_REQUEST,
+    payload: {
+      email,
+      password
     }
   };
 }
+
 
 export function logout() {
   return (dispatch, getState) => {

@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
 import invariant from 'redux-immutable-state-invariant';
 import devTools from 'remote-redux-devtools';
 import { persistStore, autoRehydrate } from 'redux-persist';
@@ -7,17 +8,19 @@ import { REHYDRATE } from 'redux-persist/constants'
 import createActionBuffer from 'redux-action-buffer'
 import { AsyncStorage } from 'react-native';
 import rootReducer from '../reducers';
+import rootSaga from '../sagas'
 import jwt from '../middlewares/jwt';
 import pixiv from '../helpers/ApiClient';
-import { requestRefreshToken, DONE_REFRESH_TOKEN, SUCCESS_REFRESH_TOKEN } from '../actions/auth';
+import { requestRefreshToken, REFRESH_TOKEN_DONE, REFRESH_TOKEN_SUCCESS } from '../actions/auth';
 
 export default function configureStore() {
   let enhancer;
+  const sagaMiddleware = createSagaMiddleware();
   if (__DEVELOPMENT__) {
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
     enhancer = composeEnhancers(
       autoRehydrate({ log: true }),
-      applyMiddleware(invariant(), createActionBuffer(DONE_REFRESH_TOKEN), createActionBuffer(REHYDRATE), jwt, thunk),   
+      applyMiddleware(invariant(), createActionBuffer(REFRESH_TOKEN_DONE), createActionBuffer(REHYDRATE), jwt, thunk, sagaMiddleware),   
       //applyMiddleware(jwt, thunk, createActionBuffer(REHYDRATE)), 
       //devTools(),
     )
@@ -25,9 +28,10 @@ export default function configureStore() {
   else {
     enhancer = compose(
       autoRehydrate({ log: true }),
-      applyMiddleware(createActionBuffer(DONE_REFRESH_TOKEN), createActionBuffer(REHYDRATE), jwt, thunk)
+      applyMiddleware(createActionBuffer(REFRESH_TOKEN_DONE), createActionBuffer(REHYDRATE), jwt, thunk, sagaMiddleware)
     )
   }
+  // sagaMiddleware.run(rootSaga);
   const store = createStore(rootReducer, undefined, enhancer);
   // middleware.listenForReplays(store);
 

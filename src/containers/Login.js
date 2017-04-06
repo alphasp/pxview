@@ -68,6 +68,7 @@ class Login extends Component {
       loading: true
     });
     login(email, password).then(() => {
+      console.log('after login')
       const { user, onLoginSuccess } = this.props;
       this.setState({
         loading: false

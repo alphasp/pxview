@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "NODE_PATH=src ava",
     "android": "node node_modules/react-native/local-cli/cli.js run-android",
     "android-release": "node node_modules/react-native/local-cli/cli.js run-android --variant=release",
     "android-release-new": "react-native run-android --configuration=release",
@@ -52,16 +53,30 @@
     "redux-action-buffer": "^1.0.1",
     "redux-form": "^6.3.2",
     "redux-persist": "^4.0.0",
+    "redux-saga": "^0.14.4",
     "redux-thunk": "^2.1.0",
-    "reselect": "^2.5.4"
+    "reselect": "^2.5.4",
+    "sinon": "^2.1.0"
   },
   "jest": {
     "preset": "react-native"
   },
+  "ava": {
+    "files": "test/**/**.spec.js",
+    "require": [
+      "./test/babel-register",
+      "react-native-mock/mock"
+    ],
+    "babel": "inherit"
+  },
   "devDependencies": {
+    "ava": "^0.18.2",
     "babel-jest": "17.0.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-react-native": "1.9.0",
+    "babel-register": "^6.24.0",
     "jest": "17.0.3",
+    "react-native-mock": "^0.3.1",
     "react-test-renderer": "15.4.1"
   }
 }

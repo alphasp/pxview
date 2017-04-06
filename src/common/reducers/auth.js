@@ -1,6 +1,6 @@
 import { 
-  REQUEST_LOGIN, SUCCESS_LOGIN, FAILED_LOGIN, LOGOUT,
-  REQUEST_REFRESH_TOKEN, SUCCESS_REFRESH_TOKEN, FAILED_REFRESH_TOKEN
+  LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT,
+  REFRESH_TOKEN_REQUEST, REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_FAILURE
 } from '../actions/auth';
 
 // const defaultUser = {
@@ -32,12 +32,12 @@ export default function auth(state = {
         user: null,
         loaded: false,
       }
-    case REQUEST_LOGIN:
+    case LOGIN_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case SUCCESS_LOGIN:
+    case LOGIN_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -45,17 +45,17 @@ export default function auth(state = {
         user: action.payload.user,
         lastUpdated: action.payload.receivedAt,
       };
-    case FAILED_LOGIN:
+    case LOGIN_FAILURE:
       return {
         ...state,
         loading: false,
       };
-    case REQUEST_REFRESH_TOKEN:
+    case REFRESH_TOKEN_REQUEST:
       return {
         ...state,
         refreshTokenPromise: action.payload.refreshTokenPromise,
       };
-    case SUCCESS_REFRESH_TOKEN:
+    case REFRESH_TOKEN_SUCCESS:
       return {
         ...state,
         user: action.payload.user,
@@ -63,7 +63,7 @@ export default function auth(state = {
         refreshTokenPromise: null,
         //refreshTokenPromise: Promise.resolve(),
       }
-    case FAILED_REFRESH_TOKEN: 
+    case REFRESH_TOKEN_FAILURE: 
       return {
         ...state,
         user: null,
