@@ -1,85 +1,72 @@
-import { takeEvery, fork, call, put } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
+import { take, fork, call, put, race } from 'redux-saga/effects';
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
+  LOGOUT,
   successLogin,
   failedLogin,
   logUserOut
 } from '../actions/auth.js'
-// import * as Keychain from 'react-native-keychain';
+import * as Keychain from 'react-native-keychain';
 import { addError, resetError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 
+// export function* loginFlow(action) {
+//   const { email, password } = action.payload;
+
+//   try {
+//     const json = yield call(pixiv.login, email, password)
+//     yield put(successLogin(json))
+//     // yield call(Api.storeItem, {token})
+//     return json;
+//   } 
+//   catch(err) {
+//     //yield [put(failedLogin()), put(addError())];
+//     yield put(failedLogin());
+//     yield put(addError());
+//     //yield put(addError((err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : ""));
+//   } 
+// }
+
 export function* authorize(email, password) {
-  try {
-    const json = yield call(pixiv.login, email, password)
-    yield put(successLogin(json))
-    // yield call(Api.storeItem, {token})
-    return json;
-  } 
-  catch(err) {
-    yield [put(failedLogin()), put(addError((err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : ""))];
-  } 
-  // finally {
-  //   if (yield cancelled()) {
-  //     // ... put special cancellation handling code here
-  //     // dispatch a dedicated action RESET_LOGIN_PENDING
-  //     // or more simply, make the reducer clear the isLoginPending on a LOGOUT action
-  //   }
-  // }
+  const loginResponse = yield call(pixiv.login, email, password)
+  yield call(Keychain.setGenericPassword, email, password);
+  yield put(successLogin(loginResponse));
+  return loginResponse;
 }
 
-// try {
-//         const response = yield call(loginAPI, {
-//             username,
-//             password
-//         })
-//         yield put({
-//             type: LOGIN_SUCCESS,
-//             response
-//         })
-//     } catch (error) {
-//         yield put({
-//             type: LOGIN_ERROR,
-//             error
-//         })
-//     }
-
-// export function* loginFlow({ email, password }) {
-export function* loginFlow(action) {
-  const { email, password } = action.payload;
-
-  try {
-    const json = yield call(pixiv.login, email, password)
-    yield put(successLogin(json))
-    // yield call(Api.storeItem, {token})
-    return json;
-  } 
-  catch(err) {
-    //yield [put(failedLogin()), put(addError())];
-    yield put(failedLogin());
-    yield put(addError());
-    //yield put(addError((err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : ""));
-  } 
-
-
-  // yield fork(authorize, email, password);
-  // yield take(LOGIN_CANCEL)
-  // yield cancel(task)
-
-
-  // while (true) {
-  //   const {user, password} = yield take(LOGIN_REQUEST)
-  //   // fork return a Task object
-  //   const task = yield fork(authorize, user, password)
-  //   // const action = yield take(['LOGOUT', 'LOGIN_ERROR'])
-  //   // if (action.type === 'LOGOUT')
-  //   //   yield cancel(task)
-  //   // yield call(Api.clearItem, 'token')
-  // }
+export function* authAndRefreshTokenOnExpiry(email, password) {
+  const loginResponse = yield call(authorize, email, password)
+  while(true) {
+    const credentials  = yield call (Keychain.getGenericPassword);
+    if (credentials.email && credentials.password) {
+      //refresh token 5 min before expire
+      yield call(delay, loginResponse.expires_in - 300)
+      yield call(authorize, credentials.email, credentials.password) 
+    }
+  }
 }
+
 
 export function* watchLoginRequest() {
-  yield takeEvery(LOGIN_REQUEST, loginFlow)
+  // yield takeEvery(LOGIN_REQUEST, loginFlow)
+  while(true) {
+    try {
+      const action = yield take(LOGIN_REQUEST)
+      const { email, password } = action.payload;
+      yield race([
+        take(LOGOUT),
+        call(authAndRefreshTokenOnExpiry, email, password)
+      ])
+      // user logged out, next while iteration will wait for the
+      // next LOGIN_REQUEST action
+    } 
+    catch(err) {
+      const errMessage = (err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : '';
+      yield put(failedLogin());
+      yield put(addError(errMessage));    
+    }
+  }
 }
