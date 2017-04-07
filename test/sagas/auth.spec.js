@@ -1,5 +1,3 @@
-import test from 'ava';
-import sinon from 'sinon';
 import { delay } from 'redux-saga';
 import { take, takeEvery, fork, call, put, race } from 'redux-saga/effects';
 import * as Keychain from 'react-native-keychain';
@@ -19,59 +17,44 @@ const mockLoginResponse = {
   expires_in: new Date('2017-01-01')
 };
 
-test('watchLoginRequest should take every login request', t => {
+jest.useFakeTimers();
+
+test('watchLoginRequest should take every login request', () => {
   const generator = watchLoginRequest();
   // console.log(generator.next().value)
   // console.log(generator.next().value)
-  t.deepEqual(
-    generator.next().value,
-    take(LOGIN_REQUEST),
-  );
-  t.deepEqual(
-    //value inside next() = result of yield;
-    generator.next(login(email, password)).value,
-    race([
+  expect(generator.next().value)
+    .toEqual(take(LOGIN_REQUEST));
+  //value inside next() = result of yield;
+  expect(generator.next(login(email, password)).value)
+    .toEqual(race([
       take(LOGOUT),
       call(authAndRefreshTokenOnExpiry, email, password)
-    ])
-  );
+    ]));
   //loop again
-  t.deepEqual(
-    generator.next().value,
-    take(LOGIN_REQUEST)
-  );
+  expect(generator.next().value)
+    .toEqual(take(LOGIN_REQUEST));
 })
 
-test('login success', t => {  
-  sinon.useFakeTimers(Date.now());
+test('login success', () => {  
   const credentials = { email, password };
   //  const mockTask = createMockTask();
   const generator = authAndRefreshTokenOnExpiry(email, password);
-  t.deepEqual(
-    generator.next().value,
-    call(authorize, email, password)
-  );
-  t.deepEqual(
-    generator.next(mockLoginResponse).value,
-    call(Keychain.getGenericPassword)
-  );
-  t.deepEqual(
-    generator.next(credentials).value,
-    call(delay, mockLoginResponse.expires_in - 300)
-  );
-  t.deepEqual(
-    generator.next().value,
-    call(authorize, credentials.email, credentials.password) 
-  );
+  expect(generator.next().value)
+    .toEqual(call(authorize, email, password));
+  expect(generator.next(mockLoginResponse).value)
+    .toEqual(call(Keychain.getGenericPassword));
+  expect(generator.next(credentials).value)
+    .toEqual(call(delay, mockLoginResponse.expires_in - 300));
+  expect(generator.next().value)
+    .toEqual(call(authorize, credentials.email, credentials.password));
 
   // loop again
-  t.deepEqual(
-    generator.next(mockLoginResponse).value,
-    call(Keychain.getGenericPassword)
-  );
+  expect(generator.next(mockLoginResponse).value)
+    .toEqual(call(Keychain.getGenericPassword));
 });
 
-test('login failure', t => {  
+test('login failure', () => {  
   const mockError = {
     errors: {
       system: {
@@ -80,41 +63,27 @@ test('login failure', t => {
     }
   };
   const generator = watchLoginRequest();
-  t.deepEqual(
-    generator.next().value,
-    take(LOGIN_REQUEST)
-  );
-  t.deepEqual(
-    generator.throw(mockError).value,
-    put(failedLogin())
-  );
+  expect(generator.next().value)
+    .toEqual(take(LOGIN_REQUEST));
+  expect(generator.throw(mockError).value)
+    .toEqual(put(failedLogin()));
   const errMessage = (mockError.errors && mockError.errors.system && mockError.errors.system.message) ? mockError.errors.system.message : '';
-  t.deepEqual(
-    generator.next().value,
-    put(addError(errMessage))
-  );
+  expect(generator.next().value)
+    .toEqual(put(addError(errMessage)));
   //loop again
-  t.deepEqual(
-    generator.next().value,
-    take(LOGIN_REQUEST)
-  );
+  expect(generator.next().value)
+    .toEqual(take(LOGIN_REQUEST));
 });
 
-test('authorize', t => {  
-  sinon.useFakeTimers(Date.now());
+test('authorize', () => {  
   const generator = authorize(email, password);
-  t.deepEqual(
-    generator.next().value,
-    call(pixiv.login, email, password)
-  );
-  t.deepEqual(
-    generator.next(mockLoginResponse).value,
-    call(Keychain.setGenericPassword, email, password)
-  );
-  t.deepEqual(
-    generator.next().value,
-    put(successLogin(mockLoginResponse))
-  );
-  t.true(generator.next().done);
+  expect(generator.next().value)
+    .toEqual(call(pixiv.login, email, password));
+  expect(generator.next(mockLoginResponse).value)
+    .toEqual(call(Keychain.setGenericPassword, email, password));
+  expect(generator.next().value)
+    .toEqual(put(successLogin(mockLoginResponse)));
+  expect(generator.next().done)
+    .toBe(true);
 });
 

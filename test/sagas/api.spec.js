@@ -1,4 +1,3 @@
-import test from 'ava';
 import sinon from 'sinon';
 import { delay } from 'redux-saga';
 import { take, takeEvery, fork, call, put, race } from 'redux-saga/effects';
@@ -9,20 +8,14 @@ import { addError, resetError } from 'common/actions/error';
 import pixiv from 'common/helpers/ApiClient';
 import { watchApiRequest, matchRequest } from 'common/sagas/api';
 
-
 //requestRecommended(isPublicRecommended, offset, url)
-test('watchApiRequest', t => {
+test('watchApiRequest', () => {
   const generator = watchApiRequest();
-  t.deepEqual(
-    generator.next().value,
-    // take('*REQUEST')
-    take(matchRequest)
-  );
-  t.deepEqual(
-    //value inside next() = result of yield;
-    generator.next(requestNewIllusts(0)).value,
-    put(failedLogin())
-  );
+  expect(generator.next().value)
+    .toEqual(take(matchRequest));
+  //value inside next() = result of yield;
+  expect(generator.next(requestNewIllusts(0)).value)
+    .toEqual(put(failedLogin()));
   // t.deepEqual(
   //   //value inside next() = result of yield;
   //   generator.next(logUserOut()).value,
