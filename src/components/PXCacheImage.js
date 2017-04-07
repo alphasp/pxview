@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 // import Image from 'react-native-image-progress';
 import moment from 'moment';
-import CacheableImage from 'react-native-cacheable-image';
+// import CacheableImage from 'react-native-cacheable-image';
 import FitImage from 'react-native-fit-image';
 import RNFetchBlob from 'react-native-fetch-blob'
 const windowWidth = Dimensions.get('window').width;

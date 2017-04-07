@@ -7,7 +7,7 @@ import {
   RefreshControl,
 } from 'react-native';
 // import Image from 'react-native-image-progress';
-import CacheableImage from 'react-native-cacheable-image';
+// import CacheableImage from 'react-native-cacheable-image';
 import FitImage from 'react-native-fit-image';
 import RNFetchBlob from 'react-native-fetch-blob'
 var task;
