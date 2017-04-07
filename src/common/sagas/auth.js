@@ -13,23 +13,6 @@ import * as Keychain from 'react-native-keychain';
 import { addError, resetError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 
-// export function* loginFlow(action) {
-//   const { email, password } = action.payload;
-
-//   try {
-//     const json = yield call(pixiv.login, email, password)
-//     yield put(successLogin(json))
-//     // yield call(Api.storeItem, {token})
-//     return json;
-//   } 
-//   catch(err) {
-//     //yield [put(failedLogin()), put(addError())];
-//     yield put(failedLogin());
-//     yield put(addError());
-//     //yield put(addError((err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : ""));
-//   } 
-// }
-
 export function* authorize(email, password) {
   const loginResponse = yield call(pixiv.login, email, password)
   yield call(Keychain.setGenericPassword, email, password);
@@ -48,7 +31,6 @@ export function* authAndRefreshTokenOnExpiry(email, password) {
     }
   }
 }
-
 
 export function* watchLoginRequest() {
   // yield takeEvery(LOGIN_REQUEST, loginFlow)

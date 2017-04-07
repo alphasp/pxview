@@ -16,7 +16,7 @@ const mockLoginResponse = {
   },
   access_token: 'access_token',
   refresh_token: 'refresh_token',
-  expires_in: '2017-01-01'
+  expires_in: new Date('2017-01-01')
 };
 
 test('watchLoginRequest should take every login request', t => {
@@ -25,7 +25,7 @@ test('watchLoginRequest should take every login request', t => {
   // console.log(generator.next().value)
   t.deepEqual(
     generator.next().value,
-    take(LOGIN_REQUEST)
+    take(LOGIN_REQUEST),
   );
   t.deepEqual(
     //value inside next() = result of yield;
