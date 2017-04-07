@@ -24,8 +24,8 @@ import pixiv from '../helpers/ApiClient';
 // }
 
 export function matchRequest(action) {
-  console.log('matchRequest ' , matchRequest)
-  return action.includes('REQUEST') && !action.includes('LOGIN_REQUEST')
+  console.log('matchRequest ' , action.type.includes('REQUEST') && !action.type.includes('LOGIN_REQUEST'))
+  return action.type.includes('REQUEST') && !action.type.includes('LOGIN_REQUEST');
 }
 
 export function* watchApiRequest() {
@@ -36,7 +36,7 @@ export function* watchApiRequest() {
       //const action = yield take('*REQUEST');
       // action.payload;
       console.log('watch api action ', action)
-      yield put(failedLogin());
+      //yield put(failedLogin());
     }
     catch (err) {
       console.log('ee ', err)

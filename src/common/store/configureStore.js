@@ -30,8 +30,8 @@ export default function configureStore() {
       applyMiddleware(createActionBuffer(REFRESH_TOKEN_DONE), createActionBuffer(REHYDRATE), jwt, thunk, sagaMiddleware)
     )
   }
-  // sagaMiddleware.run(rootSaga);
   const store = createStore(rootReducer, undefined, enhancer);
+  sagaMiddleware.run(rootSaga);
   // middleware.listenForReplays(store);
 
   // const middleware = compose(

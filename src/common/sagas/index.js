@@ -1,7 +1,10 @@
-import { watchLoginRequest } from './auth.js'
+import { watchLoginRequest } from './auth';
+import { watchApiRequest } from './api';
+
 
 export default function* rootSaga() {
   yield [
-    watchLoginRequest()
+    watchLoginRequest(),
+    watchApiRequest()
   ]
 }
