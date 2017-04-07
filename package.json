@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "NODE_PATH=src ava",
+    "test": "NODE_PATH=src jest",
+    "test:watch": "NODE_PATH=src jest --watch --coverage",
     "android": "node node_modules/react-native/local-cli/cli.js run-android",
     "android-release": "node node_modules/react-native/local-cli/cli.js run-android --variant=release",
     "android-release-new": "react-native run-android --configuration=release",
@@ -12,6 +13,7 @@
     "ios": "react-native run-ios"
   },
   "dependencies": {
+    "jest": "^19.0.2",
     "lodash.debounce": "^4.0.8",
     "lodash.isempty": "^4.4.0",
     "lodash.merge": "^4.6.0",
@@ -19,9 +21,9 @@
     "moment": "^2.15.1",
     "normalizr": "^3.2.2",
     "pixiv-api-client": "^0.13.1",
-    "react": "^16.0.0-alpha.4",
+    "react": "^16.0.0-alpha.6",
     "react-addons-shallow-compare": "^15.4.1",
-    "react-native": "^0.43.0",
+    "react-native": "^0.43.2",
     "react-native-animatable": "^1.1.0",
     "react-native-blur": "^2.0.0",
     "react-native-cacheable-image": "^1.2.0",
@@ -40,14 +42,13 @@
     "react-native-material-kit": "^0.4.1",
     "react-native-message-bar": "^1.6.0",
     "react-native-photo-view": "^1.2.0",
-    "react-native-router-flux": "^3.37.0",
     "react-native-scrollable-tab-view": "^0.7.2",
     "react-native-share": "^1.0.19",
     "react-native-spinkit": "^1.0.0",
     "react-native-swiper": "^1.5.4",
     "react-native-tags": "^0.1.1",
     "react-native-vector-icons": "^4.0.0",
-    "react-navigation": "^1.0.0-beta.7",
+    "react-navigation": "git+https://github.com/react-community/react-navigation.git",
     "react-redux": "^4.4.5",
     "redux": "^3.6.0",
     "redux-action-buffer": "^1.0.1",
@@ -61,22 +62,13 @@
   "jest": {
     "preset": "react-native"
   },
-  "ava": {
-    "files": "test/**/**.spec.js",
-    "require": [
-      "./test/babel-register",
-      "react-native-mock/mock"
-    ],
-    "babel": "inherit"
-  },
   "devDependencies": {
-    "ava": "^0.18.2",
     "babel-jest": "17.0.2",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-react-native": "1.9.0",
     "babel-register": "^6.24.0",
     "jest": "17.0.3",
-    "react-native-mock": "^0.3.1",
-    "react-test-renderer": "15.4.1"
+    "react-test-renderer": "15.4.1",
+    "redux-immutable-state-invariant": "^2.0.0"
   }
 }

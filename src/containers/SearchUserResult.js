@@ -10,7 +10,6 @@ import {
   InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Actions, ActionConst } from 'react-native-router-flux';
 import RecommendedUser from './RecommendedUser';
 import SearchBar from '../components/SearchBar';
 import Header from '../components/Header';
@@ -65,7 +64,7 @@ class SearchUserResult extends Component {
 
   handleOnSearchFieldFocus = () => {
     const { word } = this.props;
-    Actions.search({ word: word, searchType: SearchType.USER, isPopAndReplaceOnSubmit: true });
+    //Actions.search({ word: word, searchType: SearchType.USER, isPopAndReplaceOnSubmit: true });
   }
   
   loadMore = () => {
@@ -98,7 +97,7 @@ class SearchUserResult extends Component {
     if (newWord) {
       dispatch(clearSearchUser());
       dispatch(fetchSearchUser(newWord));
-      Actions.refresh({
+      /*Actions.refresh({
         word: newWord,
         renderTitle: () => {
           return (
@@ -112,10 +111,10 @@ class SearchUserResult extends Component {
             />
           )
         }
-      });
+      });*/
     }
     else {
-      Actions.pop();
+      //Actions.pop();
     }
   }
 

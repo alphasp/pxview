@@ -14,7 +14,6 @@ import {
 import { connect } from 'react-redux';
 import { NavigationActions, CardStack } from 'react-navigation';
 const { BackButton } = CardStack.Header;
-import { Actions, ActionConst } from 'react-native-router-flux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Search2 from './Search2';
@@ -156,7 +155,7 @@ class SearchResultTabs extends Component {
       return i !== index;
     }).join(' ');
     console.log('new word ', newWord);
-    if (newWord) {
+    /*if (newWord) {
       Actions.refresh({
         word: newWord,
         renderTitle: () => {
@@ -175,7 +174,7 @@ class SearchResultTabs extends Component {
     }
     else {
       Actions.pop();
-    }
+    }*/
   }
 
   handleOnChangeTab = ({ i, ref }) => {

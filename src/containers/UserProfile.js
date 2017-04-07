@@ -11,7 +11,6 @@ import {
   findNodeHandle,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Actions, ActionConst } from 'react-native-router-flux';
 import { List, ListItem } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Animatable from 'react-native-animatable';

@@ -2,7 +2,6 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import invariant from 'redux-immutable-state-invariant';
-import devTools from 'remote-redux-devtools';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import { REHYDRATE } from 'redux-persist/constants'
 import createActionBuffer from 'redux-action-buffer'

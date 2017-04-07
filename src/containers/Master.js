@@ -82,12 +82,34 @@ class Master extends Component {
         alertType: 'error',
       });
     }
-    if (routes.scene.name != nextRoutes.scene.name){
-      //maybe need to reset error on REACT_NATIVE_ROUTER_FLUX_FOCUS
+    // if (routes.scene.name != nextRoutes.scene.name){
+    //   //maybe need to reset error on REACT_NATIVE_ROUTER_FLUX_FOCUS
+    //   dispatch(resetError());
+    //   // if (!isAuthLoaded(nextProps)) {
+    //   //   dispatch(loadUserAuth())
+    //   // }
+    // }
+  }
+
+  // gets the current screen from navigation state
+  getCurrentRouteName = (navigationState) => {
+    if (!navigationState) {
+      return null;
+    }
+    const route = navigationState.routes[navigationState.index];
+    // dive into nested navigators
+    if (route.routes) {
+      return this.getCurrentRouteName(route);
+    }
+    return route.routeName;
+  }
+
+  handleOnNavigationStateChange = (prevState, currentState) => {
+    const currentScreen = this.getCurrentRouteName(currentState);
+    const prevScreen = this.getCurrentRouteName(prevState);
+    if (prevScreen !== currentScreen) {
+      const { dispatch } = this.props;
       dispatch(resetError());
-      // if (!isAuthLoaded(nextProps)) {
-      //   dispatch(loadUserAuth())
-      // }
     }
   }
 
@@ -145,6 +167,7 @@ class Master extends Component {
             openBottomSheet: this.openBottomSheet,
             strings: localizedStrings
           }} 
+          onNavigationStateChange={this.handleOnNavigationStateChange}
         />
         <MessageBar ref={ref => this.messageBarAlert = ref}/>
         <Toast ref={ref => this.toast = ref} />
@@ -187,7 +210,6 @@ class Master extends Component {
 export default connect(state => {
   return {
     error: state.error,
-    routes: state.routes,
     user: state.auth.user,
     lang: state.i18n.lang,
   }

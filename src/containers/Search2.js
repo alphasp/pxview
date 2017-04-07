@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import debounce from 'lodash.debounce';
-import { Actions, ActionConst } from 'react-native-router-flux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import PXSearchBar from '../components/PXSearchBar';
 import Header from '../components/Header';
@@ -100,7 +99,7 @@ class Search2 extends Component {
       submitSearch(word);
     }
     else {
-      Actions.pop();
+      //Actions.pop();
     }
   }
 

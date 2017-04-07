@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import debounce from 'lodash.debounce';
-import { Actions, ActionConst } from 'react-native-router-flux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import PXSearchBar from '../components/PXSearchBar';
 import Header from '../components/Header';
@@ -176,7 +175,7 @@ class Search extends Component {
   }
 
   handleOnPressUser = (userId) => {
-    Actions.userDetail({ userId: userId });
+    //Actions.userDetail({ userId: userId });
   }
 
   handleOnPressRemoveTag = (index) => {
@@ -186,7 +185,7 @@ class Search extends Component {
       this.handleOnSubmitSearch(newWord);
     }
     else {
-      Actions.pop();
+      //Actions.pop();
     }
   }
 

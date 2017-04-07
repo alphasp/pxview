@@ -20,7 +20,7 @@ function receiveNewIllusts(json, offset) {
   };
 }
 
-function requestNewIllusts(offset) {
+export function requestNewIllusts(offset) {
   return {
     type: REQUEST_NEW_ILLUSTS,
     payload: {

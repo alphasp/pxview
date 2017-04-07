@@ -31,7 +31,6 @@ import bookmarkIllust from './bookmarkIllust';
 import illustBookmarkDetail from './illustBookmarkDetail';
 import userFollowDetail from './userFollowDetail';
 import auth from './auth';
-import routes from './routes';
 import modal from './modal';
 import i18n from './i18n';
 import error from './error';
@@ -74,7 +73,6 @@ const rootReducer = combineReducers({
   bookmarkIllust,
   illustBookmarkDetail,
   auth,
-  routes,
   modal,
   i18n,
   form: formReducer,

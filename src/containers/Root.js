@@ -11,39 +11,39 @@ import { clearAllSearch, SortType } from '../common/actions/search';
 
 const store = configureStore();
 
-ApiClient.setStore(store);
+// ApiClient.setStore(store);
 
-function select(state) {
-  return state.routes.scene;
-}
+// function select(state) {
+//   return state.routes.scene;
+// }
 
-function observeStore(store, select, onChange) {
-  let currentState;
+// function observeStore(store, select, onChange) {
+//   let currentState;
 
-  function handleChange() {
-    let nextState = select(store.getState());
-    if (nextState !== currentState) {
-      currentState = nextState;
-      onChange(currentState);
-    }
-  }
+//   function handleChange() {
+//     let nextState = select(store.getState());
+//     if (nextState !== currentState) {
+//       currentState = nextState;
+//       onChange(currentState);
+//     }
+//   }
 
-  let unsubscribe = store.subscribe(handleChange);
-  handleChange();
-  return unsubscribe;
-}
+//   let unsubscribe = store.subscribe(handleChange);
+//   handleChange();
+//   return unsubscribe;
+// }
 
-observeStore(store, select, (state) => {
-  if ((state.name === "trending") || (state.name === "tabs")) {
-    const { searchNewest, searchOldest } = store.getState();
-    if (!isEmpty(searchNewest)) {
-      store.dispatch(clearAllSearch(SortType.DESC));
-    }
-    if (!isEmpty(searchOldest)) {
-      store.dispatch(clearAllSearch(SortType.ASC));
-    }
-  }
-});
+// observeStore(store, select, (state) => {
+//   if ((state.name === "trending") || (state.name === "tabs")) {
+//     const { searchNewest, searchOldest } = store.getState();
+//     if (!isEmpty(searchNewest)) {
+//       store.dispatch(clearAllSearch(SortType.DESC));
+//     }
+//     if (!isEmpty(searchOldest)) {
+//       store.dispatch(clearAllSearch(SortType.ASC));
+//     }
+//   }
+// });
 
 class Root extends Component {
   render() {

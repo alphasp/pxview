@@ -7,7 +7,6 @@ import {
   Linking,
 } from 'react-native';
 import dismissKeyboard from 'dismissKeyboard';
-import { Actions, ActionConst } from 'react-native-router-flux';
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form';
 import Icon from 'react-native-vector-icons/FontAwesome';

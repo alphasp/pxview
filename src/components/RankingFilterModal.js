@@ -9,7 +9,6 @@ import {
   Button,
 } from 'react-native';
 import { connect } from 'react-redux'
-import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import Separator from './Separator';

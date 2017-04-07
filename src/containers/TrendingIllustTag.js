@@ -10,7 +10,6 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
 //import GridView from 'react-native-grid-view';
 // import Image from 'react-native-image-progress';
 import GridView from '../components/GridView';

@@ -13,7 +13,6 @@ import {
 // import FlatList from 'react-native/Libraries/Experimental/FlatList';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { Actions } from 'react-native-router-flux';
 //import GridView from 'react-native-grid-view';
 // import Image from 'react-native-image-progress';
 import GridView from './GridView';
