@@ -16,19 +16,13 @@ import { denormalizedData } from '../common/helpers/normalizrHelper';
 import Schemas from '../common/constants/schemas';
 
 class RecommendedMangas extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      refreshing: false
-    };
-  }
   componentDidMount() {
     const { fetchRecommendedMangas } = this.props;
     fetchRecommendedMangas();
   }
 
   loadMoreItems = () => {
-    const { recommendedManga: { nextUrl }, fetchRecommendedMangas } = this.props;
+    const { recommendedMangas: { nextUrl }, fetchRecommendedMangas } = this.props;
     if (nextUrl) {
       fetchRecommendedMangas('', nextUrl);
     }
@@ -36,27 +30,17 @@ class RecommendedMangas extends Component {
 
   handleOnRefresh = () => {
     const { fetchRecommendedMangas, clearRecommendedMangas } = this.props;
-    this.setState({
-      refereshing: true
-    });
     clearRecommendedMangas();
-    fetchRecommendedMangas().finally(() => {
-      this.setState({
-        refereshing: false
-      }); 
-    })
+    fetchRecommendedMangas(null, null, true);
   }
 
   render() {
-    const { recommendedMangas, navigation } = this.props;
-    const { refreshing } = this.state;
+    const { recommendedMangas } = this.props;
     return (
       <IllustList
         data={recommendedMangas}
-        refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
-        navigation={navigation}
       />
     );
   }

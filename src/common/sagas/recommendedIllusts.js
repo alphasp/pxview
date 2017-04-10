@@ -1,6 +1,6 @@
 import qs from "qs";
 import { normalize } from 'normalizr';
-import { take, takeLatest, fork, call, apply, put, race, select } from 'redux-saga/effects';
+import { takeLatest, apply, put, select } from 'redux-saga/effects';
 import {
   fetchRecommendedIllusts,
   fetchRecommendedIllustsSuccess,

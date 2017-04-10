@@ -3,77 +3,42 @@ import { normalize } from 'normalizr';
 import { addError } from './error';
 import pixiv from '../helpers/ApiClient';
 import Schemas from '../constants/schemas';
+import { RECOMMENDED_MANGAS } from '../constants/actionTypes';
 
-export const REQUEST_RECOMMENDED_MANGAS = 'REQUEST_RECOMMENDED_MANGAS';
-export const RECEIVE_RECOMMENDED_MANGAS = 'RECEIVE_RECOMMENDED_MANGAS';
-export const STOP_RECOMMENDED_MANGAS = 'STOP_RECOMMENDED_MANGAS';
-export const CLEAR_RECOMMENDED_MANGAS = 'CLEAR_RECOMMENDED_MANGAS';
-
-function receiveRecommended(normalized, nextUrl, offset) { 
+export function fetchRecommendedMangasSuccess(entities, items, nextUrl) {
   return {
-    type: RECEIVE_RECOMMENDED_MANGAS,
+    type: RECOMMENDED_MANGAS.SUCCESS,
     payload: {
-      entities: normalized.entities,
-      items: normalized.result,
+      entities,
+      items,
       nextUrl,
-      offset,
       timestamp: Date.now(),
     }
   };
 }
 
-function requestRecommended(offset) {
+export function fetchRecommendedMangasFailure() {
   return {
-    type: REQUEST_RECOMMENDED_MANGAS,
+    type: RECOMMENDED_MANGAS.FAILURE,
+  };
+}
+
+
+export function fetchRecommendedMangas(options, nextUrl, refreshing = false) {
+  const params = qs.parse(nextUrl);
+  const offset = params.offset || "0";
+  return {
+    type: RECOMMENDED_MANGAS.REQUEST,
     payload: {
-      offset
-    }
-  };
-}
-
-function stopRecommended() {
-  return {
-    type: STOP_RECOMMENDED_MANGAS
-  };
-}
-
-function shouldFetchRecommended(state) {
-  const results = state.recommendedManga;
-  if (results && results.loading) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-function fetchRecommendedFromApi(options, nextUrl) {
-  return dispatch => {
-    const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.mangaRecommended(options);
-    const params = qs.parse(nextUrl);
-    const offset = params.offset || "0";
-    dispatch(requestRecommended(offset));
-    return promise
-      .then(json => {
-        const normalized = normalize(json.illusts, Schemas.ILLUST_ARRAY);
-        dispatch(receiveRecommended(normalized, json.next_url, offset));
-      })
-      .catch(err => {
-        dispatch(stopRecommended());
-        dispatch(addError(err));
-      });
-  };
-}
-
-export function fetchRecommendedMangas(options, nextUrl) {
-  return (dispatch, getState) => {
-    if (shouldFetchRecommended(getState())) {
-      return dispatch(fetchRecommendedFromApi(options, nextUrl));
+      offset,
+      nextUrl,
+      refreshing
     }
   };
 }
 
 export function clearRecommendedMangas() {
   return {
-    type: CLEAR_RECOMMENDED_MANGAS
+    type: RECOMMENDED_MANGAS.CLEAR
   };
 }

@@ -13,16 +13,7 @@ const defaultState = {
 export default function recommendedIllusts(state = defaultState, action) {
   switch (action.type) {
     case RECOMMENDED_ILLUSTS.CLEAR:
-      return {
-        ...state,
-        loading: false,
-        loaded: false,
-        refreshing: false,
-        items: [],
-        offset: 0,
-        url: null,
-        nextUrl: null,
-      };
+      return defaultState;
     case RECOMMENDED_ILLUSTS.REQUEST:
       return {
         ...state,

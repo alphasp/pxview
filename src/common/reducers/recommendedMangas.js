@@ -1,46 +1,41 @@
-import { 
-  REQUEST_RECOMMENDED_MANGAS, 
-  RECEIVE_RECOMMENDED_MANGAS, 
-  STOP_RECOMMENDED_MANGAS, 
-  CLEAR_RECOMMENDED_MANGAS,
-} from "../actions/recommendedMangas";
+import { RECOMMENDED_MANGAS } from '../constants/actionTypes';
 
-export default function recommendedMangas(state = {
+const defaultState = {
   loading: false,
   loaded: false,
+  refreshing: false,
   items: [],
   offset: 0,
+  url: null,
   nextUrl: null,
-}, action) {
+};
+
+export default function recommendedMangas(state = defaultState, action) {
   switch (action.type) {
-    case CLEAR_RECOMMENDED_MANGAS:
-      return {
-        ...state,
-        loading: false,
-        loaded: false,
-        items: [],
-        offset: 0,
-        nextUrl: null,
-      };
-    case REQUEST_RECOMMENDED_MANGAS:
+    case RECOMMENDED_MANGAS.CLEAR:
+      return defaultState;
+    case RECOMMENDED_MANGAS.REQUEST:
       return {
         ...state,
         loading: true,
+        refreshing: action.payload.refreshing,
       };
-    case RECEIVE_RECOMMENDED_MANGAS:
+    case RECOMMENDED_MANGAS.SUCCESS:
       return {
         ...state,
         loading: false,
         loaded: true,
+        refreshing: false,
         items: [...state.items, ...action.payload.items],
         offset: action.payload.offset,
         nextUrl: action.payload.nextUrl,
         timestamp: action.payload.timestamp,
       };
-    case STOP_RECOMMENDED_MANGAS:
+    case RECOMMENDED_MANGAS.FAILURE:
       return {
         ...state,
         loading: false,
+        refreshing: false,
       };
     default:
       return state;

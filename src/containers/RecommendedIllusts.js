@@ -31,21 +31,17 @@ class RecommendedIllusts extends Component {
 
   handleOnRefresh = () => {
     const { clearRecommendedIllusts, fetchRecommendedIllusts } = this.props;
-    this.setState({
-      refreshing: true
-    });
     clearRecommendedIllusts();
     fetchRecommendedIllusts(null, null, true);
   }
 
   render() {
-    const { recommendedIllusts, navigation } = this.props;
+    const { recommendedIllusts } = this.props;
     return (
       <IllustList
         data={recommendedIllusts}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
-        navigation={navigation}
       />
     );
   }
