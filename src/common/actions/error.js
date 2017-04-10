@@ -16,6 +16,7 @@ export const REMOVE_ERROR = 'REMOVE_ERROR';
 // }
 
 export function addError(error) {
+  console.log('add error ', error)
   return {
     type: ADD_ERROR,
     error: true,

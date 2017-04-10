@@ -1,10 +1,8 @@
-import { watchLoginRequest } from './auth';
-import { watchApiRequest } from './api';
-
+import { watchLoginRequest, watchRehydrate } from './auth';
 
 export default function* rootSaga() {
   yield [
     watchLoginRequest(),
-    watchApiRequest()
+    watchRehydrate()
   ]
 }

@@ -12,6 +12,7 @@ export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST';
 export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS';
 export const REFRESH_TOKEN_FAILURE = 'REFRESH_TOKEN_FAILURE';
 export const REFRESH_TOKEN_DONE = 'REFRESH_TOKEN_DONE';
+export const AUTH_REHYDRATE_DONE = 'AUTH_REHYDRATE_DONE';
 
 const defaultUser = {
   "access_token": "-L9fVk2G8esw5Oqx7W7URMUgHx5S1SwNjrDOKlnPXBM",
@@ -104,9 +105,15 @@ function failedRefreshToken() {
   };
 }
 
-function doneRefreshToken() {
+export function doneRefreshToken() {
   return {
     type: REFRESH_TOKEN_DONE
+  }
+}
+
+export function doneRehydrate() {
+  return {
+    type: AUTH_REHYDRATE_DONE
   }
 }
 
@@ -200,33 +207,33 @@ export function logout() {
   }
 }
 
-export function requestRefreshToken(dispatch) {
-  // const promise = Promise.resolve().then(() => {
-  //   return dispatch(successRefreshToken(defaultUser));
-  // }).catch(err => {
-  //   dispatch(failedRefreshToken());
-  //   return dispatch(addError((err && err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : err));
-  // });
-  dispatch(refreshToken(Promise.resolve()));
-  const promise = Keychain.getGenericPassword()
-    .then(credentials => {
-      if (credentials.username && credentials.password) {
-        return pixiv.login(credentials.username, credentials.password).then(json => {
-          dispatch(successRefreshToken(json));
-          dispatch(doneRefreshToken());
-        }).catch(err => {
-          dispatch(failedRefreshToken());
-          //An error occured, please try again
-          dispatch(addError((err && err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : err));
-          dispatch(doneRefreshToken());
-        });
-      }
-      else {
-        return dispatch(doneRefreshToken());
-      }
-    });
-  return promise;
-}
+// export function requestRefreshToken(dispatch) {
+//   // const promise = Promise.resolve().then(() => {
+//   //   return dispatch(successRefreshToken(defaultUser));
+//   // }).catch(err => {
+//   //   dispatch(failedRefreshToken());
+//   //   return dispatch(addError((err && err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : err));
+//   // });
+//   dispatch(refreshToken(Promise.resolve()));
+//   const promise = Keychain.getGenericPassword()
+//     .then(credentials => {
+//       if (credentials.username && credentials.password) {
+//         return pixiv.login(credentials.username, credentials.password).then(json => {
+//           dispatch(successRefreshToken(json));
+//           dispatch(doneRefreshToken());
+//         }).catch(err => {
+//           dispatch(failedRefreshToken());
+//           //An error occured, please try again
+//           dispatch(addError((err && err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : err));
+//           dispatch(doneRefreshToken());
+//         });
+//       }
+//       else {
+//         return dispatch(doneRefreshToken());
+//       }
+//     });
+//   return promise;
+// }
 
 // export function requestRefreshToken() {
 //   return (dispatch, getState) => {

@@ -1,13 +1,15 @@
 import { delay } from 'redux-saga';
-import { take, takeEvery, fork, call, put, race } from 'redux-saga/effects';
+import { take, takeEvery, takeLatest, fork, call, apply, put, race, select } from 'redux-saga/effects';
 import * as Keychain from 'react-native-keychain';
-import { LOGIN_REQUEST, LOGOUT, login, successLogin, failedLogin } from 'common/actions/auth';
+import { REHYDRATE } from 'redux-persist/constants';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT, login, requestLogin, successLogin, failedLogin, doneRehydrate } from 'common/actions/auth';
 import { addError, resetError } from 'common/actions/error';
 import pixiv from 'common/helpers/ApiClient';
-import { watchLoginRequest, authAndRefreshTokenOnExpiry, authorize } from 'common/sagas/auth';
+import { watchLoginRequest, watchRehydrate, authAndRefreshTokenOnExpiry, authorize, handleLogout, getAuthUser } from 'common/sagas/auth';
 
 const email = 'test@gmail.com';
 const password = 'password';
+const credentials = { username: email, password };
 const mockLoginResponse = {
   user: {
     id: 123
@@ -17,7 +19,7 @@ const mockLoginResponse = {
   expires_in: new Date('2017-01-01')
 };
 
-jest.useFakeTimers();
+Date.now = jest.genMockFunction().mockReturnValue(0);
 
 test('watchLoginRequest should take every login request', () => {
   const generator = watchLoginRequest();
@@ -31,27 +33,31 @@ test('watchLoginRequest should take every login request', () => {
       take(LOGOUT),
       call(authAndRefreshTokenOnExpiry, email, password)
     ]));
+  expect(generator.next().value)
+    .toEqual(call(handleLogout));
   //loop again
   expect(generator.next().value)
     .toEqual(take(LOGIN_REQUEST));
 })
 
 test('login success', () => {  
-  const credentials = { email, password };
-  //  const mockTask = createMockTask();
   const generator = authAndRefreshTokenOnExpiry(email, password);
+  const delayMilisecond = (mockLoginResponse.expires_in - 300) * 1000;
+
   expect(generator.next().value)
     .toEqual(call(authorize, email, password));
   expect(generator.next(mockLoginResponse).value)
     .toEqual(call(Keychain.getGenericPassword));
   expect(generator.next(credentials).value)
-    .toEqual(call(delay, mockLoginResponse.expires_in - 300));
-  expect(generator.next().value)
-    .toEqual(call(authorize, credentials.email, credentials.password));
+    .toEqual(call(delay, delayMilisecond));
+  // expect(generator.next().value)
+  //   .toEqual(call(authorize, credentials.username, credentials.password));
 
-  // loop again
-  expect(generator.next(mockLoginResponse).value)
-    .toEqual(call(Keychain.getGenericPassword));
+  // // loop again
+  // expect(generator.next(mockLoginResponse).value)
+  //   .toEqual(call(Keychain.getGenericPassword));
+
+    
 });
 
 test('login failure', () => {  
@@ -78,7 +84,7 @@ test('login failure', () => {
 test('authorize', () => {  
   const generator = authorize(email, password);
   expect(generator.next().value)
-    .toEqual(call(pixiv.login, email, password));
+    .toEqual(apply(pixiv, pixiv.login, [email, password]));
   expect(generator.next(mockLoginResponse).value)
     .toEqual(call(Keychain.setGenericPassword, email, password));
   expect(generator.next().value)
@@ -87,3 +93,37 @@ test('authorize', () => {
     .toBe(true);
 });
 
+// test('watchLogout', () => {
+//   const generator = watchLogout();
+//   expect(generator.next().value)
+//     .toEqual(takeLatest(LOGOUT, handleLogout));
+// });
+
+test('handleLogout', () => {
+  const generator = handleLogout();
+  expect(generator.next().value)
+    .toEqual([
+      call(Keychain.resetGenericPassword),
+      call(pixiv.logout)
+    ]);
+});
+
+test('Login after redux rehydrated if state auth user is found', () => {
+  const generator = watchRehydrate();
+  const user = {};
+  expect(generator.next().value)
+    .toEqual(take(REHYDRATE));
+  expect(generator.next().value)
+    .toEqual(select(getAuthUser));
+  expect(generator.next(user).value)
+    .toEqual(call(Keychain.getGenericPassword));
+  expect(generator.next(credentials).value)
+    .toEqual(put(requestLogin(credentials.username, credentials.password)));
+  expect(generator.next().value)
+    .toEqual(take([
+      LOGIN_SUCCESS,
+      LOGIN_ERROR
+    ]));
+  expect(generator.next().value)
+    .toEqual(put(doneRehydrate()));
+});

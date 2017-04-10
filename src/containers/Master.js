@@ -16,6 +16,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import IonicIcon from 'react-native-vector-icons/Ionicons';
 import AppNavigator from '../navigations/AppNavigator';
 import PXTouchable from '../components/PXTouchable';
+import Loader from '../components/Loader';
 import ModalRoot from './ModalRoot';
 import { localizedStrings } from '../common/helpers/i18n';
 import { resetError } from '../common/actions/error';
@@ -158,17 +159,23 @@ class Master extends Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { rehydrated } = this.props;
     const { isShowBottomSheet, imageUrls } = this.state;
     return (
       <View style={styles.container}>
-        <AppNavigator 
-          screenProps={{
-            openBottomSheet: this.openBottomSheet,
-            strings: localizedStrings
-          }} 
-          onNavigationStateChange={this.handleOnNavigationStateChange}
-        />
+        {
+          rehydrated ?
+          <AppNavigator 
+            screenProps={{
+              openBottomSheet: this.openBottomSheet,
+              strings: localizedStrings
+            }} 
+            onNavigationStateChange={this.handleOnNavigationStateChange}
+          />
+          :
+          <Loader />
+        }
+        
         <MessageBar ref={ref => this.messageBarAlert = ref}/>
         <Toast ref={ref => this.toast = ref} />
         <ModalRoot />
@@ -210,7 +217,7 @@ class Master extends Component {
 export default connect(state => {
   return {
     error: state.error,
-    user: state.auth.user,
+    rehydrated: state.auth.rehydrated,
     lang: state.i18n.lang,
   }
 })(Master);

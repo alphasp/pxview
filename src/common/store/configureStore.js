@@ -19,7 +19,7 @@ export default function configureStore() {
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
     enhancer = composeEnhancers(
       autoRehydrate({ log: true }),
-      applyMiddleware(invariant(), createActionBuffer(REFRESH_TOKEN_DONE), createActionBuffer(REHYDRATE), jwt, thunk, sagaMiddleware),   
+      applyMiddleware(invariant(), createActionBuffer(REHYDRATE), thunk, sagaMiddleware),   
       //applyMiddleware(jwt, thunk, createActionBuffer(REHYDRATE)), 
       //devTools(),
     )
@@ -49,7 +49,7 @@ export default function configureStore() {
     console.log('rehydration complete');
     //const { auth } = store.getState();
     
-    requestRefreshToken(store.dispatch); 
+    // requestRefreshToken(store.dispatch); 
     // if (auth && auth.user && auth.user.accessToken) {
     //   pixiv.setAuthToken(auth.user.accessToken);
     // }

@@ -1,8 +1,9 @@
 import { 
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT,
-  REFRESH_TOKEN_REQUEST, REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_FAILURE
+  REFRESH_TOKEN_REQUEST, REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_FAILURE,
+  AUTH_REHYDRATE_DONE
 } from '../actions/auth';
-
+import { REHYDRATE } from 'redux-persist/constants';
 // const defaultUser = {
 //   "profile_image_urls": {
 //     "px_16x16": "https://source.pixiv.net/common/images/no_profile_ss.png",
@@ -24,6 +25,7 @@ export default function auth(state = {
   loading: false,
   loaded: false,
   user: null,
+  rehydrated: false
 }, action) {
   switch (action.type) {
     case LOGOUT:
@@ -50,6 +52,17 @@ export default function auth(state = {
         ...state,
         loading: false,
       };
+    case REHYDRATE:
+      return {
+        ...state,
+        ...action.payload.auth,
+        rehydrated: false
+      }
+    case AUTH_REHYDRATE_DONE:
+      return {
+        ...state,
+        rehydrated: true
+      }
     case REFRESH_TOKEN_REQUEST:
       return {
         ...state,

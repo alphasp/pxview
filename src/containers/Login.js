@@ -42,43 +42,33 @@ const validate = (values, props) => {
 
 class Login extends Component {
   static propTypes = {
-    user: PropTypes.object,
+    auth: PropTypes.object,
     navigation: PropTypes.object,
     login: PropTypes.func.isRequired,
     onLoginSuccess: PropTypes.func,
     handleSubmit: PropTypes.func
   }
-
-  constructor(props) {
-    super();
-    this.state = {
-      loading: false
-    };
-  }
   
+  componentWillReceiveProps(nextProps) {
+    const { auth: { user: prevUser } } = this.props;
+    const { auth: { user }, navigation: { goBack }, onLoginSuccess } = nextProps;
+    if (user !== prevUser) {
+      goBack();
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      }
+    }
+  }
+
   submit = (data) => {
     //Actions.pop({ refresh: { test: 'abaer' }})
     // Actions.tabs();
     // Actions.userProfile({ type: ActionConst.RESET });
-    const { navigation: { goBack }, login } = this.props;
+    const { login } = this.props;
     const { email, password } = data;
     dismissKeyboard();
-    this.setState({
-      loading: true
-    });
-    login(email, password).then(() => {
-      console.log('after login')
-      const { user, onLoginSuccess } = this.props;
-      this.setState({
-        loading: false
-      });
-      if (user) {
-        goBack();
-        if (onLoginSuccess) {
-          onLoginSuccess();
-        }
-      }
-    });
+    login(email, password);
+    //todo handle login error
   }
 
   handleOnPressSignUp = () => {
@@ -94,8 +84,7 @@ class Login extends Component {
   }
 
   render() {
-    const { handleSubmit } = this.props;
-    const { loading } = this.state;
+    const { auth: { loading }, handleSubmit } = this.props;
     return (
       <View style={styles.container}>
         <Field name="email" component={PXFormInput} label="Email address/Pixiv ID" autoCapitalize="none" />
@@ -112,7 +101,7 @@ class Login extends Component {
           raised
           onPress={this.handleOnPressSignUp}
         />
-        <OverlaySpinner visible={ loading } />
+        <OverlaySpinner visible={loading} />
       </View>
     );
   }
@@ -126,7 +115,7 @@ const LoginForm = reduxForm({
 
 export default connect((state, props) => {
   return {
-    user: state.auth.user,
+    auth: state.auth,
     onLoginSuccess: props.onLoginSuccess || (props.navigation.state && props.navigation.state.params && props.navigation.state.params.onLoginSuccess)
   }
 }, { login })(LoginForm);
