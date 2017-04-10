@@ -26,7 +26,7 @@ function receiveSearch(normalized, nextUrl, navigationStateKey, word, options, o
       word,
       options,
       offset,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }

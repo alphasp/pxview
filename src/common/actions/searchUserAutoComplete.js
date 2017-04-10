@@ -16,7 +16,7 @@ function receiveSearchUserAutoComplete(json, word, offset) {
       nextUrl: json.next_url,
       word,
       offset,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }
@@ -29,7 +29,7 @@ function receiveSearchUserAutoCompleteConcat(json, word, offset) {
       nextUrl: json.next_url,
       word,
       offset,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }

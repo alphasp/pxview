@@ -39,7 +39,7 @@ export default function myPixiv(state = {
         items: [...state.items, ...action.payload.items],
         offset: action.payload.offset,
         nextUrl: action.payload.nextUrl,
-        lastUpdated: action.payload.receivedAt,
+        timestamp: action.payload.timestamp,
       };
     case FETCH_MY_PIXIV_ILLUSTS_FAILURE:
       return {

@@ -41,7 +41,7 @@ export default function search(state = {}, action) {
           items: (state[action.payload.navigationStateKey] && state[action.payload.navigationStateKey].items) ? [...state[action.payload.navigationStateKey].items, ...action.payload.items] : action.payload.items,
           offset: action.payload.offset,
           nextUrl: action.payload.nextUrl,
-          lastUpdated: action.payload.receivedAt
+          timestamp: action.payload.timestamp
         }
       };
     case STOP_SEARCH:

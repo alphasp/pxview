@@ -48,7 +48,7 @@ function bookmarkIllustSuccess(illustId, bookmarkType, tags) {
       illustId, 
       bookmarkType, 
       tags,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }
@@ -71,7 +71,7 @@ function unbookmarkIllustSuccess(illustId, bookmarkType, tags) {
       illustId, 
       bookmarkType, 
       tags,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }

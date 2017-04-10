@@ -47,7 +47,7 @@ export default function search(state = getDefaultState(), action) {
           items: (state[action.payload.rankingMode] && state[action.payload.rankingMode].items) ? [...state[action.payload.rankingMode].items, ...action.payload.items] : action.payload.items,
           offset: action.payload.offset,
           nextUrl: action.payload.nextUrl,
-          lastUpdated: action.payload.receivedAt
+          timestamp: action.payload.timestamp
         }
       };
     case STOP_RANKING:

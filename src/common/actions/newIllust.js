@@ -15,7 +15,7 @@ function receiveNewIllusts(json, offset) {
       items: json.illusts,
       nextUrl: json.next_url,
       offset,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }

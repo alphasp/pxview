@@ -22,7 +22,7 @@ function fetchUserFollowDetailSuccess(json, userId) {
     payload: {
       item: json.follow_detail,
       userId,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }

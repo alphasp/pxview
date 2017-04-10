@@ -29,7 +29,7 @@ export function searchAutoComplete(state = {
         loading: false,
         loaded: true,
         items: [...action.payload.items],
-        lastUpdated: action.payload.receivedAt,
+        timestamp: action.payload.timestamp,
       };
     case STOP_SEARCH_AUTOCOMPLETE:
       return {

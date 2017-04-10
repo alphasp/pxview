@@ -17,7 +17,7 @@ function receiveRelatedIllust(normalized, illustId, nextUrl) {
       items: normalized.result,
       illustId,
       nextUrl,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }

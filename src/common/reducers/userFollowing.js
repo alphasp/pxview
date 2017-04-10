@@ -53,7 +53,7 @@ export default function userFollowing(state = {
             items: (state[action.payload.followingType][action.payload.userId] && state[action.payload.followingType][action.payload.userId].items) ? [...state[action.payload.followingType][action.payload.userId].items, ...action.payload.items] : action.payload.items,
             offset: action.payload.offset,
             nextUrl: action.payload.nextUrl,
-            lastUpdated: action.payload.receivedAt,
+            timestamp: action.payload.timestamp,
           }
         }
       };

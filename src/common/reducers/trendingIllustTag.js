@@ -30,7 +30,7 @@ export function trendingIllustTag(state = {
         loading: false,
         loaded: true,
         items: [...state.items, ...action.payload.items],
-        lastUpdated: action.payload.receivedAt,
+        timestamp: action.payload.timestamp,
       };
     case STOP_TRENDING_ILLUST_TAGS:
       return {

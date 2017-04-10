@@ -18,7 +18,7 @@ function receiveRecommended(normalized, nextUrl, offset) {
       items: normalized.result,
       nextUrl,
       offset,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }

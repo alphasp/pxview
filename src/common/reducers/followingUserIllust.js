@@ -39,7 +39,7 @@ export default function followingUserIllust(state = {
         items: [...state.items, ...action.payload.items],
         offset: action.payload.offset,
         nextUrl: action.payload.nextUrl,
-        lastUpdated: action.payload.receivedAt,
+        timestamp: action.payload.timestamp,
       };
     case STOP_FOLLOWING_USER_ILLUSTS:
       return {

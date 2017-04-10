@@ -23,7 +23,7 @@ export default function bookmarkIllust(state = {
         ...state,
         loading: false,
         loaded: true,
-        lastUpdated: action.payload.receivedAt,
+        timestamp: action.payload.timestamp,
       };
     case BOOKMARK_ILLUST_FAILURE:
       return {
@@ -40,7 +40,7 @@ export default function bookmarkIllust(state = {
         ...state,
         loading: false,
         loaded: true,
-        lastUpdated: action.payload.receivedAt,
+        timestamp: action.payload.timestamp,
       };
     case UNBOOKMARK_ILLUST_FAILURE:
       return {

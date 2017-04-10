@@ -45,7 +45,7 @@ export default function auth(state = {
         loading: false,
         loaded: true,
         user: action.payload.user,
-        lastUpdated: action.payload.receivedAt,
+        timestamp: action.payload.timestamp,
       };
     case LOGIN_FAILURE:
       return {
@@ -72,7 +72,7 @@ export default function auth(state = {
       return {
         ...state,
         user: action.payload.user,
-        lastUpdated: Date.now(),
+        timestamp: Date.now(),
         refreshTokenPromise: null,
         //refreshTokenPromise: Promise.resolve(),
       }
@@ -80,7 +80,7 @@ export default function auth(state = {
       return {
         ...state,
         user: null,
-        lastUpdated: Date.now(),
+        timestamp: Date.now(),
         refreshTokenPromise: null,
         //refreshTokenPromise: Promise.resolve(),
       }

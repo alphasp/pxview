@@ -42,7 +42,7 @@ export default function newIllust(state = {
         items: [...state.items, ...action.payload.items],
         offset: action.payload.offset,
         nextUrl: action.payload.nextUrl,
-        lastUpdated: action.payload.receivedAt,
+        timestamp: action.payload.timestamp,
       };
     case STOP_NEW_ILLUSTS:
       return {

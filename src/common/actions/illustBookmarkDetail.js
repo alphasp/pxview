@@ -22,7 +22,7 @@ function fetchIllustBookmarkDetailSuccess(json, illustId) {
     payload: {
       item: json.bookmark_detail,
       illustId,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }

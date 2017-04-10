@@ -36,7 +36,7 @@ function fetchUserFollowingSuccess(normalized, nextUrl, userId, followingType, o
       userId,
       followingType,
       offset,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }

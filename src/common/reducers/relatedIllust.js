@@ -37,7 +37,7 @@ export function relatedIllust(state = {}, action) {
           loaded: true,
           items: (state[action.payload.illustId] && state[action.payload.illustId].items) ? [...state[action.payload.illustId].items, ...action.payload.items] : action.payload.items,
           nextUrl: action.payload.nextUrl,
-          lastUpdated: action.payload.receivedAt
+          timestamp: action.payload.timestamp
         }
       };
     case STOP_RELATED_ILLUSTS:

@@ -47,7 +47,7 @@ export default function search(state = {
           items: (state[action.payload.tagType] && state[action.payload.tagType].items) ? [...state[action.payload.tagType].items, ...action.payload.items] : action.payload.items,
           offset: action.payload.offset,
           nextUrl: action.payload.nextUrl,
-          lastUpdated: action.payload.receivedAt
+          timestamp: action.payload.timestamp
         }
       };
     case STOP_BOOKMARK_TAG:

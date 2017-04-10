@@ -37,7 +37,7 @@ export default function searchUser(state = {
         loaded: true,
         items: [...action.payload.items],
         nextUrl: action.payload.nextUrl,
-        lastUpdated: action.payload.receivedAt,
+        timestamp: action.payload.timestamp,
       };
     case RECEIVE_SEARCH_USER_CONCAT:
       return {
@@ -46,7 +46,7 @@ export default function searchUser(state = {
         loaded: true,
         items: [...state.items, ...action.payload.items],
         nextUrl: action.payload.nextUrl,
-        lastUpdated: action.payload.receivedAt,
+        timestamp: action.payload.timestamp,
       };
     case STOP_SEARCH_USER:
       return {

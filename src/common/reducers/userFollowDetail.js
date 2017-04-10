@@ -33,7 +33,7 @@ export default function userFollowDetail(state = {
         loaded: true,
         item: action.payload.item,
         userId: action.payload.userId,
-        lastUpdated: action.payload.receivedAt,
+        timestamp: action.payload.timestamp,
       };
     case FETCH_USER_FOLLOW_DETAIL_FAILURE:
       return {

@@ -29,7 +29,7 @@ function fetchUserFollowerSuccess(normalized, nextUrl, userId, offset) {
       nextUrl,
       userId,
       offset,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }

@@ -29,7 +29,7 @@ function receiveBookmarkTag(json, tagType, options, offset) {
       options,
       offset,
       nextUrl: json.next_url,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }

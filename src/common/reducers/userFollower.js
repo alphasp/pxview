@@ -33,7 +33,7 @@ export default function userFollower(state = {}, action) {
           items: (state[action.payload.userId] && state[action.payload.userId].items) ? [...state[action.payload.userId].items, ...action.payload.items] : action.payload.items,
           offset: action.payload.offset,
           nextUrl: action.payload.nextUrl,
-          lastUpdated: action.payload.receivedAt,
+          timestamp: action.payload.timestamp,
         }
       };
     case FETCH_USER_FOLLOWER_FAILURE:

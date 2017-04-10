@@ -16,7 +16,7 @@ function receiveIllustComment(json, illustId, offset) {
       nextUrl: json.next_url,
       illustId,
       offset: offset,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }

@@ -33,7 +33,7 @@ export default function illustBookmarkDetail(state = {
         loaded: true,
         item: action.payload.item,
         illustId: action.payload.illustId,
-        lastUpdated: action.payload.receivedAt,
+        timestamp: action.payload.timestamp,
       };
     case FETCH_ILLUST_BOOKMARK_DETAIL_FAILURE:
       return {

@@ -13,7 +13,7 @@ function receiveTrendingIllustTags(json, offset) {
     type: RECEIVE_TRENDING_ILLUST_TAGS,
     payload: {
       items: json.trend_tags,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }

@@ -31,7 +31,7 @@ export default function userDetail(state = {}, action) {
           loading: false,
           loaded: true,
           item: action.payload.item,
-          lastUpdated: action.payload.receivedAt
+          timestamp: action.payload.timestamp
         }
       };
     case STOP_USER_DETAIL:

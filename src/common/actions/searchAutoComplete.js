@@ -14,7 +14,7 @@ function receiveSearchAutoComplete(json, word) {
       items: json.search_auto_complete_keywords,
       nextUrl: json.next_url,
       word,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }

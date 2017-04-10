@@ -57,7 +57,7 @@ export function successLogin(json) {
         refreshToken: json.refresh_token, //not working now
         expiresIn: json.expires_in,
       },
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }
@@ -94,7 +94,7 @@ function successRefreshToken(json) {
         refreshToken: json.refresh_token,
         expiresIn: json.expires_in,
       },
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   }
 }

@@ -44,7 +44,7 @@ function followUserSuccess(userId, followType) {
     payload: {
       userId, 
       followType, 
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }
@@ -64,7 +64,7 @@ function unFollowUserSuccess(userId) {
     type: UNFOLLOW_USER_SUCCESS,
     payload: {
       userId, 
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }

@@ -31,7 +31,7 @@ function receiveRanking(normalized, nextUrl, rankingMode, options, offset) {
       options,
       offset,
       nextUrl,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }

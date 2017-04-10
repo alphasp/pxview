@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "NODE_PATH=src jest",
-    "test:watch": "NODE_PATH=src jest --watch --coverage",
+    "test": "jest",
+    "test:watch": "jest --watch --coverage",
     "android": "node node_modules/react-native/local-cli/cli.js run-android",
     "android-release": "node node_modules/react-native/local-cli/cli.js run-android --variant=release",
     "android-release-new": "react-native run-android --configuration=release",
@@ -51,6 +51,7 @@
     "react-redux": "^4.4.5",
     "redux": "^3.6.0",
     "redux-action-buffer": "^1.0.1",
+    "redux-define": "^1.1.0",
     "redux-form": "^6.3.2",
     "redux-persist": "^4.0.0",
     "redux-saga": "^0.14.4",

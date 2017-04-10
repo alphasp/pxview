@@ -17,7 +17,7 @@ function receiveUserDetail(normalized, userId) {
       entities: normalized.entities,
       item: normalized.result,
       userId,
-      receivedAt: Date.now(),
+      timestamp: Date.now(),
     }
   };
 }
