@@ -3,9 +3,9 @@ import {
   RECEIVE_ILLUST_COMMENTS, 
   STOP_ILLUST_COMMENTS, 
   CLEAR_ILLUST_COMMENTS 
-} from "../actions/illustComment";
+} from "../actions/illustComments";
 
-export function illustComment(state = {}, action) {
+export function illustComments(state = {}, action) {
   switch (action.type) {
     case CLEAR_ILLUST_COMMENTS:
       return {

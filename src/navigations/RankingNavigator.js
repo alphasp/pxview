@@ -2,7 +2,7 @@ import { StackNavigator } from 'react-navigation';
 import Ranking from '../containers/Ranking';
 import Detail from '../containers/Detail';
 import UserDetail from '../containers/UserDetail';
-import IllustComment from '../containers/IllustComment';
+import IllustComments from '../containers/IllustComments';
 import UserIllust from '../containers/UserIllust';
 import UserManga from '../containers/UserManga';
 import UserBookmarkIllust from '../containers/UserBookmarkIllust';
@@ -24,8 +24,8 @@ const RankingNavigator = StackNavigator({
   UserDetail: {
     screen: UserDetail,
   },
-  IllustComment: {
-    screen: IllustComment,
+  IllustComments: {
+    screen: IllustComments,
     navigationOptions: {
       title: 'User Comments',
     },

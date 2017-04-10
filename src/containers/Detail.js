@@ -32,7 +32,7 @@ import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import Tags from '../components/Tags';
 // import DetailTabBar from '../components/DetailTabBar';
 import RelatedIllusts from './RelatedIllusts';
-import IllustComment from './IllustComment';
+import IllustComments from './IllustComments';
 import Schemas from '../common/constants/schemas';
 
 const windowWidth = Dimensions.get('window').width; //full width
@@ -263,7 +263,7 @@ class Detail extends Component {
               </View>
             </PXTouchable>
           </View>
-          <IllustComment illustId={item.id} isFeatureInDetailPage={true} maxItems={6} navigation={navigation} />
+          <IllustComments illustId={item.id} isFeatureInDetailPage={true} maxItems={6} navigation={navigation} />
         </View>
         {
           <View>
@@ -372,7 +372,7 @@ class Detail extends Component {
 
   handleOnPressViewMoreComments = () => {
     const { item, navigation: { navigate } } = this.props;
-    navigate('IllustComment', {
+    navigate('IllustComments', {
       illustId: item.id,
       navigation: this.props.navigation
     });

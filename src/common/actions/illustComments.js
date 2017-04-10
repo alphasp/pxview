@@ -45,7 +45,7 @@ function shouldFetchIllustComment(state, illustId) {
   if (!illustId) {
     return false;
   }
-  const results = state.illustComment[illustId];
+  const results = state.illustComments[illustId];
   if (results && results.loading) {
     return false;
   } else {

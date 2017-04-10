@@ -19,9 +19,9 @@ import CommentList from '../components/CommentList';
 import { 
   fetchIllustComments, 
   clearIllustComments, 
-} from '../common/actions/illustComment';
+} from '../common/actions/illustComments';
 
-class IllustComment extends Component {
+class IllustComments extends Component {
   static navigationOptions = {
     header: ({ state, setParams, navigate, goBack }, defaultHeader) => {
       return {
@@ -42,7 +42,7 @@ class IllustComment extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, illustComment, illustId } = this.props;
+    const { dispatch, illustComments, illustId } = this.props;
     InteractionManager.runAfterInteractions(() => {
       dispatch(clearIllustComments(illustId));
       dispatch(fetchIllustComments(illustId));
@@ -50,10 +50,10 @@ class IllustComment extends Component {
   }
 
   loadMoreComments = () => {
-    const { dispatch, illustComment, illustId } = this.props;
-    console.log('load more ', illustComment[illustId].nextUrl)
-    if (illustComment[illustId] && illustComment[illustId].nextUrl) {
-      dispatch(fetchIllustComments(illustId, null, illustComment[illustId].nextUrl));
+    const { dispatch, illustComments, illustId } = this.props;
+    console.log('load more ', illustComments[illustId].nextUrl)
+    if (illustComments[illustId] && illustComments[illustId].nextUrl) {
+      dispatch(fetchIllustComments(illustId, null, illustComments[illustId].nextUrl));
     }
   }
 
@@ -71,12 +71,12 @@ class IllustComment extends Component {
   }
 
   render() {
-    const { illustComment, illustId, navigation, isFeatureInDetailPage, maxItems } = this.props;
+    const { illustComments, illustId, navigation, isFeatureInDetailPage, maxItems } = this.props;
     const { dataSource, refreshing } = this.state;
     return (
-      (illustComment[illustId] ? true : false) &&
+      (illustComments[illustId] ? true : false) &&
       <CommentList
-        data={illustComment[illustId]}
+        data={illustComments[illustId]}
         refreshing={refreshing}
         loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
         onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
@@ -90,7 +90,7 @@ class IllustComment extends Component {
 export default connect((state, props) => {
   const { illustId, navigation } = props;
   return {
-    illustComment: state.illustComment,
+    illustComments: state.illustComments,
     illustId: navigation.state.params.illustId || illustId
   }
-})(IllustComment);
+})(IllustComments);
