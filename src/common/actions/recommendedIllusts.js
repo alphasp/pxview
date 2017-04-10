@@ -83,23 +83,21 @@ export function fetchRecommendedIllustsFailure() {
 //   };
 // }
 
-export function fetchRecommendedIllusts(options, nextUrl) {
+export function fetchRecommendedIllusts(options, nextUrl, refreshing = false) {
   const params = qs.parse(nextUrl);
   const offset = params.offset || "0";
   return {
     type: RECOMMENDED_ILLUSTS.REQUEST,
     payload: {
       offset,
-      nextUrl
+      nextUrl,
+      refreshing
     }
   };
 }
 
-export function clearRecommendedIllusts(isRefresh) {
+export function clearRecommendedIllusts() {
   return {
-    type: RECOMMENDED_ILLUSTS.CLEAR,
-    payload: {
-      refreshing: isRefresh
-    }
+    type: RECOMMENDED_ILLUSTS.CLEAR
   };
 }

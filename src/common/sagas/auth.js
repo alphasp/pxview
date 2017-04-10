@@ -16,10 +16,11 @@ import * as Keychain from 'react-native-keychain';
 import { REHYDRATE } from 'redux-persist/constants';
 import { addError, resetError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
+import { getAuthUser } from '../selectors';
 
 export function* authorize(email, password) {
   // use apply instead of call to pass this to function
-  const loginResponse = yield apply(pixiv, pixiv.login, [email, password])
+  const loginResponse = yield apply(pixiv, pixiv.login, [email, password]);
   yield call(Keychain.setGenericPassword, email, password);
   yield put(successLogin(loginResponse));
   return loginResponse;
@@ -54,7 +55,6 @@ export function* watchLoginRequest() {
       // next LOGIN_REQUEST action
     } 
     catch(err) {
-      console.log('errrrr ', err)
       const errMessage = (err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : '';
       yield put(failedLogin());
       yield put(addError(errMessage));    
@@ -63,14 +63,11 @@ export function* watchLoginRequest() {
 }
 
 export function* handleLogout() {
-  console.log('handleLogout')
   yield [
     call(Keychain.resetGenericPassword),
     call(pixiv.logout)
   ];
 }
-
-export const getAuthUser = state => state.auth.user;
 
 //wait rehydrate complete, login if authUser exist, then run other api
 export function* watchRehydrate() {

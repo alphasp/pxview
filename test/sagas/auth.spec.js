@@ -2,10 +2,11 @@ import { delay } from 'redux-saga';
 import { take, takeEvery, takeLatest, fork, call, apply, put, race, select } from 'redux-saga/effects';
 import * as Keychain from 'react-native-keychain';
 import { REHYDRATE } from 'redux-persist/constants';
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT, login, requestLogin, successLogin, failedLogin, doneRehydrate } from 'common/actions/auth';
-import { addError, resetError } from 'common/actions/error';
-import pixiv from 'common/helpers/ApiClient';
-import { watchLoginRequest, watchRehydrate, authAndRefreshTokenOnExpiry, authorize, handleLogout, getAuthUser } from 'common/sagas/auth';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT, login, requestLogin, successLogin, failedLogin, doneRehydrate } from '../../src/common/actions/auth';
+import { addError, resetError } from '../../src/common/actions/error';
+import pixiv from '../../src/common/helpers/ApiClient';
+import { watchLoginRequest, watchRehydrate, authAndRefreshTokenOnExpiry, authorize, handleLogout } from '../../src/common/sagas/auth';
+import { getAuthUser } from '../../src/common/selectors';
 
 const email = 'test@gmail.com';
 const password = 'password';
