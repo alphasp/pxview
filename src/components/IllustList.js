@@ -65,7 +65,7 @@ class IllustList extends Component {
   }
 
   render() {
-    const { data: { items, loading, loaded }, refreshing, onRefresh, loadMoreItems, onScroll, maxItems } = this.props;
+    const { data: { items, loading, loaded, refreshing }, onRefresh, loadMoreItems, onScroll, maxItems } = this.props;
     // const { dataSource } = this.state;
     return (
       <View style={styles.container}>

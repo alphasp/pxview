@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import entities from './entities';
-import * as recommendedIllustReducers from './recommendedIllust';
+import recommendedIllusts from './recommendedIllusts';
 import * as recommendedMangaReducers from './recommendedManga';
 import * as relatedIllustReducers from './relatedIllust';
 import * as trendingIllustTagReducers from './trendingIllustTag';
@@ -41,7 +41,7 @@ import { reducer as formReducer } from 'redux-form';
 const rootReducer = combineReducers({
   error,
   entities,
-  ...recommendedIllustReducers,
+  recommendedIllusts,
   ...recommendedMangaReducers,
   ...relatedIllustReducers,
   ...trendingIllustTagReducers,

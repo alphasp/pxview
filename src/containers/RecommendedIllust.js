@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
-import * as recommendedIllustActionCreators from '../common/actions/recommendedIllust';
+import * as recommendedIllustsActionCreators from '../common/actions/recommendedIllusts';
 import { denormalizedData } from '../common/helpers/normalizrHelper';
 import Schemas from '../common/constants/schemas';
 
 class RecommendedIllust extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      refreshing: false
-    };
-  }
-
   componentDidMount() {
     const { fetchRecommendedIllusts } = this.props;
     fetchRecommendedIllusts();
@@ -20,7 +13,7 @@ class RecommendedIllust extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { user: prevUser } = this.props;
-    const { user } = nextProps;
+    const { user, recommendedIllusts: { loading, items } } = nextProps;
     if ((!user && prevUser) || (user && !prevUser)) {
       const { fetchRecommendedIllusts, clearRecommendedIllusts } = this.props;
       clearRecommendedIllusts();
@@ -29,9 +22,9 @@ class RecommendedIllust extends Component {
   }
 
   loadMoreItems = () => {
-    const { recommendedIllust: { nextUrl }, fetchRecommendedIllusts } = this.props;
+    const { recommendedIllusts: { nextUrl, loading }, fetchRecommendedIllusts } = this.props;
     console.log('load more ', nextUrl)
-    if (nextUrl) {
+    if (!loading && nextUrl) {
       fetchRecommendedIllusts('', nextUrl);
     }
   }
@@ -39,23 +32,17 @@ class RecommendedIllust extends Component {
   handleOnRefresh = () => {
     const { clearRecommendedIllusts, fetchRecommendedIllusts } = this.props;
     this.setState({
-      refereshing: true
+      refreshing: true
     });
     clearRecommendedIllusts();
-    fetchRecommendedIllusts().finally(() => {
-      this.setState({
-        refereshing: false
-      }); 
-    });
+    fetchRecommendedIllusts(null, null, true);
   }
 
   render() {
-    const { recommendedIllust, navigation } = this.props;
-    const { refreshing } = this.state;
+    const { recommendedIllusts, navigation } = this.props;
     return (
       <IllustList
-        data={recommendedIllust}
-        refreshing={refreshing}
+        data={recommendedIllusts}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
         navigation={navigation}
@@ -65,9 +52,9 @@ class RecommendedIllust extends Component {
 }
 
 export default connect(state => {
-  const { entities, recommendedIllust, user } = state;
+  const { entities, recommendedIllusts, user } = state;
   return {
-    recommendedIllust: denormalizedData(recommendedIllust, 'items', Schemas.ILLUST_ARRAY, entities),
+    recommendedIllusts: denormalizedData(recommendedIllusts, 'items', Schemas.ILLUST_ARRAY, entities),
     user: state.auth.user
   }
-}, recommendedIllustActionCreators)(RecommendedIllust);
+}, recommendedIllustsActionCreators)(RecommendedIllust);
