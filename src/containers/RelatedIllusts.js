@@ -10,9 +10,9 @@ import {
   InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { denormalize } from 'normalizr';
+import { denormalizedData } from '../common/helpers/normalizrHelper';
 import IllustList from '../components/IllustList';
-import * as relatedIllustActionCreators from '../common/actions/relatedIllust';
+import * as relatedIllustsActionCreators from '../common/actions/relatedIllusts';
 import Schemas from '../common/constants/schemas';
 
 const styles = StyleSheet.create({
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class RelatedIllust extends Component {
+class RelatedIllusts extends Component {
   static navigationOptions = {
     header: ({ state, setParams, navigate, goBack }, defaultHeader) => {
       return {
@@ -30,19 +30,12 @@ class RelatedIllust extends Component {
       }
     }
   }
-  
-  constructor(props) {
-    super(props);
-    this.state = {
-      refreshing: false
-    };
-  }
 
   componentDidMount() {
-    const { relatedIllust, illustId, fetchRelatedIllusts, clearRelatedIllusts } = this.props;
+    const { relatedIllusts, illustId, fetchRelatedIllusts, clearRelatedIllusts } = this.props;
     // will render blank unless scrolled
     // https://github.com/facebook/react-native/issues/10142
-    // if (!relatedIllust) {
+    // if (!relatedIllusts) {
     //   clearRelatedIllusts(illustId);
     //   InteractionManager.runAfterInteractions(() => {
     //     fetchRelatedIllusts(illustId);
@@ -55,36 +48,27 @@ class RelatedIllust extends Component {
   }
 
   loadMoreItems = () => {
-    const { relatedIllust, illustId, fetchRelatedIllusts } = this.props;
-    console.log('load more ', relatedIllust.nextUrl)
-    if (relatedIllust && relatedIllust.nextUrl) {
-      fetchRelatedIllusts(illustId, null, relatedIllust.nextUrl);
+    const { relatedIllusts, illustId, fetchRelatedIllusts } = this.props;
+    if (relatedIllusts && !relatedIllusts.loading && relatedIllusts.nextUrl) {
+      console.log('load more ', relatedIllusts.nextUrl)
+      fetchRelatedIllusts(illustId, null, relatedIllusts.nextUrl);
     }
   }
 
   handleOnRefresh = () => {
     const { illustId, fetchRelatedIllusts, clearRelatedIllusts } = this.props;
-    this.setState({
-      refereshing: true
-    });
     clearRelatedIllusts(illustId);
-    fetchRelatedIllusts(illustId).finally(() => {
-      this.setState({
-        refereshing: false
-      }); 
-    });
+    fetchRelatedIllusts(illustId, null, null, true);
   }
 
   render() {
-    const { relatedIllust, illustId, isFeatureInDetailPage, maxItems, navigation } = this.props;
-    const { refreshing } = this.state;
-    if (!relatedIllust) {
+    const { relatedIllusts, illustId, isFeatureInDetailPage, maxItems, navigation } = this.props;
+    if (!relatedIllusts) {
       return null;
     }
     return (
       <IllustList
-        data={relatedIllust}
-        refreshing={refreshing}
+        data={relatedIllusts}
         loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
         onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
         maxItems={isFeatureInDetailPage && maxItems}
@@ -96,22 +80,10 @@ class RelatedIllust extends Component {
 const defaultItems = [];
 
 export default connect((state, props) => {
-  const { entities, relatedIllust } = state;
+  const { entities, relatedIllusts } = state;
   const illustId = props.illustId || props.navigation.state.params.illustId;
-  if (relatedIllust[illustId]) {
-    const denormalizedItems = denormalize(relatedIllust[illustId].items, Schemas.ILLUST_ARRAY, entities);
-    return {
-      relatedIllust: {
-        ...relatedIllust[illustId],
-        items: denormalizedItems || defaultItems
-      },
-      illustId
-    }
+  return {
+    relatedIllusts: denormalizedData(relatedIllusts[illustId], 'items', Schemas.ILLUST_ARRAY, entities),
+    illustId
   }
-  else {
-    return {
-      relatedIllust: {},
-      illustId
-    }
-  }
-}, relatedIllustActionCreators)(RelatedIllust);
+}, relatedIllustsActionCreators)(RelatedIllusts);

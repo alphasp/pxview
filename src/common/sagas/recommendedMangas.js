@@ -1,8 +1,6 @@
-import qs from "qs";
 import { normalize } from 'normalizr';
 import { takeLatest, apply, put, select } from 'redux-saga/effects';
 import {
-  fetchRecommendedMangas,
   fetchRecommendedMangasSuccess,
   fetchRecommendedMangasFailure,
 } from '../actions/recommendedMangas.js'

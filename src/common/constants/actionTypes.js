@@ -8,3 +8,6 @@ export const RECOMMENDED_ILLUSTS = defineAction('RECOMMENDED_ILLUSTS',
 
 export const RECOMMENDED_MANGAS = defineAction('RECOMMENDED_MANGAS',
 	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);	
+
+export const RELATED_ILLUSTS = defineAction('RELATED_ILLUSTS',
+	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);	

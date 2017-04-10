@@ -6,7 +6,7 @@ import IllustComment from '../containers/IllustComment';
 import UserIllust from '../containers/UserIllust';
 import UserManga from '../containers/UserManga';
 import UserBookmarkIllust from '../containers/UserBookmarkIllust';
-import RelatedIllust from '../containers/RelatedIllust';
+import RelatedIllusts from '../containers/RelatedIllusts';
 import SearchResultTabs from '../containers/SearchResultTabs'; //todo
 import RecommendedUser from '../containers/RecommendedUser';
 
@@ -31,8 +31,8 @@ const NewWorkNavigator = StackNavigator({
       title: 'User Comments',
     },
   },
-  RelatedIllust: {
-    screen: RelatedIllust,
+  RelatedIllusts: {
+    screen: RelatedIllusts,
     navigationOptions: {
       title: 'Related Works',
     },

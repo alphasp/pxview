@@ -31,7 +31,7 @@ import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import Tags from '../components/Tags';
 // import DetailTabBar from '../components/DetailTabBar';
-import RelatedIllust from './RelatedIllust';
+import RelatedIllusts from './RelatedIllusts';
 import IllustComment from './IllustComment';
 import Schemas from '../common/constants/schemas';
 
@@ -276,7 +276,7 @@ class Detail extends Component {
                 </View>
               </PXTouchable>
             </View>
-            <RelatedIllust illustId={item.id} isFeatureInDetailPage={true} maxItems={6} navigation={navigation} />
+            <RelatedIllusts illustId={item.id} isFeatureInDetailPage={true} maxItems={6} navigation={navigation} />
           </View>
         }
       </View>
@@ -380,7 +380,7 @@ class Detail extends Component {
 
   handleOnPressViewMoreRelatedIllust = () => {
     const { item, navigation: { navigate } } = this.props;
-    navigate('RelatedIllust', {
+    navigate('RelatedIllusts', {
       illustId: item.id,
       navigation: this.props.navigation
     });

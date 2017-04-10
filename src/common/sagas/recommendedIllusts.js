@@ -1,8 +1,6 @@
-import qs from "qs";
 import { normalize } from 'normalizr';
 import { takeLatest, apply, put, select } from 'redux-saga/effects';
 import {
-  fetchRecommendedIllusts,
   fetchRecommendedIllustsSuccess,
   fetchRecommendedIllustsFailure,
 } from '../actions/recommendedIllusts.js'

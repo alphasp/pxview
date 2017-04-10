@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import entities from './entities';
 import recommendedIllusts from './recommendedIllusts';
 import recommendedMangas from './recommendedMangas';
-import * as relatedIllustReducers from './relatedIllust';
+import relatedIllusts from './relatedIllusts';
 import * as trendingIllustTagReducers from './trendingIllustTag';
 import * as recommendedUserReducers from './recommendedUser';
 import * as illustCommentReducers from './illustComment';
@@ -43,7 +43,7 @@ const rootReducer = combineReducers({
   entities,
   recommendedIllusts,
   recommendedMangas,
-  ...relatedIllustReducers,
+  relatedIllusts,
   ...trendingIllustTagReducers,
   ...recommendedUserReducers,
   ...illustCommentReducers,

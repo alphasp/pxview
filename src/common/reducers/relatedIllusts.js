@@ -1,51 +1,50 @@
-import { 
-  REQUEST_RELATED_ILLUSTS, 
-  RECEIVE_RELATED_ILLUSTS, 
-  STOP_RELATED_ILLUSTS, 
-  CLEAR_RELATED_ILLUSTS 
-} from "../actions/relatedIllust";
+import { RELATED_ILLUSTS } from '../constants/actionTypes';
 
-// const defaultState = {
-//   loading: false,
-//   loaded: false,
-//   items: [],
-//   nextUrl: null,
-// };
+const defaultState = {
+  loading: false,
+  loaded: false,
+  refreshing: false,
+  items: [],
+  nextUrl: null,
+};
 
-export function relatedIllust(state = {}, action) {
+export default function relatedIllusts(state = {}, action) {
   switch (action.type) {
-    case CLEAR_RELATED_ILLUSTS:
+    case RELATED_ILLUSTS.CLEAR:
       return {
         ...state,
-        [action.payload.illustId]: {},
+        [action.payload.illustId]: defaultState,
       };
-    case REQUEST_RELATED_ILLUSTS:
+    case RELATED_ILLUSTS.REQUEST:
       return {
         ...state,
         [action.payload.illustId]: {
           ...state[action.payload.illustId],
-          loading: true
+          loading: true,
+          refreshing: action.payload.refreshing
         }
       };
 
-    case RECEIVE_RELATED_ILLUSTS:
+    case RELATED_ILLUSTS.SUCCESS:
       return {
         ...state,
         [action.payload.illustId]: {
           ...state[action.payload.illustId],
           loading: false,
           loaded: true,
+          refreshing: false,
           items: (state[action.payload.illustId] && state[action.payload.illustId].items) ? [...state[action.payload.illustId].items, ...action.payload.items] : action.payload.items,
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp
         }
       };
-    case STOP_RELATED_ILLUSTS:
+    case RELATED_ILLUSTS.FAILURE:
       return {
         ...state,
         [action.payload.illustId]: {
           ...state[action.payload.illustId],
-          loading: false
+          loading: false,
+          refreshing: false,
         }
       };
     default:

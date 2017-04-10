@@ -22,8 +22,8 @@ class RecommendedMangas extends Component {
   }
 
   loadMoreItems = () => {
-    const { recommendedMangas: { nextUrl }, fetchRecommendedMangas } = this.props;
-    if (nextUrl) {
+    const { recommendedMangas: { nextUrl, loading }, fetchRecommendedMangas } = this.props;
+    if (!loading && nextUrl) {
       fetchRecommendedMangas('', nextUrl);
     }
   }
