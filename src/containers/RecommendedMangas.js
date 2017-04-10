@@ -11,11 +11,11 @@ import {
 import { connect } from 'react-redux';
 import { denormalize } from 'normalizr';
 import IllustList from '../components/IllustList';
-import * as recommendedMangaActionCreators from '../common/actions/recommendedManga';
+import * as recommendedMangasActionCreators from '../common/actions/recommendedMangas';
 import { denormalizedData } from '../common/helpers/normalizrHelper';
 import Schemas from '../common/constants/schemas';
 
-class RecommendedManga extends Component {
+class RecommendedMangas extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -48,11 +48,11 @@ class RecommendedManga extends Component {
   }
 
   render() {
-    const { recommendedManga, navigation } = this.props;
+    const { recommendedMangas, navigation } = this.props;
     const { refreshing } = this.state;
     return (
       <IllustList
-        data={recommendedManga}
+        data={recommendedMangas}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
@@ -63,8 +63,8 @@ class RecommendedManga extends Component {
 }
 
 export default connect(state => {
-  const { entities, recommendedManga } = state;
+  const { entities, recommendedMangas } = state;
   return {
-    recommendedManga: denormalizedData(recommendedManga, 'items', Schemas.ILLUST_ARRAY, entities),
+    recommendedMangas: denormalizedData(recommendedMangas, 'items', Schemas.ILLUST_ARRAY, entities),
   }
-}, recommendedMangaActionCreators)(RecommendedManga);
+}, recommendedMangasActionCreators)(RecommendedMangas);

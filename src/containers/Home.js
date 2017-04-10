@@ -8,8 +8,8 @@ import {
   Platform,
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import RecommendedIllust from './RecommendedIllust';
-import RecommendedManga from './RecommendedManga';
+import RecommendedIllusts from './RecommendedIllusts';
+import RecommendedMangas from './RecommendedMangas';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,8 +38,8 @@ class Home extends Component {
     return (
       <View style={styles.container}>
         <ScrollableTabView ref={(ref) => this.tabs = ref}>
-          <RecommendedIllust tabLabel="Illustrations" navigation={navigation} screenProps={screenProps} />
-          <RecommendedManga tabLabel="Manga" navigation={navigation} screenProps={screenProps} />
+          <RecommendedIllusts tabLabel="Illustrations" navigation={navigation} screenProps={screenProps} />
+          <RecommendedMangas tabLabel="Manga" navigation={navigation} screenProps={screenProps} />
         </ScrollableTabView>
       </View>
     );

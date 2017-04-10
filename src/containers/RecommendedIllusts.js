@@ -5,7 +5,7 @@ import * as recommendedIllustsActionCreators from '../common/actions/recommended
 import { denormalizedData } from '../common/helpers/normalizrHelper';
 import Schemas from '../common/constants/schemas';
 
-class RecommendedIllust extends Component {
+class RecommendedIllusts extends Component {
   componentDidMount() {
     const { fetchRecommendedIllusts } = this.props;
     fetchRecommendedIllusts();
@@ -57,4 +57,4 @@ export default connect(state => {
     recommendedIllusts: denormalizedData(recommendedIllusts, 'items', Schemas.ILLUST_ARRAY, entities),
     user: state.auth.user
   }
-}, recommendedIllustsActionCreators)(RecommendedIllust);
+}, recommendedIllustsActionCreators)(RecommendedIllusts);

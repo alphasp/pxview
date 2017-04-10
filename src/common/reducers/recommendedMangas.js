@@ -3,13 +3,9 @@ import {
   RECEIVE_RECOMMENDED_MANGAS, 
   STOP_RECOMMENDED_MANGAS, 
   CLEAR_RECOMMENDED_MANGAS,
-} from "../actions/recommendedManga";
-import { 
-  BOOKMARK_ILLUST, 
-  UNBOOKMARK_ILLUST,
-} from "../actions/bookmarkIllust";
+} from "../actions/recommendedMangas";
 
-export function recommendedManga(state = {
+export default function recommendedMangas(state = {
   loading: false,
   loaded: false,
   items: [],
