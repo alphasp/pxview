@@ -10,7 +10,7 @@ import {
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import RankingList from './RankingList';
 import PastRanking from './PastRanking';
-import { RankingMode } from '../common/actions/ranking';
+import { RANKING_FOR_UI } from '../common/constants/rankingTypes';
 
 const styles = StyleSheet.create({
   container: {
@@ -40,13 +40,13 @@ class Ranking extends Component {
           ref={(ref) => this.tabs = ref} 
           renderTabBar={() => <ScrollableTabBar />}
         >
-          <RankingList tabLabel={strings.day_ranking} rankingMode={RankingMode.DAILY} />
-          <RankingList tabLabel={strings.day_male_ranking} rankingMode={RankingMode.DAILY_MALE} />
-          <RankingList tabLabel={strings.day_female_ranking} rankingMode={RankingMode.DAILY_FEMALE} />
-          <RankingList tabLabel={strings.week_original_ranking} rankingMode={RankingMode.WEEKLY_ORIGINAL} />
-          <RankingList tabLabel={strings.week_rookie_ranking} rankingMode={RankingMode.WEEKLY_ROOKIE} />
-          <RankingList tabLabel={strings.week_ranking} rankingMode={RankingMode.WEEKLY} />
-          <RankingList tabLabel={strings.month_ranking} rankingMode={RankingMode.MONTHLY} />
+          <RankingList tabLabel={strings.day_ranking} rankingMode={RANKING_FOR_UI.DAILY} />
+          <RankingList tabLabel={strings.day_male_ranking} rankingMode={RANKING_FOR_UI.DAILY_MALE} />
+          <RankingList tabLabel={strings.day_female_ranking} rankingMode={RANKING_FOR_UI.DAILY_FEMALE} />
+          <RankingList tabLabel={strings.week_original_ranking} rankingMode={RANKING_FOR_UI.WEEKLY_ORIGINAL} />
+          <RankingList tabLabel={strings.week_rookie_ranking} rankingMode={RANKING_FOR_UI.WEEKLY_ROOKIE} />
+          <RankingList tabLabel={strings.week_ranking} rankingMode={RANKING_FOR_UI.WEEKLY} />
+          <RankingList tabLabel={strings.month_ranking} rankingMode={RANKING_FOR_UI.MONTHLY} />
           <PastRanking tabLabel={strings.past_ranking}  {...this.props} />
         </ScrollableTabView>
       </View>

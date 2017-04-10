@@ -1,5 +1,5 @@
 import { normalize } from 'normalizr';
-import { takeEvery, apply, put, select } from 'redux-saga/effects';
+import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchRelatedIllustsSuccess,
   fetchRelatedIllustsFailure,
@@ -13,7 +13,6 @@ import { getAuthUser } from '../selectors';
 export function* handleFetchRelatedIllusts(action) {
   const { illustId, options, nextUrl } = action.payload;
   try {
-    const user = yield select(getAuthUser);
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
@@ -25,7 +24,7 @@ export function* handleFetchRelatedIllusts(action) {
     yield put(fetchRelatedIllustsSuccess(normalized.entities, normalized.result, illustId, response.next_url));
   } 
   catch(err) {
-    yield put(fetchRelatedIllustsFailure());
+    yield put(fetchRelatedIllustsFailure(illustId));
     yield put(addError(err));    
   }
 }

@@ -14,3 +14,6 @@ export const RELATED_ILLUSTS = defineAction('RELATED_ILLUSTS',
 
 export const ILLUST_COMMENTS = defineAction('ILLUST_COMMENTS',
 	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);	
+
+export const RANKING = defineAction('RANKING',
+	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);	

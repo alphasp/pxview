@@ -1,32 +1,33 @@
-import { 
-  REQUEST_RANKING, 
-  RECEIVE_RANKING, 
-  STOP_RANKING, 
-  CLEAR_RANKING, 
-  CLEAR_ALL_RANKING, 
-  RankingMode 
-} from "../actions/ranking";
-import { 
-  BOOKMARK_ILLUST, 
-  UNBOOKMARK_ILLUST,
-} from "../actions/bookmarkIllust";
+import { RANKING } from '../constants/actionTypes';
+import { RANKING_FOR_UI } from '../constants/rankingTypes';
 
-function getDefaultState() {
-  return Object.keys(RankingMode).reduce((prev, key) => {
-    prev[key] = { items: [] };
+
+const defaultState = {
+  loading: false,
+  loaded: false,
+  refreshing: false,
+  items: [],
+  offset: null,
+  nextUrl: null,
+};
+
+function getDefaultStateForRankings() {
+  return Object.keys(RANKING_FOR_UI).reduce((prev, key) => {
+    prev[key] = defaultState;
     return prev;
   }, {});
 }
-export default function search(state = getDefaultState(), action) {
+
+export default function search(state = getDefaultStateForRankings(), action) {
   switch (action.type) {
-    case CLEAR_RANKING:
+    case RANKING.CLEAR:
       return {
         ...state,
-        [action.payload.rankingMode]: { items: [] },
+        [action.payload.rankingMode]: defaultState,
       };
-    case CLEAR_ALL_RANKING:
+    case RANKING.CLEAR_ALL:
       return getDefaultState();  
-    case REQUEST_RANKING:
+    case RANKING.REQUEST:
       return {
         ...state,
         [action.payload.rankingMode]: {
@@ -34,30 +35,29 @@ export default function search(state = getDefaultState(), action) {
           options: action.payload.options,
           offset: action.payload.offset,
           loading: true,
+          refreshing: action.payload.refreshing
         }
       };
-    case RECEIVE_RANKING:
+    case RANKING.SUCCESS:
       return {
         ...state,
         [action.payload.rankingMode]: {
           ...state[action.payload.rankingMode],
-          options: action.payload.options,
           loading: false,
           loaded: true,
+          refreshing: false,
           items: (state[action.payload.rankingMode] && state[action.payload.rankingMode].items) ? [...state[action.payload.rankingMode].items, ...action.payload.items] : action.payload.items,
-          offset: action.payload.offset,
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp
         }
       };
-    case STOP_RANKING:
+    case RANKING.FAILURE:
       return {
         ...state,
         [action.payload.rankingMode]: {
           ...state[action.payload.rankingMode],
-          options: action.payload.options,
-          offset: action.payload.offset,
-          loading: false
+          loading: false,
+          refreshing: false,
         }
       };
     default:

@@ -1,8 +1,4 @@
 import qs from "qs";
-import { normalize } from 'normalizr';
-import { addError } from './error';
-import pixiv from '../helpers/ApiClient';
-import Schemas from '../constants/schemas';
 import { RECOMMENDED_ILLUSTS } from '../constants/actionTypes';
 
 export function fetchRecommendedIllustsSuccess(entities, items, nextUrl) {
@@ -29,6 +25,7 @@ export function fetchRecommendedIllusts(options, nextUrl, refreshing = false) {
   return {
     type: RECOMMENDED_ILLUSTS.REQUEST,
     payload: {
+      options,
       offset,
       nextUrl,
       refreshing

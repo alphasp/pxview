@@ -15,8 +15,7 @@ import IonicIcon from 'react-native-vector-icons/Ionicons';
 import RankingList from './RankingList';
 import PXTouchable from '../components/PXTouchable';
 import PXBottomSheet from '../components/PXBottomSheet';
-import { RANKING, R18_RANKING } from '../common/constants/illustRanking';
-import { RankingMode } from '../common/actions/ranking';
+import { RANKING, R18_RANKING, RANKING_FOR_UI } from '../common/constants/rankingTypes';
 
 const styles = StyleSheet.create({
   container: {
@@ -138,7 +137,7 @@ class PastRanking extends Component {
           />
         </View>
         <RankingList 
-          rankingMode={RankingMode.PAST} 
+          rankingMode={RANKING_FOR_UI.PAST} 
           options={{ date, mode }}
         />
         <PXBottomSheet 

@@ -5,7 +5,7 @@ export const RANKING = {
   day_male: 'DAY_MALE',
   day_female: 'DAY_FEMALE',
   week_rookie: 'WEEK_ROOKIE',
-  week_original: 'week_original'
+  week_original: 'WEEK_ORIGINAL'
 };
 
 export const R18_RANKING = {
@@ -15,3 +15,14 @@ export const R18_RANKING = {
   week_r18: 'WEEK_R18',
   week_r18g: 'WEEK_R18G'
 };
+
+export const RANKING_FOR_UI = {
+  DAILY: 'DAILY',
+  DAILY_MALE: 'DAILY_MALE',
+  DAILY_FEMALE: 'DAILY_FEMALE',
+  WEEKLY_ORIGINAL: 'WEEKLY_ORIGINAL',
+  WEEKLY_ROOKIE: 'WEEKLY_ROOKIE',
+  WEEKLY: 'WEEKLY',
+  MONTHLY: 'MONTHLY',
+  PAST: 'PAST'
+}

@@ -23,9 +23,9 @@ class RecommendedIllusts extends Component {
 
   loadMoreItems = () => {
     const { recommendedIllusts: { nextUrl, loading }, fetchRecommendedIllusts } = this.props;
-    console.log('load more ', nextUrl)
     if (!loading && nextUrl) {
-      fetchRecommendedIllusts('', nextUrl);
+      console.log('load more ', nextUrl)
+      fetchRecommendedIllusts(null, nextUrl);
     }
   }
 

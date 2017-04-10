@@ -35,7 +35,6 @@ import modal from './modal';
 import i18n from './i18n';
 import error from './error';
 import { SortType } from '../actions/search';
-import { RankingMode } from '../actions/ranking';
 import { reducer as formReducer } from 'redux-form';
 
 const rootReducer = combineReducers({
