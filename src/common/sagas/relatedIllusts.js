@@ -11,8 +11,8 @@ import Schemas from '../constants/schemas';
 import { getAuthUser } from '../selectors';
 
 export function* handleFetchRelatedIllusts(action) {
+  const { illustId, options, nextUrl } = action.payload;
   try {
-    const { illustId, options, nextUrl } = action.payload;
     const user = yield select(getAuthUser);
     let response;
     if (nextUrl) {

@@ -123,7 +123,7 @@ class CommentList extends Component {
   }
 
   render() {
-    const { data: { items, loading, loaded }, refreshing, onRefresh, loadMoreItems } = this.props;
+    const { data: { items, loading, loaded, refreshing }, onRefresh, loadMoreItems, maxItems } = this.props;
     const { dataSource } = this.state;
     return (
       <View style={styles.container}>
@@ -131,30 +131,21 @@ class CommentList extends Component {
           !loaded && loading &&
           <Loader />
         }
-        {/*{
+        {
           (items && items.length) ?
-          <ListView
-            dataSource={dataSource}
-            renderRow={this.renderRow}
-            enableEmptySections={true}
-            renderFooter={this.renderFooter}
+          <FlatList
+            data={maxItems ? items.slice(0, maxItems) : items}
+            keyExtractor={(item, index) => item.id}
+            renderItem={this.renderRow}
+            onEndReachedThreshold={0.1}
             onEndReached={loadMoreItems}
+            ListFooterComponent={this.renderFooter}
             refreshControl={
               <RefreshControl
                 refreshing={refreshing}
                 onRefresh={onRefresh}
               />
             }
-          />
-          :
-          null
-        }*/}
-        {
-          (items && items.length) ?
-          <FlatList
-            data={items}
-            keyExtractor={(item, index) => item.id}
-            renderItem={this.renderRow}
           />
           :
           null

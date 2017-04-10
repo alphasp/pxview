@@ -10,6 +10,7 @@ import {
 
 export default function entities(state = {
   illusts: {},
+  illustComments: {},
   users: {}, 
   userPreviews: {},
   userProfiles: {}

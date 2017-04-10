@@ -16,10 +16,9 @@ import PXImage from '../components/PXImage';
 import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import CommentList from '../components/CommentList';
-import { 
-  fetchIllustComments, 
-  clearIllustComments, 
-} from '../common/actions/illustComments';
+import { denormalizedData } from '../common/helpers/normalizrHelper';
+import * as illustCommentsActionCreators from '../common/actions/illustComments';
+import Schemas from '../common/constants/schemas';
 
 class IllustComments extends Component {
   static navigationOptions = {
@@ -31,66 +30,50 @@ class IllustComments extends Component {
     }
   }
 
-  constructor(props) {
-    super(props);
-    this.state = { 
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-      }),
-      refreshing: false
-    };
-  }
-
   componentDidMount() {
-    const { dispatch, illustComments, illustId } = this.props;
+    const { fetchIllustComments, clearIllustComments, illustComments, illustId } = this.props;
     InteractionManager.runAfterInteractions(() => {
-      dispatch(clearIllustComments(illustId));
-      dispatch(fetchIllustComments(illustId));
+      clearIllustComments(illustId);
+      fetchIllustComments(illustId);
     });
   }
 
-  loadMoreComments = () => {
-    const { dispatch, illustComments, illustId } = this.props;
-    console.log('load more ', illustComments[illustId].nextUrl)
-    if (illustComments[illustId] && illustComments[illustId].nextUrl) {
-      dispatch(fetchIllustComments(illustId, null, illustComments[illustId].nextUrl));
+  loadMoreItems = () => {
+    const { fetchIllustComments, illustComments, illustId } = this.props;
+    if (illustComments && !illustComments.loading && illustComments.nextUrl) {
+      console.log('load more ', illustComments.nextUrl)
+      fetchIllustComments(illustId, null, illustComments.nextUrl);
     }
   }
 
   handleOnRefresh = () => {
-    const { dispatch, illustId } = this.props;
-    this.setState({
-      refereshing: true
-    });
-    dispatch(clearIllustComments(illustId));
-    dispatch(fetchIllustComments(illustId)).finally(() => {
-      this.setState({
-        refereshing: false
-      }); 
-    })
+    const { fetchIllustComments, clearIllustComments, illustId } = this.props;
+    clearIllustComments(illustId)
+    fetchIllustComments(illustId, null, null, true);
   }
 
   render() {
     const { illustComments, illustId, navigation, isFeatureInDetailPage, maxItems } = this.props;
-    const { dataSource, refreshing } = this.state;
     return (
-      (illustComments[illustId] ? true : false) &&
+      illustComments ?
       <CommentList
-        data={illustComments[illustId]}
-        refreshing={refreshing}
+        data={illustComments}
         loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
         onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
         maxItems={isFeatureInDetailPage && maxItems}
         navigation={navigation}
       />
+      :
+      null
     );
   }
 }
 
 export default connect((state, props) => {
-  const { illustId, navigation } = props;
+  const { entities, illustComments } = state;
+  const illustId = props.illustId || props.navigation.state.params.illustId;
   return {
-    illustComments: state.illustComments,
-    illustId: navigation.state.params.illustId || illustId
+    illustComments: denormalizedData(illustComments[illustId], 'items', Schemas.ILLUST_COMMENT_ARRAY, entities),
+    illustId
   }
-})(IllustComments);
+}, illustCommentsActionCreators)(IllustComments);

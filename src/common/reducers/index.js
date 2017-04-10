@@ -5,7 +5,7 @@ import recommendedMangas from './recommendedMangas';
 import relatedIllusts from './relatedIllusts';
 import * as trendingIllustTagReducers from './trendingIllustTag';
 import * as recommendedUserReducers from './recommendedUser';
-import * as illustCommentReducers from './illustComments';
+import illustComments from './illustComments';
 import * as searchAutoCompleteReducers from './searchAutoComplete';
 import createFilteredReducer from './createFilteredReducer';
 import search from './search';
@@ -46,7 +46,7 @@ const rootReducer = combineReducers({
   relatedIllusts,
   ...trendingIllustTagReducers,
   ...recommendedUserReducers,
-  ...illustCommentReducers,
+  illustComments,
   search,
   // searchNewest: createFilteredReducer(search, action => action.payload && action.payload.sortType === SortType.DESC),
   // searchOldest: createFilteredReducer(search, action => action.payload && action.payload.sortType === SortType.ASC),

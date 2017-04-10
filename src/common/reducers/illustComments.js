@@ -1,18 +1,22 @@
-import { 
-  REQUEST_ILLUST_COMMENTS, 
-  RECEIVE_ILLUST_COMMENTS, 
-  STOP_ILLUST_COMMENTS, 
-  CLEAR_ILLUST_COMMENTS 
-} from "../actions/illustComments";
+import { ILLUST_COMMENTS } from '../constants/actionTypes';
 
-export function illustComments(state = {}, action) {
+const defaultState = {
+  loading: false,
+  loaded: false,
+  refreshing: false,
+  items: [],
+  offset: null,
+  nextUrl: null,
+};
+
+export default function illustComments(state = {}, action) {
   switch (action.type) {
-    case CLEAR_ILLUST_COMMENTS:
+    case ILLUST_COMMENTS.CLEAR:
       return {
         ...state,
-        [action.payload.illustId]: {},
+        [action.payload.illustId]: defaultState,
       };
-    case REQUEST_ILLUST_COMMENTS:
+    case ILLUST_COMMENTS.REQUEST:
       return {
         ...state,
         [action.payload.illustId]: {
@@ -20,7 +24,7 @@ export function illustComments(state = {}, action) {
           loading: true
         }
       };
-    case RECEIVE_ILLUST_COMMENTS:
+    case ILLUST_COMMENTS.SUCCESS:
       return {
         ...state,
         [action.payload.illustId]: {
@@ -33,7 +37,7 @@ export function illustComments(state = {}, action) {
           timestamp: action.payload.timestamp
         }
       };
-    case STOP_ILLUST_COMMENTS:
+    case ILLUST_COMMENTS.FAILURE:
       return {
         ...state,
         [action.payload.illustId]: {

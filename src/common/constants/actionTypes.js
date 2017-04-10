@@ -11,3 +11,6 @@ export const RECOMMENDED_MANGAS = defineAction('RECOMMENDED_MANGAS',
 
 export const RELATED_ILLUSTS = defineAction('RELATED_ILLUSTS',
 	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);	
+
+export const ILLUST_COMMENTS = defineAction('ILLUST_COMMENTS',
+	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);	
