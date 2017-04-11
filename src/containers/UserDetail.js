@@ -150,7 +150,6 @@ class UserDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      refreshing: false,
       viewRef: 0,
     }
   }
@@ -431,8 +430,7 @@ class UserDetail extends Component {
   }
 
   render() {
-    const { userDetail: { loaded, loading, item }, userId } = this.props;
-    const { refreshing } = this.state;
+    const { userDetail: { loaded, loading, item, refreshing }, userId } = this.props;
     return (
       <View style={styles.container}>
         {

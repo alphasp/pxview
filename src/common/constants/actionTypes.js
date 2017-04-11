@@ -1,5 +1,5 @@
 import { defineAction } from 'redux-define';
-import { REQUEST, SUCCESS, FAILURE, CLEAR } from './stateConstants';
+import { REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL } from './stateConstants';
 
 const appNamespace = defineAction('PIXIV');
 
@@ -16,4 +16,7 @@ export const ILLUST_COMMENTS = defineAction('ILLUST_COMMENTS',
 	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);	
 
 export const RANKING = defineAction('RANKING',
-	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);	
+	[REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL], appNamespace);	
+
+export const USER_DETAIL = defineAction('USER_DETAIL',
+	[REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL], appNamespace);	

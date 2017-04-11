@@ -1,29 +1,30 @@
-import { 
-  REQUEST_USER_DETAIL, 
-  RECEIVE_USER_DETAIL, 
-  STOP_USER_DETAIL, 
-  CLEAR_USER_DETAIL, 
-  CLEAR_ALL_USER_DETAIL
-} from "../actions/userDetail";
+import { USER_DETAIL } from '../constants/actionTypes';
 
+// const defaultState = {
+//   loading: false,
+//   loaded: false,
+//   refreshing: false,
+//   item: [],
+// };
 export default function userDetail(state = {}, action) {
   switch (action.type) {
-    case CLEAR_USER_DETAIL:
+    case USER_DETAIL.CLEAR:
       return {
         ...state,
         [action.payload.userId]: {},
       };
-    case CLEAR_ALL_USER_DETAIL:
+    case USER_DETAIL.CLEAR_ALL:
       return {};  
-    case REQUEST_USER_DETAIL:
+    case USER_DETAIL.REQUEST:
       return {
         ...state,
         [action.payload.userId]: {
           ...state[action.payload.userId],
-          loading: true
+          loading: true,
+          refreshing: action.payload.refreshing
         }
       };
-    case RECEIVE_USER_DETAIL:
+    case USER_DETAIL.SUCCESS:
       return {
         ...state,
         [action.payload.userId]: {
@@ -34,7 +35,7 @@ export default function userDetail(state = {}, action) {
           timestamp: action.payload.timestamp
         }
       };
-    case STOP_USER_DETAIL:
+    case USER_DETAIL.FAILURE:
       return {
         ...state,
         [action.payload.userId]: {
