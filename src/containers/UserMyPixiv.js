@@ -12,12 +12,6 @@ class UserMyPixiv extends Component {
     fetchUserMyPixiv: PropTypes.func.isRequired,
     clearUserMyPixiv: PropTypes.func.isRequired,
   }
-  constructor(props) {
-    super(props);
-    this.state = { 
-      refreshing: false
-    };
-  }
 
   componentDidMount() {
     const { fetchUserMyPixiv, userId } = this.props;
@@ -26,35 +20,25 @@ class UserMyPixiv extends Component {
 
   loadMore = () => {
     const { fetchUserMyPixiv, userMyPixiv, userId } = this.props;
-    if (userMyPixiv[userId] && userMyPixiv[userId].nextUrl) {
-      fetchUserMyPixiv(userId, userMyPixiv[userId].nextUrl);
+    if (userMyPixiv && !userMyPixiv.loading && userMyPixiv.nextUrl) {
+      fetchUserMyPixiv(userId, userMyPixiv.nextUrl);
     }
   }
 
   handleOnRefresh = () => {
     const { clearUserMyPixiv, fetchUserMyPixiv, userId } = this.props;
-    this.setState({
-      refereshing: true
-    });
     clearUserMyPixiv(userId);
-    fetchUserMyPixiv(userId).finally(() => {
-      this.setState({
-        refereshing: false
-      }); 
-    })
+    fetchUserMyPixiv(userId, null, true);
   }
 
   render() {
-    const { userMyPixiv, userId, navigation, screenProps } = this.props;
-    const { refreshing } = this.state;
+    const { userMyPixiv, userId, screenProps } = this.props;
     return (
       <UserListContainer
         userList={userMyPixiv}
-        refreshing={refreshing}
         loadMore={this.loadMore}
         onRefresh={this.handleOnRefresh}
-        navigation={navigation}
-        screenProps={navigation}
+        screenProps={screenProps}
       />
     );
   }
