@@ -20,3 +20,12 @@ export const RANKING = defineAction('RANKING',
 
 export const USER_DETAIL = defineAction('USER_DETAIL',
 	[REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL], appNamespace);	
+
+export const USER_ILLUSTS = defineAction('USER_ILLUSTS',
+	[REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL], appNamespace);	
+
+export const USER_MANGAS = defineAction('USER_MANGAS',
+	[REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL], appNamespace);	
+
+export const USER_BOOKMARK_ILLUSTS = defineAction('USER_BOOKMARK_ILLUSTS',
+	[REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL], appNamespace);

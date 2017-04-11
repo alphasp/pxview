@@ -31,6 +31,7 @@ export default function userDetail(state = {}, action) {
           ...state[action.payload.userId],
           loading: false,
           loaded: true,
+          refreshing: false,
           item: action.payload.item,
           timestamp: action.payload.timestamp
         }
@@ -40,7 +41,8 @@ export default function userDetail(state = {}, action) {
         ...state,
         [action.payload.userId]: {
           ...state[action.payload.userId],
-          loading: false
+          loading: false,
+          refreshing: false
         }
       };
     default:

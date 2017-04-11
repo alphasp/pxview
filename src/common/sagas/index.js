@@ -5,6 +5,7 @@ import { watchFetchRelatedIllusts } from './relatedIllusts';
 import { watchFetchIllustComments } from './illustComments';
 import { watchFetchRanking } from './ranking';
 import { watchFetchUserDetail } from './userDetail';
+import { watchFetchUserIllusts } from './userIllusts';
 
 export default function* rootSaga() {
   yield [
@@ -16,5 +17,6 @@ export default function* rootSaga() {
     watchFetchIllustComments(),
     watchFetchRanking(),
     watchFetchUserDetail(),
+    watchFetchUserIllusts()
   ]
 }

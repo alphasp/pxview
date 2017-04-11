@@ -1,98 +1,47 @@
 import qs from "qs";
-import { normalize } from 'normalizr';
-import { addError } from './error';
-import Schemas from '../constants/schemas';
-import pixiv from '../helpers/ApiClient';
+import { USER_ILLUSTS } from '../constants/actionTypes';
 
-export const REQUEST_USER_ILLUSTS = 'REQUEST_USER_ILLUSTS';
-export const RECEIVE_USER_ILLUSTS = 'RECEIVE_USER_ILLUSTS';
-export const STOP_USER_ILLUSTS = 'STOP_USER_ILLUSTS';
-export const CLEAR_USER_ILLUSTS = 'CLEAR_USER_ILLUSTS';
-export const CLEAR_ALL_USER_ILLUSTS = 'CLEAR_ALL_USER_ILLUSTS';
-
-function receiveUserIllusts(normalized, nextUrl, userId, offset) { 
+export function fetchUserIllustsSuccess(entities, items, userId, nextUrl) {
   return {
-    type: RECEIVE_USER_ILLUSTS,
+    type: USER_ILLUSTS.SUCCESS,
     payload: {
-      entities: normalized.entities,
-      items: normalized.result,
-      nextUrl,
       userId,
-      offset,
+      entities,
+      items,
+      nextUrl,
       timestamp: Date.now(),
     }
   };
 }
 
-function requestUserIllusts(userId, offset) {
+export function fetchUserIllustsFailure(userId) {
   return {
-    type: REQUEST_USER_ILLUSTS,
-    payload: {
-      userId,
-      offset
-    }
-  };
-}
-
-function stopUserIllusts(userId){
-  return {
-    type: STOP_USER_ILLUSTS,
+    type: USER_ILLUSTS.FAILURE,
     payload: {
       userId
     }
   };
 }
 
-function shouldFetchUserIllusts(state, userId) {
-  if (!userId) {
-    return false;
-  }
-  const results = state.userIllusts[userId];
-  if (results && results.loading) {
-    return false;
-  } 
-  else {
-    return true;
-  }
-}
-
-function fetchUserIllustsFromApi(userId, nextUrl) {
-  return dispatch => {
-    const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.userIllusts(userId, { type: 'illust' });
-    const params = qs.parse(nextUrl);
-    const offset = params.offset || "0";
-    dispatch(requestUserIllusts(userId, offset));
-    return promise
-      .then(json => {
-        const normalized = normalize(json.illusts, Schemas.ILLUST_ARRAY);
-        dispatch(receiveUserIllusts(normalized, json.next_url, userId, offset));
-      })
-      .catch(err => {
-        dispatch(stopUserIllusts(userId));
-        dispatch(addError(err));
-      });
-  };
-}
-
-export function fetchUserIllusts(userId, nextUrl) {
-  return (dispatch, getState) => {
-    if (shouldFetchUserIllusts(getState(), userId)) {
-      return dispatch(fetchUserIllustsFromApi(userId, nextUrl));
+export function fetchUserIllusts(userId, nextUrl, refreshing = false) {
+  const params = qs.parse(nextUrl);
+  const offset = params.offset || "0";
+  return {
+    type: USER_ILLUSTS.REQUEST,
+    payload: {
+      userId,
+      offset,
+      nextUrl,
+      refreshing
     }
   };
 }
 
 export function clearUserIllusts(userId) {
   return {
-    type: CLEAR_USER_ILLUSTS,
+    type: USER_ILLUSTS.CLEAR,
     payload: {
-      userId,
+      userId
     }
-  };
-}
-
-export function clearAllUserIllusts() {
-  return {
-    type: CLEAR_ALL_USER_ILLUSTS,
   };
 }
