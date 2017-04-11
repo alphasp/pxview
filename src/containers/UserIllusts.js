@@ -54,8 +54,6 @@ class UserIllusts extends Component {
   }
 }
 
-const defaultItems = [];
-
 export default connect((state, props) => {
   const { entities, userIllusts } = state;
   const userId = props.userId || props.navigation.state.params.userId;

@@ -10,7 +10,7 @@ import { USER_MANGAS } from '../constants/actionTypes';
 import Schemas from '../constants/schemas';
 
 export function* handleFetchUserMangas(action) {
-  const { userId, options, nextUrl } = action.payload;
+  const { userId, nextUrl } = action.payload;
   try {
     let response;
     if (nextUrl) {

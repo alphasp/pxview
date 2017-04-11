@@ -1,47 +1,43 @@
-import { 
-  REQUEST_USER_BOOKMARK_ILLUSTS, 
-  RECEIVE_USER_BOOKMARK_ILLUSTS,
-  STOP_USER_BOOKMARK_ILLUSTS, 
-  CLEAR_USER_BOOKMARK_ILLUSTS,
-  CLEAR_ALL_USER_BOOKMARK_ILLUSTS,
-} from "../actions/userBookmarkIllusts";
+import { USER_BOOKMARK_ILLUSTS } from '../constants/actionTypes';
 
 export default function userBookmarkIllusts(state = {}, action) {
   switch (action.type) {
-    case CLEAR_USER_BOOKMARK_ILLUSTS:
+    case USER_BOOKMARK_ILLUSTS.CLEAR:
       return {
         ...state,
         [action.payload.userId]: {},
       };
-    case CLEAR_ALL_USER_BOOKMARK_ILLUSTS:
+    case USER_BOOKMARK_ILLUSTS.CLEAR_ALL:
       return {};  
-    case REQUEST_USER_BOOKMARK_ILLUSTS:
+    case USER_BOOKMARK_ILLUSTS.REQUEST:
       return {
         ...state,
         [action.payload.userId]: {
           ...state[action.payload.userId],
-          loading: true
+          loading: true,
+          refreshing: action.payload.refreshing
         }
       };
-    case RECEIVE_USER_BOOKMARK_ILLUSTS:
+    case USER_BOOKMARK_ILLUSTS.SUCCESS:
       return {
         ...state,
         [action.payload.userId]: {
           ...state[action.payload.userId],
           loading: false,
           loaded: true,
+          refreshing: false,
           items: (state[action.payload.userId] && state[action.payload.userId].items) ? [...state[action.payload.userId].items, ...action.payload.items] : action.payload.items,
-          offset: action.payload.offset,
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp
         }
       };
-    case STOP_USER_BOOKMARK_ILLUSTS:
+    case USER_BOOKMARK_ILLUSTS.FAILURE:
       return {
         ...state,
         [action.payload.userId]: {
           ...state[action.payload.userId],
-          loading: false
+          loading: false,
+          refreshing: false
         }
       };
     default:

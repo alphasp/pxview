@@ -10,7 +10,7 @@ import { USER_ILLUSTS } from '../constants/actionTypes';
 import Schemas from '../constants/schemas';
 
 export function* handleFetchUserIllusts(action) {
-  const { userId, options, nextUrl } = action.payload;
+  const { userId, nextUrl } = action.payload;
   try {
     let response;
     if (nextUrl) {

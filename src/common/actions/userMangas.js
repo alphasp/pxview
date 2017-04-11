@@ -45,3 +45,9 @@ export function clearUserMangas(userId) {
     }
   };
 }
+
+export function clearAllUserIllusts() {
+  return {
+    type: USER_MANGAS.CLEAR_ALL
+  };
+}

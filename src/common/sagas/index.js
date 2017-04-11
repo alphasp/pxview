@@ -7,6 +7,7 @@ import { watchFetchRanking } from './ranking';
 import { watchFetchUserDetail } from './userDetail';
 import { watchFetchUserIllusts } from './userIllusts';
 import { watchFetchUserMangas } from './userMangas';
+import { watchFetchUserBookmarkIllusts } from './userBookmarkIllusts';
 
 export default function* rootSaga() {
   yield [
@@ -20,5 +21,6 @@ export default function* rootSaga() {
     watchFetchUserDetail(),
     watchFetchUserIllusts(),
     watchFetchUserMangas(),
+    watchFetchUserBookmarkIllusts(),
   ]
 }

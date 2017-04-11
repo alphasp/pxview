@@ -45,3 +45,9 @@ export function clearUserIllusts(userId) {
     }
   };
 }
+
+export function clearAllUserIllusts() {
+  return {
+    type: USER_ILLUSTS.CLEAR_ALL
+  };
+}
