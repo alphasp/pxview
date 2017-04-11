@@ -1,47 +1,44 @@
-import { 
-  REQUEST_USER_MANGAS, 
-  RECEIVE_USER_MANGAS,
-  STOP_USER_MANGAS, 
-  CLEAR_USER_MANGAS,
-  CLEAR_ALL_USER_MANGAS,
-} from "../actions/userMangas";
+import { USER_MANGAS } from '../constants/actionTypes';
 
 export default function userMangas(state = {}, action) {
   switch (action.type) {
-    case CLEAR_USER_MANGAS:
+    case USER_MANGAS.CLEAR:
       return {
         ...state,
         [action.payload.userId]: {},
       };
-    case CLEAR_ALL_USER_MANGAS:
+    case USER_MANGAS.CLEAR_ALL:
       return {};  
-    case REQUEST_USER_MANGAS:
+    case USER_MANGAS.REQUEST:
       return {
         ...state,
         [action.payload.userId]: {
           ...state[action.payload.userId],
-          loading: true
+          loading: true,
+          refreshing: action.payload.refreshing
         }
       };
-    case RECEIVE_USER_MANGAS:
+    case USER_MANGAS.SUCCESS:
       return {
         ...state,
         [action.payload.userId]: {
           ...state[action.payload.userId],
           loading: false,
           loaded: true,
+          refreshing: false,
           items: (state[action.payload.userId] && state[action.payload.userId].items) ? [...state[action.payload.userId].items, ...action.payload.items] : action.payload.items,
           offset: action.payload.offset,
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp
         }
       };
-    case STOP_USER_MANGAS:
+    case USER_MANGAS.FAILURE:
       return {
         ...state,
         [action.payload.userId]: {
           ...state[action.payload.userId],
-          loading: false
+          loading: false,
+          refreshing: false
         }
       };
     default:

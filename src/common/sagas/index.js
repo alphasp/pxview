@@ -6,6 +6,7 @@ import { watchFetchIllustComments } from './illustComments';
 import { watchFetchRanking } from './ranking';
 import { watchFetchUserDetail } from './userDetail';
 import { watchFetchUserIllusts } from './userIllusts';
+import { watchFetchUserMangas } from './userMangas';
 
 export default function* rootSaga() {
   yield [
@@ -17,6 +18,7 @@ export default function* rootSaga() {
     watchFetchIllustComments(),
     watchFetchRanking(),
     watchFetchUserDetail(),
-    watchFetchUserIllusts()
+    watchFetchUserIllusts(),
+    watchFetchUserMangas(),
   ]
 }
