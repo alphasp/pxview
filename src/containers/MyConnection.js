@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import UserFollowing from './UserFollowing';
-import UserFollower from './UserFollower';
+import UserFollowers from './UserFollowers';
 import UserMyPixiv from './UserMyPixiv';
 import { FollowingType } from '../common/actions/userFollowing';
 
@@ -54,7 +54,7 @@ class MyConnection extends Component {
             followingType={FollowingType.PRIVATE} 
             screenProps={screenProps}
           />
-          <UserFollower 
+          <UserFollowers 
             tabLabel="Followers" 
             userId={userId} 
             screenProps={screenProps}

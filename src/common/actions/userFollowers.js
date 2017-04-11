@@ -45,7 +45,7 @@ function fetchUserFollowerFailure(userId) {
 
 function shouldFetchUserFollower(state, userId) {
   //todo
-  const results = state.userFollower[userId];
+  const results = state.userFollowers[userId];
   if (results && results.loading) {
     return false;
   } 

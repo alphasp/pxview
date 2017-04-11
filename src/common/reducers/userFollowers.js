@@ -5,9 +5,9 @@ import {
   CLEAR_USER_FOLLOWER,
   CLEAR_ALL_USER_FOLLOWER,
   FollowerType
-} from '../actions/userFollower';
+} from '../actions/userFollowers';
 
-export default function userFollower(state = {}, action) {
+export default function userFollowers(state = {}, action) {
   switch (action.type) {
     case CLEAR_USER_FOLLOWER:
       return {

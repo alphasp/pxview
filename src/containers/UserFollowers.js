@@ -1,16 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import UserListContainer from './UserListContainer';
-import * as userFollowerActionCreators from '../common/actions/userFollower';
+import * as userFollowerActionCreators from '../common/actions/userFollowers';
 import { denormalizedData } from '../common/helpers/normalizrHelper';
 import Schemas from '../common/constants/schemas';
 
 const avatarSize = 50;
 
-class UserFollower extends Component {
+class UserFollowers extends Component {
   static propTypes = {
     userId: PropTypes.number.isRequired,
-    userFollower: PropTypes.object.isRequired,
+    userFollowers: PropTypes.object.isRequired,
     fetchUserFollower: PropTypes.func.isRequired,
     clearUserFollower: PropTypes.func.isRequired,
   }
@@ -27,9 +27,9 @@ class UserFollower extends Component {
   }
 
   loadMore = () => {
-    const { fetchUserFollower, userFollower, userId } = this.props;
-    if (userFollower && userFollower.nextUrl) {
-      fetchUserFollower(userId, userFollower.nextUrl);
+    const { fetchUserFollower, userFollowers, userId } = this.props;
+    if (userFollowers && userFollowers.nextUrl) {
+      fetchUserFollower(userId, userFollowers.nextUrl);
     }
   }
 
@@ -47,11 +47,11 @@ class UserFollower extends Component {
   }
 
   render() {
-    const { userFollower, userId, navigation, screenProps } = this.props;
+    const { userFollowers, userId, navigation, screenProps } = this.props;
     const { refreshing } = this.state;
     return (
       <UserListContainer
-        userList={userFollower}
+        userList={userFollowers}
         refreshing={refreshing}
         loadMore={this.loadMore}
         onRefresh={this.handleOnRefresh}
@@ -63,10 +63,10 @@ class UserFollower extends Component {
 }
 
 export default connect((state, props) => {
-  const { entities, userFollower } = state;
+  const { entities, userFollowers } = state;
   const userId = props.userId || props.navigation.state.params.userId;
   return {
-    userFollower: denormalizedData(userFollower[userId], 'items', Schemas.USER_PREVIEW_ARRAY, entities),
+    userFollowers: denormalizedData(userFollowers[userId], 'items', Schemas.USER_PREVIEW_ARRAY, entities),
     userId
   }
-}, userFollowerActionCreators)(UserFollower);
+}, userFollowerActionCreators)(UserFollowers);
