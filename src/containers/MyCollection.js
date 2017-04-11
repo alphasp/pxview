@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from '../components/PXTouchable';
 import TagsFilterModal from './TagsFilterModal';
 import MyPrivateBookmarkIllust from './MyPrivateBookmarkIllust';
-import UserBookmarkIllust from './UserBookmarkIllust';
+import UserBookmarkIllusts from './UserBookmarkIllusts';
 import { TagType } from '../common/actions/bookmarkTag';
 
 const styles = StyleSheet.create({
@@ -121,7 +121,7 @@ class MyCollection extends Component {
     return (
       <View style={styles.container}>
         <ScrollableTabView ref={(ref) => this.tabs = ref} onChangeTab={this.handleOnChangeTab}>
-          <UserBookmarkIllust tabLabel="Illustrations (Public)" userId={userId} tag={selectedPublicTag} />
+          <UserBookmarkIllusts tabLabel="Illustrations (Public)" userId={userId} tag={selectedPublicTag} />
           <MyPrivateBookmarkIllust tabLabel="Illustrations (Private)" userId={userId} tag={selectedPrivateTag} />
         </ScrollableTabView>
         {

@@ -14,9 +14,9 @@ import searchUserAutoComplete from './searchUserAutoComplete';
 import searchHistory from './searchHistory';
 import searchType from './searchType';
 import userDetail from './userDetail';
-import userIllust from './userIllust';
-import userManga from './userManga';
-import userBookmarkIllust from './userBookmarkIllust';
+import userIllusts from './userIllusts';
+import userMangas from './userMangas';
+import userBookmarkIllusts from './userBookmarkIllusts';
 import myPrivateBookmarkIllust from './myPrivateBookmarkIllust';
 import userFollowing from './userFollowing';
 import userFollower from './userFollower';
@@ -56,9 +56,9 @@ const rootReducer = combineReducers({
   searchHistory,
   searchType,
   userDetail,
-  userIllust,
-  userManga,
-  userBookmarkIllust,
+  userIllusts,
+  userMangas,
+  userBookmarkIllusts,
   myPrivateBookmarkIllust,
   userFollowing,
   userFollower,

@@ -3,9 +3,9 @@ import Trending from '../containers/Trending';
 import Detail from '../containers/Detail';
 import UserDetail from '../containers/UserDetail';
 import IllustComments from '../containers/IllustComments';
-import UserIllust from '../containers/UserIllust';
-import UserManga from '../containers/UserManga';
-import UserBookmarkIllust from '../containers/UserBookmarkIllust';
+import UserIllusts from '../containers/UserIllusts';
+import UserMangas from '../containers/UserMangas';
+import UserBookmarkIllusts from '../containers/UserBookmarkIllusts';
 import RelatedIllusts from '../containers/RelatedIllusts';
 import SearchResultTabs from '../containers/SearchResultTabs'; //todo
 
@@ -34,20 +34,20 @@ const TrendingNavigator = StackNavigator({
       title: 'Related Works',
     },
   },
-  UserIllust: {
-    screen: UserIllust,
+  UserIllusts: {
+    screen: UserIllusts,
     navigationOptions: {
       title: 'User Illusts',
     }
   },
-  UserManga: {
-    screen: UserManga,
+  UserMangas: {
+    screen: UserMangas,
     navigationOptions: {
       title: 'User Mangas',
     }
   },
-  UserBookmarkIllust: {
-    screen: UserBookmarkIllust,
+  UserBookmarkIllusts: {
+    screen: UserBookmarkIllusts,
     navigationOptions: {
       title: 'Collection',
     }

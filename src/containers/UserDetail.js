@@ -26,9 +26,9 @@ import PXImage from '../components/PXImage';
 import PXBlurView from '../components/PXBlurView';
 import Loader from '../components/Loader';
 import * as userDetailActionCreators from '../common/actions/userDetail';
-import * as userIllustActionCreators from '../common/actions/userIllust';
-import * as userMangaActionCreators from '../common/actions/userManga';
-import * as userBookmarkIllustlActionCreators from '../common/actions/userBookmarkIllust';
+import * as userIllustsActionCreators from '../common/actions/userIllusts';
+import * as userMangasActionCreators from '../common/actions/userMangas';
+import * as userBookmarkIllustlActionCreators from '../common/actions/userBookmarkIllusts';
 import { denormalizedData } from '../common/helpers/normalizrHelper';
 import Schemas from '../common/constants/schemas';
 
@@ -365,7 +365,7 @@ class UserDetail extends Component {
         viewMoreTitle="Works"  
         items={data.items}
         maxItems={6}
-        onPressViewMore={() => navigation.navigate('UserIllust', { userId })}
+        onPressViewMore={() => navigation.navigate('UserIllusts', { userId })}
         navigation={navigation}
       />
     )
@@ -380,7 +380,7 @@ class UserDetail extends Component {
         viewMoreTitle="Works"
         items={data.items}
         maxItems={6}
-        onPressViewMore={() => navigation.navigate('UserManga', { userId })}
+        onPressViewMore={() => navigation.navigate('UserMangas', { userId })}
         navigation={navigation}
       />
     )
@@ -394,34 +394,34 @@ class UserDetail extends Component {
         viewMoreTitle="All"
         items={data.items}
         maxItems={6}
-        onPressViewMore={() => navigation.navigate('UserBookmarkIllust', { userId })}
+        onPressViewMore={() => navigation.navigate('UserBookmarkIllusts', { userId })}
         navigation={navigation}
       />
     )
   }
 
   renderContent = (detail) => {
-    const { userIllust, userManga, userBookmarkIllust, userId } = this.props;
+    const { userIllusts, userMangas, userBookmarkIllusts, userId } = this.props;
     return (
       <View>
         {
           this.renderProfile(detail)
         }
         {
-          (userIllust && !userIllust.loading && userIllust.items && userIllust.items.length) ?
-          this.renderIllustCollection(userIllust, detail.profile)
+          (userIllusts && !userIllusts.loading && userIllusts.items && userIllusts.items.length) ?
+          this.renderIllustCollection(userIllusts, detail.profile)
           :
           null
         }
         {
-          (userManga && !userManga.loading && userManga.items && userManga.items.length) ?
-          this.renderMangaCollection(userManga, detail.profile)
+          (userMangas && !userMangas.loading && userMangas.items && userMangas.items.length) ?
+          this.renderMangaCollection(userMangas, detail.profile)
           :
           null
         }
         {
-          (userBookmarkIllust && !userBookmarkIllust.loading && userBookmarkIllust.items && userBookmarkIllust.items.length) ?
-          this.renderBookmarks(userBookmarkIllust)
+          (userBookmarkIllusts && !userBookmarkIllusts.loading && userBookmarkIllusts.items && userBookmarkIllusts.items.length) ?
+          this.renderBookmarks(userBookmarkIllusts)
           :
           null
         }
@@ -463,18 +463,18 @@ class UserDetail extends Component {
 }
 
 export default connect((state, props) => {
-  const { entities, userDetail, userIllust, userManga, userBookmarkIllust } = state;
+  const { entities, userDetail, userIllusts, userMangas, userBookmarkIllusts } = state;
   const userId = props.userId || props.navigation.state.params.userId;
   return {
     userDetail: denormalizedData(userDetail[userId], 'item', Schemas.USER_PROFILE, entities),
-    userIllust: denormalizedData(userIllust[userId], 'items', Schemas.ILLUST_ARRAY, entities),
-    userManga: denormalizedData(userManga[userId], 'items', Schemas.ILLUST_ARRAY, entities),
-    userBookmarkIllust: denormalizedData(userBookmarkIllust[userId], 'items', Schemas.ILLUST_ARRAY, entities),
+    userIllusts: denormalizedData(userIllusts[userId], 'items', Schemas.ILLUST_ARRAY, entities),
+    userMangas: denormalizedData(userMangas[userId], 'items', Schemas.ILLUST_ARRAY, entities),
+    userBookmarkIllusts: denormalizedData(userBookmarkIllusts[userId], 'items', Schemas.ILLUST_ARRAY, entities),
     userId
   }
 }, {
   ...userDetailActionCreators,
-  ...userIllustActionCreators,
-  ...userMangaActionCreators,
+  ...userIllustsActionCreators,
+  ...userMangasActionCreators,
   ...userBookmarkIllustlActionCreators
 })(UserDetail);

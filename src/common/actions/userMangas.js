@@ -47,7 +47,7 @@ function shouldFetchUserMangas(state, userId) {
   if (!userId) {
     return false;
   }
-  const results = state.userManga[userId];
+  const results = state.userMangas[userId];
   if (results && results.loading) {
     return false;
   } 

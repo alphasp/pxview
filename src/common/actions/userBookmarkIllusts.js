@@ -47,7 +47,7 @@ function shouldFetchUserBookmarkIllust(state, userId) {
   if (!userId) {
     return false;
   }
-  const results = state.userBookmarkIllust[userId];
+  const results = state.userBookmarkIllusts[userId];
   if (results && results.loading) {
     return false;
   } 

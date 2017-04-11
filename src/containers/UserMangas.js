@@ -7,10 +7,10 @@ import {
 import { connect } from 'react-redux';
 import { denormalize } from 'normalizr';
 import IllustList from '../components/IllustList';
-import * as userIllustActionCreators from '../common/actions/userIllust';
+import * as userMangasActionCreators from '../common/actions/userMangas';
 import Schemas from '../common/constants/schemas';
 
-class UserIllust extends Component {
+class UserMangas extends Component {
   static navigationOptions = {
     header: ({ state, setParams, navigate, goBack }, defaultHeader) => {
       return {
@@ -28,28 +28,28 @@ class UserIllust extends Component {
   }
 
   componentDidMount() {
-    const { userId, fetchUserIllusts, clearUserIllusts } = this.props;
+    const { userId, fetchUserMangas, clearUserMangas } = this.props;
     InteractionManager.runAfterInteractions(() => {
-      clearUserIllusts(userId);
-      fetchUserIllusts(userId);
+      clearUserMangas(userId);
+      fetchUserMangas(userId);
     });
   }
 
   loadMoreItems = () => {
-    const { userIllust, userId, fetchUserIllusts } = this.props;
-    console.log('next url ', userIllust)
-    if (userIllust && userIllust.nextUrl) {
-      fetchUserIllusts(userId, userIllust.nextUrl);
+    const { userMangas: { nextUrl }, userId, fetchUserMangas } = this.props;
+    console.log('load more ', nextUrl)
+    if (nextUrl) {
+      fetchUserMangas(userId, nextUrl);
     }
   }
 
   handleOnRefresh = () => {
-    const { userId, fetchUserIllusts, clearUserIllusts } = this.props;
+    const { userId, fetchUserMangas, clearUserMangas } = this.props;
     this.setState({
       refereshing: true
     });
-    clearUserIllusts(userId);
-    fetchUserIllusts(userId).finally(() => {
+    clearUserMangas(userId);
+    fetchUserMangas(userId).finally(() => {
       this.setState({
         refereshing: false
       }); 
@@ -57,11 +57,11 @@ class UserIllust extends Component {
   }
 
   render() {
-    const { userIllust, userId } = this.props;
+    const { userMangas, userId } = this.props;
     const { refreshing } = this.state;
     return (
       <IllustList
-        data={userIllust}
+        data={userMangas}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
@@ -73,13 +73,13 @@ class UserIllust extends Component {
 const defaultItems = [];
 
 export default connect((state, props) => {
-  const { entities, userIllust } = state;
+  const { entities, userMangas } = state;
   const userId = props.userId || props.navigation.state.params.userId;
-  if (userIllust[userId]) {
-    const denormalizedItems = denormalize(userIllust[userId].items, Schemas.ILLUST_ARRAY, entities);
+  if (userMangas[userId]) {
+    const denormalizedItems = denormalize(userMangas[userId].items, Schemas.ILLUST_ARRAY, entities);
     return {
-      userIllust: {
-        ...userIllust[userId],
+      userMangas: {
+        ...userMangas[userId],
         items: denormalizedItems || defaultItems
       },
       userId
@@ -87,8 +87,8 @@ export default connect((state, props) => {
   }
   else {
     return {
-      userIllust: {},
+      userMangas: {},
       userId
     }
   }
-}, userIllustActionCreators)(UserIllust);
+}, userMangasActionCreators)(UserMangas);

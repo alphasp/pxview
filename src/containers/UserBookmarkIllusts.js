@@ -7,10 +7,10 @@ import {
 import { connect } from 'react-redux';
 import { denormalize } from 'normalizr';
 import IllustList from '../components/IllustList';
-import * as userBookmarkIllustActionCreators from '../common/actions/userBookmarkIllust';
+import * as userBookmarkIllustActionCreators from '../common/actions/userBookmarkIllusts';
 import Schemas from '../common/constants/schemas';
 
-class UserBookmarkIllust extends Component {
+class UserBookmarkIllusts extends Component {
   static navigationOptions = {
     header: ({ state, setParams, navigate, goBack }, defaultHeader) => {
       return {
@@ -47,9 +47,9 @@ class UserBookmarkIllust extends Component {
 
 
   loadMoreItems = () => {
-    const { userBookmarkIllust, tag, userId, fetchUserBookmarkIllusts } = this.props;
-    if (userBookmarkIllust[userId] && userBookmarkIllust[userId].nextUrl) {
-      fetchUserBookmarkIllusts(userId, tag, userBookmarkIllust[userId].nextUrl);
+    const { userBookmarkIllusts, tag, userId, fetchUserBookmarkIllusts } = this.props;
+    if (userBookmarkIllusts[userId] && userBookmarkIllusts[userId].nextUrl) {
+      fetchUserBookmarkIllusts(userId, tag, userBookmarkIllusts[userId].nextUrl);
     }
   }
 
@@ -67,11 +67,11 @@ class UserBookmarkIllust extends Component {
   }
 
   render() {
-    const { userBookmarkIllust, userId } = this.props;
+    const { userBookmarkIllusts, userId } = this.props;
     const { refreshing } = this.state;
     return (
       <IllustList
-        data={userBookmarkIllust}
+        data={userBookmarkIllusts}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
@@ -83,13 +83,13 @@ class UserBookmarkIllust extends Component {
 const defaultItems = [];
 
 export default connect((state, props) => {
-  const { entities, userBookmarkIllust } = state;
+  const { entities, userBookmarkIllusts } = state;
   const userId = props.userId || props.navigation.state.params.userId;
-  if (userBookmarkIllust[userId]) {
-    const denormalizedItems = denormalize(userBookmarkIllust[userId].items, Schemas.ILLUST_ARRAY, entities);
+  if (userBookmarkIllusts[userId]) {
+    const denormalizedItems = denormalize(userBookmarkIllusts[userId].items, Schemas.ILLUST_ARRAY, entities);
     return {
-      userBookmarkIllust: {
-        ...userBookmarkIllust[userId],
+      userBookmarkIllusts: {
+        ...userBookmarkIllusts[userId],
         items: denormalizedItems || defaultItems
       },
       userId
@@ -97,8 +97,8 @@ export default connect((state, props) => {
   }
   else {
     return {
-      userBookmarkIllust: {},
+      userBookmarkIllusts: {},
       userId
     }
   }
-}, userBookmarkIllustActionCreators)(UserBookmarkIllust);
+}, userBookmarkIllustActionCreators)(UserBookmarkIllusts);

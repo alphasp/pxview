@@ -4,9 +4,9 @@ import {
   STOP_USER_BOOKMARK_ILLUSTS, 
   CLEAR_USER_BOOKMARK_ILLUSTS,
   CLEAR_ALL_USER_BOOKMARK_ILLUSTS,
-} from "../actions/userBookmarkIllust";
+} from "../actions/userBookmarkIllusts";
 
-export default function userIllust(state = {}, action) {
+export default function userBookmarkIllusts(state = {}, action) {
   switch (action.type) {
     case CLEAR_USER_BOOKMARK_ILLUSTS:
       return {

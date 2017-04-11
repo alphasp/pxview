@@ -47,7 +47,7 @@ function shouldFetchUserIllusts(state, userId) {
   if (!userId) {
     return false;
   }
-  const results = state.userIllust[userId];
+  const results = state.userIllusts[userId];
   if (results && results.loading) {
     return false;
   } 

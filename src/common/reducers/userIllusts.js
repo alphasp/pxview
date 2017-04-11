@@ -1,21 +1,21 @@
 import { 
-  REQUEST_USER_MANGAS, 
-  RECEIVE_USER_MANGAS,
-  STOP_USER_MANGAS, 
-  CLEAR_USER_MANGAS,
-  CLEAR_ALL_USER_MANGAS,
-} from "../actions/userManga";
+  REQUEST_USER_ILLUSTS, 
+  RECEIVE_USER_ILLUSTS,
+  STOP_USER_ILLUSTS, 
+  CLEAR_USER_ILLUSTS,
+  CLEAR_ALL_USER_ILLUSTS,
+} from "../actions/userIllusts";
 
-export default function userManga(state = {}, action) {
+export default function userIllusts(state = {}, action) {
   switch (action.type) {
-    case CLEAR_USER_MANGAS:
+    case CLEAR_USER_ILLUSTS:
       return {
         ...state,
         [action.payload.userId]: {},
       };
-    case CLEAR_ALL_USER_MANGAS:
+    case CLEAR_ALL_USER_ILLUSTS:
       return {};  
-    case REQUEST_USER_MANGAS:
+    case REQUEST_USER_ILLUSTS:
       return {
         ...state,
         [action.payload.userId]: {
@@ -23,7 +23,7 @@ export default function userManga(state = {}, action) {
           loading: true
         }
       };
-    case RECEIVE_USER_MANGAS:
+    case RECEIVE_USER_ILLUSTS:
       return {
         ...state,
         [action.payload.userId]: {
@@ -36,7 +36,7 @@ export default function userManga(state = {}, action) {
           timestamp: action.payload.timestamp
         }
       };
-    case STOP_USER_MANGAS:
+    case STOP_USER_ILLUSTS:
       return {
         ...state,
         [action.payload.userId]: {
