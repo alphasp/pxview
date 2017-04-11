@@ -210,9 +210,6 @@ class UserDetail extends Component {
       fetchUserMangas,  clearUserMangas,
       fetchUserBookmarkIllusts, clearUserBookmarkIllusts
     } = this.props;
-    this.setState({
-      refereshing: true
-    });
     clearUserDetail(userId);
     clearUserIllusts(userId);
     clearUserMangas(userId);
@@ -220,11 +217,7 @@ class UserDetail extends Component {
     fetchUserDetail(userId);
     fetchUserIllusts(userId);
     fetchUserMangas(userId);
-    fetchUserBookmarkIllusts(userId).finally(() => {
-      this.setState({
-        refereshing: false
-      }); 
-    })
+    fetchUserBookmarkIllusts(userId);
   }
 
   handleOnScroll = ({ nativeEvent }) => {
