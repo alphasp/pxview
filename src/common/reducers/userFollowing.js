@@ -1,55 +1,52 @@
-import { 
-  FETCH_USER_FOLLOWING_REQUEST, 
-  FETCH_USER_FOLLOWING_SUCCESS, 
-  FETCH_USER_FOLLOWING_FAILURE, 
-  CLEAR_USER_FOLLOWING,
-  CLEAR_ALL_USER_FOLLOWING,
-  FollowingType
-} from '../actions/userFollowing';
+import { USER_FOLLOWING } from '../constants/actionTypes';
+import { FOLLOWING_TYPES } from '../constants/followingTypes';
 
 const defaultStateByUserFollowingType = {
   loading: false,
   loaded: false,
+  refreshing: false,
   items: [],
   offset: 0,
   nextUrl: null,
 };
 
 export default function userFollowing(state = {
-  [FollowingType.PUBLIC]: {},
-  [FollowingType.PRIVATE]: {}
+  [FOLLOWING_TYPES.PUBLIC]: {},
+  [FOLLOWING_TYPES.PRIVATE]: {}
 }, action) {
   switch (action.type) {
-    case CLEAR_USER_FOLLOWING:
+    case USER_FOLLOWING.CLEAR:
       return {
         ...state,
         [action.payload.followingType]: {
           [action.payload.userId]: defaultStateByUserFollowingType
         }
       };
-    case CLEAR_ALL_USER_FOLLOWING:
+    case USER_FOLLOWING.CLEAR_ALL:
       return {
         ...state,
-        [FollowingType.PUBLIC]: {},
-        [FollowingType.PRIVATE]: {}
+        [FOLLOWING_TYPES.PUBLIC]: {},
+        [FOLLOWING_TYPES.PRIVATE]: {}
       };
-    case FETCH_USER_FOLLOWING_REQUEST:
+    case USER_FOLLOWING.REQUEST:
       return {
         ...state,
         [action.payload.followingType]: {
           [action.payload.userId]: {
             ...state[action.payload.followingType][action.payload.userId],
-            loading: true
+            loading: true,
+            refreshing: action.payload.refreshing
           }
         }
       };
-    case FETCH_USER_FOLLOWING_SUCCESS:
+    case USER_FOLLOWING.SUCCESS:
       return {
         ...state,
         [action.payload.followingType]: {
           [action.payload.userId]: {
             loading: false,
             loaded: true,
+            refreshing: false,
             items: (state[action.payload.followingType][action.payload.userId] && state[action.payload.followingType][action.payload.userId].items) ? [...state[action.payload.followingType][action.payload.userId].items, ...action.payload.items] : action.payload.items,
             offset: action.payload.offset,
             nextUrl: action.payload.nextUrl,
@@ -57,13 +54,14 @@ export default function userFollowing(state = {
           }
         }
       };
-    case FETCH_USER_FOLLOWING_FAILURE:
+    case USER_FOLLOWING.FAILURE:
       return {
         ...state,
         [action.payload.followingType]: {
           [action.payload.userId]: {
             ...state[action.payload.followingType][action.payload.userId],
-            loading: false
+            loading: false,
+            refreshing: false
           }
         }
       };

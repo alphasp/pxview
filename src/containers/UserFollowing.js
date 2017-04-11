@@ -13,12 +13,6 @@ class UserFollowing extends Component {
     fetchUserFollowing: PropTypes.func.isRequired,
     clearUserFollowing: PropTypes.func.isRequired,
   }
-  constructor(props) {
-    super(props);
-    this.state = { 
-      refreshing: false
-    };
-  }
 
   componentDidMount() {
     const { fetchUserFollowing, userId, followingType } = this.props;
@@ -34,27 +28,17 @@ class UserFollowing extends Component {
 
   handleOnRefresh = () => {
     const { clearUserFollowing, fetchUserFollowing, userId, followingType } = this.props;
-    this.setState({
-      refereshing: true
-    });
     clearUserFollowing(userId, followingType);
-    fetchUserFollowing(userId, followingType).finally(() => {
-      this.setState({
-        refereshing: false
-      }); 
-    })
+    fetchUserFollowing(userId, followingType, null, true);
   }
 
   render() {
-    const { userFollowing, userId, navigation, screenProps } = this.props;
-    const { refreshing } = this.state;
+    const { userFollowing, userId, screenProps } = this.props;
     return (
       <UserListContainer
         userList={userFollowing}
-        refreshing={refreshing}
         loadMore={this.loadMore}
         onRefresh={this.handleOnRefresh}
-        navigation={navigation}
         screenProps={screenProps}
       />
     );

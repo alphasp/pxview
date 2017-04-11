@@ -11,7 +11,7 @@ import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab
 import UserFollowing from './UserFollowing';
 import UserFollowers from './UserFollowers';
 import UserMyPixiv from './UserMyPixiv';
-import { FollowingType } from '../common/actions/userFollowing';
+import { FOLLOWING_TYPES } from '../common/constants/followingTypes';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,13 +45,13 @@ class MyConnection extends Component {
           <UserFollowing 
             tabLabel="Following (Public)" 
             userId={userId} 
-            followingType={FollowingType.PUBLIC}
+            followingType={FOLLOWING_TYPES.PUBLIC}
             screenProps={screenProps}
           />
           <UserFollowing 
             tabLabel="Following (Private)" 
             userId={userId} 
-            followingType={FollowingType.PRIVATE} 
+            followingType={FOLLOWING_TYPES.PRIVATE} 
             screenProps={screenProps}
           />
           <UserFollowers 
