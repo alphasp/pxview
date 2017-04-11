@@ -1,105 +1,53 @@
 import qs from "qs";
-import { normalize } from 'normalizr';
-import { addError } from './error';
-import Schemas from '../constants/schemas';
-import pixiv from '../helpers/ApiClient';
+import { USER_FOLLOWERS } from '../constants/actionTypes';
 
-export const FETCH_USER_FOLLOWER_REQUEST = 'FETCH_USER_FOLLOWER_REQUEST';
-export const FETCH_USER_FOLLOWER_SUCCESS = 'FETCH_USER_FOLLOWER_SUCCESS';
-export const FETCH_USER_FOLLOWER_FAILURE = 'FETCH_USER_FOLLOWER_FAILURE';
-export const CLEAR_USER_FOLLOWER = 'CLEAR_USER_FOLLOWER';
-export const CLEAR_ALL_USER_FOLLOWER = 'CLEAR_ALL_USER_FOLLOWER';
-
-function fetchUserFollowerRequest(userId, offset) {
+export function fetchUserFollowersSuccess(entities, items, userId, nextUrl) {
   return {
-    type: FETCH_USER_FOLLOWER_REQUEST,
+    type: USER_FOLLOWERS.SUCCESS,
     payload: {
       userId,
-      offset
-    }
-  };
-}
-
-function fetchUserFollowerSuccess(normalized, nextUrl, userId, offset) { 
-  return {
-    type: FETCH_USER_FOLLOWER_SUCCESS,
-    payload: {
-      entities: normalized.entities,
-      items: normalized.result,
+      entities,
+      items,
       nextUrl,
-      userId,
-      offset,
       timestamp: Date.now(),
     }
   };
 }
 
-function fetchUserFollowerFailure(userId) {
+export function fetchUserFollowersFailure(userId) {
   return {
-    type: FETCH_USER_FOLLOWER_FAILURE,
+    type: USER_FOLLOWERS.FAILURE,
+    payload: {
+      userId
+    }
+  };
+}
+
+export function fetchUserFollowers(userId, nextUrl, refreshing = false) {
+  const params = qs.parse(nextUrl);
+  const offset = params.offset || "0";
+  return {
+    type: USER_FOLLOWERS.REQUEST,
     payload: {
       userId,
+      offset,
+      nextUrl,
+      refreshing
     }
   };
 }
 
-function shouldFetchUserFollower(state, userId) {
-  //todo
-  const results = state.userFollowers[userId];
-  if (results && results.loading) {
-    return false;
-  } 
-  else {
-    return true;
-  }
-}
-
-function fetchUserFollowerFromApi(userId, nextUrl) {
-  return dispatch => {
-    const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.userFollower(userId);
-    const params = qs.parse(nextUrl);
-    const offset = params.offset || "0";
-    dispatch(fetchUserFollowerRequest(userId, offset));
-    return promise
-      .then(json => {
-        const mappedResult = {
-          ...json,
-          user_previews: json.user_previews.map(result => {
-            return {
-              ...result,
-              id: result.user.id
-            }
-          })
-        };
-        const normalized = normalize(mappedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
-        dispatch(fetchUserFollowerSuccess(normalized, json.next_url, userId, offset));
-      })
-      .catch(err => {
-        dispatch(fetchUserFollowerFailure(userId));
-        dispatch(addError(err));
-      });
-  };
-}
-
-export function fetchUserFollower(userId, nextUrl) {
-  return (dispatch, getState) => {
-    if (shouldFetchUserFollower(getState(), userId)) {
-      return dispatch(fetchUserFollowerFromApi(userId, nextUrl));
-    }
-  };
-}
-
-export function clearUserFollower(userId) {
+export function clearUserFollowers(userId) {
   return {
-    type: CLEAR_USER_FOLLOWER,
+    type: USER_FOLLOWERS.CLEAR,
     payload: {
-      userId,
+      userId
     }
   };
 }
 
-export function clearAllUserFollower() {
+export function clearAllUserFollowers() {
   return {
-    type: CLEAR_ALL_USER_FOLLOWER,
+    type: USER_FOLLOWERS.CLEAR_ALL
   };
 }

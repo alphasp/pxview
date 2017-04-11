@@ -1,46 +1,42 @@
-import { 
-  FETCH_USER_FOLLOWER_REQUEST, 
-  FETCH_USER_FOLLOWER_SUCCESS, 
-  FETCH_USER_FOLLOWER_FAILURE, 
-  CLEAR_USER_FOLLOWER,
-  CLEAR_ALL_USER_FOLLOWER,
-  FollowerType
-} from '../actions/userFollowers';
+import { USER_FOLLOWERS } from '../constants/actionTypes';
 
 export default function userFollowers(state = {}, action) {
   switch (action.type) {
-    case CLEAR_USER_FOLLOWER:
+    case USER_FOLLOWERS.CLEAR:
       return {
         ...state,
         [action.payload.userId]: {},
       };
-    case CLEAR_ALL_USER_FOLLOWER:
+    case USER_FOLLOWERS.CLEAR_ALL:
       return {};
-    case FETCH_USER_FOLLOWER_REQUEST:
+    case USER_FOLLOWERS.REQUEST:
       return {
         ...state,
         [action.payload.userId]: {
           ...state[action.payload.userId],
-          loading: true
+          loading: true,
+          refreshing: action.payload.refreshing
         }
       };
-    case FETCH_USER_FOLLOWER_SUCCESS:
+    case USER_FOLLOWERS.SUCCESS:
       return {
         ...state,
         [action.payload.userId]: {
           loading: false,
           loaded: true,
+          refreshing: false,
           items: (state[action.payload.userId] && state[action.payload.userId].items) ? [...state[action.payload.userId].items, ...action.payload.items] : action.payload.items,
           offset: action.payload.offset,
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp,
         }
       };
-    case FETCH_USER_FOLLOWER_FAILURE:
+    case USER_FOLLOWERS.FAILURE:
       return {
         ...state,
         [action.payload.userId]: {
-          loading: false
+          loading: false,
+          refreshing: true
         }
       };
     default:

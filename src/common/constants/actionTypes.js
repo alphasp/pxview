@@ -29,3 +29,12 @@ export const USER_MANGAS = defineAction('USER_MANGAS',
 
 export const USER_BOOKMARK_ILLUSTS = defineAction('USER_BOOKMARK_ILLUSTS',
 	[REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL], appNamespace);
+
+export const USER_FOLLOWING = defineAction('USER_FOLLOWING',
+	[REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL], appNamespace);
+
+export const USER_FOLLOWERS = defineAction('USER_FOLLOWERS',
+	[REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL], appNamespace);	
+
+export const USER_MY_PIXIV = defineAction('USER_MY_PIXIV',
+	[REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL], appNamespace);	

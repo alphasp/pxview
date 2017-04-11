@@ -176,7 +176,7 @@ class UserList extends Component {
   }
 
   render() {
-    const { userList: { items, loading, loaded }, loadMore, refreshing, onRefresh } = this.props;
+    const { userList: { items, loading, loaded, refreshing }, loadMore, onRefresh } = this.props;
     const { dataSource } = this.state;
     return (
       <View style={styles.container}>
