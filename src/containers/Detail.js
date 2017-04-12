@@ -295,8 +295,8 @@ class Detail extends Component {
   }
 
   handleOnViewableItemsChanged = ({ viewableItems, changed }) => {
-    console.log('viewableItems ', viewableItems)
-    console.log('changed ', changed)
+    // console.log('viewableItems ', viewableItems)
+    // console.log('changed ', changed)
     // not trigger on android
     // https://github.com/facebook/react-native/issues/5688
     // const { item } = this.props;
@@ -333,11 +333,15 @@ class Detail extends Component {
         isInitState: false
       });
     }
-    this.setState({
-      isScrolling: true
-    });
+    if (!isScrolling) {
+      this.setState({
+        isScrolling: true
+      });
+    }
     clearTimeout(this.timer);
-    this.timer = setTimeout(() => this.setState({ isScrolling: false }), 500)
+    this.timer = setTimeout(() => {
+      this.setState({ isScrolling: false });
+    }, 2000);
   }
 
   // handleOnEndReached = () => {
@@ -405,7 +409,7 @@ class Detail extends Component {
                 renderItem={this.renderRow}
                 debug={false}
                 disableVirtualization={false}
-                FooterComponent={this.renderFooter}
+                ListFooterComponent={this.renderFooter}
                 onScroll={this.handleOnScroll}
                 onViewableItemsChanged={this.handleOnViewableItemsChanged}
               />
