@@ -23,7 +23,7 @@ export function* handleFetchFollowingUserIllusts(action) {
     yield put(fetchFollowingUserIllustsSuccess(normalized.entities, normalized.result, response.next_url));
   } 
   catch(err) {
-    yield put(fetchFollowingUserIllustsFailure(userId));
+    yield put(fetchFollowingUserIllustsFailure());
     yield put(addError(err));    
   }
 }

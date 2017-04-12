@@ -13,7 +13,9 @@ import { watchFetchUserFollowing } from './userFollowing';
 import { watchFetchUserMyPixiv } from './userMyPixiv';
 import { watchFetchMyPrivateBookmarkIllusts } from './myPrivateBookmarkIllusts';
 import { watchFetchFollowingUserIllusts } from './followingUserIllusts';
-
+import { watchFetchNewIllusts } from './newIllusts';
+import { watchFetchNewMangas } from './newMangas';
+import { watchFetchMyPixiv } from './myPixiv';
 
 export default function* rootSaga() {
   yield [
@@ -33,5 +35,8 @@ export default function* rootSaga() {
     watchFetchUserMyPixiv(),
     watchFetchMyPrivateBookmarkIllusts(),
     watchFetchFollowingUserIllusts(),
+    watchFetchNewIllusts(),
+    watchFetchNewMangas(),
+    watchFetchMyPixiv(),
   ]
 }

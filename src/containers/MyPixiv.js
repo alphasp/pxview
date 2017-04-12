@@ -2,48 +2,34 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import * as myPixivActionCreators from '../common/actions/myPixiv';
+import { denormalizedData } from '../common/helpers/normalizrHelper';
+import Schemas from '../common/constants/schemas';
 
 class MyPixiv extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      refreshing: false
-    };
-  }
-
   componentDidMount() {
-    const { fetchMyPixivIllusts } = this.props;
-    fetchMyPixivIllusts();
+    const { fetchMyPixiv } = this.props;
+    fetchMyPixiv();
   }
 
   loadMoreItems = () => {
-    const { fetchMyPixivIllusts, myPixiv: { nextUrl } } = this.props;
-    console.log('load more ', nextUrl)
-    if (nextUrl) {
-      fetchMyPixivIllusts(nextUrl);
+    const { fetchMyPixiv, myPixiv: { nextUrl, loading } } = this.props;
+    if (!loading && nextUrl) {
+      console.log('load more ', nextUrl)
+      fetchMyPixiv(nextUrl);
     }
   }
 
   handleOnRefresh = () => {
-    const { fetchMyPixivIllusts, clearMyPixivIllusts } = this.props;
-    this.setState({
-      refereshing: true
-    });
-    clearMyPixivIllusts();
-    fetchMyPixivIllusts().finally(() => {
-      this.setState({
-        refereshing: false
-      }); 
-    })
+    const { fetchMyPixiv, clearMyPixiv } = this.props;
+    clearMyPixiv();
+    fetchMyPixiv(null, true);
   }
 
   render() {
     const { myPixiv } = this.props;
-    const { refreshing } = this.state;
     return (
       <IllustList
         data={myPixiv}
-        refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -52,7 +38,8 @@ class MyPixiv extends Component {
 }
 
 export default connect(state => {
+  const { entities, myPixiv } = state;
   return {
-    myPixiv: state.myPixiv,
+    myPixiv: denormalizedData(myPixiv, 'items', Schemas.ILLUST_ARRAY, entities)
   }
 }, myPixivActionCreators)(MyPixiv);

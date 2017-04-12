@@ -1,74 +1,35 @@
-//import { createAction } from 'redux-actions';
-import qs from "qs";
-import { addError } from './error';
-import pixiv from '../helpers/ApiClient';
+import { NEW_ILLUSTS } from '../constants/actionTypes';
 
-export const REQUEST_NEW_ILLUSTS = 'REQUEST_NEW_ILLUSTS';
-export const RECEIVE_NEW_ILLUSTS = 'RECEIVE_NEW_ILLUSTS';
-export const STOP_NEW_ILLUSTS = 'STOP_NEW_ILLUSTS';
-export const CLEAR_NEW_ILLUSTS = 'CLEAR_NEW_ILLUSTS';
-
-function receiveNewIllusts(json, offset) {
+export function fetchNewIllustsSuccess(entities, items, nextUrl) {
   return {
-    type: RECEIVE_NEW_ILLUSTS,
+    type: NEW_ILLUSTS.SUCCESS,
     payload: {
-      items: json.illusts,
-      nextUrl: json.next_url,
-      offset,
+      entities,
+      items,
+      nextUrl,
       timestamp: Date.now(),
     }
   };
 }
 
-export function requestNewIllusts(offset) {
+export function fetchNewIllustsFailure() {
   return {
-    type: REQUEST_NEW_ILLUSTS,
+    type: NEW_ILLUSTS.FAILURE
+  };
+}
+
+export function fetchNewIllusts(nextUrl, refreshing = false) {
+  return {
+    type: NEW_ILLUSTS.REQUEST,
     payload: {
-      offset
-    }
-  };
-}
-
-function stopNewIllusts() {
-  return {
-    type: STOP_NEW_ILLUSTS
-  };
-}
-
-function shouldFetchNewIllusts(state) {
-  const results = state.newIllusts;
-  if (results && results.loading) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-function fetchNewIllustsFromApi(options, nextUrl) {
-  return dispatch => {
-    const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.illustNew(options);
-    const params = qs.parse(nextUrl);
-    const offset = params.offset || "0";
-    dispatch(requestNewIllusts(offset));
-    return promise
-      .then(json => dispatch(receiveNewIllusts(json, offset)))
-      .catch(err => {
-        dispatch(stopNewIllusts());
-        dispatch(addError(err));
-      });
-  };
-}
-
-export function fetchNewIllusts(options, nextUrl) {
-  return (dispatch, getState) => {
-    if (shouldFetchNewIllusts(getState())) {
-      return dispatch(fetchNewIllustsFromApi(options, nextUrl));
+      nextUrl,
+      refreshing
     }
   };
 }
 
 export function clearNewIllusts() {
   return {
-    type: CLEAR_NEW_ILLUSTS
+    type: NEW_ILLUSTS.CLEAR
   };
 }

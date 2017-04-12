@@ -10,49 +10,35 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
-import * as newMangaActionCreators from '../common/actions/newMangas';
+import * as newMangasActionCreators from '../common/actions/newMangas';
+import { denormalizedData } from '../common/helpers/normalizrHelper';
+import Schemas from '../common/constants/schemas';
 
 class NewMangas extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      refreshing: false
-    };
-  }
-
   componentDidMount() {
     const { fetchNewMangas } = this.props;
     fetchNewMangas();
   }
 
   loadMoreItems = () => {
-    const { fetchNewMangas, newMangas: { nextUrl } } = this.props;
-    console.log('load more ', nextUrl)
-    if (nextUrl) {
-      fetchNewMangas("", nextUrl);
+    const { fetchNewMangas, newMangas: { loading, nextUrl } } = this.props;
+    if (!loading && nextUrl) {
+      console.log('load more ', nextUrl)
+      fetchNewMangas(nextUrl);
     }
   }
 
   handleOnRefresh = () => {
     const { fetchNewMangas, clearNewMangas } = this.props;
-    this.setState({
-      refereshing: true
-    });
     clearNewMangas();
-    fetchNewMangas().finally(() => {
-      this.setState({
-        refereshing: false
-      }); 
-    })
+    fetchNewMangas(null, true);
   }
 
   render() {
     const { newMangas } = this.props;
-    const { refreshing } = this.state;
     return (
       <IllustList
         data={newMangas}
-        refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -61,7 +47,8 @@ class NewMangas extends Component {
 }
 
 export default connect(state => {
+  const { entities, newMangas } = state;
   return {
-    newMangas: state.newMangas,
+    newMangas: denormalizedData(newMangas, 'items', Schemas.ILLUST_ARRAY, entities)
   }
-}, newMangaActionCreators)(NewMangas);
+}, newMangasActionCreators)(NewMangas);

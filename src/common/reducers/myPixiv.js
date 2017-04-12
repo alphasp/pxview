@@ -1,71 +1,41 @@
-import { 
-  FETCH_MY_PIXIV_ILLUSTS_REQUEST, 
-  FETCH_MY_PIXIV_ILLUSTS_SUCCESS, 
-  FETCH_MY_PIXIV_ILLUSTS_FAILURE, 
-  CLEAR_MY_PIXIV_ILLUSTS,
-} from '../actions/myPixiv';
-import { 
-  BOOKMARK_ILLUST, 
-  UNBOOKMARK_ILLUST,
-} from '../actions/bookmarkIllust';
+import { MY_PIXIV } from '../constants/actionTypes';
 
-export default function myPixiv(state = {
+const defaultState = {
   loading: false,
   loaded: false,
+  refreshing: false,
   items: [],
-  offset: 0,
+  offset: null,
   nextUrl: null,
-}, action) {
+};
+
+export default function myPixiv(state = defaultState, action) {
   switch (action.type) {
-    case CLEAR_MY_PIXIV_ILLUSTS:
-      return {
-        ...state,
-        loading: false,
-        loaded: false,
-        items: [],
-        offset: 0,
-        nextUrl: null,
-      };
-    case FETCH_MY_PIXIV_ILLUSTS_REQUEST:
+    case MY_PIXIV.CLEAR:
+      return defaultState;
+    case MY_PIXIV.REQUEST:
       return {
         ...state,
         loading: true,
+        refreshing: action.payload.refreshing
       };
-    case FETCH_MY_PIXIV_ILLUSTS_SUCCESS:
+    case MY_PIXIV.SUCCESS:
       return {
         ...state,
         loading: false,
         loaded: true,
+        refreshing: false,
         items: [...state.items, ...action.payload.items],
         offset: action.payload.offset,
         nextUrl: action.payload.nextUrl,
         timestamp: action.payload.timestamp,
       };
-    case FETCH_MY_PIXIV_ILLUSTS_FAILURE:
+    case MY_PIXIV.FAILURE:
       return {
         ...state,
         loading: false,
+        refreshing: false
       };
-    case BOOKMARK_ILLUST:
-      return {
-        ...state,
-        items: state.items.map(item =>
-          item.id === action.payload.illustId ?
-          { ...item, is_bookmarked: true } 
-          :
-          item
-        )
-      }
-    case UNBOOKMARK_ILLUST:
-      return {
-        ...state,
-        items: state.items.map(item =>
-          item.id === action.payload.illustId ?
-          { ...item, is_bookmarked: false } 
-          :
-          item
-        )
-      }
     default:
       return state;
   }
