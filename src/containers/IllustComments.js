@@ -32,10 +32,12 @@ class IllustComments extends Component {
 
   componentDidMount() {
     const { fetchIllustComments, clearIllustComments, illustComments, illustId } = this.props;
-    InteractionManager.runAfterInteractions(() => {
+    if (!illustComments || !illustComments.items) {
       clearIllustComments(illustId);
-      fetchIllustComments(illustId);
-    });
+      InteractionManager.runAfterInteractions(() => {
+        fetchIllustComments(illustId);
+      });
+    }
   }
 
   loadMoreItems = () => {

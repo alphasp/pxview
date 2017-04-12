@@ -21,11 +21,13 @@ class UserBookmarkIllusts extends Component {
   }
   
   componentDidMount() {
-    const { userId, tag, fetchUserBookmarkIllusts, clearUserBookmarkIllusts } = this.props;
-    InteractionManager.runAfterInteractions(() => {
+    const { userBookmarkIllusts, userId, tag, fetchUserBookmarkIllusts, clearUserBookmarkIllusts } = this.props;
+    if (!userBookmarkIllusts || !userBookmarkIllusts.items) {
       clearUserBookmarkIllusts(userId);
-      fetchUserBookmarkIllusts(userId, tag);
-    });
+      InteractionManager.runAfterInteractions(() => {
+        fetchUserBookmarkIllusts(userId, tag);
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {

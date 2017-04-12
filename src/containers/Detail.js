@@ -409,6 +409,7 @@ class Detail extends Component {
                 renderItem={this.renderRow}
                 debug={false}
                 disableVirtualization={true}
+                removeClippedSubviews={false}
                 ListFooterComponent={this.renderFooter}
                 onScroll={this.handleOnScroll}
                 onViewableItemsChanged={this.handleOnViewableItemsChanged}

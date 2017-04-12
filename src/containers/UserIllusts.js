@@ -21,11 +21,13 @@ class UserIllusts extends Component {
   }
 
   componentDidMount() {
-    const { userId, fetchUserIllusts, clearUserIllusts } = this.props;
-    InteractionManager.runAfterInteractions(() => {
+    const { userIllusts, userId, fetchUserIllusts, clearUserIllusts } = this.props;
+    if (!userIllusts || !userIllusts.items) {
       clearUserIllusts(userId);
-      fetchUserIllusts(userId);
-    });
+      InteractionManager.runAfterInteractions(() => {
+        fetchUserIllusts(userId);
+      });
+    }
   }
 
   loadMoreItems = () => {

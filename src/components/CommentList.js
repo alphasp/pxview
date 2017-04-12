@@ -139,6 +139,7 @@ class CommentList extends Component {
             renderItem={this.renderRow}
             onEndReachedThreshold={0.1}
             onEndReached={loadMoreItems}
+            removeClippedSubviews={false}
             ListFooterComponent={this.renderFooter}
             refreshControl={
               <RefreshControl

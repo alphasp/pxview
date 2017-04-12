@@ -35,16 +35,12 @@ class RelatedIllusts extends Component {
     const { relatedIllusts, illustId, fetchRelatedIllusts, clearRelatedIllusts } = this.props;
     // will render blank unless scrolled
     // https://github.com/facebook/react-native/issues/10142
-    // if (!relatedIllusts) {
-    //   clearRelatedIllusts(illustId);
-    //   InteractionManager.runAfterInteractions(() => {
-    //     fetchRelatedIllusts(illustId);
-    //   });
-    // }
-    InteractionManager.runAfterInteractions(() => {
+    if (!relatedIllusts || !relatedIllusts.items) {
       clearRelatedIllusts(illustId);
-      fetchRelatedIllusts(illustId);
-    });
+      InteractionManager.runAfterInteractions(() => {
+        fetchRelatedIllusts(illustId);
+      });
+    }
   }
 
   loadMoreItems = () => {

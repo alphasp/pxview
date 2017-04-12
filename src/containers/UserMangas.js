@@ -21,11 +21,13 @@ class UserMangas extends Component {
   }
 
   componentDidMount() {
-    const { userId, fetchUserMangas, clearUserMangas } = this.props;
-    InteractionManager.runAfterInteractions(() => {
+    const { userMangas, userId, fetchUserMangas, clearUserMangas } = this.props;
+    if (!userMangas || !userMangas.items) {
       clearUserMangas(userId);
-      fetchUserMangas(userId);
-    });
+      InteractionManager.runAfterInteractions(() => {
+        fetchUserMangas(userId);
+      });
+    }
   }
 
   loadMoreItems = () => {
