@@ -11,7 +11,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from '../components/PXTouchable';
 import TagsFilterModal from './TagsFilterModal';
-import MyPrivateBookmarkIllust from './MyPrivateBookmarkIllust';
+import MyPrivateBookmarkIllusts from './MyPrivateBookmarkIllusts';
 import UserBookmarkIllusts from './UserBookmarkIllusts';
 import { TagType } from '../common/actions/bookmarkTag';
 
@@ -122,7 +122,7 @@ class MyCollection extends Component {
       <View style={styles.container}>
         <ScrollableTabView ref={(ref) => this.tabs = ref} onChangeTab={this.handleOnChangeTab}>
           <UserBookmarkIllusts tabLabel="Illustrations (Public)" userId={userId} tag={selectedPublicTag} />
-          <MyPrivateBookmarkIllust tabLabel="Illustrations (Private)" userId={userId} tag={selectedPrivateTag} />
+          <MyPrivateBookmarkIllusts tabLabel="Illustrations (Private)" userId={userId} tag={selectedPrivateTag} />
         </ScrollableTabView>
         {
           currentTabIndex === 0 &&

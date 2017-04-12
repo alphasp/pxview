@@ -11,6 +11,7 @@ import { watchFetchUserBookmarkIllusts } from './userBookmarkIllusts';
 import { watchFetchUserFollowers } from './userFollowers';
 import { watchFetchUserFollowing } from './userFollowing';
 import { watchFetchUserMyPixiv } from './userMyPixiv';
+import { watchFetchMyPrivateBookmarkIllusts } from './myPrivateBookmarkIllusts';
 
 export default function* rootSaga() {
   yield [
@@ -28,5 +29,6 @@ export default function* rootSaga() {
     watchFetchUserFollowers(),
     watchFetchUserFollowing(),
     watchFetchUserMyPixiv(),
+    watchFetchMyPrivateBookmarkIllusts(),
   ]
 }

@@ -9,19 +9,12 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { denormalize } from 'normalizr';
 import IllustList from '../components/IllustList';
-import * as myPrivateBookmarkIllustActionCreators from '../common/actions/myPrivateBookmarkIllust';
+import * as myPrivateBookmarkIllustActionCreators from '../common/actions/myPrivateBookmarkIllusts';
+import { denormalizedData } from '../common/helpers/normalizrHelper';
 import Schemas from '../common/constants/schemas';
 
-class MyPrivateBookmarkIllust extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      refreshing: false
-    };
-  }
-
+class MyPrivateBookmarkIllusts extends Component {
   componentDidMount() {
     const { userId, tag, fetchMyPrivateBookmarkIllusts, clearMyPrivateBookmarkIllusts } = this.props;
     clearMyPrivateBookmarkIllusts(userId);
@@ -32,7 +25,6 @@ class MyPrivateBookmarkIllust extends Component {
     const { userId: prevUserId, tag: prevTag } = this.props;
     const { userId, tag, fetchMyPrivateBookmarkIllusts, clearMyPrivateBookmarkIllusts } = nextProps;
     if ((userId !== prevUserId) || (tag !== prevTag)) {
-      const { dataSource } = this.state;
       clearMyPrivateBookmarkIllusts(userId);
       fetchMyPrivateBookmarkIllusts(userId, tag);
     }
@@ -40,32 +32,24 @@ class MyPrivateBookmarkIllust extends Component {
 
 
   loadMoreItems = () => {
-    const {  myPrivateBookmarkIllust: { nextUrl }, tag, userId, fetchMyPrivateBookmarkIllusts, clearMyPrivateBookmarkIllusts } = this.props;
-    if (nextUrl) {
+    const { myPrivateBookmarkIllusts, tag, userId, fetchMyPrivateBookmarkIllusts } = this.props;
+    if (myPrivateBookmarkIllusts && !myPrivateBookmarkIllusts.loading && myPrivateBookmarkIllusts.nextUrl) {
+      console.log('next url ', myPrivateBookmarkIllusts.nextUrl)
       fetchMyPrivateBookmarkIllusts(userId, tag, nextUrl);
     }
   }
 
   handleOnRefresh = () => {
-    const {  userId, tag, fetchMyPrivateBookmarkIllusts, clearMyPrivateBookmarkIllusts } = this.props;
-    this.setState({
-      refereshing: true
-    });
+    const { userId, tag, fetchMyPrivateBookmarkIllusts, clearMyPrivateBookmarkIllusts } = this.props;
     clearMyPrivateBookmarkIllusts(userId);
-    fetchMyPrivateBookmarkIllusts(userId, tag).finally(() => {
-      this.setState({
-        refereshing: false
-      }); 
-    });
+    fetchMyPrivateBookmarkIllusts(userId, tag, null, true);
   }
 
   render() {
-    const { myPrivateBookmarkIllust } = this.props;
-    const { refreshing } = this.state;
+    const { myPrivateBookmarkIllusts } = this.props;
     return (
       <IllustList
-        data={myPrivateBookmarkIllust}
-        refreshing={refreshing}
+        data={myPrivateBookmarkIllusts}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -73,17 +57,11 @@ class MyPrivateBookmarkIllust extends Component {
   }
 }
 
-const defaultItems = [];
-
 export default connect((state, props) => {
-  const { entities, myPrivateBookmarkIllust } = state;
+  const { entities, myPrivateBookmarkIllusts } = state;
   const userId = props.userId || props.navigation.state.params.userId;
-  const denormalizedItems = denormalize(myPrivateBookmarkIllust.items, Schemas.ILLUST_ARRAY, entities);
   return {
-    myPrivateBookmarkIllust: {
-      ...myPrivateBookmarkIllust,
-      items: denormalizedItems || defaultItems
-    },
+    myPrivateBookmarkIllusts: denormalizedData(myPrivateBookmarkIllusts, 'items', Schemas.ILLUST_ARRAY, entities),
     userId
   }
-}, myPrivateBookmarkIllustActionCreators)(MyPrivateBookmarkIllust);
+}, myPrivateBookmarkIllustActionCreators)(MyPrivateBookmarkIllusts);

@@ -38,3 +38,6 @@ export const USER_FOLLOWERS = defineAction('USER_FOLLOWERS',
 
 export const USER_MY_PIXIV = defineAction('USER_MY_PIXIV',
 	[REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL], appNamespace);	
+
+export const MY_PRIVATE_BOOKMARK_ILLUSTS = defineAction('MY_PRIVATE_BOOKMARK_ILLUSTS',
+	[REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL], appNamespace);
