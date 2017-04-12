@@ -3,13 +3,13 @@ import {
   RECEIVE_FOLLOWING_USER_ILLUSTS, 
   STOP_FOLLOWING_USER_ILLUSTS, 
   CLEAR_FOLLOWING_USER_ILLUSTS,
-} from "../actions/followingUserIllust";
+} from "../actions/followingUserIllusts";
 import { 
   BOOKMARK_ILLUST, 
   UNBOOKMARK_ILLUST,
 } from "../actions/bookmarkIllust";
 
-export default function followingUserIllust(state = {
+export default function followingUserIllusts(state = {
   loading: false,
   loaded: false,
   items: [],

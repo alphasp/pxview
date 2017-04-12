@@ -36,7 +36,7 @@ function stopNewIllusts() {
 }
 
 function shouldFetchNewIllusts(state) {
-  const results = state.newIllust;
+  const results = state.newIllusts;
   if (results && results.loading) {
     return false;
   } else {

@@ -1,5 +1,5 @@
 import { StackNavigator } from 'react-navigation';
-import NewWork from '../containers/NewWork';
+import NewWorks from '../containers/NewWorks';
 import Detail from '../containers/Detail';
 import UserDetail from '../containers/UserDetail';
 import IllustComments from '../containers/IllustComments';
@@ -11,8 +11,8 @@ import SearchResultTabs from '../containers/SearchResultTabs'; //todo
 import RecommendedUser from '../containers/RecommendedUser';
 
 const NewWorkNavigator = StackNavigator({
-  NewWork: { 
-    screen: NewWork,
+  NewWorks: { 
+    screen: NewWorks,
     navigationOptions: {
       header: {
         visible: false

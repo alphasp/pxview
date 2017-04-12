@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IllustList from '../components/IllustList';
 import { Button } from 'react-native-elements';
-import * as followingUserActionCreators from '../common/actions/followingUserIllust';
+import * as followingUserActionCreators from '../common/actions/followingUserIllusts';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class FollowingUserIllust extends Component {
+class FollowingUserIllusts extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -55,7 +55,7 @@ class FollowingUserIllust extends Component {
   }
 
   loadMoreItems = () => {
-    const { user, fetchFollowingUserIllusts, followingUserIllust: { nextUrl } } = this.props;
+    const { user, fetchFollowingUserIllusts, followingUserIllusts: { nextUrl } } = this.props;
     console.log('load more ', nextUrl)
     if (nextUrl) {
       fetchFollowingUserIllusts("", nextUrl);
@@ -83,7 +83,7 @@ class FollowingUserIllust extends Component {
   }
 
   render() {
-    const { followingUserIllust, user, screenProps: { strings } } = this.props;
+    const { followingUserIllusts, user, screenProps: { strings } } = this.props;
     const { refreshing } = this.state;
     if (!user) {
       return (
@@ -102,7 +102,7 @@ class FollowingUserIllust extends Component {
     }
     return (
       <IllustList
-        data={followingUserIllust}
+        data={followingUserIllusts}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
@@ -113,6 +113,6 @@ class FollowingUserIllust extends Component {
 
 export default connect(state => {
   return {
-    followingUserIllust: state.followingUserIllust,
+    followingUserIllusts: state.followingUserIllusts,
   }
-}, followingUserActionCreators)(FollowingUserIllust);
+}, followingUserActionCreators)(FollowingUserIllusts);

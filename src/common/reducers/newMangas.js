@@ -3,13 +3,13 @@ import {
   RECEIVE_NEW_MANGAS, 
   STOP_NEW_MANGAS, 
   CLEAR_NEW_MANGAS,
-} from "../actions/newManga";
+} from "../actions/newMangas";
 import { 
   BOOKMARK_ILLUST, 
   UNBOOKMARK_ILLUST,
 } from "../actions/bookmarkIllust";
 
-export default function newManga(state = {
+export default function newMangas(state = {
   loading: false,
   loaded: false,
   items: [],

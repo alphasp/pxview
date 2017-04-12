@@ -36,7 +36,7 @@ function stopNewMangas() {
 }
 
 function shouldFetchNewMangas(state) {
-  const results = state.newManga;
+  const results = state.newMangas;
   if (results && results.loading) {
     return false;
   } else {

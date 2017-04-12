@@ -36,7 +36,7 @@ function stopFollowingUserIllusts() {
 }
 
 function shouldFetchFollowingUserIllusts(state) {
-  const results = state.followingUserIllust;
+  const results = state.followingUserIllusts;
   if (results && results.loading) {
     return false;
   } else {

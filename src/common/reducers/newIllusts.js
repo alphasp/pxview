@@ -3,7 +3,7 @@ import {
   RECEIVE_NEW_ILLUSTS, 
   STOP_NEW_ILLUSTS, 
   CLEAR_NEW_ILLUSTS,
-} from "../actions/newIllust";
+} from "../actions/newIllusts";
 import { 
   BOOKMARK_ILLUST, 
   UNBOOKMARK_ILLUST,
@@ -12,7 +12,7 @@ import {
   FOLLOW_USER, 
   UNFOLLOW_USER,
 } from "../actions/followUser";
-export default function newIllust(state = {
+export default function newIllusts(state = {
   loading: false,
   loaded: false,
   items: [],
