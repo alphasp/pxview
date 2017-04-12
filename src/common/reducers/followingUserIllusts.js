@@ -1,71 +1,41 @@
-import { 
-  REQUEST_FOLLOWING_USER_ILLUSTS, 
-  RECEIVE_FOLLOWING_USER_ILLUSTS, 
-  STOP_FOLLOWING_USER_ILLUSTS, 
-  CLEAR_FOLLOWING_USER_ILLUSTS,
-} from "../actions/followingUserIllusts";
-import { 
-  BOOKMARK_ILLUST, 
-  UNBOOKMARK_ILLUST,
-} from "../actions/bookmarkIllust";
+import { FOLLOWING_USER_ILLUSTS } from '../constants/actionTypes';
 
-export default function followingUserIllusts(state = {
+const defaultState = {
   loading: false,
   loaded: false,
+  refreshing: false,
   items: [],
   offset: 0,
   nextUrl: null,
-}, action) {
+};
+
+export default function followingUserIllusts(state = defaultState, action) {
   switch (action.type) {
-    case CLEAR_FOLLOWING_USER_ILLUSTS:
-      return {
-        ...state,
-        loading: false,
-        loaded: false,
-        items: [],
-        offset: 0,
-        nextUrl: null,
-      };
-    case REQUEST_FOLLOWING_USER_ILLUSTS:
+    case FOLLOWING_USER_ILLUSTS.CLEAR:
+      return defaultState;
+    case FOLLOWING_USER_ILLUSTS.REQUEST:
       return {
         ...state,
         loading: true,
+        refreshing: action.payload.refreshing
       };
-    case RECEIVE_FOLLOWING_USER_ILLUSTS:
+    case FOLLOWING_USER_ILLUSTS.SUCCESS:
       return {
         ...state,
         loading: false,
         loaded: true,
+        refreshing: false,
         items: [...state.items, ...action.payload.items],
         offset: action.payload.offset,
         nextUrl: action.payload.nextUrl,
         timestamp: action.payload.timestamp,
       };
-    case STOP_FOLLOWING_USER_ILLUSTS:
+    case FOLLOWING_USER_ILLUSTS.FAILURE:
       return {
         ...state,
         loading: false,
+        refreshing: false,
       };
-    case BOOKMARK_ILLUST:
-      return {
-        ...state,
-        items: state.items.map(item =>
-          item.id === action.payload.illustId ?
-          { ...item, is_bookmarked: true } 
-          :
-          item
-        )
-      }
-    case UNBOOKMARK_ILLUST:
-      return {
-        ...state,
-        items: state.items.map(item =>
-          item.id === action.payload.illustId ?
-          { ...item, is_bookmarked: false } 
-          :
-          item
-        )
-      }
     default:
       return state;
   }

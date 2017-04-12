@@ -40,4 +40,16 @@ export const USER_MY_PIXIV = defineAction('USER_MY_PIXIV',
 	[REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL], appNamespace);	
 
 export const MY_PRIVATE_BOOKMARK_ILLUSTS = defineAction('MY_PRIVATE_BOOKMARK_ILLUSTS',
-	[REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL], appNamespace);
+	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);
+
+export const FOLLOWING_USER_ILLUSTS = defineAction('FOLLOWING_USER_ILLUSTS',
+	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);
+
+export const NEW_ILLUSTS = defineAction('NEW_ILLUSTS',
+	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);
+
+export const NEW_MANGAS = defineAction('NEW_MANGAS',
+	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);
+
+export const MY_PIXIV = defineAction('MY_PIXIV',
+	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);

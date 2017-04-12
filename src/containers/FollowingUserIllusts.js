@@ -11,7 +11,9 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IllustList from '../components/IllustList';
 import { Button } from 'react-native-elements';
-import * as followingUserActionCreators from '../common/actions/followingUserIllusts';
+import * as followingUserIllustsActionCreators from '../common/actions/followingUserIllusts';
+import { denormalizedData } from '../common/helpers/normalizrHelper';
+import Schemas from '../common/constants/schemas';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,13 +32,6 @@ const styles = StyleSheet.create({
 });
 
 class FollowingUserIllusts extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      refreshing: false
-    };
-  }
-
   componentDidMount() {
     const { user, fetchFollowingUserIllusts, clearFollowingUserIllusts } = this.props;
     if (user) {
@@ -55,24 +50,17 @@ class FollowingUserIllusts extends Component {
   }
 
   loadMoreItems = () => {
-    const { user, fetchFollowingUserIllusts, followingUserIllusts: { nextUrl } } = this.props;
-    console.log('load more ', nextUrl)
-    if (nextUrl) {
-      fetchFollowingUserIllusts("", nextUrl);
+    const { user, fetchFollowingUserIllusts, followingUserIllusts: { loading, nextUrl } } = this.props;
+    if (!loading && nextUrl) {
+      console.log('load more ', nextUrl)
+      fetchFollowingUserIllusts(nextUrl);
     }
   }
 
   handleOnRefresh = () => {
     const { fetchFollowingUserIllusts, clearFollowingUserIllusts } = this.props;
-    this.setState({
-      refereshing: true
-    });
     clearFollowingUserIllusts();
-    fetchFollowingUserIllusts().finally(() => {
-      this.setState({
-        refereshing: false
-      }); 
-    })
+    fetchFollowingUserIllusts(null, true);
   }
 
   handleOnPressFindRecommendedUsers = () => {
@@ -84,7 +72,6 @@ class FollowingUserIllusts extends Component {
 
   render() {
     const { followingUserIllusts, user, screenProps: { strings } } = this.props;
-    const { refreshing } = this.state;
     if (!user) {
       return (
         <View style={styles.container}>
@@ -103,7 +90,6 @@ class FollowingUserIllusts extends Component {
     return (
       <IllustList
         data={followingUserIllusts}
-        refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -112,7 +98,9 @@ class FollowingUserIllusts extends Component {
 }
 
 export default connect(state => {
+  const { entities, followingUserIllusts, auth: { user } } = state;
   return {
-    followingUserIllusts: state.followingUserIllusts,
+    followingUserIllusts: denormalizedData(followingUserIllusts, 'items', Schemas.ILLUST_ARRAY, entities),
+    user
   }
-}, followingUserActionCreators)(FollowingUserIllusts);
+}, followingUserIllustsActionCreators)(FollowingUserIllusts);

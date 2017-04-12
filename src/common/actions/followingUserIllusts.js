@@ -1,74 +1,39 @@
-//import { createAction } from 'redux-actions';
 import qs from "qs";
-import { addError } from './error';
-import pixiv from '../helpers/ApiClient';
+import { FOLLOWING_USER_ILLUSTS } from '../constants/actionTypes';
 
-export const REQUEST_FOLLOWING_USER_ILLUSTS = 'REQUEST_FOLLOWING_USER_ILLUSTS';
-export const RECEIVE_FOLLOWING_USER_ILLUSTS = 'RECEIVE_FOLLOWING_USER_ILLUSTS';
-export const STOP_FOLLOWING_USER_ILLUSTS = 'STOP_FOLLOWING_USER_ILLUSTS';
-export const CLEAR_FOLLOWING_USER_ILLUSTS = 'CLEAR_FOLLOWING_USER_ILLUSTS';
-
-function receiveFollowingUserIllusts(json, offset) {
+export function fetchFollowingUserIllustsSuccess(entities, items, nextUrl) {
   return {
-    type: RECEIVE_FOLLOWING_USER_ILLUSTS,
+    type: FOLLOWING_USER_ILLUSTS.SUCCESS,
     payload: {
-      items: json.illusts,
-      nextUrl: json.next_url,
-      offset,
+      entities,
+      items,
+      nextUrl,
       timestamp: Date.now(),
     }
   };
 }
 
-function requestFollowingUserIllusts(offset) {
+export function fetchFollowingUserIllustsFailure() {
   return {
-    type: REQUEST_FOLLOWING_USER_ILLUSTS,
+    type: FOLLOWING_USER_ILLUSTS.FAILURE
+  };
+}
+
+export function fetchFollowingUserIllusts(nextUrl, refreshing = false) {
+  const params = qs.parse(nextUrl);
+  const offset = params.offset || "0";
+  return {
+    type: FOLLOWING_USER_ILLUSTS.REQUEST,
     payload: {
-      offset
-    }
-  };
-}
-
-function stopFollowingUserIllusts() {
-  return {
-    type: STOP_FOLLOWING_USER_ILLUSTS
-  };
-}
-
-function shouldFetchFollowingUserIllusts(state) {
-  const results = state.followingUserIllusts;
-  if (results && results.loading) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-function fetchFollowingUserIllustsFromApi(options, nextUrl) {
-  return dispatch => {
-    const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.illustFollow(options);
-    const params = qs.parse(nextUrl);
-    const offset = params.offset || "0";
-    dispatch(requestFollowingUserIllusts(offset));
-    return promise
-      .then(json => dispatch(receiveFollowingUserIllusts(json, offset)))
-      .catch(err => {
-        dispatch(stopFollowingUserIllusts());
-        dispatch(addError(err));
-      });
-  };
-}
-
-export function fetchFollowingUserIllusts(options, nextUrl) {
-  return (dispatch, getState) => {
-    if (shouldFetchFollowingUserIllusts(getState())) {
-      return dispatch(fetchFollowingUserIllustsFromApi(options, nextUrl));
+      offset,
+      nextUrl,
+      refreshing
     }
   };
 }
 
 export function clearFollowingUserIllusts() {
   return {
-    type: CLEAR_FOLLOWING_USER_ILLUSTS
+    type: FOLLOWING_USER_ILLUSTS.CLEAR
   };
 }
