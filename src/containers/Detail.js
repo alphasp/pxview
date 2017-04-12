@@ -408,7 +408,7 @@ class Detail extends Component {
                 keyExtractor={(item, index) => item.image_urls.large}
                 renderItem={this.renderRow}
                 debug={false}
-                disableVirtualization={false}
+                disableVirtualization={true}
                 ListFooterComponent={this.renderFooter}
                 onScroll={this.handleOnScroll}
                 onViewableItemsChanged={this.handleOnViewableItemsChanged}
