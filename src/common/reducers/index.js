@@ -3,7 +3,7 @@ import entities from './entities';
 import recommendedIllusts from './recommendedIllusts';
 import recommendedMangas from './recommendedMangas';
 import relatedIllusts from './relatedIllusts';
-import * as trendingIllustTagReducers from './trendingIllustTag';
+import trendingIllustTags from './trendingIllustTags';
 import * as recommendedUserReducers from './recommendedUser';
 import illustComments from './illustComments';
 import * as searchAutoCompleteReducers from './searchAutoComplete';
@@ -43,7 +43,7 @@ const rootReducer = combineReducers({
   recommendedIllusts,
   recommendedMangas,
   relatedIllusts,
-  ...trendingIllustTagReducers,
+  trendingIllustTags,
   ...recommendedUserReducers,
   illustComments,
   search,

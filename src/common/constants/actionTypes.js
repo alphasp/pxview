@@ -53,3 +53,9 @@ export const NEW_MANGAS = defineAction('NEW_MANGAS',
 
 export const MY_PIXIV = defineAction('MY_PIXIV',
 	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);
+
+export const TRENDING_ILLUST_TAGS = defineAction('TRENDING_ILLUST_TAGS',
+	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);
+
+export const RECOMMENDED_USERS = defineAction('RECOMMENDED_USERS',
+	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);

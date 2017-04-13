@@ -11,7 +11,7 @@ const { BackButton } = CardStack.Header;
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
-import TrendingIllustTag from './TrendingIllustTag';
+import TrendingIllustTags from './TrendingIllustTags';
 import RecommendedUser from './RecommendedUser';
 import Header from '../components/Header';
 import PXSearchBar from '../components/PXSearchBar';
@@ -123,7 +123,7 @@ class Trending extends Component {
         <ScrollableTabView 
           onChangeTab={this.handleOnChangeTab}
         >
-          <TrendingIllustTag 
+          <TrendingIllustTags 
             tabLabel="Illust/Manga" 
             navigation={navigation} 
             screenProps={screenProps} 
