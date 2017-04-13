@@ -4,7 +4,7 @@ import recommendedIllusts from './recommendedIllusts';
 import recommendedMangas from './recommendedMangas';
 import relatedIllusts from './relatedIllusts';
 import trendingIllustTags from './trendingIllustTags';
-import * as recommendedUserReducers from './recommendedUser';
+import * as recommendedUserReducers from './recommendedUsers';
 import illustComments from './illustComments';
 import * as searchAutoCompleteReducers from './searchAutoComplete';
 import createFilteredReducer from './createFilteredReducer';

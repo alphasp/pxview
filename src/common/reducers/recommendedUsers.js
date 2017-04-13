@@ -1,46 +1,40 @@
-import { 
-  REQUEST_RECOMMENDED_USERS, 
-  RECEIVE_RECOMMENDED_USERS,
-  STOP_RECOMMENDED_USERS, 
-  CLEAR_RECOMMENDED_USERS,
-} from "../actions/recommendedUser";
+import { RECOMMENDED_USERS } from '../constants/actionTypes';
 
-export function recommendedUser(state = {
+const defaultState = {
   loading: false,
   loaded: false,
+  refreshing: false,
   items: [],
   offset: 0,
   nextUrl: null,
-}, action) {
+};
+
+export function recommendedUsers(state = defaultState, action) {
   switch (action.type) {
-    case CLEAR_RECOMMENDED_USERS:
-      return {
-        ...state,
-        loading: false,
-        loaded: false,
-        items: [],
-        offset: 0,
-        nextUrl: null,
-      };
-    case REQUEST_RECOMMENDED_USERS:
+    case RECOMMENDED_USERS.CLEAR:
+      return defaultState;
+    case RECOMMENDED_USERS.REQUEST:
       return {
         ...state,
         loading: true,
+        refreshing: action.payload.refreshing
       };
-    case RECEIVE_RECOMMENDED_USERS:
+    case RECOMMENDED_USERS.SUCCESS:
       return {
         ...state,
         loading: false,
         loaded: true,
+        refreshing: false,
         items: [...state.items, ...action.payload.items],
         offset: action.payload.offset,
         nextUrl: action.payload.nextUrl,
         timestamp: action.payload.timestamp,
       };
-    case STOP_RECOMMENDED_USERS:
+    case RECOMMENDED_USERS.FAILURE:
       return {
         ...state,
         loading: false,
+        refreshing: false
       };
     default:
       return state;

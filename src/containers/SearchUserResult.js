@@ -10,7 +10,7 @@ import {
   InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
-import RecommendedUser from './RecommendedUser';
+import RecommendedUsers from './RecommendedUsers';
 import SearchBar from '../components/SearchBar';
 import Header from '../components/Header';
 import UserListContainer from './UserListContainer';

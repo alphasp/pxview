@@ -13,16 +13,6 @@ export function* handleFetchTrendingIllustTags(action) {
   const { options } = action.payload;
   try {
     const response = yield apply(pixiv, pixiv.trendingTagsIllust, [options]);
-    // const transformedResult = {
-    //   ...response,
-    //   trend_tags: response.trend_tags.map(result => {
-    //     return {
-    //       ...result,
-    //       id: result.tag
-    //     }
-    //   })
-    // };
-
     const normalized = normalize(response.trend_tags, Schemas.ILLUST_TAG_ARRAY);
     yield put(fetchTrendingIllustTagsSuccess(normalized.entities, normalized.result));
   } 

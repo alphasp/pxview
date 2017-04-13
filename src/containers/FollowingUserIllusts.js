@@ -65,7 +65,7 @@ class FollowingUserIllusts extends Component {
 
   handleOnPressFindRecommendedUsers = () => {
     const { navigate } = this.props.navigation;
-    navigate('RecommendedUser', {
+    navigate('RecommendedUsers', {
       navigation: this.props.navigation
     });
   }

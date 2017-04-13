@@ -12,7 +12,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
 import TrendingIllustTags from './TrendingIllustTags';
-import RecommendedUser from './RecommendedUser';
+import RecommendedUsers from './RecommendedUsers';
 import Header from '../components/Header';
 import PXSearchBar from '../components/PXSearchBar';
 import Search2 from './Search2';
@@ -128,7 +128,7 @@ class Trending extends Component {
             navigation={navigation} 
             screenProps={screenProps} 
           />
-          <RecommendedUser 
+          <RecommendedUsers 
             tabLabel="User" 
             navigation={navigation}
             screenProps={screenProps}
