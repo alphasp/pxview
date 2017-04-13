@@ -10,7 +10,7 @@ import Loader from '../components/Loader';
 import Separator from '../components/Separator';
 import SearchHistory from '../components/SearchHistory';
 import SearchUserAutoCompleteList from '../components/SearchUserAutoCompleteList';
-import * as searchUserAutoCompleteActionCreators from '../common/actions/searchUserAutoComplete';
+import * as searchUserAutoCompleteActionCreators from '../common/actions/searchUsersAutoComplete';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class SearchUserAutoCompleteResult extends Component {
+class SearchUsersAutoCompleteResult extends Component {
   // componentDidMount() {
   //   const { word, clearSearchUserAutoComplete } = this.props;
   //   InteractionManager.runAfterInteractions(() => {
@@ -29,7 +29,7 @@ class SearchUserAutoCompleteResult extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { word: prevWord, } = this.props;
-    const { word, searchUserAutoComplete: { items }, clearSearchUserAutoComplete } = nextProps;
+    const { word, searchUsersAutoComplete: { items }, clearSearchUserAutoComplete } = nextProps;
     if (word && word !== prevWord) {
       InteractionManager.runAfterInteractions(() => {
         clearSearchUserAutoComplete();
@@ -46,7 +46,7 @@ class SearchUserAutoCompleteResult extends Component {
   }
 
   render() {
-    const { searchUserAutoComplete, searchUserAutoComplete: { items, loading, loaded },  searchHistory, onPressItem, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressClearSearchHistory } = this.props;
+    const { searchUsersAutoComplete, searchUsersAutoComplete: { items, loading, loaded },  searchHistory, onPressItem, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressClearSearchHistory } = this.props;
     return (
       <View style={styles.container}>
         {
@@ -59,7 +59,7 @@ class SearchUserAutoCompleteResult extends Component {
           />
         }
         <SearchUserAutoCompleteList
-          data={searchUserAutoComplete}
+          data={searchUsersAutoComplete}
           onPressItem={onPressItem}
         />
       </View>
@@ -69,6 +69,6 @@ class SearchUserAutoCompleteResult extends Component {
 
 export default connect((state, props) => {
   return {
-    searchUserAutoComplete: state.searchUserAutoComplete
+    searchUsersAutoComplete: state.searchUsersAutoComplete
   }
-}, searchUserAutoCompleteActionCreators)(SearchUserAutoCompleteResult);
+}, searchUserAutoCompleteActionCreators)(SearchUsersAutoCompleteResult);

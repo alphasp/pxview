@@ -9,8 +9,8 @@ import illustComments from './illustComments';
 import * as searchAutoCompleteReducers from './searchAutoComplete';
 import createFilteredReducer from './createFilteredReducer';
 import search from './search';
-import searchUser from './searchUser';
-import searchUserAutoComplete from './searchUserAutoComplete';
+import searchUsers from './searchUsers';
+import searchUsersAutoComplete from './searchUsersAutoComplete';
 import searchHistory from './searchHistory';
 import searchType from './searchType';
 import userDetail from './userDetail';
@@ -51,8 +51,8 @@ const rootReducer = combineReducers({
   // searchOldest: createFilteredReducer(search, action => action.payload && action.payload.sortType === SortType.ASC),
   ranking,
   ...searchAutoCompleteReducers,
-  searchUser,
-  searchUserAutoComplete,
+  searchUsers,
+  searchUsersAutoComplete,
   searchHistory,
   searchType,
   userDetail,

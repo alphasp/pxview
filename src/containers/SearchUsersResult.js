@@ -14,10 +14,10 @@ import RecommendedUsers from './RecommendedUsers';
 import SearchBar from '../components/SearchBar';
 import Header from '../components/Header';
 import UserListContainer from './UserListContainer';
-import { fetchSearchUser, clearSearchUser } from '../common/actions/searchUser';
+import { fetchSearchUser, clearSearchUser } from '../common/actions/searchUsers';
 import { SearchType } from '../common/actions/searchType';
 
-class SearchUserResult extends Component {
+class SearchUsersResult extends Component {
   constructor(props) {
     super(props);
     const { word } = props;
@@ -68,7 +68,7 @@ class SearchUserResult extends Component {
   }
   
   loadMoreItems = () => {
-    const { dispatch, searchUser: { nextUrl }, word } = this.props;
+    const { dispatch, searchUsers: { nextUrl }, word } = this.props;
     console.log('load more ', nextUrl)
     if (nextUrl) {
       dispatch(fetchSearchUser(word, nextUrl));
@@ -119,11 +119,11 @@ class SearchUserResult extends Component {
   }
 
   render() {
-    const { searchUser, word, navigation, screenProps } = this.props;
+    const { searchUsers, word, navigation, screenProps } = this.props;
     const { refreshing } = this.state;
     return (
       <UserListContainer
-        userList={searchUser}
+        userList={searchUsers}
         refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
@@ -136,7 +136,7 @@ class SearchUserResult extends Component {
 
 export default connect((state, props) => {
   return {
-    searchUser: state.searchUser,
+    searchUsers: state.searchUsers,
     word: props.navigation.state.params.word,
   }
-})(SearchUserResult);
+})(SearchUsersResult);

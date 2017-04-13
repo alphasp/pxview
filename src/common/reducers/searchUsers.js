@@ -4,13 +4,13 @@ import {
   RECEIVE_SEARCH_USER_CONCAT,
   STOP_SEARCH_USER, 
   CLEAR_SEARCH_USER,
-} from "../actions/searchUser";
+} from "../actions/searchUsers";
 import { 
   FOLLOW_USER, 
   UNFOLLOW_USER,
 } from "../actions/followUser";
 
-export default function searchUser(state = {
+export default function searchUsers(state = {
   loading: false,
   loaded: false,
   items: [],

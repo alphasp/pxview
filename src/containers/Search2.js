@@ -17,9 +17,9 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import PXSearchBar from '../components/PXSearchBar';
 import Header from '../components/Header';
 import SearchAutoCompleteResult from './SearchAutoCompleteResult';
-import SearchUserAutoCompleteResult from './SearchUserAutoCompleteResult';
+import SearchUsersAutoCompleteResult from './SearchUsersAutoCompleteResult';
 import * as searchAutoCompleteActionCreators from '../common/actions/searchAutoComplete';
-import * as searchUserAutoCompleteActionCreators from '../common/actions/searchUserAutoComplete';
+import * as searchUserAutoCompleteActionCreators from '../common/actions/searchUsersAutoComplete';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import { SearchType } from '../common/actions/searchType';
 
@@ -114,14 +114,14 @@ class Search2 extends Component {
   }
 
   loadMoreUsers = () => {
-    const { fetchSearchUserAutoComplete, searchUserAutoComplete: { nextUrl } } = this.props;
+    const { fetchSearchUserAutoComplete, searchUsersAutoComplete: { nextUrl } } = this.props;
     if (nextUrl) {
       fetchSearchUserAutoComplete('', nextUrl);
     }
   }
 
   render() {
-    const { word, searchType, searchAutoComplete, searchUserAutoComplete, searchHistory, onChangeSearchTab } = this.props;
+    const { word, searchType, searchAutoComplete, searchUsersAutoComplete, searchHistory, onChangeSearchTab } = this.props;
     return (
       <View style={styles.container}>
         <ScrollableTabView
@@ -137,9 +137,9 @@ class Search2 extends Component {
             onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
             word={word}
           />
-          <SearchUserAutoCompleteResult 
+          <SearchUsersAutoCompleteResult 
             tabLabel="User"
-            searchUserAutoComplete={searchUserAutoComplete}
+            searchUsersAutoComplete={searchUsersAutoComplete}
             searchHistory={searchHistory}
             onPressItem={this.handleOnPressUser}
             onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
@@ -158,7 +158,7 @@ export default connect((state, props) => {
   const { word, searchType, isPopAndReplaceOnSubmit } = props;
   return {
     searchAutoComplete: state.searchAutoComplete,
-    searchUserAutoComplete: state.searchUserAutoComplete,
+    searchUsersAutoComplete: state.searchUsersAutoComplete,
     searchHistory: state.searchHistory,
     word,
     isPopAndReplaceOnSubmit 

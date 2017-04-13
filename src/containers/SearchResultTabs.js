@@ -20,11 +20,11 @@ import Search2 from './Search2';
 import PXSearchBar from '../components/PXSearchBar';
 import PXTouchable from '../components/PXTouchable';
 import SearchResult from './SearchResult';
-import SearchUserResult from './SearchUserResult';
+import SearchUsersResult from './SearchUsersResult';
 import { fetchSearch, clearSearch } from '../common/actions/search';
 import { setSearchType, SearchType } from '../common/actions/searchType';
 import { clearSearchAutoComplete } from '../common/actions/searchAutoComplete';
-import { clearSearchUserAutoComplete } from '../common/actions/searchUserAutoComplete';
+import { clearSearchUserAutoComplete } from '../common/actions/searchUsersAutoComplete';
 
 const styles = StyleSheet.create({
   container: {
@@ -204,7 +204,7 @@ class SearchResultTabs extends Component {
             navigation={navigation}
             navigationStateKey={navigationStateKey}
           />
-          <SearchUserResult  
+          <SearchUsersResult  
             tabLabel="User" 
             word={word} 
             navigation={navigation}

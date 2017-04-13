@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import SearchTags from './SearchTags';
 import * as searchAutoCompleteActionCreators from '../common/actions/searchAutoComplete';
-import * as searchUserAutoCompleteActionCreators from '../common/actions/searchUserAutoComplete';
+import * as searchUserAutoCompleteActionCreators from '../common/actions/searchUsersAutoComplete';
 import { SearchType } from '../common/actions/searchType';
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;

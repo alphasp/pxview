@@ -4,9 +4,9 @@ import {
   RECEIVE_SEARCH_USER_AUTOCOMPLETE_CONCAT,
   STOP_SEARCH_USER_AUTOCOMPLETE, 
   CLEAR_SEARCH_USER_AUTOCOMPLETE,
-} from "../actions/searchUserAutoComplete";
+} from "../actions/searchUsersAutoComplete";
 
-export default function searchUser(state = {
+export default function searchUsersAutoComplete(state = {
   loading: false,
   loaded: false,
   items: [],

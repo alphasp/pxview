@@ -55,7 +55,7 @@ function stopSearchUser(word, offset){
 }
 
 function shouldFetchSearchUser(state, word) {
-  const results = state.searchUser;
+  const results = state.searchUsers;
   if (results && results.loading) {
     return false;
   } else {

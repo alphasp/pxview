@@ -55,7 +55,7 @@ function stopSearchUserAutoComplete(word, offset){
 }
 
 function shouldFetchSearchUserAutoComplete(state, word) {
-  const results = state.searchUserAutoComplete;
+  const results = state.searchUsersAutoComplete;
   if (results && results.loading) {
     return false;
   } else {

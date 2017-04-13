@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class SearchUserAutoCompleteResult extends Component {
+class SearchUsersAutoCompleteResult extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -55,8 +55,8 @@ class SearchUserAutoCompleteResult extends Component {
     };
   }
   componentWillReceiveProps(nextProps) {
-    const { searchUserAutoComplete: { items: prevItems } } = this.props;
-    const { searchUserAutoComplete: { items } } = nextProps;
+    const { searchUsersAutoComplete: { items: prevItems } } = this.props;
+    const { searchUsersAutoComplete: { items } } = nextProps;
     if (items && items !== prevItems) {
       const { dataSource } = this.state;
       this.setState({
@@ -93,7 +93,7 @@ class SearchUserAutoCompleteResult extends Component {
   }
 
   renderFooter = () => {
-    const { searchUserAutoComplete: { items, nextUrl } } = this.props;
+    const { searchUsersAutoComplete: { items, nextUrl } } = this.props;
     return (
       nextUrl ?
       <View style={{ marginBottom: 20 }}>
@@ -105,7 +105,7 @@ class SearchUserAutoCompleteResult extends Component {
   }
 
   render() {
-    const { searchUserAutoComplete: { items, loading, loaded }, loadMoreItems, searchHistory, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressClearSearchHistory } = this.props;
+    const { searchUsersAutoComplete: { items, loading, loaded }, loadMoreItems, searchHistory, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressClearSearchHistory } = this.props;
     const { dataSource } = this.state;
     return (
       <View style={styles.container}>
@@ -142,4 +142,4 @@ class SearchUserAutoCompleteResult extends Component {
   }
 }
 
-export default SearchUserAutoCompleteResult;
+export default SearchUsersAutoCompleteResult;
