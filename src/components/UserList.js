@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Dimensions,
+  FlatList,
   ListView,
   RecyclerViewBackedScrollView,
   RefreshControl,
@@ -63,27 +64,7 @@ const styles = StyleSheet.create({
 });
 
 class UserList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { 
-      dataSource:  new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-      }),
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { userList: { items: prevItems } } = this.props;
-    const { userList: { items } } = nextProps;
-    if (items && items !== prevItems) {
-      const { dataSource } = this.state;
-      this.setState({
-        dataSource: dataSource.cloneWithRows(items)
-      });
-    }
-  }
-
-  renderRow = (item) => {
+  renderItem = ({ item }) => {
     const { screenProps } = this.props;
     return (
       <View
@@ -176,8 +157,7 @@ class UserList extends Component {
   }
 
   render() {
-    const { userList: { items, loading, loaded, refreshing }, loadMore, onRefresh } = this.props;
-    const { dataSource } = this.state;
+    const { userList: { items, loading, loaded, refreshing }, loadMoreItems, onRefresh } = this.props;
     return (
       <View style={styles.container}>
         {
@@ -186,12 +166,14 @@ class UserList extends Component {
         }
         {
           (items && items.length) ?
-          <ListView
-            dataSource={dataSource}
-            renderRow={this.renderRow}
-            enableEmptySections={ true }
-            renderFooter={this.renderFooter}
-            onEndReached={loadMore}
+          <FlatList
+            data={items}
+            keyExtractor={(item, index) => item.user.id}
+            renderItem={this.renderItem}
+            removeClippedSubviews={false}
+            onEndReachedThreshold={0.1}
+            onEndReached={loadMoreItems}
+            ListFooterComponent={this.renderFooter}
             refreshControl={
               <RefreshControl
                 refreshing={refreshing}

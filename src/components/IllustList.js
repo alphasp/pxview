@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 });
 
 class IllustList extends Component {
-  renderRow = ({ item }) => {
+  renderItem = ({ item }) => {
     return (
       <IllustItem 
         item={item} 
@@ -100,7 +100,7 @@ class IllustList extends Component {
             data={maxItems ? items.slice(0, maxItems) : items}
             numColumns={3}
             keyExtractor={(item, index) => item.id}
-            renderItem={this.renderRow}
+            renderItem={this.renderItem}
             getItemLayout={(data, index, horizontal) => {
               return {
                 length: Dimensions.get('window').width / 3,

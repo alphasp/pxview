@@ -18,7 +18,7 @@ class UserFollowers extends Component {
     fetchUserFollowers(userId);
   }
 
-  loadMore = () => {
+  loadMoreItems = () => {
     const { fetchUserFollowers, userFollowers, userId } = this.props;
     if (userFollowers && !userFollowers.loading && userFollowers.nextUrl) {
       fetchUserFollowers(userId, userFollowers.nextUrl);
@@ -36,7 +36,7 @@ class UserFollowers extends Component {
     return (
       <UserListContainer
         userList={userFollowers}
-        loadMore={this.loadMore}
+        loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
         screenProps={screenProps}
       />

@@ -11,7 +11,7 @@ class RecommendedUsers extends Component {
     fetchRecommendedUsers();
   }
 
-  loadMore = () => {
+  loadMoreItems = () => {
     const { fetchRecommendedUsers, recommendedUsers: { nextUrl, loading } } = this.props;
     if (!loading && nextUrl) {
       console.log('load more ', nextUrl)
@@ -30,7 +30,7 @@ class RecommendedUsers extends Component {
     return (
       <UserListContainer
         userList={recommendedUsers}
-        loadMore={this.loadMore}
+        loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
         screenProps={screenProps}
       />

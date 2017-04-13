@@ -67,7 +67,7 @@ class SearchUserResult extends Component {
     //Actions.search({ word: word, searchType: SearchType.USER, isPopAndReplaceOnSubmit: true });
   }
   
-  loadMore = () => {
+  loadMoreItems = () => {
     const { dispatch, searchUser: { nextUrl }, word } = this.props;
     console.log('load more ', nextUrl)
     if (nextUrl) {
@@ -125,7 +125,7 @@ class SearchUserResult extends Component {
       <UserListContainer
         userList={searchUser}
         refreshing={refreshing}
-        loadMore={this.loadMore}
+        loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
         navigation={navigation}
         screenProps={screenProps}

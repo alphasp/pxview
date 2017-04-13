@@ -18,7 +18,7 @@ class UserMyPixiv extends Component {
     fetchUserMyPixiv(userId);
   }
 
-  loadMore = () => {
+  loadMoreItems = () => {
     const { fetchUserMyPixiv, userMyPixiv, userId } = this.props;
     if (userMyPixiv && !userMyPixiv.loading && userMyPixiv.nextUrl) {
       fetchUserMyPixiv(userId, userMyPixiv.nextUrl);
@@ -36,7 +36,7 @@ class UserMyPixiv extends Component {
     return (
       <UserListContainer
         userList={userMyPixiv}
-        loadMore={this.loadMore}
+        loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
         screenProps={screenProps}
       />
