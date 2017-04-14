@@ -1,23 +1,15 @@
-import { 
-  REQUEST_SEARCH, 
-  RECEIVE_SEARCH, 
-  STOP_SEARCH, 
-  CLEAR_SEARCH, 
-  CLEAR_ALL_SEARCH,
-} from "../actions/search";
-//gg["newest"]["miku"]
-//navigationState.key
+import { SEARCH } from '../constants/actionTypes';
 
 export default function search(state = {}, action) {
   switch (action.type) {
-    case CLEAR_SEARCH:
+    case SEARCH.CLEAR:
       return {
         ...state,
         [action.payload.navigationStateKey]: {},
       };
-    case CLEAR_ALL_SEARCH:
+    case SEARCH.CLEAR_ALL:
       return {};
-    case REQUEST_SEARCH:
+    case SEARCH.REQUEST:
       return {
         ...state,
         [action.payload.navigationStateKey]: {
@@ -25,34 +17,30 @@ export default function search(state = {}, action) {
           word: action.payload.word,
           options: action.payload.options,
           offset: action.payload.offset,
-          loading: true
+          loading: true,
+          refreshing: action.payload.refreshing
         }
       };
-
-    case RECEIVE_SEARCH:
+    case SEARCH.SUCCESS:
       return {
         ...state,
         [action.payload.navigationStateKey]: {
           ...state[action.payload.navigationStateKey],
-          word: action.payload.word,
-          options: action.payload.options,
           loading: false,
           loaded: true,
+          refreshing: false,
           items: (state[action.payload.navigationStateKey] && state[action.payload.navigationStateKey].items) ? [...state[action.payload.navigationStateKey].items, ...action.payload.items] : action.payload.items,
-          offset: action.payload.offset,
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp
         }
       };
-    case STOP_SEARCH:
+    case SEARCH.FAILURE:
       return {
         ...state,
         [action.payload.navigationStateKey]: {
           ...state[action.payload.navigationStateKey],
-          word: action.payload.word,
-          options: action.payload.options,
-          offset: action.payload.offset,
-          loading: false
+          loading: false,
+          refreshing: false
         }
       };
     default:

@@ -18,6 +18,7 @@ import { watchFetchNewMangas } from './newMangas';
 import { watchFetchMyPixiv } from './myPixiv';
 import { watchFetchTrendingIllustTags } from './trendingIllustTags';
 import { watchFetchRecommendedUsers } from './recommendedUsers';
+import { watchFetchSearch } from './search';
 
 export default function* rootSaga() {
   yield [
@@ -42,5 +43,6 @@ export default function* rootSaga() {
     watchFetchMyPixiv(),
     watchFetchTrendingIllustTags(),
     watchFetchRecommendedUsers(),
+    watchFetchSearch(),
   ]
 }

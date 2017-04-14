@@ -21,7 +21,6 @@ import PXSearchBar from '../components/PXSearchBar';
 import PXTouchable from '../components/PXTouchable';
 import SearchResult from './SearchResult';
 import SearchUsersResult from './SearchUsersResult';
-import { fetchSearch, clearSearch } from '../common/actions/search';
 import { setSearchType, SearchType } from '../common/actions/searchType';
 import { clearSearchAutoComplete } from '../common/actions/searchAutoComplete';
 import { clearSearchUserAutoComplete } from '../common/actions/searchUsersAutoComplete';

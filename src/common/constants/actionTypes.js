@@ -59,3 +59,9 @@ export const TRENDING_ILLUST_TAGS = defineAction('TRENDING_ILLUST_TAGS',
 
 export const RECOMMENDED_USERS = defineAction('RECOMMENDED_USERS',
 	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);
+
+export const SEARCH = defineAction('SEARCH',
+	[REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL], appNamespace);	
+
+export const SEARCH_USERS = defineAction('SEARCH_USERS',
+	[REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL], appNamespace);	
