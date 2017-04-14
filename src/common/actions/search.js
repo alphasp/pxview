@@ -10,10 +10,8 @@ export const RECEIVE_SEARCH = 'RECEIVE_SEARCH';
 export const STOP_SEARCH = 'STOP_SEARCH';
 export const CLEAR_SEARCH = 'CLEAR_SEARCH';
 export const CLEAR_ALL_SEARCH = 'CLEAR_ALL_SEARCH';
-export const SortType = {
-  ASC: 'ASC',
-  DESC: 'DESC',
-};
+
+import { SORT_TYPES } from '../constants/sortTypes';
 
 function receiveSearch(normalized, nextUrl, navigationStateKey, word, options, offset) { 
   return {

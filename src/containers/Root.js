@@ -6,7 +6,8 @@ import isEmpty from 'lodash.isempty';
 import App from './App';
 import configureStore from '../common/store/configureStore';
 import ApiClient from '../common/helpers/ApiClient';
-import { clearAllSearch, SortType } from '../common/actions/search';
+import { clearAllSearch } from '../common/actions/search';
+import { SORT_TYPES } from '../common/constants/sortTypes';
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 const store = configureStore();
@@ -37,10 +38,10 @@ const store = configureStore();
 //   if ((state.name === "trending") || (state.name === "tabs")) {
 //     const { searchNewest, searchOldest } = store.getState();
 //     if (!isEmpty(searchNewest)) {
-//       store.dispatch(clearAllSearch(SortType.DESC));
+//       store.dispatch(clearAllSearch(SORT_TYPES.DESC));
 //     }
 //     if (!isEmpty(searchOldest)) {
-//       store.dispatch(clearAllSearch(SortType.ASC));
+//       store.dispatch(clearAllSearch(SORT_TYPES.ASC));
 //     }
 //   }
 // });

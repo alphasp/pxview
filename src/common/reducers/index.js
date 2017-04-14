@@ -34,7 +34,7 @@ import auth from './auth';
 import modal from './modal';
 import i18n from './i18n';
 import error from './error';
-import { SortType } from '../actions/search';
+import { SORT_TYPES } from '../constants/sortTypes';
 import { reducer as formReducer } from 'redux-form';
 
 const rootReducer = combineReducers({
@@ -47,8 +47,8 @@ const rootReducer = combineReducers({
   ...recommendedUserReducers,
   illustComments,
   search,
-  // searchNewest: createFilteredReducer(search, action => action.payload && action.payload.sortType === SortType.DESC),
-  // searchOldest: createFilteredReducer(search, action => action.payload && action.payload.sortType === SortType.ASC),
+  // searchNewest: createFilteredReducer(search, action => action.payload && action.payload.sortType === SORT_TYPES.DESC),
+  // searchOldest: createFilteredReducer(search, action => action.payload && action.payload.sortType === SORT_TYPES.ASC),
   ranking,
   ...searchAutoCompleteReducers,
   searchUsers,

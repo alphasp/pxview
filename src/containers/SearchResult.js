@@ -13,7 +13,8 @@ import { connect } from 'react-redux';
 import { denormalize } from 'normalizr';
 // import { createSelector } from 'reselect'
 import IllustList from '../components/IllustList';
-import { fetchSearch, clearSearch, SortType } from '../common/actions/search';
+import { fetchSearch, clearSearch } from '../common/actions/search';
+import { SORT_TYPES } from '../common/constants/sortTypes';
 import Schemas from '../common/constants/schemas';
 
 class SearchResult extends Component {
