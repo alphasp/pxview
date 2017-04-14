@@ -14,120 +14,80 @@ import RecommendedUsers from './RecommendedUsers';
 import SearchBar from '../components/SearchBar';
 import Header from '../components/Header';
 import UserListContainer from './UserListContainer';
-import { fetchSearchUser, clearSearchUser } from '../common/actions/searchUsers';
+import * as searchUsersActionCreators from '../common/actions/searchUsers';
 import { SearchType } from '../common/actions/searchType';
+import { denormalizedData } from '../common/helpers/normalizrHelper';
+import Schemas from '../common/constants/schemas';
 
 class SearchUsersResult extends Component {
-  constructor(props) {
-    super(props);
-    const { word } = props;
-    this.state = {
-      refreshing: false
-    };
-  }
-
   componentDidMount() {
-    const { dispatch, word } = this.props;
-    // this.refreshNavigationBar(word);
-    clearSearchUser();
+    const { fetchSearchUsers, clearSearchUsers, word } = this.props;
+    clearSearchUsers();
     InteractionManager.runAfterInteractions(() => {
-      dispatch(fetchSearchUser(word));
+      fetchSearchUsers(word);
     });
   }
 
   componentWillReceiveProps(nextProps) {
     const { word: prevWord } = this.props;
-    const { dispatch, word } = nextProps;
+    const { fetchSearchUsers, clearSearchUsers, word } = nextProps;
     if (word !== prevWord) {
-      dispatch(clearSearchUser());
-      dispatch(fetchSearchUser(word));
-      // this.refreshNavigationBar(word);
+      clearSearchUsers();
+      fetchSearchUsers(word);
     }
   }
-/*
-  refreshNavigationBar = (word) => {
-    Actions.refresh({
-      renderTitle: () => {
-        return (
-          <SearchBar 
-            enableBack={true} 
-            onFocus={this.handleOnSearchFieldFocus} 
-            onPressRemoveTag={this.handleOnPressRemoveTag}
-            isRenderPlaceHolder={true}
-            searchType={SearchType.USER}
-            word={word}
-          />
-        )
-      }
-    });
-  }*/
 
-  handleOnSearchFieldFocus = () => {
-    const { word } = this.props;
-    //Actions.search({ word: word, searchType: SearchType.USER, isPopAndReplaceOnSubmit: true });
-  }
-  
   loadMoreItems = () => {
-    const { dispatch, searchUsers: { nextUrl }, word } = this.props;
-    console.log('load more ', nextUrl)
-    if (nextUrl) {
-      dispatch(fetchSearchUser(word, nextUrl));
+    const { fetchSearchUsers, searchUsers: { nextUrl, loading }, word } = this.props;
+    if (!loading && nextUrl) {
+      console.log('load more ', nextUrl)
+      fetchSearchUsers(word, nextUrl);
     }
   }
 
   handleOnRefresh = () => {
-    const { dispatch, word } = this.props;
-    this.setState({
-      refereshing: true
-    });
-    dispatch(clearSearchUser());
-    dispatch(fetchSearchUser(word)).finally(() => {
-      this.setState({
-        refereshing: false
-      }); 
-    })
+    const { fetchSearchUsers, clearSearchUsers, word } = this.props;
+    clearSearchUsers();
+    fetchSearchUsers(word, null, true);
   }
 
-  handleOnPressRemoveTag = (index) => {
-    const { dispatch, word } = this.props;
-    const newWord = word.split(' ').filter((value, i) => {
-      return i !== index;
-    }).join(' ');
-    console.log('new word ', newWord);
-    if (newWord) {
-      dispatch(clearSearchUser());
-      dispatch(fetchSearchUser(newWord));
-      /*Actions.refresh({
-        word: newWord,
-        renderTitle: () => {
-          return (
-            <SearchBar 
-              enableBack={true} 
-              onFocus={this.handleOnSearchFieldFocus} 
-              onPressRemoveTag={this.handleOnPressRemoveTag}
-              isRenderPlaceHolder={true}
-              searchType={SearchType.USER}
-              word={newWord}
-            />
-          )
-        }
-      });*/
-    }
-    else {
-      //Actions.pop();
-    }
-  }
+  // handleOnPressRemoveTag = (index) => {
+  //   const { dispatch, word } = this.props;
+  //   const newWord = word.split(' ').filter((value, i) => {
+  //     return i !== index;
+  //   }).join(' ');
+  //   console.log('new word ', newWord);
+  //   if (newWord) {
+  //     clearSearchUsers();
+  //     fetchSearchUsers(newWord);
+  //     /*Actions.refresh({
+  //       word: newWord,
+  //       renderTitle: () => {
+  //         return (
+  //           <SearchBar 
+  //             enableBack={true} 
+  //             onFocus={this.handleOnSearchFieldFocus} 
+  //             onPressRemoveTag={this.handleOnPressRemoveTag}
+  //             isRenderPlaceHolder={true}
+  //             searchType={SearchType.USER}
+  //             word={newWord}
+  //           />
+  //         )
+  //       }
+  //     });*/
+  //   }
+  //   else {
+  //     //Actions.pop();
+  //   }
+  // }
 
   render() {
-    const { searchUsers, word, navigation, screenProps } = this.props;
-    const { refreshing } = this.state;
+    const { searchUsers, word, screenProps } = this.props;
     return (
       <UserListContainer
         userList={searchUsers}
-        refreshing={refreshing}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
-        navigation={navigation}
         screenProps={screenProps}
       />
     );
@@ -135,8 +95,10 @@ class SearchUsersResult extends Component {
 }
 
 export default connect((state, props) => {
+  const { entities, searchUsers } = state;
+  const word = props.word || props.navigation.state.params.word;
   return {
-    searchUsers: state.searchUsers,
-    word: props.navigation.state.params.word,
+    searchUsers: denormalizedData(searchUsers, 'items', Schemas.USER_PREVIEW_ARRAY, entities),
+    word
   }
-})(SearchUsersResult);
+}, searchUsersActionCreators)(SearchUsersResult);

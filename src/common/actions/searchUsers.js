@@ -1,107 +1,40 @@
 import qs from "qs";
-import { addError } from './error';
-import pixiv from '../helpers/ApiClient';
+import { SEARCH_USERS } from '../constants/actionTypes';
 
-export const REQUEST_SEARCH_USER = 'REQUEST_SEARCH_USER';
-export const RECEIVE_SEARCH_USER = 'RECEIVE_SEARCH_USER';
-export const RECEIVE_SEARCH_USER_CONCAT = 'RECEIVE_SEARCH_USER_CONCAT';
-export const STOP_SEARCH_USER = 'STOP_SEARCH_USER';
-export const CLEAR_SEARCH_USER = 'CLEAR_SEARCH_USER';
-
-function receiveSearchUser(json, word, offset) { 
+export function fetchSearchUsersSuccess(entities, items, nextUrl) {
   return {
-    type: RECEIVE_SEARCH_USER,
+    type: SEARCH_USERS.SUCCESS,
     payload: {
-      items: json.user_previews,
-      nextUrl: json.next_url,
-      word,
-      offset,
+      entities,
+      items,
+      nextUrl,
       timestamp: Date.now(),
     }
   };
 }
 
-function receiveSearchUserConcat(json, word, offset) { 
+export function fetchSearchUsersFailure() {
   return {
-    type: RECEIVE_SEARCH_USER_CONCAT,
+    type: SEARCH_USERS.FAILURE
+  };
+}
+
+export function fetchSearchUsers(word, nextUrl, refreshing = false) {
+  const params = qs.parse(nextUrl);
+  const offset = params.offset || "0";
+  return {
+    type: SEARCH_USERS.REQUEST,
     payload: {
-      items: json.user_previews,
-      nextUrl: json.next_url,
       word,
       offset,
-      timestamp: Date.now(),
+      nextUrl,
+      refreshing
     }
   };
 }
 
-function requestSearchUser(word, offset) {
+export function clearSearchUsers() {
   return {
-    type: REQUEST_SEARCH_USER,
-    payload: {
-      word,
-      offset
-    }
-  };
-}
-
-function stopSearchUser(word, offset){
-  return {
-    type: STOP_SEARCH_USER,
-    payload: {
-      word,
-      offset
-    }
-  };
-}
-
-function shouldFetchSearchUser(state, word) {
-  const results = state.searchUsers;
-  if (results && results.loading) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-function fetchSearchUserFromApi(word, nextUrl) {
-  return dispatch => {
-    const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.searchUser(word);
-    const params = qs.parse(nextUrl);
-    const offset = params.offset || "0";
-    dispatch(requestSearchUser(word, offset));
-    return promise
-      .then(json => {
-        const filteredResult = {
-          ...json,
-          user_previews: json.user_previews.filter(user => {
-            return user.illusts && user.illusts.length;
-          })
-        };
-        if (nextUrl) {
-          return dispatch(receiveSearchUserConcat(filteredResult, word, offset))
-        }
-        else {
-          return dispatch(receiveSearchUser(filteredResult, word, offset))
-        }
-      })
-      .catch(err => {
-        dispatch(stopSearchUser(word, offset));
-        dispatch(addError(err));
-      });
-  };
-}
-
-export function fetchSearchUser(word, nextUrl) {
-  word = word.trim();
-  return (dispatch, getState) => {
-    if (shouldFetchSearchUser(getState(), word)) {
-      return dispatch(fetchSearchUserFromApi(word, nextUrl));
-    }
-  };
-}
-
-export function clearSearchUser(){
-  return {
-    type: CLEAR_SEARCH_USER,
+    type: SEARCH_USERS.CLEAR
   };
 }

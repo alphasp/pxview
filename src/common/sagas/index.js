@@ -19,6 +19,7 @@ import { watchFetchMyPixiv } from './myPixiv';
 import { watchFetchTrendingIllustTags } from './trendingIllustTags';
 import { watchFetchRecommendedUsers } from './recommendedUsers';
 import { watchFetchSearch } from './search';
+import { watchFetchSearchUsers } from './searchUsers';
 
 export default function* rootSaga() {
   yield [
@@ -44,5 +45,6 @@ export default function* rootSaga() {
     watchFetchTrendingIllustTags(),
     watchFetchRecommendedUsers(),
     watchFetchSearch(),
+    watchFetchSearchUsers(),
   ]
 }
