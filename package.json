@@ -38,6 +38,7 @@
     "react-native-keychain": "^1.0.0",
     "react-native-loading-spinner-overlay": "^0.4.1",
     "react-native-localization": "^0.1.29",
+    "react-native-material-bottom-navigation": "^0.4.0",
     "react-native-material-kit": "^0.4.1",
     "react-native-message-bar": "^1.6.0",
     "react-native-photo-view": "^1.2.0",

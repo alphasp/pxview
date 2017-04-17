@@ -154,12 +154,6 @@ const menuList2 = [
 ];
 
 class UserProfile extends Component {
-  static navigationOptions = {
-    header: {
-      visible: false,
-    },
-  };
-
   constructor(props) {
     super(props);
     this.state = {

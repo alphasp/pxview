@@ -44,7 +44,7 @@ class UserBookmarkIllusts extends Component {
     const { userBookmarkIllusts, tag, userId, fetchUserBookmarkIllusts } = this.props;
     if (userBookmarkIllusts && !userBookmarkIllusts.loading && userBookmarkIllusts.nextUrl) {
       console.log('next url ', userBookmarkIllusts.nextUrl)
-      fetchUserBookmarkIllusts(userId, tag, userBookmarkIllusts.nextUrl, true);
+      fetchUserBookmarkIllusts(userId, tag, userBookmarkIllusts.nextUrl);
     }
   }
 

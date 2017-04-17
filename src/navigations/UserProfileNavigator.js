@@ -15,7 +15,11 @@ import SearchResultTabs from '../containers/SearchResultTabs'; //todo
 const UserProfileNavigator = StackNavigator({
   UserProfile: { 
     screen: UserProfile,
-    path: '/',
+    navigationOptions: {
+      header: {
+        visible: false
+      }
+    },
   },
   MyConnection: {
     screen: MyConnection,

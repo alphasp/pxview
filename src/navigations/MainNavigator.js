@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TabNavigator, TabRouter } from 'react-navigation';
 import { Icon } from 'react-native-elements';
+import { NavigationComponent } from 'react-native-material-bottom-navigation';
 import HomeNavigator from './HomeNavigator';
 import RankingNavigator from './RankingNavigator';
 import TrendingNavigator from './TrendingNavigator';
@@ -8,11 +9,12 @@ import NewWorkNavigator from './NewWorkNavigator';
 import UserProfileNavigator from './UserProfileNavigator';
 
 const renderTabBarIcon = (tintColor, focused, name, iconType) => {
+  //59,89,152
   return (
     <Icon
       name={name}
       type={iconType || "font-awesome"}
-      size={30}
+      size={24}
       color={tintColor}
     />
   );
@@ -91,15 +93,38 @@ const MainNavigator = TabNavigator({
   },
 }, {
   headerMode: 'none',
+  swipeEnabled: false,
+  lazyLoad: true,
+  tabBarPosition: 'bottom',
+  tabBarComponent: NavigationComponent,
   tabBarOptions: {
     activeTintColor: 'rgb(59,89,152)',
     inactiveTintColor: 'rgb(204,204,204)',
     showIcon: true,
     showLabel: true,
-  },
-  swipeEnabled: false,
-  tabBarPosition: 'bottom',
-  lazyLoad: true,
+    bottomNavigationOptions: {
+      labelColor: 'rgb(59,89,152)',
+      tabs: {
+        HomeTab: {
+
+        },
+        Rankingtab: {
+          //barBackgroundColor: '#EEEEEE',
+        },
+        TrendingTab: {
+          //barBackgroundColor: '#EEEEEE',
+          // barBackgroundColor: '#EEEEEE',
+          // labelColor: '#434343', // like in the standalone version, this will override the already specified `labelColor` for this tab
+        },
+        NewWorkTab: {
+          //barBackgroundColor: '#EEEEEE',
+        },
+        UserProfileTab: {
+          //barBackgroundColor: '#EEEEEE',
+        }
+      }
+    }
+  }
 });
 
 // const router = MainNavigator.router;
