@@ -239,7 +239,7 @@ class UserDetail extends Component {
     }
   }
 
-  handleOnFoundImageSize = () => {
+  handleOnProfileImageLoaded = () => {
     this.setState({ viewRef: findNodeHandle(this.refs.backgroundImage) });
   }
 
@@ -258,26 +258,25 @@ class UserDetail extends Component {
                 backgroundColor: 'transparent',
               }}
               ref="backgroundImage"
-              onFoundImageSize={this.handleOnFoundImageSize}
+              onLoadEnd={this.handleOnProfileImageLoaded}
+            />
+            <BlurView 
+              blurType="light" 
+              blurAmount={20}
+              blurRadius={15}
+              downsampleFactor={10}
+              overlayColor={'rgba(255, 255, 255, 0.3)'}
+              viewRef={viewRef}
+              style={{
+                position:'absolute', left:0, right:0, top:0, bottom:0
+              }}
             >
-              <BlurView 
-                blurType="light" 
-                blurAmount={20}
-                blurRadius={15}
-                downsampleFactor={10}
-                overlayColor={'rgba(255, 255, 255, 0.3)'}
-                viewRef={viewRef}
-                style={{
-                  position:'absolute', left:0, right:0, top:0, bottom:0
-                }}
-              >
-                <View style={{
-                  width: windowWidth,
-                  height: 100,
-                }}
-                />
-              </BlurView>
-            </PXImage>
+            </BlurView>
+            <View style={{
+              width: windowWidth,
+              height: 100,
+            }}
+            />
             <View style={styles.avatarContainer}>
               <PXThumbnail
                 uri={detail.user.profile_image_urls.medium}

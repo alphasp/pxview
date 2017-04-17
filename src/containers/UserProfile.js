@@ -252,6 +252,10 @@ class UserProfile extends Component {
     navigate("Login");
   }
 
+  handleOnProfileImageLoaded = () => {
+    this.setState({ viewRef: findNodeHandle(this.refs.backgroundImage) });
+  }
+
   renderProfile = (user) => {
     // <View style={styles.cover}>
     //         </View>
@@ -268,45 +272,44 @@ class UserProfile extends Component {
             backgroundColor: 'transparent',
           }}
           ref="backgroundImage"
-          onFoundImageSize={this.handleOnFoundImageSize}
+          onLoadEnd={this.handleOnProfileImageLoaded}
         >
-          <BlurView 
-            blurType="light" 
-            blurAmount={20}
-            blurRadius={15}
-            downsampleFactor={10}
-            overlayColor={'rgba(255, 255, 255, 0.3)'}
-            viewRef={viewRef}
-            style={{
-              position:'absolute', left:0, right:0, top:0, bottom:0
-            }}
-          >
-            <View style={{ width: windowWidth, height: 150 }} />
-          </BlurView>
-          <View style={styles.coverInnerContainer}>
-            <PXThumbnailTouchable
-              key={user && user.profile_image_urls.px_170x170 || defaultProfileImage}
-              uri={user && user.profile_image_urls.px_170x170 || defaultProfileImage}
-              size={avatarSize}
-            />
-            {
-              user ?
-              <Text>{user.name}</Text>
-              :
-              <View style={styles.authActionContainer}>
-                <OutlineButton 
-                  text="Sign Up"
-                  onPress={this.handleOnPressSignUp} 
-                />
-                <OutlineButton 
-                  text="Login" 
-                  style={{marginLeft: 5}} 
-                  onPress={this.handleOnPressLogin}
-                />
-              </View>
-            }
-          </View>
+        <View style={styles.coverInnerContainer}>
+          <PXThumbnailTouchable
+            key={user && user.profile_image_urls.px_170x170 || defaultProfileImage}
+            uri={user && user.profile_image_urls.px_170x170 || defaultProfileImage}
+            size={avatarSize}
+          />
+          {
+            user ?
+            <Text>{user.name}</Text>
+            :
+            <View style={styles.authActionContainer}>
+              <OutlineButton 
+                text="Sign Up"
+                onPress={this.handleOnPressSignUp} 
+              />
+              <OutlineButton 
+                text="Login" 
+                style={{marginLeft: 5}} 
+                onPress={this.handleOnPressLogin}
+              />
+            </View>
+          }
+        </View>
         </PXImage>
+        {/*<BlurView 
+          blurType="light" 
+          blurAmount={20}
+          blurRadius={15}
+          downsampleFactor={10}
+          overlayColor={'rgba(255, 255, 255, 0.3)'}
+          viewRef={viewRef}
+          style={{
+            position:'absolute', left:0, right:0, top:0, bottom:0
+          }}
+        />
+        <View style={{ width: windowWidth, height: 150 }} />*/}
       </View>
     )
   }

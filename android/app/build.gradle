@@ -96,7 +96,7 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
-        renderscriptTargetApi 20
+        renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
     }
     signingConfigs {
@@ -138,7 +138,6 @@ android {
 }
 
 repositories {
-    maven { url 'https://github.com/500px/500px-android-blur/raw/master/releases/' }
     maven { url 'https://maven.fabric.io/public' }
 }
 
@@ -164,15 +163,14 @@ dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
+    compile "com.fivehundredpx:blurringview:1.0.0"
 }
 
 buildscript {
     repositories {
-        maven { url 'https://github.com/500px/500px-android-blur/raw/master/releases/' }
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.fivehundredpx:blurringview:1.0.0'
         classpath 'io.fabric.tools:gradle:1.+'
     }
 }

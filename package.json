@@ -25,7 +25,7 @@
     "react-addons-shallow-compare": "^15.4.1",
     "react-native": "^0.43.2",
     "react-native-animatable": "^1.1.0",
-    "react-native-blur": "^2.0.0",
+    "react-native-blur": "github:react-native-community/react-native-blur#master",
     "react-native-datepicker": "^1.4.4",
     "react-native-easy-toast": "^1.0.5",
     "react-native-elements": "^0.8.1",
