@@ -37,6 +37,7 @@ import Schemas from '../common/constants/schemas';
 
 const windowWidth = Dimensions.get('window').width; //full width
 const windowHeight = Dimensions.get('window').height; //full height
+const THUMBNAIL_SIZE = 30;
 
 const styles = StyleSheet.create({
   container: {
@@ -89,7 +90,8 @@ const styles = StyleSheet.create({
   headerThumnailNameContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginHorizontal: 16
+    marginHorizontal: 16,
+    borderRadius: THUMBNAIL_SIZE / 2
   },
   thumnailNameContainer: {
     flexDirection: 'row',
@@ -138,7 +140,10 @@ class Detail extends Component {
             style={styles.headerThumnailNameContainer} 
             onPress={() => navigate('UserDetail', { userId: item.user.id })}
           >
-            <PXThumbnail uri={item.user.profile_image_urls.medium} />
+            <PXThumbnail 
+              uri={item.user.profile_image_urls.medium} 
+              size={THUMBNAIL_SIZE}
+            />
             <View style={styles.nameContainer}>
               <Text>{item.user.name}</Text>
               <Text>{item.user.account}</Text>
