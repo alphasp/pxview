@@ -38,7 +38,7 @@ class IllustList extends Component {
   renderItem = ({ item }) => {
     return (
       <IllustItem 
-        item={item} 
+        item={item}
         onPressItem={() => this.handleOnPressItem(item)}
       />
     );
@@ -111,7 +111,8 @@ class IllustList extends Component {
             legacyImplementation={false}
             debug={false}
             disableVirtualization={false}
-            removeClippedSubviews={false}
+            removeClippedSubviews={true}
+            initialNumToRender={4}
             onEndReachedThreshold={0.1}
             onEndReached={loadMoreItems}
             ListFooterComponent={this.renderFooter}
