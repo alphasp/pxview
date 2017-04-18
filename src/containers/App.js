@@ -12,6 +12,36 @@ import Master from './Master';
 import { resetError } from '../common/actions/error';
 
 global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
+if (!__DEV__) {
+  // eslint-disable-line no-undef
+  [
+    'assert',
+    'clear',
+    'count',
+    'debug',
+    'dir',
+    'dirxml',
+    'error',
+    'exception',
+    'group',
+    'groupCollapsed',
+    'groupEnd',
+    'info',
+    'log',
+    'profile',
+    'profileEnd',
+    'table',
+    'time',
+    'timeEnd',
+    'timeStamp',
+    'trace',
+    'warn',
+  ].forEach(methodName => {
+    console[methodName] = () => {
+      /* noop */
+    };
+  });
+}
 
 class App extends Component {
   constructor(props) {
