@@ -8,7 +8,7 @@ import {
 import { connect } from 'react-redux';
 import { CardStack } from 'react-navigation';
 const { BackButton } = CardStack.Header;
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+import PXTabView from '../components/PXTabView';
 import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
 import TrendingIllustTags from './TrendingIllustTags';
@@ -96,14 +96,38 @@ class Trending extends Component {
     }
   }
 
-  handleOnChangeTab = ({ i, ref }) => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      index: 0,
+      routes: [
+        { key: '1', title: 'Illust/Manga' },
+        { key: '2', title: 'User' },
+      ],
+    }
+  }
+
+  handleChangeTab = (index) => {
     const { setSearchType } = this.props;
-    if (i === 1) {
+    if (index === 1) {
       setSearchType(SearchType.USER);
     }
     else {
       setSearchType(SearchType.ILLUST);
     }
+    this.setState({ index });
+  };
+
+  renderScene = ({ route }) => {
+    const { navigation, screenProps } = this.props;
+    switch (route.key) {
+      case '1':
+        return <TrendingIllustTags navigation={navigation} screenProps={screenProps} />
+      case '2':
+        return <RecommendedUsers navigation={navigation} screenProps={screenProps} />     
+      default:
+        return null;
+    };
   }
 
   handleOnSearchFieldFocus = (searchType) => {
@@ -120,20 +144,11 @@ class Trending extends Component {
     const { params } = navigation.state;
     return (
       <View style={styles.container}>
-        <ScrollableTabView 
-          onChangeTab={this.handleOnChangeTab}
-        >
-          <TrendingIllustTags 
-            tabLabel="Illust/Manga" 
-            navigation={navigation} 
-            screenProps={screenProps} 
-          />
-          <RecommendedUsers 
-            tabLabel="User" 
-            navigation={navigation}
-            screenProps={screenProps}
-          />
-        </ScrollableTabView>
+        <PXTabView
+          navigationState={this.state}
+          renderScene={this.renderScene}
+          onRequestChangeTab={this.handleChangeTab}
+        />
         { 
           params && params.isFocusSearchBar &&
           <Search2 

@@ -7,7 +7,9 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+import { TabViewAnimated, TabBar, TabViewPagerScroll, TabViewPagerPan } from 'react-native-tab-view';
+
+import PXTabView from '../components/PXTabView';
 import RecommendedIllusts from './RecommendedIllusts';
 import RecommendedMangas from './RecommendedMangas';
 
@@ -17,31 +19,67 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
     // backgroundColor: '#F5FCFF',
-    ...Platform.select({
-      ios: {
-        marginTop: 15
-      },
-    }),
+    // ...Platform.select({
+    //   ios: {
+    //     marginTop: 15
+    //   },
+    // }),
   },
+  page: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });
 
 class Home extends Component {
-  componentDidMount() {
-    // hack for android for nested tabs https://github.com/skv-headless/react-native-scrollable-tab-view/issues/215
-    if (Platform.OS === 'android') {
-      setTimeout(() => this.tabs.goToPage(0), 0);
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      index: 0,
+      routes: [
+        { key: '1', title: 'Illustrations' },
+        { key: '2', title: 'Manga' },
+      ],
+    };
   }
   
+  handleChangeTab = (index) => {
+    this.setState({ index });
+  };
+
+  renderScene = ({ route }) => {
+    const { navigation, screenProps } = this.props;
+    switch (route.key) {
+      // case '1':
+      //   return <View style={[ styles.page, { backgroundColor: '#ff4081' } ]} />;
+      // case '2':
+      //   return <View style={[ styles.page, { backgroundColor: '#673ab7' } ]} />;
+      case '1':
+        return <RecommendedIllusts navigation={navigation} screenProps={screenProps} />
+      case '2':
+        return <RecommendedMangas navigation={navigation} screenProps={screenProps} />
+      default:
+        return null;
+    };
+  }
+
+  renderHeader = (props) => {
+    return <TabBar {...props} />;
+  };
+
+  renderPager = (props) => {
+   return (Platform.OS === 'ios') ? <TabViewPagerScroll {...props} /> : <TabViewPagerPan {...props} />
+  }
+
   render() {
     const { navigation, screenProps } = this.props;
     return (
-      <View style={styles.container}>
-        <ScrollableTabView ref={(ref) => this.tabs = ref}>
-          <RecommendedIllusts tabLabel="Illustrations" navigation={navigation} screenProps={screenProps} />
-          <RecommendedMangas tabLabel="Manga" navigation={navigation} screenProps={screenProps} />
-        </ScrollableTabView>
-      </View>
+      <PXTabView
+        navigationState={this.state}
+        renderScene={this.renderScene}
+        onRequestChangeTab={this.handleChangeTab}
+      />
     );
   }
 }

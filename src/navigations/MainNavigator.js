@@ -94,6 +94,7 @@ const MainNavigator = TabNavigator({
 }, {
   headerMode: 'none',
   swipeEnabled: false,
+  animationEnabled: false,
   lazyLoad: true,
   tabBarPosition: 'bottom',
   tabBarComponent: NavigationComponent,
