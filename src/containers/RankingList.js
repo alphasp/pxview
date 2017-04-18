@@ -9,10 +9,9 @@ import {
   InteractionManager
 } from 'react-native';
 import { connect } from 'react-redux';
-import { denormalize } from 'normalizr';
 import IllustList from '../components/IllustList';
 import * as rankingActionCreators from '../common/actions/ranking';
-import Schemas from '../common/constants/schemas';
+import { makeGetRankingItems } from '../common/selectors';
 
 class RankingList extends Component {
   componentDidMount() {
@@ -21,7 +20,6 @@ class RankingList extends Component {
       fetchRanking(rankingMode, options);
     });
   }
-
 
   componentWillReceiveProps(nextProps) {
     const { options: prevOptions } = this.props;
@@ -49,10 +47,10 @@ class RankingList extends Component {
   }
 
   render() {
-    const { ranking } = this.props;
+    const { ranking, items } = this.props;
     return (
       <IllustList
-        data={ranking}
+        data={{...ranking, items}}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -60,13 +58,13 @@ class RankingList extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { entities, ranking } = state;
-  const denormalizedItems = denormalize(ranking[props.rankingMode].items, Schemas.ILLUST_ARRAY, entities);
-  return {
-    ranking: {
-      ...ranking[props.rankingMode],
-      items: denormalizedItems
+export default connect(() => {
+  const getRankingItems = makeGetRankingItems();
+  return (state, props) => {
+    const { ranking } = state;
+    return {
+      ranking: ranking[props.rankingMode],
+      items: getRankingItems(state, props)
     }
   }
 }, rankingActionCreators)(RankingList);

@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import * as recommendedIllustsActionCreators from '../common/actions/recommendedIllusts';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
-import Schemas from '../common/constants/schemas';
+import { getRecommendedIllustItems } from '../common/selectors';
 
 class RecommendedIllusts extends Component {
   componentDidMount() {
@@ -36,10 +35,10 @@ class RecommendedIllusts extends Component {
   }
 
   render() {
-    const { recommendedIllusts } = this.props;
+    const { recommendedIllusts, items } = this.props;
     return (
       <IllustList
-        data={recommendedIllusts}
+        data={{...recommendedIllusts, items}}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -47,10 +46,11 @@ class RecommendedIllusts extends Component {
   }
 }
 
-export default connect(state => {
-  const { entities, recommendedIllusts, user } = state;
+export default connect((state, props) => {
+  const { recommendedIllusts, user } = state;
   return {
-    recommendedIllusts: denormalizedData(recommendedIllusts, 'items', Schemas.ILLUST_ARRAY, entities),
+    recommendedIllusts,
+    items: getRecommendedIllustItems(state, props),
     user: state.auth.user
   }
 }, recommendedIllustsActionCreators)(RecommendedIllusts);

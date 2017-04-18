@@ -59,6 +59,7 @@
     "redux-saga": "^0.14.4",
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
+    "shallow-equals": "^1.0.0",
     "sinon": "^2.1.0"
   },
   "jest": {
