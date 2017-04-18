@@ -101,8 +101,6 @@ const styles = StyleSheet.create({
     color: '#90949c',
     marginHorizontal: 5,
   },
-
-
   navbarHeader: {
     margin: 10,
     ...Platform.select({
@@ -120,6 +118,13 @@ const styles = StyleSheet.create({
   nameContainer: {
     flexDirection: 'column',
     marginLeft: 10
+  },
+  blurView: {
+    position: 'absolute',
+    top: 0, 
+    left: 0, 
+    bottom: 0, 
+    right: 0,
   },
 });
 
@@ -150,7 +155,7 @@ class UserDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      viewRef: 0,
+      viewRef: 0
     }
   }
 
@@ -240,7 +245,7 @@ class UserDetail extends Component {
   }
 
   handleOnProfileImageLoaded = () => {
-    this.setState({ viewRef: findNodeHandle(this.refs.backgroundImage) });
+    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   }
 
   renderProfile = (detail) => {
@@ -257,26 +262,17 @@ class UserDetail extends Component {
                 height: 100,
                 backgroundColor: 'transparent',
               }}
-              ref="backgroundImage"
+              ref={(ref) => this.backgroundImage = ref}
               onLoadEnd={this.handleOnProfileImageLoaded}
             />
             <BlurView 
               blurType="light" 
               blurAmount={20}
-              blurRadius={15}
-              downsampleFactor={10}
               overlayColor={'rgba(255, 255, 255, 0.3)'}
               viewRef={viewRef}
-              style={{
-                position:'absolute', left:0, right:0, top:0, bottom:0
-              }}
+              style={styles.blurView}
             >
             </BlurView>
-            <View style={{
-              width: windowWidth,
-              height: 100,
-            }}
-            />
             <View style={styles.avatarContainer}>
               <PXThumbnail
                 uri={detail.user.profile_image_urls.medium}

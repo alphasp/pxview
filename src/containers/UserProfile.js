@@ -43,11 +43,22 @@ const styles = StyleSheet.create({
     height: 150,
   },
   coverInnerContainer: {
-    flex: 1,
+    position: 'absolute',
+    width: windowWidth,
+    top: 15,
+    // flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 1
     // backgroundColor: '#5cafec',
     // flex: 1,
+  },
+  blurView: {
+    position: 'absolute',
+    top: 0, 
+    left: 0, 
+    bottom: 0, 
+    right: 0,
   },
   profileImage: {
     resizeMode: "cover",
@@ -253,12 +264,10 @@ class UserProfile extends Component {
   }
 
   handleOnProfileImageLoaded = () => {
-    this.setState({ viewRef: findNodeHandle(this.refs.backgroundImage) });
+    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   }
 
   renderProfile = (user) => {
-    // <View style={styles.cover}>
-    //         </View>
     const { viewRef } = this.state;
     return (
       <View style={styles.coverContainer}>
@@ -271,9 +280,16 @@ class UserProfile extends Component {
             height: 150,
             backgroundColor: 'transparent',
           }}
-          ref="backgroundImage"
+          ref={(ref) => this.backgroundImage = ref}
           onLoadEnd={this.handleOnProfileImageLoaded}
-        >
+        />
+        <BlurView 
+          blurType="light" 
+          blurAmount={20}
+          overlayColor={'rgba(255, 255, 255, 0.3)'}
+          viewRef={viewRef}
+          style={styles.blurView}
+        />
         <View style={styles.coverInnerContainer}>
           <PXThumbnailTouchable
             key={user && user.profile_image_urls.px_170x170 || defaultProfileImage}
@@ -297,24 +313,15 @@ class UserProfile extends Component {
             </View>
           }
         </View>
-        </PXImage>
-        {/*<BlurView 
-          blurType="light" 
-          blurAmount={20}
-          blurRadius={15}
-          downsampleFactor={10}
-          overlayColor={'rgba(255, 255, 255, 0.3)'}
-          viewRef={viewRef}
-          style={{
-            position:'absolute', left:0, right:0, top:0, bottom:0
-          }}
-        />
-        <View style={{ width: windowWidth, height: 150 }} />*/}
       </View>
     )
   }
 
   renderList = (list) => {
+    const { user } = this.props;
+    if (!user && list.some(l => l.id === 'logout')) {
+      list = list.filter(l => l.id !== 'logout');
+    }
     return (
       <List>
         {
