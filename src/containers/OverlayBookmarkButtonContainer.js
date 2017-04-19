@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
+  Animated
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
@@ -44,14 +45,18 @@ class OverlayBookmarkButtonContainer extends Component {
     super(props);
     this.state = {
       isBookmark: item.is_bookmarked,
+      scaleAnim: new Animated.Value(0)
     };
   }
   
   componentWillReceiveProps(nextProps) {
     const { item: prevItem } = this.props;
     const { item } = nextProps;
-    if (item.is_bookmarked !== prevItem.is_bookmarked) {
-      this.animateBookmark();
+    const { isBookmark } = this.state;
+    if (item.is_bookmarked !== prevItem.is_bookmarked && item.is_bookmarked !== isBookmark) {
+      if (item.is_bookmarked && !this.state.isBookmark) {
+        this.animateBookmark();
+      }
       this.setState({
         isBookmark: item.is_bookmarked
       });
@@ -110,24 +115,41 @@ class OverlayBookmarkButtonContainer extends Component {
   }
 
   animateBookmark = () => {
-    const { isBookmark } = this.state;
+    const { isBookmark, scaleAnim } = this.state;
     if (!isBookmark) {
-      this.view.rubberBand();
+      Animated.timing(scaleAnim, { 
+        toValue: 1 ,
+        useNativeDriver: true
+      }).start(({ finished }) => {
+        scaleAnim.setValue(0);
+      });
     }
-    this.view.transitionTo({ color: isBookmark ? 'rgb(210, 212, 216)' : 'rgb(255,102,102)' });
   }
 
   render() {
     const { onPress, onLongPress } = this.props;
-    const { isBookmark } = this.state;
+    const { isBookmark, scaleAnim } = this.state;
     const color = isBookmark ? 'rgb(255,102,102)' : 'rgb(210, 212, 216)';
+    const scale = scaleAnim.interpolate({
+      inputRange: [0, 0.5, 1],
+      outputRange: [1, 1.5, 1]
+    });
+    // const color = this.state.colorAnim.interpolate({
+    //   inputRange: [0, 1],
+    //   outputRange: ['rgb(210, 212, 216)', 'rgb(255,102,102)']
+    // })
     return (
       <View style={styles.container}>
         <AnimatableIcon
           name="favorite"
           ref={(ref) => this.view = ref} 
-          style={{color}} 
-          size={20} 
+          style={{
+            color,
+            transform: [{
+              scale: scale
+            }]
+          }} 
+          size={25} 
           onPress={this.handleOnPress} 
           onLongPress={this.handleOnLongPress}
         />
