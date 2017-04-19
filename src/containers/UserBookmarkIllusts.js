@@ -22,7 +22,7 @@ class UserBookmarkIllusts extends Component {
   
   componentDidMount() {
     const { userBookmarkIllusts, userId, tag, fetchUserBookmarkIllusts, clearUserBookmarkIllusts } = this.props;
-    if (!userBookmarkIllusts || !userBookmarkIllusts.items) {
+    if (!userBookmarkIllusts || !userBookmarkIllusts.items || tag !== null) {
       clearUserBookmarkIllusts(userId);
       InteractionManager.runAfterInteractions(() => {
         fetchUserBookmarkIllusts(userId, tag);
