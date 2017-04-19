@@ -73,16 +73,24 @@ class PXCacheImage extends Component {
     //height = <user-chosen width> * original height / original width
     return (
       (imageUri && width && height) ?
-      <Image 
-        source={{ 
-          uri: imageUri
-        }}
-        style={[{
-          width: width > windowWidth ? windowWidth : width,
-          height: windowWidth * height / width
-        }, style]}    
-        {...otherProps} 
-      /> 
+      <View style={{
+        width: windowWidth, 
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#fff"
+      }}>
+        <Image 
+          source={{ 
+            uri: imageUri
+          }}
+          style={[{
+            width: width > windowWidth ? windowWidth : width,
+            height: windowWidth * height / width
+          }, style]}    
+          {...otherProps} 
+        /> 
+      </View>
       :
       null
     )
