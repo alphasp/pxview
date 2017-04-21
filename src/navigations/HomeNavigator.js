@@ -14,9 +14,7 @@ const HomeNavigator = StackNavigator({
   Home: { 
     screen: Home,
     navigationOptions: {
-      header: {
-        visible: false
-      }
+      headerVisible: false
     },
   },
   Detail: { 
@@ -60,10 +58,8 @@ const HomeNavigator = StackNavigator({
   }
 }, {
   navigationOptions: {
-    header: {
-      style: {
-        backgroundColor: '#fff'
-      }
+    headerStyle: {
+      backgroundColor: '#fff'
     }
   },
   cardStyle: {

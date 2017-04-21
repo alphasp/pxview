@@ -14,9 +14,7 @@ const NewWorkNavigator = StackNavigator({
   NewWorks: { 
     screen: NewWorks,
     navigationOptions: {
-      header: {
-        visible: false
-      }
+      headerVisible: false
     },
   },
   Detail: { 
@@ -66,12 +64,9 @@ const NewWorkNavigator = StackNavigator({
   }
 }, {
   navigationOptions: {
-    header: ({ state, setParams }, defaultHeader) => ({
-      ...defaultHeader,
-      style: {
-        backgroundColor: '#fff',
-      },
-    }),
+    headerStyle: {
+      backgroundColor: '#fff',
+    },
   },
   cardStyle: {
     backgroundColor: '#fff'

@@ -11,15 +11,6 @@ import * as userMangasActionCreators from '../common/actions/userMangas';
 import Schemas from '../common/constants/schemas';
 
 class UserMangas extends Component {
-  static navigationOptions = {
-    header: ({ state, setParams, navigate, goBack }, defaultHeader) => {
-      return {
-        ...defaultHeader,
-        backTitle: null
-      }
-    }
-  }
-
   componentDidMount() {
     const { userMangas, userId, fetchUserMangas, clearUserMangas } = this.props;
     if (!userMangas || !userMangas.items) {

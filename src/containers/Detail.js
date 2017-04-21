@@ -130,47 +130,45 @@ const styles = StyleSheet.create({
 });
 
 class Detail extends Component {
-  static navigationOptions = {
-    header: ({ state, setParams, navigate, goBack }, defaultHeader) => {
-      const { item, openBottomSheet, shareOptions } = state.params;
-      return {
-        ...defaultHeader,
-        title: (
-          <PXTouchable 
-            style={styles.headerThumnailNameContainer} 
-            onPress={() => navigate('UserDetail', { userId: item.user.id })}
-          >
-            <PXThumbnail 
-              uri={item.user.profile_image_urls.medium} 
-              size={THUMBNAIL_SIZE}
-            />
-            <View style={styles.nameContainer}>
-              <Text>{item.user.name}</Text>
-              <Text>{item.user.account}</Text>
-            </View>
-          </PXTouchable>
-        ),
-        right: (
-          <View style={{flexDirection: "row"}}>
-            <PXTouchable onPress={() => Share.open(shareOptions).catch((err) => { err && console.log(err); })}>
-              <Icon 
-                name="share-alt" 
-                size={20} 
-                style={{paddingVertical: 10, paddingHorizontal: 10}}
-              />
-            </PXTouchable>
-            <PXTouchable onPress={openBottomSheet}>
-              <Icon 
-                name="ellipsis-v" 
-                style={{paddingVertical: 10, paddingHorizontal: 20}}
-                size={20} 
-              />
-            </PXTouchable>
+  static navigationOptions = ({ navigation }) => {
+    const { state, navigate } = navigation;
+    const { item, openBottomSheet, shareOptions } = state.params;
+    return {
+      headerTitle: (
+        <PXTouchable 
+          style={styles.headerThumnailNameContainer} 
+          onPress={() => navigate('UserDetail', { userId: item.user.id })}
+        >
+          <PXThumbnail 
+            uri={item.user.profile_image_urls.medium} 
+            size={THUMBNAIL_SIZE}
+          />
+          <View style={styles.nameContainer}>
+            <Text>{item.user.name}</Text>
+            <Text>{item.user.account}</Text>
           </View>
-        )
-      }
-    }
-  }
+        </PXTouchable>
+      ),
+      headerRight: (
+        <View style={{flexDirection: "row"}}>
+          <PXTouchable onPress={() => Share.open(shareOptions).catch((err) => { err && console.log(err); })}>
+            <Icon 
+              name="share-alt" 
+              size={20} 
+              style={{paddingVertical: 10, paddingHorizontal: 10}}
+            />
+          </PXTouchable>
+          <PXTouchable onPress={openBottomSheet}>
+            <Icon 
+              name="ellipsis-v" 
+              style={{paddingVertical: 10, paddingHorizontal: 20}}
+              size={20} 
+            />
+          </PXTouchable>
+        </View>
+      )
+    };
+  };
   
   constructor(props) {
     // const { item } = props;

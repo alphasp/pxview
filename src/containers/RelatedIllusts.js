@@ -22,14 +22,11 @@ const styles = StyleSheet.create({
 });
 
 class RelatedIllusts extends Component {
-  static navigationOptions = {
-    header: ({ state, setParams, navigate, goBack }, defaultHeader) => {
-      return {
-        ...defaultHeader,
-        backTitle: null
-      }
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerBackTitle: null
     }
-  }
+  };
 
   componentDidMount() {
     const { relatedIllusts, illustId, fetchRelatedIllusts, clearRelatedIllusts } = this.props;

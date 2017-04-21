@@ -13,9 +13,7 @@ const RankingNavigator = StackNavigator({
   Ranking: { 
     screen: Ranking,
     navigationOptions: {
-      header: {
-        visible: false
-      }
+      headerVisible: false
     },
   },
   Detail: { 
@@ -59,12 +57,9 @@ const RankingNavigator = StackNavigator({
   }
 }, {
   navigationOptions: {
-    header: ({ state, setParams }, defaultHeader) => ({
-      ...defaultHeader,
-      style: {
-        backgroundColor: '#fff',
-      },
-    }),
+    headerStyle: {
+      backgroundColor: '#fff',
+    }
   },
   cardStyle: {
     backgroundColor: '#fff'

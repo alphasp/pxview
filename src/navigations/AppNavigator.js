@@ -19,10 +19,7 @@ const AppNavigator = StackNavigator({
       //   // }
       //   //visible: false,
       // },
-      header: ({ state, setParams }, defaultHeader) => ({
-        ...defaultHeader,
-        visible: false,
-      })
+      headerVisible: false
     },
   },
   Login: { 

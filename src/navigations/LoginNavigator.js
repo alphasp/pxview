@@ -13,12 +13,9 @@ const LoginNavigator = StackNavigator({
 }, {
   headerMode: 'screen',
   navigationOptions: {
-    header: ({ state, setParams }, defaultHeader) => ({
-      ...defaultHeader,
-      style: {
-        backgroundColor: '#fff',
-      },
-    }),
+    headerStyle: {
+      backgroundColor: '#fff',
+    },
   },
   cardStyle: {
     backgroundColor: '#fff'

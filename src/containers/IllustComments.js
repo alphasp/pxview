@@ -21,14 +21,11 @@ import * as illustCommentsActionCreators from '../common/actions/illustComments'
 import Schemas from '../common/constants/schemas';
 
 class IllustComments extends Component {
-  static navigationOptions = {
-    header: ({ state, setParams, navigate, goBack }, defaultHeader) => {
-      return {
-        ...defaultHeader,
-        backTitle: null
-      }
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerBackTitle: null
     }
-  }
+  };
 
   componentDidMount() {
     const { fetchIllustComments, clearIllustComments, illustComments, illustId } = this.props;

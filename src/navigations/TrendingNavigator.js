@@ -12,6 +12,9 @@ import SearchResultTabs from '../containers/SearchResultTabs'; //todo
 const TrendingNavigator = StackNavigator({
   Trending: { 
     screen: Trending,
+    navigationOptions: {
+      headerVisible: false
+    },
     // initialRouteParams: {
     //   isFocusSearchBar: false // not working now
     // }
@@ -57,12 +60,9 @@ const TrendingNavigator = StackNavigator({
   }
 }, {
   navigationOptions: {
-    header: ({ state, setParams }, defaultHeader) => ({
-      ...defaultHeader,
-      style: {
-        backgroundColor: '#fff',
-      },
-    }),
+    headerStyle: {
+      backgroundColor: '#fff',
+    }
   },
   cardStyle: {
     backgroundColor: '#fff'

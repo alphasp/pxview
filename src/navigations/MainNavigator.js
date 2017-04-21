@@ -32,63 +32,50 @@ const MainNavigator = TabNavigator({
       //     renderTabBarIcon(tintColor, focused, "home")
       //   ),
       // }),
-      tabBar: ({ state }) => ({
-        label: 'Home',
-        icon: ({ tintColor, focused }) => (
-          renderTabBarIcon(tintColor, focused, "home")
-        ),
-        onTabPress: (props) => {
-          console.log('on tab press ', props)
-        }
-      }),
+      tabBarIcon: ({ tintColor, focused }) => (
+        renderTabBarIcon(tintColor, focused, 'home')
+      ),
+      tabBarLabel: 'Home'
     } 
   },
   RankingTab: { 
     screen: RankingNavigator,
     path: '/ranking',
     navigationOptions: {
-      tabBar: () => ({
-        label: 'Ranking',
-        icon: ({tintColor, focused}) => (
-          renderTabBarIcon(tintColor, focused, "trophy")
-        ),
-      }),
+      tabBarIcon: ({ tintColor, focused }) => (
+        renderTabBarIcon(tintColor, focused, 'trophy')
+      ),
+      tabBarLabel: 'Ranking'
     }  
   },
   TrendingTab: { 
     screen: TrendingNavigator,
     path: '/trending',
     navigationOptions: {
-      tabBar: () => ({
-        label: 'Search',
-        icon: ({tintColor, focused}) => (
-          renderTabBarIcon(tintColor, focused, "search")
-        ),
-      }),
+      tabBarIcon: ({ tintColor, focused }) => (
+        renderTabBarIcon(tintColor, focused, 'search')
+      ),
+      tabBarLabel: 'Search'
     }  
   },
   NewWorkTab: { 
     screen: NewWorkNavigator,
     path: '/newwork',
     navigationOptions: {
-      tabBar: () => ({
-        label: 'Newest',
-        icon: ({tintColor, focused}) => (
-          renderTabBarIcon(tintColor, focused, "fiber-new", "material")
-        ),
-      }),
+      tabBarIcon: ({ tintColor, focused }) => (
+        renderTabBarIcon(tintColor, focused, 'fiber-new', 'material')
+      ),
+      tabBarLabel: 'Newest'
     }  
   },
   UserProfileTab: { 
     screen: UserProfileNavigator,
     path: '/profile',
     navigationOptions: {
-      tabBar: () => ({
-        label: 'Profile',
-        icon: ({tintColor, focused}) => (
-          renderTabBarIcon(tintColor, focused, "user")
-        ),
-      }),
+      tabBarIcon: ({ tintColor, focused }) => (
+        renderTabBarIcon(tintColor, focused, 'user')
+      ),
+      tabBarLabel: 'Profile'
     }  
   },
 }, {

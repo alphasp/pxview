@@ -11,12 +11,9 @@ import * as userBookmarkIllustActionCreators from '../common/actions/userBookmar
 import Schemas from '../common/constants/schemas';
 
 class UserBookmarkIllusts extends Component {
-  static navigationOptions = {
-    header: ({ state, setParams, navigate, goBack }, defaultHeader) => {
-      return {
-        ...defaultHeader,
-        backTitle: null
-      }
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerBackTitle: null
     }
   }
   

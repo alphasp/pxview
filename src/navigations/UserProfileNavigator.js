@@ -16,9 +16,7 @@ const UserProfileNavigator = StackNavigator({
   UserProfile: { 
     screen: UserProfile,
     navigationOptions: {
-      header: {
-        visible: false
-      }
+      headerVisible: false
     },
   },
   MyConnection: {
@@ -83,12 +81,9 @@ const UserProfileNavigator = StackNavigator({
 }, {
   headerMode: 'screen',
   navigationOptions: {
-    header: ({ state, setParams }, defaultHeader) => ({
-      ...defaultHeader,
-      style: {
-        backgroundColor: '#fff',
-      },
-    }),
+    headerStyle: {
+      backgroundColor: '#fff',
+    }
   },
   cardStyle: {
     backgroundColor: '#fff'

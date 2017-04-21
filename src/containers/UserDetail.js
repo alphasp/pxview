@@ -129,10 +129,10 @@ const styles = StyleSheet.create({
 });
 
 class UserDetail extends Component {
-  static navigationOptions = {
-    header: ({ state, setParams, goBack } , defaultHeader) => {
-      const { isShowTitle, isScrolled, user } = state.params;
-      const title = (user && isScrolled) ? (
+  static navigationOptions = ({ navigation }) => {
+    const { isShowTitle, isScrolled, user } = navigation.state.params;
+    return {
+      headerTitle: (user && isScrolled) ? (
         <Animatable.View 
           style={styles.thumnailNameContainer} 
           animation={isShowTitle ? "fadeIn" : "fadeOut"}
@@ -144,13 +144,9 @@ class UserDetail extends Component {
             <Text>{user.account}</Text>
           </View>
         </Animatable.View>
-      ) : null;
-      return {
-        ...defaultHeader,
-        title,
-      }
-    }
-  }
+      ) : null
+    };
+  };
 
   constructor(props) {
     super(props);

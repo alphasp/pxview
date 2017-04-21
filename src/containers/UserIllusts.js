@@ -11,14 +11,11 @@ import * as userIllustsActionCreators from '../common/actions/userIllusts';
 import Schemas from '../common/constants/schemas';
 
 class UserIllusts extends Component {
-  static navigationOptions = {
-    header: ({ state, setParams, navigate, goBack }, defaultHeader) => {
-      return {
-        ...defaultHeader,
-        backTitle: null
-      }
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerBackTitle: null
     }
-  }
+  };
 
   componentDidMount() {
     const { userIllusts, userId, fetchUserIllusts, clearUserIllusts } = this.props;
