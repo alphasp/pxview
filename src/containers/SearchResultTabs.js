@@ -10,14 +10,17 @@ import {
   InteractionManager,
   Keyboard,
   TouchableWithoutFeedback,
+  Platform,
+  BackAndroid,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { NavigationActions, CardStack } from 'react-navigation';
-const { BackButton } = CardStack.Header;
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+import { NavigationActions } from 'react-navigation';
+import HeaderBackButton from 'react-navigation/src/views/HeaderBackButton';
+import { TabBar } from 'react-native-tab-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Search2 from './Search2';
-import PXSearchBar from '../components/PXSearchBar';
+import PXHeader from '../components/PXHeader';
+import PXTabView from '../components/PXTabView';
 import PXTouchable from '../components/PXTouchable';
 import SearchResult from './SearchResult';
 import SearchUsersResult from './SearchUsersResult';
@@ -28,195 +31,264 @@ import { clearSearchUserAutoComplete } from '../common/actions/searchUsersAutoCo
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  content: {
+    flex: 1
   }
 });
 
-const onPressBackButton = (navigation) => {
-  const { setParams, goBack, state }  = navigation;
-  const { isFocusSearchBar, initSearchWord, word, clearSearchAutoComplete, clearSearchUserAutoComplete } = state.params;
-  clearSearchAutoComplete();
-  clearSearchUserAutoComplete();
-  if (isFocusSearchBar) {
-    Keyboard.dismiss();
-    setParams({
-      isFocusSearchBar: false,
-      newWord: word
-    });
-  }
-  else {
-    goBack();
-  }
-}
-
-const handleOnChangeSearchText = (setParams) => (word, searchType) => {
-  setParams({ newWord: word });
-}
-
 class SearchResultTabs extends Component {
-  static navigationOptions = {
-    header: (navigation, defaultHeader) => {
-      const { state, setParams, navigate, goBack, dispatch } = navigation;
-      const { word, newWord, searchOptions, searchType, isFocusSearchBar } = state.params;
-      return {
-        ...defaultHeader,
-        left: (
-          <BackButton onPress={() => onPressBackButton(navigation)} />
-        ),
-        title:  (
-          <PXSearchBar 
-            enableBack={true} 
-            onFocus={() => setParams({
-              isFocusSearchBar: true
-            })}
-            searchType={searchType}
-            word={newWord !== undefined ? newWord : word}
-            onChangeText={handleOnChangeSearchText(setParams)}
-            navigation={navigation}
-            isRenderBackButton={true}
-            isRenderRightButton={true}
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerVisible: false
+    };
+  };
+
+  /*static navigationOptions = ({ navigation }) => {
+    const { state, setParams, navigate, goBack, dispatch } = navigation;
+    const { word, newWord, searchOptions, searchType, isFocusSearchBar } = state.params;
+    return {
+      headerLeft: (
+        <HeaderBackButton onPress={() => onPressBackButton(navigation)} />
+      ),
+      headerTitle:  (
+        <PXSearchBar 
+          enableBack={true} 
+          onFocus={() => setParams({
+            isFocusSearchBar: true
+          })}
+          searchType={searchType}
+          word={newWord !== undefined ? newWord : word}
+          onChangeText={handleOnChangeSearchText(setParams)}
+          navigation={navigation}
+          isRenderBackButton={true}
+          isRenderRightButton={true}
+        />
+      ),
+      //disabled
+      headerRight: (
+        <PXTouchable
+          disabled={searchType === SearchType.USER}
+          onPress={() => navigate("SearchFilterModal", { 
+            searchFilter: searchOptions || {}, 
+            onPressApplyFilter: (target, duration, sort) => {
+              goBack(null);
+              setTimeout(() => setParams({
+                searchOptions: {
+                  duration,
+                  target,
+                  sort
+                },
+              }), 0);
+              setParams({
+                searchOptions: {
+                  duration,
+                  target,
+                  sort
+                },
+              })
+            }
+          })}
+        >
+          <Icon 
+            name="sliders" 
+            size={20} 
+            color={searchType === SearchType.USER ? "grey" : "#037aff"}
+            style={{padding: 10}}
           />
-        ),
-        //disabled
-        right: (
-          <PXTouchable
-            disabled={searchType === SearchType.USER}
-            onPress={() => navigate("SearchFilterModal", { 
-              searchFilter: searchOptions || {}, 
-              onPressApplyFilter: (target, duration, sort) => {
-                goBack(null);
-                setTimeout(() => setParams({
-                  searchOptions: {
-                    duration,
-                    target,
-                    sort
-                  },
-                }), 0);
-                setParams({
-                  searchOptions: {
-                    duration,
-                    target,
-                    sort
-                  },
-                })
-                {/*this.props.navigation.dispatch({
-                  type: 'goBackAndSetParams',
-                  params: {
-                    searchOptions: {
-                      duration: duration || undefined,
-                      target: target || undefined,
-                    },
-                  }
-                })*/}
-              }
-            })}
-          >
-            <Icon 
-              name="sliders" 
-              size={20} 
-              color={searchType === SearchType.USER ? "grey" : "#037aff"}
-              style={{padding: 10}}
-            />
-          </PXTouchable>
-        )
-      }
+        </PXTouchable>
+      )
     }
-  }
+  }*/
 
   constructor(props) {
     super(props);
-    const { searchType } = props;
+    const { searchType, word } = props;
     this.state = {
-      initSearchType: searchType
+      //initSearchType: searchType,
+      index: searchType ===  SearchType.USER ? 1 : 0,
+      routes: [
+        { key: '1', title: 'Illust/Manga' },
+        { key: '2', title: 'User' },
+      ],
+      isFocusSearchBar: false,
+      newWord: word,
+      searchOptions: {}
     };
   }
 
   componentDidMount() {
-    const { searchType, clearSearchAutoComplete, clearSearchUserAutoComplete, navigation } = this.props;
-    const { setParams } = navigation;
-    setParams({ 
-      searchType,
-      clearSearchAutoComplete, 
-      clearSearchUserAutoComplete
-    });
+    if (Platform.OS == 'android') {
+      this.backAndroidListener = BackAndroid.addEventListener('hardwareBackPress', this.handleOnPressBackButton);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     const { searchType: prevSearchType } = this.props;
-    const { searchType, navigation: { setParams } } = nextProps;
+    const { searchType } = nextProps;
     if (searchType !== prevSearchType) {
-      setParams({ searchType });
+      this.setState({ index: searchType === SearchType.USER ? 1 : 0 });
     }
   }
 
-  handleOnPressRemoveTag = (index) => {
-    const { dispatch, word } = this.props;
-    const newWord = word.split(' ').filter((value, i) => {
-      return i !== index;
-    }).join(' ');
-    console.log('new word ', newWord);
-    /*if (newWord) {
-      Actions.refresh({
-        word: newWord,
-        renderTitle: () => {
-          return (
-            <SearchBar 
-              enableBack={true} 
-              onFocus={this.handleOnSearchFieldFocus} 
-              onSubmitEditing={this.handleOnSubmitSearch}
-              onPressRemoveTag={this.handleOnPressRemoveTag}
-              isRenderPlaceHolder={true}
-              word={newWord}
-            />
-          )
-        }
-      });
+  componentWillUnmount() {
+    if (this.backAndroidListener) {
+      BackAndroid.removeEventListener('hardwareBackPress', this.backAndroidListener);
     }
-    else {
-      Actions.pop();
-    }*/
   }
 
-  handleOnChangeTab = ({ i, ref }) => {
+
+  handleChangeTab = (index) => {
     const { setSearchType } = this.props;
-    if (i === 1) {
+    if (index === 1) {
       setSearchType(SearchType.USER);
     }
     else {
       setSearchType(SearchType.ILLUST);
     }
+  };
+
+  handleOnFocusSearchBar = () => {
+    this.setState({ isFocusSearchBar: true });
   }
 
-  render() {
-    const { searchType, navigationStateKey, navigation } = this.props;
-    const { initSearchType } = this.state;
-    const { word, newWord, searchOptions, isFocusSearchBar } = navigation.state.params;
+  handleOnChangeSearchText = (word, searchType) => {
+    this.setState({ newWord: word });
+  }
+
+  handleOnPressShowFilterModal = () => {
+    const { navigate, goBack } = this.props.navigation;
+    const { searchOptions } = this.state;
+    navigate("SearchFilterModal", { 
+      searchFilter: searchOptions || {}, 
+      onPressApplyFilter: (target, duration, sort) => {
+        goBack(null);
+        // setTimeout(() => setParams({
+        //   searchOptions: {
+        //     duration,
+        //     target,
+        //     sort
+        //   },
+        // }), 0);
+        this.setState({
+          searchOptions: {
+            duration,
+            target,
+            sort
+          },
+        });
+      }
+    });
+  }
+
+  handleOnPressBackButton = () => {
+    // const { word, navigation, clearSearchAutoComplete, clearSearchUserAutoComplete } = this.props;
+    const { word, navigation: { goBack, state } } = this.props;
+    const { isFocusSearchBar } = this.state;
+    // clearSearchAutoComplete();
+    // clearSearchUserAutoComplete();
+    if (isFocusSearchBar) {
+      Keyboard.dismiss();
+      this.setState({
+        isFocusSearchBar: false,
+        newWord: word
+      });
+      return true;
+    }
+    else {
+      goBack();
+    }
+  }
+
+  handleOnSubmitSearch = (word) => {
+    Keyboard.dismiss();
+    this.setState({
+      isFocusSearchBar: false,
+      newWord: word
+    });
+    return true;
+  }
+
+  renderHeader = (props) => {
     return (
-      <View style={styles.container} >
-        <ScrollableTabView 
-          initialPage={initSearchType === SearchType.USER ? 1 : 0}
-          onChangeTab={this.handleOnChangeTab}
-        >
+      <TabBar {...props} />
+    );
+  }
+  renderScene = ({ route }) => {
+    const { word, navigation, navigationStateKey } = this.props;
+    const { searchOptions } = this.state;
+    switch (route.key) {
+      case '1':
+        return (
           <SearchResult 
-            tabLabel="Illust/Manga" 
             word={word} 
             options={searchOptions} 
             navigation={navigation}
             navigationStateKey={navigationStateKey}
           />
+          
+        )
+      case '2':
+        return (
           <SearchUsersResult  
-            tabLabel="User" 
             word={word} 
             navigation={navigation}
           />
-        </ScrollableTabView>
-        { 
-          isFocusSearchBar &&
-          <Search2 
-            word={newWord}
-            navigation={navigation} 
-            searchType={searchType} 
+        )
+      default:
+        return null;
+    };
+  }
+  
+  render() {
+    const { word, searchType, navigationStateKey, navigation } = this.props;
+    const { initSearchType } = this.state;
+    const { newWord, searchOptions, isFocusSearchBar } = this.state;
+    return (
+      <View style={styles.container}>
+        <PXHeader 
+          word={newWord}
+          navigation={navigation} 
+          showBackButton={true}
+          onFocusSearchBar={this.handleOnFocusSearchBar}
+          onChangeSearchText={this.handleOnChangeSearchText}
+          onPressBackButton={this.handleOnPressBackButton}
+          headerRight={
+            <PXTouchable
+              disabled={searchType === SearchType.USER}
+              onPress={this.handleOnPressShowFilterModal}
+            >
+              <Icon 
+                name="sliders" 
+                size={20} 
+                color={searchType === SearchType.USER ? "grey" : "#037aff"}
+                style={{padding: 10}}
+              />
+            </PXTouchable>
+          }
+          searchType={searchType}
+        />
+        <View style={styles.content}>
+          <PXTabView
+            navigationState={{
+              ...this.state,
+              navigation,
+              navigationStateKey
+            }}
+            renderHeader={this.renderHeader}
+            renderScene={this.renderScene}
+            onRequestChangeTab={this.handleChangeTab}
           />
-        }
+          { 
+            isFocusSearchBar &&
+            <Search2 
+              word={newWord}
+              navigation={navigation} 
+              searchType={searchType} 
+              onSubmitSearch={this.handleOnSubmitSearch}
+            />
+          }
+        </View>
       </View>
     );
   }

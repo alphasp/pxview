@@ -24,7 +24,7 @@ const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
-    // //flex: 1,
+    flex: 1,
     // paddingTop: STATUSBAR_HEIGHT,
     // //backgroundColor: Platform.OS === 'ios' ? '#EFEFF2' : '#FFF',
     // shadowColor: 'black',
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     // elevation: 4,
     // marginHorizontal: 5,
     // height: STATUSBAR_HEIGHT + APPBAR_HEIGHT,
-    width: windowWidth,
+    //width: windowWidth,
     //flex: 1,
     // flexDirection: 'row',
     // alignItems: 'center',
@@ -95,6 +95,9 @@ const styles = StyleSheet.create({
 });
 
 class PXSearchBar extends Component {
+  static defaultProps = {
+    searchType: SearchType.ILLUST
+  }
   // handleOnChangeSearchText = (word, searchType) => {
   //   const { fetchSearchAutoComplete, clearSearchAutoComplete, fetchSearchUserAutoComplete, clearSearchUserAutoComplete } = this.props;
   //   console.log('handleOnChangeSearchText ', searchType, word)
@@ -113,6 +116,7 @@ class PXSearchBar extends Component {
   // }
 
   handleOnSubmitSearch = (word, searchType) => {
+    console.log('handleOnSubmitSearch')
     const { navigation, isPushNewSearch } = this.props;
     word = word.trim();
     if (word) {
@@ -138,24 +142,24 @@ class PXSearchBar extends Component {
   render() {
     const { searchType, isRenderBackButton, isRenderRightButton, isRenderPlaceHolder, onFocus, onChangeText, onSubmitEditing, onPressRemoveTag, autoFocus, word } = this.props;
     let style = {};
-    if (isRenderBackButton && isRenderRightButton) {
-      style = {
-        width: windowWidth - 68,
-        //marginHorizontal: 54
-      };
-    }
-    else if (isRenderBackButton) {
-      style = {
-        width: windowWidth - 34,
-        marginLeft: 34
-      };
-    }
-    else if (isRenderRightButton) {
-      style = {
-        width: windowWidth - 34,
-        marginRight: 34
-      };
-    }
+    // if (isRenderBackButton && isRenderRightButton) {
+    //   style = {
+    //     width: windowWidth - 68,
+    //     //marginHorizontal: 54
+    //   };
+    // }
+    // else if (isRenderBackButton) {
+    //   style = {
+    //     width: windowWidth - 34,
+    //     marginLeft: 34
+    //   };
+    // }
+    // else if (isRenderRightButton) {
+    //   style = {
+    //     width: windowWidth - 34,
+    //     marginRight: 34
+    //   };
+    // }
     return (
       <View style={[styles.container, style]}>
         <SearchBar
@@ -164,8 +168,8 @@ class PXSearchBar extends Component {
           placeholder={searchType === SearchType.USER ? "Enter nickname" : "Enter keyword"}
           autoFocus={autoFocus}
           onFocus={() => onFocus && onFocus(searchType)}
-          onChangeText={(text) => !isRenderPlaceHolder ? onChangeText(text, searchType) : onFocus(searchType)}
-          onSubmitEditing={(e) => !isRenderPlaceHolder && this.handleOnSubmitSearch(e.nativeEvent.text, searchType)}
+          onChangeText={(text) => onChangeText(text, searchType)}
+          onSubmitEditing={(e) => this.handleOnSubmitSearch(e.nativeEvent.text, searchType)}
           returnKeyType="search"
           defaultValue={word}
           underlineColorAndroid='transparent'

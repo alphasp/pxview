@@ -19,13 +19,13 @@ const styles = StyleSheet.create({
 });
 
 class SearchAutoCompleteResult extends Component {
-  // componentDidMount() {
-  //   const { word, clearSearchAutoComplete } = this.props;
-  //   clearSearchAutoComplete();
-  //   InteractionManager.runAfterInteractions(() => {
-  //     this.submitSearchAutoComplete(word);
-  //   });
-  // }
+  componentDidMount() {
+    const { word, clearSearchAutoComplete } = this.props;
+    clearSearchAutoComplete();
+    InteractionManager.runAfterInteractions(() => {
+      this.submitSearchAutoComplete(word);
+    });
+  }
 
   componentWillReceiveProps(nextProps) {
     const { word: prevWord, } = this.props;
@@ -47,7 +47,6 @@ class SearchAutoCompleteResult extends Component {
 
   render() {
     const { searchAutoComplete, searchAutoComplete: { items, loading, loaded },  searchHistory, onPressItem, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressClearSearchHistory } = this.props;
-    console.log('sacr ', searchAutoComplete)
     return (
       <View style={styles.container}>
         {

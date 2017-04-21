@@ -19,13 +19,13 @@ const styles = StyleSheet.create({
 });
 
 class SearchUsersAutoCompleteResult extends Component {
-  // componentDidMount() {
-  //   const { word, clearSearchUserAutoComplete } = this.props;
-  //   InteractionManager.runAfterInteractions(() => {
-  //     clearSearchUserAutoComplete();
-  //     this.submitSearchUserAutoComplete(word);
-  //   });
-  // }
+  componentDidMount() {
+    const { word, clearSearchUserAutoComplete } = this.props;
+    InteractionManager.runAfterInteractions(() => {
+      clearSearchUserAutoComplete();
+      this.submitSearchUserAutoComplete(word);
+    });
+  }
 
   componentWillReceiveProps(nextProps) {
     const { word: prevWord, } = this.props;

@@ -3,99 +3,41 @@ import {
   StyleSheet,
   Text,
   View,
-  Keyboard
+  Keyboard,
+  Platform,
+  BackAndroid
 } from 'react-native';
 import { connect } from 'react-redux';
 import { CardStack } from 'react-navigation';
-const { BackButton } = CardStack.Header;
+//import { HeaderBackButton } from 'react-navigation';
+import HeaderBackButton from 'react-navigation/src/views/HeaderBackButton';
+// const { BackButton } = CardStack.Header;
+import { TabBar } from 'react-native-tab-view';
 import PXTabView from '../components/PXTabView';
 import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
 import TrendingIllustTags from './TrendingIllustTags';
 import RecommendedUsers from './RecommendedUsers';
 import Header from '../components/Header';
+import PXHeader from '../components/PXHeader';
 import PXSearchBar from '../components/PXSearchBar';
 import Search2 from './Search2';
 import { setSearchType, SearchType } from '../common/actions/searchType';
 import { SearchBar } from 'react-native-elements'
 
+const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  content: {
+    flex: 1
   }
 });
 
-const onPressBackButton = (navigation) => {
-  const { setParams, goBack, state }  = navigation;
-  const { isFocusSearchBar } = state.params;
-  if (isFocusSearchBar) {
-    console.log('trending on press back button')
-    Keyboard.dismiss();
-    setParams({
-      isFocusSearchBar: false,
-      word: null
-    });
-  }
-  else {
-    goBack();
-  }
-}
-
-
-const handleOnChangeSearchText = (setParams) => (word, searchType) => {
-  setParams({ word });
-}
-
-/*const SearchBar = ({ navigation, text }) => (
-  <PXSearchBar 
-    ref='searchBar'
-    textInputRef='email'
-    enableBack={true} 
-    onFocus={() => navigation.setParams({
-      isFocusSearchBar: true
-    })}
-    onChangeText={handleOnChangeSearchText(setParams)}
-    searchType={SearchType.ILLUST}
-    navigation={navigation}
-    isPushNewSearch={true}
-  />
-)
-const MyConnectedTitle = connect(storeState => ({ text: storeState.title }))(MyTitle);*/
-
 class Trending extends Component {
-  static navigationOptions = {
-    header: (navigation, defaultHeader) => {
-      const { state, setParams, navigate } = navigation;
-      const isRenderBackButton = (state.params && state.params.isFocusSearchBar);
-      return {
-        ...defaultHeader,
-        left: isRenderBackButton ? (
-          <BackButton onPress={() => onPressBackButton(navigation)} />
-        ) : null,
-        title: (
-          <PXSearchBar 
-            ref='searchBar'
-            textInputRef='email'
-            enableBack={true} 
-            onFocus={() => setParams({
-              isFocusSearchBar: true
-            })}
-            onChangeText={handleOnChangeSearchText(setParams)}
-            searchType={SearchType.ILLUST}
-            navigation={navigation}
-            isPushNewSearch={true}
-            word={state.params && state.params.word}
-            isRenderBackButton={isRenderBackButton}
-          />
-        ),
-        // titleStyle: {
-        //   left: 0,
-        //   right: 0,
-        // },
-      }
-    }
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -104,6 +46,28 @@ class Trending extends Component {
         { key: '1', title: 'Illust/Manga' },
         { key: '2', title: 'User' },
       ],
+      isFocusSearchBar: false,
+      word: null
+    }
+  }
+
+  componentDidMount() {
+    if (Platform.OS == 'android') {
+      this.backAndroidListener = BackAndroid.addEventListener('hardwareBackPress', this.handleOnPressBackButton);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { searchType: prevSearchType } = this.props;
+    const { searchType } = nextProps;
+    if (searchType !== prevSearchType) {
+      this.setState({ index: searchType === SearchType.USER ? 1 : 0 });
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.backAndroidListener) {
+      BackAndroid.removeEventListener('hardwareBackPress', this.backAndroidListener);
     }
   }
 
@@ -115,9 +79,13 @@ class Trending extends Component {
     else {
       setSearchType(SearchType.ILLUST);
     }
-    this.setState({ index });
   };
 
+  renderHeader = (props) => {
+    return (
+      <TabBar {...props} />
+    );
+  }
   renderScene = ({ route }) => {
     const { navigation, screenProps } = this.props;
     switch (route.key) {
@@ -129,35 +97,66 @@ class Trending extends Component {
         return null;
     };
   }
+  
+  handleOnFocusSearchBar = () => {
+    this.setState({ isFocusSearchBar: true });
+  }
 
-  handleOnSearchFieldFocus = (searchType) => {
-    console.log('on focus ', searchType);
-    // Actions.search();
-    const { navigate, setParams } = this.props.navigation;
-    setParams({
-      isFocusSearchBar: true
-    });
+  handleOnChangeSearchText = (word, searchType) => {
+    this.setState({ word });
+  }
+
+  handleOnPressBackButton = () => {
+    const { goBack }  = this.props.navigation;
+    const { isFocusSearchBar } = this.state;
+    if (isFocusSearchBar) {
+      Keyboard.dismiss();
+      this.setState({
+        isFocusSearchBar: false,
+        word: null
+      });
+      //to disable goBack from react-navigation
+      return true;
+    }
+    else {
+      goBack();
+    }
   }
 
   render() {
     const { searchType, navigation, screenProps } = this.props;
-    const { params } = navigation.state;
+    const { word, isFocusSearchBar } = this.state;
     return (
       <View style={styles.container}>
-        <PXTabView
-          navigationState={this.state}
-          renderScene={this.renderScene}
-          onRequestChangeTab={this.handleChangeTab}
+        <PXHeader 
+          word={word}
+          navigation={navigation} 
+          showBackButton={isFocusSearchBar}
+          searchType={searchType}
+          isPushNewSearch={true}
+          onFocusSearchBar={this.handleOnFocusSearchBar}
+          onChangeSearchText={this.handleOnChangeSearchText}
+          onPressBackButton={this.handleOnPressBackButton}
+          onSubmitSearch={this.handleOnPressBackButton}
         />
-        { 
-          params && params.isFocusSearchBar &&
-          <Search2 
-            word={params.word}
-            navigation={navigation} 
-            isPushNewSearch={true} 
-            searchType={searchType} 
+        <View style={styles.content}>
+          <PXTabView
+            navigationState={this.state}
+            renderHeader={this.renderHeader}
+            renderScene={this.renderScene}
+            onRequestChangeTab={this.handleChangeTab}
           />
-        }
+          { 
+            isFocusSearchBar &&
+            <Search2 
+              word={word}
+              navigation={navigation} 
+              isPushNewSearch={true} 
+              searchType={searchType} 
+              onSubmitSearch={this.handleOnPressBackButton}
+            />
+          }
+        </View>
       </View>
     );
   }
