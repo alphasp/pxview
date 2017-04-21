@@ -116,14 +116,13 @@ class OverlayBookmarkButtonContainer extends Component {
 
   animateBookmark = () => {
     const { isBookmark, scaleAnim } = this.state;
-    if (!isBookmark) {
-      Animated.timing(scaleAnim, { 
-        toValue: 1 ,
-        useNativeDriver: true
-      }).start(({ finished }) => {
-        scaleAnim.setValue(0);
-      });
-    }
+    Animated.spring(scaleAnim, { 
+      toValue: 1,
+      friction: 3,
+      useNativeDriver: true
+    }).start(({ finished }) => {
+      scaleAnim.setValue(0);
+    });
   }
 
   render() {
@@ -132,7 +131,7 @@ class OverlayBookmarkButtonContainer extends Component {
     const color = isBookmark ? 'rgb(255,102,102)' : 'rgb(210, 212, 216)';
     const scale = scaleAnim.interpolate({
       inputRange: [0, 0.5, 1],
-      outputRange: [1, 1.5, 1]
+      outputRange: [1, 0.8, 1]
     });
     // const color = this.state.colorAnim.interpolate({
     //   inputRange: [0, 1],
