@@ -8,11 +8,12 @@ import {
   Platform,
 } from 'react-native';
 import { TabBar } from 'react-native-tab-view';
-// import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import PXTabView from '../components/PXTabView';
 import RankingList from './RankingList';
 import PastRanking from './PastRanking';
 import { RANKING_FOR_UI } from '../common/constants/rankingTypes';
+
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
 
 const styles = StyleSheet.create({
   container: {
@@ -26,6 +27,9 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  tabBar: {
+    paddingTop: STATUSBAR_HEIGHT
+  }
 });
 
 class Ranking extends Component {
@@ -77,6 +81,7 @@ class Ranking extends Component {
   renderHeader = (props) => {
     return (
       <TabBar
+        style={styles.tabBar}
         {...props}
         scrollEnabled
       />

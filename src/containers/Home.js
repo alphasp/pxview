@@ -8,10 +8,11 @@ import {
   Platform,
 } from 'react-native';
 import { TabViewAnimated, TabBar, TabViewPagerScroll, TabViewPagerPan } from 'react-native-tab-view';
-
 import PXTabView from '../components/PXTabView';
 import RecommendedIllusts from './RecommendedIllusts';
 import RecommendedMangas from './RecommendedMangas';
+
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
 
 const styles = StyleSheet.create({
   container: {
@@ -29,6 +30,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  tabBar: {
+    paddingTop: STATUSBAR_HEIGHT
   }
 });
 
@@ -38,7 +42,7 @@ class Home extends Component {
     this.state = {
       index: 0,
       routes: [
-        { key: '1', title: 'Illustrations' },
+        { key: '1', title: 'Illustration' },
         { key: '2', title: 'Manga' },
       ],
     };
@@ -65,7 +69,7 @@ class Home extends Component {
   }
 
   renderHeader = (props) => {
-    return <TabBar {...props} />;
+    return <TabBar style={styles.tabBar} {...props} />;
   };
 
   renderPager = (props) => {
@@ -76,6 +80,7 @@ class Home extends Component {
     const { navigation, screenProps } = this.props;
     return (
       <PXTabView
+        renderHeader={this.renderHeader}
         navigationState={this.state}
         renderScene={this.renderScene}
         onRequestChangeTab={this.handleChangeTab}

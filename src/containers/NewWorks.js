@@ -16,6 +16,8 @@ import MyPixiv from './MyPixiv';
 import Login from './Login';
 import PXTabView from '../components/PXTabView';
 
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -28,6 +30,9 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  tabBar: {
+    paddingTop: STATUSBAR_HEIGHT
+  }
 });
 
 class PageWrapper extends Component {
@@ -105,6 +110,7 @@ class NewWorks extends Component {
   renderHeader = (props) => {
     return (
       <TabBar
+        style={styles.tabBar}
         {...props}
         scrollEnabled
       />

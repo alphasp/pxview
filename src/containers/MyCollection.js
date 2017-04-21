@@ -30,25 +30,24 @@ const styles = StyleSheet.create({
 });
 
 class MyCollection extends Component {
-  static navigationOptions = {
-    header: ({ state, setParams }, defaultHeader) => {
-      return {
-        ...defaultHeader,
-        backTitle: null,
-        right: (
-          <Icon 
-            name="sliders" 
-            size={20} 
-            onPress={() => setParams({isOpenFilterModal: true})}
-            color="#037aff"
-            style={{
-              padding: 10
-            }}
-          />
-        ),
-      }
-    }
-  }
+  static navigationOptions = ({ navigation }) => {
+    const { setParams } = navigation;
+    return {
+      headerBackTitle: null,
+      headerRight: (
+        <Icon 
+          name="sliders" 
+          size={20} 
+          onPress={() => setParams({isOpenFilterModal: true})}
+          color="#037aff"
+          style={{
+            padding: 10
+          }}
+        />
+      )
+    };
+  };
+
   constructor(props) {
     super(props);
     //this.offset = 0;
