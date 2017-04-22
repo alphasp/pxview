@@ -120,7 +120,7 @@ class MyCollection extends Component {
     return (
       <View style={styles.container}>
         <ScrollableTabView ref={(ref) => this.tabs = ref} onChangeTab={this.handleOnChangeTab}>
-          <UserBookmarkIllusts tabLabel="Illustrations (Public)" userId={userId} tag={selectedPublicTag} />
+          <UserBookmarkIllusts tabLabel="Illustrations (Public)" userId={userId} tag={selectedPublicTag} reload={true} />
           <MyPrivateBookmarkIllusts tabLabel="Illustrations (Private)" userId={userId} tag={selectedPrivateTag} />
         </ScrollableTabView>
         {
