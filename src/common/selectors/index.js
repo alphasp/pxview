@@ -53,10 +53,14 @@ const selectRecommendedIllusts = state => state.recommendedIllusts;
 const selectRecommendedMangas = state => state.recommendedMangas;
 const selectTrendingIllustTags = state => state.trendingIllustTags;
 const selectRecommendedUsers = state => state.recommendedUsers;
+const selectSearch = state => state.search;
 
 export const getAuthUser = state => state.auth.user;
 
 const createIllustItemsSelector = createSelectorCreator(specialMemoize, (prev, next) => {
+  if (!prev && !next) {
+    return false;
+  }
   console.log(equals(prev, next, (p, n) => {
     return (p.id === n.id) && (p.is_bookmarked === n.is_bookmarked) && (p.user.is_followed === n.user.is_followed)
   }));
@@ -71,6 +75,14 @@ export const makeGetRankingItems = () => {
   });
 }
 
+export const makeGetSearchItems = () => {
+  return createIllustItemsSelector([selectSearch, selectEntities, getProps], (search, entities, props) => {
+    return search[props.navigationStateKey] ? 
+      denormalize(search[props.navigationStateKey].items, Schemas.ILLUST_ARRAY, entities)
+      :
+      [];
+  });
+}
 
 // const getIntermediateRankingItems = createIllustItemsSelector([selectRanking, selectEntities, getProps], (ranking, entities, props) => {
 //   return denormalize(ranking[props.rankingMode].items, Schemas.ILLUST_ARRAY, entities)

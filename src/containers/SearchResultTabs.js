@@ -301,8 +301,3 @@ export default connect((state, props) => {
     navigationStateKey: props.navigation.state.key
   }
 }, { clearSearchAutoComplete, clearSearchUserAutoComplete, setSearchType })(SearchResultTabs);
-
-
-//result tabs [0, 1]
-//1
-//s tabs [0, 1]

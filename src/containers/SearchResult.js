@@ -15,8 +15,7 @@ import { denormalize } from 'normalizr';
 import IllustList from '../components/IllustList';
 import * as searchActionCreators from '../common/actions/search';
 import { SORT_TYPES } from '../common/constants/sortTypes';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
-import Schemas from '../common/constants/schemas';
+import { makeGetSearchItems } from '../common/selectors';
 
 class SearchResult extends Component {
   componentDidMount() {
@@ -58,10 +57,10 @@ class SearchResult extends Component {
   }
 
   render() {
-    const { search, word, options, navigation, navigationStateKey } = this.props;
+    const { search, items, word, options, navigation, navigationStateKey } = this.props;
     return (
       <IllustList
-        data={search}
+        data={{...search, items}}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -69,39 +68,14 @@ class SearchResult extends Component {
   }
 }
 
-// const makeGetSearch  = () => {
-//   return createSelector(
-//     [
-//       state => state.entities,
-//       (state, props) => state.search[props.navigationStateKey]
-//     ],
-//     (entities, search) => {
-//       console.log('ss')
-//       return {
-//         ...search,
-//         items: (search && search.items) ? denormalize(search.items, Schemas.ILLUST_ARRAY, entities) : []
-//       }
-//     }
-//   )
-// }
-
-// const makeMapStateToProps = () => {
-//   const getSearch = makeGetSearch();
-//   const mapStateToProps = (state, props) => {
-//     console.log('recompute ', getSearch.recomputations())
-//     return {
-//       search: getSearch(state, props)
-//     }
-//   }
-//   return mapStateToProps
-// }
-
-// export default connect(makeMapStateToProps)(SearchResult);
-
-export default connect((state, props) => {
-  const { entities, search } = state;
-  const { navigationStateKey } = props;
-  return {
-    search: denormalizedData(search[navigationStateKey], 'items', Schemas.ILLUST_ARRAY, entities),
+export default connect(() => {
+  const getSearchItems = makeGetSearchItems();
+  return (state, props) => {
+    const { search } = state;
+    const { navigationStateKey } = props;
+    return {
+      search: search[navigationStateKey],
+      items: getSearchItems(state, props)
+    }
   }
 }, searchActionCreators)(SearchResult);
