@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import * as recommendedIllustsActionCreators from '../common/actions/recommendedIllusts';
-import { getRecommendedIllustItems } from '../common/selectors';
+import { getRecommendedIllustsItems } from '../common/selectors';
 
 class RecommendedIllusts extends Component {
   componentDidMount() {
@@ -50,7 +50,7 @@ export default connect((state, props) => {
   const { recommendedIllusts, user } = state;
   return {
     recommendedIllusts,
-    items: getRecommendedIllustItems(state, props),
+    items: getRecommendedIllustsItems(state, props),
     user: state.auth.user
   }
 }, recommendedIllustsActionCreators)(RecommendedIllusts);

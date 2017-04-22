@@ -51,6 +51,8 @@ const selectEntities = (state) => state.entities;
 const selectRanking = (state) => state.ranking;
 const selectRecommendedIllusts = state => state.recommendedIllusts;
 const selectRecommendedMangas = state => state.recommendedMangas;
+const selectTrendingIllustTags = state => state.trendingIllustTags;
+const selectRecommendedUsers = state => state.recommendedUsers;
 
 export const getAuthUser = state => state.auth.user;
 
@@ -74,11 +76,18 @@ export const makeGetRankingItems = () => {
 //   return denormalize(ranking[props.rankingMode].items, Schemas.ILLUST_ARRAY, entities)
 // });
 
-export const getRecommendedIllustItems = createIllustItemsSelector([selectRecommendedIllusts, selectEntities, getProps], (recommendedIllusts, entities, props) => {
+export const getRecommendedIllustsItems = createIllustItemsSelector([selectRecommendedIllusts, selectEntities], (recommendedIllusts, entities) => {
   return denormalize(recommendedIllusts.items, Schemas.ILLUST_ARRAY, entities)
 })
 
-export const getRecommendedMangaItems = createIllustItemsSelector([selectRecommendedMangas, selectEntities, getProps], (recommendedMangas, entities, props) => {
+export const getRecommendedMangasItems = createIllustItemsSelector([selectRecommendedMangas, selectEntities], (recommendedMangas, entities) => {
   return denormalize(recommendedMangas.items, Schemas.ILLUST_ARRAY, entities)
 })
 
+export const getTrendingIllustTagsItems = createSelector([selectTrendingIllustTags, selectEntities], (trendingIllustTags, entities) => {
+  return denormalize(trendingIllustTags.items, Schemas.ILLUST_TAG_ARRAY, entities)
+})
+
+export const getRecommendedUsersItems = createSelector([selectRecommendedUsers, selectEntities], (recommendedUsers, entities) => {
+  return denormalize(recommendedUsers.items, Schemas.USER_PREVIEW_ARRAY, entities)
+})

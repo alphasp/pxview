@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import IllustTagList from '../components/IllustTagList';
 import * as trendingIllustTagsActionCreators from '../common/actions/trendingIllustTags';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
-import Schemas from '../common/constants/schemas';
+import { getTrendingIllustTagsItems } from '../common/selectors';
 
 class TrendingIllustTags extends Component {
   componentDidMount() {
@@ -17,15 +16,11 @@ class TrendingIllustTags extends Component {
     fetchTrendingIllustTags(null, true);
   }
 
-  handleOnPressItem = (item) => {
-    const { navigate } = this.props.navigation;
-    navigate('SearchResult', { word: item.tag });
-  }
   render() {
-    const { trendingIllustTags } = this.props;
+    const { trendingIllustTags, items } = this.props;
     return (
       <IllustTagList
-        data={trendingIllustTags}
+        data={{...trendingIllustTags, items}}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -34,8 +29,9 @@ class TrendingIllustTags extends Component {
 }
 
 export default connect((state, props) => {
-  const { entities, trendingIllustTags } = state;
+  const { trendingIllustTags } = state;
   return {
-    trendingIllustTags: denormalizedData(trendingIllustTags, 'items', Schemas.ILLUST_TAG_ARRAY, entities),
+    trendingIllustTags,
+    items: getTrendingIllustTagsItems(state),
   }
 }, trendingIllustTagsActionCreators)(TrendingIllustTags);

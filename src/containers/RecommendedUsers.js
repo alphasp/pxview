@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import UserListContainer from './UserListContainer';
 import * as recommendedUsersActionCreators from '../common/actions/recommendedUsers';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
-import Schemas from '../common/constants/schemas';
+import { getRecommendedUsersItems } from '../common/selectors';
 
 class RecommendedUsers extends Component {
   componentDidMount() {
@@ -26,10 +25,10 @@ class RecommendedUsers extends Component {
   }
 
   render() {
-    const { recommendedUsers, navigation, screenProps } = this.props;
+    const { recommendedUsers, items, navigation, screenProps } = this.props;
     return (
       <UserListContainer
-        userList={recommendedUsers}
+        userList={{...recommendedUsers, items}}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
         screenProps={screenProps}
@@ -39,8 +38,9 @@ class RecommendedUsers extends Component {
 }
 
 export default connect(state => {
-  const { entities, recommendedUsers } = state;
+  const { recommendedUsers } = state;
   return {
-    recommendedUsers: denormalizedData(recommendedUsers, 'items', Schemas.USER_PREVIEW_ARRAY, entities),
+    recommendedUsers,
+    items: getRecommendedUsersItems(state)
   }
 }, recommendedUsersActionCreators)(RecommendedUsers);
