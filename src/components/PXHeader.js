@@ -36,7 +36,7 @@ class PXHeader extends Component {
   }
 
   render() {
-    const { word, showBackButton, showRightButton, headerRight, navigation, searchType, isPushNewSearch, onPressBackButton, onFocusSearchBar, onChangeSearchText } = this.props;
+    const { word, showBackButton, showRightButton, headerRight, navigation, searchType, isPushNewSearch, onPressBackButton, onFocusSearchBar, onChangeSearchText, onSubmitSearch } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.subContainer}>
@@ -49,6 +49,7 @@ class PXHeader extends Component {
             textInputRef='email'
             onFocus={onFocusSearchBar}
             onChangeText={onChangeSearchText}
+            onSubmitSearch={onSubmitSearch}
             searchType={searchType}
             navigation={navigation}
             isPushNewSearch={isPushNewSearch}

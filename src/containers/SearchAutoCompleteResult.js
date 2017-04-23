@@ -11,6 +11,7 @@ import Separator from '../components/Separator';
 import SearchHistory from '../components/SearchHistory';
 import SearchAutoCompleteList from '../components/SearchAutoCompleteList';
 import * as searchAutoCompleteActionCreators from '../common/actions/searchAutoComplete';
+import { SearchType } from '../common/actions/searchType';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,15 +21,17 @@ const styles = StyleSheet.create({
 
 class SearchAutoCompleteResult extends Component {
   componentDidMount() {
-    const { word, clearSearchAutoComplete } = this.props;
-    clearSearchAutoComplete();
-    InteractionManager.runAfterInteractions(() => {
-      this.submitSearchAutoComplete(word);
-    });
+    const { word, showInitHistory, clearSearchAutoComplete } = this.props;
+    if (!showInitHistory) {
+      clearSearchAutoComplete();
+      InteractionManager.runAfterInteractions(() => {
+        this.submitSearchAutoComplete(word);
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { word: prevWord, } = this.props;
+    const { word: prevWord } = this.props;
     const { word, searchAutoComplete: { items }, clearSearchAutoComplete } = nextProps;
     if (word && word !== prevWord) {
       clearSearchAutoComplete();

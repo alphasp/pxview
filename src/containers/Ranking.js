@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     }),
   },
   tabBar: {
-    paddingTop: STATUSBAR_HEIGHT
+    paddingTop: STATUSBAR_HEIGHT,
   }
 });
 
@@ -82,6 +82,7 @@ class Ranking extends Component {
     return (
       <TabBar
         style={styles.tabBar}
+        tabStyle={{width: 100}}
         {...props}
         scrollEnabled
       />

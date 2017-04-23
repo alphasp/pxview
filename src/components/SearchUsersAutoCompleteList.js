@@ -7,6 +7,7 @@ import {
   Platform,
   Animated,
   ListView,
+  RefreshControl,
 } from 'react-native';
 import dismissKeyboard from 'dismissKeyboard';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class SearchUserAutoCompleteList extends Component {
+class SearchUsersAutoCompleteList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -106,7 +107,7 @@ class SearchUserAutoCompleteList extends Component {
   }
 
   render() {
-    const { data: { items, loading, loaded }, loadMoreItems } = this.props;
+    const { data: { items, loading, loaded, refreshing }, onRefresh, loadMoreItems } = this.props;
     const { dataSource } = this.state;
     return (
       <View style={styles.container}>
@@ -125,6 +126,12 @@ class SearchUserAutoCompleteList extends Component {
             onScroll={dismissKeyboard}
             onEndReached={loadMoreItems}
             renderFooter={this.renderFooter}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
           />
           :
           null
@@ -134,4 +141,4 @@ class SearchUserAutoCompleteList extends Component {
   }
 }
 
-export default SearchUserAutoCompleteList;
+export default SearchUsersAutoCompleteList;

@@ -253,6 +253,7 @@ class SearchResultTabs extends Component {
           onFocusSearchBar={this.handleOnFocusSearchBar}
           onChangeSearchText={this.handleOnChangeSearchText}
           onPressBackButton={this.handleOnPressBackButton}
+          onSubmitSearch={this.handleOnSubmitSearch}
           headerRight={
             <PXTouchable
               disabled={searchType === SearchType.USER}

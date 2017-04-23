@@ -54,6 +54,8 @@ const selectRecommendedMangas = state => state.recommendedMangas;
 const selectTrendingIllustTags = state => state.trendingIllustTags;
 const selectRecommendedUsers = state => state.recommendedUsers;
 const selectSearch = state => state.search;
+const selectSearchUsers = state => state.searchUsers;
+const selectSearchUsersAutoComplete = state => state.searchUsersAutoComplete;
 
 export const getAuthUser = state => state.auth.user;
 
@@ -102,4 +104,8 @@ export const getTrendingIllustTagsItems = createSelector([selectTrendingIllustTa
 
 export const getRecommendedUsersItems = createSelector([selectRecommendedUsers, selectEntities], (recommendedUsers, entities) => {
   return denormalize(recommendedUsers.items, Schemas.USER_PREVIEW_ARRAY, entities)
+})
+
+export const getSearchUsersAutoCompleteItems = createSelector([selectSearchUsersAutoComplete, selectEntities], (searchUsersAutoComplete, entities) => {
+  return denormalize(searchUsersAutoComplete.items, Schemas.USER_PREVIEW_ARRAY, entities)
 })

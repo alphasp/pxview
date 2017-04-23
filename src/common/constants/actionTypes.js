@@ -65,3 +65,9 @@ export const SEARCH = defineAction('SEARCH',
 
 export const SEARCH_USERS = defineAction('SEARCH_USERS',
 	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);	
+
+export const SEARCH_AUTOCOMPLETE = defineAction('SEARCH_AUTOCOMPLETE',
+	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);	
+
+export const SEARCH_USERS_AUTOCOMPLETE = defineAction('SEARCH_USERS_AUTOCOMPLETE',
+	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);	

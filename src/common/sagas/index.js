@@ -20,6 +20,8 @@ import { watchFetchTrendingIllustTags } from './trendingIllustTags';
 import { watchFetchRecommendedUsers } from './recommendedUsers';
 import { watchFetchSearch } from './search';
 import { watchFetchSearchUsers } from './searchUsers';
+import { watchFetchSearchAutoComplete } from './searchAutoComplete';
+import { watchFetchSearchUsersAutoComplete } from './searchUsersAutoComplete';
 
 export default function* rootSaga() {
   yield [
@@ -46,5 +48,7 @@ export default function* rootSaga() {
     watchFetchRecommendedUsers(),
     watchFetchSearch(),
     watchFetchSearchUsers(),
+    watchFetchSearchAutoComplete(),
+    watchFetchSearchUsersAutoComplete(),
   ]
 }

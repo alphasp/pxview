@@ -14,8 +14,7 @@ import { SearchBar } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import SearchTags from './SearchTags';
-import * as searchAutoCompleteActionCreators from '../common/actions/searchAutoComplete';
-import * as searchUserAutoCompleteActionCreators from '../common/actions/searchUsersAutoComplete';
+import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import { SearchType } from '../common/actions/searchType';
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
@@ -116,25 +115,14 @@ class PXSearchBar extends Component {
   // }
 
   handleOnSubmitSearch = (word, searchType) => {
-    console.log('handleOnSubmitSearch')
-    const { navigation, isPushNewSearch } = this.props;
+    const { navigation, addSearchHistory, isPushNewSearch, onSubmitSearch } = this.props;
     word = word.trim();
     if (word) {
       const { navigate, setParams, searchType } = navigation;
-      if (searchType === SearchType.USER) {
-        // Actions.searchUserResult({ word: word, type: ActionConst.REPLACE });
-      }
-      else {
-        console.log('isPushNewSearch ', isPushNewSearch)
-        if (isPushNewSearch) {
-          navigate('SearchResult', { word });
-        }
-        setTimeout(() => {
-          setParams({
-            isFocusSearchBar: false,
-            word
-          });
-        }, 0);
+      addSearchHistory(word);
+      onSubmitSearch(word);
+      if (isPushNewSearch) {
+        navigate('SearchResult', { word, searchType });
       }
     }
   }
@@ -183,7 +171,4 @@ export default connect((state, { searchType }) => {
   return {
     searchType: state.searchType.type //searchType || state.searchType.type
   }
-}, {  
-  ...searchAutoCompleteActionCreators, 
-  ...searchUserAutoCompleteActionCreators
-})(PXSearchBar);
+}, searchHistoryActionCreators)(PXSearchBar);

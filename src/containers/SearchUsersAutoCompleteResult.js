@@ -9,8 +9,9 @@ import dismissKeyboard from 'dismissKeyboard';
 import Loader from '../components/Loader';
 import Separator from '../components/Separator';
 import SearchHistory from '../components/SearchHistory';
-import SearchUserAutoCompleteList from '../components/SearchUserAutoCompleteList';
-import * as searchUserAutoCompleteActionCreators from '../common/actions/searchUsersAutoComplete';
+import SearchUsersAutoCompleteList from '../components/SearchUsersAutoCompleteList';
+import * as searchUsersAutoCompleteActionCreators from '../common/actions/searchUsersAutoComplete';
+import { getSearchUsersAutoCompleteItems } from '../common/selectors';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,33 +21,51 @@ const styles = StyleSheet.create({
 
 class SearchUsersAutoCompleteResult extends Component {
   componentDidMount() {
-    const { word, clearSearchUserAutoComplete } = this.props;
-    InteractionManager.runAfterInteractions(() => {
-      clearSearchUserAutoComplete();
-      this.submitSearchUserAutoComplete(word);
-    });
+    const { word, showInitHistory, clearSearchUsersAutoComplete } = this.props;
+    if (!showInitHistory) {
+      InteractionManager.runAfterInteractions(() => {
+        clearSearchUsersAutoComplete();
+        this.submitSearchUsersAutoComplete(word);
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { word: prevWord, } = this.props;
-    const { word, searchUsersAutoComplete: { items }, clearSearchUserAutoComplete } = nextProps;
+    const { word: prevWord } = this.props;
+    const { word, searchUsersAutoComplete: { items }, clearSearchUsersAutoComplete } = nextProps;
     if (word && word !== prevWord) {
       InteractionManager.runAfterInteractions(() => {
-        clearSearchUserAutoComplete();
-        this.submitSearchUserAutoComplete(word);
+        clearSearchUsersAutoComplete();
+        this.submitSearchUsersAutoComplete(word);
       });
     }
   }
   
-  submitSearchUserAutoComplete = (word) => {
-    const { fetchSearchUserAutoComplete } = this.props;
+  loadMoreItems = () => {
+    const { fetchSearchUsersAutoComplete, searchUsersAutoComplete: { nextUrl, loading } } = this.props;
+    console.log('loading ', loading, nextUrl)
+    if (!loading && nextUrl) {
+      console.log('load more ', nextUrl)
+      fetchSearchUsersAutoComplete(null, nextUrl);
+    }
+  }
+
+  handleOnRefresh = () => {
+    const { word, fetchSearchUsersAutoComplete, clearSearchUsersAutoComplete } = this.props;
+    clearSearchUsersAutoComplete();
+    fetchSearchUsersAutoComplete(word, null, true);
+  }
+
+
+  submitSearchUsersAutoComplete = (word) => {
+    const { fetchSearchUsersAutoComplete } = this.props;
     if (word && word.length > 1) {
-      fetchSearchUserAutoComplete(word);
+      fetchSearchUsersAutoComplete(word);
     }      
   }
 
   render() {
-    const { searchUsersAutoComplete, searchUsersAutoComplete: { items, loading, loaded },  searchHistory, onPressItem, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressClearSearchHistory } = this.props;
+    const { searchUsersAutoComplete, searchUsersAutoComplete: { loading, loaded }, items, searchHistory, onPressItem, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressClearSearchHistory } = this.props;
     return (
       <View style={styles.container}>
         {
@@ -58,9 +77,11 @@ class SearchUsersAutoCompleteResult extends Component {
             onPressClearSearchHistory={onPressClearSearchHistory}
           />
         }
-        <SearchUserAutoCompleteList
-          data={searchUsersAutoComplete}
+        <SearchUsersAutoCompleteList
+          data={{...searchUsersAutoComplete, items}}
           onPressItem={onPressItem}
+          loadMoreItems={this.loadMoreItems}
+          onRefresh={this.handleOnRefresh}
         />
       </View>
     );
@@ -69,6 +90,7 @@ class SearchUsersAutoCompleteResult extends Component {
 
 export default connect((state, props) => {
   return {
-    searchUsersAutoComplete: state.searchUsersAutoComplete
+    searchUsersAutoComplete: state.searchUsersAutoComplete,
+    items: getSearchUsersAutoCompleteItems(state, props)
   }
-}, searchUserAutoCompleteActionCreators)(SearchUsersAutoCompleteResult);
+}, searchUsersAutoCompleteActionCreators)(SearchUsersAutoCompleteResult);

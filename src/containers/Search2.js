@@ -45,6 +45,7 @@ class Search2 extends Component {
     const { searchType } = props;
     this.state = {
       index: searchType ===  SearchType.USER ? 1 : 0,
+      initIndex: searchType ===  SearchType.USER ? 1 : 0,
       routes: [
         { key: '1', title: 'Illust/Manga' },
         { key: '2', title: 'User' },
@@ -70,8 +71,9 @@ class Search2 extends Component {
     );
   }
 
-  renderScene = ({ route }) => {
-    const { word, searchType, searchAutoComplete, searchUsersAutoComplete, searchHistory } = this.props;
+  renderScene = ({ route, index }) => {
+    const { word, searchAutoComplete, searchUsersAutoComplete, searchHistory } = this.props;
+    const { initIndex } = this.state;
     switch (route.key) {
       case '1':
         return (
@@ -83,6 +85,7 @@ class Search2 extends Component {
             onPressRemoveSearchHistoryItem={this.handleOnPressRemoveSearchHistoryItem}
             onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
             word={word}
+            showInitHistory={initIndex === 0}
           />
         );
       case '2':
@@ -97,7 +100,7 @@ class Search2 extends Component {
             onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
             loadMoreItems={this.loadMoreUsers}
             word={word}
-            navigation={this.props.navigation}
+            showInitHistory={initIndex === 1}
           />
         );
       default:
@@ -115,12 +118,12 @@ class Search2 extends Component {
       if (isPushNewSearch) {
         navigate('SearchResult', { word, searchType });
       }
-      setTimeout(() => {
-        setParams({
-          isFocusSearchBar: false,
-          word
-        });
-      }, 0);
+      // setTimeout(() => {
+      //   setParams({
+      //     isFocusSearchBar: false,
+      //     word
+      //   });
+      // }, 0);
     }
   }
 
@@ -135,8 +138,7 @@ class Search2 extends Component {
   handleOnPressUser = (userId) => {
     const { navigation, onSubmitSearch, addSearchHistory } = this.props;
     const { navigate } = navigation;
-    addSearchHistory(word); 
-    onSubmitSearch(word);
+    // onSubmitSearch(word);
     navigate('UserDetail', { userId });
   }
 
@@ -173,6 +175,7 @@ class Search2 extends Component {
           renderHeader={this.renderHeader}
           renderScene={this.renderScene}
           onRequestChangeTab={this.handleChangeTab}
+          lazy={false}
         />
       </View>
     );

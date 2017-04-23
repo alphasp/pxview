@@ -1,53 +1,39 @@
-import { 
-  REQUEST_SEARCH_USER_AUTOCOMPLETE, 
-  RECEIVE_SEARCH_USER_AUTOCOMPLETE,
-  RECEIVE_SEARCH_USER_AUTOCOMPLETE_CONCAT,
-  STOP_SEARCH_USER_AUTOCOMPLETE, 
-  CLEAR_SEARCH_USER_AUTOCOMPLETE,
-} from "../actions/searchUsersAutoComplete";
+import { SEARCH_USERS_AUTOCOMPLETE } from '../constants/actionTypes';
 
-export default function searchUsersAutoComplete(state = {
+const defaultState = {
   loading: false,
   loaded: false,
+  refreshing: false,
   items: [],
+  offset: 0,
   nextUrl: null,
-}, action) {
+};
+
+export default function searchUsersAutoComplete(state = defaultState, action) {
   switch (action.type) {
-    case CLEAR_SEARCH_USER_AUTOCOMPLETE:
-      return {
-        ...state,
-        loading: false,
-        loaded: false,
-        items: [],
-        nextUrl: null,
-      };
-    case REQUEST_SEARCH_USER_AUTOCOMPLETE:
+    case SEARCH_USERS_AUTOCOMPLETE.CLEAR:
+      return defaultState;
+    case SEARCH_USERS_AUTOCOMPLETE.REQUEST:
       return {
         ...state,
         loading: true,
+        refreshing: action.payload.refreshing
       };
-    case RECEIVE_SEARCH_USER_AUTOCOMPLETE:
+    case SEARCH_USERS_AUTOCOMPLETE.SUCCESS:
       return {
         ...state,
         loading: false,
         loaded: true,
-        items: [...action.payload.items],
-        nextUrl: action.payload.nextUrl,
-        timestamp: action.payload.timestamp,
-      };
-    case RECEIVE_SEARCH_USER_AUTOCOMPLETE_CONCAT:
-      return {
-        ...state,
-        loading: false,
-        loaded: true,
+        refreshing: false,
         items: [...state.items, ...action.payload.items],
         nextUrl: action.payload.nextUrl,
         timestamp: action.payload.timestamp,
       };
-    case STOP_SEARCH_USER_AUTOCOMPLETE:
+    case SEARCH_USERS_AUTOCOMPLETE.FAILURE:
       return {
         ...state,
         loading: false,
+        refreshing: false,
       };
     default:
       return state;
