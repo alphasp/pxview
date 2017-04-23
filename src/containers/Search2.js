@@ -45,7 +45,6 @@ class Search2 extends Component {
     const { searchType } = props;
     this.state = {
       index: searchType ===  SearchType.USER ? 1 : 0,
-      initIndex: searchType ===  SearchType.USER ? 1 : 0,
       routes: [
         { key: '1', title: 'Illust/Manga' },
         { key: '2', title: 'User' },
@@ -54,15 +53,14 @@ class Search2 extends Component {
   }
 
   handleChangeTab = (index) => {
-    console.log(this.props)
     const { setSearchType } = this.props;
+    this.setState({ index });
     if (index === 1) {
       setSearchType(SearchType.USER);
     }
     else {
       setSearchType(SearchType.ILLUST);
     }
-    this.setState({ index });
   };
 
   renderHeader = (props) => {
@@ -85,7 +83,6 @@ class Search2 extends Component {
             onPressRemoveSearchHistoryItem={this.handleOnPressRemoveSearchHistoryItem}
             onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
             word={word}
-            showInitHistory={initIndex === 0}
           />
         );
       case '2':
@@ -100,7 +97,6 @@ class Search2 extends Component {
             onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
             loadMoreItems={this.loadMoreUsers}
             word={word}
-            showInitHistory={initIndex === 1}
           />
         );
       default:

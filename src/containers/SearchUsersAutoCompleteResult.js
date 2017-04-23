@@ -21,13 +21,11 @@ const styles = StyleSheet.create({
 
 class SearchUsersAutoCompleteResult extends Component {
   componentDidMount() {
-    const { word, showInitHistory, clearSearchUsersAutoComplete } = this.props;
-    if (!showInitHistory) {
-      InteractionManager.runAfterInteractions(() => {
-        clearSearchUsersAutoComplete();
-        this.submitSearchUsersAutoComplete(word);
-      });
-    }
+    const { word, clearSearchUsersAutoComplete } = this.props;
+    InteractionManager.runAfterInteractions(() => {
+      clearSearchUsersAutoComplete();
+      this.submitSearchUsersAutoComplete(word);
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -65,11 +63,11 @@ class SearchUsersAutoCompleteResult extends Component {
   }
 
   render() {
-    const { searchUsersAutoComplete, searchUsersAutoComplete: { loading, loaded }, items, searchHistory, onPressItem, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressClearSearchHistory } = this.props;
+    const { searchUsersAutoComplete, word, searchUsersAutoComplete: { loading, loaded }, items, searchHistory, onPressItem, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressClearSearchHistory } = this.props;
     return (
       <View style={styles.container}>
         {
-          !loaded && !loading &&
+          ((!loaded && !loading) || !word) &&
           <SearchHistory 
             items={searchHistory.items}
             onPressItem={onPressSearchHistoryItem}
@@ -77,12 +75,17 @@ class SearchUsersAutoCompleteResult extends Component {
             onPressClearSearchHistory={onPressClearSearchHistory}
           />
         }
-        <SearchUsersAutoCompleteList
-          data={{...searchUsersAutoComplete, items}}
-          onPressItem={onPressItem}
-          loadMoreItems={this.loadMoreItems}
-          onRefresh={this.handleOnRefresh}
-        />
+        {
+          word ?
+          <SearchUsersAutoCompleteList
+            data={{...searchUsersAutoComplete, items}}
+            onPressItem={onPressItem}
+            loadMoreItems={this.loadMoreItems}
+            onRefresh={this.handleOnRefresh}
+          />
+          :
+          null
+        }
       </View>
     );
   }

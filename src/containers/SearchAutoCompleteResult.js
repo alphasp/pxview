@@ -22,12 +22,10 @@ const styles = StyleSheet.create({
 class SearchAutoCompleteResult extends Component {
   componentDidMount() {
     const { word, showInitHistory, clearSearchAutoComplete } = this.props;
-    if (!showInitHistory) {
-      clearSearchAutoComplete();
-      InteractionManager.runAfterInteractions(() => {
-        this.submitSearchAutoComplete(word);
-      });
-    }
+    clearSearchAutoComplete();
+    InteractionManager.runAfterInteractions(() => {
+      this.submitSearchAutoComplete(word);
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -49,11 +47,11 @@ class SearchAutoCompleteResult extends Component {
   }
 
   render() {
-    const { searchAutoComplete, searchAutoComplete: { items, loading, loaded },  searchHistory, onPressItem, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressClearSearchHistory } = this.props;
+    const { searchAutoComplete, word, searchAutoComplete: { items, loading, loaded },  searchHistory, onPressItem, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressClearSearchHistory } = this.props;
     return (
       <View style={styles.container}>
         {
-          !loaded && !loading &&
+          ((!loaded && !loading) || !word) &&
           <SearchHistory 
             items={searchHistory.items}
             onPressItem={onPressSearchHistoryItem}
@@ -61,14 +59,15 @@ class SearchAutoCompleteResult extends Component {
             onPressClearSearchHistory={onPressClearSearchHistory}
           />
         }
-        {/*
-          !loaded && loading &&
-          <Loader />
-        */}
-        <SearchAutoCompleteList
-          data={searchAutoComplete}
-          onPressItem={onPressItem}
-        />
+        {
+          word ?
+          <SearchAutoCompleteList
+            data={searchAutoComplete}
+            onPressItem={onPressItem}
+          />
+          :
+          null
+        }
       </View>
     );
   }
