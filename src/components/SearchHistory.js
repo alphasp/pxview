@@ -6,7 +6,7 @@ import {
   TextInput,
   Platform,
   Animated,
-  ListView,
+  FlatList,
   Dimensions,
 } from 'react-native';
 import dismissKeyboard from 'dismissKeyboard';
@@ -15,9 +15,6 @@ import PXTouchable from './PXTouchable';
 import Separator from './Separator';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1, 
-  },
   listItemContainer: {
     padding: 10,
     flexDirection: 'row',
@@ -28,7 +25,7 @@ const styles = StyleSheet.create({
     paddingRight: 10
   },
   separator: {
-    flex: 1,
+    //flex: 1,
     height: StyleSheet.hairlineWidth,
     backgroundColor: '#8E8E8E',
   },
@@ -46,35 +43,7 @@ const styles = StyleSheet.create({
 });
 
 class SearchHistory extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-      })
-    };
-  }
-
-  componentDidMount() {
-    const { items } = this.props;
-    const { dataSource } = this.state;
-    this.setState({
-      dataSource: dataSource.cloneWithRows(items)
-    });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { items: prevItems } = this.props;
-    const { items } = nextProps;
-    if (items !== prevItems) {
-      const { dataSource } = this.state;
-      this.setState({
-        dataSource: dataSource.cloneWithRows(items)
-      });
-    }
-  }
-
-  renderRow = (item) => {
+  renderItem = ({ item }) => {
     const { onPressItem, onPressRemoveSearchHistoryItem } = this.props;
     return (
       <View style={styles.listItemContainer} key={item}>
@@ -94,36 +63,23 @@ class SearchHistory extends Component {
     )
   }
 
-  renderSeparator = (sectionId, rowId) => {
-    return (
-      <Separator key={`${sectionId}-${rowId}`} />
-    )
-  }
-
   render() {
     const { items, onPressClearSearchHistory } = this.props;
-    const { dataSource } = this.state;
     return (
-      <View style={styles.container}>
+      <View>
         <View style={styles.searchHistoryContainer}>
           <Text style={styles.searchHistoryTitle}>Search history</Text>
           <PXTouchable onPress={onPressClearSearchHistory}>
             <Text style={styles.searchHistoryTitle}>CLEAR ALL</Text>
           </PXTouchable>
         </View>
-        {
-          (items && items.length) ?
-          <ListView 
-            dataSource={dataSource}
-            renderRow={this.renderRow}
-            renderSeparator={this.renderSeparator}
-            enableEmptySections={true}
-            keyboardShouldPersistTaps="always"
-            onScroll={dismissKeyboard}
-          />
-          :
-          null
-        }
+        <FlatList
+          data={items}
+          keyExtractor={(item, index) => item}
+          renderItem={this.renderItem}
+          ItemSeparatorComponent={Separator}
+          keyboardShouldPersistTaps="always"
+        />
       </View>
     );
   }
