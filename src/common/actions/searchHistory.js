@@ -1,18 +1,17 @@
-export const ADD_SEARCH_HISTORY = 'ADD_SEARCH_HISTORY';
-export const REMOVE_SEARCH_HISTORY = 'REMOVE_SEARCH_HISTORY';
-export const CLEAR_SEARCH_HISTORY = 'CLEAR_SEARCH_HISTORY';
+import { SEARCH_HISTORY } from '../constants/actionTypes';
 
 export function addSearchHistory(item) {
   return {
-    type: ADD_SEARCH_HISTORY,
+    type: SEARCH_HISTORY.ADD,
     payload: {
       item
     }
   }
 }
+
 export function removeSearchHistory(item) {
   return {
-    type: REMOVE_SEARCH_HISTORY,
+    type: SEARCH_HISTORY.REMOVE,
     payload: {
       item
     }
@@ -21,6 +20,6 @@ export function removeSearchHistory(item) {
 
 export function clearSearchHistory() {
   return {
-    type: CLEAR_SEARCH_HISTORY,
+    type: SEARCH_HISTORY.CLEAR,
   }
 }

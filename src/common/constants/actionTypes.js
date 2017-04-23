@@ -1,5 +1,5 @@
 import { defineAction } from 'redux-define';
-import { REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL } from './stateConstants';
+import { REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL, ADD, REMOVE } from './stateConstants';
 
 const appNamespace = defineAction('PIXIV');
 
@@ -71,3 +71,6 @@ export const SEARCH_AUTOCOMPLETE = defineAction('SEARCH_AUTOCOMPLETE',
 
 export const SEARCH_USERS_AUTOCOMPLETE = defineAction('SEARCH_USERS_AUTOCOMPLETE',
 	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);	
+
+export const SEARCH_HISTORY = defineAction('SEARCH_HISTORY',
+	[ADD, REMOVE, CLEAR], appNamespace);	
