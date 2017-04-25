@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
 import OverlayImagePages from './OverlayImagePages';
-import OverlayBookmarkButtonContainer from '../containers/OverlayBookmarkButtonContainer';
+import OverlayBookmarkButton from '../components/OverlayBookmarkButton';
 
 const windowWidth = Dimensions.get('window').width; //full width
 const windowHeight = Dimensions.get('window').height; //full height
@@ -101,7 +101,7 @@ const IllustCollection = (props) => {
                     :
                     null
                   }
-                  <OverlayBookmarkButtonContainer item={item} />
+                  <OverlayBookmarkButton item={item} />
                 </View>
               </PXTouchable>
             )

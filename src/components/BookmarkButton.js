@@ -16,21 +16,7 @@ import modalType from '../common/constants/modalType';
 
 const AnimatableIcon = Animatable.createAnimatableComponent(Icon);
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'rgba(0, 0, 0, 0)',
-    bottom: 0,
-    right: 0,
-    position: 'absolute',
-    justifyContent: 'center',
-    paddingHorizontal: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 5, 
-  }
-});
-
-class OverlayBookmarkButtonContainer extends Component {
+class BookmarkButton extends Component {
   static propTypes = {
     authUser: PropTypes.object,
     item: PropTypes.object.isRequired,
@@ -126,7 +112,7 @@ class OverlayBookmarkButtonContainer extends Component {
   }
 
   render() {
-    const { onPress, onLongPress } = this.props;
+    const { onPress, onLongPress, size } = this.props;
     const { isBookmark, scaleAnim } = this.state;
     const color = isBookmark ? 'rgb(255,102,102)' : 'rgb(210, 212, 216)';
     const scale = scaleAnim.interpolate({
@@ -138,21 +124,18 @@ class OverlayBookmarkButtonContainer extends Component {
     //   outputRange: ['rgb(210, 212, 216)', 'rgb(255,102,102)']
     // })
     return (
-      <View style={styles.container}>
-        <AnimatableIcon
-          name="favorite"
-          ref={(ref) => this.view = ref} 
-          style={{
-            color,
-            transform: [{
-              scale: scale
-            }]
-          }} 
-          size={25} 
-          onPress={this.handleOnPress} 
-          onLongPress={this.handleOnLongPress}
-        />
-      </View>
+      <AnimatableIcon
+        name="favorite"
+        style={{
+          color,
+          transform: [{
+            scale: scale
+          }]
+        }} 
+        size={size || 25} 
+        onPress={this.handleOnPress} 
+        onLongPress={this.handleOnLongPress}
+      />
     );
   }
 }
@@ -161,4 +144,4 @@ export default withNavigation(connect((state, props) => {
   return {
     authUser: state.auth.user
   }
-}, { ...bookmarkIllustActionCreators, ...modalActionCreators })(OverlayBookmarkButtonContainer));
+}, { ...bookmarkIllustActionCreators, ...modalActionCreators })(BookmarkButton));

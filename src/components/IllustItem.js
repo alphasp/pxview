@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
 import OverlayImagePages from './OverlayImagePages';
-import OverlayBookmarkButtonContainer from '../containers/OverlayBookmarkButtonContainer';
+import OverlayBookmarkButton from '../components/OverlayBookmarkButton';
 
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
@@ -44,7 +44,7 @@ class IllustItem extends Component {
           :
           null
         }
-        <OverlayBookmarkButtonContainer item={item} />
+        <OverlayBookmarkButton item={item} />
       </PXTouchable>
     );
   }

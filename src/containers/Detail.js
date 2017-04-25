@@ -15,13 +15,18 @@ import {
   Linking,
   Navigator,
   Animated,
+  LayoutAnimation,
+  UIManager
 } from 'react-native';
 import { connect } from 'react-redux';
 import HtmlView from 'react-native-htmlview';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import * as Animatable from 'react-native-animatable';
 import Share, { ShareSheet, Button } from 'react-native-share';
+import ActionButton from 'react-native-action-button';
 import { denormalize } from 'normalizr';
+import BookmarkButton from '../components/BookmarkButton';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
 import FollowButtonContainer from './FollowButtonContainer';
@@ -180,8 +185,15 @@ class Detail extends Component {
     this.state = { 
       mounting: true,
       isInitState: true,
+      isActionButtonVisible: true,
+      relatedIllustsViewPosition: null,
+      footerViewHeight: null,
       images
     };
+    this.listViewOffset = 0;
+    if (Platform.OS === 'android') {
+      UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
   }
 
   componentDidMount() {
@@ -231,7 +243,7 @@ class Detail extends Component {
   renderFooter = () => {
     const { item, navigation, screenProps } = this.props;
     return (
-      <View>
+      <View onLayout={this.handleOnLayoutFooter}>
         <View style={styles.infoContainer}>
           <View style={styles.profileContainer}>
             <PXTouchable 
@@ -269,10 +281,10 @@ class Detail extends Component {
           <IllustComments illustId={item.id} isFeatureInDetailPage={true} maxItems={6} navigation={navigation} />
         </View>
         {
-          <View>
+          <View onLayout={this.handleOnLayoutRelatedIllusts}>
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>Related Works</Text>
-              <PXTouchable onPress={this.handleOnPressViewMoreRelatedIllust}>
+              <PXTouchable onPress={this.handleOnPressViewMoreRelatedIllusts}>
                 <View style={styles.viewMoreContainer}>
                   <Text>View More</Text>
                   <Icon name="chevron-right" style={styles.chevronIcon} />
@@ -329,7 +341,7 @@ class Detail extends Component {
     }
   }
 
-  handleOnScroll = () => {
+  handleOnScrollMultiImagesList = () => {
     const { isInitState, isScrolling } = this.state;
     if (isInitState) {
       this.setState({
@@ -347,12 +359,35 @@ class Detail extends Component {
     }, 2000);
   }
 
-  // handleOnEndReached = () => {
-  //   console.log('end reached')
-  //   // this.setState({
-  //   //   endReached: true
-  //   // });
-  // }
+  handleOnScroll = (e) => {
+    const { item } = this.props;
+    if (item.page_count > 1) {
+      this.handleOnScrollMultiImagesList();
+    }
+    // const { isActionButtonVisible, relatedIllustsViewPosition } = this.state;
+    // Simple fade-in / fade-out animation
+    const CustomLayoutLinear = {
+      duration: 100,
+      create: { type: LayoutAnimation.Types.linear, property: LayoutAnimation.Properties.opacity },
+      update: { type: LayoutAnimation.Types.linear, property: LayoutAnimation.Properties.opacity },
+      delete: { type: LayoutAnimation.Types.linear, property: LayoutAnimation.Properties.opacity }
+    }
+    // Check if the user is scrolling up or down by confronting the new scroll position with your own one
+    const currentOffset = e.nativeEvent.contentOffset.y;
+    const contentHeight = e.nativeEvent.contentSize.height;
+    const direction = (currentOffset > 0 && currentOffset > this.listViewOffset)
+      ? 'down'
+      : 'up'
+    const layoutHeight = e.nativeEvent.layoutMeasurement.height;
+    const offsetToHide = (contentHeight - this.state.footerViewHeight + (this.state.relatedIllustsViewPosition - layoutHeight));
+    // If the user is scrolling down (and the action-button is still visible) hide it
+    const isActionButtonVisible = direction === 'up' && ((currentOffset < offsetToHide) || currentOffset === 0)
+    if (isActionButtonVisible !== this.state.isActionButtonVisible) {
+      LayoutAnimation.configureNext(CustomLayoutLinear)
+      this.setState({ isActionButtonVisible })
+    }
+    this.listViewOffset = currentOffset;
+  }
   
   handleOnLinkPress = (url) => {
     console.log('clicked link: ', url)
@@ -385,7 +420,7 @@ class Detail extends Component {
     });
   }
 
-  handleOnPressViewMoreRelatedIllust = () => {
+  handleOnPressViewMoreRelatedIllusts = () => {
     const { item, navigation: { navigate } } = this.props;
     navigate('RelatedIllusts', {
       illustId: item.id,
@@ -393,10 +428,24 @@ class Detail extends Component {
     });
   }
 
+  handleOnLayoutRelatedIllusts = (e) => {
+    console.log('handleOnLayoutRelatedIllusts ', e.nativeEvent.layout)
+    this.setState({
+      relatedIllustsViewPosition: e.nativeEvent.layout.y
+    })
+  }
+
+  handleOnLayoutFooter = (e) => {
+    console.log('handleOnLayoutFooter ', e.nativeEvent.layout)
+    this.setState({
+      footerViewHeight: e.nativeEvent.layout.height
+    })
+  }
+
   render() {
     const { item, navigation } = this.props;
     const { isShowBottomSheet } = navigation.state.params;
-    const { mounting, imagePageNumber, isScrolling, isInitState, images } = this.state;
+    const { mounting, imagePageNumber, isScrolling, isActionButtonVisible, isInitState, images } = this.state;
     return (
       <View style={styles.container} ref={(ref) => this.detailView = ref }>
         {
@@ -417,6 +466,7 @@ class Detail extends Component {
                 onScroll={this.handleOnScroll}
                 onViewableItemsChanged={this.handleOnViewableItemsChanged}
               />
+              
             </View>
             {
               (isInitState || isScrolling) && imagePageNumber &&
@@ -426,7 +476,7 @@ class Detail extends Component {
             }
           </View>
           :
-          <ScrollView>
+          <ScrollView onScroll={this.handleOnScroll} scrollEventThrottle={16}>
             <PXCacheImageTouchable 
               uri={item.image_urls.large}    
               initWidth={item.width > windowWidth ? windowWidth : item.width}
@@ -441,6 +491,15 @@ class Detail extends Component {
             />
             {this.renderFooter()}
           </ScrollView>
+        }
+        {
+          isActionButtonVisible &&
+          <ActionButton
+            buttonColor="rgba(255,255,255,1)"
+            icon={
+              <BookmarkButton item={item} />
+            }
+          />
         }
       </View>
     );
