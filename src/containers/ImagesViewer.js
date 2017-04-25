@@ -65,23 +65,20 @@ const styles = StyleSheet.create({
 });
 
 class ImagesViewer extends Component {
-  static navigationOptions = {
-    header: (navigation, defaultHeader) => {
-      const { openBottomSheet } = navigation.state.params;
-      return {
-        ...defaultHeader,
-        right: (
-          <PXTouchable onPress={openBottomSheet}>
-            <Icon 
-              name="ellipsis-v" 
-              size={20} 
-              style={{paddingVertical: 10, paddingHorizontal: 20}}
-            />
-          </PXTouchable>
-        )
-      }
+  static navigationOptions = ({ navigation }) => {
+    const { openBottomSheet } = navigation.state.params;
+    return {
+      headerRight: (
+        <PXTouchable onPress={openBottomSheet}>
+          <Icon 
+            name="ellipsis-v" 
+            size={20} 
+            style={{paddingVertical: 10, paddingHorizontal: 20}}
+          />
+        </PXTouchable>
+      )
     }
-  }
+  };
 
   constructor(props) {
     super(props);

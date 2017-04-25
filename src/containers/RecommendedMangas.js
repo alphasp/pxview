@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { denormalize } from 'normalizr';
 import IllustList from '../components/IllustList';
 import * as recommendedMangasActionCreators from '../common/actions/recommendedMangas';
-import { getRecommendedMangaItems } from '../common/selectors';
+import { getRecommendedMangasItems } from '../common/selectors';
 
 class RecommendedMangas extends Component {
   componentDidMount() {
@@ -49,6 +49,6 @@ export default connect((state, props) => {
   const { recommendedMangas } = state;
   return {
     recommendedMangas,
-    items: getRecommendedMangaItems(state, props),
+    items: getRecommendedMangasItems(state, props),
   }
 }, recommendedMangasActionCreators)(RecommendedMangas);
