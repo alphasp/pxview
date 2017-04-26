@@ -1,6 +1,5 @@
 import { 
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT,
-  REFRESH_TOKEN_REQUEST, REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_FAILURE,
   AUTH_REHYDRATE_DONE
 } from '../actions/auth';
 import { REHYDRATE } from 'redux-persist/constants';
@@ -62,27 +61,6 @@ export default function auth(state = {
       return {
         ...state,
         rehydrated: true
-      }
-    case REFRESH_TOKEN_REQUEST:
-      return {
-        ...state,
-        refreshTokenPromise: action.payload.refreshTokenPromise,
-      };
-    case REFRESH_TOKEN_SUCCESS:
-      return {
-        ...state,
-        user: action.payload.user,
-        timestamp: Date.now(),
-        refreshTokenPromise: null,
-        //refreshTokenPromise: Promise.resolve(),
-      }
-    case REFRESH_TOKEN_FAILURE: 
-      return {
-        ...state,
-        user: null,
-        timestamp: Date.now(),
-        refreshTokenPromise: null,
-        //refreshTokenPromise: Promise.resolve(),
       }
     default:
       return state;

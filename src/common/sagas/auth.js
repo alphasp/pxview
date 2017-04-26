@@ -5,11 +5,10 @@ import {
   LOGIN_SUCCESS,
   LOGIN_ERROR,
   LOGOUT,
-  REFRESH_TOKEN_REQUEST,
-  requestLogin,
+  login,
   successLogin,
   failedLogin,
-  logUserOut,
+  logout,
   doneRehydrate
 } from '../actions/auth.js'
 import * as Keychain from 'react-native-keychain';
@@ -35,7 +34,12 @@ export function* authAndRefreshTokenOnExpiry(email, password) {
       //convert expires in to milisecond
       const delayMilisecond = (loginResponse.expires_in - 300) * 1000;
       yield call(delay, delayMilisecond)
-      yield call(authorize, credentials.username, credentials.password) 
+      try {
+        yield call(authorize, credentials.username, credentials.password) 
+      }
+      catch (err) {
+        yield put(logout());
+      }
     }
   }
 }
@@ -78,7 +82,7 @@ export function* watchRehydrate() {
       if (user) {
         console.log('watchRehydrate login')
         const credentials  = yield call(Keychain.getGenericPassword);
-        yield put(requestLogin(credentials.username, credentials.password));
+        yield put(login(credentials.username, credentials.password));
         yield take([
           LOGIN_SUCCESS,
           LOGIN_ERROR

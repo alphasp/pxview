@@ -91,6 +91,10 @@ const MainNavigator = TabNavigator({
     showIcon: true,
     showLabel: true,
     bottomNavigationOptions: {
+      style: {
+        borderTopWidth: 0,
+        elevation: 8,
+      },
       labelColor: 'rgb(59,89,152)',
       tabs: {
         HomeTab: {
