@@ -7,30 +7,10 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import { TabBar } from 'react-native-tab-view';
 import PXTabView from '../components/PXTabView';
 import RankingList from './RankingList';
 import PastRanking from './PastRanking';
 import { RANKING_FOR_UI } from '../common/constants/rankingTypes';
-
-const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // backgroundColor: '#F5FCFF',
-    ...Platform.select({
-      ios: {
-        marginTop: 15
-      },
-    }),
-  },
-  tabBar: {
-    paddingTop: STATUSBAR_HEIGHT,
-  }
-});
 
 class Ranking extends Component {
   constructor(props) {
@@ -78,40 +58,17 @@ class Ranking extends Component {
     };
   }
 
-  renderHeader = (props) => {
-    return (
-      <TabBar
-        style={styles.tabBar}
-        tabStyle={{width: 100}}
-        {...props}
-        scrollEnabled
-      />
-    );
-  };
-
   render() {
     return (
       <PXTabView
         navigationState={this.state}
         renderScene={this.renderScene}
         onRequestChangeTab={this.handleChangeTab}
-        renderHeader={this.renderHeader}
+        tabBarProps={{
+          scrollEnabled: true
+        }}
+        includeStatusBarPadding
       />
-      /*<View style={styles.container}>
-        <ScrollableTabView 
-          ref={(ref) => this.tabs = ref} 
-          renderTabBar={() => <ScrollableTabBar />}
-        >
-          <RankingList tabLabel={strings.day_ranking} rankingMode={RANKING_FOR_UI.DAILY} />
-          <RankingList tabLabel={strings.day_male_ranking} rankingMode={RANKING_FOR_UI.DAILY_MALE} />
-          <RankingList tabLabel={strings.day_female_ranking} rankingMode={RANKING_FOR_UI.DAILY_FEMALE} />
-          <RankingList tabLabel={strings.week_original_ranking} rankingMode={RANKING_FOR_UI.WEEKLY_ORIGINAL} />
-          <RankingList tabLabel={strings.week_rookie_ranking} rankingMode={RANKING_FOR_UI.WEEKLY_ROOKIE} />
-          <RankingList tabLabel={strings.week_ranking} rankingMode={RANKING_FOR_UI.WEEKLY} />
-          <RankingList tabLabel={strings.month_ranking} rankingMode={RANKING_FOR_UI.MONTHLY} />
-          <PastRanking tabLabel={strings.past_ranking}  {...this.props} />
-        </ScrollableTabView>
-      </View>*/
     );
   }
 }

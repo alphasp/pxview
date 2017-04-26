@@ -21,7 +21,7 @@ import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
 import OverlayImagePages from './OverlayImagePages';
-import OverlayBookmarkButtonContainer from '../containers/OverlayBookmarkButtonContainer';
+import OverlayBookmarkButton from '../components/OverlayBookmarkButton';
 import BookmarkModal from '../containers/BookmarkModal';
 import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
 
@@ -111,7 +111,7 @@ class IllustList extends Component {
             legacyImplementation={false}
             debug={false}
             disableVirtualization={false}
-            removeClippedSubviews={true}
+            removeClippedSubviews={false}
             initialNumToRender={4}
             onEndReachedThreshold={0.1}
             onEndReached={loadMoreItems}

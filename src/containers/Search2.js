@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import debounce from 'lodash.debounce';
-import { TabBar } from 'react-native-tab-view';
 import PXTabView from '../components/PXTabView';
 import SearchAutoCompleteResult from './SearchAutoCompleteResult';
 import SearchUsersAutoCompleteResult from './SearchUsersAutoCompleteResult';
@@ -62,12 +61,6 @@ class Search2 extends Component {
       setSearchType(SearchType.ILLUST);
     }
   };
-
-  renderHeader = (props) => {
-    return (
-      <TabBar {...props} />
-    );
-  }
 
   renderScene = ({ route, index }) => {
     const { word, searchAutoComplete, searchUsersAutoComplete, searchHistory } = this.props;
@@ -168,7 +161,6 @@ class Search2 extends Component {
             searchHistory,
             searchType
           }}
-          renderHeader={this.renderHeader}
           renderScene={this.renderScene}
           onRequestChangeTab={this.handleChangeTab}
           lazy={false}

@@ -7,31 +7,45 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+import PXTabView from '../components/PXTabView';
 import UserIllusts from './UserIllusts';
 import UserMangas from './UserMangas';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    ...Platform.select({
-      ios: {
-        marginTop: 15
-      },
-    }),
-  },
-});
-
 class MyWorks extends Component {
-  render() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      index: 0,
+      routes: [
+        { key: '1', title: 'Illustration' },
+        { key: '2', title: 'Manga' },
+      ],
+    };
+  }
+  
+  handleChangeTab = (index) => {
+    this.setState({ index });
+  };
+
+  renderScene = ({ route }) => {
     const { userId } = this.props.navigation.state.params;
+    switch (route.key) {
+      case '1':
+        return <UserIllusts tabLabel="Illustrations" userId={userId} />
+      case '2':
+        return <UserMangas tabLabel="Manga" userId={userId} />
+      default:
+        return null;
+    };
+  }
+
+  render() {
     return (
-      <View style={styles.container}>
-        <ScrollableTabView>
-          <UserIllusts tabLabel="Illustrations" userId={userId} />
-          <UserMangas tabLabel="Manga" userId={userId} />
-        </ScrollableTabView>
-      </View>
+      <PXTabView
+        navigationState={this.state}
+        renderScene={this.renderScene}
+        onRequestChangeTab={this.handleChangeTab}
+      />
     );
   }
 }

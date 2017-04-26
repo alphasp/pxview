@@ -18,21 +18,38 @@ const styles = StyleSheet.create({
 });
 
 class PXTabView extends Component {
+  static defaultProps = {
+    lazy: true
+  };
+
+  renderHeader = (props) => {
+    const { includeStatusBarPadding, tabBarProps } = this.props;
+    return (
+      <TabBar 
+        style={{
+          paddingTop: includeStatusBarPadding ? STATUSBAR_HEIGHT : 0
+        }}
+        {...tabBarProps}
+        {...props} 
+      />
+    );
+  }
+
   renderPager = (props) => {
    return (Platform.OS === 'ios') ? <TabViewPagerScroll {...props} /> : <TabViewPagerPan {...props} />
   }
 
   render() {
-    const { screenProps, navigationState, renderHeader, renderScene, onRequestChangeTab, ...restProps } = this.props;
+    const { screenProps, navigationState, renderScene, onRequestChangeTab, lazy, ...restProps } = this.props;
     return (
       <TabViewAnimated
         style={styles.container}
         navigationState={navigationState}
         renderScene={renderScene}
-        renderHeader={renderHeader}
+        renderHeader={this.renderHeader}
         renderPager={this.renderPager}
         onRequestChangeTab={onRequestChangeTab}
-        lazy
+        lazy={lazy}
         {...restProps}
       />
     );

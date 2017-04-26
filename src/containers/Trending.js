@@ -12,7 +12,6 @@ import { CardStack } from 'react-navigation';
 //import { HeaderBackButton } from 'react-navigation';
 import HeaderBackButton from 'react-navigation/src/views/HeaderBackButton';
 // const { BackButton } = CardStack.Header;
-import { TabBar } from 'react-native-tab-view';
 import PXTabView from '../components/PXTabView';
 import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
@@ -81,11 +80,6 @@ class Trending extends Component {
     }
   };
 
-  renderHeader = (props) => {
-    return (
-      <TabBar {...props} />
-    );
-  }
   renderScene = ({ route }) => {
     const { navigation, screenProps } = this.props;
     switch (route.key) {
@@ -142,7 +136,6 @@ class Trending extends Component {
         <View style={styles.content}>
           <PXTabView
             navigationState={this.state}
-            renderHeader={this.renderHeader}
             renderScene={this.renderScene}
             onRequestChangeTab={this.handleChangeTab}
           />

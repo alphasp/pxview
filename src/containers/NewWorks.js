@@ -8,32 +8,12 @@ import {
   Platform,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { TabBar } from 'react-native-tab-view';
 import FollowingUserIllusts from './FollowingUserIllusts';
 import NewIllusts from './NewIllusts';
 import NewMangas from './NewMangas';
 import MyPixiv from './MyPixiv';
 import Login from './Login';
 import PXTabView from '../components/PXTabView';
-
-const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // backgroundColor: '#F5FCFF',
-    ...Platform.select({
-      ios: {
-        marginTop: 15
-      },
-    }),
-  },
-  tabBar: {
-    paddingTop: STATUSBAR_HEIGHT
-  }
-});
 
 class PageWrapper extends Component {
   constructor(props) {
@@ -107,16 +87,6 @@ class NewWorks extends Component {
     this.setState({ index });
   };
 
-  renderHeader = (props) => {
-    return (
-      <TabBar
-        style={styles.tabBar}
-        {...props}
-        scrollEnabled
-      />
-    );
-  };
-
   renderScene = ({ route, index }) => {
     const { navigation, screenProps } = this.props;
     console.log('index ', index)
@@ -156,8 +126,9 @@ class NewWorks extends Component {
       <PXTabView
         navigationState={this.state}
         renderScene={this.renderScene}
-        renderHeader={this.renderHeader}
         onRequestChangeTab={this.handleChangeTab}
+        includeStatusBarPadding
+        tabBarProps={{scrollEnabled: true}}
       />
     );
   }

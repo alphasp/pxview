@@ -429,14 +429,12 @@ class Detail extends Component {
   }
 
   handleOnLayoutRelatedIllusts = (e) => {
-    console.log('handleOnLayoutRelatedIllusts ', e.nativeEvent.layout)
     this.setState({
       relatedIllustsViewPosition: e.nativeEvent.layout.y
     })
   }
 
   handleOnLayoutFooter = (e) => {
-    console.log('handleOnLayoutFooter ', e.nativeEvent.layout)
     this.setState({
       footerViewHeight: e.nativeEvent.layout.height
     })

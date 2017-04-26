@@ -16,7 +16,6 @@ import {
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import HeaderBackButton from 'react-navigation/src/views/HeaderBackButton';
-import { TabBar } from 'react-native-tab-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Search2 from './Search2';
 import PXHeader from '../components/PXHeader';
@@ -209,11 +208,6 @@ class SearchResultTabs extends Component {
     return true;
   }
 
-  renderHeader = (props) => {
-    return (
-      <TabBar {...props} />
-    );
-  }
   renderScene = ({ route }) => {
     const { word, navigation, navigationStateKey } = this.props;
     const { searchOptions } = this.state;
@@ -276,7 +270,6 @@ class SearchResultTabs extends Component {
               navigation,
               navigationStateKey
             }}
-            renderHeader={this.renderHeader}
             renderScene={this.renderScene}
             onRequestChangeTab={this.handleChangeTab}
           />
