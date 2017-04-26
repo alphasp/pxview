@@ -5,10 +5,9 @@ import {
   InteractionManager
 } from 'react-native';
 import { connect } from 'react-redux';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
 import IllustList from '../components/IllustList';
 import * as userBookmarkIllustActionCreators from '../common/actions/userBookmarkIllusts';
-import Schemas from '../common/constants/schemas';
+import { makeGetUserBookmarkIllustsItems } from '../common/selectors';
 
 class UserBookmarkIllusts extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -53,10 +52,10 @@ class UserBookmarkIllusts extends Component {
   }
 
   render() {
-    const { userBookmarkIllusts, userId } = this.props;
+    const { userBookmarkIllusts, items, userId } = this.props;
     return (
       <IllustList
-        data={userBookmarkIllusts}
+        data={{...userBookmarkIllusts, items}}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -64,11 +63,15 @@ class UserBookmarkIllusts extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { entities, userBookmarkIllusts } = state;
-  const userId = props.userId || props.navigation.state.params.userId;
-  return {
-    userBookmarkIllusts: denormalizedData(userBookmarkIllusts[userId], 'items', Schemas.ILLUST_ARRAY, entities),
-    userId
+export default connect(() => {
+  const getUserBookmarkIllustsItems = makeGetUserBookmarkIllustsItems();
+  return (state, props) => {
+    const { userBookmarkIllusts } = state;
+    const userId = props.userId || props.navigation.state.params.userId;
+    return {
+      userBookmarkIllusts: userBookmarkIllusts[userId],
+      items: getUserBookmarkIllustsItems(state, props),
+      userId
+    }
   }
 }, userBookmarkIllustActionCreators)(UserBookmarkIllusts);

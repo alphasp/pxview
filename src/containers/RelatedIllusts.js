@@ -12,7 +12,7 @@ import {
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import * as relatedIllustsActionCreators from '../common/actions/relatedIllusts';
-import { getRelatedIllustsItems } from '../common/selectors';
+import { makeGetRelatedIllustsItems } from '../common/selectors';
 
 const styles = StyleSheet.create({
   nullResultContainer: {
@@ -68,12 +68,16 @@ class RelatedIllusts extends Component {
 
 const defaultItems = [];
 
-export default connect((state, props) => {
-  const { relatedIllusts } = state;
-  const illustId = props.illustId || props.navigation.state.params.illustId;
-  return {
-    relatedIllusts: relatedIllusts[illustId],
-    items: getRelatedIllustsItems(state, props),
-    illustId
+
+export default connect(() => {
+  const getRelatedIllustsItems = makeGetRelatedIllustsItems();
+  return (state, props) => {
+    const { relatedIllusts } = state;
+    const illustId = props.illustId || props.navigation.state.params.illustId;
+    return {
+      relatedIllusts: relatedIllusts[illustId],
+      items: getRelatedIllustsItems(state, props),
+      illustId
+    }
   }
 }, relatedIllustsActionCreators)(RelatedIllusts);

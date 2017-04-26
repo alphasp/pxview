@@ -61,6 +61,8 @@ const selectFollowingUserIllusts = state => state.followingUserIllusts;
 const selectNewIllusts = state => state.newIllusts;
 const selectNewMangas = state => state.newMangas;
 const selectMyPixiv = state => state.myPixiv;
+const selectUserBookmarkIllusts = state => state.userBookmarkIllusts;
+const selectMyPrivateBookmarkIllusts = state => state.myPrivateBookmarkIllusts;
 
 const defaultArray = [];
 
@@ -93,6 +95,25 @@ export const makeGetSearchItems = () => {
   });
 }
 
+export const makeGetRelatedIllustsItems = () => {
+  return createIllustItemsSelector([selectRelatedIllusts, selectEntities, getProps], (relatedIllusts, entities, props) => {
+    const illustId = props.illustId || props.navigation.state.params.illustId;
+    return relatedIllusts[illustId] ?
+      denormalize(relatedIllusts[illustId].items, Schemas.ILLUST_ARRAY, entities)
+      :
+      defaultArray;
+  });
+}
+
+export const makeGetUserBookmarkIllustsItems = () => {
+  return createIllustItemsSelector([selectUserBookmarkIllusts, selectEntities, getProps], (userBookmarkIllusts, entities, props) => {
+    const userId = props.userId || props.navigation.state.params.userId;
+    return userBookmarkIllusts[userId] ? 
+      denormalize(userBookmarkIllusts[userId].items, Schemas.ILLUST_ARRAY, entities)
+      :
+      defaultArray;
+  });
+}
 // const getIntermediateRankingItems = createIllustItemsSelector([selectRanking, selectEntities, getProps], (ranking, entities, props) => {
 //   return denormalize(ranking[props.rankingMode].items, Schemas.ILLUST_ARRAY, entities)
 // });
@@ -121,12 +142,8 @@ export const getMyPixivItems = createIllustItemsSelector([selectMyPixiv, selectE
   return denormalize(myPixiv.items, Schemas.ILLUST_ARRAY, entities)
 });
 
-export const getRelatedIllustsItems = createSelector([selectRelatedIllusts, selectEntities, getProps], (relatedIllusts, entities, props) => {
-  const illustId = props.illustId || props.navigation.state.params.illustId;
-  return relatedIllusts[illustId] ?
-    denormalize(relatedIllusts[illustId].items, Schemas.ILLUST_ARRAY, entities)
-    :
-    defaultArray;
+export const getMyPrivateBookmarkIllustsItems = createIllustItemsSelector([selectMyPrivateBookmarkIllusts, selectEntities], (myPrivateBookmarkIllusts, entities) => {
+  return denormalize(myPrivateBookmarkIllusts.items, Schemas.ILLUST_ARRAY, entities)
 });
 
 export const getTrendingIllustTagsItems = createSelector([selectTrendingIllustTags, selectEntities], (trendingIllustTags, entities) => {

@@ -11,8 +11,7 @@ import {
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import * as myPrivateBookmarkIllustActionCreators from '../common/actions/myPrivateBookmarkIllusts';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
-import Schemas from '../common/constants/schemas';
+import { getMyPrivateBookmarkIllustsItems } from '../common/selectors';
 
 class MyPrivateBookmarkIllusts extends Component {
   componentDidMount() {
@@ -46,10 +45,11 @@ class MyPrivateBookmarkIllusts extends Component {
   }
 
   render() {
-    const { myPrivateBookmarkIllusts } = this.props;
+    const { myPrivateBookmarkIllusts, items } = this.props;
+    console.log('getMyPrivateBookmarkIllustsItems')
     return (
       <IllustList
-        data={myPrivateBookmarkIllusts}
+        data={{...myPrivateBookmarkIllusts, items}}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -58,10 +58,11 @@ class MyPrivateBookmarkIllusts extends Component {
 }
 
 export default connect((state, props) => {
-  const { entities, myPrivateBookmarkIllusts } = state;
+  const { myPrivateBookmarkIllusts } = state;
   const userId = props.userId || props.navigation.state.params.userId;
   return {
-    myPrivateBookmarkIllusts: denormalizedData(myPrivateBookmarkIllusts, 'items', Schemas.ILLUST_ARRAY, entities),
+    myPrivateBookmarkIllusts,
+    items: getMyPrivateBookmarkIllustsItems(state),
     userId
   }
 }, myPrivateBookmarkIllustActionCreators)(MyPrivateBookmarkIllusts);
