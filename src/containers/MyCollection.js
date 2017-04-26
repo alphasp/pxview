@@ -7,9 +7,9 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from '../components/PXTouchable';
+import PXTabView from '../components/PXTabView';
 import TagsFilterModal from './TagsFilterModal';
 import MyPrivateBookmarkIllusts from './MyPrivateBookmarkIllusts';
 import UserBookmarkIllusts from './UserBookmarkIllusts';
@@ -18,14 +18,6 @@ import { TagType } from '../common/actions/bookmarkTag';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // backgroundColor: '#F5FCFF',
-    ...Platform.select({
-      ios: {
-        marginTop: 15
-      },
-    }),
   },
 });
 
@@ -50,22 +42,36 @@ class MyCollection extends Component {
 
   constructor(props) {
     super(props);
-    //this.offset = 0;
     this.state = { 
-      currentTabIndex: 0,
+      index: 0,
+      routes: [
+        { key: '1', title: 'Illustrations (Public)' },
+        { key: '2', title: 'Illustrations (Private)' },
+      ],
       //isShowFilterButton: true,
       isOpenFilterModal: false,
       selectedPublicTag: '',
       selectedPrivateTag: '',
     };
   }
+  
+  handleChangeTab = (index) => {
+    this.setState({ index });
+  };
 
-  // handleOnPressFilterButton = () => {
-  //   const { navigation: { setParams } } = this.props;
-  //   setParams({
-  //     isOpenFilterModal: true 
-  //   });
-  // }
+  renderScene = ({ route }) => {
+    const { userId } = this.props.navigation.state.params;
+    const { selectedPublicTag, selectedPrivateTag } = this.state;
+    switch (route.key) {
+      case '1':
+        return <UserBookmarkIllusts  userId={userId} tag={selectedPublicTag} reload={true} />
+      case '2':
+        return <MyPrivateBookmarkIllusts  userId={userId} tag={selectedPrivateTag} />
+      default:
+        return null;
+    };
+  }
+
 
   handleOnPressCloseFilterButton = () => {
     const { navigation: { setParams } } = this.props;
@@ -76,10 +82,10 @@ class MyCollection extends Component {
 
   handleOnSelectTag = (tag) => {
     const { navigation: { setParams } } = this.props;
-    const { currentTabIndex } = this.state;
-    console.log(currentTabIndex, tag)
+    const { index } = this.state;
+    console.log(index, tag)
     newState = {};
-    if (currentTabIndex === 0) {
+    if (index === 0) {
       newState.selectedPublicTag = tag;
     }
     else {
@@ -91,40 +97,18 @@ class MyCollection extends Component {
     this.setState(newState);
   }
 
-  handleOnChangeTab = ({ i, ref }) => {
-    this.setState({
-      currentTabIndex: i
-    })
-  }
-
-  // handleOnScroll = (e) => {
-  //   console.log('e ', e.nativeEvent.contentOffset.y);
-  //   const currentOffset = e.nativeEvent.contentOffset.y;
-  //   if (currentOffset > this.offset) {
-  //     this.setState({
-  //       isShowFilterButton: false
-  //     });
-  //   }
-  //   else {
-  //     this.setState({
-  //       isShowFilterButton: true
-  //     });
-  //   }
-  //   this.offset = currentOffset;
-  // }
-
   render() {
     const { userId, isOpenFilterModal} = this.props.navigation.state.params;
-    console.log('open ', isOpenFilterModal)
-    const { currentTabIndex, isShowFilterButton, selectedPublicTag, selectedPrivateTag } = this.state;
+    const { index, isShowFilterButton, selectedPublicTag, selectedPrivateTag } = this.state;
     return (
       <View style={styles.container}>
-        <ScrollableTabView ref={(ref) => this.tabs = ref} onChangeTab={this.handleOnChangeTab}>
-          <UserBookmarkIllusts tabLabel="Illustrations (Public)" userId={userId} tag={selectedPublicTag} reload={true} />
-          <MyPrivateBookmarkIllusts tabLabel="Illustrations (Private)" userId={userId} tag={selectedPrivateTag} />
-        </ScrollableTabView>
+        <PXTabView
+          navigationState={this.state}
+          renderScene={this.renderScene}
+          onRequestChangeTab={this.handleChangeTab}
+        />
         {
-          currentTabIndex === 0 &&
+          index === 0 &&
           <TagsFilterModal 
             tagType={TagType.PUBLIC}
             isOpen={isOpenFilterModal || false}
@@ -134,7 +118,7 @@ class MyCollection extends Component {
           />
         }
         {
-          currentTabIndex === 1 &&
+          index === 1 &&
           <TagsFilterModal 
             tagType={TagType.PRIVATE}
             isOpen={isOpenFilterModal || false}

@@ -31,9 +31,9 @@ class MyWorks extends Component {
     const { userId } = this.props.navigation.state.params;
     switch (route.key) {
       case '1':
-        return <UserIllusts tabLabel="Illustrations" userId={userId} />
+        return <UserIllusts userId={userId} />
       case '2':
-        return <UserMangas tabLabel="Manga" userId={userId} />
+        return <UserMangas userId={userId} />
       default:
         return null;
     };
