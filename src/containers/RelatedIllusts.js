@@ -10,10 +10,9 @@ import {
   InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
 import IllustList from '../components/IllustList';
 import * as relatedIllustsActionCreators from '../common/actions/relatedIllusts';
-import Schemas from '../common/constants/schemas';
+import { getRelatedIllustsItems } from '../common/selectors';
 
 const styles = StyleSheet.create({
   nullResultContainer: {
@@ -55,13 +54,10 @@ class RelatedIllusts extends Component {
   }
 
   render() {
-    const { relatedIllusts, illustId, isFeatureInDetailPage, maxItems, navigation } = this.props;
-    if (!relatedIllusts) {
-      return null;
-    }
+    const { relatedIllusts, items, illustId, isFeatureInDetailPage, maxItems, navigation } = this.props;
     return (
       <IllustList
-        data={relatedIllusts}
+        data={{...relatedIllusts, items}}
         loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
         onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
         maxItems={isFeatureInDetailPage && maxItems}
@@ -73,10 +69,11 @@ class RelatedIllusts extends Component {
 const defaultItems = [];
 
 export default connect((state, props) => {
-  const { entities, relatedIllusts } = state;
+  const { relatedIllusts } = state;
   const illustId = props.illustId || props.navigation.state.params.illustId;
   return {
-    relatedIllusts: denormalizedData(relatedIllusts[illustId], 'items', Schemas.ILLUST_ARRAY, entities),
+    relatedIllusts: relatedIllusts[illustId],
+    items: getRelatedIllustsItems(state, props),
     illustId
   }
 }, relatedIllustsActionCreators)(RelatedIllusts);

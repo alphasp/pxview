@@ -47,8 +47,8 @@ function specialMemoize(func, resultEqCheck, argEqCheck = defaultEqualityCheck) 
 const getState = (state) => state;
 const getProps = (state, props) => props;
 const getPropsRankingMode = (state, props) => props.rankingMode
-const selectEntities = (state) => state.entities;
-const selectRanking = (state) => state.ranking;
+const selectEntities = state => state.entities;
+const selectRanking = state => state.ranking;
 const selectRecommendedIllusts = state => state.recommendedIllusts;
 const selectRecommendedMangas = state => state.recommendedMangas;
 const selectTrendingIllustTags = state => state.trendingIllustTags;
@@ -56,6 +56,9 @@ const selectRecommendedUsers = state => state.recommendedUsers;
 const selectSearch = state => state.search;
 const selectSearchUsers = state => state.searchUsers;
 const selectSearchUsersAutoComplete = state => state.searchUsersAutoComplete;
+const selectRelatedIllusts = state => state.relatedIllusts;
+
+const defaultArray = [];
 
 export const getAuthUser = state => state.auth.user;
 
@@ -82,7 +85,7 @@ export const makeGetSearchItems = () => {
     return search[props.navigationStateKey] ? 
       denormalize(search[props.navigationStateKey].items, Schemas.ILLUST_ARRAY, entities)
       :
-      [];
+      defaultArray;
   });
 }
 
@@ -96,6 +99,14 @@ export const getRecommendedIllustsItems = createIllustItemsSelector([selectRecom
 
 export const getRecommendedMangasItems = createIllustItemsSelector([selectRecommendedMangas, selectEntities], (recommendedMangas, entities) => {
   return denormalize(recommendedMangas.items, Schemas.ILLUST_ARRAY, entities)
+})
+
+export const getRelatedIllustsItems = createSelector([selectRelatedIllusts, selectEntities, getProps], (relatedIllusts, entities, props) => {
+  const illustId = props.illustId || props.navigation.state.params.illustId;
+  return relatedIllusts[illustId] ?
+    denormalize(relatedIllusts[illustId].items, Schemas.ILLUST_ARRAY, entities)
+    :
+    defaultArray;
 })
 
 export const getTrendingIllustTagsItems = createSelector([selectTrendingIllustTags, selectEntities], (trendingIllustTags, entities) => {
