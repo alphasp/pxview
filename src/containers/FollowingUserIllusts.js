@@ -12,8 +12,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import IllustList from '../components/IllustList';
 import { Button } from 'react-native-elements';
 import * as followingUserIllustsActionCreators from '../common/actions/followingUserIllusts';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
-import Schemas from '../common/constants/schemas';
+import { getFollowingUserIllustsItems } from '../common/selectors';
 
 const styles = StyleSheet.create({
   container: {
@@ -71,7 +70,7 @@ class FollowingUserIllusts extends Component {
   }
 
   render() {
-    const { followingUserIllusts, user, screenProps: { strings } } = this.props;
+    const { followingUserIllusts, items, user, screenProps: { strings } } = this.props;
     if (!user) {
       return (
         <View style={styles.container}>
@@ -89,7 +88,7 @@ class FollowingUserIllusts extends Component {
     }
     return (
       <IllustList
-        data={followingUserIllusts}
+        data={{...followingUserIllusts, items}}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -98,9 +97,10 @@ class FollowingUserIllusts extends Component {
 }
 
 export default connect(state => {
-  const { entities, followingUserIllusts, auth: { user } } = state;
+  const { followingUserIllusts, auth: { user } } = state;
   return {
-    followingUserIllusts: denormalizedData(followingUserIllusts, 'items', Schemas.ILLUST_ARRAY, entities),
+    followingUserIllusts,
+    items: getFollowingUserIllustsItems(state),
     user
   }
 }, followingUserIllustsActionCreators)(FollowingUserIllusts);

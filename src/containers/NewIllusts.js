@@ -11,8 +11,7 @@ import {
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import * as newIllustsActionCreators from '../common/actions/newIllusts';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
-import Schemas from '../common/constants/schemas';
+import { getNewIllustsItems } from '../common/selectors';
 
 class NewIllusts extends Component {
   componentDidMount() {
@@ -35,10 +34,10 @@ class NewIllusts extends Component {
   }
 
   render() {
-    const { newIllusts } = this.props;
+    const { newIllusts, items } = this.props;
     return (
       <IllustList
-        data={newIllusts}
+        data={{...newIllusts, items}}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -47,8 +46,9 @@ class NewIllusts extends Component {
 }
 
 export default connect(state => {
-  const { entities, newIllusts } = state;
+  const { newIllusts } = state;
   return {
-    newIllusts: denormalizedData(newIllusts, 'items', Schemas.ILLUST_ARRAY, entities)
+    newIllusts,
+    items: getNewIllustsItems(state)
   }
 }, newIllustsActionCreators)(NewIllusts);

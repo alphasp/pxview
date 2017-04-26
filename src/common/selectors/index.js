@@ -57,6 +57,10 @@ const selectSearch = state => state.search;
 const selectSearchUsers = state => state.searchUsers;
 const selectSearchUsersAutoComplete = state => state.searchUsersAutoComplete;
 const selectRelatedIllusts = state => state.relatedIllusts;
+const selectFollowingUserIllusts = state => state.followingUserIllusts;
+const selectNewIllusts = state => state.newIllusts;
+const selectNewMangas = state => state.newMangas;
+const selectMyPixiv = state => state.myPixiv;
 
 const defaultArray = [];
 
@@ -95,11 +99,27 @@ export const makeGetSearchItems = () => {
 
 export const getRecommendedIllustsItems = createIllustItemsSelector([selectRecommendedIllusts, selectEntities], (recommendedIllusts, entities) => {
   return denormalize(recommendedIllusts.items, Schemas.ILLUST_ARRAY, entities)
-})
+});
 
 export const getRecommendedMangasItems = createIllustItemsSelector([selectRecommendedMangas, selectEntities], (recommendedMangas, entities) => {
   return denormalize(recommendedMangas.items, Schemas.ILLUST_ARRAY, entities)
-})
+});
+
+export const getFollowingUserIllustsItems = createIllustItemsSelector([selectFollowingUserIllusts, selectEntities], (followingUserIllusts, entities) => {
+  return denormalize(followingUserIllusts.items, Schemas.ILLUST_ARRAY, entities)
+});
+
+export const getNewIllustsItems = createIllustItemsSelector([selectNewIllusts, selectEntities], (newIllusts, entities) => {
+  return denormalize(newIllusts.items, Schemas.ILLUST_ARRAY, entities)
+});
+
+export const getNewMangasItems = createIllustItemsSelector([selectNewMangas, selectEntities], (newMangas, entities) => {
+  return denormalize(newMangas.items, Schemas.ILLUST_ARRAY, entities)
+});
+
+export const getMyPixivItems = createIllustItemsSelector([selectMyPixiv, selectEntities], (myPixiv, entities) => {
+  return denormalize(myPixiv.items, Schemas.ILLUST_ARRAY, entities)
+});
 
 export const getRelatedIllustsItems = createSelector([selectRelatedIllusts, selectEntities, getProps], (relatedIllusts, entities, props) => {
   const illustId = props.illustId || props.navigation.state.params.illustId;
@@ -107,16 +127,16 @@ export const getRelatedIllustsItems = createSelector([selectRelatedIllusts, sele
     denormalize(relatedIllusts[illustId].items, Schemas.ILLUST_ARRAY, entities)
     :
     defaultArray;
-})
+});
 
 export const getTrendingIllustTagsItems = createSelector([selectTrendingIllustTags, selectEntities], (trendingIllustTags, entities) => {
   return denormalize(trendingIllustTags.items, Schemas.ILLUST_TAG_ARRAY, entities)
-})
+});
 
 export const getRecommendedUsersItems = createSelector([selectRecommendedUsers, selectEntities], (recommendedUsers, entities) => {
   return denormalize(recommendedUsers.items, Schemas.USER_PREVIEW_ARRAY, entities)
-})
+});
 
 export const getSearchUsersAutoCompleteItems = createSelector([selectSearchUsersAutoComplete, selectEntities], (searchUsersAutoComplete, entities) => {
   return denormalize(searchUsersAutoComplete.items, Schemas.USER_PREVIEW_ARRAY, entities)
-})
+});

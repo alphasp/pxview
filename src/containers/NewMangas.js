@@ -11,8 +11,7 @@ import {
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import * as newMangasActionCreators from '../common/actions/newMangas';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
-import Schemas from '../common/constants/schemas';
+import { getNewMangasItems } from '../common/selectors';
 
 class NewMangas extends Component {
   componentDidMount() {
@@ -35,10 +34,10 @@ class NewMangas extends Component {
   }
 
   render() {
-    const { newMangas } = this.props;
+    const { newMangas, items } = this.props;
     return (
       <IllustList
-        data={newMangas}
+        data={{...newMangas, items}}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -47,8 +46,9 @@ class NewMangas extends Component {
 }
 
 export default connect(state => {
-  const { entities, newMangas } = state;
+  const { newMangas } = state;
   return {
-    newMangas: denormalizedData(newMangas, 'items', Schemas.ILLUST_ARRAY, entities)
+    newMangas,
+    items: getNewMangasItems(state)
   }
 }, newMangasActionCreators)(NewMangas);

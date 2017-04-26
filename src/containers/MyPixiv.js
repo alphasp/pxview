@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import * as myPixivActionCreators from '../common/actions/myPixiv';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
-import Schemas from '../common/constants/schemas';
+import { getMyPixivItems } from '../common/selectors';
 
 class MyPixiv extends Component {
   componentDidMount() {
@@ -26,10 +25,10 @@ class MyPixiv extends Component {
   }
 
   render() {
-    const { myPixiv } = this.props;
+    const { myPixiv, items } = this.props;
     return (
       <IllustList
-        data={myPixiv}
+        data={{...myPixiv, items}}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -38,8 +37,9 @@ class MyPixiv extends Component {
 }
 
 export default connect(state => {
-  const { entities, myPixiv } = state;
+  const { myPixiv } = state;
   return {
-    myPixiv: denormalizedData(myPixiv, 'items', Schemas.ILLUST_ARRAY, entities)
+    myPixiv,
+    items: getMyPixivItems(state)
   }
 }, myPixivActionCreators)(MyPixiv);

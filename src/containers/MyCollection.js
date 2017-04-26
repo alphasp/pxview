@@ -132,5 +132,4 @@ class MyCollection extends Component {
   }
 }
 
-
 export default MyCollection;
