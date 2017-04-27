@@ -69,9 +69,12 @@ const selectUserFollowers = state => state.userFollowers;
 const selectUserMyPixiv = state => state.userMyPixiv;
 const selectSearchUsers = state => state.searchUsers;
 
+const selectUserDetail = state => state.userDetail;
+
 const selectIllustComments = state => state.illustComments;
 
 const defaultArray = [];
+const defaultObject = {};
 
 export const getAuthUser = state => state.auth.user;
 
@@ -91,11 +94,20 @@ const createUserItemsSelector = createSelectorCreator(specialMemoize, (prev, nex
   if (!prev && !next) {
     return false;
   }
-  // console.log('user preview selctor ', equals(prev, next, (p, n) => {
+  // console.log('user preview selector ', equals(prev, next, (p, n) => {
   //   return (p.id === n.id) && (p.user.is_followed === n.user.is_followed)
   // }));
   return equals(prev, next, (p, n) => {
     return (p.id === n.id) && (p.user.is_followed === n.user.is_followed) 
+  });
+});
+
+const createUserItemSelector = createSelectorCreator(specialMemoize, (prev, next) => {
+  if (!prev && !next) {
+    return false;
+  }
+  return equals(prev, next, (p, n) => {
+    return (p.id === n.id) && (p.is_followed === n.is_followed) 
   });
 });
 
@@ -201,6 +213,32 @@ export const makeGetIllustCommentsItems = () => {
       denormalize(illustComments[illustId].items, Schemas.ILLUST_COMMENT_ARRAY, entities)
       :
       defaultArray;
+  });
+}
+
+const makeGetUserDetailItem = () => {
+  return createUserItemSelector([selectUserDetail, selectEntities, getProps], (userDetail, entities, props) => {
+    const userId = props.userId || props.navigation.state.params.userId;
+    return userDetail[userId] ? 
+      denormalize(userDetail[userId].item, Schemas.USER_PROFILE, entities)
+      :
+      defaultObject;
+  });
+}
+
+export const makeGetUserDetailPageItems = () => {
+  const getUserDetailItem = makeGetUserDetailItem();
+  const getUserIllustItems = makeGetUserIllustsItems();
+  const getUserMangaItems = makeGetUserMangasItems();
+  const getUserBookmarkIllustItems = makeGetUserBookmarkIllustsItems();
+
+  return createSelector([getUserDetailItem, getUserIllustItems, getUserMangaItems, getUserBookmarkIllustItems, getProps], (userDetailItem, userIllustsItems, userMangasItems, userBookmarkIllustsItems) => {
+    return {
+      userDetailItem,
+      userIllustsItems,
+      userMangasItems,
+      userBookmarkIllustsItems
+    };
   });
 }
 

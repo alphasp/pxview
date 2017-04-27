@@ -31,6 +31,7 @@ import * as userMangasActionCreators from '../common/actions/userMangas';
 import * as userBookmarkIllustlActionCreators from '../common/actions/userBookmarkIllusts';
 import { denormalizedData } from '../common/helpers/normalizrHelper';
 import Schemas from '../common/constants/schemas';
+import { makeGetUserDetailPageItems } from '../common/selectors';
 
 const avatarSize = 70;
 const windowWidth = Dimensions.get('window').width;
@@ -129,6 +130,13 @@ const styles = StyleSheet.create({
 });
 
 class UserDetail extends Component {
+  static defaultProps = {
+    userDetail: { refreshing: false },
+    userIllusts: {},
+    userMangas: {},
+    userBookmarkIllusts: {}
+  };
+
   static navigationOptions = ({ navigation }) => {
     const { isShowTitle, isScrolled, user } = navigation.state.params;
     return {
@@ -157,7 +165,7 @@ class UserDetail extends Component {
 
   componentDidMount() {
     const { 
-      userId, userDetail,
+      userId, userDetail, userDetailItem,
       navigation: { setParams },
       fetchUserDetail,  clearUserDetail,
       fetchUserIllusts, clearUserIllusts,
@@ -176,17 +184,16 @@ class UserDetail extends Component {
         fetchUserBookmarkIllusts(userId);
       }
       else {
-        setParams({ user: userDetail.item.user });
+        setParams({ user: userDetailItem.user });
       }
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { userDetail: prevUserDetail } = this.props;
-    const { userDetail, userId, navigation: { setParams } } = nextProps;
-    if (userDetail && userDetail.item && !prevUserDetail.item) {
-      const { dataSource } = this.state;
-      setParams({ user: userDetail.item.user });
+    const { userDetailItem: prevUserDetailItem } = this.props;
+    const { userDetailItem, userId, navigation: { setParams } } = nextProps;
+    if (userDetailItem  && userDetailItem !== prevUserDetailItem) {
+      setParams({ user: userDetailItem.user });
     }
   }
 
@@ -340,14 +347,14 @@ class UserDetail extends Component {
     )
   }
 
-  renderIllustCollection = (data, profile) => {
+  renderIllustCollection = (items, profile) => {
     const { userId, navigation } = this.props;
     return (
       <IllustCollection 
         title="Illust Works"
         total={profile.total_illusts}
         viewMoreTitle="Works"  
-        items={data.items}
+        items={items}
         maxItems={6}
         onPressViewMore={() => navigation.navigate('UserIllusts', { userId })}
         navigation={navigation}
@@ -355,14 +362,14 @@ class UserDetail extends Component {
     )
   }
 
-  renderMangaCollection = (data, profile) => {
+  renderMangaCollection = (items, profile) => {
     const { userId, navigation } = this.props;
     return (
       <IllustCollection 
         title="Manga Works"
         total={profile.total_manga}
         viewMoreTitle="Works"
-        items={data.items}
+        items={items}
         maxItems={6}
         onPressViewMore={() => navigation.navigate('UserMangas', { userId })}
         navigation={navigation}
@@ -370,13 +377,13 @@ class UserDetail extends Component {
     )
   }
 
-  renderBookmarks = (data) => {
+  renderBookmarks = (items) => {
     const { userId, navigation } = this.props;
     return (
       <IllustCollection 
         title="Illust/Manga Collection"
         viewMoreTitle="All"
-        items={data.items}
+        items={items}
         maxItems={6}
         onPressViewMore={() => navigation.navigate('UserBookmarkIllusts', { userId })}
         navigation={navigation}
@@ -385,7 +392,7 @@ class UserDetail extends Component {
   }
 
   renderContent = (detail) => {
-    const { userIllusts, userMangas, userBookmarkIllusts, userId } = this.props;
+    const { userIllusts, userMangas, userBookmarkIllusts, userIllustsItems, userMangasItems, userBookmarkIllustsItems } = this.props;
     return (
       <View>
         {
@@ -393,19 +400,19 @@ class UserDetail extends Component {
         }
         {
           (userIllusts && !userIllusts.loading && userIllusts.items && userIllusts.items.length) ?
-          this.renderIllustCollection(userIllusts, detail.profile)
+          this.renderIllustCollection(userIllustsItems, detail.profile)
           :
           null
         }
         {
           (userMangas && !userMangas.loading && userMangas.items && userMangas.items.length) ?
-          this.renderMangaCollection(userMangas, detail.profile)
+          this.renderMangaCollection(userMangasItems, detail.profile)
           :
           null
         }
         {
           (userBookmarkIllusts && !userBookmarkIllusts.loading && userBookmarkIllusts.items && userBookmarkIllusts.items.length) ?
-          this.renderBookmarks(userBookmarkIllusts)
+          this.renderBookmarks(userBookmarkIllustsItems)
           :
           null
         }
@@ -414,7 +421,7 @@ class UserDetail extends Component {
   }
 
   render() {
-    const { userDetail: { loaded, loading, item, refreshing }, userId } = this.props;
+    const { userDetail: { loaded, loading, refreshing, item }, userDetailItem, userId } = this.props;
     return (
       <View style={styles.container}>
         {
@@ -435,7 +442,7 @@ class UserDetail extends Component {
             }
           >
             {
-              this.renderContent(item)
+              this.renderContent(userDetailItem)
             }
           </ScrollView>
           :
@@ -446,15 +453,23 @@ class UserDetail extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { entities, userDetail, userIllusts, userMangas, userBookmarkIllusts } = state;
-  const userId = props.userId || props.navigation.state.params.userId;
-  return {
-    userDetail: denormalizedData(userDetail[userId], 'item', Schemas.USER_PROFILE, entities),
-    userIllusts: denormalizedData(userIllusts[userId], 'items', Schemas.ILLUST_ARRAY, entities),
-    userMangas: denormalizedData(userMangas[userId], 'items', Schemas.ILLUST_ARRAY, entities),
-    userBookmarkIllusts: denormalizedData(userBookmarkIllusts[userId], 'items', Schemas.ILLUST_ARRAY, entities),
-    userId
+export default connect(() => {
+  const getUserDetailPageItem = makeGetUserDetailPageItems();
+  return (state, props) => {
+    const { userDetail, userIllusts, userMangas, userBookmarkIllusts } = state;
+    const userId = props.userId || props.navigation.state.params.userId;
+    const { userDetailItem, userIllustsItems, userMangasItems, userBookmarkIllustsItems, } = getUserDetailPageItem(state, props);
+    return {
+      userDetail: userDetail[userId],
+      userIllusts: userIllusts[userId],
+      userMangas: userMangas[userId],
+      userBookmarkIllusts: userBookmarkIllusts[userId],
+      userDetailItem,
+      userIllustsItems, 
+      userMangasItems, 
+      userBookmarkIllustsItems,
+      userId
+    }
   }
 }, {
   ...userDetailActionCreators,
@@ -462,3 +477,21 @@ export default connect((state, props) => {
   ...userMangasActionCreators,
   ...userBookmarkIllustlActionCreators
 })(UserDetail);
+
+
+// export default connect((state, props) => {
+//   const { entities, userDetail, userIllusts, userMangas, userBookmarkIllusts } = state;
+//   const userId = props.userId || props.navigation.state.params.userId;
+//   return {
+//     userDetail: denormalizedData(userDetail[userId], 'item', Schemas.USER_PROFILE, entities),
+//     userIllusts: denormalizedData(userIllusts[userId], 'items', Schemas.ILLUST_ARRAY, entities),
+//     userMangas: denormalizedData(userMangas[userId], 'items', Schemas.ILLUST_ARRAY, entities),
+//     userBookmarkIllusts: denormalizedData(userBookmarkIllusts[userId], 'items', Schemas.ILLUST_ARRAY, entities),
+//     userId
+//   }
+// }, {
+//   ...userDetailActionCreators,
+//   ...userIllustsActionCreators,
+//   ...userMangasActionCreators,
+//   ...userBookmarkIllustlActionCreators
+// })(UserDetail);
