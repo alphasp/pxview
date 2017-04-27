@@ -63,6 +63,8 @@ const selectNewMangas = state => state.newMangas;
 const selectMyPixiv = state => state.myPixiv;
 const selectUserBookmarkIllusts = state => state.userBookmarkIllusts;
 const selectMyPrivateBookmarkIllusts = state => state.myPrivateBookmarkIllusts;
+const selectUserIllusts = state => state.userIllusts;
+const selectUserMangas = state => state.userMangas;
 
 const defaultArray = [];
 
@@ -114,9 +116,26 @@ export const makeGetUserBookmarkIllustsItems = () => {
       defaultArray;
   });
 }
-// const getIntermediateRankingItems = createIllustItemsSelector([selectRanking, selectEntities, getProps], (ranking, entities, props) => {
-//   return denormalize(ranking[props.rankingMode].items, Schemas.ILLUST_ARRAY, entities)
-// });
+
+export const makeGetUserIllustsItems = () => {
+  return createIllustItemsSelector([selectUserIllusts, selectEntities, getProps], (userIllusts, entities, props) => {
+    const userId = props.userId || props.navigation.state.params.userId;
+    return userIllusts[userId] ? 
+      denormalize(userIllusts[userId].items, Schemas.ILLUST_ARRAY, entities)
+      :
+      defaultArray;
+  });
+}
+
+export const makeGetUserMangasItems = () => {
+  return createIllustItemsSelector([selectUserMangas, selectEntities, getProps], (userMangas, entities, props) => {
+    const userId = props.userId || props.navigation.state.params.userId;
+    return userMangas[userId] ? 
+      denormalize(userMangas[userId].items, Schemas.ILLUST_ARRAY, entities)
+      :
+      defaultArray;
+  });
+}
 
 export const getRecommendedIllustsItems = createIllustItemsSelector([selectRecommendedIllusts, selectEntities], (recommendedIllusts, entities) => {
   return denormalize(recommendedIllusts.items, Schemas.ILLUST_ARRAY, entities)

@@ -5,10 +5,9 @@ import {
   InteractionManager
 } from 'react-native';
 import { connect } from 'react-redux';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
 import IllustList from '../components/IllustList';
 import * as userMangasActionCreators from '../common/actions/userMangas';
-import Schemas from '../common/constants/schemas';
+import { makeGetUserMangasItems } from '../common/selectors';
 
 class UserMangas extends Component {
   componentDidMount() {
@@ -36,10 +35,10 @@ class UserMangas extends Component {
   }
 
   render() {
-    const { userMangas, userId } = this.props;
+    const { userMangas, items, userId } = this.props;
     return (
       <IllustList
-        data={userMangas}
+        data={{...userMangas, items}}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -47,11 +46,15 @@ class UserMangas extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { entities, userMangas } = state;
-  const userId = props.userId || props.navigation.state.params.userId;
-  return {
-    userMangas: denormalizedData(userMangas[userId], 'items', Schemas.ILLUST_ARRAY, entities),
-    userId
+export default connect(() => {
+  const getUserMangasItems = makeGetUserMangasItems();
+  return (state, props) => {
+    const { userMangas } = state;
+    const userId = props.userId || props.navigation.state.params.userId;
+    return {
+      userMangas: userMangas[userId],
+      items: getUserMangasItems(state, props),
+      userId
+    }
   }
 }, userMangasActionCreators)(UserMangas);

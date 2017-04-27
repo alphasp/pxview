@@ -5,10 +5,9 @@ import {
   InteractionManager
 } from 'react-native';
 import { connect } from 'react-redux';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
 import IllustList from '../components/IllustList';
 import * as userIllustsActionCreators from '../common/actions/userIllusts';
-import Schemas from '../common/constants/schemas';
+import { makeGetUserIllustsItems } from '../common/selectors';
 
 class UserIllusts extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -42,10 +41,10 @@ class UserIllusts extends Component {
   }
 
   render() {
-    const { userIllusts, userId } = this.props;
+    const { userIllusts, items, userId } = this.props;
     return (
       <IllustList
-        data={userIllusts}
+        data={{...userIllusts, items}}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -53,11 +52,15 @@ class UserIllusts extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { entities, userIllusts } = state;
-  const userId = props.userId || props.navigation.state.params.userId;
-  return {
-    userIllusts: denormalizedData(userIllusts[userId], 'items', Schemas.ILLUST_ARRAY, entities),
-    userId
+export default connect(() => {
+  const getUserIllustsItems = makeGetUserIllustsItems();
+  return (state, props) => {
+    const { userIllusts } = state;
+    const userId = props.userId || props.navigation.state.params.userId;
+    return {
+      userIllusts: userIllusts[userId],
+      items: getUserIllustsItems(state, props),
+      userId
+    }
   }
 }, userIllustsActionCreators)(UserIllusts);
