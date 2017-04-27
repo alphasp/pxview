@@ -69,7 +69,7 @@ export function* watchLoginRequest() {
 export function* handleLogout() {
   yield [
     call(Keychain.resetGenericPassword),
-    call(pixiv.logout)
+    apply(pixiv, pixiv.logout)
   ];
 }
 
