@@ -46,16 +46,13 @@ function specialMemoize(func, resultEqCheck, argEqCheck = defaultEqualityCheck) 
 
 const getState = (state) => state;
 const getProps = (state, props) => props;
-const getPropsRankingMode = (state, props) => props.rankingMode
 const selectEntities = state => state.entities;
 const selectRanking = state => state.ranking;
 const selectRecommendedIllusts = state => state.recommendedIllusts;
 const selectRecommendedMangas = state => state.recommendedMangas;
 const selectTrendingIllustTags = state => state.trendingIllustTags;
-const selectRecommendedUsers = state => state.recommendedUsers;
 const selectSearch = state => state.search;
 const selectSearchUsers = state => state.searchUsers;
-const selectSearchUsersAutoComplete = state => state.searchUsersAutoComplete;
 const selectRelatedIllusts = state => state.relatedIllusts;
 const selectFollowingUserIllusts = state => state.followingUserIllusts;
 const selectNewIllusts = state => state.newIllusts;
@@ -65,6 +62,12 @@ const selectUserBookmarkIllusts = state => state.userBookmarkIllusts;
 const selectMyPrivateBookmarkIllusts = state => state.myPrivateBookmarkIllusts;
 const selectUserIllusts = state => state.userIllusts;
 const selectUserMangas = state => state.userMangas;
+
+const selectRecommendedUsers = state => state.recommendedUsers;
+const selectSearchUsersAutoComplete = state => state.searchUsersAutoComplete;
+const selectUserFollowing = state => state.userFollowing;
+const selectUserFollowers = state => state.userFollowers;
+const selectUserMyPixiv = state => state.userMyPixiv;
 
 const defaultArray = [];
 
@@ -79,6 +82,18 @@ const createIllustItemsSelector = createSelectorCreator(specialMemoize, (prev, n
   }));
   return equals(prev, next, (p, n) => {
     return (p.id === n.id) && (p.is_bookmarked === n.is_bookmarked) && (p.user.is_followed === n.user.is_followed) 
+  });
+});
+
+const createUserPreviewItemsSelector = createSelectorCreator(specialMemoize, (prev, next) => {
+  if (!prev && !next) {
+    return false;
+  }
+  console.log('user preview selctor ', equals(prev, next, (p, n) => {
+    return (p.id === n.id) && (p.user.is_followed === n.user.is_followed)
+  }));
+  return equals(prev, next, (p, n) => {
+    return (p.id === n.id) && (p.user.is_followed === n.user.is_followed) 
   });
 });
 
@@ -132,6 +147,37 @@ export const makeGetUserMangasItems = () => {
     const userId = props.userId || props.navigation.state.params.userId;
     return userMangas[userId] ? 
       denormalize(userMangas[userId].items, Schemas.ILLUST_ARRAY, entities)
+      :
+      defaultArray;
+  });
+}
+
+export const makeGetUserFollowingItems = () => {
+  return createUserPreviewItemsSelector([selectUserFollowing, selectEntities, getProps], (userFollowing, entities, props) => {
+    const userId = props.userId || props.navigation.state.params.userId;
+    const { followingType } = props;
+    return userFollowing[followingType][userId] ? 
+      denormalize(userFollowing[followingType][userId].items, Schemas.USER_PREVIEW_ARRAY, entities)
+      :
+      defaultArray;
+  });
+}
+
+export const makeGetUserFollowersItems = () => {
+  return createUserPreviewItemsSelector([selectUserFollowers, selectEntities, getProps], (userFollowers, entities, props) => {
+    const userId = props.userId || props.navigation.state.params.userId;
+    return userFollowers[userId] ? 
+      denormalize(userFollowers[userId].items, Schemas.USER_PREVIEW_ARRAY, entities)
+      :
+      defaultArray;
+  });
+}
+
+export const makeGetUserMyPixivItems = () => {
+  return createUserPreviewItemsSelector([selectUserMyPixiv, selectEntities, getProps], (userMyPixiv, entities, props) => {
+    const userId = props.userId || props.navigation.state.params.userId;
+    return userMyPixiv[userId] ? 
+      denormalize(userMyPixiv[userId].items, Schemas.USER_PREVIEW_ARRAY, entities)
       :
       defaultArray;
   });

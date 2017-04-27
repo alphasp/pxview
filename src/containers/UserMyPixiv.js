@@ -2,13 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import UserListContainer from './UserListContainer';
 import * as userMyPixivActionCreators from '../common/actions/userMyPixiv';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
-import Schemas from '../common/constants/schemas';
+import { makeGetUserMyPixivItems } from '../common/selectors';
 
 class UserMyPixiv extends Component {
   static propTypes = {
     userId: PropTypes.number.isRequired,
-    userMyPixiv: PropTypes.object.isRequired,
+    userMyPixiv: PropTypes.object,
+    items: PropTypes.array,
     fetchUserMyPixiv: PropTypes.func.isRequired,
     clearUserMyPixiv: PropTypes.func.isRequired,
   }
@@ -32,10 +32,10 @@ class UserMyPixiv extends Component {
   }
 
   render() {
-    const { userMyPixiv, userId, screenProps } = this.props;
+    const { userMyPixiv, items, userId, screenProps } = this.props;
     return (
       <UserListContainer
-        userList={userMyPixiv}
+        userList={{...userMyPixiv, items}}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
         screenProps={screenProps}
@@ -44,11 +44,15 @@ class UserMyPixiv extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { entities, userMyPixiv } = state;
-  const userId = props.userId || props.navigation.state.params.userId;
-  return {
-    userMyPixiv: denormalizedData(userMyPixiv[userId], 'items', Schemas.USER_PREVIEW_ARRAY, entities),
-    userId
+export default connect(() => {
+  const getUserMyPixivItems = makeGetUserMyPixivItems();
+  return (state, props) => {
+    const { userMyPixiv } = state;
+    const userId = props.userId || props.navigation.state.params.userId;
+    return {
+      userMyPixiv: userMyPixiv[userId],
+      items: getUserMyPixivItems(state, props),
+      userId
+    }
   }
 }, userMyPixivActionCreators)(UserMyPixiv);

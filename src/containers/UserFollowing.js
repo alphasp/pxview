@@ -2,13 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import UserListContainer from './UserListContainer';
 import * as userFollowingActionCreators from '../common/actions/userFollowing';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
-import Schemas from '../common/constants/schemas';
+import { makeGetUserFollowingItems } from '../common/selectors';
 
 class UserFollowing extends Component {
   static propTypes = {
     userId: PropTypes.number.isRequired,
-    userFollowing: PropTypes.object.isRequired,
+    userFollowing: PropTypes.object,
+    items: PropTypes.array,
     followingType: PropTypes.string.isRequired,
     fetchUserFollowing: PropTypes.func.isRequired,
     clearUserFollowing: PropTypes.func.isRequired,
@@ -33,10 +33,10 @@ class UserFollowing extends Component {
   }
 
   render() {
-    const { userFollowing, userId, screenProps } = this.props;
+    const { userFollowing, items, userId, screenProps } = this.props;
     return (
       <UserListContainer
-        userList={userFollowing}
+        userList={{...userFollowing, items}}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
         screenProps={screenProps}
@@ -45,11 +45,16 @@ class UserFollowing extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { entities, userFollowing } = state;
-  const userId = props.userId || props.navigation.state.params.userId;
-  return {
-    userFollowing: denormalizedData(userFollowing[props.followingType][userId], 'items', Schemas.USER_PREVIEW_ARRAY, entities),
-    userId
+export default connect(() => {
+  const getUserFollowingItems = makeGetUserFollowingItems();
+  return (state, props) => {
+    const { userFollowing } = state;
+    const userId = props.userId || props.navigation.state.params.userId;
+    const { followingType } = props;
+    return {
+      userFollowing: userFollowing[followingType][userId],
+      items: getUserFollowingItems(state, props),
+      userId
+    }
   }
 }, userFollowingActionCreators)(UserFollowing);
