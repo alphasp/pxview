@@ -136,7 +136,6 @@ class SearchResultTabs extends Component {
     }
   }
 
-
   handleChangeTab = (index) => {
     const { setSearchType } = this.props;
     if (index === 1) {
@@ -200,11 +199,13 @@ class SearchResultTabs extends Component {
   }
 
   handleOnSubmitSearch = (word) => {
+    const { setParams } = this.props.navigation;
     Keyboard.dismiss();
     this.setState({
       isFocusSearchBar: false,
       newWord: word
     });
+    setParams({ word });
     return true;
   }
 
@@ -227,6 +228,7 @@ class SearchResultTabs extends Component {
           <SearchUsersResult  
             word={word} 
             navigation={navigation}
+            navigationStateKey={navigationStateKey}
           />
         )
       default:
