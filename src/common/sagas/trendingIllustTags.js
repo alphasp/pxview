@@ -17,7 +17,7 @@ export function* handleFetchTrendingIllustTags(action) {
     yield put(fetchTrendingIllustTagsSuccess(normalized.entities, normalized.result));
   } 
   catch(err) {
-    yield put(fetchTrendingIllustTagsFailure(userId));
+    yield put(fetchTrendingIllustTagsFailure());
     yield put(addError(err));    
   }
 }
