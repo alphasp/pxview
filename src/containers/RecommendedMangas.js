@@ -9,7 +9,6 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { denormalize } from 'normalizr';
 import IllustList from '../components/IllustList';
 import * as recommendedMangasActionCreators from '../common/actions/recommendedMangas';
 import { getRecommendedMangasItems } from '../common/selectors';

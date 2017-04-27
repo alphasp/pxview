@@ -12,7 +12,6 @@ import Schemas from '../constants/schemas';
 export function* handleFetchIllustComments(action) {
   const { illustId, options, nextUrl } = action.payload;
   try {
-    console.log('payload ', action.payload)
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);

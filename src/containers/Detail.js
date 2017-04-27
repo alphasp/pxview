@@ -25,7 +25,6 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import * as Animatable from 'react-native-animatable';
 import Share, { ShareSheet, Button } from 'react-native-share';
 import ActionButton from 'react-native-action-button';
-import { denormalize } from 'normalizr';
 import BookmarkButton from '../components/BookmarkButton';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
@@ -39,6 +38,7 @@ import Tags from '../components/Tags';
 import RelatedIllusts from './RelatedIllusts';
 import IllustComments from './IllustComments';
 import Schemas from '../common/constants/schemas';
+// import { makeGetDetailItem } from '../common/selectors';
 
 const windowWidth = Dimensions.get('window').width; //full width
 const windowHeight = Dimensions.get('window').height; //full height
@@ -504,8 +504,17 @@ class Detail extends Component {
   }
 }
 
+// export default connect(() => {
+//   const getDetailItem = makeGetDetailItem();
+//   return (state, props) => {
+//     return {
+//       item: getDetailItem(state, props),
+//     }
+//   }
+// })(Detail);
+
 export default connect((state, props) => {
   const { entities } = state;
-  const item = denormalize(props.navigation.state.params.item.id, Schemas.ILLUST, entities);
+  const item = props.navigation.state.params.item;
   return { item }
 })(Detail);

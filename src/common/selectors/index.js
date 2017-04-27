@@ -69,6 +69,8 @@ const selectUserFollowing = state => state.userFollowing;
 const selectUserFollowers = state => state.userFollowers;
 const selectUserMyPixiv = state => state.userMyPixiv;
 
+const selectIllustComments = state => state.illustComments;
+
 const defaultArray = [];
 
 export const getAuthUser = state => state.auth.user;
@@ -85,7 +87,7 @@ const createIllustItemsSelector = createSelectorCreator(specialMemoize, (prev, n
   });
 });
 
-const createUserPreviewItemsSelector = createSelectorCreator(specialMemoize, (prev, next) => {
+const createUserItemsSelector = createSelectorCreator(specialMemoize, (prev, next) => {
   if (!prev && !next) {
     return false;
   }
@@ -153,7 +155,7 @@ export const makeGetUserMangasItems = () => {
 }
 
 export const makeGetUserFollowingItems = () => {
-  return createUserPreviewItemsSelector([selectUserFollowing, selectEntities, getProps], (userFollowing, entities, props) => {
+  return createUserItemsSelector([selectUserFollowing, selectEntities, getProps], (userFollowing, entities, props) => {
     const userId = props.userId || props.navigation.state.params.userId;
     const { followingType } = props;
     return userFollowing[followingType][userId] ? 
@@ -164,7 +166,7 @@ export const makeGetUserFollowingItems = () => {
 }
 
 export const makeGetUserFollowersItems = () => {
-  return createUserPreviewItemsSelector([selectUserFollowers, selectEntities, getProps], (userFollowers, entities, props) => {
+  return createUserItemsSelector([selectUserFollowers, selectEntities, getProps], (userFollowers, entities, props) => {
     const userId = props.userId || props.navigation.state.params.userId;
     return userFollowers[userId] ? 
       denormalize(userFollowers[userId].items, Schemas.USER_PREVIEW_ARRAY, entities)
@@ -174,7 +176,7 @@ export const makeGetUserFollowersItems = () => {
 }
 
 export const makeGetUserMyPixivItems = () => {
-  return createUserPreviewItemsSelector([selectUserMyPixiv, selectEntities, getProps], (userMyPixiv, entities, props) => {
+  return createUserItemsSelector([selectUserMyPixiv, selectEntities, getProps], (userMyPixiv, entities, props) => {
     const userId = props.userId || props.navigation.state.params.userId;
     return userMyPixiv[userId] ? 
       denormalize(userMyPixiv[userId].items, Schemas.USER_PREVIEW_ARRAY, entities)
@@ -182,6 +184,24 @@ export const makeGetUserMyPixivItems = () => {
       defaultArray;
   });
 }
+
+export const makeGetIllustCommentsItems = () => {
+  return createUserItemsSelector([selectIllustComments, selectEntities, getProps], (illustComments, entities, props) => {
+    const illustId = props.illustId || props.navigation.state.params.illustId;
+    return illustComments[illustId] ? 
+      denormalize(illustComments[illustId].items, Schemas.ILLUST_COMMENT_ARRAY, entities)
+      :
+      defaultArray;
+  });
+}
+
+// export const makeGetDetailItem = () => {
+//   return createSelector([selectEntities, getProps], (entities, props) => {
+//     const id = props.navigation.state.params.item.id;
+//     console.log('gg ', denormalize(id, Schemas.ILLUST, entities))
+//     return denormalize(id, Schemas.ILLUST, entities);
+//   });
+// }
 
 export const getRecommendedIllustsItems = createIllustItemsSelector([selectRecommendedIllusts, selectEntities], (recommendedIllusts, entities) => {
   return denormalize(recommendedIllusts.items, Schemas.ILLUST_ARRAY, entities)

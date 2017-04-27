@@ -16,9 +16,8 @@ import PXImage from '../components/PXImage';
 import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import CommentList from '../components/CommentList';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
 import * as illustCommentsActionCreators from '../common/actions/illustComments';
-import Schemas from '../common/constants/schemas';
+import { makeGetIllustCommentsItems } from '../common/selectors';
 
 class IllustComments extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -52,27 +51,28 @@ class IllustComments extends Component {
   }
 
   render() {
-    const { illustComments, illustId, navigation, isFeatureInDetailPage, maxItems } = this.props;
+    const { illustComments, items, illustId, navigation, isFeatureInDetailPage, maxItems } = this.props;
     return (
-      illustComments ?
       <CommentList
-        data={illustComments}
+        data={{...illustComments, items}}
         loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
         onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
         maxItems={isFeatureInDetailPage && maxItems}
         navigation={navigation}
       />
-      :
-      null
     );
   }
 }
 
-export default connect((state, props) => {
-  const { entities, illustComments } = state;
-  const illustId = props.illustId || props.navigation.state.params.illustId;
-  return {
-    illustComments: denormalizedData(illustComments[illustId], 'items', Schemas.ILLUST_COMMENT_ARRAY, entities),
-    illustId
+export default connect(() => {
+  const getIllustCommentsItems = makeGetIllustCommentsItems();
+  return (state, props) => {
+    const { illustComments } = state;
+    const illustId = props.illustId || props.navigation.state.params.illustId;
+    return {
+      illustComments: illustComments[illustId],
+      items: getIllustCommentsItems(state, props),
+      illustId
+    }
   }
 }, illustCommentsActionCreators)(IllustComments);

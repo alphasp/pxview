@@ -10,8 +10,6 @@ import {
   InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { denormalize } from 'normalizr';
-// import { createSelector } from 'reselect'
 import IllustList from '../components/IllustList';
 import * as searchActionCreators from '../common/actions/search';
 import { SORT_TYPES } from '../common/constants/sortTypes';
