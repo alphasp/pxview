@@ -16,39 +16,38 @@ import Header from '../components/Header';
 import UserListContainer from './UserListContainer';
 import * as searchUsersActionCreators from '../common/actions/searchUsers';
 import { SearchType } from '../common/actions/searchType';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
-import Schemas from '../common/constants/schemas';
+import { makeGetSearchUsersItems } from '../common/selectors';
 
 class SearchUsersResult extends Component {
   componentDidMount() {
-    const { fetchSearchUsers, clearSearchUsers, word } = this.props;
-    clearSearchUsers();
+    const { navigationStateKey, fetchSearchUsers, clearSearchUsers, word } = this.props;
+    clearSearchUsers(navigationStateKey);
     InteractionManager.runAfterInteractions(() => {
-      fetchSearchUsers(word);
+      fetchSearchUsers(navigationStateKey, word);
     });
   }
 
   componentWillReceiveProps(nextProps) {
     const { word: prevWord } = this.props;
-    const { fetchSearchUsers, clearSearchUsers, word } = nextProps;
+    const { navigationStateKey, fetchSearchUsers, clearSearchUsers, word } = nextProps;
     if (word !== prevWord) {
-      clearSearchUsers();
-      fetchSearchUsers(word);
+      clearSearchUsers(navigationStateKey);
+      fetchSearchUsers(navigationStateKey, word);
     }
   }
 
   loadMoreItems = () => {
-    const { fetchSearchUsers, searchUsers: { nextUrl, loading }, word } = this.props;
+    const { navigationStateKey, fetchSearchUsers, searchUsers: { nextUrl, loading }, word } = this.props;
     if (!loading && nextUrl) {
       console.log('load more ', nextUrl)
-      fetchSearchUsers(word, nextUrl);
+      fetchSearchUsers(navigationStateKey, word, nextUrl);
     }
   }
 
   handleOnRefresh = () => {
-    const { fetchSearchUsers, clearSearchUsers, word } = this.props;
-    clearSearchUsers();
-    fetchSearchUsers(word, null, true);
+    const { navigationStateKey, fetchSearchUsers, clearSearchUsers, word } = this.props;
+    clearSearchUsers(navigationStateKey);
+    fetchSearchUsers(navigationStateKey, word, null, true);
   }
 
   // handleOnPressRemoveTag = (index) => {
@@ -82,10 +81,10 @@ class SearchUsersResult extends Component {
   // }
 
   render() {
-    const { searchUsers, word, screenProps } = this.props;
+    const { searchUsers, items, word, screenProps } = this.props;
     return (
       <UserListContainer
-        userList={searchUsers}
+        userList={{...searchUsers, items}}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
         screenProps={screenProps}
@@ -94,11 +93,16 @@ class SearchUsersResult extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { entities, searchUsers } = state;
-  const word = props.word || props.navigation.state.params.word;
-  return {
-    searchUsers: denormalizedData(searchUsers, 'items', Schemas.USER_PREVIEW_ARRAY, entities),
-    word
+export default connect(() => {
+  const getSearchUsersItems = makeGetSearchUsersItems();
+  return (state, props) => {
+    const { searchUsers } = state;
+    const { navigationStateKey } = props;
+    const word = props.word || props.navigation.state.params.word;
+    return {
+      searchUsers: searchUsers[navigationStateKey],
+      items: getSearchUsersItems(state, props),
+      word
+    }
   }
 }, searchUsersActionCreators)(SearchUsersResult);

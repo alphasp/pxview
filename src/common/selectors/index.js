@@ -52,7 +52,6 @@ const selectRecommendedIllusts = state => state.recommendedIllusts;
 const selectRecommendedMangas = state => state.recommendedMangas;
 const selectTrendingIllustTags = state => state.trendingIllustTags;
 const selectSearch = state => state.search;
-const selectSearchUsers = state => state.searchUsers;
 const selectRelatedIllusts = state => state.relatedIllusts;
 const selectFollowingUserIllusts = state => state.followingUserIllusts;
 const selectNewIllusts = state => state.newIllusts;
@@ -68,6 +67,7 @@ const selectSearchUsersAutoComplete = state => state.searchUsersAutoComplete;
 const selectUserFollowing = state => state.userFollowing;
 const selectUserFollowers = state => state.userFollowers;
 const selectUserMyPixiv = state => state.userMyPixiv;
+const selectSearchUsers = state => state.searchUsers;
 
 const selectIllustComments = state => state.illustComments;
 
@@ -79,9 +79,9 @@ const createIllustItemsSelector = createSelectorCreator(specialMemoize, (prev, n
   if (!prev && !next) {
     return false;
   }
-  console.log(equals(prev, next, (p, n) => {
-    return (p.id === n.id) && (p.is_bookmarked === n.is_bookmarked) && (p.user.is_followed === n.user.is_followed)
-  }));
+  // console.log(equals(prev, next, (p, n) => {
+  //   return (p.id === n.id) && (p.is_bookmarked === n.is_bookmarked) && (p.user.is_followed === n.user.is_followed)
+  // }));
   return equals(prev, next, (p, n) => {
     return (p.id === n.id) && (p.is_bookmarked === n.is_bookmarked) && (p.user.is_followed === n.user.is_followed) 
   });
@@ -91,9 +91,9 @@ const createUserItemsSelector = createSelectorCreator(specialMemoize, (prev, nex
   if (!prev && !next) {
     return false;
   }
-  console.log('user preview selctor ', equals(prev, next, (p, n) => {
-    return (p.id === n.id) && (p.user.is_followed === n.user.is_followed)
-  }));
+  // console.log('user preview selctor ', equals(prev, next, (p, n) => {
+  //   return (p.id === n.id) && (p.user.is_followed === n.user.is_followed)
+  // }));
   return equals(prev, next, (p, n) => {
     return (p.id === n.id) && (p.user.is_followed === n.user.is_followed) 
   });
@@ -180,6 +180,15 @@ export const makeGetUserMyPixivItems = () => {
     const userId = props.userId || props.navigation.state.params.userId;
     return userMyPixiv[userId] ? 
       denormalize(userMyPixiv[userId].items, Schemas.USER_PREVIEW_ARRAY, entities)
+      :
+      defaultArray;
+  });
+}
+
+export const makeGetSearchUsersItems = () => {
+  return createUserItemsSelector([selectSearchUsers, selectEntities, getProps], (searchUsers, entities, props) => {
+    return searchUsers[props.navigationStateKey] ? 
+      denormalize(searchUsers[props.navigationStateKey].items, Schemas.USER_PREVIEW_ARRAY, entities)
       :
       defaultArray;
   });

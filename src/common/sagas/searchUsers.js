@@ -10,7 +10,7 @@ import { SEARCH_USERS } from '../constants/actionTypes';
 import Schemas from '../constants/schemas';
 
 export function* handleFetchSearchUsers(action) {
-  const { word, nextUrl } = action.payload;
+  const { navigationStateKey, word, nextUrl } = action.payload;
   try {
     let response;
     if (nextUrl) {
@@ -31,10 +31,10 @@ export function* handleFetchSearchUsers(action) {
       })
     };
     const normalized = normalize(transformedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
-    yield put(fetchSearchUsersSuccess(normalized.entities, normalized.result, response.next_url));
+    yield put(fetchSearchUsersSuccess(normalized.entities, normalized.result, navigationStateKey, response.next_url));
   } 
   catch(err) {
-    yield put(fetchSearchUsersFailure());
+    yield put(fetchSearchUsersFailure(navigationStateKey));
     yield put(addError(err));    
   }
 }

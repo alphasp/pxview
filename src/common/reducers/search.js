@@ -14,11 +14,11 @@ export default function search(state = {}, action) {
         ...state,
         [action.payload.navigationStateKey]: {
           ...state[action.payload.navigationStateKey],
+          loading: true,
+          refreshing: action.payload.refreshing,
           word: action.payload.word,
           options: action.payload.options,
           offset: action.payload.offset,
-          loading: true,
-          refreshing: action.payload.refreshing
         }
       };
     case SEARCH.SUCCESS:

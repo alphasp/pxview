@@ -12,28 +12,44 @@ const defaultState = {
 export default function searchUsers(state = defaultState, action) {
   switch (action.type) {
     case SEARCH_USERS.CLEAR:
-      return defaultState;
+      return {
+        ...state,
+        [action.payload.navigationStateKey]: defaultState,
+      };
+    case SEARCH_USERS.CLEAR_ALL:
+      return {};
     case SEARCH_USERS.REQUEST:
       return {
         ...state,
-        loading: true,
-        refreshing: action.payload.refreshing
+        [action.payload.navigationStateKey]: {
+          ...state[action.payload.navigationStateKey],
+          loading: true,
+          refreshing: action.payload.refreshing,
+          word: action.payload.word,
+          offset: action.payload.offset,
+        }
       };
     case SEARCH_USERS.SUCCESS:
       return {
         ...state,
-        loading: false,
-        loaded: true,
-        refreshing: false,
-        items: [...state.items, ...action.payload.items],
-        nextUrl: action.payload.nextUrl,
-        timestamp: action.payload.timestamp,
+        [action.payload.navigationStateKey]: {
+          ...state[action.payload.navigationStateKey],
+          loading: false,
+          loaded: true,
+          refreshing: false,
+          items: (state[action.payload.navigationStateKey] && state[action.payload.navigationStateKey].items) ? [...state[action.payload.navigationStateKey].items, ...action.payload.items] : action.payload.items,
+          nextUrl: action.payload.nextUrl,
+          timestamp: action.payload.timestamp
+        }
       };
     case SEARCH_USERS.FAILURE:
       return {
         ...state,
-        loading: false,
-        refreshing: false
+        [action.payload.navigationStateKey]: {
+          ...state[action.payload.navigationStateKey],
+          loading: false,
+          refreshing: false
+        }
       };
     default:
       return state;

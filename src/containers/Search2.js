@@ -103,7 +103,7 @@ class Search2 extends Component {
       const { navigation: { navigate, setParams }, isPushNewSearch, searchType, onSubmitSearch, addSearchHistory } = this.props;
       addSearchHistory(word);
       onSubmitSearch(word);
-      console.log('submit search ', searchType)
+      console.log('submit search ', searchType, isPushNewSearch)
       if (isPushNewSearch) {
         navigate('SearchResult', { word, searchType });
       }
