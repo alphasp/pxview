@@ -44,6 +44,7 @@ export default function relatedIllusts(state = {}, action) {
         [action.payload.illustId]: {
           ...state[action.payload.illustId],
           loading: false,
+          loaded: true,
           refreshing: false,
         }
       };

@@ -33,6 +33,7 @@ export default function searchUsersAutoComplete(state = defaultState, action) {
       return {
         ...state,
         loading: false,
+        loaded: true,
         refreshing: false,
       };
     default:

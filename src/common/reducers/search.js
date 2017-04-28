@@ -40,6 +40,7 @@ export default function search(state = {}, action) {
         [action.payload.navigationStateKey]: {
           ...state[action.payload.navigationStateKey],
           loading: false,
+          loaded: true,
           refreshing: false
         }
       };

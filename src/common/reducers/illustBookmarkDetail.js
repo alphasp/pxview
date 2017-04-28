@@ -39,6 +39,7 @@ export default function illustBookmarkDetail(state = {
       return {
         ...state,
         loading: false,
+        loaded: true,
         illustId: action.payload.illustId,
       };
     default:

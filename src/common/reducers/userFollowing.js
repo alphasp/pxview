@@ -61,6 +61,7 @@ export default function userFollowing(state = {
           [action.payload.userId]: {
             ...state[action.payload.followingType][action.payload.userId],
             loading: false,
+            loaded: true,
             refreshing: false
           }
         }

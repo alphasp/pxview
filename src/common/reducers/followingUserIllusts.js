@@ -34,6 +34,7 @@ export default function followingUserIllusts(state = defaultState, action) {
       return {
         ...state,
         loading: false,
+        loaded: true,
         refreshing: false,
       };
     default:

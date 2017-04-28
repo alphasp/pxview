@@ -46,6 +46,7 @@ export default function bookmarkIllust(state = {
       return {
         ...state,
         loading: false,
+        loaded: true
       };
     default:
       return state;

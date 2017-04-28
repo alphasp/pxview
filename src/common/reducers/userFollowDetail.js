@@ -39,6 +39,7 @@ export default function userFollowDetail(state = {
       return {
         ...state,
         loading: false,
+        loaded: true,
         userId: action.payload.userId,
       };
     default:

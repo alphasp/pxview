@@ -57,7 +57,8 @@ export default function search(state = {
           ...state[action.payload.tagType],
           options: action.payload.options,
           offset: action.payload.offset,
-          loading: false
+          loading: false,
+          loaded: true
         }
       };
     default:

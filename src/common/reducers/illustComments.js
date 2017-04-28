@@ -42,7 +42,8 @@ export default function illustComments(state = {}, action) {
         ...state,
         [action.payload.illustId]: {
           ...state[action.payload.illustId],
-          loading: false
+          loading: false,
+          loaded: true,
         }
       };
     default:

@@ -30,6 +30,7 @@ export default function trendingIllustTags(state = defaultState, action) {
       return {
         ...state,
         loading: false,
+        loaded: true,
         refreshing: false
       };
     default:

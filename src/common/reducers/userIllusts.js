@@ -38,6 +38,7 @@ export default function userIllusts(state = {}, action) {
         [action.payload.userId]: {
           ...state[action.payload.userId],
           loading: false,
+          loaded: true,
           refreshing: false
         }
       };

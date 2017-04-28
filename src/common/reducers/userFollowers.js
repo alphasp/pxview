@@ -36,6 +36,7 @@ export default function userFollowers(state = {}, action) {
         ...state,
         [action.payload.userId]: {
           loading: false,
+          loaded: true,
           refreshing: true
         }
       };

@@ -50,6 +50,7 @@ export default function auth(state = {
       return {
         ...state,
         loading: false,
+        loaded: true
       };
     case REHYDRATE:
       return {

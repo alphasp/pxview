@@ -27,6 +27,7 @@ export function searchAutoComplete(state = defaultState, action) {
       return {
         ...state,
         loading: false,
+        loaded: true,
       };
     default:
       return state;
