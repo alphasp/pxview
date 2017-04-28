@@ -25,7 +25,6 @@ class MyCollection extends Component {
   static navigationOptions = ({ navigation }) => {
     const { setParams } = navigation;
     return {
-      headerBackTitle: null,
       headerRight: (
         <Icon 
           name="sliders" 

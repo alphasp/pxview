@@ -20,12 +20,6 @@ const styles = StyleSheet.create({
 });
 
 class MyConnection extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerBackTitle: null
-    };
-  };
-
   constructor(props) {
     super(props);
     this.state = { 

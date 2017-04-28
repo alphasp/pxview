@@ -21,12 +21,6 @@ const styles = StyleSheet.create({
 });
 
 class RelatedIllusts extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerBackTitle: null
-    }
-  };
-
   componentDidMount() {
     const { relatedIllusts, illustId, fetchRelatedIllusts, clearRelatedIllusts } = this.props;
     // will render blank unless scrolled

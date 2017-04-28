@@ -67,6 +67,7 @@ const NewWorkNavigator = StackNavigator({
     headerStyle: {
       backgroundColor: '#fff',
     },
+    headerBackTitle: null,
   },
   cardStyle: {
     backgroundColor: '#fff'

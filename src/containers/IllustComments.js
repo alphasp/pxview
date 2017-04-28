@@ -20,12 +20,6 @@ import * as illustCommentsActionCreators from '../common/actions/illustComments'
 import { makeGetIllustCommentsItems } from '../common/selectors';
 
 class IllustComments extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerBackTitle: null
-    }
-  };
-
   componentDidMount() {
     const { fetchIllustComments, clearIllustComments, illustComments, illustId } = this.props;
     if (!illustComments || !illustComments.items) {

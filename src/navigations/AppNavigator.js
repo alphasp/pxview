@@ -20,7 +20,6 @@ const AppNavigator = StackNavigator({
       //   //visible: false,
       // },
       headerVisible: false,
-      headerBackTitle: null
     },
   },
   Login: { 
@@ -43,18 +42,12 @@ const AppNavigator = StackNavigator({
     screen: PXWebView
   }
 }, {
-  // navigationOptions: {
-  //   header: {
-  //     style: {
-  //       backgroundColor: 'green'
-  //     }
-  //   }
-  // },
   mode: 'modal',
   cardStyle: {
     backgroundColor: '#fff'
   },
   headerMode: 'screen',
+
 });
 
 export default AppNavigator;

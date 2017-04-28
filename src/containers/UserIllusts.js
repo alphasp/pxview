@@ -10,12 +10,6 @@ import * as userIllustsActionCreators from '../common/actions/userIllusts';
 import { makeGetUserIllustsItems } from '../common/selectors';
 
 class UserIllusts extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerBackTitle: null
-    }
-  };
-
   componentDidMount() {
     const { userIllusts, userId, fetchUserIllusts, clearUserIllusts } = this.props;
     if (!userIllusts || !userIllusts.items) {

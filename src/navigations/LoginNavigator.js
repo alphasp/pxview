@@ -16,6 +16,7 @@ const LoginNavigator = StackNavigator({
     headerStyle: {
       backgroundColor: '#fff',
     },
+    headerBackTitle: null,
   },
   cardStyle: {
     backgroundColor: '#fff'

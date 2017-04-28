@@ -60,7 +60,8 @@ const HomeNavigator = StackNavigator({
   navigationOptions: {
     headerStyle: {
       backgroundColor: '#fff'
-    }
+    },
+    headerBackTitle: null,
   },
   cardStyle: {
     backgroundColor: '#fff'

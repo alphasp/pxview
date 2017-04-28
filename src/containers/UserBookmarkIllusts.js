@@ -10,12 +10,6 @@ import * as userBookmarkIllustActionCreators from '../common/actions/userBookmar
 import { makeGetUserBookmarkIllustsItems } from '../common/selectors';
 
 class UserBookmarkIllusts extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerBackTitle: null
-    }
-  }
-  
   componentDidMount() {
     const { userBookmarkIllusts, userId, tag, reload, fetchUserBookmarkIllusts, clearUserBookmarkIllusts } = this.props;
     console.log('tag ', tag)
