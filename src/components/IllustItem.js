@@ -12,7 +12,7 @@ class IllustItem extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     const { item: prevItem } = this.props;
     const { item } = nextProps;
-    // console.log(item.id, prevItem.is_bookmarked !== item.is_bookmarked, prevItem.is_followed !== item.is_followed)
+    // console.log(item.id, (prevItem.is_bookmarked !== item.is_bookmarked) || (prevItem.user.is_followed !== item.user.is_followed));
     return (prevItem.is_bookmarked !== item.is_bookmarked) || (prevItem.user.is_followed !== item.user.is_followed);
   }
 

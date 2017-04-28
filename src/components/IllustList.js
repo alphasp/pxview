@@ -67,6 +67,7 @@ class IllustList extends Component {
   render() {
     const { data: { items, loading, loaded, refreshing }, onRefresh, loadMoreItems, onScroll, maxItems } = this.props;
     // const { dataSource } = this.state;
+    // console.log('render illust list ', this.props.data)
     return (
       <View style={styles.container}>
         {
@@ -111,7 +112,7 @@ class IllustList extends Component {
             legacyImplementation={false}
             debug={false}
             disableVirtualization={false}
-            removeClippedSubviews={false}
+            removeClippedSubviews={true}
             initialNumToRender={4}
             onEndReachedThreshold={0.1}
             onEndReached={loadMoreItems}
