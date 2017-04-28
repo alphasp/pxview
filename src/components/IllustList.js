@@ -95,7 +95,7 @@ class IllustList extends Component {
           null
         }*/}
         {
-          (items && items.length) ?
+          loaded ?
           <FlatList
             data={maxItems ? items.slice(0, maxItems) : items}
             numColumns={3}
