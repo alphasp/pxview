@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     marginTop: 5
   },
   nullResultContainer: {
+    flex: 1,
     alignItems: 'center'
   }
 });
@@ -132,7 +133,7 @@ class CommentList extends Component {
           <Loader />
         }
         {
-          (items && items.length) ?
+          loaded ?
           <FlatList
             data={maxItems ? items.slice(0, maxItems) : items}
             keyExtractor={(item, index) => item.id}
