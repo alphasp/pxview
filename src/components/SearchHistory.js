@@ -8,8 +8,8 @@ import {
   Animated,
   FlatList,
   Dimensions,
+  Keyboard,
 } from 'react-native';
-import dismissKeyboard from 'dismissKeyboard';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import Separator from './Separator';
@@ -19,15 +19,6 @@ const styles = StyleSheet.create({
     padding: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  separatorContainer: {
-    paddingLeft: 10, 
-    paddingRight: 10
-  },
-  separator: {
-    //flex: 1,
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: '#8E8E8E',
   },
   searchHistoryContainer: {
     padding: 10,
@@ -79,6 +70,7 @@ class SearchHistory extends Component {
           renderItem={this.renderItem}
           ItemSeparatorComponent={Separator}
           keyboardShouldPersistTaps="always"
+          onScroll={Keyboard.dismiss}
         />
       </View>
     );

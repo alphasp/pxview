@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   StyleSheet,
@@ -7,8 +7,9 @@ import {
   Platform,
   Animated,
   ListView,
+  FlatList,
+  Keyboard,
 } from 'react-native';
-import dismissKeyboard from 'dismissKeyboard';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import Loader from './Loader';
@@ -35,28 +36,8 @@ const styles = StyleSheet.create({
   },
 });
 
-class SearchAutoCompleteList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-      }),
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { data: { items: prevItems } } = this.props;
-    const { data: { items }, maxItems } = nextProps;
-    if (items && items !== prevItems) {
-      const { dataSource } = this.state;
-      this.setState({
-        dataSource: dataSource.cloneWithRows(items)
-      });
-    }
-  }
-
-  renderRow = (item) => {
+class SearchAutoCompleteList extends PureComponent {
+  renderItem = ({ item }) => {
     const { onPressItem } = this.props;
     return (
       <PXTouchable 
@@ -70,15 +51,8 @@ class SearchAutoCompleteList extends Component {
     )
   }
 
-  renderSeparator = (sectionId, rowId) => {
-    return (
-      <Separator key={`${sectionId}-${rowId}`} />
-    )
-  }
-
   render() {
     const { data: { items, loading, loaded } } = this.props;
-    const { dataSource } = this.state;
     return (
       <View style={styles.container}>
         {
@@ -87,13 +61,13 @@ class SearchAutoCompleteList extends Component {
         }
         {
           (items && items.length) ?
-          <ListView 
-            dataSource={dataSource}
-            renderRow={this.renderRow}
-            renderSeparator={this.renderSeparator}
-            enableEmptySections={true}
+          <FlatList
+            data={items}
+            keyExtractor={(item, index) => item}
+            renderItem={this.renderItem}
+            ItemSeparatorComponent={Separator}
             keyboardShouldPersistTaps="always"
-            onScroll={dismissKeyboard}
+            onScroll={Keyboard.dismiss}
           />
           :
           null
