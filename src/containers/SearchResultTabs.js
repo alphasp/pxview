@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import HeaderBackButton from 'react-navigation/src/views/HeaderBackButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Search2 from './Search2';
+import Search from './Search';
 import PXHeader from '../components/PXHeader';
 import PXTabView from '../components/PXTabView';
 import PXTouchable from '../components/PXTouchable';
@@ -277,7 +277,7 @@ class SearchResultTabs extends Component {
           />
           { 
             isFocusSearchBar &&
-            <Search2 
+            <Search 
               word={newWord}
               navigation={navigation} 
               searchType={searchType} 

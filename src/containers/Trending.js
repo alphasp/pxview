@@ -20,7 +20,7 @@ import RecommendedUsers from './RecommendedUsers';
 import Header from '../components/Header';
 import PXHeader from '../components/PXHeader';
 import PXSearchBar from '../components/PXSearchBar';
-import Search2 from './Search2';
+import Search from './Search';
 import { setSearchType, SearchType } from '../common/actions/searchType';
 import { SearchBar } from 'react-native-elements'
 
@@ -141,7 +141,7 @@ class Trending extends Component {
           />
           { 
             isFocusSearchBar &&
-            <Search2 
+            <Search 
               word={word}
               navigation={navigation} 
               isPushNewSearch={true} 

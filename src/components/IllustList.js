@@ -15,7 +15,6 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 //import GridView from 'react-native-grid-view';
 // import Image from 'react-native-image-progress';
-import GridView from './GridView';
 import IllustItem from './IllustItem';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
