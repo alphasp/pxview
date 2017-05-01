@@ -20,12 +20,11 @@ export function fetchIllustBookmarkDetailFailure(illustId) {
   };
 }
 
-export function fetchIllustBookmarkDetail(illustId, nextUrl) {
+export function fetchIllustBookmarkDetail(illustId) {
   return {
     type: ILLUST_BOOKMARK_DETAIL.REQUEST,
     payload: {
       illustId,
-      nextUrl,
     }
   };
 }

@@ -84,6 +84,9 @@ export const BOOKMARK_ILLUST = defineAction('BOOKMARK_ILLUST',
 export const UNBOOKMARK_ILLUST = defineAction('UNBOOKMARK_ILLUST',
 	[REQUEST, SUCCESS, FAILURE], appNamespace);	
 
+export const USER_FOLLOW_DETAIL = defineAction('USER_FOLLOW_DETAIL',
+	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);	
+
 export const FOLLOW_USER = defineAction('FOLLOW_USER',
 	[REQUEST, SUCCESS, FAILURE], appNamespace);	
 

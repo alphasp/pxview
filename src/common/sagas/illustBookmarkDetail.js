@@ -1,4 +1,3 @@
-import { normalize } from 'normalizr';
 import { takeEvery, apply, put, select } from 'redux-saga/effects';
 import {
   fetchIllustBookmarkDetailSuccess,
@@ -7,7 +6,6 @@ import {
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { ILLUST_BOOKMARK_DETAIL } from '../constants/actionTypes';
-import Schemas from '../constants/schemas';
 
 export function* handleFetchIllustBookmarkDetail(action) {
   const { illustId } = action.payload;
