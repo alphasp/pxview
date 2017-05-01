@@ -72,5 +72,8 @@ export const SEARCH_AUTOCOMPLETE = defineAction('SEARCH_AUTOCOMPLETE',
 export const SEARCH_USERS_AUTOCOMPLETE = defineAction('SEARCH_USERS_AUTOCOMPLETE',
 	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);	
 
+export const BOOKMARK_TAGS = defineAction('BOOKMARK_TAGS',
+	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);	
+
 export const SEARCH_HISTORY = defineAction('SEARCH_HISTORY',
 	[ADD, REMOVE, CLEAR], appNamespace);	

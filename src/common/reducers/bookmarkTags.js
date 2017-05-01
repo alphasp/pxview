@@ -1,47 +1,39 @@
-import { REQUEST_BOOKMARK_TAG, RECEIVE_BOOKMARK_TAG, STOP_BOOKMARK_TAG, CLEAR_BOOKMARK_TAG, CLEAR_ALL_BOOKMARK_TAG, TagType } from "../actions/bookmarkTag";
+import { BOOKMARK_TAGS } from '../constants/actionTypes';
+import { TAG_TYPES } from '../constants/tagTypes';
 
 const defaultItems = [{ name: 'All', value: '' }, { name: 'Uncategorized', value: '未分類' }];
-export default function search(state = {
-  [TagType.PUBLIC]: {
-    items: defaultItems
-  },
-  [TagType.PRIVATE]: {
-    items: defaultItems
-  },
+const defaultState = {
+  loading: false,
+  loaded: false,
+  items: defaultItems,
+  offset: null,
+  nextUrl: null,
+};
+
+export default function bookmarkTags(state = {
+  [TAG_TYPES.PUBLIC]: defaultState,
+  [TAG_TYPES.PRIVATE]: defaultState
 }, action) {
   switch (action.type) {
-    case CLEAR_BOOKMARK_TAG:
+    case BOOKMARK_TAGS.CLEAR:
       return {
         ...state,
-        [action.payload.tagType]: {
-          items: defaultItems
-        },
+        [action.payload.tagType]: defaultState
       };
-    case CLEAR_ALL_BOOKMARK_TAG:
-      return {
-        [TagType.PUBLIC]: {
-          items: defaultItems
-        },
-        [TagType.PRIVATE]: {
-          items: defaultItems
-        },
-      };  
-    case REQUEST_BOOKMARK_TAG:
+    case BOOKMARK_TAGS.REQUEST:
       return {
         ...state,
         [action.payload.tagType]: {
           ...state[action.payload.tagType],
-          options: action.payload.options,
           offset: action.payload.offset,
           loading: true,
         }
       };
-    case RECEIVE_BOOKMARK_TAG:
+    case BOOKMARK_TAGS.SUCCESS:
       return {
         ...state,
         [action.payload.tagType]: {
           ...state[action.payload.tagType],
-          options: action.payload.options,
           loading: false,
           loaded: true,
           items: (state[action.payload.tagType] && state[action.payload.tagType].items) ? [...state[action.payload.tagType].items, ...action.payload.items] : action.payload.items,
@@ -50,12 +42,11 @@ export default function search(state = {
           timestamp: action.payload.timestamp
         }
       };
-    case STOP_BOOKMARK_TAG:
+    case BOOKMARK_TAGS.FAILURE:
       return {
         ...state,
         [action.payload.tagType]: {
           ...state[action.payload.tagType],
-          options: action.payload.options,
           offset: action.payload.offset,
           loading: false,
           loaded: true

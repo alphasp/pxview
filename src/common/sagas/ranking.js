@@ -9,7 +9,6 @@ import pixiv from '../helpers/ApiClient';
 import { RANKING } from '../constants/actionTypes';
 import { RANKING_FOR_UI } from '../constants/rankingTypes';
 import Schemas from '../constants/schemas';
-import { getAuthUser } from '../selectors';
 
 function mapRankingMode(rankingMode) {
   switch (rankingMode) {

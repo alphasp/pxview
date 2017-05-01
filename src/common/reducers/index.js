@@ -21,7 +21,7 @@ import myPrivateBookmarkIllusts from './myPrivateBookmarkIllusts';
 import userFollowing from './userFollowing';
 import userFollowers from './userFollowers';
 import userMyPixiv from './userMyPixiv';
-import bookmarkTag from './bookmarkTag';
+import bookmarkTags from './bookmarkTags';
 import ranking from './ranking';
 import followingUserIllusts from './followingUserIllusts';
 import newIllusts from './newIllusts';
@@ -68,7 +68,7 @@ const rootReducer = combineReducers({
   newIllusts,
   newMangas,
   myPixiv,
-  bookmarkTag,
+  bookmarkTags,
   bookmarkIllust,
   illustBookmarkDetail,
   auth,

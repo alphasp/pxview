@@ -13,7 +13,7 @@ import PXTabView from '../components/PXTabView';
 import TagsFilterModal from './TagsFilterModal';
 import MyPrivateBookmarkIllusts from './MyPrivateBookmarkIllusts';
 import UserBookmarkIllusts from './UserBookmarkIllusts';
-import { TagType } from '../common/actions/bookmarkTag';
+import { TAG_TYPES } from '../common/constants/tagTypes';
 
 const styles = StyleSheet.create({
   container: {
@@ -109,7 +109,7 @@ class MyCollection extends Component {
         {
           index === 0 &&
           <TagsFilterModal 
-            tagType={TagType.PUBLIC}
+            tagType={TAG_TYPES.PUBLIC}
             isOpen={isOpenFilterModal || false}
             onPressCloseButton={this.handleOnPressCloseFilterButton}
             onSelectTag={this.handleOnSelectTag}
@@ -119,7 +119,7 @@ class MyCollection extends Component {
         {
           index === 1 &&
           <TagsFilterModal 
-            tagType={TagType.PRIVATE}
+            tagType={TAG_TYPES.PRIVATE}
             isOpen={isOpenFilterModal || false}
             onPressCloseButton={this.handleOnPressCloseFilterButton}
             onSelectTag={this.handleOnSelectTag}
