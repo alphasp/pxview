@@ -120,7 +120,6 @@ class BookmarkModal extends Component {
     const { illustBookmarkDetail: { item: prevItem } } = this.props;
     const { illustBookmarkDetail: { item } } = nextProps;
     if (item && item !== prevItem) {
-      const { dataSource } = this.state;
       const selectedTagsCount = this.countSelectedTags(item.tags);
       const tags = item.tags.map(tag => {
         return {

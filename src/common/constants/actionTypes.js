@@ -75,5 +75,14 @@ export const SEARCH_USERS_AUTOCOMPLETE = defineAction('SEARCH_USERS_AUTOCOMPLETE
 export const BOOKMARK_TAGS = defineAction('BOOKMARK_TAGS',
 	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);	
 
+export const ILLUST_BOOKMARK_DETAIL = defineAction('ILLUST_BOOKMARK_DETAIL',
+	[REQUEST, SUCCESS, FAILURE, CLEAR], appNamespace);	
+
+export const BOOKMARK_ILLUST = defineAction('BOOKMARK_ILLUST',
+	[REQUEST, SUCCESS, FAILURE], appNamespace);	
+
+export const UNBOOKMARK_ILLUST = defineAction('UNBOOKMARK_ILLUST',
+	[REQUEST, SUCCESS, FAILURE], appNamespace);	
+
 export const SEARCH_HISTORY = defineAction('SEARCH_HISTORY',
 	[ADD, REMOVE, CLEAR], appNamespace);	

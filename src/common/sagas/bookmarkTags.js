@@ -49,6 +49,6 @@ export function* handleFetchBookmarkTags(action) {
   }
 }
 
-export function* watchBookmarkTags() {
+export function* watchFetchBookmarkTags() {
   yield takeEvery(BOOKMARK_TAGS.REQUEST, handleFetchBookmarkTags);
 }

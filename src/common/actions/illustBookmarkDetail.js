@@ -1,74 +1,38 @@
-import qs from "qs";
-import { addError } from './error';
-import pixiv from '../helpers/ApiClient';
+import { ILLUST_BOOKMARK_DETAIL } from '../constants/actionTypes';
 
-export const FETCH_ILLUST_BOOKMARK_DETAIL_REQUEST = 'FETCH_ILLUST_BOOKMARK_DETAIL_REQUEST';
-export const FETCH_ILLUST_BOOKMARK_DETAIL_SUCCESS = 'FETCH_ILLUST_BOOKMARK_DETAIL_SUCCESS';
-export const FETCH_ILLUST_BOOKMARK_DETAIL_FAILURE = 'FETCH_ILLUST_BOOKMARK_DETAIL_FAILURE';
-export const CLEAR_ILLUST_BOOKMARK_DETAIL = 'CLEAR_ILLUST_BOOKMARK_DETAIL';
-
-function fetchIllustBookmarkDetailRequest(illustId) {
+export function fetchIllustBookmarkDetailSuccess(item, illustId) {
   return {
-    type: FETCH_ILLUST_BOOKMARK_DETAIL_REQUEST,
+    type: ILLUST_BOOKMARK_DETAIL.SUCCESS,
+    payload: {
+      illustId,
+      item,
+      timestamp: Date.now(),
+    }
+  };
+}
+
+export function fetchIllustBookmarkDetailFailure(illustId) {
+  return {
+    type: ILLUST_BOOKMARK_DETAIL.FAILURE,
     payload: {
       illustId
     }
   };
 }
 
-function fetchIllustBookmarkDetailSuccess(json, illustId) { 
+export function fetchIllustBookmarkDetail(illustId, nextUrl) {
   return {
-    type: FETCH_ILLUST_BOOKMARK_DETAIL_SUCCESS,
-    payload: {
-      item: json.bookmark_detail,
-      illustId,
-      timestamp: Date.now(),
-    }
-  };
-}
-
-function fetchIllustBookmarkDetailFailure(illustId) {
-  return {
-    type: FETCH_ILLUST_BOOKMARK_DETAIL_FAILURE,
+    type: ILLUST_BOOKMARK_DETAIL.REQUEST,
     payload: {
       illustId,
-    }
-  };
-}
-
-function shouldFetchIllustBookmarkDetail(state) {
-  const results = state.illustBookmarkDetail;
-  if (results && results.loading) {
-    return false;
-  } 
-  else {
-    return true;
-  }
-}
-
-function fetchIllustBookmarkDetailFromApi(illustId) {
-  return dispatch => {
-    dispatch(fetchIllustBookmarkDetailRequest(illustId));
-    return pixiv.illustBookmarkDetail(illustId)
-      .then(json => dispatch(fetchIllustBookmarkDetailSuccess(json, illustId)))
-      .catch(err => {
-        dispatch(fetchIllustBookmarkDetailFailure(illustId));
-        dispatch(addError(err));
-      });
-  };
-}
-
-export function fetchIllustBookmarkDetail(illustId) {
-  return (dispatch, getState) => {
-    if (shouldFetchIllustBookmarkDetail(getState(), illustId)) {
-      return dispatch(fetchIllustBookmarkDetailFromApi(illustId));
+      nextUrl,
     }
   };
 }
 
 export function clearIllustBookmarkDetail(illustId) {
   return {
-    type: CLEAR_ILLUST_BOOKMARK_DETAIL,
+    type: ILLUST_BOOKMARK_DETAIL.CLEAR,
     payload: {
       illustId
     }
