@@ -5,7 +5,7 @@ import {
   Platform,
   Text,
   TextInput,
-  ListView,
+  FlatList,
   TouchableWithoutFeedback,
   Modal,
   Switch,
@@ -103,10 +103,6 @@ class BookmarkModal extends Component {
     super(props);
     const { isBookmark } = props;
     this.state = {
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-        sectionHeaderHasChanged: (s1,s2) => s1 !== s2
-      }),
       tags: [],
       isPrivate: false,
       selectedTagsCount: 0,
@@ -133,7 +129,6 @@ class BookmarkModal extends Component {
         }
       });
       this.setState({
-        dataSource: dataSource.cloneWithRows(tags),
         tags,
         isPrivate: item.restrict === 'private' ? true : false,
         selectedTagsCount
@@ -178,7 +173,6 @@ class BookmarkModal extends Component {
     // const selectedTagsCount = this.countSelectedTags(updatedTags);
     this.setState({
       tags: updatedTags,
-      dataSource: dataSource.cloneWithRows(updatedTags),
       selectedTagsCount,
     });
   }
@@ -210,7 +204,7 @@ class BookmarkModal extends Component {
   }
 
   handleOnPressAddTag = () => {
-    const { newTag, tags, dataSource } = this.state;
+    const { newTag, tags } = this.state;
     if (!newTag) {
       return;
     }
@@ -238,7 +232,6 @@ class BookmarkModal extends Component {
     }
 
     this.setState({
-      dataSource: dataSource.cloneWithRows(updatedTags),
       tags: updatedTags,
       selectedTagsCount: this.countSelectedTags(updatedTags),
       newTag: null
@@ -256,12 +249,11 @@ class BookmarkModal extends Component {
     unbookmarkIllust(id);
   }
 
-  renderRow = (item) => {
+  renderItem = ({ item }) => {
     const { tag, onSelectTag } = this.props;
     const { selectedTagsCount } = this.state;
     return (
       <PXTouchable 
-        key={item.name} 
         onPress={() => this.handleOnCheckTag(item)}
       >
         <View style={styles.row}>
@@ -278,78 +270,77 @@ class BookmarkModal extends Component {
 
   render() {
     const { illustBookmarkDetail: { item, loading, loaded }, isBookmark, onSelectTag } = this.props;
-    const { dataSource, tags, selectedTagsCount, isPrivate } = this.state;
+    const { tags, selectedTagsCount, isPrivate } = this.state;
     return (
-      <View>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={true}
-          onRequestClose={this.handleOnModalClose}
-        >
-          <PXTouchable style={styles.container} onPress={this.handleOnModalClose}>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <View style={styles.innerContainer}>
-                <View style={styles.titleContainer}>
-                  <Text style={styles.title}>
-                    {isBookmark ? "Edit Like" : "Add Like"}
-                  </Text>
-                </View>
-                <View style={styles.subTitleContainer}>
-                  <Text>Collection Tags</Text>
-                  <Text>{selectedTagsCount} / 10</Text>
-                </View>
-                <View style={styles.newTagContainer}>
-                  <TextInput
-                    ref={(ref) => this.tagInput = ref}
-                    style={styles.tagInput}
-                    placeholder="Add tag"
-                    autoCorrect={false}
-                    onChangeText={(text) => this.setState({newTag: text})}
-                  />
-                  <PXTouchable onPress={this.handleOnPressAddTag}>
-                    <Icon name="plus" size={20}/>
-                  </PXTouchable>
-                </View>
-                <View style={{maxHeight: Dimensions.get('window').height - 300}}>
-                  <ListView
-                    dataSource={dataSource}
-                    renderRow={this.renderRow}
-                    keyboardShouldPersistTaps="always"
-                  />  
-                </View>
-                <View style={styles.row}>
-                  <Text>Private</Text>
-                  <Switch value={isPrivate} onValueChange={this.handleOnChangeIsPrivate} />
-                </View>
-                <View style={[styles.actionContainer, !isBookmark && {justifyContent: "center"}]}>
-                  {
-                    isBookmark &&
-                    <PXTouchable onPress={this.handleOnPressRemoveButton}>
-                      <Text>Remove Like</Text>
-                    </PXTouchable>
-                  }
-                  <PXTouchable 
-                    style={!isBookmark && {flexDirection: "row", alignItems: "center"}}
-                    onPress={this.handleOnPressBookmarkButton}
-                  >
-                    {
-                      !isBookmark &&
-                      <MaterialIcon
-                        name="favorite"
-                        color="rgb(210, 212, 216)"
-                        size={20} 
-                      />
-                    }
-                    <Text>{isBookmark ? "Save" : "Like"}</Text>
-                  </PXTouchable>
-                </View>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={true}
+        onRequestClose={this.handleOnModalClose}
+      >
+        <PXTouchable style={styles.container} onPress={this.handleOnModalClose}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.innerContainer}>
+              <View style={styles.titleContainer}>
+                <Text style={styles.title}>
+                  {isBookmark ? "Edit Like" : "Add Like"}
+                </Text>
               </View>
-            </TouchableWithoutFeedback>
-          </PXTouchable>
-          <Toast ref={ref => this.toast = ref} />
-        </Modal>
-      </View>
+              <View style={styles.subTitleContainer}>
+                <Text>Collection Tags</Text>
+                <Text>{selectedTagsCount} / 10</Text>
+              </View>
+              <View style={styles.newTagContainer}>
+                <TextInput
+                  ref={(ref) => this.tagInput = ref}
+                  style={styles.tagInput}
+                  placeholder="Add tag"
+                  autoCorrect={false}
+                  onChangeText={(text) => this.setState({newTag: text})}
+                />
+                <PXTouchable onPress={this.handleOnPressAddTag}>
+                  <Icon name="plus" size={20}/>
+                </PXTouchable>
+              </View>
+              <View style={{maxHeight: Dimensions.get('window').height - 300}}>
+                <FlatList
+                  data={tags}
+                  keyExtractor={item => item.name}
+                  renderItem={this.renderItem}
+                  keyboardShouldPersistTaps="always"
+                />  
+              </View>
+              <View style={styles.row}>
+                <Text>Private</Text>
+                <Switch value={isPrivate} onValueChange={this.handleOnChangeIsPrivate} />
+              </View>
+              <View style={[styles.actionContainer, !isBookmark && {justifyContent: "center"}]}>
+                {
+                  isBookmark &&
+                  <PXTouchable onPress={this.handleOnPressRemoveButton}>
+                    <Text>Remove Like</Text>
+                  </PXTouchable>
+                }
+                <PXTouchable 
+                  style={!isBookmark && {flexDirection: "row", alignItems: "center"}}
+                  onPress={this.handleOnPressBookmarkButton}
+                >
+                  {
+                    !isBookmark &&
+                    <MaterialIcon
+                      name="favorite"
+                      color="rgb(210, 212, 216)"
+                      size={20} 
+                    />
+                  }
+                  <Text>{isBookmark ? "Save" : "Like"}</Text>
+                </PXTouchable>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </PXTouchable>
+        <Toast ref={ref => this.toast = ref} />
+      </Modal>
     );
   }
 }
