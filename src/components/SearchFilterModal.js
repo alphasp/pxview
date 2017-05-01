@@ -7,6 +7,7 @@ import {
   Platform,
   Dimensions,
   Button,
+  SectionList,
 } from 'react-native';
 import { connect } from 'react-redux'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -16,21 +17,6 @@ import Separator from './Separator';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //padding: 10
-    // position: "absolute",
-    // top:0,
-    // bottom:0,
-    // left:0,
-    // right:0,
-    // backgroundColor:"transparent",
-    // justifyContent: "center",
-    // alignItems: "center",
-  },
-  content: {
-    flex: 0.8
-  },
-  footer: {
-    flex: 0.2
   },
   sectionHeader: {
     backgroundColor: '#E9EBEE',
@@ -79,89 +65,87 @@ const typeName = {
   duration: 'Duration',
   sort: 'Sort By'
 }
-const data = {
-  target: [
-    {
-      name: "Tag Partial",
-      value: "partial_match_for_tags",
-      type: "target",
-    },
-    {
-      name: "Tag Total",
-      value: "exact_match_for_tags",
-      type: "target"
-    },
-    {
-      name: "Title caption",
-      value: "title_and_caption",
-      type: "target"  
-    },
-  ],
-  duration: [
-    {
-      name: "Nothing",
-      value: "",
-      type: "duration"
-    },
-    {
-      name: "Last Day",
-      value: "within_last_day",
-      type: "duration"
-    },
-    {
-      name: "Last Week",
-      value: "within_last_week",
-      type: "duration"
-    },
-    {
-      name: "Last Month",
-      value: "within_last_month",
-      type: "duration"
-    }
-  ],
-  sort: [
-    {
-      name: "Newest",
-      value: "date_desc",
-      type: "sort"
-    },
-    {
-      name: "Oldest",
-      value: "date_asc",
-      type: "sort"
-    },
-  ]
-}
+
+const sections = [{
+  key: 'target',
+  data: [{
+    name: "Tag Partial",
+    value: "partial_match_for_tags",
+    type: "target",
+  },
+  {
+    name: "Tag Total",
+    value: "exact_match_for_tags",
+    type: "target"
+  },
+  {
+    name: "Title caption",
+    value: "title_and_caption",
+    type: "target"  
+  }],
+}, 
+{
+  key: 'duration',
+  data: [{
+    name: "Nothing",
+    value: "",
+    type: "duration"
+  },
+  {
+    name: "Last Day",
+    value: "within_last_day",
+    type: "duration"
+  },
+  {
+    name: "Last Week",
+    value: "within_last_week",
+    type: "duration"
+  },
+  {
+    name: "Last Month",
+    value: "within_last_month",
+    type: "duration"
+  }],
+},
+{
+  key: 'sort',
+  data: [{
+    name: "Newest",
+    value: "date_desc",
+    type: "sort"
+  },
+  {
+    name: "Oldest",
+    value: "date_asc",
+    type: "sort"
+  }]
+}];
 
 class SearchFilterModal extends Component {
   constructor(props) {
     super(props);
     const { searchFilter: { target, duration, sort } } = props.navigation.state.params;
-    this.dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-      sectionHeaderHasChanged: (s1,s2) => s1 !== s2
-    })
     this.state = {
       target: target || 'partial_match_for_tags',
       duration: duration || '',
       sort: sort || 'date_desc'
     };
   }
-  renderSectionHeader = (sectionData, type) => {
+  renderSectionHeader = ({ section }) => {
     return (
-      <View key={type} style={ styles.sectionHeader }>
-        <Text style={ styles.sectionHeaderTitle }>
-          { typeName[type] }
+      <View key={section.key} style={styles.sectionHeader}>
+        <Text style={styles.sectionHeaderTitle}>
+          {typeName[section.key]}
         </Text>
       </View>
     )
   }
 
-  renderRow = (item) => {
+  renderItem = ({ item }) => {
+    console.log('item ', item)
     const { target, duration, sort } = this.state;
     return (
       <PXTouchable 
-        key={item.id} 
         onPress={() => this.handleOnPressRow(item.type, item.value)}
       >
         <View style={styles.row}>
@@ -202,16 +186,16 @@ class SearchFilterModal extends Component {
   render() {
     const { onPressApplyFilter } = this.props.navigation.state.params;
     const { target, duration, sort } = this.state;
-    const dataSource = this.dataSource.cloneWithRowsAndSections(data);
     return (
-      <View style={styles.container}>
-        <ListView
-          dataSource={dataSource}
-          renderRow={this.renderRow}
+      <View style={styles.container}> 
+        <SectionList
+          renderItem={this.renderItem}
           renderSectionHeader={this.renderSectionHeader}
-          renderSeparator={this.renderSeparator}
-          keyboardShouldPersistTaps="always"
-        />  
+          ItemSeparatorComponent={this.renderSeparator}
+          keyExtractor={item => item.value}
+          sections={sections}
+          initialNumToRender={12}
+        />
         <View style={styles.searchFilterButtonContainer}>
           <PXTouchable 
             onPress={() => onPressApplyFilter(target, duration, sort)}

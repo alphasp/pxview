@@ -6,7 +6,6 @@ import {
   TextInput,
   Platform,
   Animated,
-  ListView,
   FlatList,
   Keyboard,
 } from 'react-native';
