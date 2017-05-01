@@ -21,7 +21,7 @@ import PXTouchable from '../components/PXTouchable';
 import * as illustBookmarkDetailActionCreators from '../common/actions/illustBookmarkDetail';
 import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
 import * as modalActionCreators from '../common/actions/modal';
-import { BookmarkType } from '../common/actions/bookmarkIllust';
+import { BOOKMARK_TYPES } from '../common/constants/bookmarkTypes';
 
 const MAX_TAGS_COUNT = 10;
 
@@ -186,7 +186,7 @@ class BookmarkModal extends Component {
     const { illustId, isBookmark, onPressBookmarkButton } = this.props;
     const { tags, isPrivate } = this.state;
     const selectedTags = tags.filter(tag => tag.is_registered).map(tag => tag.name);
-    const bookmarkType = isPrivate ? BookmarkType.PRIVATE : BookmarkType.PUBLIC;
+    const bookmarkType = isPrivate ? BOOKMARK_TYPES.PRIVATE : BOOKMARK_TYPES.PUBLIC;
     this.bookmarkIllust(illustId, bookmarkType, selectedTags);
     this.handleOnModalClose();
   }

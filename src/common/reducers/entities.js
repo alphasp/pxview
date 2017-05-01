@@ -2,7 +2,7 @@ import merge from 'lodash/merge';
 import { 
   BOOKMARK_ILLUST, 
   UNBOOKMARK_ILLUST,
-} from "../actions/bookmarkIllust";
+} from "../constants/actionTypes";
 import { 
   FOLLOW_USER, 
   UNFOLLOW_USER,
@@ -19,17 +19,7 @@ export default function entities(state = {
     return merge({}, state, action.payload.entities);
   }
   switch (action.type) {
-    case BOOKMARK_ILLUST:
-      // let illusts = { ...state.illusts };
-      // illusts[action.payload.illustId] = Object.assign({}, {
-      //   ...state.illusts[action.payload.illustId],
-      //   is_bookmarked: true
-      // });
-      // console.log('illusts[action.payload.illustId] ', illusts[action.payload.illustId])
-      // return {
-      //   ...state,
-      //   illusts
-      // }
+    case BOOKMARK_ILLUST.REQUEST:
       return {
         ...state,
         illusts: Object.keys(state.illusts).reduce((prev, id) => {
@@ -42,7 +32,7 @@ export default function entities(state = {
           };
         }, {})
       }
-    case UNBOOKMARK_ILLUST:
+    case UNBOOKMARK_ILLUST.REQUEST:
       return {
         ...state,
         illusts: Object.keys(state.illusts).reduce((prev, id) => {

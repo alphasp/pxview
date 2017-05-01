@@ -9,23 +9,11 @@ import pixiv from '../helpers/ApiClient';
 import { BOOKMARK_TAGS } from '../constants/actionTypes';
 import { TAG_TYPES } from '../constants/tagTypes';
 
-function mapTagType(tagType) {
-  switch (tagType) {
-    case TAG_TYPES.PUBLIC:
-      return 'public';
-    case TAG_TYPES.PRIVATE:
-      return 'private';
-  }
-  return null;
-}
-
 export function* handleFetchBookmarkTags(action) {
   const { tagType, nextUrl } = action.payload;
   try {
-    const mappedTagType = mapTagType(tagType);
-    let options = {};
-    if (mappedTagType) {
-      options.restrict = mappedTagType;
+    const options = {
+      restrict: tagType === TAG_TYPES.PRIVATE ? 'private' : 'public'
     };
     let response;
     if (nextUrl) {
