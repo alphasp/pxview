@@ -14,7 +14,7 @@ import FollowButton from '../components/FollowButton';
 import * as userFollowDetailActionCreators from '../common/actions/userFollowDetail';
 import * as followUserActionCreators from '../common/actions/followUser';
 import * as modalActionCreators from '../common/actions/modal';
-import { FollowType } from '../common/actions/followUser';
+import { FOLLOWING_TYPES } from '../common/constants/followingTypes';
 
 const styles = StyleSheet.create({
   container: {
@@ -92,19 +92,19 @@ class FollowModal extends Component {
   handleOnPressFollowButton = () => {
     const { userId, onPressFollowButton } = this.props;
     const { isPrivate } = this.state;
-    const followType = isPrivate ? FollowType.PRIVATE : FollowType.PUBLIC;
+    const followType = isPrivate ? FOLLOWING_TYPES.PRIVATE : FOLLOWING_TYPES.PUBLIC;
     this.followUser(userId, followType);
     this.handleOnModalClose();
   }
 
   handleOnPressRemoveButton = () => {
     const { userId, onPressRemoveButton } = this.props;
-    this.unFollowUser(userId);
+    this.unfollowUser(userId);
     this.handleOnModalClose();
   }
 
   handleOnPressModalRemoveButton = (userId) => {
-    this.unFollowUser(userId);
+    this.unfollowUser(userId);
     this.handleOnModalClose();
   }
 
@@ -118,61 +118,58 @@ class FollowModal extends Component {
     followUser(userId, followType);
   }
 
-  unFollowUser = (userId) => {
-    const { unFollowUser } = this.props;
-    unFollowUser(userId);
+  unfollowUser = (userId) => {
+    const { unfollowUser } = this.props;
+    unfollowUser(userId);
   }
 
   render() {
     const { isFollow } = this.props;
     const { isPrivate } = this.state;
     return (
-      <View>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={true}
-          onRequestClose={this.handleOnModalClose}
-          onShow={() => console.log('on show modal')}
-        >
-          <PXTouchable style={styles.container} onPress={this.handleOnModalClose}>
-            <TouchableWithoutFeedback>
-              <View style={styles.innerContainer}>
-                <View style={styles.titleContainer}>
-                  <Text style={styles.title}>
-                    {isFollow ? "Edit Follow" : "Follow"}
-                  </Text>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={true}
+        onRequestClose={this.handleOnModalClose}
+      >
+        <PXTouchable style={styles.container} onPress={this.handleOnModalClose}>
+          <TouchableWithoutFeedback>
+            <View style={styles.innerContainer}>
+              <View style={styles.titleContainer}>
+                <Text style={styles.title}>
+                  {isFollow ? "Edit Follow" : "Follow"}
+                </Text>
+              </View>
+              <View style={styles.form}>
+                <Text>Private</Text>
+                <Switch
+                  onValueChange={this.handleOnChangeIsPrivate}
+                  value={isPrivate} 
+                />
+              </View>
+              {
+                isFollow ?
+                <View style={styles.actionContainer}>
+                  <PXTouchable onPress={this.handleOnPressRemoveButton}>
+                    <Text>Remove</Text>
+                  </PXTouchable>
+                  <PXTouchable onPress={this.handleOnPressFollowButton}>
+                    <Text>Follow</Text>
+                  </PXTouchable>
                 </View>
-                <View style={styles.form}>
-                  <Text>Private</Text>
-                  <Switch
-                    onValueChange={this.handleOnChangeIsPrivate}
-                    value={isPrivate} 
+                :
+                <View style={styles.actionWithoutRemoveButtonContainer}>
+                  <FollowButton 
+                    isFollow={isFollow} 
+                    onPress={this.handleOnPressFollowButton} 
                   />
                 </View>
-                {
-                  isFollow ?
-                  <View style={styles.actionContainer}>
-                    <PXTouchable onPress={this.handleOnPressRemoveButton}>
-                      <Text>Remove</Text>
-                    </PXTouchable>
-                    <PXTouchable onPress={this.handleOnPressFollowButton}>
-                      <Text>Follow</Text>
-                    </PXTouchable>
-                  </View>
-                  :
-                  <View style={styles.actionWithoutRemoveButtonContainer}>
-                    <FollowButton 
-                      isFollow={isFollow} 
-                      onPress={this.handleOnPressFollowButton} 
-                    />
-                  </View>
-                }
-              </View>
-            </TouchableWithoutFeedback>
-          </PXTouchable>
-        </Modal>
-      </View>
+              }
+            </View>
+          </TouchableWithoutFeedback>
+        </PXTouchable>
+      </Modal>
     );
   }
 }

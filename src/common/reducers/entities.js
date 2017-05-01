@@ -1,13 +1,8 @@
 import merge from 'lodash/merge';
 import { 
-  BOOKMARK_ILLUST, 
-  UNBOOKMARK_ILLUST,
+  BOOKMARK_ILLUST, UNBOOKMARK_ILLUST, 
+  FOLLOW_USER, UNFOLLOW_USER
 } from "../constants/actionTypes";
-import { 
-  FOLLOW_USER, 
-  UNFOLLOW_USER,
-} from "../actions/followUser";
-
 export default function entities(state = {
   illusts: {},
   illustComments: {},
@@ -45,7 +40,7 @@ export default function entities(state = {
           };
         }, {})
       }
-    case FOLLOW_USER:
+    case FOLLOW_USER.REQUEST:
       return {
         ...state,
         users: Object.keys(state.users).reduce((prev, id) => {
@@ -58,7 +53,7 @@ export default function entities(state = {
           };
         }, {})
       }
-    case UNFOLLOW_USER:
+    case UNFOLLOW_USER.REQUEST:
       return {
         ...state,
         users: Object.keys(state.users).reduce((prev, id) => {

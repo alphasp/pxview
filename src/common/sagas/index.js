@@ -25,6 +25,7 @@ import { watchFetchSearchUsersAutoComplete } from './searchUsersAutoComplete';
 import { watchFetchBookmarkTags } from './bookmarkTags';
 import { watchFetchIllustBookmarkDetail } from './illustBookmarkDetail';
 import { watchBookmarkIllust, watchUnbookmarkIllust } from './bookmarkIllust';
+import { watchFollowUser, watchUnfollowUser } from './followUser';
 
 export default function* rootSaga() {
   yield [
@@ -57,5 +58,7 @@ export default function* rootSaga() {
     watchFetchIllustBookmarkDetail(),
     watchBookmarkIllust(),
     watchUnbookmarkIllust(),
+    watchFollowUser(),
+    watchUnfollowUser(),
   ]
 }

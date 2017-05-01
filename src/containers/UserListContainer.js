@@ -16,7 +16,7 @@ import * as followUserActionCreators from '../common/actions/followUser';
 class UserListContainer extends Component {
   static propTypes = {
     followUser: PropTypes.func.isRequired,
-    unFollowUser: PropTypes.func.isRequired
+    unfollowUser: PropTypes.func.isRequired
   }
 
   render() {

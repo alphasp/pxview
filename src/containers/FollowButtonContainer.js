@@ -12,7 +12,7 @@ import { withNavigation } from 'react-navigation';
 import FollowButton from '../components/FollowButton';
 import * as followUserActionCreators from '../common/actions/followUser';
 import * as modalActionCreators from '../common/actions/modal';
-import { FollowType } from '../common/actions/followUser';
+import { FOLLOWING_TYPES } from '../common/constants/followingTypes';
 import modalType from '../common/constants/modalType';
 
 class FollowButtonContainer extends Component {
@@ -20,7 +20,7 @@ class FollowButtonContainer extends Component {
     authUser: PropTypes.object,
     user: PropTypes.object.isRequired,
     followUser: PropTypes.func.isRequired,
-    unFollowUser: PropTypes.func.isRequired,
+    unfollowUser: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
     openModal: PropTypes.func.isRequired
   }
@@ -30,16 +30,16 @@ class FollowButtonContainer extends Component {
     if (!authUser) {
       navigate('Login', {
         onLoginSuccess: () => {
-          this.followUser(user.id, FollowType.PUBLIC);
+          this.followUser(user.id, FOLLOWING_TYPES.PUBLIC);
         }
       });
     }
     else {
       if (user.is_followed) {
-        this.unFollowUser(user.id);
+        this.unfollowUser(user.id);
       }
       else {
-        this.followUser(user.id, FollowType.PUBLIC);
+        this.followUser(user.id, FOLLOWING_TYPES.PUBLIC);
       }
     }
   }
@@ -49,7 +49,7 @@ class FollowButtonContainer extends Component {
     if (!authUser) {
       navigate('Login', {
         onLoginSuccess: () => {
-          this.followUser(user.id, FollowType.PUBLIC);
+          this.followUser(user.id, FOLLOWING_TYPES.PUBLIC);
         }
       });
     }
@@ -66,9 +66,9 @@ class FollowButtonContainer extends Component {
     followUser(userId, followType);
   }
 
-  unFollowUser = (userId) => {
-    const { unFollowUser } = this.props;
-    unFollowUser(userId);
+  unfollowUser = (userId) => {
+    const { unfollowUser } = this.props;
+    unfollowUser(userId);
   }
 
   render() {
