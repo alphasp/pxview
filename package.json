@@ -71,6 +71,12 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-react-native": "1.9.0",
     "babel-register": "^6.24.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "eslint-plugin-react-native": "^2.3.2",
     "jest": "17.0.3",
     "react-test-renderer": "15.4.1",
     "redux-immutable-state-invariant": "^2.0.0"
