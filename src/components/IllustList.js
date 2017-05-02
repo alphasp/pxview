@@ -8,7 +8,8 @@ import {
   ListView,
   RecyclerViewBackedScrollView,
   RefreshControl,
-  FlatList
+  FlatList,
+  Platform
 } from 'react-native';
 // import FlatList from 'react-native/Libraries/Experimental/FlatList';
 import { connect } from 'react-redux';
@@ -111,7 +112,7 @@ class IllustList extends Component {
             legacyImplementation={false}
             debug={false}
             disableVirtualization={false}
-            removeClippedSubviews={true}
+            removeClippedSubviews={Platform.OS === 'android'}
             initialNumToRender={4}
             onEndReachedThreshold={0.1}
             onEndReached={loadMoreItems}
