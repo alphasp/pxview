@@ -1,4 +1,3 @@
-import qs from 'qs';
 import { RELATED_ILLUSTS } from '../constants/actionTypes';
 
 export function fetchRelatedIllustsSuccess(entities, items, illustId, nextUrl) {

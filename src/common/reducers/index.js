@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 import entities from './entities';
 import recommendedIllusts from './recommendedIllusts';
 import recommendedMangas from './recommendedMangas';
 import relatedIllusts from './relatedIllusts';
 import trendingIllustTags from './trendingIllustTags';
-import * as recommendedUserReducers from './recommendedUsers';
+import recommendedUsers from './recommendedUsers';
 import illustComments from './illustComments';
-import * as searchAutoCompleteReducers from './searchAutoComplete';
-import createFilteredReducer from './createFilteredReducer';
+import searchAutoComplete from './searchAutoComplete';
 import search from './search';
 import searchUsers from './searchUsers';
 import searchUsersAutoComplete from './searchUsersAutoComplete';
@@ -34,8 +34,6 @@ import auth from './auth';
 import modal from './modal';
 import i18n from './i18n';
 import error from './error';
-import { SORT_TYPES } from '../constants/sortTypes';
-import { reducer as formReducer } from 'redux-form';
 
 const rootReducer = combineReducers({
   error,
@@ -44,13 +42,11 @@ const rootReducer = combineReducers({
   recommendedMangas,
   relatedIllusts,
   trendingIllustTags,
-  ...recommendedUserReducers,
+  recommendedUsers,
   illustComments,
   search,
-  // searchNewest: createFilteredReducer(search, action => action.payload && action.payload.sortType === SORT_TYPES.DESC),
-  // searchOldest: createFilteredReducer(search, action => action.payload && action.payload.sortType === SORT_TYPES.ASC),
   ranking,
-  ...searchAutoCompleteReducers,
+  searchAutoComplete,
   searchUsers,
   searchUsersAutoComplete,
   searchHistory,

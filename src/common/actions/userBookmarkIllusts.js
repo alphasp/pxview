@@ -1,4 +1,3 @@
-import qs from 'qs';
 import { USER_BOOKMARK_ILLUSTS } from '../constants/actionTypes';
 
 export function fetchUserBookmarkIllustsSuccess(entities, items, userId, nextUrl) {

@@ -1,7 +1,6 @@
-import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
+import { createSelector, createSelectorCreator } from 'reselect';
 import equals from 'shallow-equals';
 import { denormalize } from 'normalizr';
-import { denormalizedData } from '../helpers/normalizrHelper';
 import Schemas from '../constants/schemas';
 
 function defaultEqualityCheck(currentVal, previousVal) {
@@ -44,7 +43,6 @@ function specialMemoize(func, resultEqCheck, argEqCheck = defaultEqualityCheck) 
   };
 }
 
-const getState = state => state;
 const getProps = (state, props) => props;
 const selectEntities = state => state.entities;
 const selectRanking = state => state.ranking;

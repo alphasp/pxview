@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchUserIllustsSuccess,
   fetchUserIllustsFailure,
-} from '../actions/userIllusts.js';
+} from '../actions/userIllusts';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { USER_ILLUSTS } from '../constants/actionTypes';

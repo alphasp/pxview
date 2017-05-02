@@ -2,7 +2,7 @@ import { throttle, apply, put } from 'redux-saga/effects';
 import {
   fetchSearchAutoCompleteSuccess,
   fetchSearchAutoCompleteFailure,
-} from '../actions/searchAutoComplete.js';
+} from '../actions/searchAutoComplete';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { SEARCH_AUTOCOMPLETE } from '../constants/actionTypes';
@@ -14,7 +14,7 @@ export function* handleFetchSearchAutoComplete(action) {
     yield put(fetchSearchAutoCompleteSuccess(response.search_auto_complete_keywords));
   }
   catch (err) {
-    yield put(fetchSearchAutoCompleteFailure(userId));
+    yield put(fetchSearchAutoCompleteFailure());
     yield put(addError(err));
   }
 }

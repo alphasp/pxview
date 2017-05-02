@@ -1,10 +1,10 @@
-import { takeEvery, apply, put, select } from 'redux-saga/effects';
+import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   bookmarkIllustSuccess,
   bookmarkIllustFailure,
   unbookmarkIllustSuccess,
   unbookmarkIllustFailure,
-} from '../actions/bookmarkIllust.js';
+} from '../actions/bookmarkIllust';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { BOOKMARK_ILLUST, UNBOOKMARK_ILLUST } from '../constants/actionTypes';
@@ -14,7 +14,7 @@ export function* handleBookmarkIllust(action) {
   const { illustId, bookmarkType, tags } = action.payload;
   try {
     const bookmarkTypeString = bookmarkType === BOOKMARK_TYPES.PRIVATE ? 'private' : 'public';
-    const response = yield apply(pixiv, pixiv.bookmarkIllust, [illustId, bookmarkTypeString, tags]);
+    yield apply(pixiv, pixiv.bookmarkIllust, [illustId, bookmarkTypeString, tags]);
     yield put(bookmarkIllustSuccess(illustId));
   }
   catch (err) {
@@ -24,10 +24,9 @@ export function* handleBookmarkIllust(action) {
 }
 
 export function* handleUnbookmarkIllust(action) {
-  const { illustId, bookmarkType } = action.payload;
+  const { illustId } = action.payload;
   try {
-    const bookmarkTypeString = bookmarkType === BOOKMARK_TYPES.PRIVATE ? 'private' : 'public';
-    const response = yield apply(pixiv, pixiv.unbookmarkIllust, [illustId]);
+    yield apply(pixiv, pixiv.unbookmarkIllust, [illustId]);
     yield put(unbookmarkIllustSuccess(illustId));
   }
   catch (err) {

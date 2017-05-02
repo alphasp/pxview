@@ -6,7 +6,7 @@ const defaultState = {
   items: [],
 };
 
-export function searchAutoComplete(state = defaultState, action) {
+export default function searchAutoComplete(state = defaultState, action) {
   switch (action.type) {
     case SEARCH_AUTOCOMPLETE.CLEAR:
       return defaultState;

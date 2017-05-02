@@ -1,4 +1,3 @@
-import qs from 'qs';
 import { SEARCH_AUTOCOMPLETE } from '../constants/actionTypes';
 
 export function fetchSearchAutoCompleteSuccess(items) {

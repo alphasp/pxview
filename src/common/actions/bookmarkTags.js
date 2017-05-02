@@ -1,7 +1,5 @@
-// import { createAction } from 'redux-actions';
 import qs from 'qs';
 import { BOOKMARK_TAGS } from '../constants/actionTypes';
-import { TAG_TYPES } from '../constants/tagTypes';
 
 export function fetchBookmarkTagsSuccess(items, tagType, nextUrl) {
   return {

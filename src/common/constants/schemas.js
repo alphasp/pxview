@@ -1,4 +1,4 @@
-import { schema, arrayOf } from 'normalizr';
+import { schema } from 'normalizr';
 
 const illustSchema = new schema.Entity('illusts');
 const illustCommentSchema = new schema.Entity('illustComments');

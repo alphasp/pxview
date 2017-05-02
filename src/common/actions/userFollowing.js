@@ -1,6 +1,5 @@
 import qs from 'qs';
 import { USER_FOLLOWING } from '../constants/actionTypes';
-import { FOLLOWING_TYPES } from '../constants/followingTypes';
 
 export function fetchUserFollowingSuccess(entities, items, userId, followingType, nextUrl) {
   return {

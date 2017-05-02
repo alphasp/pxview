@@ -3,7 +3,7 @@ import { takeLatest, apply, put, select } from 'redux-saga/effects';
 import {
   fetchRecommendedIllustsSuccess,
   fetchRecommendedIllustsFailure,
-} from '../actions/recommendedIllusts.js';
+} from '../actions/recommendedIllusts';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { RECOMMENDED_ILLUSTS } from '../constants/actionTypes';

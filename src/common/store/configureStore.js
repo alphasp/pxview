@@ -8,9 +8,6 @@ import createActionBuffer from 'redux-action-buffer';
 import { AsyncStorage } from 'react-native';
 import rootReducer from '../reducers';
 import rootSaga from '../sagas';
-// import jwt from '../middlewares/jwt';
-import pixiv from '../helpers/ApiClient';
-import { requestRefreshToken, REFRESH_TOKEN_DONE, REFRESH_TOKEN_SUCCESS } from '../actions/auth';
 
 export default function configureStore() {
   let enhancer;

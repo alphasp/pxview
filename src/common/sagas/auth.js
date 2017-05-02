@@ -1,5 +1,7 @@
 import { delay } from 'redux-saga';
-import { take, takeLatest, fork, call, apply, put, race, select } from 'redux-saga/effects';
+import { take, call, apply, put, race, select } from 'redux-saga/effects';
+import * as Keychain from 'react-native-keychain';
+import { REHYDRATE } from 'redux-persist/constants';
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -10,10 +12,8 @@ import {
   failedLogin,
   logout,
   doneRehydrate,
-} from '../actions/auth.js';
-import * as Keychain from 'react-native-keychain';
-import { REHYDRATE } from 'redux-persist/constants';
-import { addError, resetError } from '../actions/error';
+} from '../actions/auth';
+import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { getAuthUser } from '../selectors';
 
@@ -44,6 +44,13 @@ export function* authAndRefreshTokenOnExpiry(email, password) {
   }
 }
 
+export function* handleLogout() {
+  yield [
+    call(Keychain.resetGenericPassword),
+    apply(pixiv, pixiv.logout),
+  ];
+}
+
 export function* watchLoginRequest() {
   // yield takeEvery(LOGIN_REQUEST, loginFlow)
   while (true) {
@@ -64,13 +71,6 @@ export function* watchLoginRequest() {
       yield put(addError(errMessage));
     }
   }
-}
-
-export function* handleLogout() {
-  yield [
-    call(Keychain.resetGenericPassword),
-    apply(pixiv, pixiv.logout),
-  ];
 }
 
 // wait rehydrate complete, login if authUser exist, then run other api

@@ -1,8 +1,8 @@
-import { takeEvery, apply, put, select } from 'redux-saga/effects';
+import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchIllustBookmarkDetailSuccess,
   fetchIllustBookmarkDetailFailure,
-} from '../actions/illustBookmarkDetail.js';
+} from '../actions/illustBookmarkDetail';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { ILLUST_BOOKMARK_DETAIL } from '../constants/actionTypes';

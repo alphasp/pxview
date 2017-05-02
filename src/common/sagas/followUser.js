@@ -1,20 +1,20 @@
-import { takeEvery, apply, put, select } from 'redux-saga/effects';
+import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   followUserSuccess,
   followUserFailure,
   unfollowUserSuccess,
   unfollowUserFailure,
-} from '../actions/followUser.js';
+} from '../actions/followUser';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { FOLLOW_USER, UNFOLLOW_USER } from '../constants/actionTypes';
 import { FOLLOWING_TYPES } from '../constants/followingTypes';
 
 export function* handleFollowUser(action) {
-  const { userId, followType, tags } = action.payload;
+  const { userId, followType } = action.payload;
   try {
     const followTypeString = followType === FOLLOWING_TYPES.PRIVATE ? 'private' : 'public';
-    const response = yield apply(pixiv, pixiv.followUser, [userId, followTypeString]);
+    yield apply(pixiv, pixiv.followUser, [userId, followTypeString]);
     yield put(followUserSuccess(userId));
   }
   catch (err) {
@@ -24,10 +24,9 @@ export function* handleFollowUser(action) {
 }
 
 export function* handleUnfollowUser(action) {
-  const { userId, followType } = action.payload;
+  const { userId } = action.payload;
   try {
-    const followTypeString = followType === FOLLOWING_TYPES.PRIVATE ? 'private' : 'public';
-    const response = yield apply(pixiv, pixiv.unfollowUser, [userId]);
+    yield apply(pixiv, pixiv.unfollowUser, [userId]);
     yield put(unfollowUserSuccess(userId));
   }
   catch (err) {

@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchSearchSuccess,
   fetchSearchFailure,
-} from '../actions/search.js';
+} from '../actions/search';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { SEARCH } from '../constants/actionTypes';

@@ -1,4 +1,3 @@
-import qs from 'qs';
 import { TRENDING_ILLUST_TAGS } from '../constants/actionTypes';
 
 export function fetchTrendingIllustTagsSuccess(entities, items) {

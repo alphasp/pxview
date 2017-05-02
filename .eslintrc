@@ -11,6 +11,7 @@
             "as-needed"
         ],
         "no-param-reassign": 0,
+        "no-constant-condition": ["error", { "checkLoops": false }],
         "import/no-extraneous-dependencies": [
             2, 
             { 

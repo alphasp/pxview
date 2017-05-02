@@ -3,17 +3,15 @@ import { takeLatest, apply, put, select } from 'redux-saga/effects';
 import {
   fetchRecommendedMangasSuccess,
   fetchRecommendedMangasFailure,
-} from '../actions/recommendedMangas.js';
+} from '../actions/recommendedMangas';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { RECOMMENDED_MANGAS } from '../constants/actionTypes';
 import Schemas from '../constants/schemas';
-import { getAuthUser } from '../selectors';
 
 export function* handleFetchRecommendedMangas(action) {
   try {
     const { options, nextUrl } = action.payload;
-    const user = yield select(getAuthUser);
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);

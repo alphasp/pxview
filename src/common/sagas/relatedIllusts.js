@@ -3,12 +3,11 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchRelatedIllustsSuccess,
   fetchRelatedIllustsFailure,
-} from '../actions/relatedIllusts.js';
+} from '../actions/relatedIllusts';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { RELATED_ILLUSTS } from '../constants/actionTypes';
 import Schemas from '../constants/schemas';
-import { getAuthUser } from '../selectors';
 
 export function* handleFetchRelatedIllusts(action) {
   const { illustId, options, nextUrl } = action.payload;

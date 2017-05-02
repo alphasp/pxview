@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchUserBookmarkIllustsSuccess,
   fetchUserBookmarkIllustsFailure,
-} from '../actions/userBookmarkIllusts.js';
+} from '../actions/userBookmarkIllusts';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { USER_BOOKMARK_ILLUSTS } from '../constants/actionTypes';

@@ -1,8 +1,9 @@
-import merge from 'lodash/merge';
+import merge from 'lodash.merge';
 import {
   BOOKMARK_ILLUST, UNBOOKMARK_ILLUST,
   FOLLOW_USER, UNFOLLOW_USER,
 } from '../constants/actionTypes';
+
 export default function entities(state = {
   illusts: {},
   illustComments: {},

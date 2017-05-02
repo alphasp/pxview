@@ -1,4 +1,5 @@
 import { localizedStrings } from '../helpers/i18n';
+
 export const I18N_SET_LANGUAGE = 'I18N_SET_LANGUAGE';
 
 export function setLanguage(lang) {

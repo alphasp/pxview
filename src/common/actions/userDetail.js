@@ -1,4 +1,3 @@
-import qs from 'qs';
 import { USER_DETAIL } from '../constants/actionTypes';
 
 export function fetchUserDetailSuccess(entities, item, userId) {

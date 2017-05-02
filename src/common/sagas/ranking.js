@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchRankingSuccess,
   fetchRankingFailure,
-} from '../actions/ranking.js';
+} from '../actions/ranking';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { RANKING } from '../constants/actionTypes';
@@ -26,8 +26,9 @@ function mapRankingMode(rankingMode) {
       return 'week';
     case RANKING_FOR_UI.MONTHLY:
       return 'month';
+    default:
+      return null;
   }
-  return null;
 }
 
 export function* handleFetchRanking(action) {

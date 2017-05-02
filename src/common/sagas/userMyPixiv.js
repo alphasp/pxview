@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchUserMyPixivSuccess,
   fetchUserMyPixivFailure,
-} from '../actions/userMyPixiv.js';
+} from '../actions/userMyPixiv';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { USER_MY_PIXIV } from '../constants/actionTypes';

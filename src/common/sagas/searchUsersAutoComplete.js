@@ -3,7 +3,7 @@ import { throttle, apply, put } from 'redux-saga/effects';
 import {
   fetchSearchUsersAutoCompleteSuccess,
   fetchSearchUsersAutoCompleteFailure,
-} from '../actions/searchUsersAutoComplete.js';
+} from '../actions/searchUsersAutoComplete';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { SEARCH_USERS_AUTOCOMPLETE } from '../constants/actionTypes';

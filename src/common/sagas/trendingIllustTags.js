@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchTrendingIllustTagsSuccess,
   fetchTrendingIllustTagsFailure,
-} from '../actions/trendingIllustTags.js';
+} from '../actions/trendingIllustTags';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { TRENDING_ILLUST_TAGS } from '../constants/actionTypes';

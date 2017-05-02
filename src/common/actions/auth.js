@@ -1,9 +1,3 @@
-// import jwtDecode from "jwt-decode";
-// import { push } from 'react-router-redux'
-import * as Keychain from 'react-native-keychain';
-import { addError, resetError } from './error';
-import pixiv from '../helpers/ApiClient';
-
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
@@ -48,7 +42,7 @@ export function successLogin(json) {
     payload: {
       user: {
         ...json.user,
-        id: parseInt(json.user.id),
+        id: parseInt(json.user.id, 10),
         accessToken: json.access_token,
         refreshToken: json.refresh_token, // not working now
         expiresIn: json.expires_in,

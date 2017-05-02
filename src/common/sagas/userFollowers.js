@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchUserFollowersSuccess,
   fetchUserFollowersFailure,
-} from '../actions/userFollowers.js';
+} from '../actions/userFollowers';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { USER_FOLLOWERS } from '../constants/actionTypes';

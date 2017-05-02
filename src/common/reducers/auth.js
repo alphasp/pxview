@@ -1,8 +1,8 @@
+import { REHYDRATE } from 'redux-persist/constants';
 import {
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT,
   AUTH_REHYDRATE_DONE,
 } from '../actions/auth';
-import { REHYDRATE } from 'redux-persist/constants';
 // const defaultUser = {
 //   "profile_image_urls": {
 //     "px_16x16": "https://source.pixiv.net/common/images/no_profile_ss.png",

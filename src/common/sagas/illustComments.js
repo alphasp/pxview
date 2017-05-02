@@ -1,9 +1,9 @@
 import { normalize } from 'normalizr';
-import { takeEvery, apply, put, select } from 'redux-saga/effects';
+import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchIllustCommentsSuccess,
   fetchIllustCommentsFailure,
-} from '../actions/illustComments.js';
+} from '../actions/illustComments';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { ILLUST_COMMENTS } from '../constants/actionTypes';

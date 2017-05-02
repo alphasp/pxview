@@ -9,7 +9,7 @@ const defaultState = {
   nextUrl: null,
 };
 
-export function recommendedUsers(state = defaultState, action) {
+export default function recommendedUsers(state = defaultState, action) {
   switch (action.type) {
     case RECOMMENDED_USERS.CLEAR:
       return defaultState;

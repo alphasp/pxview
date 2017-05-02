@@ -1,8 +1,8 @@
-import { takeEvery, apply, put, select } from 'redux-saga/effects';
+import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchUserFollowDetailSuccess,
   fetchUserFollowDetailFailure,
-} from '../actions/userFollowDetail.js';
+} from '../actions/userFollowDetail';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { USER_FOLLOW_DETAIL } from '../constants/actionTypes';

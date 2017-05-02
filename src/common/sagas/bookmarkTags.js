@@ -1,9 +1,8 @@
-import { normalize } from 'normalizr';
 import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchBookmarkTagsSuccess,
   fetchBookmarkTagsFailure,
-} from '../actions/bookmarkTags.js';
+} from '../actions/bookmarkTags';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { BOOKMARK_TAGS } from '../constants/actionTypes';

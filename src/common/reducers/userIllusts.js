@@ -26,7 +26,9 @@ export default function userIllusts(state = {}, action) {
           loading: false,
           loaded: true,
           refreshing: false,
-          items: (state[action.payload.userId] && state[action.payload.userId].items) ? [...state[action.payload.userId].items, ...action.payload.items] : action.payload.items,
+          items: (state[action.payload.userId] && state[action.payload.userId].items)
+            ? [...state[action.payload.userId].items, ...action.payload.items]
+            : action.payload.items,
           offset: action.payload.offset,
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp,

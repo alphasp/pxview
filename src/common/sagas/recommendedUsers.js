@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchRecommendedUsersSuccess,
   fetchRecommendedUsersFailure,
-} from '../actions/recommendedUsers.js';
+} from '../actions/recommendedUsers';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { RECOMMENDED_USERS } from '../constants/actionTypes';

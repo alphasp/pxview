@@ -26,7 +26,7 @@ export default function search(state = getDefaultStateForRankings(), action) {
         [action.payload.rankingMode]: defaultState,
       };
     case RANKING.CLEAR_ALL:
-      return getDefaultState();
+      return getDefaultStateForRankings();
     case RANKING.REQUEST:
       return {
         ...state,
@@ -46,7 +46,9 @@ export default function search(state = getDefaultStateForRankings(), action) {
           loading: false,
           loaded: true,
           refreshing: false,
-          items: (state[action.payload.rankingMode] && state[action.payload.rankingMode].items) ? [...state[action.payload.rankingMode].items, ...action.payload.items] : action.payload.items,
+          items: (state[action.payload.rankingMode] && state[action.payload.rankingMode].items)
+            ? [...state[action.payload.rankingMode].items, ...action.payload.items]
+            : action.payload.items,
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp,
         },

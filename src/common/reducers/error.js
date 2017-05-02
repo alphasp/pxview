@@ -10,7 +10,7 @@ export default function error(state = null, action) {
     return state;
   }
   else if (error) {
-    return action.payload;
+    return payload;
   }
   return state;
 }
