@@ -19,7 +19,7 @@ const AppNavigator = StackNavigator({
       //   // }
       //   //visible: false,
       // },
-      headerVisible: false,
+      header: null,
     },
   },
   Login: { 

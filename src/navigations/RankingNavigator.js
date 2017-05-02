@@ -13,7 +13,7 @@ const RankingNavigator = StackNavigator({
   Ranking: { 
     screen: Ranking,
     navigationOptions: {
-      headerVisible: false
+      header: null
     },
   },
   Detail: { 

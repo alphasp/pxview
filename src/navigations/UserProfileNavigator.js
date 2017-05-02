@@ -16,7 +16,7 @@ const UserProfileNavigator = StackNavigator({
   UserProfile: { 
     screen: UserProfile,
     navigationOptions: {
-      headerVisible: false
+      header: null
     },
   },
   MyConnection: {

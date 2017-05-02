@@ -14,7 +14,7 @@ const HomeNavigator = StackNavigator({
   Home: { 
     screen: Home,
     navigationOptions: {
-      headerVisible: false
+      header: null
     },
   },
   Detail: { 

@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 class SearchResultTabs extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerVisible: false
+      header: null
     };
   };
 

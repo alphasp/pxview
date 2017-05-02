@@ -13,7 +13,7 @@ const TrendingNavigator = StackNavigator({
   Trending: { 
     screen: Trending,
     navigationOptions: {
-      headerVisible: false
+      header: null
     },
     // initialRouteParams: {
     //   isFocusSearchBar: false // not working now

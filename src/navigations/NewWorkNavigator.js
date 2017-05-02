@@ -14,7 +14,7 @@ const NewWorkNavigator = StackNavigator({
   NewWorks: { 
     screen: NewWorks,
     navigationOptions: {
-      headerVisible: false
+      header: null
     },
   },
   Detail: { 
