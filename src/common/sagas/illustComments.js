@@ -32,19 +32,3 @@ export function* handleFetchIllustComments(action) {
 export function* watchFetchIllustComments() {
   yield takeEvery(ILLUST_COMMENTS.REQUEST, handleFetchIllustComments);
 }
-
-
-// function fetchIllustCommentFromApi(illustId, options, nextUrl) {
-//   return dispatch => {
-//     const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.illustComments(illustId, options);
-//     const params = qs.parse(nextUrl);
-//     const offset = params.offset || "0";
-//     dispatch(requestIllustComment(illustId, offset));
-//     return promise
-//       .then(json => dispatch(receiveIllustComment(json, illustId, offset)))
-//       .catch(err => {
-//         dispatch(stopIllustComment(illustId, offset));
-//         dispatch(addError(err));
-//       });
-//   };
-// }

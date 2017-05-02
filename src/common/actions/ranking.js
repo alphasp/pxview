@@ -1,17 +1,6 @@
 import qs from 'qs';
 import { RANKING } from '../constants/actionTypes';
 
-export const RankingMode = {
-  DAILY: 'DAILY',
-  DAILY_MALE: 'DAILY_MALE',
-  DAILY_FEMALE: 'DAILY_FEMALE',
-  WEEKLY_ORIGINAL: 'WEEKLY_ORIGINAL',
-  WEEKLY_ROOKIE: 'WEEKLY_ROOKIE',
-  WEEKLY: 'WEEKLY',
-  MONTHLY: 'MONTHLY',
-  PAST: 'PAST'
-};
-
 export function fetchRankingSuccess(entities, items, rankingMode, nextUrl) {
   return {
     type: RANKING.SUCCESS,

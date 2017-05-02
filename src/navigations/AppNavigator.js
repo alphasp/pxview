@@ -11,14 +11,6 @@ const AppNavigator = StackNavigator({
     screen: MainNavigator,
     path: '/', 
     navigationOptions: {
-      // header: {
-      //   visible: true,
-      //   // style: {
-      //   //   // color: 'blue',
-      //   //   backgroundColor: 'red'
-      //   // }
-      //   //visible: false,
-      // },
       header: null,
     },
   },

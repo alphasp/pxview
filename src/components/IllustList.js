@@ -113,7 +113,7 @@ class IllustList extends Component {
             debug={false}
             disableVirtualization={false}
             removeClippedSubviews={Platform.OS === 'android'}
-            initialNumToRender={4}
+            initialNumToRender={5}
             onEndReachedThreshold={0.1}
             onEndReached={loadMoreItems}
             ListFooterComponent={this.renderFooter}
