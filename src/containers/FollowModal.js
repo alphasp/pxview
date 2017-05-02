@@ -25,12 +25,12 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     // borderRadius: 10,
-    //alignItems: 'center',
-    backgroundColor: '#fff', 
+    // alignItems: 'center',
+    backgroundColor: '#fff',
   },
   titleContainer: {
     backgroundColor: '#E9EBEE',
-    padding: 10
+    padding: 10,
   },
   form: {
     paddingTop: 10,
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   actionWithoutRemoveButtonContainer: {
     marginTop: 20,
     padding: 10,
-  }
+  },
 });
 
 class FollowModal extends Component {
@@ -57,7 +57,7 @@ class FollowModal extends Component {
     isFollow: PropTypes.bool.isRequired,
     fetchUserFollowDetail: PropTypes.func.isRequired,
     clearUserFollowDetail: PropTypes.func.isRequired,
-    closeModal: PropTypes.func.isRequired
+    closeModal: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -78,14 +78,14 @@ class FollowModal extends Component {
     const { userFollowDetail: { item } } = nextProps;
     if (item && item !== prevItem) {
       this.setState({
-        isPrivate: item.restrict === 'private' ? true : false,
+        isPrivate: item.restrict === 'private',
       });
     }
   }
 
-  handleOnChangeIsPrivate = (value) => {
+  handleOnChangeIsPrivate = value => {
     this.setState({
-      isPrivate: value
+      isPrivate: value,
     });
   }
 
@@ -103,7 +103,7 @@ class FollowModal extends Component {
     this.handleOnModalClose();
   }
 
-  handleOnPressModalRemoveButton = (userId) => {
+  handleOnPressModalRemoveButton = userId => {
     this.unfollowUser(userId);
     this.handleOnModalClose();
   }
@@ -118,7 +118,7 @@ class FollowModal extends Component {
     followUser(userId, followType);
   }
 
-  unfollowUser = (userId) => {
+  unfollowUser = userId => {
     const { unfollowUser } = this.props;
     unfollowUser(userId);
   }
@@ -129,8 +129,8 @@ class FollowModal extends Component {
     return (
       <Modal
         animationType="fade"
-        transparent={true}
-        visible={true}
+        transparent
+        visible
         onRequestClose={this.handleOnModalClose}
       >
         <PXTouchable style={styles.container} onPress={this.handleOnModalClose}>
@@ -138,33 +138,33 @@ class FollowModal extends Component {
             <View style={styles.innerContainer}>
               <View style={styles.titleContainer}>
                 <Text style={styles.title}>
-                  {isFollow ? "Edit Follow" : "Follow"}
+                  {isFollow ? 'Edit Follow' : 'Follow'}
                 </Text>
               </View>
               <View style={styles.form}>
                 <Text>Private</Text>
                 <Switch
                   onValueChange={this.handleOnChangeIsPrivate}
-                  value={isPrivate} 
+                  value={isPrivate}
                 />
               </View>
               {
                 isFollow ?
-                <View style={styles.actionContainer}>
-                  <PXTouchable onPress={this.handleOnPressRemoveButton}>
-                    <Text>Remove</Text>
-                  </PXTouchable>
-                  <PXTouchable onPress={this.handleOnPressFollowButton}>
-                    <Text>Follow</Text>
-                  </PXTouchable>
-                </View>
+                  <View style={styles.actionContainer}>
+                    <PXTouchable onPress={this.handleOnPressRemoveButton}>
+                      <Text>Remove</Text>
+                    </PXTouchable>
+                    <PXTouchable onPress={this.handleOnPressFollowButton}>
+                      <Text>Follow</Text>
+                    </PXTouchable>
+                  </View>
                 :
-                <View style={styles.actionWithoutRemoveButtonContainer}>
-                  <FollowButton 
-                    isFollow={isFollow} 
-                    onPress={this.handleOnPressFollowButton} 
-                  />
-                </View>
+                  <View style={styles.actionWithoutRemoveButtonContainer}>
+                    <FollowButton
+                      isFollow={isFollow}
+                      onPress={this.handleOnPressFollowButton}
+                    />
+                  </View>
               }
             </View>
           </TouchableWithoutFeedback>
@@ -174,13 +174,11 @@ class FollowModal extends Component {
   }
 }
 
-export default connect((state, props) => {
-  return {
-    userFollowDetail: state.userFollowDetail
-  }
-}, { 
-  ...userFollowDetailActionCreators, 
-  ...followUserActionCreators, 
-  ...modalActionCreators 
+export default connect((state, props) => ({
+  userFollowDetail: state.userFollowDetail,
+}), {
+  ...userFollowDetailActionCreators,
+  ...followUserActionCreators,
+  ...modalActionCreators,
 })(FollowModal);
 

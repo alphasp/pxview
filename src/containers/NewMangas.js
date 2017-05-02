@@ -22,7 +22,7 @@ class NewMangas extends Component {
   loadMoreItems = () => {
     const { fetchNewMangas, newMangas: { loading, nextUrl } } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl)
+      console.log('load more ', nextUrl);
       fetchNewMangas(nextUrl);
     }
   }
@@ -37,7 +37,7 @@ class NewMangas extends Component {
     const { newMangas, items } = this.props;
     return (
       <IllustList
-        data={{...newMangas, items}}
+        data={{ ...newMangas, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -49,6 +49,6 @@ export default connect(state => {
   const { newMangas } = state;
   return {
     newMangas,
-    items: getNewMangasItems(state)
-  }
+    items: getNewMangasItems(state),
+  };
 }, newMangasActionCreators)(NewMangas);

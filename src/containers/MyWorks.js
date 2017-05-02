@@ -22,8 +22,8 @@ class MyWorks extends Component {
       ],
     };
   }
-  
-  handleChangeTab = (index) => {
+
+  handleChangeTab = index => {
     this.setState({ index });
   };
 
@@ -31,12 +31,12 @@ class MyWorks extends Component {
     const { userId } = this.props.navigation.state.params;
     switch (route.key) {
       case '1':
-        return <UserIllusts userId={userId} />
+        return <UserIllusts userId={userId} />;
       case '2':
-        return <UserMangas userId={userId} />
+        return <UserMangas userId={userId} />;
       default:
         return null;
-    };
+    }
   }
 
   render() {

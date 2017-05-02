@@ -18,18 +18,18 @@ import PXTabView from '../components/PXTabView';
 class PageWrapper extends Component {
   constructor(props) {
     super(props);
-    this.state = { loaded : props.active }
+    this.state = { loaded: props.active };
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.active && !this.state.loaded) {
-      this.setState({loaded: true})
+      this.setState({ loaded: true });
     }
   }
 
   render() {
     const { active, children } = this.props;
-    return active || this.state.loaded ? <View style={{flex: 1}}>{children}</View> : null;
+    return active || this.state.loaded ? <View style={{ flex: 1 }}>{children}</View> : null;
   }
 }
 
@@ -40,7 +40,7 @@ class NewWorks extends Component {
     let routes = [
       { key: '1', title: 'Following' },
       { key: '2', title: 'Illust' },
-      { key: '3', title: 'Manga' }
+      { key: '3', title: 'Manga' },
     ];
     if (user) {
       routes = [...routes, { key: '4', title: 'My Pixiv' }];
@@ -48,8 +48,8 @@ class NewWorks extends Component {
 
     this.state = {
       index: 0,
-      routes
-    }
+      routes,
+    };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -62,34 +62,32 @@ class NewWorks extends Component {
           this.setState({
             ...this.state,
             routes: routes.filter(route => route.key !== 4),
-            index: 0
+            index: 0,
           });
         }
         else {
           this.setState({
             ...this.state,
-            routes: routes.filter(route => route.key !== 4)
+            routes: routes.filter(route => route.key !== 4),
           });
         }
       }
-      else {
-        if (!routes.some(route => route.key === 4)) {
-          this.setState({
-            ...this.state,
-            routes: [...routes, { key: '4', title: 'My Pixiv'}]
-          });
-        }
+      else if (!routes.some(route => route.key === 4)) {
+        this.setState({
+          ...this.state,
+          routes: [...routes, { key: '4', title: 'My Pixiv' }],
+        });
       }
     }
   }
 
-  handleChangeTab = (index) => {
+  handleChangeTab = index => {
     this.setState({ index });
   };
 
   renderScene = ({ route, index }) => {
     const { navigation, screenProps } = this.props;
-    console.log('index ', index)
+    console.log('index ', index);
     switch (route.key) {
       case '1':
         return (
@@ -97,19 +95,19 @@ class NewWorks extends Component {
             <FollowingUserIllusts screenProps={screenProps} navigation={navigation} />
           </PageWrapper>
         );
-      case '2': 
+      case '2':
         return (
           <PageWrapper active={index == this.state.index}>
             <NewIllusts screenProps={screenProps} />
           </PageWrapper>
-        ) ;
-      case '3': 
+        );
+      case '3':
         return (
           <PageWrapper active={index == this.state.index}>
             <NewMangas screenProps={screenProps} />
           </PageWrapper>
         );
-      case '4': 
+      case '4':
         return (
           <PageWrapper active={index == this.state.index}>
             <MyPixiv screenProps={screenProps} />
@@ -117,7 +115,7 @@ class NewWorks extends Component {
         );
       default:
         return null;
-    };
+    }
   }
 
   render() {
@@ -128,14 +126,12 @@ class NewWorks extends Component {
         renderScene={this.renderScene}
         onRequestChangeTab={this.handleChangeTab}
         includeStatusBarPadding
-        tabBarProps={{scrollEnabled: true}}
+        tabBarProps={{ scrollEnabled: true }}
       />
     );
   }
 }
 
-export default connect(state => {
-  return {
-    user: state.auth.user
-  }
-})(NewWorks);
+export default connect(state => ({
+  user: state.auth.user,
+}))(NewWorks);

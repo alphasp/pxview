@@ -35,7 +35,7 @@ class UserMyPixiv extends Component {
     const { userMyPixiv, items, userId, screenProps } = this.props;
     return (
       <UserListContainer
-        userList={{...userMyPixiv, items}}
+        userList={{ ...userMyPixiv, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
         screenProps={screenProps}
@@ -52,7 +52,7 @@ export default connect(() => {
     return {
       userMyPixiv: userMyPixiv[userId],
       items: getUserMyPixivItems(state, props),
-      userId
-    }
-  }
+      userId,
+    };
+  };
 }, userMyPixivActionCreators)(UserMyPixiv);

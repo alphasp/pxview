@@ -17,7 +17,7 @@ import Separator from './Separator';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, 
+    flex: 1,
   },
   row: {
     padding: 10,
@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   separatorContainer: {
-    paddingLeft: 10, 
-    paddingRight: 10
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   separator: {
     flex: 1,
@@ -39,15 +39,15 @@ class SearchAutoCompleteList extends PureComponent {
   renderItem = ({ item }) => {
     const { onPressItem } = this.props;
     return (
-      <PXTouchable 
-        key={item} 
+      <PXTouchable
+        key={item}
         onPress={() => onPressItem(item)}
       >
         <View style={styles.row}>
           <Text>{item}</Text>
         </View>
       </PXTouchable>
-    )
+    );
   }
 
   render() {
@@ -60,19 +60,19 @@ class SearchAutoCompleteList extends PureComponent {
         }
         {
           (items && items.length) ?
-          <FlatList
-            data={items}
-            keyExtractor={(item, index) => item}
-            renderItem={this.renderItem}
-            ItemSeparatorComponent={Separator}
-            keyboardShouldPersistTaps="always"
-            onScroll={Keyboard.dismiss}
-          />
+            <FlatList
+              data={items}
+              keyExtractor={(item, index) => item}
+              renderItem={this.renderItem}
+              ItemSeparatorComponent={Separator}
+              keyboardShouldPersistTaps="always"
+              onScroll={Keyboard.dismiss}
+            />
           :
           null
         }
       </View>
-    )
+    );
   }
 }
 

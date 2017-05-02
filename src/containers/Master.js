@@ -4,9 +4,9 @@ import {
   Text,
   StyleSheet,
   DeviceEventEmitter,
-  CameraRoll
+  CameraRoll,
 } from 'react-native';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { addNavigationHelpers } from 'react-navigation';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import RNFetchBlob from 'react-native-fetch-blob';
@@ -30,24 +30,24 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   bottomSheetText: {
-    marginLeft: 32
+    marginLeft: 32,
   },
   bottomSheetListItem: {
-    flexDirection: "row", 
-    justifyContent: "flex-start", 
-    alignItems: "center",
-    height: 48
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    height: 48,
   },
   bottomSheetCancelIcon: {
-    marginLeft: 3
+    marginLeft: 3,
   },
   bottomSheetCancelText: {
-    marginLeft: 36
-  }
+    marginLeft: 36,
+  },
 });
 
 class Master extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       isShowBottomSheet: false,
@@ -57,10 +57,10 @@ class Master extends Component {
 
   componentDidMount() {
     MessageBarManager.registerMessageBar(this.messageBarAlert);
-    this.listener = DeviceEventEmitter.addListener('showToast', (text) => {
+    this.listener = DeviceEventEmitter.addListener('showToast', text => {
       this.toast.show(text, DURATION.LENGTH_LONG);
     });
-    //DeviceEventEmitter.emit('showToast', 'Maximum of tags is 10');
+    // DeviceEventEmitter.emit('showToast', 'Maximum of tags is 10');
   }
 
   componentWillUnmount() {
@@ -73,9 +73,9 @@ class Master extends Component {
   componentWillReceiveProps(nextProps) {
     const { routes, dispatch } = this.props;
     const { routes: nextRoutes, error } = nextProps;
-    const nextMessageBar = nextProps.messageBar
-    const { messageBar } = this.props
-    if (error){
+    const nextMessageBar = nextProps.messageBar;
+    const { messageBar } = this.props;
+    if (error) {
       MessageBarManager.hideAlert();
       MessageBarManager.showAlert({
         message: error,
@@ -93,7 +93,7 @@ class Master extends Component {
   }
 
   // gets the current screen from navigation state
-  getCurrentRouteName = (navigationState) => {
+  getCurrentRouteName = navigationState => {
     if (!navigationState) {
       return null;
     }
@@ -114,29 +114,29 @@ class Master extends Component {
     }
   }
 
-  openBottomSheet = (imageUrls) => {
-    console.log('openBottomSheet')
+  openBottomSheet = imageUrls => {
+    console.log('openBottomSheet');
     this.setState({ isShowBottomSheet: true, imageUrls });
   }
 
   handleOnCancelBottomSheet = () => {
-    //const { setParams } = this.props.navigation;
-    console.log('handleOnCancelBottomSheet')
+    // const { setParams } = this.props.navigation;
+    console.log('handleOnCancelBottomSheet');
     this.setState({ isShowBottomSheet: false });
   }
 
   handleOnPressSaveImages = () => {
     const { imageUrls } = this.state;
-    console.log('dl images ', imageUrls)
+    console.log('dl images ', imageUrls);
     const { dirs } = RNFetchBlob.fs;
     this.handleOnCancelBottomSheet();
     const downloadImagePromises = imageUrls.map(url => {
       const fileName = url.split('/').pop().split('#')[0].split('?')[0];
       return RNFetchBlob
         .config({
-          path :`${dirs.DocumentDir}/${fileName}`,
+          path: `${dirs.DocumentDir}/${fileName}`,
         }).fetch('GET', url, {
-          referer: "http://www.pixiv.net",
+          referer: 'http://www.pixiv.net',
           //'Cache-Control' : 'no-store'
         }).then(res => {
           console.log('The file saved to ', res.path());
@@ -148,12 +148,10 @@ class Master extends Component {
         })
         .catch((err, statusCode) => {
           // error handling
-          console.log('error fetch blob ', err)
-        }).then(() => {
-          return null;
-        });
-    })
-    return Promise.all(downloadImagePromises).then((results) => {
+          console.log('error fetch blob ', err);
+        }).then(() => null);
+    });
+    return Promise.all(downloadImagePromises).then(results => {
       console.log('finish download all images ', results);
     });
   }
@@ -165,41 +163,41 @@ class Master extends Component {
       <View style={styles.container}>
         {
           rehydrated ?
-          <AppNavigator 
-            screenProps={{
-              openBottomSheet: this.openBottomSheet,
-              strings: localizedStrings
-            }} 
-            onNavigationStateChange={this.handleOnNavigationStateChange}
-          />
+            <AppNavigator
+              screenProps={{
+                openBottomSheet: this.openBottomSheet,
+                strings: localizedStrings,
+              }}
+              onNavigationStateChange={this.handleOnNavigationStateChange}
+            />
           :
-          <Loader />
+            <Loader />
         }
-        
-        <MessageBar ref={ref => this.messageBarAlert = ref}/>
+
+        <MessageBar ref={ref => this.messageBarAlert = ref} />
         <Toast ref={ref => this.toast = ref} />
         <ModalRoot />
-        <ShareSheet 
+        <ShareSheet
           visible={isShowBottomSheet}
           onCancel={this.handleOnCancelBottomSheet}
         >
           <View style={styles.bottomSheet}>
             <PXTouchable onPress={this.handleOnPressSaveImages}>
               <View style={styles.bottomSheetListItem}>
-                <Icon 
-                  name="floppy-o" 
-                  size={24} 
+                <Icon
+                  name="floppy-o"
+                  size={24}
                 />
-                <Text style={styles.bottomSheetText}> 
-                  { imageUrls.length > 1 ? "Save All Images" : "Save Image" }
+                <Text style={styles.bottomSheetText}>
+                  { imageUrls.length > 1 ? 'Save All Images' : 'Save Image' }
                 </Text>
               </View>
             </PXTouchable>
             <PXTouchable onPress={this.handleOnCancelBottomSheet}>
-              <View style={styles.bottomSheetListItem}>              
-                <IonicIcon 
-                  name="md-close" 
-                  size={24} 
+              <View style={styles.bottomSheetListItem}>
+                <IonicIcon
+                  name="md-close"
+                  size={24}
                   style={styles.bottomSheetCancelIcon}
                 />
                 <Text style={[styles.bottomSheetText, styles.bottomSheetCancelText]}>
@@ -214,10 +212,8 @@ class Master extends Component {
   }
 }
 
-export default connect(state => {
-  return {
-    error: state.error,
-    rehydrated: state.auth.rehydrated,
-    lang: state.i18n.lang,
-  }
-})(Master);
+export default connect(state => ({
+  error: state.error,
+  rehydrated: state.auth.rehydrated,
+  lang: state.i18n.lang,
+}))(Master);

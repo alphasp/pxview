@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   usersIcon: {
-    marginBottom: 10
+    marginBottom: 10,
   },
   recommendUserButton: {
     marginTop: 10,
@@ -51,7 +51,7 @@ class FollowingUserIllusts extends Component {
   loadMoreItems = () => {
     const { user, fetchFollowingUserIllusts, followingUserIllusts: { loading, nextUrl } } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl)
+      console.log('load more ', nextUrl);
       fetchFollowingUserIllusts(nextUrl);
     }
   }
@@ -65,7 +65,7 @@ class FollowingUserIllusts extends Component {
   handleOnPressFindRecommendedUsers = () => {
     const { navigate } = this.props.navigation;
     navigate('RecommendedUsers', {
-      navigation: this.props.navigation
+      navigation: this.props.navigation,
     });
   }
 
@@ -77,18 +77,18 @@ class FollowingUserIllusts extends Component {
           <Icon name="users" size={40} style={styles.usersIcon} />
           <Text>{strings.followUserNullState}</Text>
           <Text>{strings.newWorkFollowNullState}</Text>
-          <Button 
+          <Button
             title={strings.findRecommendedUsers}
             buttonStyle={styles.recommendUserButton}
             onPress={this.handleOnPressFindRecommendedUsers}
             raised
           />
         </View>
-      )
+      );
     }
     return (
       <IllustList
-        data={{...followingUserIllusts, items}}
+        data={{ ...followingUserIllusts, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -101,6 +101,6 @@ export default connect(state => {
   return {
     followingUserIllusts,
     items: getFollowingUserIllustsItems(state),
-    user
-  }
+    user,
+  };
 }, followingUserIllustsActionCreators)(FollowingUserIllusts);

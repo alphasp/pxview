@@ -26,16 +26,16 @@ const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     position: 'absolute',
     top: 0,
-    //top: APPBAR_HEIGHT + STATUSBAR_HEIGHT,
+    // top: APPBAR_HEIGHT + STATUSBAR_HEIGHT,
     bottom: 0,
     left: 0,
     right: 0,
     zIndex: 10,
-    backgroundColor: '#fff'
-  }
+    backgroundColor: '#fff',
+  },
 });
 
 class Search extends Component {
@@ -43,15 +43,15 @@ class Search extends Component {
     super(props);
     const { searchType } = props;
     this.state = {
-      index: searchType ===  SearchType.USER ? 1 : 0,
+      index: searchType === SearchType.USER ? 1 : 0,
       routes: [
         { key: '1', title: 'Illust/Manga' },
         { key: '2', title: 'User' },
       ],
-    }
+    };
   }
 
-  handleChangeTab = (index) => {
+  handleChangeTab = index => {
     const { setSearchType } = this.props;
     this.setState({ index });
     if (index === 1) {
@@ -68,7 +68,7 @@ class Search extends Component {
     switch (route.key) {
       case '1':
         return (
-          <SearchAutoCompleteResult 
+          <SearchAutoCompleteResult
             searchAutoComplete={searchAutoComplete}
             searchHistory={searchHistory}
             onPressItem={this.handleOnPressAutoCompleteItem}
@@ -80,7 +80,7 @@ class Search extends Component {
         );
       case '2':
         return (
-          <SearchUsersAutoCompleteResult 
+          <SearchUsersAutoCompleteResult
             tabLabel="User"
             searchUsersAutoComplete={searchUsersAutoComplete}
             searchHistory={searchHistory}
@@ -94,16 +94,16 @@ class Search extends Component {
         );
       default:
         return null;
-    };
+    }
   }
 
-  submitSearch = (word)  => {
+  submitSearch = word => {
     word = word.trim();
     if (word) {
       const { navigation: { navigate, setParams }, isPushNewSearch, searchType, onSubmitSearch, addSearchHistory } = this.props;
       addSearchHistory(word);
       onSubmitSearch(word);
-      console.log('submit search ', searchType, isPushNewSearch)
+      console.log('submit search ', searchType, isPushNewSearch);
       if (isPushNewSearch) {
         navigate('SearchResult', { word, searchType });
       }
@@ -116,22 +116,22 @@ class Search extends Component {
     }
   }
 
-  handleOnPressAutoCompleteItem = (word) => {
+  handleOnPressAutoCompleteItem = word => {
     this.submitSearch(word);
   }
 
-  handleOnPressSearchHistoryItem = (word) => {
+  handleOnPressSearchHistoryItem = word => {
     this.submitSearch(word);
   }
 
-  handleOnPressUser = (userId) => {
+  handleOnPressUser = userId => {
     const { navigation, onSubmitSearch, addSearchHistory } = this.props;
     const { navigate } = navigation;
     // onSubmitSearch(word);
     navigate('UserDetail', { userId });
   }
 
-  handleOnPressRemoveSearchHistoryItem = (item) => {
+  handleOnPressRemoveSearchHistoryItem = item => {
     const { removeSearchHistory } = this.props;
     removeSearchHistory(item);
   }
@@ -156,10 +156,10 @@ class Search extends Component {
           navigationState={{
             ...this.state,
             word,
-            searchAutoComplete, 
-            searchUsersAutoComplete, 
+            searchAutoComplete,
+            searchUsersAutoComplete,
             searchHistory,
-            searchType
+            searchType,
           }}
           renderScene={this.renderScene}
           onRequestChangeTab={this.handleChangeTab}
@@ -177,10 +177,10 @@ export default connect((state, props) => {
     searchUsersAutoComplete: state.searchUsersAutoComplete,
     searchHistory: state.searchHistory,
     word,
-  }
-}, { 
-  ...searchAutoCompleteActionCreators, 
-  ...searchUserAutoCompleteActionCreators, 
-  ...searchHistoryActionCreators, 
-  ...searchTypeActionCreators
+  };
+}, {
+  ...searchAutoCompleteActionCreators,
+  ...searchUserAutoCompleteActionCreators,
+  ...searchHistoryActionCreators,
+  ...searchTypeActionCreators,
 })(Search);

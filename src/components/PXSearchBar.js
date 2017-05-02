@@ -10,7 +10,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { SearchBar } from 'react-native-elements'
+import { SearchBar } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import SearchTags from './SearchTags';
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     position: 'relative',
     justifyContent: 'space-between',
-    //justifyContent: 'center',
+    // justifyContent: 'center',
     flexDirection: 'row',
     ...Platform.select({
       ios: {
@@ -65,29 +65,29 @@ const styles = StyleSheet.create({
         borderColor: 'transparent',
         height: 37,
       },
-    })
+    }),
   },
   searchBarTextInput: {
-    //height: 40,
+    // height: 40,
     flex: 1,
     paddingLeft: 5,
-    //alignSelf: 'center', 
+    //alignSelf: 'center',
     //width: 300
   },
   searchIcon: {
-    alignSelf: 'center', 
-    paddingLeft: 5
-    //flex: 0.2
+    alignSelf: 'center',
+    paddingLeft: 5,
+    // flex: 0.2
   },
   placeHolderTextContainer: {
-    alignSelf: 'center', 
+    alignSelf: 'center',
   },
   placeHolderText: {
-    color: 'gray', 
-  }
+    color: 'gray',
+  },
   // searchBarButton: {
-  //   alignItems: 'center', 
-  //   justifyContent: 'center', 
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
   //   flexDirection: 'row',
   //   marginRight: -14
   // }
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
 
 class PXSearchBar extends Component {
   static defaultProps = {
-    searchType: SearchType.ILLUST
+    searchType: SearchType.ILLUST,
   }
   // handleOnChangeSearchText = (word, searchType) => {
   //   const { fetchSearchAutoComplete, clearSearchAutoComplete, fetchSearchUserAutoComplete, clearSearchUserAutoComplete } = this.props;
@@ -129,7 +129,7 @@ class PXSearchBar extends Component {
 
   render() {
     const { searchType, isRenderBackButton, isRenderRightButton, isRenderPlaceHolder, onFocus, onChangeText, onSubmitEditing, onPressRemoveTag, autoFocus, word } = this.props;
-    let style = {};
+    const style = {};
     // if (isRenderBackButton && isRenderRightButton) {
     //   style = {
     //     width: windowWidth - 68,
@@ -151,24 +151,22 @@ class PXSearchBar extends Component {
     return (
       <View style={[styles.container, style]}>
         <SearchBar
-          containerStyle={{backgroundColor: "#fff", borderTopWidth: 0, borderBottomWidth: 0}}
+          containerStyle={{ backgroundColor: '#fff', borderTopWidth: 0, borderBottomWidth: 0 }}
           lightTheme
-          placeholder={searchType === SearchType.USER ? "Enter nickname" : "Enter keyword"}
+          placeholder={searchType === SearchType.USER ? 'Enter nickname' : 'Enter keyword'}
           autoFocus={autoFocus}
           onFocus={() => onFocus && onFocus(searchType)}
-          onChangeText={(text) => onChangeText(text, searchType)}
-          onSubmitEditing={(e) => this.handleOnSubmitSearch(e.nativeEvent.text, searchType)}
+          onChangeText={text => onChangeText(text, searchType)}
+          onSubmitEditing={e => this.handleOnSubmitSearch(e.nativeEvent.text, searchType)}
           returnKeyType="search"
           defaultValue={word}
-          underlineColorAndroid='transparent'
+          underlineColorAndroid="transparent"
         />
       </View>
     );
   }
 }
 
-export default connect((state, { searchType }) => {
-  return {
-    searchType: state.searchType.type //searchType || state.searchType.type
-  }
-}, searchHistoryActionCreators)(PXSearchBar);
+export default connect((state, { searchType }) => ({
+  searchType: state.searchType.type, // searchType || state.searchType.type
+}), searchHistoryActionCreators)(PXSearchBar);

@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   Dimensions,
   RefreshControl,
-  FlatList
+  FlatList,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import Loader from './Loader';
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
   cardImage: {
     resizeMode: 'cover',
-    //margin: 5,
+    // margin: 5,
     height: Dimensions.get('window').width / 3, //require for <Image />
     // width: 130,
   },
@@ -35,53 +35,53 @@ const styles = StyleSheet.create({
     bottom: 0,
     height: windowWidth / 3 - 3,
     justifyContent: 'flex-end',
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   tag: {
-    //flex: 1,
+    // flex: 1,
     backgroundColor: 'transparent',
     color: '#fff',
-    //position: 'absolute',
-    //alignSelf: 'center',
-    //fontWeight: 'bold',
+    // position: 'absolute',
+    // alignSelf: 'center',
+    // fontWeight: 'bold',
     textAlign: 'center',
     //flexWrap: 'wrap'
     //bottom: 30,
-  }
+  },
 });
 
 class IllustTagList extends Component {
-  renderItem = ({ item }) => {
-    return (
-      <PXTouchable 
-        style={{ 
-          margin: 1,
-          backgroundColor: '#E9EBEE',
-          width: windowWidth / 3 - 3, 
-          height: windowWidth / 3 - 3,
-        }} 
-        key={item.tag} 
-        onPress={() => this.handleOnPressItem(item) }
-      >
-        <View>
-          <PXImage 
-            uri={item.illust.image_urls.square_medium}
-            style={[styles.cardImage, {
-              width: windowWidth / 3 - 3, 
-              height: windowWidth / 3 - 3,
-            }]}
-          />
-          <View style={[styles.tagContainer, {
-            width: windowWidth / 3 - 3, 
-          }]}>
-            <Text style={styles.tag}>{ item.tag }</Text>
-          </View>
+  renderItem = ({ item }) => (
+    <PXTouchable
+      style={{
+        margin: 1,
+        backgroundColor: '#E9EBEE',
+        width: windowWidth / 3 - 3,
+        height: windowWidth / 3 - 3,
+      }}
+      key={item.tag}
+      onPress={() => this.handleOnPressItem(item)}
+    >
+      <View>
+        <PXImage
+          uri={item.illust.image_urls.square_medium}
+          style={[styles.cardImage, {
+            width: windowWidth / 3 - 3,
+            height: windowWidth / 3 - 3,
+          }]}
+        />
+        <View
+          style={[styles.tagContainer, {
+            width: windowWidth / 3 - 3,
+          }]}
+        >
+          <Text style={styles.tag}>{ item.tag }</Text>
         </View>
-      </PXTouchable>
-    );
-  }
+      </View>
+    </PXTouchable>
+    )
 
-  handleOnPressItem = (item) => {
+  handleOnPressItem = item => {
     const { navigate } = this.props.navigation;
     navigate('SearchResult', { word: item.tag });
   }
@@ -97,26 +97,24 @@ class IllustTagList extends Component {
         }
         {
           (items && items.length) ?
-          <FlatList
-            data={items}
-            numColumns={3}
-            keyExtractor={(item, index) => item.tag}
-            renderItem={this.renderItem}
-            getItemLayout={(data, index, horizontal) => {
-              return {
+            <FlatList
+              data={items}
+              numColumns={3}
+              keyExtractor={(item, index) => item.tag}
+              renderItem={this.renderItem}
+              getItemLayout={(data, index, horizontal) => ({
                 length: Dimensions.get('window').width / 3,
-                offset: (Dimensions.get('window').width / 3) * index, 
-                index
-              };
-            }}
-            removeClippedSubviews={false}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-              />
+                offset: (Dimensions.get('window').width / 3) * index,
+                index,
+              })}
+              removeClippedSubviews={false}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                />
             }
-          />
+            />
           :
           null
         }

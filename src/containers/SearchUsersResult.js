@@ -39,7 +39,7 @@ class SearchUsersResult extends Component {
   loadMoreItems = () => {
     const { navigationStateKey, fetchSearchUsers, searchUsers: { nextUrl, loading }, word } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl)
+      console.log('load more ', nextUrl);
       fetchSearchUsers(navigationStateKey, word, nextUrl);
     }
   }
@@ -63,9 +63,9 @@ class SearchUsersResult extends Component {
   //       word: newWord,
   //       renderTitle: () => {
   //         return (
-  //           <SearchBar 
-  //             enableBack={true} 
-  //             onFocus={this.handleOnSearchFieldFocus} 
+  //           <SearchBar
+  //             enableBack={true}
+  //             onFocus={this.handleOnSearchFieldFocus}
   //             onPressRemoveTag={this.handleOnPressRemoveTag}
   //             isRenderPlaceHolder={true}
   //             searchType={SearchType.USER}
@@ -84,7 +84,7 @@ class SearchUsersResult extends Component {
     const { searchUsers, items, word, screenProps } = this.props;
     return (
       <UserListContainer
-        userList={{...searchUsers, items}}
+        userList={{ ...searchUsers, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
         screenProps={screenProps}
@@ -102,7 +102,7 @@ export default connect(() => {
     return {
       searchUsers: searchUsers[navigationStateKey],
       items: getSearchUsersItems(state, props),
-      word
-    }
-  }
+      word,
+    };
+  };
 }, searchUsersActionCreators)(SearchUsersResult);

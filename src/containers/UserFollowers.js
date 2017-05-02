@@ -35,7 +35,7 @@ class UserFollowers extends Component {
     const { userFollowers, items, userId, screenProps } = this.props;
     return (
       <UserListContainer
-        userList={{...userFollowers, items}}
+        userList={{ ...userFollowers, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
         screenProps={screenProps}
@@ -52,7 +52,7 @@ export default connect(() => {
     return {
       userFollowers: userFollowers[userId],
       items: getUserFollowersItems(state, props),
-      userId
-    }
-  }
+      userId,
+    };
+  };
 }, userFollowersActionCreators)(UserFollowers);

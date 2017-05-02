@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   searchHistoryText: {
     width: Dimensions.get('window').width - 45,
-  }
+  },
 });
 
 class SearchHistory extends Component {
@@ -38,20 +38,20 @@ class SearchHistory extends Component {
     const { onPressItem, onPressRemoveSearchHistoryItem } = this.props;
     return (
       <View style={styles.listItemContainer} key={item}>
-        <PXTouchable 
-          onPress={() => onPressItem(item)} 
+        <PXTouchable
+          onPress={() => onPressItem(item)}
           style={styles.searchHistoryText}
         >
           <Text>{item}</Text>
         </PXTouchable>
-        <Icon 
-          name="times" 
-          size={16} 
-          color="#A9A9A9" 
-          onPress={() => onPressRemoveSearchHistoryItem(item)} 
+        <Icon
+          name="times"
+          size={16}
+          color="#A9A9A9"
+          onPress={() => onPressRemoveSearchHistoryItem(item)}
         />
       </View>
-    )
+    );
   }
 
   render() {

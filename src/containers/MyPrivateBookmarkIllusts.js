@@ -33,7 +33,7 @@ class MyPrivateBookmarkIllusts extends Component {
   loadMoreItems = () => {
     const { myPrivateBookmarkIllusts, tag, userId, fetchMyPrivateBookmarkIllusts } = this.props;
     if (myPrivateBookmarkIllusts && !myPrivateBookmarkIllusts.loading && myPrivateBookmarkIllusts.nextUrl) {
-      console.log('next url ', myPrivateBookmarkIllusts.nextUrl)
+      console.log('next url ', myPrivateBookmarkIllusts.nextUrl);
       fetchMyPrivateBookmarkIllusts(userId, tag, nextUrl);
     }
   }
@@ -46,10 +46,10 @@ class MyPrivateBookmarkIllusts extends Component {
 
   render() {
     const { myPrivateBookmarkIllusts, items } = this.props;
-    console.log('getMyPrivateBookmarkIllustsItems')
+    console.log('getMyPrivateBookmarkIllustsItems');
     return (
       <IllustList
-        data={{...myPrivateBookmarkIllusts, items}}
+        data={{ ...myPrivateBookmarkIllusts, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -63,6 +63,6 @@ export default connect((state, props) => {
   return {
     myPrivateBookmarkIllusts,
     items: getMyPrivateBookmarkIllustsItems(state),
-    userId
-  }
+    userId,
+  };
 }, myPrivateBookmarkIllustActionCreators)(MyPrivateBookmarkIllusts);

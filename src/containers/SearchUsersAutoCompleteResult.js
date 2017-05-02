@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  InteractionManager
+  InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
 import dismissKeyboard from 'dismissKeyboard';
@@ -15,7 +15,7 @@ import { getSearchUsersAutoCompleteItems } from '../common/selectors';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, 
+    flex: 1,
   },
 });
 
@@ -38,12 +38,12 @@ class SearchUsersAutoCompleteResult extends Component {
       });
     }
   }
-  
+
   loadMoreItems = () => {
     const { fetchSearchUsersAutoComplete, searchUsersAutoComplete: { nextUrl, loading } } = this.props;
-    console.log('loading ', loading, nextUrl)
+    console.log('loading ', loading, nextUrl);
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl)
+      console.log('load more ', nextUrl);
       fetchSearchUsersAutoComplete(null, nextUrl);
     }
   }
@@ -55,11 +55,11 @@ class SearchUsersAutoCompleteResult extends Component {
   }
 
 
-  submitSearchUsersAutoComplete = (word) => {
+  submitSearchUsersAutoComplete = word => {
     const { fetchSearchUsersAutoComplete } = this.props;
     if (word && word.length > 1) {
       fetchSearchUsersAutoComplete(word);
-    }      
+    }
   }
 
   render() {
@@ -68,7 +68,7 @@ class SearchUsersAutoCompleteResult extends Component {
       <View style={styles.container}>
         {
           ((!loaded && !loading) || !word) &&
-          <SearchHistory 
+          <SearchHistory
             items={searchHistory.items}
             onPressItem={onPressSearchHistoryItem}
             onPressRemoveSearchHistoryItem={onPressRemoveSearchHistoryItem}
@@ -77,12 +77,12 @@ class SearchUsersAutoCompleteResult extends Component {
         }
         {
           word ?
-          <SearchUsersAutoCompleteList
-            data={{...searchUsersAutoComplete, items}}
-            onPressItem={onPressItem}
-            loadMoreItems={this.loadMoreItems}
-            onRefresh={this.handleOnRefresh}
-          />
+            <SearchUsersAutoCompleteList
+              data={{ ...searchUsersAutoComplete, items }}
+              onPressItem={onPressItem}
+              loadMoreItems={this.loadMoreItems}
+              onRefresh={this.handleOnRefresh}
+            />
           :
           null
         }
@@ -91,9 +91,7 @@ class SearchUsersAutoCompleteResult extends Component {
   }
 }
 
-export default connect((state, props) => {
-  return {
-    searchUsersAutoComplete: state.searchUsersAutoComplete,
-    items: getSearchUsersAutoCompleteItems(state, props)
-  }
-}, searchUsersAutoCompleteActionCreators)(SearchUsersAutoCompleteResult);
+export default connect((state, props) => ({
+  searchUsersAutoComplete: state.searchUsersAutoComplete,
+  items: getSearchUsersAutoCompleteItems(state, props),
+}), searchUsersAutoCompleteActionCreators)(SearchUsersAutoCompleteResult);

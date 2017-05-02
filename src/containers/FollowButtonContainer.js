@@ -5,7 +5,7 @@ import {
   ListView,
   Dimensions,
   RecyclerViewBackedScrollView,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
@@ -22,7 +22,7 @@ class FollowButtonContainer extends Component {
     followUser: PropTypes.func.isRequired,
     unfollowUser: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
-    openModal: PropTypes.func.isRequired
+    openModal: PropTypes.func.isRequired,
   }
 
   handleOnPress = () => {
@@ -31,16 +31,14 @@ class FollowButtonContainer extends Component {
       navigate('Login', {
         onLoginSuccess: () => {
           this.followUser(user.id, FOLLOWING_TYPES.PUBLIC);
-        }
+        },
       });
     }
+    else if (user.is_followed) {
+      this.unfollowUser(user.id);
+    }
     else {
-      if (user.is_followed) {
-        this.unfollowUser(user.id);
-      }
-      else {
-        this.followUser(user.id, FOLLOWING_TYPES.PUBLIC);
-      }
+      this.followUser(user.id, FOLLOWING_TYPES.PUBLIC);
     }
   }
 
@@ -50,14 +48,14 @@ class FollowButtonContainer extends Component {
       navigate('Login', {
         onLoginSuccess: () => {
           this.followUser(user.id, FOLLOWING_TYPES.PUBLIC);
-        }
+        },
       });
     }
     else {
-      openModal(modalType.FOLLOW, { 
+      openModal(modalType.FOLLOW, {
         userId: user.id,
-        isFollow: user.is_followed
-      })
+        isFollow: user.is_followed,
+      });
     }
   }
 
@@ -66,7 +64,7 @@ class FollowButtonContainer extends Component {
     followUser(userId, followType);
   }
 
-  unfollowUser = (userId) => {
+  unfollowUser = userId => {
     const { unfollowUser } = this.props;
     unfollowUser(userId);
   }
@@ -74,8 +72,8 @@ class FollowButtonContainer extends Component {
   render() {
     const { user, restProps } = this.props;
     return (
-      <FollowButton 
-        isFollow={user.is_followed} 
+      <FollowButton
+        isFollow={user.is_followed}
         onLongPress={this.handleOnLongPress}
         onPress={this.handleOnPress}
         {...restProps}
@@ -84,8 +82,6 @@ class FollowButtonContainer extends Component {
   }
 }
 
-export default withNavigation(connect((state, props) => {
-  return {
-    authUser: state.auth.user
-  }
-}, { ...followUserActionCreators, ...modalActionCreators })(FollowButtonContainer));
+export default withNavigation(connect((state, props) => ({
+  authUser: state.auth.user,
+}), { ...followUserActionCreators, ...modalActionCreators })(FollowButtonContainer));

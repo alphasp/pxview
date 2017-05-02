@@ -12,7 +12,7 @@ import RNFetchBlob from 'react-native-fetch-blob';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from '../components/PXTouchable';
 import Loader from '../components/Loader';
-//import PXPhotoView from './PXPhotoView';
+// import PXPhotoView from './PXPhotoView';
 
 const { width, height } = Dimensions.get('window');
 
@@ -38,9 +38,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   slide: {
-    //flex: 1,
+    // flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   photo: {
     width,
@@ -50,17 +50,17 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     fontSize: 30,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   thumbWrap: {
     marginTop: 100,
     borderWidth: 5,
     borderColor: '#000',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   thumb: {
     width: 50,
-    height: 50
+    height: 50,
   },
 });
 
@@ -70,20 +70,20 @@ class ImagesViewer extends Component {
     return {
       headerRight: (
         <PXTouchable onPress={openBottomSheet}>
-          <Icon 
-            name="ellipsis-v" 
-            size={20} 
-            style={{paddingVertical: 10, paddingHorizontal: 20}}
+          <Icon
+            name="ellipsis-v"
+            size={20}
+            style={{ paddingVertical: 10, paddingHorizontal: 20 }}
           />
         </PXTouchable>
-      )
-    }
+      ),
+    };
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      loading: true
+      loading: true,
     };
   }
 
@@ -91,8 +91,8 @@ class ImagesViewer extends Component {
     const { navigation, screenProps: { openBottomSheet } } = this.props;
     const { images, viewerIndex } = navigation.state.params;
     const openImages = [images[viewerIndex]];
-    navigation.setParams({ 
-      openBottomSheet: () => openBottomSheet(openImages)
+    navigation.setParams({
+      openBottomSheet: () => openBottomSheet(openImages),
     });
   }
 
@@ -101,60 +101,58 @@ class ImagesViewer extends Component {
     const { images } = navigation.state.params;
     const { index } = state;
     const openImages = [images[index]];
-    navigation.setParams({ 
+    navigation.setParams({
       viewerIndex: index,
-      openBottomSheet: () => openBottomSheet(openImages)
+      openBottomSheet: () => openBottomSheet(openImages),
     });
   }
 
   handleOnImageLoaded = () => {
-    console.log('loaded')
+    console.log('loaded');
     this.setState({ loading: false });
   }
 
   render() {
     const { images, viewerIndex } = this.props.navigation.state.params;
     const { loading } = this.state;
-    console.log('viewerIndex ', viewerIndex)
+    console.log('viewerIndex ', viewerIndex);
     return (
       <View style={styles.container}>
-        <Swiper 
-          index={viewerIndex} 
+        <Swiper
+          index={viewerIndex}
           onMomentumScrollEnd={this.handleOnMomentumScrollEnd}
         >
           {
-            images.map((image, i) => {
-              return (
-                <View key={i} style={styles.slide}>
-                  {
+            images.map((image, i) => (
+              <View key={i} style={styles.slide}>
+                {
                     loading &&
                     <Loader />
                   }
-                  <PhotoView
-                    source={{
-                      uri: image,
-                      headers: {
-                        referer: "http://www.pixiv.net"
-                      }
-                    }}
-                    onLoad={this.handleOnImageLoaded}
-                    resizeMode='contain'
-                    minimumZoomScale={0.5}
-                    maximumZoomScale={3}
-                    androidScaleType='fitCenter'
-                    style={styles.photo} 
-                  />
-                </View>
-              )
-            })
+                <PhotoView
+                  source={{
+                    uri: image,
+                    headers: {
+                      referer: 'http://www.pixiv.net',
+                    },
+                  }}
+                  onLoad={this.handleOnImageLoaded}
+                  resizeMode="contain"
+                  minimumZoomScale={0.5}
+                  maximumZoomScale={3}
+                  androidScaleType="fitCenter"
+                  style={styles.photo}
+                />
+              </View>
+              ))
           }
         </Swiper>
       </View>
     );
-    /*return (
+    /* return (
       <View style={styles.container}>
-        <Swiper 
-          index={viewerIndex} 
+        <Swiper
+          index={viewerIndex}
           onMomentumScrollEnd={this.handleOnMomentumScrollEnd}
         >
           {
@@ -177,7 +175,7 @@ class ImagesViewer extends Component {
                     minimumZoomScale={0.5}
                     maximumZoomScale={3}
                     androidScaleType='fitCenter'
-                    style={styles.photo} 
+                    style={styles.photo}
                   />
                 </View>
               )

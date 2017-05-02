@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 class MyConnection extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       index: 0,
       routes: [
         { key: '1', title: 'Following (Public)' },
@@ -32,8 +32,8 @@ class MyConnection extends Component {
       ],
     };
   }
-  
-  handleChangeTab = (index) => {
+
+  handleChangeTab = index => {
     this.setState({ index });
   };
 
@@ -43,42 +43,42 @@ class MyConnection extends Component {
     switch (route.key) {
       case '1':
         return (
-          <UserFollowing 
-            userId={userId} 
+          <UserFollowing
+            userId={userId}
             followingType={FOLLOWING_TYPES.PUBLIC}
             screenProps={screenProps}
           />
         );
       case '2':
         return (
-          <UserFollowing 
-            userId={userId} 
-            followingType={FOLLOWING_TYPES.PRIVATE} 
+          <UserFollowing
+            userId={userId}
+            followingType={FOLLOWING_TYPES.PRIVATE}
             screenProps={screenProps}
           />
-        )
+        );
       case '3':
         return (
-          <UserFollowers 
-            tabLabel="Followers" 
-            userId={userId} 
+          <UserFollowers
+            tabLabel="Followers"
+            userId={userId}
             screenProps={screenProps}
           />
-        )
+        );
       case '4':
         return (
-          <UserMyPixiv 
-            userId={userId} 
+          <UserMyPixiv
+            userId={userId}
             screenProps={screenProps}
           />
-        )
+        );
       default:
         return null;
-    };
+    }
   }
 
   render() {
-    //const { userId } = this.props;
+    // const { userId } = this.props;
     const { userId } = this.props.navigation.state.params;
     const screenProps = this.props.screenProps || this.props.navigation.state.params.screenProps;
     return (
@@ -87,7 +87,7 @@ class MyConnection extends Component {
         renderScene={this.renderScene}
         onRequestChangeTab={this.handleChangeTab}
         tabBarProps={{
-          scrollEnabled: true
+          scrollEnabled: true,
         }}
       />
     );

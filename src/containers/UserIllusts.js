@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  InteractionManager
+  InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
@@ -23,7 +23,7 @@ class UserIllusts extends Component {
   loadMoreItems = () => {
     const { userIllusts, userId, fetchUserIllusts } = this.props;
     if (userIllusts && !userIllusts.loading && userIllusts.nextUrl) {
-      console.log('next url ', userIllusts)
+      console.log('next url ', userIllusts);
       fetchUserIllusts(userId, userIllusts.nextUrl);
     }
   }
@@ -38,7 +38,7 @@ class UserIllusts extends Component {
     const { userIllusts, items, userId } = this.props;
     return (
       <IllustList
-        data={{...userIllusts, items}}
+        data={{ ...userIllusts, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -54,7 +54,7 @@ export default connect(() => {
     return {
       userIllusts: userIllusts[userId],
       items: getUserIllustsItems(state, props),
-      userId
-    }
-  }
+      userId,
+    };
+  };
 }, userIllustsActionCreators)(UserIllusts);

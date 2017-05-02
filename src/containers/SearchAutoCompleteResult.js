@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  InteractionManager
+  InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
 import dismissKeyboard from 'dismissKeyboard';
@@ -15,7 +15,7 @@ import { SearchType } from '../common/actions/searchType';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, 
+    flex: 1,
   },
 });
 
@@ -38,21 +38,21 @@ class SearchAutoCompleteResult extends Component {
       });
     }
   }
-  
-  submitSearchAutoComplete = (word) => {
+
+  submitSearchAutoComplete = word => {
     const { fetchSearchAutoComplete } = this.props;
     if (word && word.length > 1) {
       fetchSearchAutoComplete(word);
-    }      
+    }
   }
 
   render() {
-    const { searchAutoComplete, word, searchAutoComplete: { items, loading, loaded },  searchHistory, onPressItem, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressClearSearchHistory } = this.props;
+    const { searchAutoComplete, word, searchAutoComplete: { items, loading, loaded }, searchHistory, onPressItem, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressClearSearchHistory } = this.props;
     return (
       <View style={styles.container}>
         {
           ((!loaded && !loading) || !word) &&
-          <SearchHistory 
+          <SearchHistory
             items={searchHistory.items}
             onPressItem={onPressSearchHistoryItem}
             onPressRemoveSearchHistoryItem={onPressRemoveSearchHistoryItem}
@@ -61,10 +61,10 @@ class SearchAutoCompleteResult extends Component {
         }
         {
           word ?
-          <SearchAutoCompleteList
-            data={searchAutoComplete}
-            onPressItem={onPressItem}
-          />
+            <SearchAutoCompleteList
+              data={searchAutoComplete}
+              onPressItem={onPressItem}
+            />
           :
           null
         }
@@ -73,8 +73,6 @@ class SearchAutoCompleteResult extends Component {
   }
 }
 
-export default connect((state, props) => {
-  return {
-    searchAutoComplete: state.searchAutoComplete
-  }
-}, searchAutoCompleteActionCreators)(SearchAutoCompleteResult);
+export default connect((state, props) => ({
+  searchAutoComplete: state.searchAutoComplete,
+}), searchAutoCompleteActionCreators)(SearchAutoCompleteResult);

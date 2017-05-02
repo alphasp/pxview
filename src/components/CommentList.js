@@ -8,7 +8,7 @@ import {
   ListView,
   RecyclerViewBackedScrollView,
   RefreshControl,
-  FlatList
+  FlatList,
 } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
   commentContainer: {
     flexDirection: 'row',
-    margin: 10
+    margin: 10,
   },
   nameCommentContainer: {
     flex: 1,
@@ -33,19 +33,19 @@ const styles = StyleSheet.create({
   },
   nameContainer: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   date: {
     marginLeft: 10,
-    fontSize: 10
+    fontSize: 10,
   },
   comment: {
-    marginTop: 5
+    marginTop: 5,
   },
   nullResultContainer: {
     flex: 1,
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 class CommentList extends Component {
   constructor(props) {
@@ -55,7 +55,7 @@ class CommentList extends Component {
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
     this.state = {
-      dataSource: (items && items.length) ? dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items) : dataSource
+      dataSource: (items && items.length) ? dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items) : dataSource,
     };
   }
 
@@ -65,49 +65,47 @@ class CommentList extends Component {
     if (items && items !== prevItems) {
       const { dataSource } = this.state;
       this.setState({
-        dataSource: dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items)
+        dataSource: dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items),
       });
     }
   }
-  
-  renderRow = ({ item }) => {
-    return (
-      <View
-        key={item.id}
-        style={styles.commentContainer}
-      >
-        <PXThumbnailTouchable
-          uri={item.user.profile_image_urls.medium}
-          onPress={() => this.handleOnPressUser(item.user.id)}
-        />
-        <View style={styles.nameCommentContainer}>
-          <View style={styles.nameContainer}>
-            <PXTouchable onPress={() => this.handleOnPressUser(item.user.id)}>
-              <Text>{item.user.name}</Text>
-            </PXTouchable>
-            <Text style={styles.date}>{moment(item.date).format('YYYY-MM-DD HH:mm')}</Text>
-          </View>
-          <View style={styles.comment}>
-            <Text>{item.comment}</Text>
-          </View>
+
+  renderRow = ({ item }) => (
+    <View
+      key={item.id}
+      style={styles.commentContainer}
+    >
+      <PXThumbnailTouchable
+        uri={item.user.profile_image_urls.medium}
+        onPress={() => this.handleOnPressUser(item.user.id)}
+      />
+      <View style={styles.nameCommentContainer}>
+        <View style={styles.nameContainer}>
+          <PXTouchable onPress={() => this.handleOnPressUser(item.user.id)}>
+            <Text>{item.user.name}</Text>
+          </PXTouchable>
+          <Text style={styles.date}>{moment(item.date).format('YYYY-MM-DD HH:mm')}</Text>
+        </View>
+        <View style={styles.comment}>
+          <Text>{item.comment}</Text>
         </View>
       </View>
-    );
-  }
+    </View>
+    )
 
   renderFooter = () => {
     const { data: { nextUrl, loading } } = this.props;
     return (
       (nextUrl && loading) ?
-      <View style={{ marginBottom: 20 }}>
-        <Loader />
-      </View>
+        <View style={{ marginBottom: 20 }}>
+          <Loader />
+        </View>
       :
       null
     );
-    /*return (
+    /* return (
       (nextUrl && loading) ?
-      <View style={{ 
+      <View style={{
         width: width,
         marginBottom: 20
       }}>
@@ -118,7 +116,7 @@ class CommentList extends Component {
     )*/
   }
 
-  handleOnPressUser = (userId) => {
+  handleOnPressUser = userId => {
     const { navigate } = this.props.navigation;
     navigate('UserDetail', { userId });
   }
@@ -134,21 +132,21 @@ class CommentList extends Component {
         }
         {
           loaded ?
-          <FlatList
-            data={maxItems ? items.slice(0, maxItems) : items}
-            keyExtractor={(item, index) => item.id}
-            renderItem={this.renderRow}
-            onEndReachedThreshold={0.1}
-            onEndReached={loadMoreItems}
-            removeClippedSubviews={false}
-            ListFooterComponent={this.renderFooter}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-              />
+            <FlatList
+              data={maxItems ? items.slice(0, maxItems) : items}
+              keyExtractor={(item, index) => item.id}
+              renderItem={this.renderRow}
+              onEndReachedThreshold={0.1}
+              onEndReached={loadMoreItems}
+              removeClippedSubviews={false}
+              ListFooterComponent={this.renderFooter}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                />
             }
-          />
+            />
           :
           null
         }

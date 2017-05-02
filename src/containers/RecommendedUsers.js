@@ -13,7 +13,7 @@ class RecommendedUsers extends Component {
   loadMoreItems = () => {
     const { fetchRecommendedUsers, recommendedUsers: { nextUrl, loading } } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl)
+      console.log('load more ', nextUrl);
       fetchRecommendedUsers(null, nextUrl);
     }
   }
@@ -28,7 +28,7 @@ class RecommendedUsers extends Component {
     const { recommendedUsers, items, navigation, screenProps } = this.props;
     return (
       <UserListContainer
-        userList={{...recommendedUsers, items}}
+        userList={{ ...recommendedUsers, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
         screenProps={screenProps}
@@ -41,6 +41,6 @@ export default connect(state => {
   const { recommendedUsers } = state;
   return {
     recommendedUsers,
-    items: getRecommendedUsersItems(state)
-  }
+    items: getRecommendedUsersItems(state),
+  };
 }, recommendedUsersActionCreators)(RecommendedUsers);

@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   Dimensions,
   RefreshControl,
-  InteractionManager
+  InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
@@ -35,7 +35,7 @@ class RankingList extends Component {
   loadMoreItems = () => {
     const { ranking: { nextUrl, loading }, rankingMode, options, fetchRanking } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl)
+      console.log('load more ', nextUrl);
       fetchRanking(rankingMode, options, nextUrl);
     }
   }
@@ -50,7 +50,7 @@ class RankingList extends Component {
     const { ranking, items } = this.props;
     return (
       <IllustList
-        data={{...ranking, items}}
+        data={{ ...ranking, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -64,7 +64,7 @@ export default connect(() => {
     const { ranking } = state;
     return {
       ranking: ranking[props.rankingMode],
-      items: getRankingItems(state, props)
-    }
-  }
+      items: getRankingItems(state, props),
+    };
+  };
 }, rankingActionCreators)(RankingList);

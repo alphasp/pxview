@@ -16,8 +16,8 @@ import { makeGetRelatedIllustsItems } from '../common/selectors';
 
 const styles = StyleSheet.create({
   nullResultContainer: {
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 
 class RelatedIllusts extends Component {
@@ -36,7 +36,7 @@ class RelatedIllusts extends Component {
   loadMoreItems = () => {
     const { relatedIllusts, illustId, fetchRelatedIllusts } = this.props;
     if (relatedIllusts && !relatedIllusts.loading && relatedIllusts.nextUrl) {
-      console.log('load more ', relatedIllusts.nextUrl)
+      console.log('load more ', relatedIllusts.nextUrl);
       fetchRelatedIllusts(illustId, null, relatedIllusts.nextUrl);
     }
   }
@@ -51,7 +51,7 @@ class RelatedIllusts extends Component {
     const { relatedIllusts, items, illustId, isFeatureInDetailPage, maxItems, navigation } = this.props;
     return (
       <IllustList
-        data={{...relatedIllusts, items}}
+        data={{ ...relatedIllusts, items }}
         loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
         onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
         maxItems={isFeatureInDetailPage && maxItems}
@@ -71,7 +71,7 @@ export default connect(() => {
     return {
       relatedIllusts: relatedIllusts[illustId],
       items: getRelatedIllustsItems(state, props),
-      illustId
-    }
-  }
+      illustId,
+    };
+  };
 }, relatedIllustsActionCreators)(RelatedIllusts);

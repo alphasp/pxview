@@ -23,7 +23,7 @@ class RecommendedIllusts extends Component {
   loadMoreItems = () => {
     const { recommendedIllusts: { nextUrl, loading }, fetchRecommendedIllusts } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl)
+      console.log('load more ', nextUrl);
       fetchRecommendedIllusts(null, nextUrl);
     }
   }
@@ -38,7 +38,7 @@ class RecommendedIllusts extends Component {
     const { recommendedIllusts, items } = this.props;
     return (
       <IllustList
-        data={{...recommendedIllusts, items}}
+        data={{ ...recommendedIllusts, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -51,6 +51,6 @@ export default connect((state, props) => {
   return {
     recommendedIllusts,
     items: getRecommendedIllustsItems(state, props),
-    user: state.auth.user
-  }
+    user: state.auth.user,
+  };
 }, recommendedIllustsActionCreators)(RecommendedIllusts);

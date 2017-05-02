@@ -12,7 +12,7 @@ import {
 import moment from 'moment';
 // import CacheableImage from 'react-native-cacheable-image';
 import FitImage from 'react-native-fit-image';
-import RNFetchBlob from 'react-native-fetch-blob'
+import RNFetchBlob from 'react-native-fetch-blob';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -23,7 +23,7 @@ class PXImage extends Component {
   //     imageUri: null
   //   }
   // }
-  
+
   // componentDidMount() {
   //   const { uri, onFoundImageSize } = this.props;
   //   this.task = RNFetchBlob
@@ -71,61 +71,62 @@ class PXImage extends Component {
     const { style, uri, ...otherProps } = this.props;
     // const { imageUri, width, height } = this.state;
     // console.log('imageUri ', imageUri ? true : false)
-    //height = <user-chosen width> * original height / original width
+    // height = <user-chosen width> * original height / original width
     return (
-      <Image 
-        source={{ 
+      <Image
+        source={{
           uri,
           headers: {
-            referer: "http://www.pixiv.net"
-          }
+            referer: 'http://www.pixiv.net',
+          },
         }}
-        style={style}    
-        {...otherProps} 
-      /> 
-    )
-    /*return (
+        onError={e => console.log('fail to load image ', e.nativeEvent.error)}
+        style={style}
+        {...otherProps}
+      />
+    );
+    /* return (
       (imageUri && width && height) ?
-      <Image 
-        source={{ 
+      <Image
+        source={{
           uri: imageUri
         }}
         style={[{
           width: width > windowWidth ? windowWidth : width,
           height: windowWidth * height / width
-        }, style]}    
-        {...otherProps} 
-      /> 
+        }, style]}
+        {...otherProps}
+      />
       :
       null
     )*/
     // return (
     //   imageUri ?
-    //   <Image 
-    //     source={{ 
+    //   <Image
+    //     source={{
     //       uri: imageUri
     //     }}
-    //     style={style}    
-    //     {...otherProps} 
-    //   /> 
+    //     style={style}
+    //     {...otherProps}
+    //   />
     //   :
     //   null
     // )
     //      <ActivityIndicator animating />
     // return (
-    //   <Image 
-    //     source={{ 
-    //       uri: source,  
+    //   <Image
+    //     source={{
+    //       uri: source,
     //       headers: {
     //         referer: "http://www.pixiv.net"
     //       }
     //     }}
     //     style={ style }
-        
+
     //   />
     // );
     // return (
-    //   <CacheableImage 
+    //   <CacheableImage
     //     resizeMode="cover"
     //     style={style}
     //     source={{

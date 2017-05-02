@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  InteractionManager
+  InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
@@ -12,7 +12,7 @@ import { makeGetUserBookmarkIllustsItems } from '../common/selectors';
 class UserBookmarkIllusts extends Component {
   componentDidMount() {
     const { userBookmarkIllusts, userId, tag, reload, fetchUserBookmarkIllusts, clearUserBookmarkIllusts } = this.props;
-    console.log('tag ', tag)
+    console.log('tag ', tag);
     if (!userBookmarkIllusts || !userBookmarkIllusts.items || reload) {
       clearUserBookmarkIllusts(userId);
       InteractionManager.runAfterInteractions(() => {
@@ -34,7 +34,7 @@ class UserBookmarkIllusts extends Component {
   loadMoreItems = () => {
     const { userBookmarkIllusts, tag, userId, fetchUserBookmarkIllusts } = this.props;
     if (userBookmarkIllusts && !userBookmarkIllusts.loading && userBookmarkIllusts.nextUrl) {
-      console.log('next url ', userBookmarkIllusts.nextUrl)
+      console.log('next url ', userBookmarkIllusts.nextUrl);
       fetchUserBookmarkIllusts(userId, tag, userBookmarkIllusts.nextUrl);
     }
   }
@@ -49,7 +49,7 @@ class UserBookmarkIllusts extends Component {
     const { userBookmarkIllusts, items, userId } = this.props;
     return (
       <IllustList
-        data={{...userBookmarkIllusts, items}}
+        data={{ ...userBookmarkIllusts, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -65,7 +65,7 @@ export default connect(() => {
     return {
       userBookmarkIllusts: userBookmarkIllusts[userId],
       items: getUserBookmarkIllustsItems(state, props),
-      userId
-    }
-  }
+      userId,
+    };
+  };
 }, userBookmarkIllustActionCreators)(UserBookmarkIllusts);

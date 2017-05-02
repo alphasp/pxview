@@ -20,7 +20,7 @@ import SearchHistory from './SearchHistory';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, 
+    flex: 1,
   },
   row: {
     padding: 10,
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   thumnailNameContainer: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   username: {
     marginLeft: 5,
@@ -41,14 +41,14 @@ class SearchUsersAutoCompleteList extends PureComponent {
   renderItem = ({ item }) => {
     const { onPressItem } = this.props;
     return (
-      <PXTouchable 
-        key={item.user.id} 
+      <PXTouchable
+        key={item.user.id}
         onPress={() => onPressItem(item.user.id)}
       >
         <View style={styles.row}>
           <View style={styles.thumnailNameContainer}>
-            <PXThumbnailTouchable 
-              uri={item.user.profile_image_urls.medium} 
+            <PXThumbnailTouchable
+              uri={item.user.profile_image_urls.medium}
               onPress={() => onPressItem(item.user.id)}
             />
             <Text style={styles.username}>{item.user.name}</Text>
@@ -56,25 +56,23 @@ class SearchUsersAutoCompleteList extends PureComponent {
           <FollowButton isFollow={item.user.is_followed} />
         </View>
       </PXTouchable>
-    )
+    );
   }
 
-  renderSeparator = (sectionId, rowId) => {
-    return (
-      <Separator key={`${sectionId}-${rowId}`} />
+  renderSeparator = (sectionId, rowId) => (
+    <Separator key={`${sectionId}-${rowId}`} />
     )
-  }
 
   renderFooter = () => {
     const { data: { items, nextUrl } } = this.props;
     return (
       nextUrl ?
-      <View style={{ marginBottom: 20 }}>
-        <Loader />
-      </View>
+        <View style={{ marginBottom: 20 }}>
+          <Loader />
+        </View>
       :
       null
-    )
+    );
   }
 
   render() {
@@ -87,28 +85,28 @@ class SearchUsersAutoCompleteList extends PureComponent {
         }
         {
           (items && items.length) ?
-          <FlatList
-            data={items}
-            keyExtractor={(item, index) => item.user.id}
-            renderItem={this.renderItem}
-            ItemSeparatorComponent={Separator}
-            keyboardShouldPersistTaps="always"
-            onEndReachedThreshold={0.1}
-            onEndReached={loadMoreItems}
-            ListFooterComponent={this.renderFooter}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-              />
+            <FlatList
+              data={items}
+              keyExtractor={(item, index) => item.user.id}
+              renderItem={this.renderItem}
+              ItemSeparatorComponent={Separator}
+              keyboardShouldPersistTaps="always"
+              onEndReachedThreshold={0.1}
+              onEndReached={loadMoreItems}
+              ListFooterComponent={this.renderFooter}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                />
             }
-            onScroll={Keyboard.dismiss}
-          />
+              onScroll={Keyboard.dismiss}
+            />
           :
           null
         }
       </View>
-    )
+    );
   }
 }
 

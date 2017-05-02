@@ -13,7 +13,7 @@ class MyPixiv extends Component {
   loadMoreItems = () => {
     const { fetchMyPixiv, myPixiv: { nextUrl, loading } } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl)
+      console.log('load more ', nextUrl);
       fetchMyPixiv(nextUrl);
     }
   }
@@ -28,7 +28,7 @@ class MyPixiv extends Component {
     const { myPixiv, items } = this.props;
     return (
       <IllustList
-        data={{...myPixiv, items}}
+        data={{ ...myPixiv, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -40,6 +40,6 @@ export default connect(state => {
   const { myPixiv } = state;
   return {
     myPixiv,
-    items: getMyPixivItems(state)
-  }
+    items: getMyPixivItems(state),
+  };
 }, myPixivActionCreators)(MyPixiv);

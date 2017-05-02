@@ -36,7 +36,7 @@ class UserFollowing extends Component {
     const { userFollowing, items, userId, screenProps } = this.props;
     return (
       <UserListContainer
-        userList={{...userFollowing, items}}
+        userList={{ ...userFollowing, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
         screenProps={screenProps}
@@ -54,7 +54,7 @@ export default connect(() => {
     return {
       userFollowing: userFollowing[followingType][userId],
       items: getUserFollowingItems(state, props),
-      userId
-    }
-  }
+      userId,
+    };
+  };
 }, userFollowingActionCreators)(UserFollowing);

@@ -16,20 +16,20 @@ const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
 
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
-    paddingTop: STATUSBAR_HEIGHT
+    // flex: 1,
+    paddingTop: STATUSBAR_HEIGHT,
   },
   subContainer: {
-    flexDirection: "row"
-  }
+    flexDirection: 'row',
+  },
 });
 
 class PXHeader extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    searchType: PropTypes.string, 
-    onPressBackButton: PropTypes.func, 
-    onFocusSearchBar: PropTypes.func.isRequired, 
+    searchType: PropTypes.string,
+    onPressBackButton: PropTypes.func,
+    onFocusSearchBar: PropTypes.func.isRequired,
     onChangeSearchText: PropTypes.func.isRequired,
     showBackButton: PropTypes.bool,
     headerRight: PropTypes.element,
@@ -44,9 +44,9 @@ class PXHeader extends Component {
             showBackButton &&
             <HeaderBackButton onPress={onPressBackButton} />
           }
-          <PXSearchBar 
-            ref='searchBar'
-            textInputRef='email'
+          <PXSearchBar
+            ref="searchBar"
+            textInputRef="email"
             onFocus={onFocusSearchBar}
             onChangeText={onChangeSearchText}
             onSubmitSearch={onSubmitSearch}

@@ -21,17 +21,17 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     // borderRadius: 10,
-    //alignItems: 'center',
-    backgroundColor: '#fff', 
+    // alignItems: 'center',
+    backgroundColor: '#fff',
     //padding: 20
   },
   sectionHeader: {
     backgroundColor: '#E9EBEE',
   },
   sectionHeaderTitle: {
-    fontWeight: "bold", 
+    fontWeight: 'bold',
     // fontSize: 20,
-    padding: 10
+    padding: 10,
   },
   row: {
     padding: 10,
@@ -61,12 +61,12 @@ class TagsFilterModal extends Component {
   }
 
   renderItem = ({ item }) => {
-    //const { target, duration } = this.state;
+    // const { target, duration } = this.state;
     const { tag, onSelectTag } = this.props;
     const isSelected = item.value === tag;
     return (
-      <PXTouchable 
-        key={item.name} 
+      <PXTouchable
+        key={item.name}
         onPress={() => onSelectTag(item.value)}
       >
         <View style={[styles.row, isSelected && styles.selectedTagContainer]}>
@@ -81,13 +81,13 @@ class TagsFilterModal extends Component {
           }
         </View>
       </PXTouchable>
-    )
+    );
   }
 
   loadMoreItems = () => {
     const { bookmarkTags: { nextUrl, loading }, fetchBookmarkTags, tagType } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl)
+      console.log('load more ', nextUrl);
       fetchBookmarkTags(tagType, nextUrl);
     }
   }
@@ -98,7 +98,7 @@ class TagsFilterModal extends Component {
       <View>
         <Modal
           animationType="fade"
-          transparent={true}
+          transparent
           visible={isOpen}
           onRequestClose={onPressCloseButton}
           onShow={() => console.log('on show modal')}
@@ -119,7 +119,7 @@ class TagsFilterModal extends Component {
                     keyboardShouldPersistTaps="always"
                     onEndReachedThreshold={0.1}
                     onEndReached={this.loadMoreItems}
-                  />  
+                  />
                 </View>
               </View>
             </TouchableWithoutFeedback>
@@ -130,8 +130,6 @@ class TagsFilterModal extends Component {
   }
 }
 
-export default connect((state, props) => {
-  return {
-    bookmarkTags: state.bookmarkTags[props.tagType]
-  }
-}, bookmarkTagsActionCreators)(TagsFilterModal);
+export default connect((state, props) => ({
+  bookmarkTags: state.bookmarkTags[props.tagType],
+}), bookmarkTagsActionCreators)(TagsFilterModal);

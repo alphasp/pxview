@@ -28,34 +28,34 @@ class Ranking extends Component {
         { key: '7', title: strings.month_ranking },
         { key: '8', title: strings.past_ranking },
       ],
-    }
+    };
   }
 
-  handleChangeTab = (index) => {
+  handleChangeTab = index => {
     this.setState({ index });
   };
 
   renderScene = ({ route }) => {
     switch (route.key) {
       case '1':
-        return <RankingList rankingMode={RANKING_FOR_UI.DAILY} />
+        return <RankingList rankingMode={RANKING_FOR_UI.DAILY} />;
       case '2':
-        return <RankingList rankingMode={RANKING_FOR_UI.DAILY_MALE} />  
+        return <RankingList rankingMode={RANKING_FOR_UI.DAILY_MALE} />;
       case '3':
-        return <RankingList rankingMode={RANKING_FOR_UI.DAILY_FEMALE} />
+        return <RankingList rankingMode={RANKING_FOR_UI.DAILY_FEMALE} />;
       case '4':
-        return <RankingList rankingMode={RANKING_FOR_UI.WEEKLY_ORIGINAL} />  
+        return <RankingList rankingMode={RANKING_FOR_UI.WEEKLY_ORIGINAL} />;
       case '5':
-        return <RankingList rankingMode={RANKING_FOR_UI.WEEKLY_ROOKIE} />
+        return <RankingList rankingMode={RANKING_FOR_UI.WEEKLY_ROOKIE} />;
       case '6':
-        return <RankingList rankingMode={RANKING_FOR_UI.WEEKLY} />  
+        return <RankingList rankingMode={RANKING_FOR_UI.WEEKLY} />;
       case '7':
-        return <RankingList rankingMode={RANKING_FOR_UI.MONTHLY} />
+        return <RankingList rankingMode={RANKING_FOR_UI.MONTHLY} />;
       case '8':
-        return <PastRanking rankingMode={RANKING_FOR_UI.PAST} screenProps={this.props.screenProps} />       
+        return <PastRanking rankingMode={RANKING_FOR_UI.PAST} screenProps={this.props.screenProps} />;
       default:
         return null;
-    };
+    }
   }
 
   render() {
@@ -65,7 +65,7 @@ class Ranking extends Component {
         renderScene={this.renderScene}
         onRequestChangeTab={this.handleChangeTab}
         tabBarProps={{
-          scrollEnabled: true
+          scrollEnabled: true,
         }}
         includeStatusBarPadding
       />

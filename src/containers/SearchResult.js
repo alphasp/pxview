@@ -38,7 +38,7 @@ class SearchResult extends Component {
   loadMoreItems = () => {
     const { navigationStateKey, search: { nextUrl, loading }, word, options } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl)
+      console.log('load more ', nextUrl);
       this.search(word, options, nextUrl);
     }
   }
@@ -58,7 +58,7 @@ class SearchResult extends Component {
     const { search, items, word, options, navigation, navigationStateKey } = this.props;
     return (
       <IllustList
-        data={{...search, items}}
+        data={{ ...search, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -73,7 +73,7 @@ export default connect(() => {
     const { navigationStateKey } = props;
     return {
       search: search[navigationStateKey],
-      items: getSearchItems(state, props)
-    }
-  }
+      items: getSearchItems(state, props),
+    };
+  };
 }, searchActionCreators)(SearchResult);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  InteractionManager
+  InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
@@ -23,7 +23,7 @@ class UserMangas extends Component {
   loadMoreItems = () => {
     const { userMangas, userId, fetchUserMangas } = this.props;
     if (userMangas && !userMangas.loading && userMangas.nextUrl) {
-      console.log('load more ', userMangas.nextUrl)
+      console.log('load more ', userMangas.nextUrl);
       fetchUserMangas(userId, userMangas.nextUrl);
     }
   }
@@ -38,7 +38,7 @@ class UserMangas extends Component {
     const { userMangas, items, userId } = this.props;
     return (
       <IllustList
-        data={{...userMangas, items}}
+        data={{ ...userMangas, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -54,7 +54,7 @@ export default connect(() => {
     return {
       userMangas: userMangas[userId],
       items: getUserMangasItems(state, props),
-      userId
-    }
-  }
+      userId,
+    };
+  };
 }, userMangasActionCreators)(UserMangas);

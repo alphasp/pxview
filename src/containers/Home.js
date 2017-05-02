@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
 });
 
 class Home extends Component {
@@ -43,8 +43,8 @@ class Home extends Component {
       ],
     };
   }
-  
-  handleChangeTab = (index) => {
+
+  handleChangeTab = index => {
     this.setState({ index });
   };
 
@@ -56,12 +56,12 @@ class Home extends Component {
       // case '2':
       //   return <View style={[ styles.page, { backgroundColor: '#673ab7' } ]} />;
       case '1':
-        return <RecommendedIllusts navigation={navigation} screenProps={screenProps} />
+        return <RecommendedIllusts navigation={navigation} screenProps={screenProps} />;
       case '2':
-        return <RecommendedMangas navigation={navigation} screenProps={screenProps} />
+        return <RecommendedMangas navigation={navigation} screenProps={screenProps} />;
       default:
         return null;
-    };
+    }
   }
 
   render() {

@@ -36,7 +36,7 @@ class RecommendedMangas extends Component {
     const { recommendedMangas, items } = this.props;
     return (
       <IllustList
-        data={{...recommendedMangas, items}}
+        data={{ ...recommendedMangas, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -49,5 +49,5 @@ export default connect((state, props) => {
   return {
     recommendedMangas,
     items: getRecommendedMangasItems(state, props),
-  }
+  };
 }, recommendedMangasActionCreators)(RecommendedMangas);

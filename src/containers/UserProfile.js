@@ -11,7 +11,7 @@ import {
   findNodeHandle,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { List, ListItem } from 'react-native-elements'
+import { List, ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from 'react-native-blur';
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E9EBEE',
   },
   coverContainer: {
-    //backgroundColor: '#5cafec',
+    // backgroundColor: '#5cafec',
     height: 150,
   },
   coverInnerContainer: {
@@ -49,19 +49,19 @@ const styles = StyleSheet.create({
     // flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 1
+    zIndex: 1,
     // backgroundColor: '#5cafec',
     // flex: 1,
   },
   blurView: {
     position: 'absolute',
-    top: 0, 
-    left: 0, 
-    bottom: 0, 
+    top: 0,
+    left: 0,
+    bottom: 0,
     right: 0,
   },
   profileImage: {
-    resizeMode: "cover",
+    resizeMode: 'cover',
     width: windowWidth,
     height: 150,
     backgroundColor: 'transparent',
@@ -69,29 +69,29 @@ const styles = StyleSheet.create({
   avatarContainer: {
     position: 'absolute',
     // backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    //top: 0,
-    //left: 10,
-    //right: 0,
+    // top: 0,
+    // left: 10,
+    // right: 0,
     bottom: -(avatarSize / 2),
-    //flex: 1,
+    // flex: 1,
     width: windowWidth,
     alignItems: 'center',
     //paddingBottom: 40
   },
   profileContainer: {
-    flex: 1, 
-    alignItems: 'center'
+    flex: 1,
+    alignItems: 'center',
   },
   userName: {
-    fontSize: 20
+    fontSize: 20,
   },
   statType: {
-    color: '#90949c'
+    color: '#90949c',
   },
   authActionContainer: {
-    //width: 200,
+    // width: 200,
     flexDirection: 'row',
-    //justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     marginTop: 10,
   },
   infoContainer: {
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   hyperlink: {
-    color: '#2980b9'
+    color: '#2980b9',
   },
   externalLink: {
     color: '#90949c',
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
 
 const menuList = [
   {
-    id: 'works', 
+    id: 'works',
     title: 'Submitted Works',
     icon: 'picture-o',
     type: 'font-awesome',
@@ -148,20 +148,20 @@ const menuList2 = [
     id: 'settings',
     title: 'Settings',
     icon: 'cog',
-    type: 'font-awesome'
+    type: 'font-awesome',
   },
   {
     id: 'feedback',
     title: 'Feedback',
     icon: 'comment-o',
-    type: 'font-awesome'
-  }, 
+    type: 'font-awesome',
+  },
   {
     id: 'logout',
     title: 'Logout',
     icon: 'sign-out',
     type: 'font-awesome',
-  }
+  },
 ];
 
 class UserProfile extends Component {
@@ -171,9 +171,9 @@ class UserProfile extends Component {
       refreshing: false,
       isShowTitle: false,
       viewRef: 0,
-    }
+    };
   }
-  
+
   componentDidMount() {
     const { dispatch, userId } = this.props;
     // dispatch(clearUserDetail(userId));
@@ -181,7 +181,7 @@ class UserProfile extends Component {
     //   const { userDetail, userId } = this.props;
     //   if (userDetail[userId] && userDetail[userId].item) {
     //     const user = userDetail[userId].item.user;
-    //     Actions.refresh({ 
+    //     Actions.refresh({
     //       renderTitle: () => {
     //         return (
     //           <Animatable.View style={styles.navbarHeader}>
@@ -194,7 +194,7 @@ class UserProfile extends Component {
     //             </View>
     //           </Animatable.View>
     //         )
-    //       } 
+    //       }
     //     });
     //   }
     // });
@@ -204,21 +204,21 @@ class UserProfile extends Component {
     this.setState({ viewRef: findNodeHandle(this.refs.backgroundImage) });
   }
 
-  handleOnPressListItem = (item) => {
+  handleOnPressListItem = item => {
     const { user, navigation: { navigate }, screenProps, logout } = this.props;
     console.log('on press ', item);
     switch (item.id) {
-      case 'works': 
+      case 'works':
         if (!user) {
           this.handleOnPressLogin();
         }
         else {
           navigate('MyWorks', { userId: user.id, screenProps });
         }
-        //navigate('Web', { source: { uri: 'https://touch.pixiv.net/setting_user.php?ref=ios-app' } });
+        // navigate('Web', { source: { uri: 'https://touch.pixiv.net/setting_user.php?ref=ios-app' } });
         break;
       case 'collection':
-        //require user login
+        // require user login
         if (!user) {
           this.handleOnPressLogin();
         }
@@ -234,9 +234,9 @@ class UserProfile extends Component {
           // Actions.myConnection({ userId: user.id });
           navigate('MyConnection', { userId: user.id, screenProps });
         }
-        break; 
+        break;
       case 'settings':
-        //temp
+        // temp
         const { setLanguage } = this.props;
         setLanguage('ja');
         break;
@@ -250,8 +250,8 @@ class UserProfile extends Component {
     const url = 'https://accounts.pixiv.net/signup';
     Linking.canOpenURL(url).then(supported => {
       if (!supported) {
-        console.log('Can\'t handle url: ' + url);
-      } 
+        console.log(`Can't handle url: ${url}`);
+      }
       else {
         return Linking.openURL(url);
       }
@@ -260,14 +260,14 @@ class UserProfile extends Component {
 
   handleOnPressLogin = () => {
     const { navigation: { navigate } } = this.props;
-    navigate("Login");
+    navigate('Login');
   }
 
   handleOnProfileImageLoaded = () => {
     this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   }
 
-  renderProfile = (user) => {
+  renderProfile = user => {
     const { viewRef } = this.state;
     return (
       <View style={styles.coverContainer}>
@@ -275,16 +275,16 @@ class UserProfile extends Component {
           key={(user && user.profile_image_urls.px_170x170) || defaultProfileImage}
           uri={(user && user.profile_image_urls.px_170x170) || defaultProfileImage}
           style={{
-            resizeMode: "cover",
+            resizeMode: 'cover',
             width: windowWidth,
             height: 150,
             backgroundColor: 'transparent',
           }}
-          ref={(ref) => this.backgroundImage = ref}
+          ref={ref => this.backgroundImage = ref}
           onLoadEnd={this.handleOnProfileImageLoaded}
         />
-        <BlurView 
-          blurType="light" 
+        <BlurView
+          blurType="light"
           blurAmount={20}
           overlayColor={'rgba(255, 255, 255, 0.3)'}
           viewRef={viewRef}
@@ -298,26 +298,26 @@ class UserProfile extends Component {
           />
           {
             user ?
-            <Text>{user.name}</Text>
+              <Text>{user.name}</Text>
             :
-            <View style={styles.authActionContainer}>
-              <OutlineButton 
-                text="Sign Up"
-                onPress={this.handleOnPressSignUp} 
-              />
-              <OutlineButton 
-                text="Login" 
-                style={{marginLeft: 5}} 
-                onPress={this.handleOnPressLogin}
-              />
-            </View>
+              <View style={styles.authActionContainer}>
+                <OutlineButton
+                  text="Sign Up"
+                  onPress={this.handleOnPressSignUp}
+                />
+                <OutlineButton
+                  text="Login"
+                  style={{ marginLeft: 5 }}
+                  onPress={this.handleOnPressLogin}
+                />
+              </View>
           }
         </View>
       </View>
-    )
+    );
   }
 
-  renderList = (list) => {
+  renderList = list => {
     const { user } = this.props;
     if (!user && list.some(l => l.id === 'logout')) {
       list = list.filter(l => l.id !== 'logout');
@@ -329,7 +329,7 @@ class UserProfile extends Component {
             <ListItem
               key={i}
               title={item.title}
-              leftIcon={{name: item.icon, type: item.type, style: {width: 30, textAlign: 'center'}}}
+              leftIcon={{ name: item.icon, type: item.type, style: { width: 30, textAlign: 'center' } }}
               onPress={() => this.handleOnPressListItem(item)}
             />
           ))
@@ -339,16 +339,16 @@ class UserProfile extends Component {
   }
 
   render() {
-    //user illusts
-    //bookmark illusts
-    //const { userDetail, userId } = this.props;
+    // user illusts
+    // bookmark illusts
+    // const { userDetail, userId } = this.props;
     const { user } = this.props;
-    console.log("user ", user)
+    console.log('user ', user);
     return (
       <View style={styles.container}>
         {
-          <ScrollView 
-            style={styles.container} 
+          <ScrollView
+            style={styles.container}
           >
             {this.renderProfile(user)}
             {this.renderList(menuList)}
@@ -360,8 +360,6 @@ class UserProfile extends Component {
   }
 }
 
-export default connect(state => {
-  return {
-    user: state.auth.user,
-  }
-}, { ...authActionCreators, ...i18nActionCreators })(UserProfile);
+export default connect(state => ({
+  user: state.auth.user,
+}), { ...authActionCreators, ...i18nActionCreators })(UserProfile);

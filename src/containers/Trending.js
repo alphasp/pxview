@@ -5,11 +5,11 @@ import {
   View,
   Keyboard,
   Platform,
-  BackAndroid
+  BackAndroid,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { CardStack } from 'react-navigation';
-//import { HeaderBackButton } from 'react-navigation';
+// import { HeaderBackButton } from 'react-navigation';
 import HeaderBackButton from 'react-navigation/src/views/HeaderBackButton';
 // const { BackButton } = CardStack.Header;
 import PXTabView from '../components/PXTabView';
@@ -22,7 +22,7 @@ import PXHeader from '../components/PXHeader';
 import PXSearchBar from '../components/PXSearchBar';
 import Search from './Search';
 import { setSearchType, SearchType } from '../common/actions/searchType';
-import { SearchBar } from 'react-native-elements'
+import { SearchBar } from 'react-native-elements';
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });
 
 class Trending extends Component {
@@ -46,8 +46,8 @@ class Trending extends Component {
         { key: '2', title: 'User' },
       ],
       isFocusSearchBar: false,
-      word: null
-    }
+      word: null,
+    };
   }
 
   componentDidMount() {
@@ -70,7 +70,7 @@ class Trending extends Component {
     }
   }
 
-  handleChangeTab = (index) => {
+  handleChangeTab = index => {
     const { setSearchType } = this.props;
     if (index === 1) {
       setSearchType(SearchType.USER);
@@ -84,14 +84,14 @@ class Trending extends Component {
     const { navigation, screenProps } = this.props;
     switch (route.key) {
       case '1':
-        return <TrendingIllustTags navigation={navigation} screenProps={screenProps} />
+        return <TrendingIllustTags navigation={navigation} screenProps={screenProps} />;
       case '2':
-        return <RecommendedUsers navigation={navigation} screenProps={screenProps} />     
+        return <RecommendedUsers navigation={navigation} screenProps={screenProps} />;
       default:
         return null;
-    };
+    }
   }
-  
+
   handleOnFocusSearchBar = () => {
     this.setState({ isFocusSearchBar: true });
   }
@@ -101,20 +101,19 @@ class Trending extends Component {
   }
 
   handleOnPressBackButton = () => {
-    const { goBack }  = this.props.navigation;
+    const { goBack } = this.props.navigation;
     const { isFocusSearchBar } = this.state;
     if (isFocusSearchBar) {
       Keyboard.dismiss();
       this.setState({
         isFocusSearchBar: false,
-        word: null
+        word: null,
       });
-      //to disable goBack from react-navigation
+      // to disable goBack from react-navigation
       return true;
     }
-    else {
-      goBack();
-    }
+
+    goBack();
   }
 
   render() {
@@ -122,12 +121,12 @@ class Trending extends Component {
     const { word, isFocusSearchBar } = this.state;
     return (
       <View style={styles.container}>
-        <PXHeader 
+        <PXHeader
           word={word}
-          navigation={navigation} 
+          navigation={navigation}
           showBackButton={isFocusSearchBar}
           searchType={searchType}
-          isPushNewSearch={true}
+          isPushNewSearch
           onFocusSearchBar={this.handleOnFocusSearchBar}
           onChangeSearchText={this.handleOnChangeSearchText}
           onPressBackButton={this.handleOnPressBackButton}
@@ -139,13 +138,13 @@ class Trending extends Component {
             renderScene={this.renderScene}
             onRequestChangeTab={this.handleChangeTab}
           />
-          { 
+          {
             isFocusSearchBar &&
-            <Search 
+            <Search
               word={word}
-              navigation={navigation} 
-              isPushNewSearch={true} 
-              searchType={searchType} 
+              navigation={navigation}
+              isPushNewSearch
+              searchType={searchType}
               onSubmitSearch={this.handleOnPressBackButton}
             />
           }
@@ -155,8 +154,6 @@ class Trending extends Component {
   }
 }
 
-export default connect((state, props) => {
-  return {
-    searchType: state.searchType.type,
-  }
-}, { setSearchType })(Trending);
+export default connect((state, props) => ({
+  searchType: state.searchType.type,
+}), { setSearchType })(Trending);

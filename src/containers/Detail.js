@@ -16,7 +16,7 @@ import {
   Navigator,
   Animated,
   LayoutAnimation,
-  UIManager
+  UIManager,
 } from 'react-native';
 import { connect } from 'react-redux';
 import HtmlView from 'react-native-htmlview';
@@ -40,8 +40,8 @@ import IllustComments from './IllustComments';
 import Schemas from '../common/constants/schemas';
 // import { makeGetDetailItem } from '../common/selectors';
 
-const windowWidth = Dimensions.get('window').width; //full width
-const windowHeight = Dimensions.get('window').height; //full height
+const windowWidth = Dimensions.get('window').width; // full width
+const windowHeight = Dimensions.get('window').height; // full height
 const THUMBNAIL_SIZE = 30;
 
 const styles = StyleSheet.create({
@@ -84,19 +84,19 @@ const styles = StyleSheet.create({
     // position: 'absolute',
     ...Platform.select({
       ios: {
-        top: 15
+        top: 15,
       },
     }),
     // right: 0,
-    //left: 100,
+    // left: 100,
     // position: 'absolute',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   headerThumnailNameContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginHorizontal: 16,
-    borderRadius: THUMBNAIL_SIZE / 2
+    borderRadius: THUMBNAIL_SIZE / 2,
   },
   thumnailNameContainer: {
     flexDirection: 'row',
@@ -105,18 +105,18 @@ const styles = StyleSheet.create({
   profileContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   nameContainer: {
     flexDirection: 'column',
-    marginLeft: 10
+    marginLeft: 10,
   },
   imageContainer: {
     width: Dimensions.get('window').width,
     //height: Dimensions.get('window').height - 150
   },
   captionContainer: {
-    marginVertical: 10
+    marginVertical: 10,
   },
   imagePageNumberContainer: {
     top: 10,
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   },
   imagePageNumber: {
     color: '#fff',
-    padding: 2
+    padding: 2,
   },
 });
 
@@ -140,12 +140,12 @@ class Detail extends Component {
     const { item, openBottomSheet, shareOptions } = state.params;
     return {
       headerTitle: (
-        <PXTouchable 
-          style={styles.headerThumnailNameContainer} 
+        <PXTouchable
+          style={styles.headerThumnailNameContainer}
           onPress={() => navigate('UserDetail', { userId: item.user.id })}
         >
-          <PXThumbnail 
-            uri={item.user.profile_image_urls.medium} 
+          <PXThumbnail
+            uri={item.user.profile_image_urls.medium}
             size={THUMBNAIL_SIZE}
           />
           <View style={styles.nameContainer}>
@@ -155,40 +155,42 @@ class Detail extends Component {
         </PXTouchable>
       ),
       headerRight: (
-        <View style={{flexDirection: "row"}}>
-          <PXTouchable onPress={() => Share.open(shareOptions).catch((err) => { err && console.log(err); })}>
-            <Icon 
-              name="share-alt" 
-              size={20} 
-              style={{paddingVertical: 10, paddingHorizontal: 10}}
+        <View style={{ flexDirection: 'row' }}>
+          <PXTouchable
+            onPress={() => Share.open(shareOptions).catch(err => {
+              err && console.log(err);
+            })}
+          >
+            <Icon
+              name="share-alt"
+              size={20}
+              style={{ paddingVertical: 10, paddingHorizontal: 10 }}
             />
           </PXTouchable>
           <PXTouchable onPress={openBottomSheet}>
-            <Icon 
-              name="ellipsis-v" 
-              style={{paddingVertical: 10, paddingHorizontal: 20}}
-              size={20} 
+            <Icon
+              name="ellipsis-v"
+              style={{ paddingVertical: 10, paddingHorizontal: 20 }}
+              size={20}
             />
           </PXTouchable>
         </View>
-      )
+      ),
     };
   };
-  
+
   constructor(props) {
     // const { item } = props;
     super(props);
     const { item } = props;
-    const images = item.page_count > 1 ? item.meta_pages.map(page => {
-      return page.image_urls.original;
-    }) : [item.meta_single_page.original_image_url];
-    this.state = { 
+    const images = item.page_count > 1 ? item.meta_pages.map(page => page.image_urls.original) : [item.meta_single_page.original_image_url];
+    this.state = {
       mounting: true,
       isInitState: true,
       isActionButtonVisible: true,
       relatedIllustsViewPosition: null,
       footerViewHeight: null,
-      images
+      images,
     };
     this.listViewOffset = 0;
     if (Platform.OS === 'android') {
@@ -200,16 +202,16 @@ class Detail extends Component {
     const { item, navigation, screenProps: { openBottomSheet } } = this.props;
     const { images } = this.state;
     const shareOptions = {
-      message: `${item.title} | ${item.user.name} #pixivrn`, //todo
+      message: `${item.title} | ${item.user.name} #pixivrn`, // todo
       url: `http://www.pixiv.net/member_illust.php?illust_id=${item.id}&mode=medium`,
     };
-    navigation.setParams({ 
+    navigation.setParams({
       item,
-      openBottomSheet: () => openBottomSheet(images), 
+      openBottomSheet: () => openBottomSheet(images),
       shareOptions,
     });
     InteractionManager.runAfterInteractions(() => {
-      console.log('done mouting')
+      console.log('done mouting');
       if (this.detailView) {
         this.setState({ mounting: false });
       }
@@ -220,25 +222,23 @@ class Detail extends Component {
     clearTimeout(this.timer);
   }
 
-  renderRow = ({ item, index }) => {
-    return (
-      <PXCacheImageTouchable 
-        key={item.image_urls.large}
-        uri={item.image_urls.large}
-        initWidth={windowWidth}
-        initHeight={200}
-        style={{
-          backgroundColor: '#E9EBEE',
-          borderBottomWidth: StyleSheet.hairlineWidth,
-          borderBottomColor: 'red',
-        }}
-        imageStyle={{
-          resizeMode: "contain",
-        }}
-        onPress={() => this.handleOnPressImage(index)}
-      />
+  renderRow = ({ item, index }) => (
+    <PXCacheImageTouchable
+      key={item.image_urls.large}
+      uri={item.image_urls.large}
+      initWidth={windowWidth}
+      initHeight={200}
+      style={{
+        backgroundColor: '#E9EBEE',
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: 'red',
+      }}
+      imageStyle={{
+        resizeMode: 'contain',
+      }}
+      onPress={() => this.handleOnPressImage(index)}
+    />
     )
-  }
 
   renderFooter = () => {
     const { item, navigation, screenProps } = this.props;
@@ -246,7 +246,7 @@ class Detail extends Component {
       <View onLayout={this.handleOnLayoutFooter}>
         <View style={styles.infoContainer}>
           <View style={styles.profileContainer}>
-            <PXTouchable 
+            <PXTouchable
               style={styles.thumnailNameContainer}
               onPress={() => this.handleOnPressAvatar(item.user.id)}
             >
@@ -259,7 +259,7 @@ class Detail extends Component {
             <FollowButtonContainer user={item.user} screenProps={screenProps} />
           </View>
           <View style={styles.captionContainer}>
-            <HtmlView 
+            <HtmlView
               value={item.caption}
               onLinkPress={this.handleOnLinkPress}
             />
@@ -278,7 +278,7 @@ class Detail extends Component {
               </View>
             </PXTouchable>
           </View>
-          <IllustComments illustId={item.id} isFeatureInDetailPage={true} maxItems={6} navigation={navigation} />
+          <IllustComments illustId={item.id} isFeatureInDetailPage maxItems={6} navigation={navigation} />
         </View>
         {
           <View onLayout={this.handleOnLayoutRelatedIllusts}>
@@ -291,20 +291,20 @@ class Detail extends Component {
                 </View>
               </PXTouchable>
             </View>
-            <RelatedIllusts illustId={item.id} isFeatureInDetailPage={true} maxItems={6} navigation={navigation} />
+            <RelatedIllusts illustId={item.id} isFeatureInDetailPage maxItems={6} navigation={navigation} />
           </View>
         }
       </View>
-    )
+    );
   }
 
-  handleOnPressTag = (tag) => {
+  handleOnPressTag = tag => {
     const { navigate } = this.props.navigation;
     navigate('SearchResult', { word: tag });
     // Actions.searchResult({ word: tag });
   }
 
-  handleOnPressAvatar = (userId) => {
+  handleOnPressAvatar = userId => {
     const { navigate } = this.props.navigation;
     navigate('UserDetail', { userId });
   }
@@ -317,10 +317,10 @@ class Detail extends Component {
     // const { item } = this.props;
     const { item } = this.props;
     if (item.meta_pages && item.meta_pages.length && viewableItems && viewableItems.length) {
-      //console.log('visible row ', visibleRowNumbers)
-      //Actions.refresh({ title: `${visibleRowNumbers[0] + 1} / ${item.meta_pages.length}`});
+      // console.log('visible row ', visibleRowNumbers)
+      // Actions.refresh({ title: `${visibleRowNumbers[0] + 1} / ${item.meta_pages.length}`});
       this.setState({
-        imagePageNumber: `${viewableItems[0].index + 1} / ${item.meta_pages.length}`
+        imagePageNumber: `${viewableItems[0].index + 1} / ${item.meta_pages.length}`,
       });
       if (viewableItems.length === 2) {
         // console.log('visible row ', visibleRowNumbers[0])
@@ -335,7 +335,7 @@ class Detail extends Component {
       const { imagePageNumber } = this.state;
       if (imagePageNumber) {
         this.setState({
-          imagePageNumber: null
+          imagePageNumber: null,
         });
       }
     }
@@ -345,12 +345,12 @@ class Detail extends Component {
     const { isInitState, isScrolling } = this.state;
     if (isInitState) {
       this.setState({
-        isInitState: false
+        isInitState: false,
       });
     }
     if (!isScrolling) {
       this.setState({
-        isScrolling: true
+        isScrolling: true,
       });
     }
     clearTimeout(this.timer);
@@ -359,7 +359,7 @@ class Detail extends Component {
     }, 2000);
   }
 
-  handleOnScroll = (e) => {
+  handleOnScroll = e => {
     const { item } = this.props;
     if (item.page_count > 1) {
       this.handleOnScrollMultiImagesList();
@@ -370,45 +370,46 @@ class Detail extends Component {
       duration: 100,
       create: { type: LayoutAnimation.Types.linear, property: LayoutAnimation.Properties.opacity },
       update: { type: LayoutAnimation.Types.linear, property: LayoutAnimation.Properties.opacity },
-      delete: { type: LayoutAnimation.Types.linear, property: LayoutAnimation.Properties.opacity }
-    }
+      delete: { type: LayoutAnimation.Types.linear, property: LayoutAnimation.Properties.opacity },
+    };
     // Check if the user is scrolling up or down by confronting the new scroll position with your own one
     const currentOffset = e.nativeEvent.contentOffset.y;
     const contentHeight = e.nativeEvent.contentSize.height;
     const direction = (currentOffset > 0 && currentOffset > this.listViewOffset)
       ? 'down'
-      : 'up'
+      : 'up';
     const layoutHeight = e.nativeEvent.layoutMeasurement.height;
     const offsetToHide = (contentHeight - this.state.footerViewHeight + (this.state.relatedIllustsViewPosition - layoutHeight));
     // If the user is scrolling down (and the action-button is still visible) hide it
-    const isActionButtonVisible = direction === 'up' && ((currentOffset < offsetToHide) || currentOffset === 0)
+    const isActionButtonVisible = direction === 'up' && ((currentOffset < offsetToHide) || currentOffset === 0);
     if (isActionButtonVisible !== this.state.isActionButtonVisible) {
-      LayoutAnimation.configureNext(CustomLayoutLinear)
-      this.setState({ isActionButtonVisible })
+      LayoutAnimation.configureNext(CustomLayoutLinear);
+      this.setState({ isActionButtonVisible });
     }
     this.listViewOffset = currentOffset;
   }
-  
-  handleOnLinkPress = (url) => {
-    console.log('clicked link: ', url)
+
+  handleOnLinkPress = url => {
+    console.log('clicked link: ', url);
     Linking.canOpenURL(url).then(supported => {
       if (!supported) {
-        console.log('Can\'t handle url: ' + url);
-      } else {
+        console.log(`Can't handle url: ${url}`);
+      }
+      else {
         return Linking.openURL(url);
       }
     }).catch(err => {
-      console.error('Error on link press ', err)
+      console.error('Error on link press ', err);
     });
   }
 
 
-  handleOnPressImage = (index) => {
+  handleOnPressImage = index => {
     const { navigate } = this.props.navigation;
     const { images } = this.state;
     navigate('ImagesViewer', {
-      images: images,
-      viewerIndex: index
+      images,
+      viewerIndex: index,
     });
   }
 
@@ -416,7 +417,7 @@ class Detail extends Component {
     const { item, navigation: { navigate } } = this.props;
     navigate('IllustComments', {
       illustId: item.id,
-      navigation: this.props.navigation
+      navigation: this.props.navigation,
     });
   }
 
@@ -424,20 +425,20 @@ class Detail extends Component {
     const { item, navigation: { navigate } } = this.props;
     navigate('RelatedIllusts', {
       illustId: item.id,
-      navigation: this.props.navigation
+      navigation: this.props.navigation,
     });
   }
 
-  handleOnLayoutRelatedIllusts = (e) => {
+  handleOnLayoutRelatedIllusts = e => {
     this.setState({
-      relatedIllustsViewPosition: e.nativeEvent.layout.y
-    })
+      relatedIllustsViewPosition: e.nativeEvent.layout.y,
+    });
   }
 
-  handleOnLayoutFooter = (e) => {
+  handleOnLayoutFooter = e => {
     this.setState({
-      footerViewHeight: e.nativeEvent.layout.height
-    })
+      footerViewHeight: e.nativeEvent.layout.height,
+    });
   }
 
   render() {
@@ -445,50 +446,50 @@ class Detail extends Component {
     const { isShowBottomSheet } = navigation.state.params;
     const { mounting, imagePageNumber, isScrolling, isActionButtonVisible, isInitState, images } = this.state;
     return (
-      <View style={styles.container} ref={(ref) => this.detailView = ref }>
+      <View style={styles.container} ref={ref => this.detailView = ref}>
         {
           mounting ?
-          <Loader />
+            <Loader />
           :
           (item.page_count > 1) ?
-          <View>
-            <View style={{flex: 1}}>
-              <FlatList
-                data={item.meta_pages}
-                keyExtractor={(item, index) => item.image_urls.large}
-                renderItem={this.renderRow}
-                debug={false}
-                disableVirtualization={true}
-                removeClippedSubviews={false}
-                ListFooterComponent={this.renderFooter}
-                onScroll={this.handleOnScroll}
-                onViewableItemsChanged={this.handleOnViewableItemsChanged}
-              />
-              
-            </View>
-            {
+            <View>
+              <View style={{ flex: 1 }}>
+                <FlatList
+                  data={item.meta_pages}
+                  keyExtractor={(item, index) => item.image_urls.large}
+                  renderItem={this.renderRow}
+                  debug={false}
+                  disableVirtualization
+                  removeClippedSubviews={false}
+                  ListFooterComponent={this.renderFooter}
+                  onScroll={this.handleOnScroll}
+                  onViewableItemsChanged={this.handleOnViewableItemsChanged}
+                />
+
+              </View>
+              {
               (isInitState || isScrolling) && imagePageNumber &&
               <View style={styles.imagePageNumberContainer}>
                 <Text style={styles.imagePageNumber}>{imagePageNumber}</Text>
               </View>
             }
-          </View>
+            </View>
           :
-          <ScrollView onScroll={this.handleOnScroll} scrollEventThrottle={16}>
-            <PXCacheImageTouchable 
-              uri={item.image_urls.large}    
-              initWidth={item.width > windowWidth ? windowWidth : item.width}
-              initHeight={windowWidth * item.height / item.width}
-              style={{
-                backgroundColor: '#E9EBEE',
-              }}
-              imageStyle={{
-                resizeMode: "contain",
-              }}
-              onPress={() => this.handleOnPressImage(0)}
-            />
-            {this.renderFooter()}
-          </ScrollView>
+            <ScrollView onScroll={this.handleOnScroll} scrollEventThrottle={16}>
+              <PXCacheImageTouchable
+                uri={item.image_urls.large}
+                initWidth={item.width > windowWidth ? windowWidth : item.width}
+                initHeight={windowWidth * item.height / item.width}
+                style={{
+                  backgroundColor: '#E9EBEE',
+                }}
+                imageStyle={{
+                  resizeMode: 'contain',
+                }}
+                onPress={() => this.handleOnPressImage(0)}
+              />
+              {this.renderFooter()}
+            </ScrollView>
         }
         {
           isActionButtonVisible &&
@@ -516,5 +517,5 @@ class Detail extends Component {
 export default connect((state, props) => {
   const { entities } = state;
   const item = props.navigation.state.params.item;
-  return { item }
+  return { item };
 })(Detail);

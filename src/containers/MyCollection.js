@@ -26,35 +26,35 @@ class MyCollection extends Component {
     const { setParams } = navigation;
     return {
       headerRight: (
-        <Icon 
-          name="sliders" 
-          size={20} 
-          onPress={() => setParams({isOpenFilterModal: true})}
+        <Icon
+          name="sliders"
+          size={20}
+          onPress={() => setParams({ isOpenFilterModal: true })}
           color="#037aff"
           style={{
-            padding: 10
+            padding: 10,
           }}
         />
-      )
+      ),
     };
   };
 
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       index: 0,
       routes: [
         { key: '1', title: 'Illustrations (Public)' },
         { key: '2', title: 'Illustrations (Private)' },
       ],
-      //isShowFilterButton: true,
+      // isShowFilterButton: true,
       isOpenFilterModal: false,
       selectedPublicTag: '',
       selectedPrivateTag: '',
     };
   }
-  
-  handleChangeTab = (index) => {
+
+  handleChangeTab = index => {
     this.setState({ index });
   };
 
@@ -63,26 +63,26 @@ class MyCollection extends Component {
     const { selectedPublicTag, selectedPrivateTag } = this.state;
     switch (route.key) {
       case '1':
-        return <UserBookmarkIllusts  userId={userId} tag={selectedPublicTag} reload={true} />
+        return <UserBookmarkIllusts userId={userId} tag={selectedPublicTag} reload />;
       case '2':
-        return <MyPrivateBookmarkIllusts  userId={userId} tag={selectedPrivateTag} />
+        return <MyPrivateBookmarkIllusts userId={userId} tag={selectedPrivateTag} />;
       default:
         return null;
-    };
+    }
   }
 
 
   handleOnPressCloseFilterButton = () => {
     const { navigation: { setParams } } = this.props;
     setParams({
-      isOpenFilterModal: false 
+      isOpenFilterModal: false,
     });
   }
 
-  handleOnSelectTag = (tag) => {
+  handleOnSelectTag = tag => {
     const { navigation: { setParams } } = this.props;
     const { index } = this.state;
-    console.log(index, tag)
+    console.log(index, tag);
     newState = {};
     if (index === 0) {
       newState.selectedPublicTag = tag;
@@ -91,13 +91,13 @@ class MyCollection extends Component {
       newState.selectedPrivateTag = tag;
     }
     setParams({
-      isOpenFilterModal: false 
+      isOpenFilterModal: false,
     });
     this.setState(newState);
   }
 
   render() {
-    const { userId, isOpenFilterModal} = this.props.navigation.state.params;
+    const { userId, isOpenFilterModal } = this.props.navigation.state.params;
     const { index, isShowFilterButton, selectedPublicTag, selectedPrivateTag } = this.state;
     return (
       <View style={styles.container}>
@@ -108,7 +108,7 @@ class MyCollection extends Component {
         />
         {
           index === 0 &&
-          <TagsFilterModal 
+          <TagsFilterModal
             tagType={TAG_TYPES.PUBLIC}
             isOpen={isOpenFilterModal || false}
             onPressCloseButton={this.handleOnPressCloseFilterButton}
@@ -118,7 +118,7 @@ class MyCollection extends Component {
         }
         {
           index === 1 &&
-          <TagsFilterModal 
+          <TagsFilterModal
             tagType={TAG_TYPES.PRIVATE}
             isOpen={isOpenFilterModal || false}
             onPressCloseButton={this.handleOnPressCloseFilterButton}

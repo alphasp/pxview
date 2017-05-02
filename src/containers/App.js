@@ -47,25 +47,25 @@ class App extends Component {
   constructor(props) {
     super(props);
     if (Platform.OS === 'ios') {
-      //StatusBar.setBarStyle('light-content', true)
+      // StatusBar.setBarStyle('light-content', true)
       StatusBar.setBarStyle('default');
     }
   }
 
-  handleOnSearchFieldFocus = (searchType) => {
+  handleOnSearchFieldFocus = searchType => {
     console.log('on focus ', searchType);
-    //Actions.search();
+    // Actions.search();
   }
-  handleOnChangeSearchText = (word) => {
+  handleOnChangeSearchText = word => {
     const { dispatch } = this.props;
     if (word.length > 1) {
       dispatch(fetchSearchAutoComplete(word));
     }
   }
-  handleOnSubmitSearch = (word) => {
-    console.log('submit ', word)
+  handleOnSubmitSearch = word => {
+    console.log('submit ', word);
     if (word) {
-      //Actions.searchResult({ word: word, type: ActionConst.REPLACE });
+      // Actions.searchResult({ word: word, type: ActionConst.REPLACE });
     }
   }
 

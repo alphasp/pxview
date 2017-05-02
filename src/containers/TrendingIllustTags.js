@@ -6,10 +6,10 @@ import { getTrendingIllustTagsItems } from '../common/selectors';
 
 class TrendingIllustTags extends Component {
   componentDidMount() {
-    const { fetchTrendingIllustTags } = this.props; 
+    const { fetchTrendingIllustTags } = this.props;
     fetchTrendingIllustTags();
   }
-  
+
   handleOnRefresh = () => {
     const { fetchTrendingIllustTags, clearTrendingIllustTags } = this.props;
     clearTrendingIllustTags();
@@ -20,7 +20,7 @@ class TrendingIllustTags extends Component {
     const { trendingIllustTags, items } = this.props;
     return (
       <IllustTagList
-        data={{...trendingIllustTags, items}}
+        data={{ ...trendingIllustTags, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -33,5 +33,5 @@ export default connect((state, props) => {
   return {
     trendingIllustTags,
     items: getTrendingIllustTagsItems(state),
-  }
+  };
 }, trendingIllustTagsActionCreators)(TrendingIllustTags);

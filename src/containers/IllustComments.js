@@ -33,14 +33,14 @@ class IllustComments extends Component {
   loadMoreItems = () => {
     const { fetchIllustComments, illustComments, illustId } = this.props;
     if (illustComments && !illustComments.loading && illustComments.nextUrl) {
-      console.log('load more ', illustComments.nextUrl)
+      console.log('load more ', illustComments.nextUrl);
       fetchIllustComments(illustId, null, illustComments.nextUrl);
     }
   }
 
   handleOnRefresh = () => {
     const { fetchIllustComments, clearIllustComments, illustId } = this.props;
-    clearIllustComments(illustId)
+    clearIllustComments(illustId);
     fetchIllustComments(illustId, null, null, true);
   }
 
@@ -48,7 +48,7 @@ class IllustComments extends Component {
     const { illustComments, items, illustId, navigation, isFeatureInDetailPage, maxItems } = this.props;
     return (
       <CommentList
-        data={{...illustComments, items}}
+        data={{ ...illustComments, items }}
         loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
         onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
         maxItems={isFeatureInDetailPage && maxItems}
@@ -66,7 +66,7 @@ export default connect(() => {
     return {
       illustComments: illustComments[illustId],
       items: getIllustCommentsItems(state, props),
-      illustId
-    }
-  }
+      illustId,
+    };
+  };
 }, illustCommentsActionCreators)(IllustComments);
