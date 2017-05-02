@@ -62,5 +62,5 @@ export default function* rootSaga() {
     watchUnbookmarkIllust(),
     watchFollowUser(),
     watchUnfollowUser(),
-  ]
+  ];
 }

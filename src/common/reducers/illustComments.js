@@ -21,8 +21,8 @@ export default function illustComments(state = {}, action) {
         ...state,
         [action.payload.illustId]: {
           ...state[action.payload.illustId],
-          loading: true
-        }
+          loading: true,
+        },
       };
     case ILLUST_COMMENTS.SUCCESS:
       return {
@@ -34,8 +34,8 @@ export default function illustComments(state = {}, action) {
           items: (state[action.payload.illustId] && state[action.payload.illustId].items) ? [...state[action.payload.illustId].items, ...action.payload.items] : action.payload.items,
           offset: action.payload.offset,
           nextUrl: action.payload.nextUrl,
-          timestamp: action.payload.timestamp
-        }
+          timestamp: action.payload.timestamp,
+        },
       };
     case ILLUST_COMMENTS.FAILURE:
       return {
@@ -44,7 +44,7 @@ export default function illustComments(state = {}, action) {
           ...state[action.payload.illustId],
           loading: false,
           loaded: true,
-        }
+        },
       };
     default:
       return state;

@@ -12,21 +12,21 @@ const defaultStateByUserFollowingType = {
 
 export default function userFollowing(state = {
   [FOLLOWING_TYPES.PUBLIC]: {},
-  [FOLLOWING_TYPES.PRIVATE]: {}
+  [FOLLOWING_TYPES.PRIVATE]: {},
 }, action) {
   switch (action.type) {
     case USER_FOLLOWING.CLEAR:
       return {
         ...state,
         [action.payload.followingType]: {
-          [action.payload.userId]: defaultStateByUserFollowingType
-        }
+          [action.payload.userId]: defaultStateByUserFollowingType,
+        },
       };
     case USER_FOLLOWING.CLEAR_ALL:
       return {
         ...state,
         [FOLLOWING_TYPES.PUBLIC]: {},
-        [FOLLOWING_TYPES.PRIVATE]: {}
+        [FOLLOWING_TYPES.PRIVATE]: {},
       };
     case USER_FOLLOWING.REQUEST:
       return {
@@ -35,9 +35,9 @@ export default function userFollowing(state = {
           [action.payload.userId]: {
             ...state[action.payload.followingType][action.payload.userId],
             loading: true,
-            refreshing: action.payload.refreshing
-          }
-        }
+            refreshing: action.payload.refreshing,
+          },
+        },
       };
     case USER_FOLLOWING.SUCCESS:
       return {
@@ -51,8 +51,8 @@ export default function userFollowing(state = {
             offset: action.payload.offset,
             nextUrl: action.payload.nextUrl,
             timestamp: action.payload.timestamp,
-          }
-        }
+          },
+        },
       };
     case USER_FOLLOWING.FAILURE:
       return {
@@ -62,9 +62,9 @@ export default function userFollowing(state = {
             ...state[action.payload.followingType][action.payload.userId],
             loading: false,
             loaded: true,
-            refreshing: false
-          }
-        }
+            refreshing: false,
+          },
+        },
       };
     default:
       return state;

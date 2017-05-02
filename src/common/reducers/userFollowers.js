@@ -15,8 +15,8 @@ export default function userFollowers(state = {}, action) {
         [action.payload.userId]: {
           ...state[action.payload.userId],
           loading: true,
-          refreshing: action.payload.refreshing
-        }
+          refreshing: action.payload.refreshing,
+        },
       };
     case USER_FOLLOWERS.SUCCESS:
       return {
@@ -29,7 +29,7 @@ export default function userFollowers(state = {}, action) {
           offset: action.payload.offset,
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp,
-        }
+        },
       };
     case USER_FOLLOWERS.FAILURE:
       return {
@@ -37,8 +37,8 @@ export default function userFollowers(state = {}, action) {
         [action.payload.userId]: {
           loading: false,
           loaded: true,
-          refreshing: true
-        }
+          refreshing: true,
+        },
       };
     default:
       return state;

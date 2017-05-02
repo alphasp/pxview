@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchBookmarkTagsSuccess,
   fetchBookmarkTagsFailure,
-} from '../actions/bookmarkTags.js'
+} from '../actions/bookmarkTags.js';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { BOOKMARK_TAGS } from '../constants/actionTypes';
@@ -13,7 +13,7 @@ export function* handleFetchBookmarkTags(action) {
   const { tagType, nextUrl } = action.payload;
   try {
     const options = {
-      restrict: tagType === TAG_TYPES.PRIVATE ? 'private' : 'public'
+      restrict: tagType === TAG_TYPES.PRIVATE ? 'private' : 'public',
     };
     let response;
     if (nextUrl) {
@@ -22,18 +22,16 @@ export function* handleFetchBookmarkTags(action) {
     else {
       response = yield apply(pixiv, pixiv.userBookmarkIllustTags, [options]);
     }
-    const items = response.bookmark_tags.map(tag => {
-      return {
-        name: tag.name,
-        value: tag.name,
-        count: tag.count,
-      }
-    });
+    const items = response.bookmark_tags.map(tag => ({
+      name: tag.name,
+      value: tag.name,
+      count: tag.count,
+    }));
     yield put(fetchBookmarkTagsSuccess(items, tagType, response.next_url));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(fetchBookmarkTagsFailure(tagType));
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 

@@ -17,7 +17,7 @@ export function recommendedUsers(state = defaultState, action) {
       return {
         ...state,
         loading: true,
-        refreshing: action.payload.refreshing
+        refreshing: action.payload.refreshing,
       };
     case RECOMMENDED_USERS.SUCCESS:
       return {
@@ -35,7 +35,7 @@ export function recommendedUsers(state = defaultState, action) {
         ...state,
         loading: false,
         loaded: true,
-        refreshing: false
+        refreshing: false,
       };
     default:
       return state;

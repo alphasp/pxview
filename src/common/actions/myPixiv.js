@@ -8,13 +8,13 @@ export function fetchMyPixivSuccess(entities, items, nextUrl) {
       items,
       nextUrl,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
 export function fetchMyPixivFailure() {
   return {
-    type: MY_PIXIV.FAILURE
+    type: MY_PIXIV.FAILURE,
   };
 }
 
@@ -23,13 +23,13 @@ export function fetchMyPixiv(nextUrl, refreshing = false) {
     type: MY_PIXIV.REQUEST,
     payload: {
       nextUrl,
-      refreshing
-    }
+      refreshing,
+    },
   };
 }
 
 export function clearMyPixiv() {
   return {
-    type: MY_PIXIV.CLEAR
+    type: MY_PIXIV.CLEAR,
   };
 }

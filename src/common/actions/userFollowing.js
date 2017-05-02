@@ -1,4 +1,4 @@
-import qs from "qs";
+import qs from 'qs';
 import { USER_FOLLOWING } from '../constants/actionTypes';
 import { FOLLOWING_TYPES } from '../constants/followingTypes';
 
@@ -12,7 +12,7 @@ export function fetchUserFollowingSuccess(entities, items, userId, followingType
       items,
       nextUrl,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
@@ -21,14 +21,14 @@ export function fetchUserFollowingFailure(userId, followingType) {
     type: USER_FOLLOWING.FAILURE,
     payload: {
       userId,
-      followingType
-    }
+      followingType,
+    },
   };
 }
 
 export function fetchUserFollowing(userId, followingType, nextUrl, refreshing = false) {
   const params = qs.parse(nextUrl);
-  const offset = params.offset || "0";
+  const offset = params.offset || '0';
   return {
     type: USER_FOLLOWING.REQUEST,
     payload: {
@@ -36,8 +36,8 @@ export function fetchUserFollowing(userId, followingType, nextUrl, refreshing = 
       followingType,
       offset,
       nextUrl,
-      refreshing
-    }
+      refreshing,
+    },
   };
 }
 
@@ -46,13 +46,13 @@ export function clearUserFollowing(userId, followingType) {
     type: USER_FOLLOWING.CLEAR,
     payload: {
       userId,
-      followingType
-    }
+      followingType,
+    },
   };
 }
 
 export function clearAllUserFollowing() {
   return {
-    type: USER_FOLLOWING.CLEAR_ALL
+    type: USER_FOLLOWING.CLEAR_ALL,
   };
 }

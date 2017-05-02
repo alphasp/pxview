@@ -1,4 +1,4 @@
-import qs from "qs";
+import qs from 'qs';
 import { RECOMMENDED_ILLUSTS } from '../constants/actionTypes';
 
 export function fetchRecommendedIllustsSuccess(entities, items, nextUrl) {
@@ -9,7 +9,7 @@ export function fetchRecommendedIllustsSuccess(entities, items, nextUrl) {
       items,
       nextUrl,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
@@ -21,20 +21,20 @@ export function fetchRecommendedIllustsFailure() {
 
 export function fetchRecommendedIllusts(options, nextUrl, refreshing = false) {
   const params = qs.parse(nextUrl);
-  const offset = params.offset || "0";
+  const offset = params.offset || '0';
   return {
     type: RECOMMENDED_ILLUSTS.REQUEST,
     payload: {
       options,
       offset,
       nextUrl,
-      refreshing
-    }
+      refreshing,
+    },
   };
 }
 
 export function clearRecommendedIllusts() {
   return {
-    type: RECOMMENDED_ILLUSTS.CLEAR
+    type: RECOMMENDED_ILLUSTS.CLEAR,
   };
 }

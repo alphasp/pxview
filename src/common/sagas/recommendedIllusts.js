@@ -3,7 +3,7 @@ import { takeLatest, apply, put, select } from 'redux-saga/effects';
 import {
   fetchRecommendedIllustsSuccess,
   fetchRecommendedIllustsFailure,
-} from '../actions/recommendedIllusts.js'
+} from '../actions/recommendedIllusts.js';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { RECOMMENDED_ILLUSTS } from '../constants/actionTypes';
@@ -18,20 +18,18 @@ export function* handleFetchRecommendedIllusts(action) {
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
     }
+    else if (user) {
+      response = yield apply(pixiv, pixiv.illustRecommended, [options]);
+    }
     else {
-      if (user) {
-        response = yield apply(pixiv, pixiv.illustRecommended, [options]);
-      }
-      else {
-        response = yield apply(pixiv, pixiv.illustRecommendedPublic, [options]);
-      }
+      response = yield apply(pixiv, pixiv.illustRecommendedPublic, [options]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
     yield put(fetchRecommendedIllustsSuccess(normalized.entities, normalized.result, response.next_url));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(fetchRecommendedIllustsFailure());
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 

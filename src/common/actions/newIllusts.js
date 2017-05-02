@@ -8,13 +8,13 @@ export function fetchNewIllustsSuccess(entities, items, nextUrl) {
       items,
       nextUrl,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
 export function fetchNewIllustsFailure() {
   return {
-    type: NEW_ILLUSTS.FAILURE
+    type: NEW_ILLUSTS.FAILURE,
   };
 }
 
@@ -23,13 +23,13 @@ export function fetchNewIllusts(nextUrl, refreshing = false) {
     type: NEW_ILLUSTS.REQUEST,
     payload: {
       nextUrl,
-      refreshing
-    }
+      refreshing,
+    },
   };
 }
 
 export function clearNewIllusts() {
   return {
-    type: NEW_ILLUSTS.CLEAR
+    type: NEW_ILLUSTS.CLEAR,
   };
 }

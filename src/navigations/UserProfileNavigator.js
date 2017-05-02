@@ -10,27 +10,27 @@ import UserIllusts from '../containers/UserIllusts';
 import UserMangas from '../containers/UserMangas';
 import UserBookmarkIllusts from '../containers/UserBookmarkIllusts';
 import RelatedIllusts from '../containers/RelatedIllusts';
-import SearchResultTabs from '../containers/SearchResultTabs'; //todo
+import SearchResultTabs from '../containers/SearchResultTabs'; // todo
 
 const UserProfileNavigator = StackNavigator({
-  UserProfile: { 
+  UserProfile: {
     screen: UserProfile,
     navigationOptions: {
-      header: null
+      header: null,
     },
   },
   MyConnection: {
     screen: MyConnection,
     path: '/me/connection',
     navigationOptions: {
-      title: "Connection",
+      title: 'Connection',
     },
   },
   MyCollection: {
     screen: MyCollection,
     path: '/me/collection',
     navigationOptions: {
-      title: "Collection",
+      title: 'Collection',
     },
   },
   MyWorks: {
@@ -39,7 +39,7 @@ const UserProfileNavigator = StackNavigator({
       title: 'My Works',
     },
   },
-  Detail: { 
+  Detail: {
     screen: Detail,
   },
   UserDetail: {
@@ -61,23 +61,23 @@ const UserProfileNavigator = StackNavigator({
     screen: UserIllusts,
     navigationOptions: {
       title: 'User Illusts',
-    }
+    },
   },
   UserMangas: {
     screen: UserMangas,
     navigationOptions: {
       title: 'User Mangas',
-    }
+    },
   },
   UserBookmarkIllusts: {
     screen: UserBookmarkIllusts,
     navigationOptions: {
       title: 'Collection',
-    }
+    },
   },
   SearchResult: {
     screen: SearchResultTabs,
-  }
+  },
 }, {
   headerMode: 'screen',
   navigationOptions: {
@@ -87,7 +87,7 @@ const UserProfileNavigator = StackNavigator({
     headerBackTitle: null,
   },
   cardStyle: {
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
 });
 

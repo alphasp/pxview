@@ -8,15 +8,15 @@ export default function userMangas(state = {}, action) {
         [action.payload.userId]: {},
       };
     case USER_MANGAS.CLEAR_ALL:
-      return {};  
+      return {};
     case USER_MANGAS.REQUEST:
       return {
         ...state,
         [action.payload.userId]: {
           ...state[action.payload.userId],
           loading: true,
-          refreshing: action.payload.refreshing
-        }
+          refreshing: action.payload.refreshing,
+        },
       };
     case USER_MANGAS.SUCCESS:
       return {
@@ -29,8 +29,8 @@ export default function userMangas(state = {}, action) {
           items: (state[action.payload.userId] && state[action.payload.userId].items) ? [...state[action.payload.userId].items, ...action.payload.items] : action.payload.items,
           offset: action.payload.offset,
           nextUrl: action.payload.nextUrl,
-          timestamp: action.payload.timestamp
-        }
+          timestamp: action.payload.timestamp,
+        },
       };
     case USER_MANGAS.FAILURE:
       return {
@@ -39,8 +39,8 @@ export default function userMangas(state = {}, action) {
           ...state[action.payload.userId],
           loading: false,
           loaded: true,
-          refreshing: false
-        }
+          refreshing: false,
+        },
       };
     default:
       return state;

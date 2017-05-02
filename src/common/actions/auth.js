@@ -1,4 +1,4 @@
-//import jwtDecode from "jwt-decode";
+// import jwtDecode from "jwt-decode";
 // import { push } from 'react-router-redux'
 import * as Keychain from 'react-native-keychain';
 import { addError, resetError } from './error';
@@ -37,8 +37,8 @@ export function login(email, password) {
     type: LOGIN_REQUEST,
     payload: {
       email,
-      password
-    }
+      password,
+    },
   };
 }
 
@@ -50,28 +50,28 @@ export function successLogin(json) {
         ...json.user,
         id: parseInt(json.user.id),
         accessToken: json.access_token,
-        refreshToken: json.refresh_token, //not working now
+        refreshToken: json.refresh_token, // not working now
         expiresIn: json.expires_in,
       },
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
 export function failedLogin() {
   return {
-    type: LOGIN_FAILURE
+    type: LOGIN_FAILURE,
   };
 }
 
 export function logout() {
   return {
-    type: LOGOUT
-  }
+    type: LOGOUT,
+  };
 }
 
 export function doneRehydrate() {
   return {
-    type: AUTH_REHYDRATE_DONE
-  }
+    type: AUTH_REHYDRATE_DONE,
+  };
 }

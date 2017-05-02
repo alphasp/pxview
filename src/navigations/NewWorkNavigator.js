@@ -7,17 +7,17 @@ import UserIllusts from '../containers/UserIllusts';
 import UserMangas from '../containers/UserMangas';
 import UserBookmarkIllusts from '../containers/UserBookmarkIllusts';
 import RelatedIllusts from '../containers/RelatedIllusts';
-import SearchResultTabs from '../containers/SearchResultTabs'; //todo
+import SearchResultTabs from '../containers/SearchResultTabs'; // todo
 import RecommendedUsers from '../containers/RecommendedUsers';
 
 const NewWorkNavigator = StackNavigator({
-  NewWorks: { 
+  NewWorks: {
     screen: NewWorks,
     navigationOptions: {
-      header: null
+      header: null,
     },
   },
-  Detail: { 
+  Detail: {
     screen: Detail,
   },
   UserDetail: {
@@ -39,19 +39,19 @@ const NewWorkNavigator = StackNavigator({
     screen: UserIllusts,
     navigationOptions: {
       title: 'User Illusts',
-    }
+    },
   },
   UserMangas: {
     screen: UserMangas,
     navigationOptions: {
       title: 'User Mangas',
-    }
+    },
   },
   UserBookmarkIllusts: {
     screen: UserBookmarkIllusts,
     navigationOptions: {
       title: 'Collection',
-    }
+    },
   },
   SearchResult: {
     screen: SearchResultTabs,
@@ -60,8 +60,8 @@ const NewWorkNavigator = StackNavigator({
     screen: RecommendedUsers,
     navigationOptions: {
       title: 'Recommended Users',
-    }
-  }
+    },
+  },
 }, {
   navigationOptions: {
     headerStyle: {
@@ -70,9 +70,9 @@ const NewWorkNavigator = StackNavigator({
     headerBackTitle: null,
   },
   cardStyle: {
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
-  headerMode: 'screen'
+  headerMode: 'screen',
 });
 
 export default NewWorkNavigator;

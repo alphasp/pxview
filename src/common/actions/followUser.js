@@ -6,7 +6,7 @@ export function followUserSuccess(userId) {
     payload: {
       userId,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
@@ -14,9 +14,9 @@ export function unfollowUserSuccess(userId) {
   return {
     type: UNFOLLOW_USER.SUCCESS,
     payload: {
-      userId, 
+      userId,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
@@ -24,8 +24,8 @@ export function followUserFailure(userId) {
   return {
     type: FOLLOW_USER.FAILURE,
     payload: {
-      userId
-    }
+      userId,
+    },
   };
 }
 
@@ -33,8 +33,8 @@ export function unfollowUserFailure(userId) {
   return {
     type: UNFOLLOW_USER.FAILURE,
     payload: {
-      userId
-    }
+      userId,
+    },
   };
 }
 
@@ -44,7 +44,7 @@ export function followUser(userId, followType) {
     payload: {
       userId,
       followType,
-    }
+    },
   };
 }
 
@@ -54,6 +54,6 @@ export function unfollowUser(userId, tags) {
     payload: {
       userId,
       tags,
-    }
+    },
   };
 }

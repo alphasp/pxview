@@ -16,22 +16,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 5, 
+    padding: 5,
   },
   text: {
     marginLeft: 3,
     color: '#fff',
     backgroundColor: 'transparent',
-  }
+  },
 });
 
-const OverlayImagePages = (props) => {
-  return (
-    <View style={styles.container}>
-      <Icon name="picture-o" color="#fff" />
-      <Text style={styles.text}>{props.total}</Text>
-    </View>
+const OverlayImagePages = props => (
+  <View style={styles.container}>
+    <Icon name="picture-o" color="#fff" />
+    <Text style={styles.text}>{props.total}</Text>
+  </View>
   );
-}
 
 export default OverlayImagePages;

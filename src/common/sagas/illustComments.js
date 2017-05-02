@@ -3,7 +3,7 @@ import { takeEvery, apply, put, select } from 'redux-saga/effects';
 import {
   fetchIllustCommentsSuccess,
   fetchIllustCommentsFailure,
-} from '../actions/illustComments.js'
+} from '../actions/illustComments.js';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { ILLUST_COMMENTS } from '../constants/actionTypes';
@@ -22,10 +22,10 @@ export function* handleFetchIllustComments(action) {
     //
     const normalized = normalize(response.comments, Schemas.ILLUST_COMMENT_ARRAY);
     yield put(fetchIllustCommentsSuccess(normalized.entities, normalized.result, illustId, response.next_url));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(fetchIllustCommentsFailure(illustId));
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 

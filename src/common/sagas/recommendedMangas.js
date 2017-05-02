@@ -3,7 +3,7 @@ import { takeLatest, apply, put, select } from 'redux-saga/effects';
 import {
   fetchRecommendedMangasSuccess,
   fetchRecommendedMangasFailure,
-} from '../actions/recommendedMangas.js'
+} from '../actions/recommendedMangas.js';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { RECOMMENDED_MANGAS } from '../constants/actionTypes';
@@ -23,10 +23,10 @@ export function* handleFetchRecommendedMangas(action) {
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
     yield put(fetchRecommendedMangasSuccess(normalized.entities, normalized.result, response.next_url));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(fetchRecommendedMangasFailure());
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 

@@ -4,8 +4,8 @@ const defaultState = {
   loading: false,
   loaded: false,
   item: {
-    tags: []
-  }
+    tags: [],
+  },
 };
 
 export default function illustBookmarkDetail(state = defaultState, action) {
@@ -15,7 +15,7 @@ export default function illustBookmarkDetail(state = defaultState, action) {
     case ILLUST_BOOKMARK_DETAIL.REQUEST:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case ILLUST_BOOKMARK_DETAIL.SUCCESS:
       return {

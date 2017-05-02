@@ -10,7 +10,7 @@ export function fetchRankingSuccess(entities, items, rankingMode, nextUrl) {
       items,
       nextUrl,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
@@ -18,14 +18,14 @@ export function fetchRankingFailure(rankingMode) {
   return {
     type: RANKING.FAILURE,
     payload: {
-      rankingMode
-    }
+      rankingMode,
+    },
   };
 }
 
 export function fetchRanking(rankingMode, options, nextUrl, refreshing = false) {
   const params = qs.parse(nextUrl);
-  const offset = params.offset || "0";
+  const offset = params.offset || '0';
   return {
     type: RANKING.REQUEST,
     payload: {
@@ -33,8 +33,8 @@ export function fetchRanking(rankingMode, options, nextUrl, refreshing = false) 
       options,
       offset,
       nextUrl,
-      refreshing
-    }
+      refreshing,
+    },
   };
 }
 
@@ -42,16 +42,16 @@ export function clearRanking(rankingMode) {
   return {
     type: RANKING.CLEAR,
     payload: {
-      rankingMode
-    }
+      rankingMode,
+    },
   };
 }
 
-export function clearAllRanking(rankingMode){
+export function clearAllRanking(rankingMode) {
   return {
     type: RANKING.CLEAR_ALL,
     payload: {
-      rankingMode
-    }
+      rankingMode,
+    },
   };
 }

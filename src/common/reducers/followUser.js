@@ -5,7 +5,7 @@ const defaultState = {
   loaded: false,
 };
 
-//unused
+// unused
 export default function followUser(state = defaultState, action) {
   switch (action.type) {
     case FOLLOW_USER.REQUEST:
@@ -27,7 +27,7 @@ export default function followUser(state = defaultState, action) {
       return {
         ...state,
         loading: false,
-        loaded: true
+        loaded: true,
       };
     default:
       return state;

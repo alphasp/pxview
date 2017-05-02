@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchRankingSuccess,
   fetchRankingFailure,
-} from '../actions/ranking.js'
+} from '../actions/ranking.js';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { RANKING } from '../constants/actionTypes';
@@ -34,10 +34,10 @@ export function* handleFetchRanking(action) {
   const { rankingMode, options, nextUrl } = action.payload;
   try {
     const mode = mapRankingMode(rankingMode);
-    let finalOptions = { ...options };
+    const finalOptions = { ...options };
     if (mode) {
       finalOptions.mode = mode;
-    };
+    }
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
@@ -47,10 +47,10 @@ export function* handleFetchRanking(action) {
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
     yield put(fetchRankingSuccess(normalized.entities, normalized.result, rankingMode, response.next_url));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(fetchRankingFailure(rankingMode));
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 

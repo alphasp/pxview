@@ -12,8 +12,8 @@ import PXImage from './PXImage';
 import OverlayImagePages from './OverlayImagePages';
 import OverlayBookmarkButton from '../components/OverlayBookmarkButton';
 
-const windowWidth = Dimensions.get('window').width; //full width
-const windowHeight = Dimensions.get('window').height; //full height
+const windowWidth = Dimensions.get('window').width; // full width
+const windowHeight = Dimensions.get('window').height; // full height
 const avatarSize = 50;
 const ILLUST_PREVIEW_COLUMNS = 3;
 const CONTAINER_MARGIN = 10;
@@ -46,11 +46,11 @@ const styles = StyleSheet.create({
   },
   chevronIcon: {
     marginLeft: 5,
-  }
+  },
 });
 
-const IllustCollection = (props) => {
-  const { navigation: { navigate }, items, title, total, viewMoreTitle, maxItems, onPressViewMore} = props;
+const IllustCollection = props => {
+  const { navigation: { navigate }, items, title, total, viewMoreTitle, maxItems, onPressViewMore } = props;
   if (!items || !items.length) {
     return null;
   }
@@ -73,43 +73,41 @@ const IllustCollection = (props) => {
       <View style={styles.imagePreviews}>
         {
           illusts && illusts.length &&
-          illusts.map(item => {
-            return (
-              <PXTouchable 
-                style={{ 
-                  backgroundColor: "#fff",
-                  borderColor: "#E9EBEE",
-                  borderWidth: 1,
-                  width: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS, 
-                  height: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS,
-                }} 
-                key={item.id} 
-                onPress={() => navigate('Detail', { item: item })}
-              >
-                <View>
-                  <PXImage 
-                    uri={item.image_urls ? item.image_urls.square_medium : ""}
-                    style={[styles.cardImage, {
-                      resizeMode: 'cover',
-                      width: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS, 
-                      height: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS,
-                    }]}
-                  />
-                  {
+          illusts.map(item => (
+            <PXTouchable
+              style={{
+                backgroundColor: '#fff',
+                borderColor: '#E9EBEE',
+                borderWidth: 1,
+                width: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS,
+                height: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS,
+              }}
+              key={item.id}
+              onPress={() => navigate('Detail', { item })}
+            >
+              <View>
+                <PXImage
+                  uri={item.image_urls ? item.image_urls.square_medium : ''}
+                  style={[styles.cardImage, {
+                    resizeMode: 'cover',
+                    width: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS,
+                    height: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS,
+                  }]}
+                />
+                {
                     (item.meta_pages && item.meta_pages.length) ?
-                    <OverlayImagePages total={item.meta_pages.length} />
+                      <OverlayImagePages total={item.meta_pages.length} />
                     :
                     null
                   }
-                  <OverlayBookmarkButton item={item} />
-                </View>
-              </PXTouchable>
-            )
-          })
+                <OverlayBookmarkButton item={item} />
+              </View>
+            </PXTouchable>
+            ))
         }
       </View>
     </View>
   );
-}
+};
 
 export default IllustCollection;

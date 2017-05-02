@@ -7,7 +7,7 @@ export function fetchIllustBookmarkDetailSuccess(item, illustId) {
       illustId,
       item,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
@@ -15,8 +15,8 @@ export function fetchIllustBookmarkDetailFailure(illustId) {
   return {
     type: ILLUST_BOOKMARK_DETAIL.FAILURE,
     payload: {
-      illustId
-    }
+      illustId,
+    },
   };
 }
 
@@ -25,7 +25,7 @@ export function fetchIllustBookmarkDetail(illustId) {
     type: ILLUST_BOOKMARK_DETAIL.REQUEST,
     payload: {
       illustId,
-    }
+    },
   };
 }
 
@@ -33,7 +33,7 @@ export function clearIllustBookmarkDetail(illustId) {
   return {
     type: ILLUST_BOOKMARK_DETAIL.CLEAR,
     payload: {
-      illustId
-    }
+      illustId,
+    },
   };
 }

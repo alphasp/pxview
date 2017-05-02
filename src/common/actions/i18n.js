@@ -6,7 +6,7 @@ export function setLanguage(lang) {
   return {
     type: I18N_SET_LANGUAGE,
     payload: {
-      lang
-    }
+      lang,
+    },
   };
 }

@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchNewMangasSuccess,
   fetchNewMangasFailure,
-} from '../actions/newMangas'
+} from '../actions/newMangas';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { NEW_MANGAS } from '../constants/actionTypes';
@@ -21,10 +21,10 @@ export function* handleFetchNewMangas(action) {
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
     yield put(fetchNewMangasSuccess(normalized.entities, normalized.result, response.next_url));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(fetchNewMangasFailure());
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 

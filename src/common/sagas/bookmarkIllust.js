@@ -3,8 +3,8 @@ import {
   bookmarkIllustSuccess,
   bookmarkIllustFailure,
   unbookmarkIllustSuccess,
-  unbookmarkIllustFailure
-} from '../actions/bookmarkIllust.js'
+  unbookmarkIllustFailure,
+} from '../actions/bookmarkIllust.js';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { BOOKMARK_ILLUST, UNBOOKMARK_ILLUST } from '../constants/actionTypes';
@@ -16,10 +16,10 @@ export function* handleBookmarkIllust(action) {
     const bookmarkTypeString = bookmarkType === BOOKMARK_TYPES.PRIVATE ? 'private' : 'public';
     const response = yield apply(pixiv, pixiv.bookmarkIllust, [illustId, bookmarkTypeString, tags]);
     yield put(bookmarkIllustSuccess(illustId));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(bookmarkIllustFailure(illustId));
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 
@@ -29,10 +29,10 @@ export function* handleUnbookmarkIllust(action) {
     const bookmarkTypeString = bookmarkType === BOOKMARK_TYPES.PRIVATE ? 'private' : 'public';
     const response = yield apply(pixiv, pixiv.unbookmarkIllust, [illustId]);
     yield put(unbookmarkIllustSuccess(illustId));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(unbookmarkIllustFailure(illustId));
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 

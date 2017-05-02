@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchFollowingUserIllustsSuccess,
   fetchFollowingUserIllustsFailure,
-} from '../actions/followingUserIllusts'
+} from '../actions/followingUserIllusts';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { FOLLOWING_USER_ILLUSTS } from '../constants/actionTypes';
@@ -21,10 +21,10 @@ export function* handleFetchFollowingUserIllusts(action) {
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
     yield put(fetchFollowingUserIllustsSuccess(normalized.entities, normalized.result, response.next_url));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(fetchFollowingUserIllustsFailure());
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 

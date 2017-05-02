@@ -9,11 +9,11 @@ import PXTouchable from './PXTouchable';
 
 const styles = StyleSheet.create({
   button: {
-    //borderColor: '#5cafec',
+    // borderColor: '#5cafec',
     // borderRadius: 16,
     // borderWidth: 1,
 
-    //justifyContent: 'center',
+    // justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
     borderColor: '#5cafec',
     borderWidth: 1,
@@ -23,16 +23,16 @@ const styles = StyleSheet.create({
   buttonText: {
     padding: 10,
     color: '#5cafec',
-  }
+  },
 });
 
-const FollowButton = (props) => {
+const FollowButton = props => {
   const { isFollow, onPress, onLongPress } = props;
   return (
     <PXTouchable style={styles.button} onPress={onPress} onLongPress={onLongPress}>
-      <Text style={styles.buttonText}>{isFollow ? "Following" : "Follow"}</Text>
-    </PXTouchable> 
+      <Text style={styles.buttonText}>{isFollow ? 'Following' : 'Follow'}</Text>
+    </PXTouchable>
   );
-}
+};
 
 export default FollowButton;

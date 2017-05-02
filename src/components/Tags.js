@@ -30,34 +30,34 @@ const styles = StyleSheet.create({
     padding: 2,
     color: '#fff',
 
-  }
+  },
 });
 
-const Tags = (props) => {
+const Tags = props => {
   const { tags, onPressTag } = props;
   return (
     <View style={styles.container}>
       {
-        tags.map(tag => 
-          <PXTouchable 
-            key={tag.name} 
+        tags.map(tag =>
+          <PXTouchable
+            key={tag.name}
             style={styles.tagContainer}
             onPress={() => onPressTag(tag.name)}
           >
             <Text style={styles.tagLabel}>{tag.name}</Text>
-          </PXTouchable> 
+          </PXTouchable>,
         )
       }
     </View>
   );
   // return (
   //   <View style={styles.container}>
-  //     <Taggs 
+  //     <Taggs
   //       initialText=""
   //       initialTags={['dog', 'cat', 'chicken', 'bull', 'fox', 'rrrrrrrrr', 'blalalalala']}
   //     />
   //   </View>
   // );
-}
+};
 
 export default Tags;

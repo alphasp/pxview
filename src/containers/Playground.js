@@ -12,7 +12,7 @@ import {
 import moment from 'moment';
 // import CacheableImage from 'react-native-cacheable-image';
 import FitImage from 'react-native-fit-image';
-import RNFetchBlob from 'react-native-fetch-blob'
+import RNFetchBlob from 'react-native-fetch-blob';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -21,23 +21,23 @@ class Playground extends Component {
     const { style, uri, ...otherProps } = this.props;
     // const { imageUri, width, height } = this.state;
     // console.log('imageUri ', imageUri ? true : false)
-    //height = <user-chosen width> * original height / original width
+    // height = <user-chosen width> * original height / original width
     return (
-      <Image 
-        source={{ 
-          uri: uri,
+      <Image
+        source={{
+          uri,
           headers: {
-            referer: "http://www.pixiv.net"
-          }
+            referer: 'http://www.pixiv.net',
+          },
         }}
         style={{
           width: windowWidth,
           height: windowHeight,
-        }}    
+        }}
         resizeMode="contain"
-        {...otherProps} 
-      /> 
-    )
+        {...otherProps}
+      />
+    );
   }
 }
           // aspectRatio: 1

@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchUserFollowingSuccess,
   fetchUserFollowingFailure,
-} from '../actions/userFollowing.js'
+} from '../actions/userFollowing.js';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { USER_FOLLOWING } from '../constants/actionTypes';
@@ -18,27 +18,25 @@ export function* handleFetchUserFollowing(action) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
     }
     else {
-      const options = { 
-        restrict: followingType === FOLLOWING_TYPES.PRIVATE ? 'private' : 'public'
+      const options = {
+        restrict: followingType === FOLLOWING_TYPES.PRIVATE ? 'private' : 'public',
       };
       response = yield apply(pixiv, pixiv.userFollowing, [userId, options]);
     }
     const transformedResult = {
       ...response,
-      user_previews: response.user_previews.map(result => {
-        return {
-          ...result,
-          id: result.user.id
-        }
-      })
+      user_previews: response.user_previews.map(result => ({
+        ...result,
+        id: result.user.id,
+      })),
     };
-    
+
     const normalized = normalize(transformedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
     yield put(fetchUserFollowingSuccess(normalized.entities, normalized.result, userId, followingType, response.next_url));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(fetchUserFollowingFailure(userId));
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 
@@ -51,7 +49,7 @@ export function* watchFetchUserFollowing() {
 //   const results = state.userFollowing[followingType][userId];
 //   if (results && results.loading) {
 //     return false;
-//   } 
+//   }
 //   else {
 //     return true;
 //   }

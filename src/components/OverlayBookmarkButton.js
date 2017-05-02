@@ -15,16 +15,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 5, 
-  }
+    padding: 5,
+  },
 });
 
-const OverlayBookmarkButton = (props) => {
-  return (
-    <View style={styles.container}>
-      <BookmarkButton {...props} />
-    </View>
+const OverlayBookmarkButton = props => (
+  <View style={styles.container}>
+    <BookmarkButton {...props} />
+  </View>
   );
-}
 
 export default OverlayBookmarkButton;

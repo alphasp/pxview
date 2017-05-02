@@ -1,4 +1,4 @@
-import qs from "qs";
+import qs from 'qs';
 import { SEARCH_USERS } from '../constants/actionTypes';
 
 export function fetchSearchUsersSuccess(entities, items, navigationStateKey, nextUrl) {
@@ -10,7 +10,7 @@ export function fetchSearchUsersSuccess(entities, items, navigationStateKey, nex
       items,
       nextUrl,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
@@ -18,14 +18,14 @@ export function fetchSearchUsersFailure(navigationStateKey) {
   return {
     type: SEARCH_USERS.FAILURE,
     payload: {
-      navigationStateKey
-    }
+      navigationStateKey,
+    },
   };
 }
 
 export function fetchSearchUsers(navigationStateKey, word, nextUrl, refreshing = false) {
   const params = qs.parse(nextUrl);
-  const offset = params.offset || "0";
+  const offset = params.offset || '0';
   return {
     type: SEARCH_USERS.REQUEST,
     payload: {
@@ -33,8 +33,8 @@ export function fetchSearchUsers(navigationStateKey, word, nextUrl, refreshing =
       word,
       offset,
       nextUrl,
-      refreshing
-    }
+      refreshing,
+    },
   };
 }
 
@@ -42,13 +42,13 @@ export function clearSearchUsers(navigationStateKey) {
   return {
     type: SEARCH_USERS.CLEAR,
     payload: {
-      navigationStateKey
-    }
+      navigationStateKey,
+    },
   };
 }
 
 export function clearAllSearchUsers() {
   return {
-    type: SEARCH_USERS.CLEAR_ALL
+    type: SEARCH_USERS.CLEAR_ALL,
   };
 }

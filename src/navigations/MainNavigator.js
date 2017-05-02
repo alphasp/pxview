@@ -8,20 +8,19 @@ import TrendingNavigator from './TrendingNavigator';
 import NewWorkNavigator from './NewWorkNavigator';
 import UserProfileNavigator from './UserProfileNavigator';
 
-const renderTabBarIcon = (tintColor, focused, name, iconType) => {
-  //59,89,152
-  return (
-    <Icon
-      name={name}
-      type={iconType || "font-awesome"}
-      size={24}
-      color={tintColor}
-    />
+const renderTabBarIcon = (tintColor, focused, name, iconType) =>
+  // 59,89,152
+   (
+     <Icon
+       name={name}
+       type={iconType || 'font-awesome'}
+       size={24}
+       color={tintColor}
+     />
   );
-}
 
 const MainNavigator = TabNavigator({
-  HomeTab: { 
+  HomeTab: {
     screen: HomeNavigator,
     path: '/home',
     navigationOptions: {
@@ -35,48 +34,48 @@ const MainNavigator = TabNavigator({
       tabBarIcon: ({ tintColor, focused }) => (
         renderTabBarIcon(tintColor, focused, 'home')
       ),
-      tabBarLabel: 'Home'
-    } 
+      tabBarLabel: 'Home',
+    },
   },
-  RankingTab: { 
+  RankingTab: {
     screen: RankingNavigator,
     path: '/ranking',
     navigationOptions: {
       tabBarIcon: ({ tintColor, focused }) => (
         renderTabBarIcon(tintColor, focused, 'trophy')
       ),
-      tabBarLabel: 'Ranking'
-    }  
+      tabBarLabel: 'Ranking',
+    },
   },
-  TrendingTab: { 
+  TrendingTab: {
     screen: TrendingNavigator,
     path: '/trending',
     navigationOptions: {
       tabBarIcon: ({ tintColor, focused }) => (
         renderTabBarIcon(tintColor, focused, 'search')
       ),
-      tabBarLabel: 'Search'
-    }  
+      tabBarLabel: 'Search',
+    },
   },
-  NewWorkTab: { 
+  NewWorkTab: {
     screen: NewWorkNavigator,
     path: '/newwork',
     navigationOptions: {
       tabBarIcon: ({ tintColor, focused }) => (
         renderTabBarIcon(tintColor, focused, 'fiber-new', 'material')
       ),
-      tabBarLabel: 'Newest'
-    }  
+      tabBarLabel: 'Newest',
+    },
   },
-  UserProfileTab: { 
+  UserProfileTab: {
     screen: UserProfileNavigator,
     path: '/profile',
     navigationOptions: {
       tabBarIcon: ({ tintColor, focused }) => (
         renderTabBarIcon(tintColor, focused, 'user')
       ),
-      tabBarLabel: 'Profile'
-    }  
+      tabBarLabel: 'Profile',
+    },
   },
 }, {
   headerMode: 'none',
@@ -101,22 +100,22 @@ const MainNavigator = TabNavigator({
 
         },
         Rankingtab: {
-          //barBackgroundColor: '#EEEEEE',
+          // barBackgroundColor: '#EEEEEE',
         },
         TrendingTab: {
-          //barBackgroundColor: '#EEEEEE',
+          // barBackgroundColor: '#EEEEEE',
           // barBackgroundColor: '#EEEEEE',
           // labelColor: '#434343', // like in the standalone version, this will override the already specified `labelColor` for this tab
         },
         NewWorkTab: {
-          //barBackgroundColor: '#EEEEEE',
+          // barBackgroundColor: '#EEEEEE',
         },
         UserProfileTab: {
-          //barBackgroundColor: '#EEEEEE',
-        }
-      }
-    }
-  }
+          // barBackgroundColor: '#EEEEEE',
+        },
+      },
+    },
+  },
 });
 
 // const router = MainNavigator.router;
@@ -138,7 +137,7 @@ const MainNavigator = TabNavigator({
 //           routes: state.routes.map(route => {
 //             return {
 //               ...route,
-//               routes: route.routes.map(r => 
+//               routes: route.routes.map(r =>
 //                 r.key === action.key ?
 //                 { ...r, params }
 //                 :

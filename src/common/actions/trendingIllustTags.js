@@ -1,4 +1,4 @@
-import qs from "qs";
+import qs from 'qs';
 import { TRENDING_ILLUST_TAGS } from '../constants/actionTypes';
 
 export function fetchTrendingIllustTagsSuccess(entities, items) {
@@ -8,13 +8,13 @@ export function fetchTrendingIllustTagsSuccess(entities, items) {
       entities,
       items,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
 export function fetchTrendingIllustTagsFailure() {
   return {
-    type: TRENDING_ILLUST_TAGS.FAILURE
+    type: TRENDING_ILLUST_TAGS.FAILURE,
   };
 }
 
@@ -23,13 +23,13 @@ export function fetchTrendingIllustTags(options, refreshing = false) {
     type: TRENDING_ILLUST_TAGS.REQUEST,
     payload: {
       options,
-      refreshing
-    }
+      refreshing,
+    },
   };
 }
 
 export function clearTrendingIllustTags() {
   return {
-    type: TRENDING_ILLUST_TAGS.CLEAR
+    type: TRENDING_ILLUST_TAGS.CLEAR,
   };
 }

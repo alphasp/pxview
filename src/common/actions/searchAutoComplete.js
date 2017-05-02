@@ -1,4 +1,4 @@
-import qs from "qs";
+import qs from 'qs';
 import { SEARCH_AUTOCOMPLETE } from '../constants/actionTypes';
 
 export function fetchSearchAutoCompleteSuccess(items) {
@@ -7,13 +7,13 @@ export function fetchSearchAutoCompleteSuccess(items) {
     payload: {
       items,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
 export function fetchSearchAutoCompleteFailure() {
   return {
-    type: SEARCH_AUTOCOMPLETE.FAILURE
+    type: SEARCH_AUTOCOMPLETE.FAILURE,
   };
 }
 
@@ -21,13 +21,13 @@ export function fetchSearchAutoComplete(word) {
   return {
     type: SEARCH_AUTOCOMPLETE.REQUEST,
     payload: {
-      word
-    }
+      word,
+    },
   };
 }
 
 export function clearSearchAutoComplete() {
   return {
-    type: SEARCH_AUTOCOMPLETE.CLEAR
+    type: SEARCH_AUTOCOMPLETE.CLEAR,
   };
 }

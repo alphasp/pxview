@@ -8,15 +8,15 @@ export default function userBookmarkIllusts(state = {}, action) {
         [action.payload.userId]: {},
       };
     case USER_BOOKMARK_ILLUSTS.CLEAR_ALL:
-      return {};  
+      return {};
     case USER_BOOKMARK_ILLUSTS.REQUEST:
       return {
         ...state,
         [action.payload.userId]: {
           ...state[action.payload.userId],
           loading: true,
-          refreshing: action.payload.refreshing
-        }
+          refreshing: action.payload.refreshing,
+        },
       };
     case USER_BOOKMARK_ILLUSTS.SUCCESS:
       return {
@@ -28,8 +28,8 @@ export default function userBookmarkIllusts(state = {}, action) {
           refreshing: false,
           items: (state[action.payload.userId] && state[action.payload.userId].items) ? [...state[action.payload.userId].items, ...action.payload.items] : action.payload.items,
           nextUrl: action.payload.nextUrl,
-          timestamp: action.payload.timestamp
-        }
+          timestamp: action.payload.timestamp,
+        },
       };
     case USER_BOOKMARK_ILLUSTS.FAILURE:
       return {
@@ -38,8 +38,8 @@ export default function userBookmarkIllusts(state = {}, action) {
           ...state[action.payload.userId],
           loading: false,
           loaded: true,
-          refreshing: false
-        }
+          refreshing: false,
+        },
       };
     default:
       return state;

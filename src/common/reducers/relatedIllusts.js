@@ -21,8 +21,8 @@ export default function relatedIllusts(state = {}, action) {
         [action.payload.illustId]: {
           ...state[action.payload.illustId],
           loading: true,
-          refreshing: action.payload.refreshing
-        }
+          refreshing: action.payload.refreshing,
+        },
       };
 
     case RELATED_ILLUSTS.SUCCESS:
@@ -35,8 +35,8 @@ export default function relatedIllusts(state = {}, action) {
           refreshing: false,
           items: (state[action.payload.illustId] && state[action.payload.illustId].items) ? [...state[action.payload.illustId].items, ...action.payload.items] : action.payload.items,
           nextUrl: action.payload.nextUrl,
-          timestamp: action.payload.timestamp
-        }
+          timestamp: action.payload.timestamp,
+        },
       };
     case RELATED_ILLUSTS.FAILURE:
       return {
@@ -46,7 +46,7 @@ export default function relatedIllusts(state = {}, action) {
           loading: false,
           loaded: true,
           refreshing: false,
-        }
+        },
       };
     default:
       return state;

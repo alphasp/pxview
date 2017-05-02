@@ -1,7 +1,7 @@
-import { SET_SEARCH_TYPE, SearchType } from "../actions/searchType";
+import { SET_SEARCH_TYPE, SearchType } from '../actions/searchType';
 
 export default function searchType(state = {
-  type: SearchType.ILLUST
+  type: SearchType.ILLUST,
 }, action = {}) {
   switch (action.type) {
     case SET_SEARCH_TYPE:

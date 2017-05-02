@@ -1,4 +1,4 @@
-import qs from "qs";
+import qs from 'qs';
 import { MY_PRIVATE_BOOKMARK_ILLUSTS } from '../constants/actionTypes';
 
 export function fetchMyPrivateBookmarkIllustsSuccess(entities, items, userId, nextUrl) {
@@ -10,7 +10,7 @@ export function fetchMyPrivateBookmarkIllustsSuccess(entities, items, userId, ne
       items,
       nextUrl,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
@@ -18,8 +18,8 @@ export function fetchMyPrivateBookmarkIllustsFailure(userId) {
   return {
     type: MY_PRIVATE_BOOKMARK_ILLUSTS.FAILURE,
     payload: {
-      userId
-    }
+      userId,
+    },
   };
 }
 
@@ -30,8 +30,8 @@ export function fetchMyPrivateBookmarkIllusts(userId, tag, nextUrl, refreshing =
       userId,
       tag,
       nextUrl,
-      refreshing
-    }
+      refreshing,
+    },
   };
 }
 
@@ -39,7 +39,7 @@ export function clearMyPrivateBookmarkIllusts(userId) {
   return {
     type: MY_PRIVATE_BOOKMARK_ILLUSTS.CLEAR,
     payload: {
-      userId
-    }
+      userId,
+    },
   };
 }

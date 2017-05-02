@@ -6,8 +6,8 @@ export function openModal(modalType, modalProps) {
     type: OPEN_MODAL,
     payload: {
       modalType,
-      modalProps
-    }
+      modalProps,
+    },
   };
 }
 

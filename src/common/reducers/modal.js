@@ -1,13 +1,13 @@
-import { 
-  OPEN_MODAL, 
+import {
+  OPEN_MODAL,
   CLOSE_MODAL,
-} from "../actions/modal";
+} from '../actions/modal';
 
 // http://stackoverflow.com/questions/35623656/how-can-i-display-a-modal-dialog-in-redux-that-performs-asynchronous-actions/35641680
 
 const defaultState = {
   modalType: null,
-  modalProps: {}, 
+  modalProps: {},
 };
 
 export default function modal(state = defaultState, action) {
@@ -15,8 +15,8 @@ export default function modal(state = defaultState, action) {
     case OPEN_MODAL:
       return {
         modalType: action.payload.modalType,
-        modalProps: action.payload.modalProps
-      }
+        modalProps: action.payload.modalProps,
+      };
     case CLOSE_MODAL:
       return defaultState;
     default:

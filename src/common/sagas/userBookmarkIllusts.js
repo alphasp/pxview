@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchUserBookmarkIllustsSuccess,
   fetchUserBookmarkIllustsFailure,
-} from '../actions/userBookmarkIllusts.js'
+} from '../actions/userBookmarkIllusts.js';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { USER_BOOKMARK_ILLUSTS } from '../constants/actionTypes';
@@ -17,7 +17,7 @@ export function* handleFetchUserBookmarkIllusts(action) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
     }
     else {
-      let options = {};
+      const options = {};
       if (tag) {
         options.tag = tag;
       }
@@ -25,10 +25,10 @@ export function* handleFetchUserBookmarkIllusts(action) {
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
     yield put(fetchUserBookmarkIllustsSuccess(normalized.entities, normalized.result, userId, response.next_url));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(fetchUserBookmarkIllustsFailure(userId));
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 

@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchRelatedIllustsSuccess,
   fetchRelatedIllustsFailure,
-} from '../actions/relatedIllusts.js'
+} from '../actions/relatedIllusts.js';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { RELATED_ILLUSTS } from '../constants/actionTypes';
@@ -22,10 +22,10 @@ export function* handleFetchRelatedIllusts(action) {
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
     yield put(fetchRelatedIllustsSuccess(normalized.entities, normalized.result, illustId, response.next_url));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(fetchRelatedIllustsFailure(illustId));
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 

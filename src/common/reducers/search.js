@@ -19,7 +19,7 @@ export default function search(state = {}, action) {
           word: action.payload.word,
           options: action.payload.options,
           offset: action.payload.offset,
-        }
+        },
       };
     case SEARCH.SUCCESS:
       return {
@@ -31,8 +31,8 @@ export default function search(state = {}, action) {
           refreshing: false,
           items: (state[action.payload.navigationStateKey] && state[action.payload.navigationStateKey].items) ? [...state[action.payload.navigationStateKey].items, ...action.payload.items] : action.payload.items,
           nextUrl: action.payload.nextUrl,
-          timestamp: action.payload.timestamp
-        }
+          timestamp: action.payload.timestamp,
+        },
       };
     case SEARCH.FAILURE:
       return {
@@ -41,8 +41,8 @@ export default function search(state = {}, action) {
           ...state[action.payload.navigationStateKey],
           loading: false,
           loaded: true,
-          refreshing: false
-        }
+          refreshing: false,
+        },
       };
     default:
       return state;

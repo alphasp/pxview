@@ -5,12 +5,12 @@ import {
   ListView,
   Dimensions,
   RecyclerViewBackedScrollView,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 
 const styles = StyleSheet.create({
   list: {
-    //justifyContent: 'center',
+    // justifyContent: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
     // justifyContent: 'space-between',
@@ -24,7 +24,7 @@ class GridView extends Component {
   render() {
     const { dataSource, renderRow } = this.props;
     return (
-      <ListView 
+      <ListView
         contentContainerStyle={styles.list}
         dataSource={dataSource}
         {...this.props}

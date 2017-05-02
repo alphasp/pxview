@@ -19,7 +19,7 @@ export default function recommendedIllusts(state = defaultState, action) {
         ...state,
         loading: true,
         refreshing: action.payload.refreshing,
-        url: action.payload.url
+        url: action.payload.url,
       };
     case RECOMMENDED_ILLUSTS.SUCCESS:
       return {
@@ -37,7 +37,7 @@ export default function recommendedIllusts(state = defaultState, action) {
         ...state,
         loading: false,
         loaded: true,
-        refreshing: false
+        refreshing: false,
       };
     default:
       return state;

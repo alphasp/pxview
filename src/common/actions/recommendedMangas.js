@@ -1,4 +1,4 @@
-import qs from "qs";
+import qs from 'qs';
 import { RECOMMENDED_MANGAS } from '../constants/actionTypes';
 
 export function fetchRecommendedMangasSuccess(entities, items, nextUrl) {
@@ -9,7 +9,7 @@ export function fetchRecommendedMangasSuccess(entities, items, nextUrl) {
       items,
       nextUrl,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
@@ -21,20 +21,20 @@ export function fetchRecommendedMangasFailure() {
 
 export function fetchRecommendedMangas(options, nextUrl, refreshing = false) {
   const params = qs.parse(nextUrl);
-  const offset = params.offset || "0";
+  const offset = params.offset || '0';
   return {
     type: RECOMMENDED_MANGAS.REQUEST,
     payload: {
       options,
       offset,
       nextUrl,
-      refreshing
-    }
+      refreshing,
+    },
   };
 }
 
 export function clearRecommendedMangas() {
   return {
-    type: RECOMMENDED_MANGAS.CLEAR
+    type: RECOMMENDED_MANGAS.CLEAR,
   };
 }

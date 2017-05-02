@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchSearchUsersSuccess,
   fetchSearchUsersFailure,
-} from '../actions/searchUsers.js'
+} from '../actions/searchUsers.js';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { SEARCH_USERS } from '../constants/actionTypes';
@@ -21,21 +21,17 @@ export function* handleFetchSearchUsers(action) {
     }
     const transformedResult = {
       ...response,
-      user_previews: response.user_previews.filter(user => {
-        return user.illusts && user.illusts.length;
-      }).map(result => {
-        return {
-          ...result,
-          id: result.user.id
-        }
-      })
+      user_previews: response.user_previews.filter(user => user.illusts && user.illusts.length).map(result => ({
+        ...result,
+        id: result.user.id,
+      })),
     };
     const normalized = normalize(transformedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
     yield put(fetchSearchUsersSuccess(normalized.entities, normalized.result, navigationStateKey, response.next_url));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(fetchSearchUsersFailure(navigationStateKey));
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 

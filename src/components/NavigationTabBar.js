@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 // import Icon from 'react-native-vector-icons/FontAwesome';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 
 const styles = StyleSheet.create({
   tab: {
@@ -62,23 +62,22 @@ const NavigationTabBar = React.createClass({
                   // ref={(icon) => { this.tabIcons[i] = icon; }}
   render() {
     return (
-      <View style={[styles.tabs, this.props.style, ]}>
+      <View style={[styles.tabs, this.props.style]}>
         {
-          this.props.tabs.map((tab, i) => {
-            return (
-              <TouchableOpacity key={tab.title} onPress={() => this.props.goToPage(i)} style={styles.tab}>
-                <Icon
-                  name={tab.icon}
-                  type={tab.iconType || "font-awesome"}
-                  size={30}
-                  color={this.props.activeTab === i ? 'rgb(59,89,152)' : 'rgb(204,204,204)'}
-                />
-              </TouchableOpacity>
-            )})
+          this.props.tabs.map((tab, i) => (
+            <TouchableOpacity key={tab.title} onPress={() => this.props.goToPage(i)} style={styles.tab}>
+              <Icon
+                name={tab.icon}
+                type={tab.iconType || 'font-awesome'}
+                size={30}
+                color={this.props.activeTab === i ? 'rgb(59,89,152)' : 'rgb(204,204,204)'}
+              />
+            </TouchableOpacity>
+            ))
         }
       </View>
-    )
-  } 
+    );
+  },
 });
 
 export default NavigationTabBar;

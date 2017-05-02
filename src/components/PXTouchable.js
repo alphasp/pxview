@@ -6,34 +6,34 @@ import {
   View,
 } from 'react-native';
 
-const PXTouchable = (props) => {
+const PXTouchable = props => {
   if (Platform.OS === 'android') {
     // return <TouchableOpacity {...props} />
     const { style, children, ...otherProps } = props;
-    //console.log('children ', children)
+    // console.log('children ', children)
     return (
-      <TouchableNativeFeedback 
-        background={ TouchableNativeFeedback.SelectableBackground() } 
+      <TouchableNativeFeedback
+        background={TouchableNativeFeedback.SelectableBackground()}
         style={style}
-        {...otherProps} 
+        {...otherProps}
       >
         {
-          children ? 
-          <View style={style}>
-            { children }
-          </View>
+          children ?
+            <View style={style}>
+              { children }
+            </View>
           :
           null
         }
       </TouchableNativeFeedback>
-    )
+    );
     // return (
-    //   <TouchableNativeFeedback 
-    //     background={ TouchableNativeFeedback.SelectableBackground() } 
-    //     { ...restProps } 
+    //   <TouchableNativeFeedback
+    //     background={ TouchableNativeFeedback.SelectableBackground() }
+    //     { ...restProps }
     //   >
     //     {
-    //       children ? 
+    //       children ?
     //       React.cloneElement(children, {
     //         style: [children.props.style, style]
     //       })
@@ -43,9 +43,8 @@ const PXTouchable = (props) => {
     //   </TouchableNativeFeedback>
     // )
   }
-  else {
-    return <TouchableOpacity {...props} />
-  }
-}
+
+  return <TouchableOpacity {...props} />;
+};
 
 export default PXTouchable;

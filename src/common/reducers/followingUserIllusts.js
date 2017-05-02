@@ -17,7 +17,7 @@ export default function followingUserIllusts(state = defaultState, action) {
       return {
         ...state,
         loading: true,
-        refreshing: action.payload.refreshing
+        refreshing: action.payload.refreshing,
       };
     case FOLLOWING_USER_ILLUSTS.SUCCESS:
       return {

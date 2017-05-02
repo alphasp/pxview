@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "lint": "eslint src",
     "test": "jest",
     "test:watch": "jest --watch --coverage",
     "android": "node node_modules/react-native/local-cli/cli.js run-android",
@@ -21,6 +22,7 @@
     "moment": "^2.15.1",
     "normalizr": "^3.2.2",
     "pixiv-api-client": "^0.13.1",
+    "qs": "^6.4.0",
     "react": "^16.0.0-alpha.6",
     "react-addons-shallow-compare": "^15.4.1",
     "react-native": "^0.43.2",

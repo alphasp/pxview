@@ -9,8 +9,8 @@ import {
   successLogin,
   failedLogin,
   logout,
-  doneRehydrate
-} from '../actions/auth.js'
+  doneRehydrate,
+} from '../actions/auth.js';
 import * as Keychain from 'react-native-keychain';
 import { REHYDRATE } from 'redux-persist/constants';
 import { addError, resetError } from '../actions/error';
@@ -26,16 +26,16 @@ export function* authorize(email, password) {
 }
 
 export function* authAndRefreshTokenOnExpiry(email, password) {
-  const loginResponse = yield call(authorize, email, password)
-  while(true) {
-    const credentials  = yield call (Keychain.getGenericPassword);
+  const loginResponse = yield call(authorize, email, password);
+  while (true) {
+    const credentials = yield call(Keychain.getGenericPassword);
     if (credentials.username && credentials.password) {
-      //refresh token 5 min before expire
-      //convert expires in to milisecond
+      // refresh token 5 min before expire
+      // convert expires in to milisecond
       const delayMilisecond = (loginResponse.expires_in - 300) * 1000;
-      yield call(delay, delayMilisecond)
+      yield call(delay, delayMilisecond);
       try {
-        yield call(authorize, credentials.username, credentials.password) 
+        yield call(authorize, credentials.username, credentials.password);
       }
       catch (err) {
         yield put(logout());
@@ -46,22 +46,22 @@ export function* authAndRefreshTokenOnExpiry(email, password) {
 
 export function* watchLoginRequest() {
   // yield takeEvery(LOGIN_REQUEST, loginFlow)
-  while(true) {
+  while (true) {
     try {
       const action = yield take(LOGIN_REQUEST);
       const { email, password } = action.payload;
       yield race([
         take(LOGOUT),
-        call(authAndRefreshTokenOnExpiry, email, password)
-      ])
+        call(authAndRefreshTokenOnExpiry, email, password),
+      ]);
       yield call(handleLogout);
       // user logged out, next while iteration will wait for the
       // next LOGIN_REQUEST action
-    } 
-    catch(err) {
+    }
+    catch (err) {
       const errMessage = (err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : '';
       yield put(failedLogin());
-      yield put(addError(errMessage));    
+      yield put(addError(errMessage));
     }
   }
 }
@@ -69,31 +69,31 @@ export function* watchLoginRequest() {
 export function* handleLogout() {
   yield [
     call(Keychain.resetGenericPassword),
-    apply(pixiv, pixiv.logout)
+    apply(pixiv, pixiv.logout),
   ];
 }
 
-//wait rehydrate complete, login if authUser exist, then run other api
+// wait rehydrate complete, login if authUser exist, then run other api
 export function* watchRehydrate() {
-  while(true) {
+  while (true) {
     try {
       yield take(REHYDRATE);
       const user = yield select(getAuthUser);
       if (user) {
-        console.log('watchRehydrate login')
-        const credentials  = yield call(Keychain.getGenericPassword);
+        console.log('watchRehydrate login');
+        const credentials = yield call(Keychain.getGenericPassword);
         yield put(login(credentials.username, credentials.password));
         yield take([
           LOGIN_SUCCESS,
-          LOGIN_ERROR
-        ])
+          LOGIN_ERROR,
+        ]);
       }
-      //todo put sync complete
+      // todo put sync complete
       yield put(doneRehydrate());
     }
     catch (err) {
-      //todo logout user
-      console.log('err in watchRehydrate ', err)
+      // todo logout user
+      console.log('err in watchRehydrate ', err);
     }
   }
 }

@@ -25,17 +25,15 @@ import {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginVertical: 20
-    //alignItems: 'center'
+    marginVertical: 20,
+    // alignItems: 'center'
   },
 });
 
-const Header = (props) => {
-  return (
-    <View style={styles.container}>
-      { props.children }
-    </View> 
+const Header = props => (
+  <View style={styles.container}>
+    { props.children }
+  </View>
   );
-}
 
 export default Header;

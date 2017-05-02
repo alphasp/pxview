@@ -18,8 +18,8 @@ class PXPhotoView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageUri: null
-    }
+      imageUri: null,
+    };
   }
 
   componentDidMount() {
@@ -31,21 +31,21 @@ class PXPhotoView extends Component {
         // key: uri,
         // session: moment().startOf('day'),
       }).fetch('GET', uri, {
-        referer: "http://www.pixiv.net",
+        referer: 'http://www.pixiv.net',
       });
     this.task.then(res => {
       if (!this.unmounting) {
-        //base64 working fine
+        // base64 working fine
         const base64Str = `data:image/png;base64,${res.base64()}`;
-        //const filePath = Platform.OS === 'android' ? 'file://' + res.path()  : '' + res.path();
+        // const filePath = Platform.OS === 'android' ? 'file://' + res.path()  : '' + res.path();
         this.setState({
-          imageUri: base64Str
-        })
+          imageUri: base64Str,
+        });
       }
     })
     .catch((err, statusCode) => {
       // error handling
-      console.log('error fetch blob ', err)
+      console.log('error fetch blob ', err);
     });
   }
 
@@ -56,17 +56,17 @@ class PXPhotoView extends Component {
     }
   }
 
-  render () {
+  render() {
     const { uri, ...otherProps } = this.props;
     const { imageUri } = this.state;
     return (
       imageUri ?
-      <PhotoView
-        source={{
-          uri: imageUri,
-        }}
-        {...otherProps} 
-      />
+        <PhotoView
+          source={{
+            uri: imageUri,
+          }}
+          {...otherProps}
+        />
       :
       null
     );

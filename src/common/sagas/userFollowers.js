@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchUserFollowersSuccess,
   fetchUserFollowersFailure,
-} from '../actions/userFollowers.js'
+} from '../actions/userFollowers.js';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { USER_FOLLOWERS } from '../constants/actionTypes';
@@ -21,19 +21,17 @@ export function* handleFetchUserFollowers(action) {
     }
     const transformedResult = {
       ...response,
-      user_previews: response.user_previews.map(result => {
-        return {
-          ...result,
-          id: result.user.id
-        }
-      })
+      user_previews: response.user_previews.map(result => ({
+        ...result,
+        id: result.user.id,
+      })),
     };
     const normalized = normalize(transformedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
     yield put(fetchUserFollowersSuccess(normalized.entities, normalized.result, userId, response.next_url));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(fetchUserFollowersFailure(userId));
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 

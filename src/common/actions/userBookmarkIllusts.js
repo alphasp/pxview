@@ -1,4 +1,4 @@
-import qs from "qs";
+import qs from 'qs';
 import { USER_BOOKMARK_ILLUSTS } from '../constants/actionTypes';
 
 export function fetchUserBookmarkIllustsSuccess(entities, items, userId, nextUrl) {
@@ -10,7 +10,7 @@ export function fetchUserBookmarkIllustsSuccess(entities, items, userId, nextUrl
       items,
       nextUrl,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
@@ -18,8 +18,8 @@ export function fetchUserBookmarkIllustsFailure(userId) {
   return {
     type: USER_BOOKMARK_ILLUSTS.FAILURE,
     payload: {
-      userId
-    }
+      userId,
+    },
   };
 }
 
@@ -30,8 +30,8 @@ export function fetchUserBookmarkIllusts(userId, tag, nextUrl, refreshing = fals
       userId,
       tag,
       nextUrl,
-      refreshing
-    }
+      refreshing,
+    },
   };
 }
 
@@ -39,12 +39,12 @@ export function clearUserBookmarkIllusts(userId) {
   return {
     type: USER_BOOKMARK_ILLUSTS.CLEAR,
     payload: {
-      userId
-    }
+      userId,
+    },
   };
 }
 
-export function clearAllUserBookmarkIllusts(){
+export function clearAllUserBookmarkIllusts() {
   return {
     type: USER_BOOKMARK_ILLUSTS.CLEAR_ALL,
   };

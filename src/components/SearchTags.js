@@ -37,28 +37,28 @@ const styles = StyleSheet.create({
   },
   removeButtonContainer: {
     marginLeft: 4,
-    borderLeftWidth : 1,
-    borderLeftColor: '#fff', 
+    borderLeftWidth: 1,
+    borderLeftColor: '#fff',
   },
   removeButtonText: {
     marginLeft: 4,
     color: '#fff',
-  }
+  },
 });
 
-const SearchTags = (props) => {
+const SearchTags = props => {
   const { tags, onPressTag, onPressRemove } = props;
-  //const tags = ['abcd', 'def', 'gg']
+  // const tags = ['abcd', 'def', 'gg']
   return (
     <View style={styles.container}>
-      <ScrollView 
-        horizontal={true}
+      <ScrollView
+        horizontal
         keyboardShouldPersistTaps="always"
       >
         {
-          tags.map((tag, index) => 
-            <View 
-              key={index} 
+          tags.map((tag, index) =>
+            <View
+              key={index}
               style={styles.tagContainer}
             >
               <View style={styles.tagLabelContainer}>
@@ -69,12 +69,12 @@ const SearchTags = (props) => {
                   </PXTouchable>
                 </View>
               </View>
-            </View> 
+            </View>,
           )
         }
       </ScrollView>
     </View>
   );
-}
+};
 
 export default SearchTags;

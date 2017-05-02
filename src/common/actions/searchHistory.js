@@ -4,22 +4,22 @@ export function addSearchHistory(item) {
   return {
     type: SEARCH_HISTORY.ADD,
     payload: {
-      item
-    }
-  }
+      item,
+    },
+  };
 }
 
 export function removeSearchHistory(item) {
   return {
     type: SEARCH_HISTORY.REMOVE,
     payload: {
-      item
-    }
-  }
+      item,
+    },
+  };
 }
 
 export function clearSearchHistory() {
   return {
     type: SEARCH_HISTORY.CLEAR,
-  }
+  };
 }

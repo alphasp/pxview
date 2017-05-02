@@ -7,16 +7,16 @@ import UserIllusts from '../containers/UserIllusts';
 import UserMangas from '../containers/UserMangas';
 import UserBookmarkIllusts from '../containers/UserBookmarkIllusts';
 import RelatedIllusts from '../containers/RelatedIllusts';
-import SearchResultTabs from '../containers/SearchResultTabs'; //todo
+import SearchResultTabs from '../containers/SearchResultTabs'; // todo
 
 const RankingNavigator = StackNavigator({
-  Ranking: { 
+  Ranking: {
     screen: Ranking,
     navigationOptions: {
-      header: null
+      header: null,
     },
   },
-  Detail: { 
+  Detail: {
     screen: Detail,
   },
   UserDetail: {
@@ -38,23 +38,23 @@ const RankingNavigator = StackNavigator({
     screen: UserIllusts,
     navigationOptions: {
       title: 'User Illusts',
-    }
+    },
   },
   UserMangas: {
     screen: UserMangas,
     navigationOptions: {
       title: 'User Mangas',
-    }
+    },
   },
   UserBookmarkIllusts: {
     screen: UserBookmarkIllusts,
     navigationOptions: {
       title: 'Collection',
-    }
+    },
   },
   SearchResult: {
     screen: SearchResultTabs,
-  }
+  },
 }, {
   navigationOptions: {
     headerStyle: {
@@ -63,9 +63,9 @@ const RankingNavigator = StackNavigator({
     headerBackTitle: null,
   },
   cardStyle: {
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
-  headerMode: "screen"
+  headerMode: 'screen',
 });
 
 export default RankingNavigator;

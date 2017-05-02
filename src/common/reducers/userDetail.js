@@ -14,15 +14,15 @@ export default function userDetail(state = {}, action) {
         [action.payload.userId]: {},
       };
     case USER_DETAIL.CLEAR_ALL:
-      return {};  
+      return {};
     case USER_DETAIL.REQUEST:
       return {
         ...state,
         [action.payload.userId]: {
           ...state[action.payload.userId],
           loading: true,
-          refreshing: action.payload.refreshing
-        }
+          refreshing: action.payload.refreshing,
+        },
       };
     case USER_DETAIL.SUCCESS:
       return {
@@ -33,8 +33,8 @@ export default function userDetail(state = {}, action) {
           loaded: true,
           refreshing: false,
           item: action.payload.item,
-          timestamp: action.payload.timestamp
-        }
+          timestamp: action.payload.timestamp,
+        },
       };
     case USER_DETAIL.FAILURE:
       return {
@@ -43,8 +43,8 @@ export default function userDetail(state = {}, action) {
           ...state[action.payload.userId],
           loading: false,
           loaded: true,
-          refreshing: false
-        }
+          refreshing: false,
+        },
       };
     default:
       return state;

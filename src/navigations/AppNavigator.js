@@ -7,36 +7,36 @@ import ImagesViewer from '../containers/ImagesViewer';
 import PXWebView from '../components/PXWebView';
 
 const AppNavigator = StackNavigator({
-  Main: { 
+  Main: {
     screen: MainNavigator,
-    path: '/', 
+    path: '/',
     navigationOptions: {
       header: null,
     },
   },
-  Login: { 
+  Login: {
     screen: Login,
     path: '/login',
     navigationOptions: {
-      title: "Login",
+      title: 'Login',
     },
   },
   SearchFilterModal: {
     screen: SearchFilterModal,
     navigationOptions: {
-      title: "Display Options",
+      title: 'Display Options',
     },
   },
   ImagesViewer: {
     screen: ImagesViewer,
   },
   Web: {
-    screen: PXWebView
-  }
+    screen: PXWebView,
+  },
 }, {
   mode: 'modal',
   cardStyle: {
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   headerMode: 'screen',
 

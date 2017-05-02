@@ -1,4 +1,4 @@
-import qs from "qs";
+import qs from 'qs';
 import { ILLUST_COMMENTS } from '../constants/actionTypes';
 
 export function fetchIllustCommentsSuccess(entities, items, illustId, nextUrl) {
@@ -10,7 +10,7 @@ export function fetchIllustCommentsSuccess(entities, items, illustId, nextUrl) {
       items,
       nextUrl,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
@@ -18,14 +18,14 @@ export function fetchIllustCommentsFailure(illustId) {
   return {
     type: ILLUST_COMMENTS.FAILURE,
     payload: {
-      illustId
-    }
+      illustId,
+    },
   };
 }
 
 export function fetchIllustComments(illustId, options, nextUrl, refreshing = false) {
   const params = qs.parse(nextUrl);
-  const offset = params.offset || "0";
+  const offset = params.offset || '0';
   return {
     type: ILLUST_COMMENTS.REQUEST,
     payload: {
@@ -33,8 +33,8 @@ export function fetchIllustComments(illustId, options, nextUrl, refreshing = fal
       options,
       offset,
       nextUrl,
-      refreshing
-    }
+      refreshing,
+    },
   };
 }
 
@@ -42,7 +42,7 @@ export function clearIllustComments(illustId) {
   return {
     type: ILLUST_COMMENTS.CLEAR,
     payload: {
-      illustId
-    }
+      illustId,
+    },
   };
 }

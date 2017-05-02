@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchSearchSuccess,
   fetchSearchFailure,
-} from '../actions/search.js'
+} from '../actions/search.js';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { SEARCH } from '../constants/actionTypes';
@@ -30,10 +30,10 @@ export function* handleFetchSearch(action) {
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
     yield put(fetchSearchSuccess(normalized.entities, normalized.result, navigationStateKey, response.next_url));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(fetchSearchFailure(navigationStateKey));
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 

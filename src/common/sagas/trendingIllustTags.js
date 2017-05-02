@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchTrendingIllustTagsSuccess,
   fetchTrendingIllustTagsFailure,
-} from '../actions/trendingIllustTags.js'
+} from '../actions/trendingIllustTags.js';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { TRENDING_ILLUST_TAGS } from '../constants/actionTypes';
@@ -15,10 +15,10 @@ export function* handleFetchTrendingIllustTags(action) {
     const response = yield apply(pixiv, pixiv.trendingTagsIllust, [options]);
     const normalized = normalize(response.trend_tags, Schemas.ILLUST_TAG_ARRAY);
     yield put(fetchTrendingIllustTagsSuccess(normalized.entities, normalized.result));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(fetchTrendingIllustTagsFailure());
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 

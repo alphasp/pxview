@@ -6,7 +6,7 @@ export function bookmarkIllustSuccess(illustId) {
     payload: {
       illustId,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
@@ -14,9 +14,9 @@ export function unbookmarkIllustSuccess(illustId) {
   return {
     type: UNBOOKMARK_ILLUST.SUCCESS,
     payload: {
-      illustId, 
+      illustId,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
@@ -24,8 +24,8 @@ export function bookmarkIllustFailure(illustId) {
   return {
     type: BOOKMARK_ILLUST.FAILURE,
     payload: {
-      illustId
-    }
+      illustId,
+    },
   };
 }
 
@@ -33,8 +33,8 @@ export function unbookmarkIllustFailure(illustId) {
   return {
     type: UNBOOKMARK_ILLUST.FAILURE,
     payload: {
-      illustId
-    }
+      illustId,
+    },
   };
 }
 
@@ -45,7 +45,7 @@ export function bookmarkIllust(illustId, bookmarkType, tags) {
       illustId,
       bookmarkType,
       tags,
-    }
+    },
   };
 }
 
@@ -55,6 +55,6 @@ export function unbookmarkIllust(illustId, tags) {
     payload: {
       illustId,
       tags,
-    }
+    },
   };
 }

@@ -3,11 +3,11 @@ import MainNavigator from './MainNavigator';
 import Login from '../containers/Login';
 
 const LoginNavigator = StackNavigator({
-  Login: { 
+  Login: {
     screen: Login,
     path: '/',
     navigationOptions: {
-      title: "Login",
+      title: 'Login',
     },
   },
 }, {
@@ -19,7 +19,7 @@ const LoginNavigator = StackNavigator({
     headerBackTitle: null,
   },
   cardStyle: {
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
 });
 

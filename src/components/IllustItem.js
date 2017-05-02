@@ -5,8 +5,8 @@ import PXImage from './PXImage';
 import OverlayImagePages from './OverlayImagePages';
 import OverlayBookmarkButton from '../components/OverlayBookmarkButton';
 
-const width = Dimensions.get('window').width; //full width
-const height = Dimensions.get('window').height; //full height
+const width = Dimensions.get('window').width; // full width
+const height = Dimensions.get('window').height; // full height
 
 class IllustItem extends Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -20,27 +20,27 @@ class IllustItem extends Component {
     const { item, onPressItem } = this.props;
     // console.log('render ', item.id)
     return (
-      <PXTouchable 
-        style={{ 
+      <PXTouchable
+        style={{
           margin: 1,
           backgroundColor: '#E9EBEE',
-          width: width / 3 - 2, 
+          width: width / 3 - 2,
           height: width / 3 - 2,
-        }} 
-        key={item.id} 
+        }}
+        key={item.id}
         onPress={onPressItem}
       >
-        <PXImage 
+        <PXImage
           uri={item.image_urls.square_medium}
           style={{
-            width: width / 3 - 2, 
+            width: width / 3 - 2,
             height: width / 3 - 2,
             resizeMode: 'cover',
           }}
         />
         {
           (item.meta_pages && item.meta_pages.length) ?
-          <OverlayImagePages total={item.meta_pages.length} />
+            <OverlayImagePages total={item.meta_pages.length} />
           :
           null
         }

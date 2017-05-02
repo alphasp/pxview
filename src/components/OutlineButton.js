@@ -18,16 +18,16 @@ const styles = StyleSheet.create({
   buttonText: {
     padding: 10,
     color: '#000',
-  }
+  },
 });
 
-const OutlineButton = (props) => {
+const OutlineButton = props => {
   const { onPress, onLongPress, text, style, textStyle } = props;
   return (
     <PXTouchable style={[styles.button, style]} onPress={onPress} onLongPress={onLongPress}>
       <Text style={[styles.buttonText, textStyle]}>{text}</Text>
-    </PXTouchable> 
+    </PXTouchable>
   );
-}
+};
 
 export default OutlineButton;

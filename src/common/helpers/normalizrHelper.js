@@ -7,10 +7,9 @@ export function denormalizedData(data, denormalizeKey, schema, entities) {
     const denormalizedItems = denormalize(data[denormalizeKey], schema, entities);
     return {
       ...data,
-      [denormalizeKey]: denormalizedItems
+      [denormalizeKey]: denormalizedItems,
     };
   }
-  else {
-    return defaultObject;
-  }
+
+  return defaultObject;
 }

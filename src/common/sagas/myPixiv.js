@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchMyPixivSuccess,
   fetchMyPixivFailure,
-} from '../actions/myPixiv'
+} from '../actions/myPixiv';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { MY_PIXIV } from '../constants/actionTypes';
@@ -21,10 +21,10 @@ export function* handleFetchMyPixiv(action) {
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
     yield put(fetchMyPixivSuccess(normalized.entities, normalized.result, response.next_url));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(fetchMyPixivFailure());
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 

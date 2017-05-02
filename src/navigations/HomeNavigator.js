@@ -7,17 +7,17 @@ import UserIllusts from '../containers/UserIllusts';
 import UserMangas from '../containers/UserMangas';
 import UserBookmarkIllusts from '../containers/UserBookmarkIllusts';
 import RelatedIllusts from '../containers/RelatedIllusts';
-import SearchResultTabs from '../containers/SearchResultTabs'; //todo
+import SearchResultTabs from '../containers/SearchResultTabs'; // todo
 
 
 const HomeNavigator = StackNavigator({
-  Home: { 
+  Home: {
     screen: Home,
     navigationOptions: {
-      header: null
+      header: null,
     },
   },
-  Detail: { 
+  Detail: {
     screen: Detail,
   },
   UserDetail: {
@@ -39,32 +39,32 @@ const HomeNavigator = StackNavigator({
     screen: UserIllusts,
     navigationOptions: {
       title: 'User Illusts',
-    }
+    },
   },
   UserMangas: {
     screen: UserMangas,
     navigationOptions: {
       title: 'User Mangas',
-    }
+    },
   },
   UserBookmarkIllusts: {
     screen: UserBookmarkIllusts,
     navigationOptions: {
       title: 'Collection',
-    }
+    },
   },
   SearchResult: {
     screen: SearchResultTabs,
-  }
+  },
 }, {
   navigationOptions: {
     headerStyle: {
-      backgroundColor: '#fff'
+      backgroundColor: '#fff',
     },
     headerBackTitle: null,
   },
   cardStyle: {
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   headerMode: 'screen',
 });

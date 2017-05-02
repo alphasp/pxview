@@ -41,18 +41,18 @@ const DetailTabBar = React.createClass({
 
   render() {
     const { isShowActiveTabColor } = this.props;
-    return <View style={[styles.tabs, this.props.style, ]}>
-      {this.props.tabs.map((tab, i) => {
-        return <TouchableOpacity key={tab} onPress={() => this.props.goToPage(i)} style={styles.tab}>
-          <Icon
-            name={(this.props.activeTab === i && isShowActiveTabColor) ? tab.replace('-outline', '') : tab}
-            size={30}
-            color={'#fff'}
-            ref={(icon) => { this.tabIcons[i] = icon; }}
-          />
-        </TouchableOpacity>;
-      })}
-    </View>;
+    return (<View style={[styles.tabs, this.props.style]}>
+      {this.props.tabs.map((tab, i) => <TouchableOpacity key={tab} onPress={() => this.props.goToPage(i)} style={styles.tab}>
+        <Icon
+          name={(this.props.activeTab === i && isShowActiveTabColor) ? tab.replace('-outline', '') : tab}
+          size={30}
+          color={'#fff'}
+          ref={icon => {
+            this.tabIcons[i] = icon;
+          }}
+        />
+      </TouchableOpacity>)}
+    </View>);
   },
 });
 
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
     borderRightWidth: 0,
     borderBottomColor: 'rgba(0,0,0,0.05)',
-    backgroundColor: 'rgba(0,0,0,0.8)'
+    backgroundColor: 'rgba(0,0,0,0.8)',
   },
 });
 

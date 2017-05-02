@@ -16,17 +16,17 @@ export const REMOVE_ERROR = 'REMOVE_ERROR';
 // }
 
 export function addError(error) {
-  console.log('add error ', error)
+  console.log('add error ', error);
   return {
     type: ADD_ERROR,
     error: true,
-    payload: typeof error === 'string' ? error : 'Something bad happened'
+    payload: typeof error === 'string' ? error : 'Something bad happened',
   };
 }
 
 export function resetError() {
   return {
     type: RESET_ERROR_MESSAGE,
-    error: false
+    error: false,
   };
 }

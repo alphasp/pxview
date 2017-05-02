@@ -8,7 +8,7 @@ class PXThumbnailTouchable extends Component {
   render() {
     const { uri, size, style, thumbnailStyle, onPress, ...otherProps } = this.props;
     return (
-      <PXTouchable 
+      <PXTouchable
         style={[style, {
           width: size || defaultSize,
           height: size || defaultSize,
@@ -17,7 +17,7 @@ class PXThumbnailTouchable extends Component {
         onPress={onPress}
         {...otherProps}
       >
-        <PXThumbnail 
+        <PXThumbnail
           uri={uri}
           size={size || defaultSize}
           style={thumbnailStyle}

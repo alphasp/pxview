@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     position: 'relative',
     justifyContent: 'space-between',
-    //justifyContent: 'center',
+    // justifyContent: 'center',
     flexDirection: 'row',
     ...Platform.select({
       ios: {
@@ -59,29 +59,29 @@ const styles = StyleSheet.create({
         borderColor: 'transparent',
         height: 37,
       },
-    })
+    }),
   },
   searchBarTextInput: {
-    //height: 40,
+    // height: 40,
     flex: 1,
     paddingLeft: 5,
-    //alignSelf: 'center', 
+    //alignSelf: 'center',
     //width: 300
   },
   searchIcon: {
-    alignSelf: 'center', 
-    paddingLeft: 5
-    //flex: 0.2
+    alignSelf: 'center',
+    paddingLeft: 5,
+    // flex: 0.2
   },
   placeHolderTextContainer: {
-    alignSelf: 'center', 
+    alignSelf: 'center',
   },
   placeHolderText: {
-    color: 'gray', 
-  }
+    color: 'gray',
+  },
   // searchBarButton: {
-  //   alignItems: 'center', 
-  //   justifyContent: 'center', 
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
   //   flexDirection: 'row',
   //   marginRight: -14
   // }
@@ -91,44 +91,46 @@ class SearchBar extends Component {
   render() {
     const { searchType, isRenderPlaceHolder, enableBack, onFocus, onChangeText, onSubmitEditing, onPressRemoveTag, autoFocus, word } = this.props;
     return (
-      <View style={[styles.container, isRenderPlaceHolder && {
-        flex: 1,
-        paddingTop: 0
-      }]}>
+      <View
+        style={[styles.container, isRenderPlaceHolder && {
+          flex: 1,
+          paddingTop: 0,
+        }]}
+      >
         <View style={styles.appBar}>
           <View style={styles.searchBarInputGroup}>
             <Icon style={styles.searchIcon} name="search" size={15} color="#5cafec" />
             {
               (isRenderPlaceHolder && !word) ?
-              <PXTouchable 
-                onPress={() => onFocus(searchType)}
-                style={[styles.searchBarTextInput, styles.placeHolderTextContainer]} 
-              >
-                <Text style={styles.placeHolderText}>{searchType === SearchType.USER ? "Enter nickname" : "Enter keyword"}</Text>
-              </PXTouchable>
+                <PXTouchable
+                  onPress={() => onFocus(searchType)}
+                  style={[styles.searchBarTextInput, styles.placeHolderTextContainer]}
+                >
+                  <Text style={styles.placeHolderText}>{searchType === SearchType.USER ? 'Enter nickname' : 'Enter keyword'}</Text>
+                </PXTouchable>
               :
               (isRenderPlaceHolder && word) ?
-              <View style={[styles.searchBarTextInput, styles.placeHolderTextContainer]}>
-                <PXTouchable 
-                  onPress={() => onFocus(searchType)}
-                >
-                  <SearchTags 
-                    tags={word.trim().split(' ')} 
-                    onPressRemove={onPressRemoveTag}
-                  />
-                </PXTouchable>
-              </View>
+                <View style={[styles.searchBarTextInput, styles.placeHolderTextContainer]}>
+                  <PXTouchable
+                    onPress={() => onFocus(searchType)}
+                  >
+                    <SearchTags
+                      tags={word.trim().split(' ')}
+                      onPressRemove={onPressRemoveTag}
+                    />
+                  </PXTouchable>
+                </View>
               :
-              <TextInput 
-                style={styles.searchBarTextInput} 
-                placeholder={searchType === SearchType.USER ? "Enter nickname" : "Enter keyword"}
-                autoFocus={autoFocus}
-                onChangeText={(text) => onChangeText(text, searchType)}
-                onSubmitEditing={(e) => onSubmitEditing(e.nativeEvent.text, searchType)}
-                returnKeyType="search"
-                defaultValue={word}
-                underlineColorAndroid='transparent'
-              />
+                <TextInput
+                  style={styles.searchBarTextInput}
+                  placeholder={searchType === SearchType.USER ? 'Enter nickname' : 'Enter keyword'}
+                  autoFocus={autoFocus}
+                  onChangeText={text => onChangeText(text, searchType)}
+                  onSubmitEditing={e => onSubmitEditing(e.nativeEvent.text, searchType)}
+                  returnKeyType="search"
+                  defaultValue={word}
+                  underlineColorAndroid="transparent"
+                />
             }
           </View>
         </View>
@@ -137,8 +139,6 @@ class SearchBar extends Component {
   }
 }
 
-export default connect((state, { searchType }) => {
-  return {
-    searchType: searchType || state.searchType.type
-  }
-})(SearchBar);
+export default connect((state, { searchType }) => ({
+  searchType: searchType || state.searchType.type,
+}))(SearchBar);

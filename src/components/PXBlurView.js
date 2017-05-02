@@ -14,7 +14,7 @@ import PXImage from './PXImage';
 class PXBlurView extends Component {
   render() {
     const { children, ...restProps } = this.props;
-    console.log('children ', children)
+    console.log('children ', children);
     if (Platform.OS === 'android') {
       return (
         <View>
@@ -23,13 +23,12 @@ class PXBlurView extends Component {
         </View>
       );
     }
-    else {
-      return (
-        <BlurView {...restProps}>
-          {children}
-        </BlurView>
-      );
-    }
+
+    return (
+      <BlurView {...restProps}>
+        {children}
+      </BlurView>
+    );
   }
 }
 

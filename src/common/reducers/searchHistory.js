@@ -1,7 +1,7 @@
 import { SEARCH_HISTORY } from '../constants/actionTypes';
 
 export default function searchHistory(state = {
-  items: []
+  items: [],
 }, action = {}) {
   switch (action.type) {
     case SEARCH_HISTORY.ADD:
@@ -10,10 +10,10 @@ export default function searchHistory(state = {
       const newItem = action.payload.item;
       if (items && items.length) {
         if (items.indexOf(newItem) === -1) {
-          newItems = [newItem, ...items.slice(0, 9)] 
+          newItems = [newItem, ...items.slice(0, 9)];
         }
         else {
-          newItems = [...items]
+          newItems = [...items];
         }
       }
       else {
@@ -21,18 +21,18 @@ export default function searchHistory(state = {
       }
       return {
         ...state,
-        items: newItems
+        items: newItems,
       };
     case SEARCH_HISTORY.REMOVE:
       return {
         ...state,
-        items: state.items.filter(item => item !== action.payload.item)
-      }
+        items: state.items.filter(item => item !== action.payload.item),
+      };
     case SEARCH_HISTORY.CLEAR: {
       return {
         ...state,
         items: [],
-      }
+      };
     }
     default:
       return state;

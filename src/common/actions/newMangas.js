@@ -8,13 +8,13 @@ export function fetchNewMangasSuccess(entities, items, nextUrl) {
       items,
       nextUrl,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
 export function fetchNewMangasFailure() {
   return {
-    type: NEW_MANGAS.FAILURE
+    type: NEW_MANGAS.FAILURE,
   };
 }
 
@@ -23,13 +23,13 @@ export function fetchNewMangas(nextUrl, refreshing = false) {
     type: NEW_MANGAS.REQUEST,
     payload: {
       nextUrl,
-      refreshing
-    }
+      refreshing,
+    },
   };
 }
 
 export function clearNewMangas() {
   return {
-    type: NEW_MANGAS.CLEAR
+    type: NEW_MANGAS.CLEAR,
   };
 }

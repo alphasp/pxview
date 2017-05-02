@@ -15,7 +15,7 @@ export default function trendingIllustTags(state = defaultState, action) {
       return {
         ...state,
         loading: true,
-        refreshing: action.payload.refreshing
+        refreshing: action.payload.refreshing,
       };
     case TRENDING_ILLUST_TAGS.SUCCESS:
       return {
@@ -31,7 +31,7 @@ export default function trendingIllustTags(state = defaultState, action) {
         ...state,
         loading: false,
         loaded: true,
-        refreshing: false
+        refreshing: false,
       };
     default:
       return state;

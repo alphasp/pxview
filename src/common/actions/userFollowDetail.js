@@ -7,7 +7,7 @@ export function fetchUserFollowDetailSuccess(item, userId) {
       userId,
       item,
       timestamp: Date.now(),
-    }
+    },
   };
 }
 
@@ -15,8 +15,8 @@ export function fetchUserFollowDetailFailure(userId) {
   return {
     type: USER_FOLLOW_DETAIL.FAILURE,
     payload: {
-      userId
-    }
+      userId,
+    },
   };
 }
 
@@ -25,7 +25,7 @@ export function fetchUserFollowDetail(userId) {
     type: USER_FOLLOW_DETAIL.REQUEST,
     payload: {
       userId,
-    }
+    },
   };
 }
 
@@ -33,7 +33,7 @@ export function clearUserFollowDetail(userId) {
   return {
     type: USER_FOLLOW_DETAIL.CLEAR,
     payload: {
-      userId
-    }
+      userId,
+    },
   };
 }

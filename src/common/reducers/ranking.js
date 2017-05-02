@@ -26,7 +26,7 @@ export default function search(state = getDefaultStateForRankings(), action) {
         [action.payload.rankingMode]: defaultState,
       };
     case RANKING.CLEAR_ALL:
-      return getDefaultState();  
+      return getDefaultState();
     case RANKING.REQUEST:
       return {
         ...state,
@@ -35,8 +35,8 @@ export default function search(state = getDefaultStateForRankings(), action) {
           options: action.payload.options,
           offset: action.payload.offset,
           loading: true,
-          refreshing: action.payload.refreshing
-        }
+          refreshing: action.payload.refreshing,
+        },
       };
     case RANKING.SUCCESS:
       return {
@@ -48,8 +48,8 @@ export default function search(state = getDefaultStateForRankings(), action) {
           refreshing: false,
           items: (state[action.payload.rankingMode] && state[action.payload.rankingMode].items) ? [...state[action.payload.rankingMode].items, ...action.payload.items] : action.payload.items,
           nextUrl: action.payload.nextUrl,
-          timestamp: action.payload.timestamp
-        }
+          timestamp: action.payload.timestamp,
+        },
       };
     case RANKING.FAILURE:
       return {
@@ -59,7 +59,7 @@ export default function search(state = getDefaultStateForRankings(), action) {
           loading: false,
           loaded: true,
           refreshing: false,
-        }
+        },
       };
     default:
       return state;

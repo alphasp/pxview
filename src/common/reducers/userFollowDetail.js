@@ -2,7 +2,7 @@ import { USER_FOLLOW_DETAIL } from '../constants/actionTypes';
 
 const defaultState = {
   loading: false,
-  loaded: false
+  loaded: false,
 };
 export default function userFollowDetail(state = defaultState, action) {
   switch (action.type) {

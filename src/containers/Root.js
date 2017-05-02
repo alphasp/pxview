@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
 import isEmpty from 'lodash.isempty';
-//import routes from '../routes';
+// import routes from '../routes';
 import App from './App';
 import configureStore from '../common/store/configureStore';
 import ApiClient from '../common/helpers/ApiClient';
@@ -49,7 +49,7 @@ const store = configureStore();
 class Root extends Component {
   render() {
     return (
-      <App { ...this.props } store={ store } />
+      <App {...this.props} store={store} />
     );
   }
 }

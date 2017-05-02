@@ -17,7 +17,7 @@ export default function searchUsersAutoComplete(state = defaultState, action) {
       return {
         ...state,
         loading: true,
-        refreshing: action.payload.refreshing
+        refreshing: action.payload.refreshing,
       };
     case SEARCH_USERS_AUTOCOMPLETE.SUCCESS:
       return {

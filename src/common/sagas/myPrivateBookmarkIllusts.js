@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchMyPrivateBookmarkIllustsSuccess,
   fetchMyPrivateBookmarkIllustsFailure,
-} from '../actions/myPrivateBookmarkIllusts.js'
+} from '../actions/myPrivateBookmarkIllusts.js';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { MY_PRIVATE_BOOKMARK_ILLUSTS } from '../constants/actionTypes';
@@ -17,7 +17,7 @@ export function* handleFetchMyPrivateBookmarkIllusts(action) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
     }
     else {
-      let options = { restrict: 'private' };
+      const options = { restrict: 'private' };
       if (tag) {
         options.tag = tag;
       }
@@ -25,10 +25,10 @@ export function* handleFetchMyPrivateBookmarkIllusts(action) {
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
     yield put(fetchMyPrivateBookmarkIllustsSuccess(normalized.entities, normalized.result, userId, response.next_url));
-  } 
-  catch(err) {
+  }
+  catch (err) {
     yield put(fetchMyPrivateBookmarkIllustsFailure(userId));
-    yield put(addError(err));    
+    yield put(addError(err));
   }
 }
 
