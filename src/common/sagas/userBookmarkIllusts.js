@@ -24,6 +24,7 @@ export function* handleFetchUserBookmarkIllusts(action) {
       response = yield apply(pixiv, pixiv.userBookmarksIllust, [userId, options]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
+    // eslint-disable-next-line max-len
     yield put(fetchUserBookmarkIllustsSuccess(normalized.entities, normalized.result, userId, response.next_url));
   }
   catch (err) {

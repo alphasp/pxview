@@ -1,5 +1,5 @@
 import { normalize } from 'normalizr';
-import { takeLatest, apply, put, select } from 'redux-saga/effects';
+import { takeLatest, apply, put } from 'redux-saga/effects';
 import {
   fetchRecommendedMangasSuccess,
   fetchRecommendedMangasFailure,
@@ -20,7 +20,11 @@ export function* handleFetchRecommendedMangas(action) {
       response = yield apply(pixiv, pixiv.mangaRecommended, [options]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchRecommendedMangasSuccess(normalized.entities, normalized.result, response.next_url));
+    yield put(fetchRecommendedMangasSuccess(
+      normalized.entities,
+      normalized.result,
+      response.next_url,
+    ));
   }
   catch (err) {
     yield put(fetchRecommendedMangasFailure());

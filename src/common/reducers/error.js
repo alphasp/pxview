@@ -1,6 +1,8 @@
+/* eslint no-shadow: ["error", { "allow": ["error"] }] */
+/* eslint-env es6 */
+
 import { RESET_ERROR_MESSAGE } from '../actions/error';
 
-// Updates error message to notify about the failed fetches.
 export default function error(state = null, action) {
   const { type, payload, error } = action;
   if (type === RESET_ERROR_MESSAGE) {

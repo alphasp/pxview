@@ -27,7 +27,12 @@ export function* handleFetchUserMyPixiv(action) {
       })),
     };
     const normalized = normalize(transformedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
-    yield put(fetchUserMyPixivSuccess(normalized.entities, normalized.result, userId, response.next_url));
+    yield put(fetchUserMyPixivSuccess(
+      normalized.entities,
+      normalized.result,
+      userId,
+      response.next_url,
+    ));
   }
   catch (err) {
     yield put(fetchUserMyPixivFailure(userId));

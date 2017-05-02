@@ -3,7 +3,7 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchUserFollowingSuccess,
   fetchUserFollowingFailure,
-} from '../actions/userFollowing.js';
+} from '../actions/userFollowing';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { USER_FOLLOWING } from '../constants/actionTypes';
@@ -32,7 +32,13 @@ export function* handleFetchUserFollowing(action) {
     };
 
     const normalized = normalize(transformedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
-    yield put(fetchUserFollowingSuccess(normalized.entities, normalized.result, userId, followingType, response.next_url));
+    yield put(fetchUserFollowingSuccess(
+      normalized.entities,
+      normalized.result,
+      userId,
+      followingType,
+      response.next_url,
+    ));
   }
   catch (err) {
     yield put(fetchUserFollowingFailure(userId));

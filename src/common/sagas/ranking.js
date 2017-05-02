@@ -47,7 +47,12 @@ export function* handleFetchRanking(action) {
       response = yield apply(pixiv, pixiv.illustRanking, [finalOptions]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchRankingSuccess(normalized.entities, normalized.result, rankingMode, response.next_url));
+    yield put(fetchRankingSuccess(
+      normalized.entities,
+      normalized.result,
+      rankingMode,
+      response.next_url,
+    ));
   }
   catch (err) {
     yield put(fetchRankingFailure(rankingMode));

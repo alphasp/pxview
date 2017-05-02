@@ -29,7 +29,12 @@ export function* handleFetchSearch(action) {
       response = yield apply(pixiv, pixiv.searchIllust, [word, finalOptions]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchSearchSuccess(normalized.entities, normalized.result, navigationStateKey, response.next_url));
+    yield put(fetchSearchSuccess(
+      normalized.entities,
+      normalized.result,
+      navigationStateKey,
+      response.next_url,
+    ));
   }
   catch (err) {
     yield put(fetchSearchFailure(navigationStateKey));

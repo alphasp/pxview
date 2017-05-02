@@ -21,7 +21,12 @@ export function* handleFetchIllustComments(action) {
     }
     //
     const normalized = normalize(response.comments, Schemas.ILLUST_COMMENT_ARRAY);
-    yield put(fetchIllustCommentsSuccess(normalized.entities, normalized.result, illustId, response.next_url));
+    yield put(fetchIllustCommentsSuccess(
+      normalized.entities,
+      normalized.result,
+      illustId,
+      response.next_url,
+    ));
   }
   catch (err) {
     yield put(fetchIllustCommentsFailure(illustId));

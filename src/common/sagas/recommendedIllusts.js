@@ -25,7 +25,11 @@ export function* handleFetchRecommendedIllusts(action) {
       response = yield apply(pixiv, pixiv.illustRecommendedPublic, [options]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchRecommendedIllustsSuccess(normalized.entities, normalized.result, response.next_url));
+    yield put(fetchRecommendedIllustsSuccess(
+      normalized.entities,
+      normalized.result,
+      response.next_url,
+    ));
   }
   catch (err) {
     yield put(fetchRecommendedIllustsFailure());

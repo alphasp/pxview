@@ -9,6 +9,13 @@ const defaultState = {
   nextUrl: null,
 };
 
+function concatItems(state, action) {
+  return (state[action.payload.navigationStateKey]
+    && state[action.payload.navigationStateKey].items)
+    ? [...state[action.payload.navigationStateKey].items, ...action.payload.items]
+    : action.payload.items;
+}
+
 export default function searchUsers(state = defaultState, action) {
   switch (action.type) {
     case SEARCH_USERS.CLEAR:
@@ -37,9 +44,7 @@ export default function searchUsers(state = defaultState, action) {
           loading: false,
           loaded: true,
           refreshing: false,
-          items: (state[action.payload.navigationStateKey] && state[action.payload.navigationStateKey].items)
-            ? [...state[action.payload.navigationStateKey].items, ...action.payload.items]
-            : action.payload.items,
+          items: concatItems(state, action),
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp,
         },

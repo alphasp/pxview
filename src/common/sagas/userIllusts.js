@@ -21,7 +21,12 @@ export function* handleFetchUserIllusts(action) {
       response = yield apply(pixiv, pixiv.userIllusts, [userId, options]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchUserIllustsSuccess(normalized.entities, normalized.result, userId, response.next_url));
+    yield put(fetchUserIllustsSuccess(
+      normalized.entities,
+      normalized.result,
+      userId,
+      response.next_url,
+    ));
   }
   catch (err) {
     yield put(fetchUserIllustsFailure(userId));

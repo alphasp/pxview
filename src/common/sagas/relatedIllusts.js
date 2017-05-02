@@ -20,7 +20,12 @@ export function* handleFetchRelatedIllusts(action) {
       response = yield apply(pixiv, pixiv.illustRelated, [illustId, options]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchRelatedIllustsSuccess(normalized.entities, normalized.result, illustId, response.next_url));
+    yield put(fetchRelatedIllustsSuccess(
+      normalized.entities,
+      normalized.result,
+      illustId,
+      response.next_url,
+    ));
   }
   catch (err) {
     yield put(fetchRelatedIllustsFailure(illustId));

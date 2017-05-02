@@ -24,7 +24,12 @@ export function* handleFetchMyPrivateBookmarkIllusts(action) {
       response = yield apply(pixiv, pixiv.userBookmarksIllust, [userId, options]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchMyPrivateBookmarkIllustsSuccess(normalized.entities, normalized.result, userId, response.next_url));
+    yield put(fetchMyPrivateBookmarkIllustsSuccess(
+      normalized.entities,
+      normalized.result,
+      userId,
+      response.next_url,
+    ));
   }
   catch (err) {
     yield put(fetchMyPrivateBookmarkIllustsFailure(userId));

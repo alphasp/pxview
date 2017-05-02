@@ -20,6 +20,7 @@ export function* handleFetchFollowingUserIllusts(action) {
       response = yield apply(pixiv, pixiv.illustFollow, [options]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
+    // eslint-disable-next-line max-len
     yield put(fetchFollowingUserIllustsSuccess(normalized.entities, normalized.result, response.next_url));
   }
   catch (err) {

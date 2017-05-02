@@ -12,7 +12,8 @@ import rootSaga from '../sagas';
 export default function configureStore() {
   let enhancer;
   const sagaMiddleware = createSagaMiddleware();
-  if (__DEVELOPMENT__) {
+  if (process.env.NODE_ENV !== 'production') {
+    // eslint-disable-next-line no-underscore-dangle
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
     enhancer = composeEnhancers(
       autoRehydrate({ log: true }),
@@ -53,7 +54,7 @@ export default function configureStore() {
   });
   if (module.hot) {
     module.hot.accept('../reducers', () =>
-      store.replaceReducer(require('../reducers')),
+      store.replaceReducer(rootReducer),
     );
   }
 

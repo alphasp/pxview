@@ -21,13 +21,19 @@ export function* handleFetchSearchUsersAutoComplete(action) {
     }
     const transformedResult = {
       ...response,
-      user_previews: response.user_previews.filter(result => result.illusts && result.illusts.length).map(result => ({
-        ...result,
-        id: result.user.id,
-      })),
+      user_previews: response.user_previews
+        .filter(result => result.illusts && result.illusts.length)
+        .map(result => ({
+          ...result,
+          id: result.user.id,
+        })),
     };
     const normalized = normalize(transformedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
-    yield put(fetchSearchUsersAutoCompleteSuccess(normalized.entities, normalized.result, response.next_url));
+    yield put(fetchSearchUsersAutoCompleteSuccess(
+      normalized.entities,
+      normalized.result,
+      response.next_url,
+    ));
   }
   catch (err) {
     yield put(fetchSearchUsersAutoCompleteFailure());

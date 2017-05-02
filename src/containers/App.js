@@ -11,8 +11,7 @@ import { connect, Provider } from 'react-redux';
 import Master from './Master';
 import { resetError } from '../common/actions/error';
 
-global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
-if (!__DEV__) {
+if (process.env.NODE_ENV !== 'production') {
   // eslint-disable-line no-undef
   [
     'assert',

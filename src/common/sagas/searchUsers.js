@@ -21,13 +21,20 @@ export function* handleFetchSearchUsers(action) {
     }
     const transformedResult = {
       ...response,
-      user_previews: response.user_previews.filter(user => user.illusts && user.illusts.length).map(result => ({
-        ...result,
-        id: result.user.id,
-      })),
+      user_previews: response.user_previews
+        .filter(user => user.illusts && user.illusts.length)
+        .map(result => ({
+          ...result,
+          id: result.user.id,
+        })),
     };
     const normalized = normalize(transformedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
-    yield put(fetchSearchUsersSuccess(normalized.entities, normalized.result, navigationStateKey, response.next_url));
+    yield put(fetchSearchUsersSuccess(
+      normalized.entities,
+      normalized.result,
+      navigationStateKey,
+      response.next_url,
+    ));
   }
   catch (err) {
     yield put(fetchSearchUsersFailure(navigationStateKey));
