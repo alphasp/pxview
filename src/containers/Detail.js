@@ -34,7 +34,6 @@ import PXCacheImageTouchable from '../components/PXCacheImageTouchable';
 import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import Tags from '../components/Tags';
-// import DetailTabBar from '../components/DetailTabBar';
 import RelatedIllusts from './RelatedIllusts';
 import IllustComments from './IllustComments';
 import Schemas from '../common/constants/schemas';

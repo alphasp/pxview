@@ -1,21 +1,10 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-  Dimensions,
-  RecyclerViewBackedScrollView,
-  RefreshControl,
   InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
-import RecommendedUsers from './RecommendedUsers';
-import SearchBar from '../components/SearchBar';
-import Header from '../components/Header';
 import UserListContainer from './UserListContainer';
 import * as searchUsersActionCreators from '../common/actions/searchUsers';
-import { SearchType } from '../common/actions/searchType';
 import { makeGetSearchUsersItems } from '../common/selectors';
 
 class SearchUsersResult extends Component {

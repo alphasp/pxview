@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
@@ -12,7 +14,7 @@ class RecommendedIllusts extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { user: prevUser } = this.props;
-    const { user, recommendedIllusts: { loading, items } } = nextProps;
+    const { user } = nextProps;
     if ((!user && prevUser) || (user && !prevUser)) {
       const { fetchRecommendedIllusts, clearRecommendedIllusts } = this.props;
       clearRecommendedIllusts();
@@ -51,6 +53,6 @@ export default connect((state, props) => {
   return {
     recommendedIllusts,
     items: getRecommendedIllustsItems(state, props),
-    user: state.auth.user,
+    user,
   };
 }, recommendedIllustsActionCreators)(RecommendedIllusts);

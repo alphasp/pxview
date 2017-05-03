@@ -1,31 +1,18 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   Keyboard,
   Platform,
   BackHandler,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { CardStack } from 'react-navigation';
-// import { HeaderBackButton } from 'react-navigation';
-import HeaderBackButton from 'react-navigation/src/views/HeaderBackButton';
-// const { BackButton } = CardStack.Header;
 import PXTabView from '../components/PXTabView';
-import PXTouchable from '../components/PXTouchable';
-import PXImage from '../components/PXImage';
 import TrendingIllustTags from './TrendingIllustTags';
 import RecommendedUsers from './RecommendedUsers';
-import Header from '../components/Header';
 import PXHeader from '../components/PXHeader';
-import PXSearchBar from '../components/PXSearchBar';
 import Search from './Search';
 import { setSearchType, SearchType } from '../common/actions/searchType';
-import { SearchBar } from 'react-native-elements';
-
-const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
-const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
 
 const styles = StyleSheet.create({
   container: {
