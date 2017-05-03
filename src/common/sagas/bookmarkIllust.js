@@ -6,7 +6,7 @@ import {
   unbookmarkIllustFailure,
 } from '../actions/bookmarkIllust';
 import { addError } from '../actions/error';
-import pixiv from '../helpers/ApiClient';
+import pixiv from '../helpers/apiClient';
 import { BOOKMARK_ILLUST, UNBOOKMARK_ILLUST } from '../constants/actionTypes';
 import { BOOKMARK_TYPES } from '../constants';
 

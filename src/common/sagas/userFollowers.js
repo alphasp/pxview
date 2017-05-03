@@ -5,7 +5,7 @@ import {
   fetchUserFollowersFailure,
 } from '../actions/userFollowers';
 import { addError } from '../actions/error';
-import pixiv from '../helpers/ApiClient';
+import pixiv from '../helpers/apiClient';
 import { USER_FOLLOWERS } from '../constants/actionTypes';
 import Schemas from '../constants/schemas';
 

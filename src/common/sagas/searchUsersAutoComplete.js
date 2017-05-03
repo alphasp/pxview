@@ -5,7 +5,7 @@ import {
   fetchSearchUsersAutoCompleteFailure,
 } from '../actions/searchUsersAutoComplete';
 import { addError } from '../actions/error';
-import pixiv from '../helpers/ApiClient';
+import pixiv from '../helpers/apiClient';
 import { SEARCH_USERS_AUTOCOMPLETE } from '../constants/actionTypes';
 import Schemas from '../constants/schemas';
 

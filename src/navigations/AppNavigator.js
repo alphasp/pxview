@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import { StackNavigator } from 'react-navigation';
 import MainNavigator from './MainNavigator';
 import Login from '../containers/Login';

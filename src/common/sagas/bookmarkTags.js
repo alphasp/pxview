@@ -4,7 +4,7 @@ import {
   fetchBookmarkTagsFailure,
 } from '../actions/bookmarkTags';
 import { addError } from '../actions/error';
-import pixiv from '../helpers/ApiClient';
+import pixiv from '../helpers/apiClient';
 import { BOOKMARK_TAGS } from '../constants/actionTypes';
 import { TAG_TYPES } from '../constants';
 

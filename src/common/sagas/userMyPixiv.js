@@ -5,7 +5,7 @@ import {
   fetchUserMyPixivFailure,
 } from '../actions/userMyPixiv';
 import { addError } from '../actions/error';
-import pixiv from '../helpers/ApiClient';
+import pixiv from '../helpers/apiClient';
 import { USER_MY_PIXIV } from '../constants/actionTypes';
 import Schemas from '../constants/schemas';
 

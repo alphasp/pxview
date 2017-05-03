@@ -5,7 +5,7 @@ import {
   fetchSearchFailure,
 } from '../actions/search';
 import { addError } from '../actions/error';
-import pixiv from '../helpers/ApiClient';
+import pixiv from '../helpers/apiClient';
 import { SEARCH } from '../constants/actionTypes';
 import Schemas from '../constants/schemas';
 

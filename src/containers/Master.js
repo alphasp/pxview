@@ -18,7 +18,7 @@ import AppNavigator from '../navigations/AppNavigator';
 import PXTouchable from '../components/PXTouchable';
 import Loader from '../components/Loader';
 import ModalRoot from './ModalRoot';
-import { localizedStrings } from '../common/helpers/i18n';
+import i18n from '../common/helpers/i18n';
 import { resetError } from '../common/actions/error';
 
 const styles = StyleSheet.create({
@@ -166,7 +166,7 @@ class Master extends Component {
             <AppNavigator
               screenProps={{
                 openBottomSheet: this.openBottomSheet,
-                strings: localizedStrings,
+                strings: i18n,
               }}
               onNavigationStateChange={this.handleOnNavigationStateChange}
             />

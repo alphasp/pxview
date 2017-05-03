@@ -4,7 +4,7 @@ import {
   fetchUserFollowDetailFailure,
 } from '../actions/userFollowDetail';
 import { addError } from '../actions/error';
-import pixiv from '../helpers/ApiClient';
+import pixiv from '../helpers/apiClient';
 import { USER_FOLLOW_DETAIL } from '../constants/actionTypes';
 
 export function* handleFetchUserFollowDetail(action) {

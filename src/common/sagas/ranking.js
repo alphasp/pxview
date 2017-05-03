@@ -5,7 +5,7 @@ import {
   fetchRankingFailure,
 } from '../actions/ranking';
 import { addError } from '../actions/error';
-import pixiv from '../helpers/ApiClient';
+import pixiv from '../helpers/apiClient';
 import { RANKING } from '../constants/actionTypes';
 import { RANKING_FOR_UI } from '../constants';
 import Schemas from '../constants/schemas';

@@ -12,8 +12,6 @@ import {
   InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { denormalize } from 'normalizr';
-import HtmlView from 'react-native-htmlview';
 import Hyperlink from 'react-native-hyperlink';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import truncate from 'lodash.truncate';
@@ -23,14 +21,11 @@ import IllustCollection from '../components/IllustCollection';
 import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import PXImage from '../components/PXImage';
-import PXBlurView from '../components/PXBlurView';
 import Loader from '../components/Loader';
 import * as userDetailActionCreators from '../common/actions/userDetail';
 import * as userIllustsActionCreators from '../common/actions/userIllusts';
 import * as userMangasActionCreators from '../common/actions/userMangas';
 import * as userBookmarkIllustlActionCreators from '../common/actions/userBookmarkIllusts';
-import { denormalizedData } from '../common/helpers/normalizrHelper';
-import Schemas from '../common/constants/schemas';
 import { makeGetUserDetailPageItems } from '../common/selectors';
 
 const avatarSize = 70;
@@ -475,21 +470,3 @@ export default connect(() => {
   ...userMangasActionCreators,
   ...userBookmarkIllustlActionCreators,
 })(UserDetail);
-
-
-// export default connect((state, props) => {
-//   const { entities, userDetail, userIllusts, userMangas, userBookmarkIllusts } = state;
-//   const userId = props.userId || props.navigation.state.params.userId;
-//   return {
-//     userDetail: denormalizedData(userDetail[userId], 'item', Schemas.USER_PROFILE, entities),
-//     userIllusts: denormalizedData(userIllusts[userId], 'items', Schemas.ILLUST_ARRAY, entities),
-//     userMangas: denormalizedData(userMangas[userId], 'items', Schemas.ILLUST_ARRAY, entities),
-//     userBookmarkIllusts: denormalizedData(userBookmarkIllusts[userId], 'items', Schemas.ILLUST_ARRAY, entities),
-//     userId
-//   }
-// }, {
-//   ...userDetailActionCreators,
-//   ...userIllustsActionCreators,
-//   ...userMangasActionCreators,
-//   ...userBookmarkIllustlActionCreators
-// })(UserDetail);

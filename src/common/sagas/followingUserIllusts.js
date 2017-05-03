@@ -5,7 +5,7 @@ import {
   fetchFollowingUserIllustsFailure,
 } from '../actions/followingUserIllusts';
 import { addError } from '../actions/error';
-import pixiv from '../helpers/ApiClient';
+import pixiv from '../helpers/apiClient';
 import { FOLLOWING_USER_ILLUSTS } from '../constants/actionTypes';
 import Schemas from '../constants/schemas';
 

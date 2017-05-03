@@ -5,14 +5,14 @@ import isEmpty from 'lodash.isempty';
 // import routes from '../routes';
 import App from './App';
 import configureStore from '../common/store/configureStore';
-import ApiClient from '../common/helpers/ApiClient';
+import apiClient from '../common/helpers/apiClient';
 import { clearAllSearch } from '../common/actions/search';
 import { SORT_TYPES } from '../common/constants';
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 const store = configureStore();
 
-// ApiClient.setStore(store);
+// apiClient.setStore(store);
 
 // function select(state) {
 //   return state.routes.scene;

@@ -4,7 +4,7 @@ import {
   fetchIllustBookmarkDetailFailure,
 } from '../actions/illustBookmarkDetail';
 import { addError } from '../actions/error';
-import pixiv from '../helpers/ApiClient';
+import pixiv from '../helpers/apiClient';
 import { ILLUST_BOOKMARK_DETAIL } from '../constants/actionTypes';
 
 export function* handleFetchIllustBookmarkDetail(action) {

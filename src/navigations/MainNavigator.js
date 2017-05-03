@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { TabNavigator, TabRouter } from 'react-navigation';
+import React from 'react';
+import { TabNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import { NavigationComponent } from 'react-native-material-bottom-navigation';
 import HomeNavigator from './HomeNavigator';
@@ -105,7 +105,7 @@ const MainNavigator = TabNavigator({
         TrendingTab: {
           // barBackgroundColor: '#EEEEEE',
           // barBackgroundColor: '#EEEEEE',
-          // labelColor: '#434343', // like in the standalone version, this will override the already specified `labelColor` for this tab
+          // labelColor: '#434343',
         },
         NewWorkTab: {
           // barBackgroundColor: '#EEEEEE',

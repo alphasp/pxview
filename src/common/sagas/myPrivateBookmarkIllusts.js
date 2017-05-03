@@ -5,7 +5,7 @@ import {
   fetchMyPrivateBookmarkIllustsFailure,
 } from '../actions/myPrivateBookmarkIllusts';
 import { addError } from '../actions/error';
-import pixiv from '../helpers/ApiClient';
+import pixiv from '../helpers/apiClient';
 import { MY_PRIVATE_BOOKMARK_ILLUSTS } from '../constants/actionTypes';
 import Schemas from '../constants/schemas';
 

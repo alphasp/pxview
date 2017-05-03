@@ -6,7 +6,7 @@ import {
   unfollowUserFailure,
 } from '../actions/followUser';
 import { addError } from '../actions/error';
-import pixiv from '../helpers/ApiClient';
+import pixiv from '../helpers/apiClient';
 import { FOLLOW_USER, UNFOLLOW_USER } from '../constants/actionTypes';
 import { FOLLOWING_TYPES } from '../constants';
 

@@ -14,7 +14,7 @@ import {
   doneRehydrate,
 } from '../actions/auth';
 import { addError } from '../actions/error';
-import pixiv from '../helpers/ApiClient';
+import pixiv from '../helpers/apiClient';
 import { getAuthUser } from '../selectors';
 
 export function* authorize(email, password) {

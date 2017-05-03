@@ -15,7 +15,6 @@ import { List, ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from 'react-native-blur';
-import LocalizedStrings from 'react-native-localization';
 import IllustCollection from '../components/IllustCollection';
 import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
