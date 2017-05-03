@@ -18,7 +18,6 @@ export default function configureStore() {
     enhancer = composeEnhancers(
       autoRehydrate({ log: true }),
       applyMiddleware(invariant(), createActionBuffer(REHYDRATE), thunk, sagaMiddleware),
-      //applyMiddleware(jwt, thunk, createActionBuffer(REHYDRATE)),
       //devTools(),
     );
   }
