@@ -13,7 +13,7 @@ import PXTabView from '../components/PXTabView';
 import TagsFilterModal from './TagsFilterModal';
 import MyPrivateBookmarkIllusts from './MyPrivateBookmarkIllusts';
 import UserBookmarkIllusts from './UserBookmarkIllusts';
-import { TAG_TYPES } from '../common/constants/tagTypes';
+import { TAG_TYPES } from '../common/constants';
 
 const styles = StyleSheet.create({
   container: {

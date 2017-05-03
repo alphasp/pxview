@@ -15,7 +15,7 @@ import IonicIcon from 'react-native-vector-icons/Ionicons';
 import RankingList from './RankingList';
 import PXTouchable from '../components/PXTouchable';
 import PXBottomSheet from '../components/PXBottomSheet';
-import { RANKING, R18_RANKING, RANKING_FOR_UI } from '../common/constants/rankingTypes';
+import { RANKING, R18_RANKING, RANKING_FOR_UI } from '../common/constants';
 
 const styles = StyleSheet.create({
   container: {

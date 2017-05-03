@@ -8,7 +8,7 @@ import {
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { BOOKMARK_ILLUST, UNBOOKMARK_ILLUST } from '../constants/actionTypes';
-import { BOOKMARK_TYPES } from '../constants/bookmarkTypes';
+import { BOOKMARK_TYPES } from '../constants';
 
 export function* handleBookmarkIllust(action) {
   const { illustId, bookmarkType, tags } = action.payload;

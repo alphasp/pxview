@@ -1,5 +1,5 @@
 import { USER_FOLLOWING } from '../constants/actionTypes';
-import { FOLLOWING_TYPES } from '../constants/followingTypes';
+import { FOLLOWING_TYPES } from '../constants';
 
 const defaultStateByUserFollowingType = {
   loading: false,

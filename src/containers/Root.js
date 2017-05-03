@@ -7,7 +7,7 @@ import App from './App';
 import configureStore from '../common/store/configureStore';
 import ApiClient from '../common/helpers/ApiClient';
 import { clearAllSearch } from '../common/actions/search';
-import { SORT_TYPES } from '../common/constants/sortTypes';
+import { SORT_TYPES } from '../common/constants';
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 const store = configureStore();

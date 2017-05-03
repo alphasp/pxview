@@ -12,8 +12,7 @@ import { withNavigation } from 'react-navigation';
 import FollowButton from '../components/FollowButton';
 import * as followUserActionCreators from '../common/actions/followUser';
 import * as modalActionCreators from '../common/actions/modal';
-import { FOLLOWING_TYPES } from '../common/constants/followingTypes';
-import modalType from '../common/constants/modalType';
+import { FOLLOWING_TYPES, MODAL_TYPES } from '../common/constants';
 
 class FollowButtonContainer extends Component {
   static propTypes = {
@@ -52,7 +51,7 @@ class FollowButtonContainer extends Component {
       });
     }
     else {
-      openModal(modalType.FOLLOW, {
+      openModal(MODAL_TYPES.FOLLOW, {
         userId: user.id,
         isFollow: user.is_followed,
       });

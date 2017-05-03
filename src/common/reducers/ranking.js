@@ -1,5 +1,5 @@
 import { RANKING } from '../constants/actionTypes';
-import { RANKING_FOR_UI } from '../constants/rankingTypes';
+import { RANKING_FOR_UI } from '../constants';
 
 
 const defaultState = {

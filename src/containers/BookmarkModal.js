@@ -21,7 +21,7 @@ import PXTouchable from '../components/PXTouchable';
 import * as illustBookmarkDetailActionCreators from '../common/actions/illustBookmarkDetail';
 import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
 import * as modalActionCreators from '../common/actions/modal';
-import { BOOKMARK_TYPES } from '../common/constants/bookmarkTypes';
+import { BOOKMARK_TYPES } from '../common/constants';
 
 const MAX_TAGS_COUNT = 10;
 

@@ -10,7 +10,7 @@ import {
 import PXTabView from '../components/PXTabView';
 import RankingList from './RankingList';
 import PastRanking from './PastRanking';
-import { RANKING_FOR_UI } from '../common/constants/rankingTypes';
+import { RANKING_FOR_UI } from '../common/constants';
 
 class Ranking extends Component {
   constructor(props) {

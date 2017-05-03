@@ -12,7 +12,7 @@ import {
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import * as searchActionCreators from '../common/actions/search';
-import { SORT_TYPES } from '../common/constants/sortTypes';
+import { SORT_TYPES } from '../common/constants';
 import { makeGetSearchItems } from '../common/selectors';
 
 class SearchResult extends Component {

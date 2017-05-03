@@ -14,7 +14,7 @@ import FollowButton from '../components/FollowButton';
 import * as userFollowDetailActionCreators from '../common/actions/userFollowDetail';
 import * as followUserActionCreators from '../common/actions/followUser';
 import * as modalActionCreators from '../common/actions/modal';
-import { FOLLOWING_TYPES } from '../common/constants/followingTypes';
+import { FOLLOWING_TYPES } from '../common/constants';
 
 const styles = StyleSheet.create({
   container: {

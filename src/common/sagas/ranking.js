@@ -7,7 +7,7 @@ import {
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { RANKING } from '../constants/actionTypes';
-import { RANKING_FOR_UI } from '../constants/rankingTypes';
+import { RANKING_FOR_UI } from '../constants';
 import Schemas from '../constants/schemas';
 
 function mapRankingMode(rankingMode) {

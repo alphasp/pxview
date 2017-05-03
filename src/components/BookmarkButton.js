@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as Animatable from 'react-native-animatable';
 import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
 import * as modalActionCreators from '../common/actions/modal';
-import modalType from '../common/constants/modalType';
+import { MODAL_TYPES } from '../common/constants';
 
 const AnimatableIcon = Animatable.createAnimatableComponent(Icon);
 
@@ -83,7 +83,7 @@ class BookmarkButton extends Component {
       });
     }
     else {
-      openModal(modalType.BOOKMARK, {
+      openModal(MODAL_TYPES.BOOKMARK, {
         illustId: item.id,
         isBookmark: item.is_bookmarked,
       });

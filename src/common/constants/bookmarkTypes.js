@@ -1,4 +1,0 @@
-export const BOOKMARK_TYPES = {
-  PUBLIC: 'PUBLIC',
-  PRIVATE: 'PRIVATE',
-};

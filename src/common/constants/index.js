@@ -1,3 +1,18 @@
+export const BOOKMARK_TYPES = {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE',
+};
+
+export const FOLLOWING_TYPES = {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE',
+};
+
+export const MODAL_TYPES = {
+  FOLLOW: 'FOLLOW',
+  BOOKMARK: 'BOOKMARK',
+};
+
 export const RANKING = {
   day: 'DAY',
   week: 'WEEK',
@@ -25,4 +40,14 @@ export const RANKING_FOR_UI = {
   WEEKLY: 'WEEKLY',
   MONTHLY: 'MONTHLY',
   PAST: 'PAST',
+};
+
+export const SORT_TYPES = {
+  ASC: 'ASC',
+  DESC: 'DESC',
+};
+
+export const TAG_TYPES = {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE',
 };

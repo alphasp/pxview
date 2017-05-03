@@ -1,5 +1,5 @@
 import { BOOKMARK_TAGS } from '../constants/actionTypes';
-import { TAG_TYPES } from '../constants/tagTypes';
+import { TAG_TYPES } from '../constants';
 
 const defaultItems = [{ name: 'All', value: '' }, { name: 'Uncategorized', value: '未分類' }];
 const defaultState = {

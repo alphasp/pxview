@@ -1,4 +1,0 @@
-export const FOLLOWING_TYPES = {
-  PUBLIC: 'PUBLIC',
-  PRIVATE: 'PRIVATE',
-};

@@ -6,7 +6,7 @@ import {
 import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { BOOKMARK_TAGS } from '../constants/actionTypes';
-import { TAG_TYPES } from '../constants/tagTypes';
+import { TAG_TYPES } from '../constants';
 
 export function* handleFetchBookmarkTags(action) {
   const { tagType, nextUrl } = action.payload;

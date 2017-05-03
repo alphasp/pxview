@@ -11,7 +11,7 @@ import UserFollowing from './UserFollowing';
 import UserFollowers from './UserFollowers';
 import UserMyPixiv from './UserMyPixiv';
 import PXTabView from '../components/PXTabView';
-import { FOLLOWING_TYPES } from '../common/constants/followingTypes';
+import { FOLLOWING_TYPES } from '../common/constants';
 
 const styles = StyleSheet.create({
   container: {

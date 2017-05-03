@@ -8,7 +8,7 @@ import { addError } from '../actions/error';
 import pixiv from '../helpers/ApiClient';
 import { USER_FOLLOWING } from '../constants/actionTypes';
 import Schemas from '../constants/schemas';
-import { FOLLOWING_TYPES } from '../constants/followingTypes';
+import { FOLLOWING_TYPES } from '../constants';
 
 export function* handleFetchUserFollowing(action) {
   const { userId, followingType, nextUrl } = action.payload;
