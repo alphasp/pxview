@@ -25,7 +25,7 @@
     "qs": "^6.4.0",
     "react": "^16.0.0-alpha.6",
     "react-addons-shallow-compare": "^15.4.1",
-    "react-native": "^0.43.2",
+    "react-native": "^0.44.0",
     "react-native-action-button": "^2.6.9",
     "react-native-animatable": "^1.1.1",
     "react-native-blur": "^3.0.0-alpha",

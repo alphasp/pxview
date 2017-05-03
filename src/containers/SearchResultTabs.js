@@ -1,21 +1,12 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  ActivityIndicator,
-  Dimensions,
-  RecyclerViewBackedScrollView,
-  RefreshControl,
-  InteractionManager,
   Keyboard,
-  TouchableWithoutFeedback,
   Platform,
-  BackAndroid,
+  BackHandler,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
-import HeaderBackButton from 'react-navigation/src/views/HeaderBackButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Search from './Search';
 import PXHeader from '../components/PXHeader';
@@ -37,7 +28,7 @@ const styles = StyleSheet.create({
 });
 
 class SearchResultTabs extends Component {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = () => ({
     header: null,
   });
 
@@ -115,8 +106,8 @@ class SearchResultTabs extends Component {
   }
 
   componentDidMount() {
-    if (Platform.OS == 'android') {
-      this.backAndroidListener = BackAndroid.addEventListener('hardwareBackPress', this.handleOnPressBackButton);
+    if (Platform.OS === 'android') {
+      this.backHandlerListener = BackHandler.addEventListener('hardwareBackPress', this.handleOnPressBackButton);
     }
   }
 
@@ -129,8 +120,8 @@ class SearchResultTabs extends Component {
   }
 
   componentWillUnmount() {
-    if (this.backAndroidListener) {
-      BackAndroid.removeEventListener('hardwareBackPress', this.backAndroidListener);
+    if (this.backHandlerListener) {
+      BackHandler.removeEventListener('hardwareBackPress', this.backHandlerListener);
     }
   }
 

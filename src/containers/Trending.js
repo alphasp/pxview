@@ -5,7 +5,7 @@ import {
   View,
   Keyboard,
   Platform,
-  BackAndroid,
+  BackHandler,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { CardStack } from 'react-navigation';
@@ -52,7 +52,7 @@ class Trending extends Component {
 
   componentDidMount() {
     if (Platform.OS == 'android') {
-      this.backAndroidListener = BackAndroid.addEventListener('hardwareBackPress', this.handleOnPressBackButton);
+      this.backHandlerListener = BackHandler.addEventListener('hardwareBackPress', this.handleOnPressBackButton);
     }
   }
 
@@ -65,8 +65,8 @@ class Trending extends Component {
   }
 
   componentWillUnmount() {
-    if (this.backAndroidListener) {
-      BackAndroid.removeEventListener('hardwareBackPress', this.backAndroidListener);
+    if (this.backHandlerListener) {
+      BackHandler.removeEventListener('hardwareBackPress', this.backHandlerListener);
     }
   }
 
