@@ -11,10 +11,10 @@
     "android-release": "node node_modules/react-native/local-cli/cli.js run-android --variant=release",
     "android-release-new": "react-native run-android --configuration=release",
     "android-clean": "cd android && ./gradlew clean",
-    "ios": "react-native run-ios"
+    "ios": "react-native run-ios",
+    "flow": "flow"
   },
   "dependencies": {
-    "jest": "^19.0.2",
     "lodash.debounce": "^4.0.8",
     "lodash.isempty": "^4.4.0",
     "lodash.merge": "^4.6.0",
@@ -70,8 +70,9 @@
   },
   "devDependencies": {
     "babel-eslint": "^6.1.2",
-    "babel-jest": "17.0.2",
+    "babel-jest": "^19.0.0",
     "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-flow": "^6.23.0",
     "babel-preset-react-native": "1.9.0",
     "babel-register": "^6.24.0",
     "eslint": "^3.19.0",
@@ -80,7 +81,8 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.3",
     "eslint-plugin-react-native": "^2.3.2",
-    "jest": "17.0.3",
+    "flow-bin": "^0.42.0",
+    "jest": "^19.0.2",
     "react-test-renderer": "15.4.1",
     "redux-immutable-state-invariant": "^2.0.0"
   }

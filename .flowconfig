@@ -14,12 +14,18 @@
 .*/Libraries/react-native/React.js
 .*/Libraries/react-native/ReactNative.js
 
+.*/node_modules/react-native-easy-toast
+.*/node_modules/react-static-container
+.*/node_modules/react-navigation
+
 [include]
+./src
 
 [libs]
 node_modules/react-native/Libraries/react-native/react-native-interface.js
 node_modules/react-native/flow
 flow/
+flow-typed
 
 [options]
 emoji=true

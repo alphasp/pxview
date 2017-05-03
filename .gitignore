@@ -56,3 +56,4 @@ fastlane/screenshots
 coverage
 
 .vscode
+flow-typed
