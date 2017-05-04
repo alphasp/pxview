@@ -22,6 +22,7 @@
     "moment": "^2.15.1",
     "normalizr": "^3.2.2",
     "pixiv-api-client": "^0.13.1",
+    "prop-types": "^15.5.8",
     "qs": "^6.4.0",
     "react": "^16.0.0-alpha.6",
     "react-addons-shallow-compare": "^15.4.1",
@@ -83,6 +84,7 @@
     "eslint-plugin-react-native": "^2.3.2",
     "flow-bin": "^0.42.0",
     "jest": "^19.0.2",
+    "prettier-eslint": "^6.2.0",
     "react-test-renderer": "15.4.1",
     "redux-immutable-state-invariant": "^2.0.0"
   }
