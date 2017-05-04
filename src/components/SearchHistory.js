@@ -3,9 +3,6 @@ import {
   View,
   StyleSheet,
   Text,
-  TextInput,
-  Platform,
-  Animated,
   FlatList,
   Dimensions,
   Keyboard,
@@ -66,7 +63,7 @@ class SearchHistory extends Component {
         </View>
         <FlatList
           data={items}
-          keyExtractor={(item, index) => item}
+          keyExtractor={item => item}
           renderItem={this.renderItem}
           ItemSeparatorComponent={Separator}
           keyboardShouldPersistTaps="always"

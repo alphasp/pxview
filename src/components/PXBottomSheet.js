@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
-  TextInput,
   View,
   Platform,
   Dimensions,
@@ -10,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Animated,
 } from 'react-native';
+
 const windowHeight = Dimensions.get('window').height;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
@@ -86,7 +85,7 @@ class PXBottomSheet extends Component {
   };
 
   render() {
-    const { children, visible, onCancel } = this.props;
+    const { children, onCancel } = this.props;
     const { animatedHeight, modalVisible } = this.state;
     return (
       <Modal

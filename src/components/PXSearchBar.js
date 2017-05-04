@@ -1,25 +1,9 @@
 import React, { Component } from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TextInput,
-  Platform,
-  Animated,
-  TouchableWithoutFeedback,
-  Dimensions,
-} from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { SearchBar } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import PXTouchable from './PXTouchable';
-import SearchTags from './SearchTags';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import { SearchType } from '../common/actions/searchType';
-
-const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
-const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
-const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -114,16 +98,17 @@ class PXSearchBar extends Component {
   //   }
   // }
 
-  handleOnSubmitSearch = (word, searchType) => {
+  handleOnSubmitSearch = word => {
     const {
       navigation,
       addSearchHistory,
       isPushNewSearch,
       onSubmitSearch,
+      searchType,
     } = this.props;
     word = word.trim();
     if (word) {
-      const { navigate, setParams, searchType } = navigation;
+      const { navigate } = navigation;
       addSearchHistory(word);
       onSubmitSearch(word);
       if (isPushNewSearch) {
@@ -133,39 +118,9 @@ class PXSearchBar extends Component {
   };
 
   render() {
-    const {
-      searchType,
-      isRenderBackButton,
-      isRenderRightButton,
-      isRenderPlaceHolder,
-      onFocus,
-      onChangeText,
-      onSubmitEditing,
-      onPressRemoveTag,
-      autoFocus,
-      word,
-    } = this.props;
-    const style = {};
-    // if (isRenderBackButton && isRenderRightButton) {
-    //   style = {
-    //     width: windowWidth - 68,
-    //     //marginHorizontal: 54
-    //   };
-    // }
-    // else if (isRenderBackButton) {
-    //   style = {
-    //     width: windowWidth - 34,
-    //     marginLeft: 34
-    //   };
-    // }
-    // else if (isRenderRightButton) {
-    //   style = {
-    //     width: windowWidth - 34,
-    //     marginRight: 34
-    //   };
-    // }
+    const { searchType, onFocus, onChangeText, autoFocus, word } = this.props;
     return (
-      <View style={[styles.container, style]}>
+      <View style={styles.container}>
         <SearchBar
           containerStyle={{
             backgroundColor: '#fff',
@@ -177,10 +132,9 @@ class PXSearchBar extends Component {
             searchType === SearchType.USER ? 'Enter nickname' : 'Enter keyword'
           }
           autoFocus={autoFocus}
-          onFocus={() => onFocus && onFocus(searchType)}
-          onChangeText={text => onChangeText(text, searchType)}
-          onSubmitEditing={e =>
-            this.handleOnSubmitSearch(e.nativeEvent.text, searchType)}
+          onFocus={onFocus}
+          onChangeText={onChangeText}
+          onSubmitEditing={this.handleOnSubmitSearch}
           returnKeyType="search"
           defaultValue={word}
           underlineColorAndroid="transparent"
@@ -191,8 +145,8 @@ class PXSearchBar extends Component {
 }
 
 export default connect(
-  (state, { searchType }) => ({
-    searchType: state.searchType.type, // searchType || state.searchType.type
+  state => ({
+    searchType: state.searchType.type,
   }),
   searchHistoryActionCreators,
 )(PXSearchBar);

@@ -6,10 +6,9 @@ import OverlayImagePages from './OverlayImagePages';
 import OverlayBookmarkButton from '../components/OverlayBookmarkButton';
 
 const width = Dimensions.get('window').width; // full width
-const height = Dimensions.get('window').height; // full height
 
 class IllustItem extends Component {
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     const { item: prevItem } = this.props;
     const { item } = nextProps;
     // console.log(item.id, (prevItem.is_bookmarked !== item.is_bookmarked) || (prevItem.user.is_followed !== item.user.is_followed));

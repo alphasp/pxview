@@ -95,7 +95,7 @@ class Trending extends Component {
     this.setState({ isFocusSearchBar: true });
   };
 
-  handleOnChangeSearchText = (word, searchType) => {
+  handleOnChangeSearchText = (word) => {
     this.setState({ word });
   };
 
@@ -111,12 +111,11 @@ class Trending extends Component {
       // to disable goBack from react-navigation
       return true;
     }
-
     goBack();
   };
 
   render() {
-    const { searchType, navigation, screenProps } = this.props;
+    const { searchType, navigation } = this.props;
     const { word, isFocusSearchBar } = this.state;
     return (
       <View style={styles.container}>

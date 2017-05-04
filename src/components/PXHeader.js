@@ -1,17 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  Dimensions,
-  Platform,
-  Keyboard,
-} from 'react-native';
+import { StyleSheet, View, Platform } from 'react-native';
 import HeaderBackButton from 'react-navigation/src/views/HeaderBackButton';
 import PXSearchBar from './PXSearchBar';
-import { SearchType } from '../common/actions/searchType';
 
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
 
@@ -28,7 +19,6 @@ const styles = StyleSheet.create({
 class PXHeader extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    searchType: PropTypes.string,
     onPressBackButton: PropTypes.func,
     onFocusSearchBar: PropTypes.func.isRequired,
     onChangeSearchText: PropTypes.func.isRequired,
@@ -36,14 +26,18 @@ class PXHeader extends Component {
     headerRight: PropTypes.element,
   };
 
+  static defaultProps = {
+    onPressBackButton: null,
+    showBackButton: false,
+    headerRight: null,
+  };
+
   render() {
     const {
       word,
       showBackButton,
-      showRightButton,
       headerRight,
       navigation,
-      searchType,
       isPushNewSearch,
       onPressBackButton,
       onFocusSearchBar,
@@ -55,12 +49,10 @@ class PXHeader extends Component {
         <View style={styles.subContainer}>
           {showBackButton && <HeaderBackButton onPress={onPressBackButton} />}
           <PXSearchBar
-            ref="searchBar"
             textInputRef="email"
             onFocus={onFocusSearchBar}
             onChangeText={onChangeSearchText}
             onSubmitSearch={onSubmitSearch}
-            searchType={searchType}
             navigation={navigation}
             isPushNewSearch={isPushNewSearch}
             word={word}

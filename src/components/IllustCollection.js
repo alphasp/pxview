@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, ScrollView, Dimensions } from 'react-native';
+import { View, StyleSheet, Text, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
@@ -7,8 +7,6 @@ import OverlayImagePages from './OverlayImagePages';
 import OverlayBookmarkButton from '../components/OverlayBookmarkButton';
 
 const windowWidth = Dimensions.get('window').width; // full width
-const windowHeight = Dimensions.get('window').height; // full height
-const avatarSize = 50;
 const ILLUST_PREVIEW_COLUMNS = 3;
 const CONTAINER_MARGIN = 10;
 

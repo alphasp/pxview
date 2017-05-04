@@ -1,15 +1,5 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ListView,
-  Platform,
-  Dimensions,
-  Button,
-  SectionList,
-} from 'react-native';
-import { connect } from 'react-redux';
+import { StyleSheet, Text, View, SectionList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import Separator from './Separator';

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Separator = props => (
+const Separator = () => (
   <View style={styles.separatorContainer}>
     <View style={styles.separator} />
   </View>

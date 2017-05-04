@@ -42,14 +42,6 @@ const Tags = props => {
       ))}
     </View>
   );
-  // return (
-  //   <View style={styles.container}>
-  //     <Taggs
-  //       initialText=""
-  //       initialTags={['dog', 'cat', 'chicken', 'bull', 'fox', 'rrrrrrrrr', 'blalalalala']}
-  //     />
-  //   </View>
-  // );
 };
 
 export default Tags;

@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  ActivityIndicator,
   Dimensions,
   RefreshControl,
   FlatList,
@@ -14,7 +13,6 @@ import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
@@ -105,9 +103,9 @@ class IllustTagList extends Component {
           ? <FlatList
               data={items}
               numColumns={3}
-              keyExtractor={(item, index) => item.tag}
+              keyExtractor={item => item.tag}
               renderItem={this.renderItem}
-              getItemLayout={(data, index, horizontal) => ({
+              getItemLayout={(data, index) => ({
                 length: Dimensions.get('window').width / 3,
                 offset: Dimensions.get('window').width / 3 * index,
                 index,

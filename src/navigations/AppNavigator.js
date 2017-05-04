@@ -3,7 +3,6 @@ import MainNavigator from './MainNavigator';
 import Login from '../containers/Login';
 import SearchFilterModal from '../components/SearchFilterModal';
 import ImagesViewer from '../containers/ImagesViewer';
-import PXWebView from '../components/PXWebView';
 
 const AppNavigator = StackNavigator(
   {
@@ -29,9 +28,6 @@ const AppNavigator = StackNavigator(
     },
     ImagesViewer: {
       screen: ImagesViewer,
-    },
-    Web: {
-      screen: PXWebView,
     },
   },
   {

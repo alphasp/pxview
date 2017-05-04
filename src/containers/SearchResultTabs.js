@@ -146,7 +146,7 @@ class SearchResultTabs extends Component {
     this.setState({ isFocusSearchBar: true });
   };
 
-  handleOnChangeSearchText = (word, searchType) => {
+  handleOnChangeSearchText = (word) => {
     this.setState({ newWord: word });
   };
 

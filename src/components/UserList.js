@@ -5,22 +5,16 @@ import {
   View,
   Dimensions,
   FlatList,
-  ListView,
-  RecyclerViewBackedScrollView,
   RefreshControl,
 } from 'react-native';
-import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
 import PXImage from '../components/PXImage';
-import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import FollowButtonContainer from '../containers/FollowButtonContainer';
 import OverlayImagePages from '../components/OverlayImagePages';
 
 const windowWidth = Dimensions.get('window').width; // full width
-const windowHeight = Dimensions.get('window').height; // full height
 const avatarSize = 50;
 const ILLUST_PREVIEW_COLUMNS = 3;
 
@@ -163,7 +157,7 @@ class UserList extends Component {
         {items && items.length
           ? <FlatList
               data={items}
-              keyExtractor={(item, index) => item.user.id}
+              keyExtractor={item => item.user.id}
               renderItem={this.renderItem}
               removeClippedSubviews={false}
               onEndReachedThreshold={0.1}

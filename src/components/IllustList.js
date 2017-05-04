@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  ActivityIndicator,
   Dimensions,
-  ListView,
-  RecyclerViewBackedScrollView,
   RefreshControl,
   FlatList,
   Platform,
@@ -18,16 +14,10 @@ import { withNavigation } from 'react-navigation';
 // import Image from 'react-native-image-progress';
 import IllustItem from './IllustItem';
 import Loader from './Loader';
-import PXTouchable from './PXTouchable';
-import PXImage from './PXImage';
-import OverlayImagePages from './OverlayImagePages';
-import OverlayBookmarkButton from '../components/OverlayBookmarkButton';
-import BookmarkModal from '../containers/BookmarkModal';
 import * as bookmarkIllustActionCreators
   from '../common/actions/bookmarkIllust';
 
 const width = Dimensions.get('window').width; // full width
-const height = Dimensions.get('window').height; // full height
 
 const styles = StyleSheet.create({
   container: {
@@ -97,9 +87,9 @@ class IllustList extends Component {
           ? <FlatList
               data={maxItems ? items.slice(0, maxItems) : items}
               numColumns={3}
-              keyExtractor={(item, index) => item.id}
+              keyExtractor={item => item.id}
               renderItem={this.renderItem}
-              getItemLayout={(data, index, horizontal) => ({
+              getItemLayout={(data, index) => ({
                 length: Dimensions.get('window').width / 3,
                 offset: Dimensions.get('window').width / 3 * index,
                 index,

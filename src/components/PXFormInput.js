@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Platform, Text } from 'react-native';
-import { FormLabel, FormInput, Button } from 'react-native-elements';
+import { View, StyleSheet, Text } from 'react-native';
+import { FormLabel, FormInput } from 'react-native-elements';
 
 const styles = StyleSheet.create({
   errorText: {
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 const PXFormInput = props => {
   const {
     label,
-    meta: { touched, error, warning },
+    meta: { touched, error },
     errorTextStyle,
     input,
     ...restProps

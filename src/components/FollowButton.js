@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Platform, Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import PXTouchable from './PXTouchable';
 
 const styles = StyleSheet.create({

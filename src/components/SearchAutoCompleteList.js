@@ -1,15 +1,5 @@
 import React, { PureComponent } from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TextInput,
-  Platform,
-  Animated,
-  FlatList,
-  Keyboard,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, StyleSheet, Text, FlatList, Keyboard } from 'react-native';
 import PXTouchable from './PXTouchable';
 import Loader from './Loader';
 import Separator from './Separator';
@@ -55,7 +45,7 @@ class SearchAutoCompleteList extends PureComponent {
         {items && items.length
           ? <FlatList
               data={items}
-              keyExtractor={(item, index) => item}
+              keyExtractor={item => item}
               renderItem={this.renderItem}
               ItemSeparatorComponent={Separator}
               keyboardShouldPersistTaps="always"

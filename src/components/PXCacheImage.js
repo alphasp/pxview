@@ -1,20 +1,9 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  RefreshControl,
-  Dimensions,
-  Platform,
-} from 'react-native';
-// import Image from 'react-native-image-progress';
+import { View, Image, Dimensions, Platform } from 'react-native';
 import moment from 'moment';
-// import CacheableImage from 'react-native-cacheable-image';
-import FitImage from 'react-native-fit-image';
 import RNFetchBlob from 'react-native-fetch-blob';
+
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 class PXCacheImage extends Component {
   constructor(props) {
@@ -42,20 +31,14 @@ class PXCacheImage extends Component {
           const filePath = Platform.OS === 'android'
             ? `file://${res.path()}`
             : `${res.path()}`;
-          Image.getSize(
-            filePath,
-            (width, height) => {
-              if (!this.unmounting) {
-                this.setState({ width, height });
-                if (onFoundImageSize) {
-                  onFoundImageSize(width, height, filePath);
-                }
+          Image.getSize(filePath, (width, height) => {
+            if (!this.unmounting) {
+              this.setState({ width, height });
+              if (onFoundImageSize) {
+                onFoundImageSize(width, height, filePath);
               }
-            },
-            err => {
-              // console.error('failed to get image size ', err);
-            },
-          );
+            }
+          });
           this.setState({
             imageUri: filePath,
           });
@@ -63,7 +46,7 @@ class PXCacheImage extends Component {
       })
       .catch((err, statusCode) => {
         // error handling
-        console.log('error fetch blob ', err);
+        console.log('error fetch blob ', err, statusCode);
       });
   }
   componentWillUnmount() {

@@ -3,20 +3,15 @@ import {
   View,
   StyleSheet,
   Text,
-  TextInput,
-  Platform,
-  Animated,
   FlatList,
   Keyboard,
   RefreshControl,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import PXThumbnailTouchable from './PXThumbnailTouchable';
 import FollowButton from './FollowButton';
 import Loader from './Loader';
 import Separator from './Separator';
-import SearchHistory from './SearchHistory';
 
 const styles = StyleSheet.create({
   container: {
@@ -61,7 +56,7 @@ class SearchUsersAutoCompleteList extends PureComponent {
   );
 
   renderFooter = () => {
-    const { data: { items, nextUrl } } = this.props;
+    const { data: { nextUrl } } = this.props;
     return nextUrl
       ? <View style={{ marginBottom: 20 }}>
           <Loader />
@@ -81,7 +76,7 @@ class SearchUsersAutoCompleteList extends PureComponent {
         {items && items.length
           ? <FlatList
               data={items}
-              keyExtractor={(item, index) => item.user.id}
+              keyExtractor={item => item.user.id}
               renderItem={this.renderItem}
               ItemSeparatorComponent={Separator}
               keyboardShouldPersistTaps="always"

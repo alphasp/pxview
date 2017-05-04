@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  Dimensions,
-  Platform,
-} from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import {
   TabViewAnimated,
   TabBar,

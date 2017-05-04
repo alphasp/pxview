@@ -1,18 +1,10 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Dimensions,
-  RecyclerViewBackedScrollView,
-} from 'react-native';
+import { Dimensions } from 'react-native';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXCacheImage from './PXCacheImage';
 
 const windowWidth = Dimensions.get('window').width; // full width
-const windowHeight = Dimensions.get('window').height; // full height
 
 class PXCacheImageTouchable extends Component {
   constructor(props) {

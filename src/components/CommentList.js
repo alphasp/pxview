@@ -1,21 +1,8 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-  Dimensions,
-  ListView,
-  RecyclerViewBackedScrollView,
-  RefreshControl,
-  FlatList,
-} from 'react-native';
-import { connect } from 'react-redux';
+import { StyleSheet, Text, View, RefreshControl, FlatList } from 'react-native';
 import moment from 'moment';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
-import PXImage from '../components/PXImage';
-import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 
 const styles = StyleSheet.create({
@@ -48,32 +35,6 @@ const styles = StyleSheet.create({
   },
 });
 class CommentList extends Component {
-  constructor(props) {
-    super(props);
-    const { data: { items }, maxItems } = props;
-    const dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-    });
-    this.state = {
-      dataSource: items && items.length
-        ? dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items)
-        : dataSource,
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { data: { items: prevItems } } = this.props;
-    const { data: { items }, maxItems } = nextProps;
-    if (items && items !== prevItems) {
-      const { dataSource } = this.state;
-      this.setState({
-        dataSource: dataSource.cloneWithRows(
-          maxItems ? items.slice(0, maxItems) : items,
-        ),
-      });
-    }
-  }
-
   renderRow = ({ item }) => (
     <View key={item.id} style={styles.commentContainer}>
       <PXThumbnailTouchable
@@ -128,14 +89,13 @@ class CommentList extends Component {
       loadMoreItems,
       maxItems,
     } = this.props;
-    const { dataSource } = this.state;
     return (
       <View style={styles.container}>
         {!loaded && loading && <Loader />}
         {loaded
           ? <FlatList
               data={maxItems ? items.slice(0, maxItems) : items}
-              keyExtractor={(item, index) => item.id}
+              keyExtractor={item => item.id}
               renderItem={this.renderRow}
               onEndReachedThreshold={0.1}
               onEndReached={loadMoreItems}
