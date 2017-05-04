@@ -59,72 +59,81 @@ const styles = StyleSheet.create({
   },
 });
 
-
 const typeName = {
   target: 'Target',
   duration: 'Duration',
   sort: 'Sort By',
 };
 
-const sections = [{
-  key: 'target',
-  data: [{
-    name: 'Tag Partial',
-    value: 'partial_match_for_tags',
-    type: 'target',
+const sections = [
+  {
+    key: 'target',
+    data: [
+      {
+        name: 'Tag Partial',
+        value: 'partial_match_for_tags',
+        type: 'target',
+      },
+      {
+        name: 'Tag Total',
+        value: 'exact_match_for_tags',
+        type: 'target',
+      },
+      {
+        name: 'Title caption',
+        value: 'title_and_caption',
+        type: 'target',
+      },
+    ],
   },
   {
-    name: 'Tag Total',
-    value: 'exact_match_for_tags',
-    type: 'target',
+    key: 'duration',
+    data: [
+      {
+        name: 'Nothing',
+        value: '',
+        type: 'duration',
+      },
+      {
+        name: 'Last Day',
+        value: 'within_last_day',
+        type: 'duration',
+      },
+      {
+        name: 'Last Week',
+        value: 'within_last_week',
+        type: 'duration',
+      },
+      {
+        name: 'Last Month',
+        value: 'within_last_month',
+        type: 'duration',
+      },
+    ],
   },
   {
-    name: 'Title caption',
-    value: 'title_and_caption',
-    type: 'target',
-  }],
-},
-{
-  key: 'duration',
-  data: [{
-    name: 'Nothing',
-    value: '',
-    type: 'duration',
+    key: 'sort',
+    data: [
+      {
+        name: 'Newest',
+        value: 'date_desc',
+        type: 'sort',
+      },
+      {
+        name: 'Oldest',
+        value: 'date_asc',
+        type: 'sort',
+      },
+    ],
   },
-  {
-    name: 'Last Day',
-    value: 'within_last_day',
-    type: 'duration',
-  },
-  {
-    name: 'Last Week',
-    value: 'within_last_week',
-    type: 'duration',
-  },
-  {
-    name: 'Last Month',
-    value: 'within_last_month',
-    type: 'duration',
-  }],
-},
-{
-  key: 'sort',
-  data: [{
-    name: 'Newest',
-    value: 'date_desc',
-    type: 'sort',
-  },
-  {
-    name: 'Oldest',
-    value: 'date_asc',
-    type: 'sort',
-  }],
-}];
+];
 
 class SearchFilterModal extends Component {
   constructor(props) {
     super(props);
-    const { searchFilter: { target, duration, sort } } = props.navigation.state.params;
+    const {
+      searchFilter: { target, duration, sort },
+    } = props.navigation.state.params;
     this.state = {
       target: target || 'partial_match_for_tags',
       duration: duration || '',
@@ -137,47 +146,38 @@ class SearchFilterModal extends Component {
         {typeName[section.key]}
       </Text>
     </View>
-    )
+  );
 
   renderItem = ({ item }) => {
     console.log('item ', item);
     const { target, duration, sort } = this.state;
     return (
-      <PXTouchable
-        onPress={() => this.handleOnPressRow(item.type, item.value)}
-      >
+      <PXTouchable onPress={() => this.handleOnPressRow(item.type, item.value)}>
         <View style={styles.row}>
           <Text>{item.name}</Text>
-          {
-            ((item.type === 'target' && item.value === target) ||
+          {((item.type === 'target' && item.value === target) ||
             (item.type === 'duration' && item.value === duration) ||
             (item.type === 'sort' && item.value === sort)) &&
-            <Icon
-              name="check"
-              color="#2196F3"
-            />
-          }
+            <Icon name="check" color="#2196F3" />}
         </View>
       </PXTouchable>
     );
-  }
+  };
 
   renderSeparator = (sectionId, rowId) => (
     <Separator key={`${sectionId}-${rowId}`} />
-    )
+  );
 
   handleOnPressRow = (filterType, value) => {
     console.log(filterType, value);
     if (filterType === 'target') {
       this.setState({ target: value });
-    }
-    else if (filterType === 'duration') {
+    } else if (filterType === 'duration') {
       this.setState({ duration: value });
-    }
-    else if (filterType === 'sort') {
+    } else if (filterType === 'sort') {
       this.setState({ sort: value });
     }
-  }
+  };
 
   render() {
     const { onPressApplyFilter } = this.props.navigation.state.params;
@@ -197,7 +197,9 @@ class SearchFilterModal extends Component {
             onPress={() => onPressApplyFilter(target, duration, sort)}
             style={styles.searchFilterButton}
           >
-            <Text style={styles.searchFilterButtonText}>Apply Search Duration</Text>
+            <Text style={styles.searchFilterButtonText}>
+              Apply Search Duration
+            </Text>
           </PXTouchable>
         </View>
       </View>

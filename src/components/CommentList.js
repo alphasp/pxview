@@ -55,7 +55,9 @@ class CommentList extends Component {
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
     this.state = {
-      dataSource: (items && items.length) ? dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items) : dataSource,
+      dataSource: items && items.length
+        ? dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items)
+        : dataSource,
     };
   }
 
@@ -65,16 +67,15 @@ class CommentList extends Component {
     if (items && items !== prevItems) {
       const { dataSource } = this.state;
       this.setState({
-        dataSource: dataSource.cloneWithRows(maxItems ? items.slice(0, maxItems) : items),
+        dataSource: dataSource.cloneWithRows(
+          maxItems ? items.slice(0, maxItems) : items,
+        ),
       });
     }
   }
 
   renderRow = ({ item }) => (
-    <View
-      key={item.id}
-      style={styles.commentContainer}
-    >
+    <View key={item.id} style={styles.commentContainer}>
       <PXThumbnailTouchable
         uri={item.user.profile_image_urls.medium}
         onPress={() => this.handleOnPressUser(item.user.id)}
@@ -84,25 +85,24 @@ class CommentList extends Component {
           <PXTouchable onPress={() => this.handleOnPressUser(item.user.id)}>
             <Text>{item.user.name}</Text>
           </PXTouchable>
-          <Text style={styles.date}>{moment(item.date).format('YYYY-MM-DD HH:mm')}</Text>
+          <Text style={styles.date}>
+            {moment(item.date).format('YYYY-MM-DD HH:mm')}
+          </Text>
         </View>
         <View style={styles.comment}>
           <Text>{item.comment}</Text>
         </View>
       </View>
     </View>
-    )
+  );
 
   renderFooter = () => {
     const { data: { nextUrl, loading } } = this.props;
-    return (
-      (nextUrl && loading) ?
-        <View style={{ marginBottom: 20 }}>
+    return nextUrl && loading
+      ? <View style={{ marginBottom: 20 }}>
           <Loader />
         </View>
-      :
-      null
-    );
+      : null;
     /* return (
       (nextUrl && loading) ?
       <View style={{
@@ -114,25 +114,26 @@ class CommentList extends Component {
       :
       null
     )*/
-  }
+  };
 
   handleOnPressUser = userId => {
     const { navigate } = this.props.navigation;
     navigate('UserDetail', { userId });
-  }
+  };
 
   render() {
-    const { data: { items, loading, loaded, refreshing }, onRefresh, loadMoreItems, maxItems } = this.props;
+    const {
+      data: { items, loading, loaded, refreshing },
+      onRefresh,
+      loadMoreItems,
+      maxItems,
+    } = this.props;
     const { dataSource } = this.state;
     return (
       <View style={styles.container}>
-        {
-          !loaded && loading &&
-          <Loader />
-        }
-        {
-          loaded ?
-            <FlatList
+        {!loaded && loading && <Loader />}
+        {loaded
+          ? <FlatList
               data={maxItems ? items.slice(0, maxItems) : items}
               keyExtractor={(item, index) => item.id}
               renderItem={this.renderRow}
@@ -141,21 +142,15 @@ class CommentList extends Component {
               removeClippedSubviews={false}
               ListFooterComponent={this.renderFooter}
               refreshControl={
-                <RefreshControl
-                  refreshing={refreshing}
-                  onRefresh={onRefresh}
-                />
-            }
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
             />
-          :
-          null
-        }
-        {
-          loaded && (!items || !items.length) &&
+          : null}
+        {loaded &&
+          (!items || !items.length) &&
           <View style={styles.nullResultContainer}>
             <Text>No comments</Text>
-          </View>
-        }
+          </View>}
       </View>
     );
   }

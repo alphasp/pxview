@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Spinner from 'react-native-spinkit';
 
 const styles = StyleSheet.create({
@@ -15,7 +12,7 @@ const styles = StyleSheet.create({
 
 const Loader = props => {
   const { verticalCenter } = props;
-  const style = (verticalCenter === false) ? { flex: 0 } : {};
+  const style = verticalCenter === false ? { flex: 0 } : {};
   return (
     <View style={[styles.container, style]}>
       <Spinner type="ThreeBounce" />

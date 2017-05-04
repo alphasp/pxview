@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Platform,
-  Text,
-} from 'react-native';
+import { View, StyleSheet, Platform, Text } from 'react-native';
 import PXTouchable from './PXTouchable';
 
 const styles = StyleSheet.create({
@@ -24,7 +19,11 @@ const styles = StyleSheet.create({
 const OutlineButton = props => {
   const { onPress, onLongPress, text, style, textStyle } = props;
   return (
-    <PXTouchable style={[styles.button, style]} onPress={onPress} onLongPress={onLongPress}>
+    <PXTouchable
+      style={[styles.button, style]}
+      onPress={onPress}
+      onLongPress={onLongPress}
+    >
       <Text style={[styles.buttonText, textStyle]}>{text}</Text>
     </PXTouchable>
   );

@@ -65,59 +65,59 @@ class IllustTagList extends Component {
       <View>
         <PXImage
           uri={item.illust.image_urls.square_medium}
-          style={[styles.cardImage, {
-            width: windowWidth / 3 - 3,
-            height: windowWidth / 3 - 3,
-          }]}
+          style={[
+            styles.cardImage,
+            {
+              width: windowWidth / 3 - 3,
+              height: windowWidth / 3 - 3,
+            },
+          ]}
         />
         <View
-          style={[styles.tagContainer, {
-            width: windowWidth / 3 - 3,
-          }]}
+          style={[
+            styles.tagContainer,
+            {
+              width: windowWidth / 3 - 3,
+            },
+          ]}
         >
-          <Text style={styles.tag}>{ item.tag }</Text>
+          <Text style={styles.tag}>{item.tag}</Text>
         </View>
       </View>
     </PXTouchable>
-    )
+  );
 
   handleOnPressItem = item => {
     const { navigate } = this.props.navigation;
     navigate('SearchResult', { word: item.tag });
-  }
+  };
 
   render() {
-    const { data: { items, loading, loaded, refreshing }, onRefresh } = this.props;
+    const {
+      data: { items, loading, loaded, refreshing },
+      onRefresh,
+    } = this.props;
     // const { dataSource } = this.state;
     return (
       <View style={styles.container}>
-        {
-          (!items || (!loaded && loading)) &&
-          <Loader />
-        }
-        {
-          (items && items.length) ?
-            <FlatList
+        {(!items || (!loaded && loading)) && <Loader />}
+        {items && items.length
+          ? <FlatList
               data={items}
               numColumns={3}
               keyExtractor={(item, index) => item.tag}
               renderItem={this.renderItem}
               getItemLayout={(data, index, horizontal) => ({
                 length: Dimensions.get('window').width / 3,
-                offset: (Dimensions.get('window').width / 3) * index,
+                offset: Dimensions.get('window').width / 3 * index,
                 index,
               })}
               removeClippedSubviews={false}
               refreshControl={
-                <RefreshControl
-                  refreshing={refreshing}
-                  onRefresh={onRefresh}
-                />
-            }
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
             />
-          :
-          null
-        }
+          : null}
       </View>
     );
   }

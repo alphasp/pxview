@@ -26,39 +26,45 @@ class PXCacheImage extends Component {
 
   componentDidMount() {
     const { uri, onFoundImageSize } = this.props;
-    this.task = RNFetchBlob
-      .config({
-        fileCache: true,
-        appendExt: 'png',
-        key: uri,
-        session: moment().startOf('day').format('YYYY-MM-DD'),
-      }).fetch('GET', uri, {
-        referer: 'http://www.pixiv.net',
-        //'Cache-Control' : 'no-store'
-      });
-    this.task.then(res => {
-      if (!this.unmounting) {
-        // const base64Str = `data:image/png;base64,${res.base64()}`;
-        const filePath = Platform.OS === 'android' ? `file://${res.path()}` : `${res.path()}`;
-        Image.getSize(filePath, (width, height) => {
-          if (!this.unmounting) {
-            this.setState({ width, height });
-            if (onFoundImageSize) {
-              onFoundImageSize(width, height, filePath);
-            }
-          }
-        }, err => {
-          // console.error('failed to get image size ', err);
-        });
-        this.setState({
-          imageUri: filePath,
-        });
-      }
-    })
-    .catch((err, statusCode) => {
-      // error handling
-      console.log('error fetch blob ', err);
+    this.task = RNFetchBlob.config({
+      fileCache: true,
+      appendExt: 'png',
+      key: uri,
+      session: moment().startOf('day').format('YYYY-MM-DD'),
+    }).fetch('GET', uri, {
+      referer: 'http://www.pixiv.net',
+      //'Cache-Control' : 'no-store'
     });
+    this.task
+      .then(res => {
+        if (!this.unmounting) {
+          // const base64Str = `data:image/png;base64,${res.base64()}`;
+          const filePath = Platform.OS === 'android'
+            ? `file://${res.path()}`
+            : `${res.path()}`;
+          Image.getSize(
+            filePath,
+            (width, height) => {
+              if (!this.unmounting) {
+                this.setState({ width, height });
+                if (onFoundImageSize) {
+                  onFoundImageSize(width, height, filePath);
+                }
+              }
+            },
+            err => {
+              // console.error('failed to get image size ', err);
+            },
+          );
+          this.setState({
+            imageUri: filePath,
+          });
+        }
+      })
+      .catch((err, statusCode) => {
+        // error handling
+        console.log('error fetch blob ', err);
+      });
   }
   componentWillUnmount() {
     this.unmounting = true;
@@ -71,9 +77,8 @@ class PXCacheImage extends Component {
     const { imageUri, width, height } = this.state;
     // console.log('imageUri ', imageUri ? true : false)
     // height = <user-chosen width> * original height / original width
-    return (
-      (imageUri && width && height) ?
-        <View
+    return imageUri && width && height
+      ? <View
           style={{
             width: windowWidth,
             flex: 1,
@@ -86,16 +91,17 @@ class PXCacheImage extends Component {
             source={{
               uri: imageUri,
             }}
-            style={[{
-              width: width > windowWidth ? windowWidth : width,
-              height: windowWidth * height / width,
-            }, style]}
+            style={[
+              {
+                width: width > windowWidth ? windowWidth : width,
+                height: windowWidth * height / width,
+              },
+              style,
+            ]}
             {...otherProps}
           />
         </View>
-      :
-      null
-    );
+      : null;
   }
 }
 

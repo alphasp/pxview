@@ -46,7 +46,7 @@ class PXBottomSheet extends Component {
   static defaultProps = {
     duration: 300,
     height: windowHeight - APPBAR_HEIGHT - STATUSBAR_HEIGHT,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -71,26 +71,19 @@ class PXBottomSheet extends Component {
       this.setState({ modalVisible: visible });
       // if want to support orientation
       // const newHeight = height || (Dimensions.get('window').height - APPBAR_HEIGHT - STATUSBAR_HEIGHT);
-      Animated.timing(
-        animatedHeight,
-        {
-          toValue: height,
-          duration,
-        },
-      ).start();
-    }
-    else if (!visible && modalVisible) {
-      Animated.timing(
-        animatedHeight,
-        {
-          toValue: 0,
-          duration,
-        },
-      ).start(() => {
+      Animated.timing(animatedHeight, {
+        toValue: height,
+        duration,
+      }).start();
+    } else if (!visible && modalVisible) {
+      Animated.timing(animatedHeight, {
+        toValue: 0,
+        duration,
+      }).start(() => {
         this.setState({ modalVisible: visible });
       });
     }
-  }
+  };
 
   render() {
     const { children, visible, onCancel } = this.props;
@@ -101,11 +94,19 @@ class PXBottomSheet extends Component {
         visible={modalVisible}
         onRequestClose={() => this.setModalVisible(false)}
         animationType="none"
-        supportedOrientations={['portrait', 'portrait-upside-down', 'landscape', 'landscape-left', 'landscape-right']}
+        supportedOrientations={[
+          'portrait',
+          'portrait-upside-down',
+          'landscape',
+          'landscape-left',
+          'landscape-right',
+        ]}
       >
         <TouchableWithoutFeedback onPress={onCancel}>
           <View style={styles.container}>
-            <Animated.View style={[styles.innerContainer, { maxHeight: animatedHeight }]}>
+            <Animated.View
+              style={[styles.innerContainer, { maxHeight: animatedHeight }]}
+            >
               <TouchableWithoutFeedback>
                 {children}
               </TouchableWithoutFeedback>

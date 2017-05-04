@@ -1,9 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import {
-  View,
-  StyleSheet,
-} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import BookmarkButton from '../components/BookmarkButton';
 
 const styles = StyleSheet.create({
@@ -24,6 +21,6 @@ const OverlayBookmarkButton = props => (
   <View style={styles.container}>
     <BookmarkButton {...props} />
   </View>
-  );
+);
 
 export default OverlayBookmarkButton;

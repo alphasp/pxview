@@ -41,10 +41,7 @@ class SearchUsersAutoCompleteList extends PureComponent {
   renderItem = ({ item }) => {
     const { onPressItem } = this.props;
     return (
-      <PXTouchable
-        key={item.user.id}
-        onPress={() => onPressItem(item.user.id)}
-      >
+      <PXTouchable key={item.user.id} onPress={() => onPressItem(item.user.id)}>
         <View style={styles.row}>
           <View style={styles.thumnailNameContainer}>
             <PXThumbnailTouchable
@@ -57,35 +54,32 @@ class SearchUsersAutoCompleteList extends PureComponent {
         </View>
       </PXTouchable>
     );
-  }
+  };
 
   renderSeparator = (sectionId, rowId) => (
     <Separator key={`${sectionId}-${rowId}`} />
-    )
+  );
 
   renderFooter = () => {
     const { data: { items, nextUrl } } = this.props;
-    return (
-      nextUrl ?
-        <View style={{ marginBottom: 20 }}>
+    return nextUrl
+      ? <View style={{ marginBottom: 20 }}>
           <Loader />
         </View>
-      :
-      null
-    );
-  }
+      : null;
+  };
 
   render() {
-    const { data: { items, loading, loaded, refreshing }, onRefresh, loadMoreItems } = this.props;
+    const {
+      data: { items, loading, loaded, refreshing },
+      onRefresh,
+      loadMoreItems,
+    } = this.props;
     return (
       <View style={styles.container}>
-        {
-          !loaded && loading &&
-          <Loader />
-        }
-        {
-          (items && items.length) ?
-            <FlatList
+        {!loaded && loading && <Loader />}
+        {items && items.length
+          ? <FlatList
               data={items}
               keyExtractor={(item, index) => item.user.id}
               renderItem={this.renderItem}
@@ -95,16 +89,11 @@ class SearchUsersAutoCompleteList extends PureComponent {
               onEndReached={loadMoreItems}
               ListFooterComponent={this.renderFooter}
               refreshControl={
-                <RefreshControl
-                  refreshing={refreshing}
-                  onRefresh={onRefresh}
-                />
-            }
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
               onScroll={Keyboard.dismiss}
             />
-          :
-          null
-        }
+          : null}
       </View>
     );
   }

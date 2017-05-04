@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
 class PXSearchBar extends Component {
   static defaultProps = {
     searchType: SearchType.ILLUST,
-  }
+  };
   // handleOnChangeSearchText = (word, searchType) => {
   //   const { fetchSearchAutoComplete, clearSearchAutoComplete, fetchSearchUserAutoComplete, clearSearchUserAutoComplete } = this.props;
   //   console.log('handleOnChangeSearchText ', searchType, word)
@@ -115,7 +115,12 @@ class PXSearchBar extends Component {
   // }
 
   handleOnSubmitSearch = (word, searchType) => {
-    const { navigation, addSearchHistory, isPushNewSearch, onSubmitSearch } = this.props;
+    const {
+      navigation,
+      addSearchHistory,
+      isPushNewSearch,
+      onSubmitSearch,
+    } = this.props;
     word = word.trim();
     if (word) {
       const { navigate, setParams, searchType } = navigation;
@@ -125,10 +130,21 @@ class PXSearchBar extends Component {
         navigate('SearchResult', { word, searchType });
       }
     }
-  }
+  };
 
   render() {
-    const { searchType, isRenderBackButton, isRenderRightButton, isRenderPlaceHolder, onFocus, onChangeText, onSubmitEditing, onPressRemoveTag, autoFocus, word } = this.props;
+    const {
+      searchType,
+      isRenderBackButton,
+      isRenderRightButton,
+      isRenderPlaceHolder,
+      onFocus,
+      onChangeText,
+      onSubmitEditing,
+      onPressRemoveTag,
+      autoFocus,
+      word,
+    } = this.props;
     const style = {};
     // if (isRenderBackButton && isRenderRightButton) {
     //   style = {
@@ -151,13 +167,20 @@ class PXSearchBar extends Component {
     return (
       <View style={[styles.container, style]}>
         <SearchBar
-          containerStyle={{ backgroundColor: '#fff', borderTopWidth: 0, borderBottomWidth: 0 }}
+          containerStyle={{
+            backgroundColor: '#fff',
+            borderTopWidth: 0,
+            borderBottomWidth: 0,
+          }}
           lightTheme
-          placeholder={searchType === SearchType.USER ? 'Enter nickname' : 'Enter keyword'}
+          placeholder={
+            searchType === SearchType.USER ? 'Enter nickname' : 'Enter keyword'
+          }
           autoFocus={autoFocus}
           onFocus={() => onFocus && onFocus(searchType)}
           onChangeText={text => onChangeText(text, searchType)}
-          onSubmitEditing={e => this.handleOnSubmitSearch(e.nativeEvent.text, searchType)}
+          onSubmitEditing={e =>
+            this.handleOnSubmitSearch(e.nativeEvent.text, searchType)}
           returnKeyType="search"
           defaultValue={word}
           underlineColorAndroid="transparent"
@@ -167,6 +190,9 @@ class PXSearchBar extends Component {
   }
 }
 
-export default connect((state, { searchType }) => ({
-  searchType: state.searchType.type, // searchType || state.searchType.type
-}), searchHistoryActionCreators)(PXSearchBar);
+export default connect(
+  (state, { searchType }) => ({
+    searchType: state.searchType.type, // searchType || state.searchType.type
+  }),
+  searchHistoryActionCreators,
+)(PXSearchBar);

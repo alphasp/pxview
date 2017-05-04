@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
+import { View, StyleSheet, Text, ScrollView, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
@@ -50,7 +44,15 @@ const styles = StyleSheet.create({
 });
 
 const IllustCollection = props => {
-  const { navigation: { navigate }, items, title, total, viewMoreTitle, maxItems, onPressViewMore } = props;
+  const {
+    navigation: { navigate },
+    items,
+    title,
+    total,
+    viewMoreTitle,
+    maxItems,
+    onPressViewMore,
+  } = props;
   if (!items || !items.length) {
     return null;
   }
@@ -61,26 +63,25 @@ const IllustCollection = props => {
         <Text>{title}</Text>
         <PXTouchable onPress={onPressViewMore}>
           <View style={styles.viewAllContainer}>
-            {
-              total &&
-              <Text style={styles.total}>{total}</Text>
-            }
+            {total && <Text style={styles.total}>{total}</Text>}
             <Text>{viewMoreTitle}</Text>
             <Icon name="chevron-right" style={styles.chevronIcon} />
           </View>
         </PXTouchable>
       </View>
       <View style={styles.imagePreviews}>
-        {
-          illusts && illusts.length &&
+        {illusts &&
+          illusts.length &&
           illusts.map(item => (
             <PXTouchable
               style={{
                 backgroundColor: '#fff',
                 borderColor: '#E9EBEE',
                 borderWidth: 1,
-                width: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS,
-                height: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS,
+                width: (windowWidth - CONTAINER_MARGIN * 2) /
+                  ILLUST_PREVIEW_COLUMNS,
+                height: (windowWidth - CONTAINER_MARGIN * 2) /
+                  ILLUST_PREVIEW_COLUMNS,
               }}
               key={item.id}
               onPress={() => navigate('Detail', { item })}
@@ -88,23 +89,24 @@ const IllustCollection = props => {
               <View>
                 <PXImage
                   uri={item.image_urls ? item.image_urls.square_medium : ''}
-                  style={[styles.cardImage, {
-                    resizeMode: 'cover',
-                    width: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS,
-                    height: (windowWidth - (CONTAINER_MARGIN * 2)) / ILLUST_PREVIEW_COLUMNS,
-                  }]}
+                  style={[
+                    styles.cardImage,
+                    {
+                      resizeMode: 'cover',
+                      width: (windowWidth - CONTAINER_MARGIN * 2) /
+                        ILLUST_PREVIEW_COLUMNS,
+                      height: (windowWidth - CONTAINER_MARGIN * 2) /
+                        ILLUST_PREVIEW_COLUMNS,
+                    },
+                  ]}
                 />
-                {
-                    (item.meta_pages && item.meta_pages.length) ?
-                      <OverlayImagePages total={item.meta_pages.length} />
-                    :
-                    null
-                  }
+                {item.meta_pages && item.meta_pages.length
+                  ? <OverlayImagePages total={item.meta_pages.length} />
+                  : null}
                 <OverlayBookmarkButton item={item} />
               </View>
             </PXTouchable>
-            ))
-        }
+          ))}
       </View>
     </View>
   );

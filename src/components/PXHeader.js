@@ -34,17 +34,26 @@ class PXHeader extends Component {
     onChangeSearchText: PropTypes.func.isRequired,
     showBackButton: PropTypes.bool,
     headerRight: PropTypes.element,
-  }
+  };
 
   render() {
-    const { word, showBackButton, showRightButton, headerRight, navigation, searchType, isPushNewSearch, onPressBackButton, onFocusSearchBar, onChangeSearchText, onSubmitSearch } = this.props;
+    const {
+      word,
+      showBackButton,
+      showRightButton,
+      headerRight,
+      navigation,
+      searchType,
+      isPushNewSearch,
+      onPressBackButton,
+      onFocusSearchBar,
+      onChangeSearchText,
+      onSubmitSearch,
+    } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.subContainer}>
-          {
-            showBackButton &&
-            <HeaderBackButton onPress={onPressBackButton} />
-          }
+          {showBackButton && <HeaderBackButton onPress={onPressBackButton} />}
           <PXSearchBar
             ref="searchBar"
             textInputRef="email"

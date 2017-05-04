@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import {
-  Animated,
-} from 'react-native';
+import { Animated } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as Animatable from 'react-native-animatable';
-import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
+import * as bookmarkIllustActionCreators
+  from '../common/actions/bookmarkIllust';
 import * as modalActionCreators from '../common/actions/modal';
 import { MODAL_TYPES } from '../common/constants';
 
@@ -40,7 +39,10 @@ class BookmarkButton extends Component {
     const { item: prevItem } = this.props;
     const { item } = nextProps;
     const { isBookmark } = this.state;
-    if (item.is_bookmarked !== prevItem.is_bookmarked && item.is_bookmarked !== isBookmark) {
+    if (
+      item.is_bookmarked !== prevItem.is_bookmarked &&
+      item.is_bookmarked !== isBookmark
+    ) {
       if (item.is_bookmarked && !this.state.isBookmark) {
         this.animateBookmark();
       }
@@ -59,20 +61,18 @@ class BookmarkButton extends Component {
           this.bookmarkIllust(item.id);
         },
       });
-    }
-    else {
+    } else {
       this.animateBookmark();
       this.setState({
         isBookmark: !isBookmark,
       });
       if (item.is_bookmarked) {
         this.unbookmarkIllust(item.id);
-      }
-      else {
+      } else {
         this.bookmarkIllust(item.id);
       }
     }
-  }
+  };
 
   handleOnLongPress = () => {
     const { authUser, item, navigation: { navigate }, openModal } = this.props;
@@ -82,24 +82,23 @@ class BookmarkButton extends Component {
           this.bookmarkIllust(item.id);
         },
       });
-    }
-    else {
+    } else {
       openModal(MODAL_TYPES.BOOKMARK, {
         illustId: item.id,
         isBookmark: item.is_bookmarked,
       });
     }
-  }
+  };
 
   bookmarkIllust = id => {
     const { bookmarkIllust } = this.props;
     bookmarkIllust(id);
-  }
+  };
 
   unbookmarkIllust = id => {
     const { unbookmarkIllust } = this.props;
     unbookmarkIllust(id);
-  }
+  };
 
   animateBookmark = () => {
     const { scaleAnim } = this.state;
@@ -110,7 +109,7 @@ class BookmarkButton extends Component {
     }).start(() => {
       scaleAnim.setValue(0);
     });
-  }
+  };
 
   render() {
     const { size } = this.props;
@@ -129,9 +128,11 @@ class BookmarkButton extends Component {
         name="favorite"
         style={{
           color,
-          transform: [{
-            scale,
-          }],
+          transform: [
+            {
+              scale,
+            },
+          ],
         }}
         size={size || 25}
         onPress={this.handleOnPress}
@@ -141,6 +142,11 @@ class BookmarkButton extends Component {
   }
 }
 
-export default withNavigation(connect(state => ({
-  authUser: state.auth.user,
-}), { ...bookmarkIllustActionCreators, ...modalActionCreators })(BookmarkButton));
+export default withNavigation(
+  connect(
+    state => ({
+      authUser: state.auth.user,
+    }),
+    { ...bookmarkIllustActionCreators, ...modalActionCreators },
+  )(BookmarkButton),
+);

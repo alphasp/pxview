@@ -28,31 +28,35 @@ class PXCacheImageTouchable extends Component {
   handleOnFoundImageSize = (width, height, url) => {
     if (width && height) {
       this.setState({
-        width: (width > windowWidth) ? windowWidth : width,
+        width: width > windowWidth ? windowWidth : width,
         height: (width > windowWidth ? windowWidth : width) * height / width,
         loading: false,
       });
       if (this.props.onFoundImageSize) {
-        this.props.onFoundImageSize(width > windowWidth ? windowWidth : width, (width > windowWidth ? windowWidth : width) * height / width, url);
+        this.props.onFoundImageSize(
+          width > windowWidth ? windowWidth : width,
+          (width > windowWidth ? windowWidth : width) * height / width,
+          url,
+        );
       }
     }
-  }
+  };
 
   render() {
     const { uri, style, imageStyle, onPress } = this.props;
     const { width, height, loading } = this.state;
     return (
       <PXTouchable
-        style={[style, {
-          width,
-          height,
-        }]}
+        style={[
+          style,
+          {
+            width,
+            height,
+          },
+        ]}
         onPress={onPress}
       >
-        {
-          loading &&
-          <Loader />
-        }
+        {loading && <Loader />}
         <PXCacheImage
           uri={uri}
           style={imageStyle}

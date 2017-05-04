@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-} from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
@@ -30,6 +26,6 @@ const OverlayImagePages = props => (
     <Icon name="picture-o" color="#fff" />
     <Text style={styles.text}>{props.total}</Text>
   </View>
-  );
+);
 
 export default OverlayImagePages;

@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Platform,
-  Text,
-} from 'react-native';
+import { View, StyleSheet, Platform, Text } from 'react-native';
 import PXTouchable from './PXTouchable';
 
 const styles = StyleSheet.create({
@@ -29,7 +24,11 @@ const styles = StyleSheet.create({
 const FollowButton = props => {
   const { isFollow, onPress, onLongPress } = props;
   return (
-    <PXTouchable style={styles.button} onPress={onPress} onLongPress={onLongPress}>
+    <PXTouchable
+      style={styles.button}
+      onPress={onPress}
+      onLongPress={onLongPress}
+    >
       <Text style={styles.buttonText}>{isFollow ? 'Following' : 'Follow'}</Text>
     </PXTouchable>
   );

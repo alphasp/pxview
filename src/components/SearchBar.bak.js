@@ -87,48 +87,78 @@ const styles = StyleSheet.create({
 
 class SearchBar extends Component {
   render() {
-    const { searchType, isRenderPlaceHolder, isRenderRightButton, enableBack, onFocus, onChangeText, onSubmitEditing, onPressRemoveTag, autoFocus, word } = this.props;
+    const {
+      searchType,
+      isRenderPlaceHolder,
+      isRenderRightButton,
+      enableBack,
+      onFocus,
+      onChangeText,
+      onSubmitEditing,
+      onPressRemoveTag,
+      autoFocus,
+      word,
+    } = this.props;
     return (
       <View
-        style={[styles.container, {
-          marginLeft: enableBack && 30,
-          marginRight: isRenderRightButton && 35,
-        }]}
+        style={[
+          styles.container,
+          {
+            marginLeft: enableBack && 30,
+            marginRight: isRenderRightButton && 35,
+          },
+        ]}
       >
         <View style={styles.searchBarInputGroup}>
-          <Icon style={styles.searchIcon} name="search" size={15} color="#5cafec" />
-          {
-            (isRenderPlaceHolder && !word) ?
-              <PXTouchable
+          <Icon
+            style={styles.searchIcon}
+            name="search"
+            size={15}
+            color="#5cafec"
+          />
+          {isRenderPlaceHolder && !word
+            ? <PXTouchable
                 onPress={() => onFocus(searchType)}
-                style={[styles.searchBarTextInput, styles.placeHolderTextContainer]}
+                style={[
+                  styles.searchBarTextInput,
+                  styles.placeHolderTextContainer,
+                ]}
               >
-                <Text style={styles.placeHolderText}>{searchType === SearchType.USER ? 'Enter nickname' : 'Enter keyword'}</Text>
+                <Text style={styles.placeHolderText}>
+                  {searchType === SearchType.USER
+                    ? 'Enter nickname'
+                    : 'Enter keyword'}
+                </Text>
               </PXTouchable>
-            :
-            (isRenderPlaceHolder && word) ?
-              <View style={[styles.searchBarTextInput, styles.placeHolderTextContainer]}>
-                <PXTouchable
-                  onPress={() => onFocus(searchType)}
-                >
-                  <SearchTags
-                    tags={word.trim().split(' ')}
-                    onPressRemove={onPressRemoveTag}
-                  />
-                </PXTouchable>
-              </View>
-            :
-              <TextInput
-                style={styles.searchBarTextInput}
-                placeholder={searchType === SearchType.USER ? 'Enter nickname' : 'Enter keyword'}
-                autoFocus={autoFocus}
-                onChangeText={text => onChangeText(text, searchType)}
-                onSubmitEditing={e => onSubmitEditing(e.nativeEvent.text, searchType)}
-                returnKeyType="search"
-                defaultValue={word}
-                underlineColorAndroid="transparent"
-              />
-          }
+            : isRenderPlaceHolder && word
+                ? <View
+                    style={[
+                      styles.searchBarTextInput,
+                      styles.placeHolderTextContainer,
+                    ]}
+                  >
+                    <PXTouchable onPress={() => onFocus(searchType)}>
+                      <SearchTags
+                        tags={word.trim().split(' ')}
+                        onPressRemove={onPressRemoveTag}
+                      />
+                    </PXTouchable>
+                  </View>
+                : <TextInput
+                    style={styles.searchBarTextInput}
+                    placeholder={
+                      searchType === SearchType.USER
+                        ? 'Enter nickname'
+                        : 'Enter keyword'
+                    }
+                    autoFocus={autoFocus}
+                    onChangeText={text => onChangeText(text, searchType)}
+                    onSubmitEditing={e =>
+                      onSubmitEditing(e.nativeEvent.text, searchType)}
+                    returnKeyType="search"
+                    defaultValue={word}
+                    underlineColorAndroid="transparent"
+                  />}
         </View>
       </View>
     );

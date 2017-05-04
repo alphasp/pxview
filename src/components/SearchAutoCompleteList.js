@@ -39,28 +39,21 @@ class SearchAutoCompleteList extends PureComponent {
   renderItem = ({ item }) => {
     const { onPressItem } = this.props;
     return (
-      <PXTouchable
-        key={item}
-        onPress={() => onPressItem(item)}
-      >
+      <PXTouchable key={item} onPress={() => onPressItem(item)}>
         <View style={styles.row}>
           <Text>{item}</Text>
         </View>
       </PXTouchable>
     );
-  }
+  };
 
   render() {
     const { data: { items, loading, loaded } } = this.props;
     return (
       <View style={styles.container}>
-        {
-          !loaded && loading &&
-          <Loader />
-        }
-        {
-          (items && items.length) ?
-            <FlatList
+        {!loaded && loading && <Loader />}
+        {items && items.length
+          ? <FlatList
               data={items}
               keyExtractor={(item, index) => item}
               renderItem={this.renderItem}
@@ -68,9 +61,7 @@ class SearchAutoCompleteList extends PureComponent {
               keyboardShouldPersistTaps="always"
               onScroll={Keyboard.dismiss}
             />
-          :
-          null
-        }
+          : null}
       </View>
     );
   }

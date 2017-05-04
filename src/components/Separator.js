@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 const styles = StyleSheet.create({
   separatorContainer: {
@@ -18,6 +15,6 @@ const Separator = props => (
   <View style={styles.separatorContainer}>
     <View style={styles.separator} />
   </View>
-  );
+);
 
 export default Separator;

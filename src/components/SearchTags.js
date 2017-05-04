@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  ScrollView,
-} from 'react-native';
+import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import PXTouchable from './PXTouchable';
 
 const styles = StyleSheet.create({
@@ -51,27 +46,19 @@ const SearchTags = props => {
   // const tags = ['abcd', 'def', 'gg']
   return (
     <View style={styles.container}>
-      <ScrollView
-        horizontal
-        keyboardShouldPersistTaps="always"
-      >
-        {
-          tags.map((tag, index) =>
-            <View
-              key={index}
-              style={styles.tagContainer}
-            >
-              <View style={styles.tagLabelContainer}>
-                <Text style={styles.tagLabel}>{tag}</Text>
-                <View style={styles.removeButtonContainer}>
-                  <PXTouchable onPress={() => onPressRemove(index)}>
-                    <Text style={styles.removeButtonText}>X</Text>
-                  </PXTouchable>
-                </View>
+      <ScrollView horizontal keyboardShouldPersistTaps="always">
+        {tags.map((tag, index) => (
+          <View key={index} style={styles.tagContainer}>
+            <View style={styles.tagLabelContainer}>
+              <Text style={styles.tagLabel}>{tag}</Text>
+              <View style={styles.removeButtonContainer}>
+                <PXTouchable onPress={() => onPressRemove(index)}>
+                  <Text style={styles.removeButtonText}>X</Text>
+                </PXTouchable>
               </View>
-            </View>,
-          )
-        }
+            </View>
+          </View>
+        ))}
       </ScrollView>
     </View>
   );

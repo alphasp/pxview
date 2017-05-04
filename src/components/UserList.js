@@ -75,8 +75,7 @@ class UserList extends Component {
         }}
       >
         <View style={styles.imagePreviews}>
-          {
-            item.illusts &&
+          {item.illusts &&
             item.illusts.map(illust => (
               <PXTouchable
                 style={{
@@ -90,23 +89,24 @@ class UserList extends Component {
               >
                 <View>
                   <PXImage
-                    uri={illust.image_urls ? illust.image_urls.square_medium : ''}
-                    style={[styles.cardImage, {
-                      resizeMode: 'cover',
-                      width: windowWidth / ILLUST_PREVIEW_COLUMNS - 1,
-                      height: windowWidth / ILLUST_PREVIEW_COLUMNS - 1,
-                    }]}
-                  />
-                  {
-                      (illust.meta_pages && illust.meta_pages.length) ?
-                        <OverlayImagePages total={illust.meta_pages.length} />
-                      :
-                      null
+                    uri={
+                      illust.image_urls ? illust.image_urls.square_medium : ''
                     }
+                    style={[
+                      styles.cardImage,
+                      {
+                        resizeMode: 'cover',
+                        width: windowWidth / ILLUST_PREVIEW_COLUMNS - 1,
+                        height: windowWidth / ILLUST_PREVIEW_COLUMNS - 1,
+                      },
+                    ]}
+                  />
+                  {illust.meta_pages && illust.meta_pages.length
+                    ? <OverlayImagePages total={illust.meta_pages.length} />
+                    : null}
                 </View>
               </PXTouchable>
-              ))
-          }
+            ))}
         </View>
         <View style={styles.userInfoContainer}>
           <PXTouchable
@@ -130,41 +130,38 @@ class UserList extends Component {
         </View>
       </View>
     );
-  }
+  };
 
-  handleOnPressImagePreview= item => {
+  handleOnPressImagePreview = item => {
     const { navigate } = this.props.navigation;
     navigate('Detail', { item });
-  }
+  };
 
   handleOnPressAvatar = userId => {
     const { navigate } = this.props.navigation;
     navigate('UserDetail', { userId });
-  }
+  };
 
   renderFooter = () => {
     const { userList: { nextUrl } } = this.props;
-    return (
-      nextUrl ?
-        <View style={{ marginBottom: 20 }}>
+    return nextUrl
+      ? <View style={{ marginBottom: 20 }}>
           <Loader />
         </View>
-      :
-      null
-    );
-  }
+      : null;
+  };
 
   render() {
-    const { userList: { items, loading, loaded, refreshing }, loadMoreItems, onRefresh } = this.props;
+    const {
+      userList: { items, loading, loaded, refreshing },
+      loadMoreItems,
+      onRefresh,
+    } = this.props;
     return (
       <View style={styles.container}>
-        {
-          !loaded && loading &&
-          <Loader />
-        }
-        {
-          (items && items.length) ?
-            <FlatList
+        {!loaded && loading && <Loader />}
+        {items && items.length
+          ? <FlatList
               data={items}
               keyExtractor={(item, index) => item.user.id}
               renderItem={this.renderItem}
@@ -173,15 +170,10 @@ class UserList extends Component {
               onEndReached={loadMoreItems}
               ListFooterComponent={this.renderFooter}
               refreshControl={
-                <RefreshControl
-                  refreshing={refreshing}
-                  onRefresh={onRefresh}
-                />
-            }
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
             />
-          :
-          null
-        }
+          : null}
       </View>
     );
   }

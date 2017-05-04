@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  RefreshControl,
-} from 'react-native';
+import { StyleSheet, Text, View, Image, RefreshControl } from 'react-native';
 // import Image from 'react-native-image-progress';
 // import CacheableImage from 'react-native-cacheable-image';
 import FitImage from 'react-native-fit-image';
@@ -24,18 +18,19 @@ class PXImage extends Component {
     task = RNFetchBlob.fetch('GET', source, {
       referer: 'http://www.pixiv.net',
     });
-    task.then(res => {
-      if (!this.unmounting) {
-        const base64Str = res.base64();
-        this.setState({
-          imageBase64String: `data:image/png;base64,${base64Str}`,
-        });
-      }
-    })
-    .catch((err, statusCode) => {
-      // error handling
-      console.log('error fetch blob ', err);
-    });
+    task
+      .then(res => {
+        if (!this.unmounting) {
+          const base64Str = res.base64();
+          this.setState({
+            imageBase64String: `data:image/png;base64,${base64Str}`,
+          });
+        }
+      })
+      .catch((err, statusCode) => {
+        // error handling
+        console.log('error fetch blob ', err);
+      });
   }
   componentWillUnmount() {
     this.unmounting = true;
@@ -47,18 +42,15 @@ class PXImage extends Component {
     const { source, style, ...otherProps } = this.props;
     const { imageBase64String } = this.state;
     console.log('imageBase64String ', !!imageBase64String);
-    return (
-      imageBase64String ?
-        <FitImage
+    return imageBase64String
+      ? <FitImage
           source={{
             uri: imageBase64String,
           }}
           style={style}
           {...otherProps}
         />
-      :
-      null
-    );
+      : null;
     // return (
     //   imageBase64String ?
     //   <Image

@@ -23,7 +23,8 @@ import PXImage from './PXImage';
 import OverlayImagePages from './OverlayImagePages';
 import OverlayBookmarkButton from '../components/OverlayBookmarkButton';
 import BookmarkModal from '../containers/BookmarkModal';
-import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
+import * as bookmarkIllustActionCreators
+  from '../common/actions/bookmarkIllust';
 
 const width = Dimensions.get('window').width; // full width
 const height = Dimensions.get('window').height; // full height
@@ -36,17 +37,13 @@ const styles = StyleSheet.create({
 
 class IllustList extends Component {
   renderItem = ({ item }) => (
-    <IllustItem
-      item={item}
-      onPressItem={() => this.handleOnPressItem(item)}
-    />
-    )
+    <IllustItem item={item} onPressItem={() => this.handleOnPressItem(item)} />
+  );
 
   renderFooter = () => {
     const { data: { nextUrl, loading } } = this.props;
-    return (
-      (nextUrl && loading) ?
-        <View
+    return nextUrl && loading
+      ? <View
           style={{
             width,
             marginBottom: 20,
@@ -54,26 +51,27 @@ class IllustList extends Component {
         >
           <Loader verticalCenter={false} />
         </View>
-      :
-      null
-    );
-  }
+      : null;
+  };
 
   handleOnPressItem = item => {
     const { navigate } = this.props.navigation;
     navigate('Detail', { item });
-  }
+  };
 
   render() {
-    const { data: { items, loading, loaded, refreshing }, onRefresh, loadMoreItems, onScroll, maxItems } = this.props;
+    const {
+      data: { items, loading, loaded, refreshing },
+      onRefresh,
+      loadMoreItems,
+      onScroll,
+      maxItems,
+    } = this.props;
     // const { dataSource } = this.state;
     // console.log('render illust list ', this.props.data)
     return (
       <View style={styles.container}>
-        {
-          (!items || (!loaded && loading)) &&
-          <Loader />
-        }
+        {(!items || (!loaded && loading)) && <Loader />}
         {/* {
           (items && items.length) ?
           <GridView
@@ -95,16 +93,15 @@ class IllustList extends Component {
           :
           null
         }*/}
-        {
-          loaded ?
-            <FlatList
+        {loaded
+          ? <FlatList
               data={maxItems ? items.slice(0, maxItems) : items}
               numColumns={3}
               keyExtractor={(item, index) => item.id}
               renderItem={this.renderItem}
               getItemLayout={(data, index, horizontal) => ({
                 length: Dimensions.get('window').width / 3,
-                offset: (Dimensions.get('window').width / 3) * index,
+                offset: Dimensions.get('window').width / 3 * index,
                 index,
               })}
               legacyImplementation={false}
@@ -117,18 +114,15 @@ class IllustList extends Component {
               ListFooterComponent={this.renderFooter}
               onScroll={onScroll}
               refreshControl={
-                <RefreshControl
-                  refreshing={refreshing}
-                  onRefresh={onRefresh}
-                />
-            }
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
             />
-          :
-          null
-        }
+          : null}
       </View>
     );
   }
 }
 
-export default withNavigation(connect(null, bookmarkIllustActionCreators)(IllustList));
+export default withNavigation(
+  connect(null, bookmarkIllustActionCreators)(IllustList),
+);

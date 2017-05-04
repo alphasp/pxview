@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-} from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import PXTouchable from './PXTouchable';
 
 const styles = StyleSheet.create({
@@ -24,12 +20,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     // height: 32,
     margin: 4,
-
   },
   tagLabel: {
     padding: 2,
     color: '#fff',
-
   },
 });
 
@@ -37,17 +31,15 @@ const Tags = props => {
   const { tags, onPressTag } = props;
   return (
     <View style={styles.container}>
-      {
-        tags.map(tag =>
-          <PXTouchable
-            key={tag.name}
-            style={styles.tagContainer}
-            onPress={() => onPressTag(tag.name)}
-          >
-            <Text style={styles.tagLabel}>{tag.name}</Text>
-          </PXTouchable>,
-        )
-      }
+      {tags.map(tag => (
+        <PXTouchable
+          key={tag.name}
+          style={styles.tagContainer}
+          onPress={() => onPressTag(tag.name)}
+        >
+          <Text style={styles.tagLabel}>{tag.name}</Text>
+        </PXTouchable>
+      ))}
     </View>
   );
   // return (

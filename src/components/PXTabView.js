@@ -7,7 +7,12 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import { TabViewAnimated, TabBar, TabViewPagerScroll, TabViewPagerPan } from 'react-native-tab-view';
+import {
+  TabViewAnimated,
+  TabBar,
+  TabViewPagerScroll,
+  TabViewPagerPan,
+} from 'react-native-tab-view';
 
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
 
@@ -33,12 +38,22 @@ class PXTabView extends Component {
         {...props}
       />
     );
-  }
+  };
 
-  renderPager = props => (Platform.OS === 'ios') ? <TabViewPagerScroll {...props} /> : <TabViewPagerPan {...props} />
+  renderPager = props =>
+    Platform.OS === 'ios'
+      ? <TabViewPagerScroll {...props} />
+      : <TabViewPagerPan {...props} />;
 
   render() {
-    const { screenProps, navigationState, renderScene, onRequestChangeTab, lazy, ...restProps } = this.props;
+    const {
+      screenProps,
+      navigationState,
+      renderScene,
+      onRequestChangeTab,
+      lazy,
+      ...restProps
+    } = this.props;
     return (
       <TabViewAnimated
         style={styles.container}

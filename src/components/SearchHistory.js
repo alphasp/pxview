@@ -52,7 +52,7 @@ class SearchHistory extends Component {
         />
       </View>
     );
-  }
+  };
 
   render() {
     const { items, onPressClearSearchHistory } = this.props;

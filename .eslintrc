@@ -1,10 +1,17 @@
 {
-    "extends": "airbnb",
+    "extends": [
+        "airbnb",
+        "prettier",
+        "prettier/react"
+    ],
     "parser": "babel-eslint",
     "rules": {
+        "prettier/prettier": ["error", {
+            "trailingComma": "all",
+            "singleQuote": true
+        }],
         "brace-style": [
-            2,
-            "stroustrup"
+            2
         ],
         "arrow-parens": [
             2,
@@ -26,7 +33,11 @@
         ],
         "react/prop-types": [
             0
-        ]
+        ],
+        "react/sort-comp": [0],
+        "react/no-unused-prop-types": [0],
+        "react/prefer-stateless-function": [1, { "ignorePureComponents": true }],
+        "react/forbid-prop-types": [0]
     },
     "env": {
         "es6": true,
@@ -38,6 +49,7 @@
     },
     "plugins": [
         "react",
-        "react-native"
+        "react-native",
+        "prettier"
     ]
 }
