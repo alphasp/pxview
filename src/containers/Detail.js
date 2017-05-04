@@ -3,44 +3,31 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   Dimensions,
   ScrollView,
-  ListView,
   FlatList,
-  RecyclerViewBackedScrollView,
   InteractionManager,
   Platform,
-  PanResponder,
   Linking,
-  Navigator,
-  Animated,
   LayoutAnimation,
   UIManager,
 } from 'react-native';
 import { connect } from 'react-redux';
 import HtmlView from 'react-native-htmlview';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import * as Animatable from 'react-native-animatable';
-import Share, { ShareSheet, Button } from 'react-native-share';
+import Share from 'react-native-share';
 import ActionButton from 'react-native-action-button';
 import BookmarkButton from '../components/BookmarkButton';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
 import FollowButtonContainer from './FollowButtonContainer';
-import PXImage from '../components/PXImage';
 import PXCacheImageTouchable from '../components/PXCacheImageTouchable';
 import PXThumbnail from '../components/PXThumbnail';
-import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import Tags from '../components/Tags';
 import RelatedIllusts from './RelatedIllusts';
 import IllustComments from './IllustComments';
-import Schemas from '../common/constants/schemas';
-// import { makeGetDetailItem } from '../common/selectors';
 
 const windowWidth = Dimensions.get('window').width; // full width
-const windowHeight = Dimensions.get('window').height; // full height
 const THUMBNAIL_SIZE = 30;
 
 const styles = StyleSheet.create({
@@ -196,6 +183,7 @@ class Detail extends Component {
     };
     this.listViewOffset = 0;
     if (Platform.OS === 'android') {
+      /* eslint no-unused-expressions: ["error", { "allowShortCircuit": true }] */
       UIManager.setLayoutAnimationEnabledExperimental &&
         UIManager.setLayoutAnimationEnabledExperimental(true);
     }
@@ -225,7 +213,7 @@ class Detail extends Component {
     clearTimeout(this.timer);
   }
 
-  renderRow = ({ item, index }) => (
+  renderItem = ({ item, index }) => (
     <PXCacheImageTouchable
       key={item.image_urls.large}
       uri={item.image_urls.large}
@@ -320,12 +308,7 @@ class Detail extends Component {
     navigate('UserDetail', { userId });
   };
 
-  handleOnViewableItemsChanged = ({ viewableItems, changed }) => {
-    // console.log('viewableItems ', viewableItems)
-    // console.log('changed ', changed)
-    // not trigger on android
-    // https://github.com/facebook/react-native/issues/5688
-    // const { item } = this.props;
+  handleOnViewableItemsChanged = ({ viewableItems }) => {
     const { item } = this.props;
     if (
       item.meta_pages &&
@@ -333,8 +316,6 @@ class Detail extends Component {
       viewableItems &&
       viewableItems.length
     ) {
-      // console.log('visible row ', visibleRowNumbers)
-      // Actions.refresh({ title: `${visibleRowNumbers[0] + 1} / ${item.meta_pages.length}`});
       this.setState({
         imagePageNumber: `${viewableItems[0].index + 1} / ${item.meta_pages.length}`,
       });
@@ -424,9 +405,9 @@ class Detail extends Component {
       .then(supported => {
         if (!supported) {
           console.log(`Can't handle url: ${url}`);
-        } else {
-          return Linking.openURL(url);
+          return null;
         }
+        return Linking.openURL(url);
       })
       .catch(err => {
         console.error('Error on link press ', err);
@@ -470,65 +451,59 @@ class Detail extends Component {
     });
   };
 
+  renderContent = () => {
+    const { item } = this.props;
+    const { imagePageNumber, isScrolling, isInitState } = this.state;
+    return (
+      <View>
+        {item.page_count > 1
+          ? <View>
+              <View style={{ flex: 1 }}>
+                <FlatList
+                  data={item.meta_pages}
+                  keyExtractor={page => page.image_urls.large}
+                  renderItem={this.renderItem}
+                  debug={false}
+                  disableVirtualization
+                  removeClippedSubviews={false}
+                  ListFooterComponent={this.renderFooter}
+                  onScroll={this.handleOnScroll}
+                  onViewableItemsChanged={this.handleOnViewableItemsChanged}
+                />
+              </View>
+              {(isInitState || isScrolling) &&
+                imagePageNumber &&
+                <View style={styles.imagePageNumberContainer}>
+                  <Text style={styles.imagePageNumber}>
+                    {imagePageNumber}
+                  </Text>
+                </View>}
+            </View>
+          : <ScrollView onScroll={this.handleOnScroll} scrollEventThrottle={16}>
+              <PXCacheImageTouchable
+                uri={item.image_urls.large}
+                initWidth={item.width > windowWidth ? windowWidth : item.width}
+                initHeight={windowWidth * item.height / item.width}
+                style={{
+                  backgroundColor: '#E9EBEE',
+                }}
+                imageStyle={{
+                  resizeMode: 'contain',
+                }}
+                onPress={() => this.handleOnPressImage(0)}
+              />
+              {this.renderFooter()}
+            </ScrollView>}
+      </View>
+    );
+  };
+
   render() {
-    const { item, navigation } = this.props;
-    const { isShowBottomSheet } = navigation.state.params;
-    const {
-      mounting,
-      imagePageNumber,
-      isScrolling,
-      isActionButtonVisible,
-      isInitState,
-      images,
-    } = this.state;
+    const { item } = this.props;
+    const { mounting, isActionButtonVisible } = this.state;
     return (
       <View style={styles.container} ref={ref => (this.detailView = ref)}>
-        {mounting
-          ? <Loader />
-          : item.page_count > 1
-              ? <View>
-                  <View style={{ flex: 1 }}>
-                    <FlatList
-                      data={item.meta_pages}
-                      keyExtractor={(item, index) => item.image_urls.large}
-                      renderItem={this.renderRow}
-                      debug={false}
-                      disableVirtualization
-                      removeClippedSubviews={false}
-                      ListFooterComponent={this.renderFooter}
-                      onScroll={this.handleOnScroll}
-                      onViewableItemsChanged={this.handleOnViewableItemsChanged}
-                    />
-
-                  </View>
-                  {(isInitState || isScrolling) &&
-                    imagePageNumber &&
-                    <View style={styles.imagePageNumberContainer}>
-                      <Text style={styles.imagePageNumber}>
-                        {imagePageNumber}
-                      </Text>
-                    </View>}
-                </View>
-              : <ScrollView
-                  onScroll={this.handleOnScroll}
-                  scrollEventThrottle={16}
-                >
-                  <PXCacheImageTouchable
-                    uri={item.image_urls.large}
-                    initWidth={
-                      item.width > windowWidth ? windowWidth : item.width
-                    }
-                    initHeight={windowWidth * item.height / item.width}
-                    style={{
-                      backgroundColor: '#E9EBEE',
-                    }}
-                    imageStyle={{
-                      resizeMode: 'contain',
-                    }}
-                    onPress={() => this.handleOnPressImage(0)}
-                  />
-                  {this.renderFooter()}
-                </ScrollView>}
+        {mounting ? <Loader /> : this.renderContent()}
         {isActionButtonVisible &&
           <ActionButton
             buttonColor="rgba(255,255,255,1)"
@@ -539,17 +514,7 @@ class Detail extends Component {
   }
 }
 
-// export default connect(() => {
-//   const getDetailItem = makeGetDetailItem();
-//   return (state, props) => {
-//     return {
-//       item: getDetailItem(state, props),
-//     }
-//   }
-// })(Detail);
-
 export default connect((state, props) => {
-  const { entities } = state;
   const item = props.navigation.state.params.item;
   return { item };
 })(Detail);

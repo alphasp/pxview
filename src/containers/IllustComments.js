@@ -1,20 +1,6 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ListView,
-  RecyclerViewBackedScrollView,
-  RefreshControl,
-  InteractionManager,
-} from 'react-native';
+import { InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
-import moment from 'moment';
-import Loader from '../components/Loader';
-import PXTouchable from '../components/PXTouchable';
-import PXImage from '../components/PXImage';
-import PXThumbnail from '../components/PXThumbnail';
-import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import CommentList from '../components/CommentList';
 import * as illustCommentsActionCreators
   from '../common/actions/illustComments';
@@ -54,7 +40,6 @@ class IllustComments extends Component {
     const {
       illustComments,
       items,
-      illustId,
       navigation,
       isFeatureInDetailPage,
       maxItems,

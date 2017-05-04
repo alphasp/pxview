@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-  Dimensions,
-  RefreshControl,
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import IllustList from '../components/IllustList';
 import { Button } from 'react-native-elements';
+import IllustList from '../components/IllustList';
 import * as followingUserIllustsActionCreators
   from '../common/actions/followingUserIllusts';
 import { getFollowingUserIllustsItems } from '../common/selectors';
@@ -59,7 +52,6 @@ class FollowingUserIllusts extends Component {
 
   loadMoreItems = () => {
     const {
-      user,
       fetchFollowingUserIllusts,
       followingUserIllusts: { loading, nextUrl },
     } = this.props;

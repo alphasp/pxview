@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  Platform,
   Text,
   TextInput,
   FlatList,
@@ -104,7 +103,6 @@ class BookmarkModal extends Component {
 
   constructor(props) {
     super(props);
-    const { isBookmark } = props;
     this.state = {
       tags: [],
       isPrivate: false,
@@ -118,7 +116,6 @@ class BookmarkModal extends Component {
       illustId,
       fetchIllustBookmarkDetail,
       clearIllustBookmarkDetail,
-      tagType,
     } = this.props;
     clearIllustBookmarkDetail(illustId);
     fetchIllustBookmarkDetail(illustId);
@@ -148,7 +145,7 @@ class BookmarkModal extends Component {
   };
 
   handleOnCheckTag = checkedTag => {
-    const { dataSource, tags } = this.state;
+    const { tags } = this.state;
     let selectedTagsCount = this.countSelectedTags(tags);
     if (!checkedTag.editable) {
       if (selectedTagsCount > MAX_TAGS_COUNT - 1) {
@@ -162,9 +159,9 @@ class BookmarkModal extends Component {
     const selectedTag = tags.find(tag => tag.name === checkedTag.name);
     if (selectedTag) {
       if (selectedTag.is_registered) {
-        selectedTagsCount--;
+        selectedTagsCount -= 1;
       } else {
-        selectedTagsCount++;
+        selectedTagsCount += 1;
       }
     }
     console.log('selectedTagsCount ', selectedTagsCount);
@@ -187,10 +184,11 @@ class BookmarkModal extends Component {
   };
 
   countSelectedTags = tags =>
+    // eslint-disable-next-line no-plusplus
     tags.reduce((count, tag) => (tag.is_registered ? ++count : count), 0);
 
   handleOnPressBookmarkButton = () => {
-    const { illustId, isBookmark, onPressBookmarkButton } = this.props;
+    const { illustId } = this.props;
     const { tags, isPrivate } = this.state;
     const selectedTags = tags
       .filter(tag => tag.is_registered)
@@ -261,29 +259,21 @@ class BookmarkModal extends Component {
     unbookmarkIllust(id);
   };
 
-  renderItem = ({ item }) => {
-    const { tag, onSelectTag } = this.props;
-    const { selectedTagsCount } = this.state;
-    return (
-      <PXTouchable onPress={() => this.handleOnCheckTag(item)}>
-        <View style={styles.row}>
-          <Text style={styles.tagText}>{item.name}</Text>
-          <MKCheckbox
-            checked={item.is_registered}
-            onCheckedChange={() => this.handleOnCheckTag(item)}
-            editable={item.editable}
-          />
-        </View>
-      </PXTouchable>
-    );
-  };
+  renderItem = ({ item }) => (
+    <PXTouchable onPress={() => this.handleOnCheckTag(item)}>
+      <View style={styles.row}>
+        <Text style={styles.tagText}>{item.name}</Text>
+        <MKCheckbox
+          checked={item.is_registered}
+          onCheckedChange={() => this.handleOnCheckTag(item)}
+          editable={item.editable}
+        />
+      </View>
+    </PXTouchable>
+  );
 
   render() {
-    const {
-      illustBookmarkDetail: { item, loading, loaded },
-      isBookmark,
-      onSelectTag,
-    } = this.props;
+    const { isBookmark } = this.props;
     const { tags, selectedTagsCount, isPrivate } = this.state;
     return (
       <Modal
@@ -371,7 +361,7 @@ class BookmarkModal extends Component {
 }
 
 export default connect(
-  (state, props) => ({
+  state => ({
     illustBookmarkDetail: state.illustBookmarkDetail,
   }),
   {

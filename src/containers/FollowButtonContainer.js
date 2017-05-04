@@ -1,13 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View,
-  ListView,
-  Dimensions,
-  RecyclerViewBackedScrollView,
-  ScrollView,
-} from 'react-native';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import FollowButton from '../components/FollowButton';
@@ -23,6 +15,10 @@ class FollowButtonContainer extends Component {
     unfollowUser: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
     openModal: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    authUser: null,
   };
 
   handleOnPress = () => {
@@ -81,7 +77,7 @@ class FollowButtonContainer extends Component {
 
 export default withNavigation(
   connect(
-    (state, props) => ({
+    state => ({
       authUser: state.auth.user,
     }),
     { ...followUserActionCreators, ...modalActionCreators },

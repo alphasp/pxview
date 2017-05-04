@@ -1,14 +1,11 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Platform, Linking } from 'react-native';
-import dismissKeyboard from 'dismissKeyboard';
+import { StyleSheet, View, Linking, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { FormLabel, FormInput, Button } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import PXFormInput from '../components/PXFormInput';
-import { login } from '../common/actions/auth';
+import * as authActionCreators from '../common/actions/auth';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,7 +21,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const validate = (values, props) => {
+const validate = values => {
   const errors = {};
   if (!values.email) {
     errors.email = 'Email address/Pixiv ID is required';
@@ -36,22 +33,10 @@ const validate = (values, props) => {
 };
 
 class Login extends Component {
-  static propTypes = {
-    auth: PropTypes.object,
-    navigation: PropTypes.object,
-    login: PropTypes.func.isRequired,
-    onLoginSuccess: PropTypes.func,
-    handleSubmit: PropTypes.func,
-  };
-
   componentWillReceiveProps(nextProps) {
-    const { auth: { user: prevUser } } = this.props;
-    const {
-      auth: { user },
-      navigation: { goBack },
-      onLoginSuccess,
-    } = nextProps;
-    if (user !== prevUser) {
+    const { authUser: prevUser } = this.props;
+    const { authUser, navigation: { goBack }, onLoginSuccess } = nextProps;
+    if (authUser !== prevUser) {
       goBack();
       if (onLoginSuccess) {
         onLoginSuccess();
@@ -60,12 +45,9 @@ class Login extends Component {
   }
 
   submit = data => {
-    // Actions.pop({ refresh: { test: 'abaer' }})
-    // Actions.tabs();
-    // Actions.userProfile({ type: ActionConst.RESET });
     const { login } = this.props;
     const { email, password } = data;
-    dismissKeyboard();
+    Keyboard.dismiss();
     login(email, password);
     // todo handle login error
   };
@@ -76,9 +58,9 @@ class Login extends Component {
       .then(supported => {
         if (!supported) {
           console.log(`Can't handle url: ${url}`);
-        } else {
-          return Linking.openURL(url);
+          return null;
         }
+        return Linking.openURL(url);
       })
       .catch(err => console.error('An error occurred', err));
   };
@@ -125,11 +107,11 @@ const LoginForm = reduxForm({
 
 export default connect(
   (state, props) => ({
-    auth: state.auth,
+    authUser: state.auth.user,
     onLoginSuccess: props.onLoginSuccess ||
       (props.navigation.state &&
         props.navigation.state.params &&
         props.navigation.state.params.onLoginSuccess),
   }),
-  { login },
+  authActionCreators,
 )(LoginForm);

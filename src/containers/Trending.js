@@ -95,7 +95,7 @@ class Trending extends Component {
     this.setState({ isFocusSearchBar: true });
   };
 
-  handleOnChangeSearchText = (word) => {
+  handleOnChangeSearchText = word => {
     this.setState({ word });
   };
 

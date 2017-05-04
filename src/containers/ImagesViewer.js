@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Dimensions, CameraRoll } from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 import Swiper from 'react-native-swiper';
 import PhotoView from 'react-native-photo-view';
-import RNFetchBlob from 'react-native-fetch-blob';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from '../components/PXTouchable';
 import Loader from '../components/Loader';
@@ -11,24 +10,7 @@ import Loader from '../components/Loader';
 const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  // wrapper: {
-  //   top: 30,
-  //   right: 0,
-  //   position: 'absolute',
-  //   //justifyContent: 'center',
-  //   backgroundColor: 'red',
-  //   borderRadius: 10,
-  //   paddingHorizontal: 8,
-  //   // height: 32,
-  // },
-
   container: {
-    // // backgroundColor: '#000',
-    // position: 'absolute',
-    // top: 0,
-    // right: 0,
-    // bottom: 0,
-    // left: 0,
     flex: 1,
   },
   slide: {
@@ -90,7 +72,7 @@ class ImagesViewer extends Component {
     });
   }
 
-  handleOnMomentumScrollEnd = (e, state, context) => {
+  handleOnMomentumScrollEnd = (e, state) => {
     const { navigation, screenProps: { openBottomSheet } } = this.props;
     const { images } = navigation.state.params;
     const { index } = state;
@@ -116,8 +98,8 @@ class ImagesViewer extends Component {
           index={viewerIndex}
           onMomentumScrollEnd={this.handleOnMomentumScrollEnd}
         >
-          {images.map((image, i) => (
-            <View key={i} style={styles.slide}>
+          {images.map(image => (
+            <View key={image} style={styles.slide}>
               {loading && <Loader />}
               <PhotoView
                 source={{

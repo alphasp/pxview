@@ -7,7 +7,6 @@ import {
   CameraRoll,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { addNavigationHelpers } from 'react-navigation';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import RNFetchBlob from 'react-native-fetch-blob';
 import Toast, { DURATION } from 'react-native-easy-toast';
@@ -71,10 +70,7 @@ class Master extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { routes, dispatch } = this.props;
-    const { routes: nextRoutes, error } = nextProps;
-    const nextMessageBar = nextProps.messageBar;
-    const { messageBar } = this.props;
+    const { error } = nextProps;
     if (error) {
       MessageBarManager.hideAlert();
       MessageBarManager.showAlert({
@@ -151,7 +147,7 @@ class Master extends Component {
         })
         .catch((err, statusCode) => {
           // error handling
-          console.log('error fetch blob ', err);
+          console.log('error fetch blob ', err, statusCode);
         })
         .then(() => null);
     });

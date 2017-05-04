@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  Platform,
   Text,
   TouchableWithoutFeedback,
   Modal,
@@ -92,7 +91,7 @@ class FollowModal extends Component {
   };
 
   handleOnPressFollowButton = () => {
-    const { userId, onPressFollowButton } = this.props;
+    const { userId } = this.props;
     const { isPrivate } = this.state;
     const followType = isPrivate
       ? FOLLOWING_TYPES.PRIVATE
@@ -102,7 +101,7 @@ class FollowModal extends Component {
   };
 
   handleOnPressRemoveButton = () => {
-    const { userId, onPressRemoveButton } = this.props;
+    const { userId } = this.props;
     this.unfollowUser(userId);
     this.handleOnModalClose();
   };
@@ -176,7 +175,7 @@ class FollowModal extends Component {
 }
 
 export default connect(
-  (state, props) => ({
+  state => ({
     userFollowDetail: state.userFollowDetail,
   }),
   {
