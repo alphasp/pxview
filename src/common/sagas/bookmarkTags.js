@@ -17,8 +17,7 @@ export function* handleFetchBookmarkTags(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       response = yield apply(pixiv, pixiv.userBookmarkIllustTags, [options]);
     }
     const items = response.bookmark_tags.map(tag => ({
@@ -27,8 +26,7 @@ export function* handleFetchBookmarkTags(action) {
       count: tag.count,
     }));
     yield put(fetchBookmarkTagsSuccess(items, tagType, response.next_url));
-  }
-  catch (err) {
+  } catch (err) {
     yield put(fetchBookmarkTagsFailure(tagType));
     yield put(addError(err));
   }

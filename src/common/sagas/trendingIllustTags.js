@@ -14,9 +14,10 @@ export function* handleFetchTrendingIllustTags(action) {
   try {
     const response = yield apply(pixiv, pixiv.trendingTagsIllust, [options]);
     const normalized = normalize(response.trend_tags, Schemas.ILLUST_TAG_ARRAY);
-    yield put(fetchTrendingIllustTagsSuccess(normalized.entities, normalized.result));
-  }
-  catch (err) {
+    yield put(
+      fetchTrendingIllustTagsSuccess(normalized.entities, normalized.result),
+    );
+  } catch (err) {
     yield put(fetchTrendingIllustTagsFailure());
     yield put(addError(err));
   }

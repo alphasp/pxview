@@ -13,11 +13,16 @@ import { BOOKMARK_TYPES } from '../constants';
 export function* handleBookmarkIllust(action) {
   const { illustId, bookmarkType, tags } = action.payload;
   try {
-    const bookmarkTypeString = bookmarkType === BOOKMARK_TYPES.PRIVATE ? 'private' : 'public';
-    yield apply(pixiv, pixiv.bookmarkIllust, [illustId, bookmarkTypeString, tags]);
+    const bookmarkTypeString = bookmarkType === BOOKMARK_TYPES.PRIVATE
+      ? 'private'
+      : 'public';
+    yield apply(pixiv, pixiv.bookmarkIllust, [
+      illustId,
+      bookmarkTypeString,
+      tags,
+    ]);
     yield put(bookmarkIllustSuccess(illustId));
-  }
-  catch (err) {
+  } catch (err) {
     yield put(bookmarkIllustFailure(illustId));
     yield put(addError(err));
   }
@@ -28,8 +33,7 @@ export function* handleUnbookmarkIllust(action) {
   try {
     yield apply(pixiv, pixiv.unbookmarkIllust, [illustId]);
     yield put(unbookmarkIllustSuccess(illustId));
-  }
-  catch (err) {
+  } catch (err) {
     yield put(unbookmarkIllustFailure(illustId));
     yield put(addError(err));
   }

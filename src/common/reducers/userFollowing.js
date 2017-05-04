@@ -10,17 +10,13 @@ const defaultStateByUserFollowingType = {
   nextUrl: null,
 };
 
-function concatItems(state, action) {
-  return (state[action.payload.followingType][action.payload.userId]
-    && state[action.payload.followingType][action.payload.userId].items)
-    ? [...state[action.payload.followingType][action.payload.userId].items, ...action.payload.items]
-    : action.payload.items;
-}
-
-export default function userFollowing(state = {
-  [FOLLOWING_TYPES.PUBLIC]: {},
-  [FOLLOWING_TYPES.PRIVATE]: {},
-}, action) {
+export default function userFollowing(
+  state = {
+    [FOLLOWING_TYPES.PUBLIC]: {},
+    [FOLLOWING_TYPES.PRIVATE]: {},
+  },
+  action,
+) {
   switch (action.type) {
     case USER_FOLLOWING.CLEAR:
       return {
@@ -54,7 +50,14 @@ export default function userFollowing(state = {
             loading: false,
             loaded: true,
             refreshing: false,
-            items: concatItems(state, action),
+            items: state[action.payload.followingType][action.payload.userId] &&
+              state[action.payload.followingType][action.payload.userId].items
+              ? [
+                  ...state[action.payload.followingType][action.payload.userId]
+                    .items,
+                  ...action.payload.items,
+                ]
+              : action.payload.items,
             offset: action.payload.offset,
             nextUrl: action.payload.nextUrl,
             timestamp: action.payload.timestamp,

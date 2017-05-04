@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
-import * as relatedIllustsActionCreators from '../common/actions/relatedIllusts';
+import * as relatedIllustsActionCreators
+  from '../common/actions/relatedIllusts';
 import { makeGetRelatedIllustsItems } from '../common/selectors';
 
 const styles = StyleSheet.create({
@@ -22,7 +23,12 @@ const styles = StyleSheet.create({
 
 class RelatedIllusts extends Component {
   componentDidMount() {
-    const { relatedIllusts, illustId, fetchRelatedIllusts, clearRelatedIllusts } = this.props;
+    const {
+      relatedIllusts,
+      illustId,
+      fetchRelatedIllusts,
+      clearRelatedIllusts,
+    } = this.props;
     // will render blank unless scrolled
     // https://github.com/facebook/react-native/issues/10142
     if (!relatedIllusts || !relatedIllusts.items) {
@@ -39,16 +45,23 @@ class RelatedIllusts extends Component {
       console.log('load more ', relatedIllusts.nextUrl);
       fetchRelatedIllusts(illustId, null, relatedIllusts.nextUrl);
     }
-  }
+  };
 
   handleOnRefresh = () => {
     const { illustId, fetchRelatedIllusts, clearRelatedIllusts } = this.props;
     clearRelatedIllusts(illustId);
     fetchRelatedIllusts(illustId, null, null, true);
-  }
+  };
 
   render() {
-    const { relatedIllusts, items, illustId, isFeatureInDetailPage, maxItems, navigation } = this.props;
+    const {
+      relatedIllusts,
+      items,
+      illustId,
+      isFeatureInDetailPage,
+      maxItems,
+      navigation,
+    } = this.props;
     return (
       <IllustList
         data={{ ...relatedIllusts, items }}
@@ -61,7 +74,6 @@ class RelatedIllusts extends Component {
 }
 
 const defaultItems = [];
-
 
 export default connect(() => {
   const getRelatedIllustsItems = makeGetRelatedIllustsItems();

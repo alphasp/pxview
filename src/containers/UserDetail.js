@@ -25,7 +25,8 @@ import Loader from '../components/Loader';
 import * as userDetailActionCreators from '../common/actions/userDetail';
 import * as userIllustsActionCreators from '../common/actions/userIllusts';
 import * as userMangasActionCreators from '../common/actions/userMangas';
-import * as userBookmarkIllustlActionCreators from '../common/actions/userBookmarkIllusts';
+import * as userBookmarkIllustlActionCreators
+  from '../common/actions/userBookmarkIllusts';
 import { makeGetUserDetailPageItems } from '../common/selectors';
 
 const avatarSize = 70;
@@ -135,19 +136,19 @@ class UserDetail extends Component {
   static navigationOptions = ({ navigation }) => {
     const { isShowTitle, isScrolled, user } = navigation.state.params;
     return {
-      headerTitle: (user && isScrolled) ? (
-        <Animatable.View
-          style={styles.thumnailNameContainer}
-          animation={isShowTitle ? 'fadeIn' : 'fadeOut'}
-          duration={300}
-        >
-          <PXThumbnailTouchable uri={user.profile_image_urls.medium} />
-          <View style={styles.nameContainer}>
-            <Text>{user.name}</Text>
-            <Text>{user.account}</Text>
-          </View>
-        </Animatable.View>
-      ) : null,
+      headerTitle: user && isScrolled
+        ? <Animatable.View
+            style={styles.thumnailNameContainer}
+            animation={isShowTitle ? 'fadeIn' : 'fadeOut'}
+            duration={300}
+          >
+            <PXThumbnailTouchable uri={user.profile_image_urls.medium} />
+            <View style={styles.nameContainer}>
+              <Text>{user.name}</Text>
+              <Text>{user.account}</Text>
+            </View>
+          </Animatable.View>
+        : null,
     };
   };
 
@@ -160,12 +161,18 @@ class UserDetail extends Component {
 
   componentDidMount() {
     const {
-      userId, userDetail, userDetailItem,
+      userId,
+      userDetail,
+      userDetailItem,
       navigation: { setParams },
-      fetchUserDetail, clearUserDetail,
-      fetchUserIllusts, clearUserIllusts,
-      fetchUserMangas, clearUserMangas,
-      fetchUserBookmarkIllusts, clearUserBookmarkIllusts,
+      fetchUserDetail,
+      clearUserDetail,
+      fetchUserIllusts,
+      clearUserIllusts,
+      fetchUserMangas,
+      clearUserMangas,
+      fetchUserBookmarkIllusts,
+      clearUserBookmarkIllusts,
     } = this.props;
     InteractionManager.runAfterInteractions(() => {
       if (!userDetail || !userDetail.item) {
@@ -177,8 +184,7 @@ class UserDetail extends Component {
         fetchUserIllusts(userId);
         fetchUserMangas(userId);
         fetchUserBookmarkIllusts(userId);
-      }
-      else {
+      } else {
         setParams({ user: userDetailItem.user });
       }
     });
@@ -194,25 +200,30 @@ class UserDetail extends Component {
 
   handleOnLinkPress = url => {
     console.log('clicked link: ', url);
-    Linking.canOpenURL(url).then(supported => {
-      if (!supported) {
-        console.log(`Can't handle url: ${url}`);
-      }
-      else {
-        return Linking.openURL(url);
-      }
-    }).catch(err => {
-      console.error('Error on link press ', err);
-    });
-  }
+    Linking.canOpenURL(url)
+      .then(supported => {
+        if (!supported) {
+          console.log(`Can't handle url: ${url}`);
+        } else {
+          return Linking.openURL(url);
+        }
+      })
+      .catch(err => {
+        console.error('Error on link press ', err);
+      });
+  };
 
   handleOnRefresh = () => {
     const {
       userId,
-      fetchUserDetail, clearUserDetail,
-      fetchUserIllusts, clearUserIllusts,
-      fetchUserMangas, clearUserMangas,
-      fetchUserBookmarkIllusts, clearUserBookmarkIllusts,
+      fetchUserDetail,
+      clearUserDetail,
+      fetchUserIllusts,
+      clearUserIllusts,
+      fetchUserMangas,
+      clearUserMangas,
+      fetchUserBookmarkIllusts,
+      clearUserBookmarkIllusts,
     } = this.props;
     clearUserDetail(userId);
     clearUserIllusts(userId);
@@ -222,10 +233,14 @@ class UserDetail extends Component {
     fetchUserIllusts(userId);
     fetchUserMangas(userId);
     fetchUserBookmarkIllusts(userId);
-  }
+  };
 
   handleOnScroll = ({ nativeEvent }) => {
-    const { userDetail, userId, navigation: { setParams, state: { params: { isShowTitle, isScrolled } } } } = this.props;
+    const {
+      userDetail,
+      userId,
+      navigation: { setParams, state: { params: { isShowTitle, isScrolled } } },
+    } = this.props;
     if (!isScrolled) {
       setParams({ isScrolled: true });
     }
@@ -234,16 +249,15 @@ class UserDetail extends Component {
         if (!isShowTitle) {
           setParams({ isShowTitle: true });
         }
-      }
-      else if (isShowTitle) {
+      } else if (isShowTitle) {
         setParams({ isShowTitle: false });
       }
     }
-  }
+  };
 
   handleOnProfileImageLoaded = () => {
     this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
-  }
+  };
 
   renderProfile = detail => {
     const { viewRef } = this.state;
@@ -259,7 +273,7 @@ class UserDetail extends Component {
                 height: 100,
                 backgroundColor: 'transparent',
               }}
-              ref={ref => this.backgroundImage = ref}
+              ref={ref => (this.backgroundImage = ref)}
               onLoadEnd={this.handleOnProfileImageLoaded}
             />
             <BlurView
@@ -280,36 +294,35 @@ class UserDetail extends Component {
         <View style={styles.profileContainer}>
           <Text style={styles.userName}>{detail.user.name}</Text>
           <View style={{ flexDirection: 'row' }}>
-            {
-              detail.profile.webpage ?
-                <View style={styles.row}>
+            {detail.profile.webpage
+              ? <View style={styles.row}>
                   <Icon name="home" style={styles.icon} />
                   <Hyperlink
                     linkStyle={styles.externalLink}
-                    linkText={truncate(detail.profile.webpage.replace(/https?:\/\//i, ''), { length: 15 })}
+                    linkText={truncate(
+                      detail.profile.webpage.replace(/https?:\/\//i, ''),
+                      { length: 15 },
+                    )}
                     onPress={url => this.handleOnLinkPress(url)}
                   >
                     <Text style={styles.stat}>{detail.profile.webpage}</Text>
                   </Hyperlink>
                 </View>
-              :
-              null
-            }
-            {
-              detail.profile.twitter_account ?
-                <View style={styles.row}>
+              : null}
+            {detail.profile.twitter_account
+              ? <View style={styles.row}>
                   <Icon name="twitter" style={styles.icon} />
                   <Hyperlink
                     linkStyle={styles.externalLink}
                     linkText={detail.profile.twitter_account}
                     onPress={url => this.handleOnLinkPress(url)}
                   >
-                    <Text style={styles.stat}>{detail.profile.twitter_url}</Text>
+                    <Text style={styles.stat}>
+                      {detail.profile.twitter_url}
+                    </Text>
                   </Hyperlink>
                 </View>
-              :
-              null
-            }
+              : null}
           </View>
           <View style={styles.row}>
             <View style={styles.row}>
@@ -338,7 +351,7 @@ class UserDetail extends Component {
         </View>
       </View>
     );
-  }
+  };
 
   renderIllustCollection = (items, profile) => {
     const { userId, navigation } = this.props;
@@ -353,7 +366,7 @@ class UserDetail extends Component {
         navigation={navigation}
       />
     );
-  }
+  };
 
   renderMangaCollection = (items, profile) => {
     const { userId, navigation } = this.props;
@@ -368,7 +381,7 @@ class UserDetail extends Component {
         navigation={navigation}
       />
     );
-  }
+  };
 
   renderBookmarks = items => {
     const { userId, navigation } = this.props;
@@ -378,52 +391,58 @@ class UserDetail extends Component {
         viewMoreTitle="All"
         items={items}
         maxItems={6}
-        onPressViewMore={() => navigation.navigate('UserBookmarkIllusts', { userId })}
+        onPressViewMore={() =>
+          navigation.navigate('UserBookmarkIllusts', { userId })}
         navigation={navigation}
       />
     );
-  }
+  };
 
   renderContent = detail => {
-    const { userIllusts, userMangas, userBookmarkIllusts, userIllustsItems, userMangasItems, userBookmarkIllustsItems } = this.props;
+    const {
+      userIllusts,
+      userMangas,
+      userBookmarkIllusts,
+      userIllustsItems,
+      userMangasItems,
+      userBookmarkIllustsItems,
+    } = this.props;
     return (
       <View>
-        {
-          this.renderProfile(detail)
-        }
-        {
-          (userIllusts && !userIllusts.loading && userIllusts.items && userIllusts.items.length) ?
-          this.renderIllustCollection(userIllustsItems, detail.profile)
-          :
-          null
-        }
-        {
-          (userMangas && !userMangas.loading && userMangas.items && userMangas.items.length) ?
-          this.renderMangaCollection(userMangasItems, detail.profile)
-          :
-          null
-        }
-        {
-          (userBookmarkIllusts && !userBookmarkIllusts.loading && userBookmarkIllusts.items && userBookmarkIllusts.items.length) ?
-          this.renderBookmarks(userBookmarkIllustsItems)
-          :
-          null
-        }
+        {this.renderProfile(detail)}
+        {userIllusts &&
+          !userIllusts.loading &&
+          userIllusts.items &&
+          userIllusts.items.length
+          ? this.renderIllustCollection(userIllustsItems, detail.profile)
+          : null}
+        {userMangas &&
+          !userMangas.loading &&
+          userMangas.items &&
+          userMangas.items.length
+          ? this.renderMangaCollection(userMangasItems, detail.profile)
+          : null}
+        {userBookmarkIllusts &&
+          !userBookmarkIllusts.loading &&
+          userBookmarkIllusts.items &&
+          userBookmarkIllusts.items.length
+          ? this.renderBookmarks(userBookmarkIllustsItems)
+          : null}
       </View>
     );
-  }
+  };
 
   render() {
-    const { userDetail: { loaded, loading, refreshing, item }, userDetailItem, userId } = this.props;
+    const {
+      userDetail: { loaded, loading, refreshing, item },
+      userDetailItem,
+      userId,
+    } = this.props;
     return (
       <View style={styles.container}>
-        {
-          (!item || (!loaded && loading)) &&
-          <Loader />
-        }
-        {
-          item ?
-            <ScrollView
+        {(!item || (!loaded && loading)) && <Loader />}
+        {item
+          ? <ScrollView
               style={styles.container}
               onScroll={this.handleOnScroll}
               scrollEventThrottle={16}
@@ -432,41 +451,50 @@ class UserDetail extends Component {
                   refreshing={refreshing}
                   onRefresh={this.handleOnRefresh}
                 />
-            }
+              }
             >
-              {
-              this.renderContent(userDetailItem)
-            }
+              {this.renderContent(userDetailItem)}
             </ScrollView>
-          :
-          null
-        }
+          : null}
       </View>
     );
   }
 }
 
-export default connect(() => {
-  const getUserDetailPageItem = makeGetUserDetailPageItems();
-  return (state, props) => {
-    const { userDetail, userIllusts, userMangas, userBookmarkIllusts } = state;
-    const userId = props.userId || props.navigation.state.params.userId;
-    const { userDetailItem, userIllustsItems, userMangasItems, userBookmarkIllustsItems } = getUserDetailPageItem(state, props);
-    return {
-      userDetail: userDetail[userId],
-      userIllusts: userIllusts[userId],
-      userMangas: userMangas[userId],
-      userBookmarkIllusts: userBookmarkIllusts[userId],
-      userDetailItem,
-      userIllustsItems,
-      userMangasItems,
-      userBookmarkIllustsItems,
-      userId,
+export default connect(
+  () => {
+    const getUserDetailPageItem = makeGetUserDetailPageItems();
+    return (state, props) => {
+      const {
+        userDetail,
+        userIllusts,
+        userMangas,
+        userBookmarkIllusts,
+      } = state;
+      const userId = props.userId || props.navigation.state.params.userId;
+      const {
+        userDetailItem,
+        userIllustsItems,
+        userMangasItems,
+        userBookmarkIllustsItems,
+      } = getUserDetailPageItem(state, props);
+      return {
+        userDetail: userDetail[userId],
+        userIllusts: userIllusts[userId],
+        userMangas: userMangas[userId],
+        userBookmarkIllusts: userBookmarkIllusts[userId],
+        userDetailItem,
+        userIllustsItems,
+        userMangasItems,
+        userBookmarkIllustsItems,
+        userId,
+      };
     };
-  };
-}, {
-  ...userDetailActionCreators,
-  ...userIllustsActionCreators,
-  ...userMangasActionCreators,
-  ...userBookmarkIllustlActionCreators,
-})(UserDetail);
+  },
+  {
+    ...userDetailActionCreators,
+    ...userIllustsActionCreators,
+    ...userMangasActionCreators,
+    ...userBookmarkIllustlActionCreators,
+  },
+)(UserDetail);

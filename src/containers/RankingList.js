@@ -24,7 +24,10 @@ class RankingList extends Component {
   componentWillReceiveProps(nextProps) {
     const { options: prevOptions } = this.props;
     const { options, rankingMode, fetchRanking, clearRanking } = nextProps;
-    if (options && ((options.mode !== prevOptions.mode) || (options.date !== prevOptions.date))) {
+    if (
+      options &&
+      (options.mode !== prevOptions.mode || options.date !== prevOptions.date)
+    ) {
       InteractionManager.runAfterInteractions(() => {
         clearRanking(rankingMode);
         fetchRanking(rankingMode, options);
@@ -33,18 +36,23 @@ class RankingList extends Component {
   }
 
   loadMoreItems = () => {
-    const { ranking: { nextUrl, loading }, rankingMode, options, fetchRanking } = this.props;
+    const {
+      ranking: { nextUrl, loading },
+      rankingMode,
+      options,
+      fetchRanking,
+    } = this.props;
     if (!loading && nextUrl) {
       console.log('load more ', nextUrl);
       fetchRanking(rankingMode, options, nextUrl);
     }
-  }
+  };
 
   handleOnRefresh = () => {
     const { rankingMode, fetchRanking, clearRanking } = this.props;
     clearRanking(rankingMode);
     fetchRanking(rankingMode, null, null, true);
-  }
+  };
 
   render() {
     const { ranking, items } = this.props;

@@ -12,8 +12,7 @@ export function* handleFetchUserFollowDetail(action) {
   try {
     const response = yield apply(pixiv, pixiv.userFollowDetail, [userId]);
     yield put(fetchUserFollowDetailSuccess(response.follow_detail, userId));
-  }
-  catch (err) {
+  } catch (err) {
     yield put(fetchUserFollowDetailFailure(userId));
     yield put(addError(err));
   }

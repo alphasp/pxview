@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  CameraRoll,
-} from 'react-native';
+import { StyleSheet, Text, View, Dimensions, CameraRoll } from 'react-native';
 import Swiper from 'react-native-swiper';
 import PhotoView from 'react-native-photo-view';
 import RNFetchBlob from 'react-native-fetch-blob';
@@ -105,12 +99,12 @@ class ImagesViewer extends Component {
       viewerIndex: index,
       openBottomSheet: () => openBottomSheet(openImages),
     });
-  }
+  };
 
   handleOnImageLoaded = () => {
     console.log('loaded');
     this.setState({ loading: false });
-  }
+  };
 
   render() {
     const { images, viewerIndex } = this.props.navigation.state.params;
@@ -122,30 +116,25 @@ class ImagesViewer extends Component {
           index={viewerIndex}
           onMomentumScrollEnd={this.handleOnMomentumScrollEnd}
         >
-          {
-            images.map((image, i) => (
-              <View key={i} style={styles.slide}>
-                {
-                    loading &&
-                    <Loader />
-                  }
-                <PhotoView
-                  source={{
-                    uri: image,
-                    headers: {
-                      referer: 'http://www.pixiv.net',
-                    },
-                  }}
-                  onLoad={this.handleOnImageLoaded}
-                  resizeMode="contain"
-                  minimumZoomScale={0.5}
-                  maximumZoomScale={3}
-                  androidScaleType="fitCenter"
-                  style={styles.photo}
-                />
-              </View>
-              ))
-          }
+          {images.map((image, i) => (
+            <View key={i} style={styles.slide}>
+              {loading && <Loader />}
+              <PhotoView
+                source={{
+                  uri: image,
+                  headers: {
+                    referer: 'http://www.pixiv.net',
+                  },
+                }}
+                onLoad={this.handleOnImageLoaded}
+                resizeMode="contain"
+                minimumZoomScale={0.5}
+                maximumZoomScale={3}
+                androidScaleType="fitCenter"
+                style={styles.photo}
+              />
+            </View>
+          ))}
         </Swiper>
       </View>
     );

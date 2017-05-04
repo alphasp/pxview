@@ -25,13 +25,13 @@ class NewMangas extends Component {
       console.log('load more ', nextUrl);
       fetchNewMangas(nextUrl);
     }
-  }
+  };
 
   handleOnRefresh = () => {
     const { fetchNewMangas, clearNewMangas } = this.props;
     clearNewMangas();
     fetchNewMangas(null, true);
-  }
+  };
 
   render() {
     const { newMangas, items } = this.props;

@@ -15,20 +15,23 @@ export function* handleFetchIllustComments(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       response = yield apply(pixiv, pixiv.illustComments, [illustId, options]);
     }
     //
-    const normalized = normalize(response.comments, Schemas.ILLUST_COMMENT_ARRAY);
-    yield put(fetchIllustCommentsSuccess(
-      normalized.entities,
-      normalized.result,
-      illustId,
-      response.next_url,
-    ));
-  }
-  catch (err) {
+    const normalized = normalize(
+      response.comments,
+      Schemas.ILLUST_COMMENT_ARRAY,
+    );
+    yield put(
+      fetchIllustCommentsSuccess(
+        normalized.entities,
+        normalized.result,
+        illustId,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchIllustCommentsFailure(illustId));
     yield put(addError(err));
   }

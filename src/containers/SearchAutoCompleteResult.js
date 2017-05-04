@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import {
-  View,
-  StyleSheet,
-  InteractionManager,
-} from 'react-native';
+import { View, StyleSheet, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import dismissKeyboard from 'dismissKeyboard';
 import Loader from '../components/Loader';
 import Separator from '../components/Separator';
 import SearchHistory from '../components/SearchHistory';
 import SearchAutoCompleteList from '../components/SearchAutoCompleteList';
-import * as searchAutoCompleteActionCreators from '../common/actions/searchAutoComplete';
+import * as searchAutoCompleteActionCreators
+  from '../common/actions/searchAutoComplete';
 import { SearchType } from '../common/actions/searchType';
 
 const styles = StyleSheet.create({
@@ -30,7 +27,11 @@ class SearchAutoCompleteResult extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { word: prevWord } = this.props;
-    const { word, searchAutoComplete: { items }, clearSearchAutoComplete } = nextProps;
+    const {
+      word,
+      searchAutoComplete: { items },
+      clearSearchAutoComplete,
+    } = nextProps;
     if (word && word !== prevWord) {
       clearSearchAutoComplete();
       InteractionManager.runAfterInteractions(() => {
@@ -44,35 +45,42 @@ class SearchAutoCompleteResult extends Component {
     if (word && word.length > 1) {
       fetchSearchAutoComplete(word);
     }
-  }
+  };
 
   render() {
-    const { searchAutoComplete, word, searchAutoComplete: { items, loading, loaded }, searchHistory, onPressItem, onPressSearchHistoryItem, onPressRemoveSearchHistoryItem, onPressClearSearchHistory } = this.props;
+    const {
+      searchAutoComplete,
+      word,
+      searchAutoComplete: { items, loading, loaded },
+      searchHistory,
+      onPressItem,
+      onPressSearchHistoryItem,
+      onPressRemoveSearchHistoryItem,
+      onPressClearSearchHistory,
+    } = this.props;
     return (
       <View style={styles.container}>
-        {
-          ((!loaded && !loading) || !word) &&
+        {((!loaded && !loading) || !word) &&
           <SearchHistory
             items={searchHistory.items}
             onPressItem={onPressSearchHistoryItem}
             onPressRemoveSearchHistoryItem={onPressRemoveSearchHistoryItem}
             onPressClearSearchHistory={onPressClearSearchHistory}
-          />
-        }
-        {
-          word ?
-            <SearchAutoCompleteList
+          />}
+        {word
+          ? <SearchAutoCompleteList
               data={searchAutoComplete}
               onPressItem={onPressItem}
             />
-          :
-          null
-        }
+          : null}
       </View>
     );
   }
 }
 
-export default connect((state, props) => ({
-  searchAutoComplete: state.searchAutoComplete,
-}), searchAutoCompleteActionCreators)(SearchAutoCompleteResult);
+export default connect(
+  (state, props) => ({
+    searchAutoComplete: state.searchAutoComplete,
+  }),
+  searchAutoCompleteActionCreators,
+)(SearchAutoCompleteResult);

@@ -1,9 +1,6 @@
 import { normalize } from 'normalizr';
 import { takeEvery, apply, put } from 'redux-saga/effects';
-import {
-  fetchRankingSuccess,
-  fetchRankingFailure,
-} from '../actions/ranking';
+import { fetchRankingSuccess, fetchRankingFailure } from '../actions/ranking';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/apiClient';
 import { RANKING } from '../constants/actionTypes';
@@ -42,19 +39,19 @@ export function* handleFetchRanking(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       response = yield apply(pixiv, pixiv.illustRanking, [finalOptions]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchRankingSuccess(
-      normalized.entities,
-      normalized.result,
-      rankingMode,
-      response.next_url,
-    ));
-  }
-  catch (err) {
+    yield put(
+      fetchRankingSuccess(
+        normalized.entities,
+        normalized.result,
+        rankingMode,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchRankingFailure(rankingMode));
     yield put(addError(err));
   }

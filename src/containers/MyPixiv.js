@@ -16,13 +16,13 @@ class MyPixiv extends Component {
       console.log('load more ', nextUrl);
       fetchMyPixiv(nextUrl);
     }
-  }
+  };
 
   handleOnRefresh = () => {
     const { fetchMyPixiv, clearMyPixiv } = this.props;
     clearMyPixiv();
     fetchMyPixiv(null, true);
-  }
+  };
 
   render() {
     const { myPixiv, items } = this.props;

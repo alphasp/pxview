@@ -15,14 +15,18 @@ export function* handleFetchNewMangas(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       response = yield apply(pixiv, pixiv.mangaNew, [options]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchNewMangasSuccess(normalized.entities, normalized.result, response.next_url));
-  }
-  catch (err) {
+    yield put(
+      fetchNewMangasSuccess(
+        normalized.entities,
+        normalized.result,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchNewMangasFailure());
     yield put(addError(err));
   }

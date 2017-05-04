@@ -22,7 +22,12 @@ export function fetchRelatedIllustsFailure(illustId) {
   };
 }
 
-export function fetchRelatedIllusts(illustId, options, nextUrl, refreshing = false) {
+export function fetchRelatedIllusts(
+  illustId,
+  options,
+  nextUrl,
+  refreshing = false,
+) {
   // no offset because next url based from seed illust ids
   // use url as offset indicator
   return {

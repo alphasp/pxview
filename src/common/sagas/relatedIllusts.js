@@ -15,19 +15,19 @@ export function* handleFetchRelatedIllusts(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       response = yield apply(pixiv, pixiv.illustRelated, [illustId, options]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchRelatedIllustsSuccess(
-      normalized.entities,
-      normalized.result,
-      illustId,
-      response.next_url,
-    ));
-  }
-  catch (err) {
+    yield put(
+      fetchRelatedIllustsSuccess(
+        normalized.entities,
+        normalized.result,
+        illustId,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchRelatedIllustsFailure(illustId));
     yield put(addError(err));
   }

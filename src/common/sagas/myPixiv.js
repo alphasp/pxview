@@ -1,9 +1,6 @@
 import { normalize } from 'normalizr';
 import { takeEvery, apply, put } from 'redux-saga/effects';
-import {
-  fetchMyPixivSuccess,
-  fetchMyPixivFailure,
-} from '../actions/myPixiv';
+import { fetchMyPixivSuccess, fetchMyPixivFailure } from '../actions/myPixiv';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/apiClient';
 import { MY_PIXIV } from '../constants/actionTypes';
@@ -15,14 +12,18 @@ export function* handleFetchMyPixiv(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       response = yield apply(pixiv, pixiv.illustMyPixiv);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchMyPixivSuccess(normalized.entities, normalized.result, response.next_url));
-  }
-  catch (err) {
+    yield put(
+      fetchMyPixivSuccess(
+        normalized.entities,
+        normalized.result,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchMyPixivFailure());
     yield put(addError(err));
   }

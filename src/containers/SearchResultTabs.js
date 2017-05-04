@@ -16,7 +16,9 @@ import SearchResult from './SearchResult';
 import SearchUsersResult from './SearchUsersResult';
 import { setSearchType, SearchType } from '../common/actions/searchType';
 import { clearSearchAutoComplete } from '../common/actions/searchAutoComplete';
-import { clearSearchUserAutoComplete } from '../common/actions/searchUsersAutoComplete';
+import {
+  clearSearchUserAutoComplete,
+} from '../common/actions/searchUsersAutoComplete';
 
 const styles = StyleSheet.create({
   container: {
@@ -107,7 +109,10 @@ class SearchResultTabs extends Component {
 
   componentDidMount() {
     if (Platform.OS === 'android') {
-      this.backHandlerListener = BackHandler.addEventListener('hardwareBackPress', this.handleOnPressBackButton);
+      this.backHandlerListener = BackHandler.addEventListener(
+        'hardwareBackPress',
+        this.handleOnPressBackButton,
+      );
     }
   }
 
@@ -121,7 +126,10 @@ class SearchResultTabs extends Component {
 
   componentWillUnmount() {
     if (this.backHandlerListener) {
-      BackHandler.removeEventListener('hardwareBackPress', this.backHandlerListener);
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        this.backHandlerListener,
+      );
     }
   }
 
@@ -129,19 +137,18 @@ class SearchResultTabs extends Component {
     const { setSearchType } = this.props;
     if (index === 1) {
       setSearchType(SearchType.USER);
-    }
-    else {
+    } else {
       setSearchType(SearchType.ILLUST);
     }
   };
 
   handleOnFocusSearchBar = () => {
     this.setState({ isFocusSearchBar: true });
-  }
+  };
 
   handleOnChangeSearchText = (word, searchType) => {
     this.setState({ newWord: word });
-  }
+  };
 
   handleOnPressShowFilterModal = () => {
     const { navigate, goBack } = this.props.navigation;
@@ -166,7 +173,7 @@ class SearchResultTabs extends Component {
         });
       },
     });
-  }
+  };
 
   handleOnPressBackButton = () => {
     // const { word, navigation, clearSearchAutoComplete, clearSearchUserAutoComplete } = this.props;
@@ -184,7 +191,7 @@ class SearchResultTabs extends Component {
     }
 
     goBack();
-  }
+  };
 
   handleOnSubmitSearch = word => {
     const { setParams } = this.props.navigation;
@@ -195,7 +202,7 @@ class SearchResultTabs extends Component {
     });
     setParams({ word });
     return true;
-  }
+  };
 
   renderScene = ({ route }) => {
     const { word, navigation, navigationStateKey } = this.props;
@@ -209,7 +216,6 @@ class SearchResultTabs extends Component {
             navigation={navigation}
             navigationStateKey={navigationStateKey}
           />
-
         );
       case '2':
         return (
@@ -222,7 +228,7 @@ class SearchResultTabs extends Component {
       default:
         return null;
     }
-  }
+  };
 
   render() {
     const { word, searchType, navigationStateKey, navigation } = this.props;
@@ -263,23 +269,24 @@ class SearchResultTabs extends Component {
             renderScene={this.renderScene}
             onRequestChangeTab={this.handleChangeTab}
           />
-          {
-            isFocusSearchBar &&
+          {isFocusSearchBar &&
             <Search
               word={newWord}
               navigation={navigation}
               searchType={searchType}
               onSubmitSearch={this.handleOnSubmitSearch}
-            />
-          }
+            />}
         </View>
       </View>
     );
   }
 }
 
-export default connect((state, props) => ({
-  searchType: state.searchType.type,
-  word: props.navigation.state.params.word,
-  navigationStateKey: props.navigation.state.key,
-}), { clearSearchAutoComplete, clearSearchUserAutoComplete, setSearchType })(SearchResultTabs);
+export default connect(
+  (state, props) => ({
+    searchType: state.searchType.type,
+    word: props.navigation.state.params.word,
+    navigationStateKey: props.navigation.state.key,
+  }),
+  { clearSearchAutoComplete, clearSearchUserAutoComplete, setSearchType },
+)(SearchResultTabs);

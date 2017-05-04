@@ -40,5 +40,5 @@ class Playground extends Component {
     );
   }
 }
-          // aspectRatio: 1
+// aspectRatio: 1
 export default Playground;

@@ -9,66 +9,69 @@ import UserBookmarkIllusts from '../containers/UserBookmarkIllusts';
 import RelatedIllusts from '../containers/RelatedIllusts';
 import SearchResultTabs from '../containers/SearchResultTabs'; // todo
 
-const TrendingNavigator = StackNavigator({
-  Trending: {
-    screen: Trending,
-    navigationOptions: {
-      header: null,
+const TrendingNavigator = StackNavigator(
+  {
+    Trending: {
+      screen: Trending,
+      navigationOptions: {
+        header: null,
+      },
+      // initialRouteParams: {
+      //   isFocusSearchBar: false // not working now
+      // }
     },
-    // initialRouteParams: {
-    //   isFocusSearchBar: false // not working now
-    // }
-  },
-  Detail: {
-    screen: Detail,
-  },
-  UserDetail: {
-    screen: UserDetail,
-  },
-  IllustComments: {
-    screen: IllustComments,
-    navigationOptions: {
-      title: 'User Comments',
+    Detail: {
+      screen: Detail,
+    },
+    UserDetail: {
+      screen: UserDetail,
+    },
+    IllustComments: {
+      screen: IllustComments,
+      navigationOptions: {
+        title: 'User Comments',
+      },
+    },
+    RelatedIllusts: {
+      screen: RelatedIllusts,
+      navigationOptions: {
+        title: 'Related Works',
+      },
+    },
+    UserIllusts: {
+      screen: UserIllusts,
+      navigationOptions: {
+        title: 'User Illusts',
+      },
+    },
+    UserMangas: {
+      screen: UserMangas,
+      navigationOptions: {
+        title: 'User Mangas',
+      },
+    },
+    UserBookmarkIllusts: {
+      screen: UserBookmarkIllusts,
+      navigationOptions: {
+        title: 'Collection',
+      },
+    },
+    SearchResult: {
+      screen: SearchResultTabs,
     },
   },
-  RelatedIllusts: {
-    screen: RelatedIllusts,
+  {
     navigationOptions: {
-      title: 'Related Works',
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+      headerBackTitle: null,
     },
-  },
-  UserIllusts: {
-    screen: UserIllusts,
-    navigationOptions: {
-      title: 'User Illusts',
-    },
-  },
-  UserMangas: {
-    screen: UserMangas,
-    navigationOptions: {
-      title: 'User Mangas',
-    },
-  },
-  UserBookmarkIllusts: {
-    screen: UserBookmarkIllusts,
-    navigationOptions: {
-      title: 'Collection',
-    },
-  },
-  SearchResult: {
-    screen: SearchResultTabs,
-  },
-}, {
-  navigationOptions: {
-    headerStyle: {
+    cardStyle: {
       backgroundColor: '#fff',
     },
-    headerBackTitle: null,
+    headerMode: 'screen',
   },
-  cardStyle: {
-    backgroundColor: '#fff',
-  },
-  headerMode: 'screen',
-});
+);
 
 export default TrendingNavigator;

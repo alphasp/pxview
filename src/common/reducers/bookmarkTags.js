@@ -1,7 +1,10 @@
 import { BOOKMARK_TAGS } from '../constants/actionTypes';
 import { TAG_TYPES } from '../constants';
 
-const defaultItems = [{ name: 'All', value: '' }, { name: 'Uncategorized', value: '未分類' }];
+const defaultItems = [
+  { name: 'All', value: '' },
+  { name: 'Uncategorized', value: '未分類' },
+];
 const defaultState = {
   loading: false,
   loaded: false,
@@ -10,10 +13,13 @@ const defaultState = {
   nextUrl: null,
 };
 
-export default function bookmarkTags(state = {
-  [TAG_TYPES.PUBLIC]: defaultState,
-  [TAG_TYPES.PRIVATE]: defaultState,
-}, action) {
+export default function bookmarkTags(
+  state = {
+    [TAG_TYPES.PUBLIC]: defaultState,
+    [TAG_TYPES.PRIVATE]: defaultState,
+  },
+  action,
+) {
   switch (action.type) {
     case BOOKMARK_TAGS.CLEAR:
       return {
@@ -36,7 +42,8 @@ export default function bookmarkTags(state = {
           ...state[action.payload.tagType],
           loading: false,
           loaded: true,
-          items: (state[action.payload.tagType] && state[action.payload.tagType].items)
+          items: state[action.payload.tagType] &&
+            state[action.payload.tagType].items
             ? [...state[action.payload.tagType].items, ...action.payload.items]
             : action.payload.items,
           offset: action.payload.offset,

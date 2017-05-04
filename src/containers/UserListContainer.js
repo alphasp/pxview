@@ -18,13 +18,13 @@ class UserListContainer extends Component {
   static propTypes = {
     followUser: PropTypes.func.isRequired,
     unfollowUser: PropTypes.func.isRequired,
-  }
+  };
 
   render() {
-    return (
-      <UserList {...this.props} />
-    );
+    return <UserList {...this.props} />;
   }
 }
 
-export default withNavigation(connect(null, followUserActionCreators)(UserListContainer));
+export default withNavigation(
+  connect(null, followUserActionCreators)(UserListContainer),
+);

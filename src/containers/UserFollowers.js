@@ -12,7 +12,7 @@ class UserFollowers extends Component {
     items: PropTypes.array,
     fetchUserFollowers: PropTypes.func.isRequired,
     clearUserFollowers: PropTypes.func.isRequired,
-  }
+  };
 
   componentDidMount() {
     const { fetchUserFollowers, userId } = this.props;
@@ -24,13 +24,13 @@ class UserFollowers extends Component {
     if (userFollowers && !userFollowers.loading && userFollowers.nextUrl) {
       fetchUserFollowers(userId, userFollowers.nextUrl);
     }
-  }
+  };
 
   handleOnRefresh = () => {
     const { clearUserFollowers, fetchUserFollowers, userId } = this.props;
     clearUserFollowers(userId);
     fetchUserFollowers(userId, null, true);
-  }
+  };
 
   render() {
     const { userFollowers, items, userId, screenProps } = this.props;

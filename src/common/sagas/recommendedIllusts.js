@@ -17,21 +17,20 @@ export function* handleFetchRecommendedIllusts(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else if (user) {
+    } else if (user) {
       response = yield apply(pixiv, pixiv.illustRecommended, [options]);
-    }
-    else {
+    } else {
       response = yield apply(pixiv, pixiv.illustRecommendedPublic, [options]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchRecommendedIllustsSuccess(
-      normalized.entities,
-      normalized.result,
-      response.next_url,
-    ));
-  }
-  catch (err) {
+    yield put(
+      fetchRecommendedIllustsSuccess(
+        normalized.entities,
+        normalized.result,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchRecommendedIllustsFailure());
     yield put(addError(err));
   }

@@ -16,10 +16,11 @@ export function* handleFetchUserFollowing(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       const options = {
-        restrict: followingType === FOLLOWING_TYPES.PRIVATE ? 'private' : 'public',
+        restrict: followingType === FOLLOWING_TYPES.PRIVATE
+          ? 'private'
+          : 'public',
       };
       response = yield apply(pixiv, pixiv.userFollowing, [userId, options]);
     }
@@ -31,16 +32,20 @@ export function* handleFetchUserFollowing(action) {
       })),
     };
 
-    const normalized = normalize(transformedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
-    yield put(fetchUserFollowingSuccess(
-      normalized.entities,
-      normalized.result,
-      userId,
-      followingType,
-      response.next_url,
-    ));
-  }
-  catch (err) {
+    const normalized = normalize(
+      transformedResult.user_previews,
+      Schemas.USER_PREVIEW_ARRAY,
+    );
+    yield put(
+      fetchUserFollowingSuccess(
+        normalized.entities,
+        normalized.result,
+        userId,
+        followingType,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchUserFollowingFailure(userId));
     yield put(addError(err));
   }

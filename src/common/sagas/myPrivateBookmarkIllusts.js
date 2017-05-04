@@ -15,28 +15,34 @@ export function* handleFetchMyPrivateBookmarkIllusts(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       const options = { restrict: 'private' };
       if (tag) {
         options.tag = tag;
       }
-      response = yield apply(pixiv, pixiv.userBookmarksIllust, [userId, options]);
+      response = yield apply(pixiv, pixiv.userBookmarksIllust, [
+        userId,
+        options,
+      ]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchMyPrivateBookmarkIllustsSuccess(
-      normalized.entities,
-      normalized.result,
-      userId,
-      response.next_url,
-    ));
-  }
-  catch (err) {
+    yield put(
+      fetchMyPrivateBookmarkIllustsSuccess(
+        normalized.entities,
+        normalized.result,
+        userId,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchMyPrivateBookmarkIllustsFailure(userId));
     yield put(addError(err));
   }
 }
 
 export function* watchFetchMyPrivateBookmarkIllusts() {
-  yield takeEvery(MY_PRIVATE_BOOKMARK_ILLUSTS.REQUEST, handleFetchMyPrivateBookmarkIllusts);
+  yield takeEvery(
+    MY_PRIVATE_BOOKMARK_ILLUSTS.REQUEST,
+    handleFetchMyPrivateBookmarkIllusts,
+  );
 }

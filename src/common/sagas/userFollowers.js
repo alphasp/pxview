@@ -15,8 +15,7 @@ export function* handleFetchUserFollowers(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       response = yield apply(pixiv, pixiv.userFollower, [userId]);
     }
     const transformedResult = {
@@ -26,15 +25,19 @@ export function* handleFetchUserFollowers(action) {
         id: result.user.id,
       })),
     };
-    const normalized = normalize(transformedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
-    yield put(fetchUserFollowersSuccess(
-      normalized.entities,
-      normalized.result,
-      userId,
-      response.next_url,
-    ));
-  }
-  catch (err) {
+    const normalized = normalize(
+      transformedResult.user_previews,
+      Schemas.USER_PREVIEW_ARRAY,
+    );
+    yield put(
+      fetchUserFollowersSuccess(
+        normalized.entities,
+        normalized.result,
+        userId,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchUserFollowersFailure(userId));
     yield put(addError(err));
   }

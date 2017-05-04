@@ -12,7 +12,7 @@ class UserMyPixiv extends Component {
     items: PropTypes.array,
     fetchUserMyPixiv: PropTypes.func.isRequired,
     clearUserMyPixiv: PropTypes.func.isRequired,
-  }
+  };
 
   componentDidMount() {
     const { fetchUserMyPixiv, userId } = this.props;
@@ -24,13 +24,13 @@ class UserMyPixiv extends Component {
     if (userMyPixiv && !userMyPixiv.loading && userMyPixiv.nextUrl) {
       fetchUserMyPixiv(userId, userMyPixiv.nextUrl);
     }
-  }
+  };
 
   handleOnRefresh = () => {
     const { clearUserMyPixiv, fetchUserMyPixiv, userId } = this.props;
     clearUserMyPixiv(userId);
     fetchUserMyPixiv(userId, null, true);
-  }
+  };
 
   render() {
     const { userMyPixiv, items, userId, screenProps } = this.props;

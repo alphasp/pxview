@@ -3,7 +3,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
-import * as recommendedIllustsActionCreators from '../common/actions/recommendedIllusts';
+import * as recommendedIllustsActionCreators
+  from '../common/actions/recommendedIllusts';
 import { getRecommendedIllustsItems } from '../common/selectors';
 
 class RecommendedIllusts extends Component {
@@ -23,18 +24,21 @@ class RecommendedIllusts extends Component {
   }
 
   loadMoreItems = () => {
-    const { recommendedIllusts: { nextUrl, loading }, fetchRecommendedIllusts } = this.props;
+    const {
+      recommendedIllusts: { nextUrl, loading },
+      fetchRecommendedIllusts,
+    } = this.props;
     if (!loading && nextUrl) {
       console.log('load more ', nextUrl);
       fetchRecommendedIllusts(null, nextUrl);
     }
-  }
+  };
 
   handleOnRefresh = () => {
     const { clearRecommendedIllusts, fetchRecommendedIllusts } = this.props;
     clearRecommendedIllusts();
     fetchRecommendedIllusts(null, null, true);
-  }
+  };
 
   render() {
     const { recommendedIllusts, items } = this.props;

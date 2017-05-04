@@ -15,8 +15,7 @@ export function* handleFetchSearchUsersAutoComplete(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       response = yield apply(pixiv, pixiv.searchUser, [word]);
     }
     const transformedResult = {
@@ -28,19 +27,27 @@ export function* handleFetchSearchUsersAutoComplete(action) {
           id: result.user.id,
         })),
     };
-    const normalized = normalize(transformedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
-    yield put(fetchSearchUsersAutoCompleteSuccess(
-      normalized.entities,
-      normalized.result,
-      response.next_url,
-    ));
-  }
-  catch (err) {
+    const normalized = normalize(
+      transformedResult.user_previews,
+      Schemas.USER_PREVIEW_ARRAY,
+    );
+    yield put(
+      fetchSearchUsersAutoCompleteSuccess(
+        normalized.entities,
+        normalized.result,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchSearchUsersAutoCompleteFailure());
     yield put(addError(err));
   }
 }
 
 export function* watchFetchSearchUsersAutoComplete() {
-  yield throttle(1000, SEARCH_USERS_AUTOCOMPLETE.REQUEST, handleFetchSearchUsersAutoComplete);
+  yield throttle(
+    1000,
+    SEARCH_USERS_AUTOCOMPLETE.REQUEST,
+    handleFetchSearchUsersAutoComplete,
+  );
 }

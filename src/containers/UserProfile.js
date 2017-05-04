@@ -19,7 +19,8 @@ import * as i18nActionCreators from '../common/actions/i18n';
 
 const avatarSize = 70;
 const windowWidth = Dimensions.get('window').width;
-const defaultProfileImage = 'https://source.pixiv.net/common/images/no_profile.png';
+const defaultProfileImage =
+  'https://source.pixiv.net/common/images/no_profile.png';
 
 const styles = StyleSheet.create({
   container: {
@@ -192,7 +193,7 @@ class UserProfile extends Component {
 
   handleOnAvatarImageLoaded = () => {
     this.setState({ viewRef: findNodeHandle(this.refs.backgroundImage) });
-  }
+  };
 
   handleOnPressListItem = item => {
     const { user, navigation: { navigate }, screenProps, logout } = this.props;
@@ -201,8 +202,7 @@ class UserProfile extends Component {
       case 'works':
         if (!user) {
           this.handleOnPressLogin();
-        }
-        else {
+        } else {
           navigate('MyWorks', { userId: user.id, screenProps });
         }
         // navigate('Web', { source: { uri: 'https://touch.pixiv.net/setting_user.php?ref=ios-app' } });
@@ -211,16 +211,14 @@ class UserProfile extends Component {
         // require user login
         if (!user) {
           this.handleOnPressLogin();
-        }
-        else {
+        } else {
           navigate('MyCollection', { userId: user.id, screenProps });
         }
         break;
       case 'connection':
         if (!user) {
           this.handleOnPressLogin();
-        }
-        else {
+        } else {
           // Actions.myConnection({ userId: user.id });
           navigate('MyConnection', { userId: user.id, screenProps });
         }
@@ -234,43 +232,48 @@ class UserProfile extends Component {
         logout();
         break;
     }
-  }
+  };
 
   handleOnPressSignUp = () => {
     const url = 'https://accounts.pixiv.net/signup';
-    Linking.canOpenURL(url).then(supported => {
-      if (!supported) {
-        console.log(`Can't handle url: ${url}`);
-      }
-      else {
-        return Linking.openURL(url);
-      }
-    }).catch(err => console.error('An error occurred', err));
-  }
+    Linking.canOpenURL(url)
+      .then(supported => {
+        if (!supported) {
+          console.log(`Can't handle url: ${url}`);
+        } else {
+          return Linking.openURL(url);
+        }
+      })
+      .catch(err => console.error('An error occurred', err));
+  };
 
   handleOnPressLogin = () => {
     const { navigation: { navigate } } = this.props;
     navigate('Login');
-  }
+  };
 
   handleOnProfileImageLoaded = () => {
     this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
-  }
+  };
 
   renderProfile = user => {
     const { viewRef } = this.state;
     return (
       <View style={styles.coverContainer}>
         <PXImage
-          key={(user && user.profile_image_urls.px_170x170) || defaultProfileImage}
-          uri={(user && user.profile_image_urls.px_170x170) || defaultProfileImage}
+          key={
+            (user && user.profile_image_urls.px_170x170) || defaultProfileImage
+          }
+          uri={
+            (user && user.profile_image_urls.px_170x170) || defaultProfileImage
+          }
           style={{
             resizeMode: 'cover',
             width: windowWidth,
             height: 150,
             backgroundColor: 'transparent',
           }}
-          ref={ref => this.backgroundImage = ref}
+          ref={ref => (this.backgroundImage = ref)}
           onLoadEnd={this.handleOnProfileImageLoaded}
         />
         <BlurView
@@ -282,15 +285,19 @@ class UserProfile extends Component {
         />
         <View style={styles.coverInnerContainer}>
           <PXThumbnailTouchable
-            key={user && user.profile_image_urls.px_170x170 || defaultProfileImage}
-            uri={user && user.profile_image_urls.px_170x170 || defaultProfileImage}
+            key={
+              (user && user.profile_image_urls.px_170x170) ||
+                defaultProfileImage
+            }
+            uri={
+              (user && user.profile_image_urls.px_170x170) ||
+                defaultProfileImage
+            }
             size={avatarSize}
           />
-          {
-            user ?
-              <Text>{user.name}</Text>
-            :
-              <View style={styles.authActionContainer}>
+          {user
+            ? <Text>{user.name}</Text>
+            : <View style={styles.authActionContainer}>
                 <OutlineButton
                   text="Sign Up"
                   onPress={this.handleOnPressSignUp}
@@ -300,12 +307,11 @@ class UserProfile extends Component {
                   style={{ marginLeft: 5 }}
                   onPress={this.handleOnPressLogin}
                 />
-              </View>
-          }
+              </View>}
         </View>
       </View>
     );
-  }
+  };
 
   renderList = list => {
     const { user } = this.props;
@@ -314,19 +320,21 @@ class UserProfile extends Component {
     }
     return (
       <List>
-        {
-          list.map((item, i) => (
-            <ListItem
-              key={i}
-              title={item.title}
-              leftIcon={{ name: item.icon, type: item.type, style: { width: 30, textAlign: 'center' } }}
-              onPress={() => this.handleOnPressListItem(item)}
-            />
-          ))
-        }
+        {list.map((item, i) => (
+          <ListItem
+            key={i}
+            title={item.title}
+            leftIcon={{
+              name: item.icon,
+              type: item.type,
+              style: { width: 30, textAlign: 'center' },
+            }}
+            onPress={() => this.handleOnPressListItem(item)}
+          />
+        ))}
       </List>
     );
-  }
+  };
 
   render() {
     // user illusts
@@ -337,9 +345,7 @@ class UserProfile extends Component {
     return (
       <View style={styles.container}>
         {
-          <ScrollView
-            style={styles.container}
-          >
+          <ScrollView style={styles.container}>
             {this.renderProfile(user)}
             {this.renderList(menuList)}
             {this.renderList(menuList2)}
@@ -350,6 +356,9 @@ class UserProfile extends Component {
   }
 }
 
-export default connect(state => ({
-  user: state.auth.user,
-}), { ...authActionCreators, ...i18nActionCreators })(UserProfile);
+export default connect(
+  state => ({
+    user: state.auth.user,
+  }),
+  { ...authActionCreators, ...i18nActionCreators },
+)(UserProfile);

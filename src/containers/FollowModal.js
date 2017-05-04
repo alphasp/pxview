@@ -12,7 +12,8 @@ import {
 import { connect } from 'react-redux';
 import PXTouchable from '../components/PXTouchable';
 import FollowButton from '../components/FollowButton';
-import * as userFollowDetailActionCreators from '../common/actions/userFollowDetail';
+import * as userFollowDetailActionCreators
+  from '../common/actions/userFollowDetail';
 import * as followUserActionCreators from '../common/actions/followUser';
 import * as modalActionCreators from '../common/actions/modal';
 import { FOLLOWING_TYPES } from '../common/constants';
@@ -59,7 +60,7 @@ class FollowModal extends Component {
     fetchUserFollowDetail: PropTypes.func.isRequired,
     clearUserFollowDetail: PropTypes.func.isRequired,
     closeModal: PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -88,41 +89,43 @@ class FollowModal extends Component {
     this.setState({
       isPrivate: value,
     });
-  }
+  };
 
   handleOnPressFollowButton = () => {
     const { userId, onPressFollowButton } = this.props;
     const { isPrivate } = this.state;
-    const followType = isPrivate ? FOLLOWING_TYPES.PRIVATE : FOLLOWING_TYPES.PUBLIC;
+    const followType = isPrivate
+      ? FOLLOWING_TYPES.PRIVATE
+      : FOLLOWING_TYPES.PUBLIC;
     this.followUser(userId, followType);
     this.handleOnModalClose();
-  }
+  };
 
   handleOnPressRemoveButton = () => {
     const { userId, onPressRemoveButton } = this.props;
     this.unfollowUser(userId);
     this.handleOnModalClose();
-  }
+  };
 
   handleOnPressModalRemoveButton = userId => {
     this.unfollowUser(userId);
     this.handleOnModalClose();
-  }
+  };
 
   handleOnModalClose = () => {
     const { closeModal } = this.props;
     closeModal();
-  }
+  };
 
   followUser = (userId, followType) => {
     const { followUser } = this.props;
     followUser(userId, followType);
-  }
+  };
 
   unfollowUser = userId => {
     const { unfollowUser } = this.props;
     unfollowUser(userId);
-  }
+  };
 
   render() {
     const { isFollow } = this.props;
@@ -149,9 +152,8 @@ class FollowModal extends Component {
                   value={isPrivate}
                 />
               </View>
-              {
-                isFollow ?
-                  <View style={styles.actionContainer}>
+              {isFollow
+                ? <View style={styles.actionContainer}>
                     <PXTouchable onPress={this.handleOnPressRemoveButton}>
                       <Text>Remove</Text>
                     </PXTouchable>
@@ -159,14 +161,12 @@ class FollowModal extends Component {
                       <Text>Follow</Text>
                     </PXTouchable>
                   </View>
-                :
-                  <View style={styles.actionWithoutRemoveButtonContainer}>
+                : <View style={styles.actionWithoutRemoveButtonContainer}>
                     <FollowButton
                       isFollow={isFollow}
                       onPress={this.handleOnPressFollowButton}
                     />
-                  </View>
-              }
+                  </View>}
             </View>
           </TouchableWithoutFeedback>
         </PXTouchable>
@@ -175,11 +175,13 @@ class FollowModal extends Component {
   }
 }
 
-export default connect((state, props) => ({
-  userFollowDetail: state.userFollowDetail,
-}), {
-  ...userFollowDetailActionCreators,
-  ...followUserActionCreators,
-  ...modalActionCreators,
-})(FollowModal);
-
+export default connect(
+  (state, props) => ({
+    userFollowDetail: state.userFollowDetail,
+  }),
+  {
+    ...userFollowDetailActionCreators,
+    ...followUserActionCreators,
+    ...modalActionCreators,
+  },
+)(FollowModal);

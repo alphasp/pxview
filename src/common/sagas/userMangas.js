@@ -15,20 +15,20 @@ export function* handleFetchUserMangas(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       const options = { type: 'manga' };
       response = yield apply(pixiv, pixiv.userIllusts, [userId, options]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchUserMangasSuccess(
-      normalized.entities,
-      normalized.result,
-      userId,
-      response.next_url,
-    ));
-  }
-  catch (err) {
+    yield put(
+      fetchUserMangasSuccess(
+        normalized.entities,
+        normalized.result,
+        userId,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchUserMangasFailure(userId));
     yield put(addError(err));
   }

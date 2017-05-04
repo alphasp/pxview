@@ -1,7 +1,6 @@
 import { RANKING } from '../constants/actionTypes';
 import { RANKING_FOR_UI } from '../constants';
 
-
 const defaultState = {
   loading: false,
   loaded: false,
@@ -46,8 +45,12 @@ export default function search(state = getDefaultStateForRankings(), action) {
           loading: false,
           loaded: true,
           refreshing: false,
-          items: (state[action.payload.rankingMode] && state[action.payload.rankingMode].items)
-            ? [...state[action.payload.rankingMode].items, ...action.payload.items]
+          items: state[action.payload.rankingMode] &&
+            state[action.payload.rankingMode].items
+            ? [
+                ...state[action.payload.rankingMode].items,
+                ...action.payload.items,
+              ]
             : action.payload.items,
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp,

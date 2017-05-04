@@ -15,24 +15,35 @@ export function* handleFetchUserBookmarkIllusts(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       const options = {};
       if (tag) {
         options.tag = tag;
       }
-      response = yield apply(pixiv, pixiv.userBookmarksIllust, [userId, options]);
+      response = yield apply(pixiv, pixiv.userBookmarksIllust, [
+        userId,
+        options,
+      ]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
     // eslint-disable-next-line max-len
-    yield put(fetchUserBookmarkIllustsSuccess(normalized.entities, normalized.result, userId, response.next_url));
-  }
-  catch (err) {
+    yield put(
+      fetchUserBookmarkIllustsSuccess(
+        normalized.entities,
+        normalized.result,
+        userId,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchUserBookmarkIllustsFailure(userId));
     yield put(addError(err));
   }
 }
 
 export function* watchFetchUserBookmarkIllusts() {
-  yield takeEvery(USER_BOOKMARK_ILLUSTS.REQUEST, handleFetchUserBookmarkIllusts);
+  yield takeEvery(
+    USER_BOOKMARK_ILLUSTS.REQUEST,
+    handleFetchUserBookmarkIllusts,
+  );
 }

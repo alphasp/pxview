@@ -31,7 +31,8 @@ export default function illustComments(state = {}, action) {
           ...state[action.payload.illustId],
           loading: false,
           loaded: true,
-          items: (state[action.payload.illustId] && state[action.payload.illustId].items)
+          items: state[action.payload.illustId] &&
+            state[action.payload.illustId].items
             ? [...state[action.payload.illustId].items, ...action.payload.items]
             : action.payload.items,
           offset: action.payload.offset,

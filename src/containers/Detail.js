@@ -156,9 +156,10 @@ class Detail extends Component {
       headerRight: (
         <View style={{ flexDirection: 'row' }}>
           <PXTouchable
-            onPress={() => Share.open(shareOptions).catch(err => {
-              err && console.log(err);
-            })}
+            onPress={() =>
+              Share.open(shareOptions).catch(err => {
+                err && console.log(err);
+              })}
           >
             <Icon
               name="share-alt"
@@ -182,7 +183,9 @@ class Detail extends Component {
     // const { item } = props;
     super(props);
     const { item } = props;
-    const images = item.page_count > 1 ? item.meta_pages.map(page => page.image_urls.original) : [item.meta_single_page.original_image_url];
+    const images = item.page_count > 1
+      ? item.meta_pages.map(page => page.image_urls.original)
+      : [item.meta_single_page.original_image_url];
     this.state = {
       mounting: true,
       isInitState: true,
@@ -193,7 +196,8 @@ class Detail extends Component {
     };
     this.listViewOffset = 0;
     if (Platform.OS === 'android') {
-      UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+      UIManager.setLayoutAnimationEnabledExperimental &&
+        UIManager.setLayoutAnimationEnabledExperimental(true);
     }
   }
 
@@ -237,7 +241,7 @@ class Detail extends Component {
       }}
       onPress={() => this.handleOnPressImage(index)}
     />
-    )
+  );
 
   renderFooter = () => {
     const { item, navigation, screenProps } = this.props;
@@ -263,9 +267,7 @@ class Detail extends Component {
               onLinkPress={this.handleOnLinkPress}
             />
           </View>
-          {
-            <Tags tags={item.tags} onPressTag={this.handleOnPressTag} />
-          }
+          {<Tags tags={item.tags} onPressTag={this.handleOnPressTag} />}
         </View>
         <View>
           <View style={styles.sectionHeader}>
@@ -277,7 +279,12 @@ class Detail extends Component {
               </View>
             </PXTouchable>
           </View>
-          <IllustComments illustId={item.id} isFeatureInDetailPage maxItems={6} navigation={navigation} />
+          <IllustComments
+            illustId={item.id}
+            isFeatureInDetailPage
+            maxItems={6}
+            navigation={navigation}
+          />
         </View>
         {
           <View onLayout={this.handleOnLayoutRelatedIllusts}>
@@ -290,23 +297,28 @@ class Detail extends Component {
                 </View>
               </PXTouchable>
             </View>
-            <RelatedIllusts illustId={item.id} isFeatureInDetailPage maxItems={6} navigation={navigation} />
+            <RelatedIllusts
+              illustId={item.id}
+              isFeatureInDetailPage
+              maxItems={6}
+              navigation={navigation}
+            />
           </View>
         }
       </View>
     );
-  }
+  };
 
   handleOnPressTag = tag => {
     const { navigate } = this.props.navigation;
     navigate('SearchResult', { word: tag });
     // Actions.searchResult({ word: tag });
-  }
+  };
 
   handleOnPressAvatar = userId => {
     const { navigate } = this.props.navigation;
     navigate('UserDetail', { userId });
-  }
+  };
 
   handleOnViewableItemsChanged = ({ viewableItems, changed }) => {
     // console.log('viewableItems ', viewableItems)
@@ -315,7 +327,12 @@ class Detail extends Component {
     // https://github.com/facebook/react-native/issues/5688
     // const { item } = this.props;
     const { item } = this.props;
-    if (item.meta_pages && item.meta_pages.length && viewableItems && viewableItems.length) {
+    if (
+      item.meta_pages &&
+      item.meta_pages.length &&
+      viewableItems &&
+      viewableItems.length
+    ) {
       // console.log('visible row ', visibleRowNumbers)
       // Actions.refresh({ title: `${visibleRowNumbers[0] + 1} / ${item.meta_pages.length}`});
       this.setState({
@@ -324,13 +341,12 @@ class Detail extends Component {
       if (viewableItems.length === 2) {
         // console.log('visible row ', visibleRowNumbers[0])
         // Actions.refresh({ title: `${visibleRowNumbers[0] + 1} of ${item.meta_pages.length}`});
-          // visible row is visibleRowNumbers[0]
+        // visible row is visibleRowNumbers[0]
       }
       if (viewableItems.length === 3) {
-          // visible row is visibleRowNumbers[1]
+        // visible row is visibleRowNumbers[1]
       }
-    }
-    else {
+    } else {
       const { imagePageNumber } = this.state;
       if (imagePageNumber) {
         this.setState({
@@ -338,7 +354,7 @@ class Detail extends Component {
         });
       }
     }
-  }
+  };
 
   handleOnScrollMultiImagesList = () => {
     const { isInitState, isScrolling } = this.state;
@@ -356,7 +372,7 @@ class Detail extends Component {
     this.timer = setTimeout(() => {
       this.setState({ isScrolling: false });
     }, 2000);
-  }
+  };
 
   handleOnScroll = e => {
     const { item } = this.props;
@@ -367,41 +383,55 @@ class Detail extends Component {
     // Simple fade-in / fade-out animation
     const CustomLayoutLinear = {
       duration: 100,
-      create: { type: LayoutAnimation.Types.linear, property: LayoutAnimation.Properties.opacity },
-      update: { type: LayoutAnimation.Types.linear, property: LayoutAnimation.Properties.opacity },
-      delete: { type: LayoutAnimation.Types.linear, property: LayoutAnimation.Properties.opacity },
+      create: {
+        type: LayoutAnimation.Types.linear,
+        property: LayoutAnimation.Properties.opacity,
+      },
+      update: {
+        type: LayoutAnimation.Types.linear,
+        property: LayoutAnimation.Properties.opacity,
+      },
+      delete: {
+        type: LayoutAnimation.Types.linear,
+        property: LayoutAnimation.Properties.opacity,
+      },
     };
     // Check if the user is scrolling up or down by confronting the new scroll position with your own one
     const currentOffset = e.nativeEvent.contentOffset.y;
     const contentHeight = e.nativeEvent.contentSize.height;
-    const direction = (currentOffset > 0 && currentOffset > this.listViewOffset)
+    const direction = currentOffset > 0 && currentOffset > this.listViewOffset
       ? 'down'
       : 'up';
     const layoutHeight = e.nativeEvent.layoutMeasurement.height;
-    const offsetToHide = (contentHeight - this.state.footerViewHeight + (this.state.relatedIllustsViewPosition - layoutHeight));
+    const offsetToHide =
+      contentHeight -
+      this.state.footerViewHeight +
+      (this.state.relatedIllustsViewPosition - layoutHeight);
     // If the user is scrolling down (and the action-button is still visible) hide it
-    const isActionButtonVisible = direction === 'up' && ((currentOffset < offsetToHide) || currentOffset === 0);
+    const isActionButtonVisible =
+      direction === 'up' &&
+      (currentOffset < offsetToHide || currentOffset === 0);
     if (isActionButtonVisible !== this.state.isActionButtonVisible) {
       LayoutAnimation.configureNext(CustomLayoutLinear);
       this.setState({ isActionButtonVisible });
     }
     this.listViewOffset = currentOffset;
-  }
+  };
 
   handleOnLinkPress = url => {
     console.log('clicked link: ', url);
-    Linking.canOpenURL(url).then(supported => {
-      if (!supported) {
-        console.log(`Can't handle url: ${url}`);
-      }
-      else {
-        return Linking.openURL(url);
-      }
-    }).catch(err => {
-      console.error('Error on link press ', err);
-    });
-  }
-
+    Linking.canOpenURL(url)
+      .then(supported => {
+        if (!supported) {
+          console.log(`Can't handle url: ${url}`);
+        } else {
+          return Linking.openURL(url);
+        }
+      })
+      .catch(err => {
+        console.error('Error on link press ', err);
+      });
+  };
 
   handleOnPressImage = index => {
     const { navigate } = this.props.navigation;
@@ -410,7 +440,7 @@ class Detail extends Component {
       images,
       viewerIndex: index,
     });
-  }
+  };
 
   handleOnPressViewMoreComments = () => {
     const { item, navigation: { navigate } } = this.props;
@@ -418,7 +448,7 @@ class Detail extends Component {
       illustId: item.id,
       navigation: this.props.navigation,
     });
-  }
+  };
 
   handleOnPressViewMoreRelatedIllusts = () => {
     const { item, navigation: { navigate } } = this.props;
@@ -426,79 +456,84 @@ class Detail extends Component {
       illustId: item.id,
       navigation: this.props.navigation,
     });
-  }
+  };
 
   handleOnLayoutRelatedIllusts = e => {
     this.setState({
       relatedIllustsViewPosition: e.nativeEvent.layout.y,
     });
-  }
+  };
 
   handleOnLayoutFooter = e => {
     this.setState({
       footerViewHeight: e.nativeEvent.layout.height,
     });
-  }
+  };
 
   render() {
     const { item, navigation } = this.props;
     const { isShowBottomSheet } = navigation.state.params;
-    const { mounting, imagePageNumber, isScrolling, isActionButtonVisible, isInitState, images } = this.state;
+    const {
+      mounting,
+      imagePageNumber,
+      isScrolling,
+      isActionButtonVisible,
+      isInitState,
+      images,
+    } = this.state;
     return (
-      <View style={styles.container} ref={ref => this.detailView = ref}>
-        {
-          mounting ?
-            <Loader />
-          :
-          (item.page_count > 1) ?
-            <View>
-              <View style={{ flex: 1 }}>
-                <FlatList
-                  data={item.meta_pages}
-                  keyExtractor={(item, index) => item.image_urls.large}
-                  renderItem={this.renderRow}
-                  debug={false}
-                  disableVirtualization
-                  removeClippedSubviews={false}
-                  ListFooterComponent={this.renderFooter}
-                  onScroll={this.handleOnScroll}
-                  onViewableItemsChanged={this.handleOnViewableItemsChanged}
-                />
+      <View style={styles.container} ref={ref => (this.detailView = ref)}>
+        {mounting
+          ? <Loader />
+          : item.page_count > 1
+              ? <View>
+                  <View style={{ flex: 1 }}>
+                    <FlatList
+                      data={item.meta_pages}
+                      keyExtractor={(item, index) => item.image_urls.large}
+                      renderItem={this.renderRow}
+                      debug={false}
+                      disableVirtualization
+                      removeClippedSubviews={false}
+                      ListFooterComponent={this.renderFooter}
+                      onScroll={this.handleOnScroll}
+                      onViewableItemsChanged={this.handleOnViewableItemsChanged}
+                    />
 
-              </View>
-              {
-              (isInitState || isScrolling) && imagePageNumber &&
-              <View style={styles.imagePageNumberContainer}>
-                <Text style={styles.imagePageNumber}>{imagePageNumber}</Text>
-              </View>
-            }
-            </View>
-          :
-            <ScrollView onScroll={this.handleOnScroll} scrollEventThrottle={16}>
-              <PXCacheImageTouchable
-                uri={item.image_urls.large}
-                initWidth={item.width > windowWidth ? windowWidth : item.width}
-                initHeight={windowWidth * item.height / item.width}
-                style={{
-                  backgroundColor: '#E9EBEE',
-                }}
-                imageStyle={{
-                  resizeMode: 'contain',
-                }}
-                onPress={() => this.handleOnPressImage(0)}
-              />
-              {this.renderFooter()}
-            </ScrollView>
-        }
-        {
-          isActionButtonVisible &&
+                  </View>
+                  {(isInitState || isScrolling) &&
+                    imagePageNumber &&
+                    <View style={styles.imagePageNumberContainer}>
+                      <Text style={styles.imagePageNumber}>
+                        {imagePageNumber}
+                      </Text>
+                    </View>}
+                </View>
+              : <ScrollView
+                  onScroll={this.handleOnScroll}
+                  scrollEventThrottle={16}
+                >
+                  <PXCacheImageTouchable
+                    uri={item.image_urls.large}
+                    initWidth={
+                      item.width > windowWidth ? windowWidth : item.width
+                    }
+                    initHeight={windowWidth * item.height / item.width}
+                    style={{
+                      backgroundColor: '#E9EBEE',
+                    }}
+                    imageStyle={{
+                      resizeMode: 'contain',
+                    }}
+                    onPress={() => this.handleOnPressImage(0)}
+                  />
+                  {this.renderFooter()}
+                </ScrollView>}
+        {isActionButtonVisible &&
           <ActionButton
             buttonColor="rgba(255,255,255,1)"
-            icon={
-              <BookmarkButton item={item} />
-            }
-          />
-        }
+            icon={<BookmarkButton item={item} />}
+          />}
       </View>
     );
   }

@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View,
-  InteractionManager,
-} from 'react-native';
+import { StyleSheet, View, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
-import * as userBookmarkIllustActionCreators from '../common/actions/userBookmarkIllusts';
+import * as userBookmarkIllustActionCreators
+  from '../common/actions/userBookmarkIllusts';
 import { makeGetUserBookmarkIllustsItems } from '../common/selectors';
 
 class UserBookmarkIllusts extends Component {
   componentDidMount() {
-    const { userBookmarkIllusts, userId, tag, reload, fetchUserBookmarkIllusts, clearUserBookmarkIllusts } = this.props;
+    const {
+      userBookmarkIllusts,
+      userId,
+      tag,
+      reload,
+      fetchUserBookmarkIllusts,
+      clearUserBookmarkIllusts,
+    } = this.props;
     console.log('tag ', tag);
     if (!userBookmarkIllusts || !userBookmarkIllusts.items || reload) {
       clearUserBookmarkIllusts(userId);
@@ -23,27 +27,45 @@ class UserBookmarkIllusts extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { userId: prevUserId, tag: prevTag } = this.props;
-    const { userId, tag, fetchUserBookmarkIllusts, clearUserBookmarkIllusts } = nextProps;
-    if ((userId !== prevUserId) || (tag !== prevTag)) {
+    const {
+      userId,
+      tag,
+      fetchUserBookmarkIllusts,
+      clearUserBookmarkIllusts,
+    } = nextProps;
+    if (userId !== prevUserId || tag !== prevTag) {
       clearUserBookmarkIllusts(userId);
       fetchUserBookmarkIllusts(userId, tag);
     }
   }
 
-
   loadMoreItems = () => {
-    const { userBookmarkIllusts, tag, userId, fetchUserBookmarkIllusts } = this.props;
-    if (userBookmarkIllusts && !userBookmarkIllusts.loading && userBookmarkIllusts.nextUrl) {
+    const {
+      userBookmarkIllusts,
+      tag,
+      userId,
+      fetchUserBookmarkIllusts,
+    } = this.props;
+    if (
+      userBookmarkIllusts &&
+      !userBookmarkIllusts.loading &&
+      userBookmarkIllusts.nextUrl
+    ) {
       console.log('next url ', userBookmarkIllusts.nextUrl);
       fetchUserBookmarkIllusts(userId, tag, userBookmarkIllusts.nextUrl);
     }
-  }
+  };
 
   handleOnRefresh = () => {
-    const { userId, tag, clearUserBookmarkIllusts, fetchUserBookmarkIllusts } = this.props;
+    const {
+      userId,
+      tag,
+      clearUserBookmarkIllusts,
+      fetchUserBookmarkIllusts,
+    } = this.props;
     clearUserBookmarkIllusts(userId);
     fetchUserBookmarkIllusts(userId, tag, null, true);
-  }
+  };
 
   render() {
     const { userBookmarkIllusts, items, userId } = this.props;

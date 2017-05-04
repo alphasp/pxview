@@ -38,7 +38,7 @@ class Ranking extends Component {
           { key: '7', title: strings.month_ranking },
           { key: '8', title: strings.past_ranking },
         ],
-      })
+      });
     }
   }
 
@@ -63,11 +63,16 @@ class Ranking extends Component {
       case '7':
         return <RankingList rankingMode={RANKING_FOR_UI.MONTHLY} />;
       case '8':
-        return <PastRanking rankingMode={RANKING_FOR_UI.PAST} screenProps={this.props.screenProps} />;
+        return (
+          <PastRanking
+            rankingMode={RANKING_FOR_UI.PAST}
+            screenProps={this.props.screenProps}
+          />
+        );
       default:
         return null;
     }
-  }
+  };
 
   render() {
     return (

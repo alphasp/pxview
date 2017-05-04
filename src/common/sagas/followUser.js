@@ -13,11 +13,12 @@ import { FOLLOWING_TYPES } from '../constants';
 export function* handleFollowUser(action) {
   const { userId, followType } = action.payload;
   try {
-    const followTypeString = followType === FOLLOWING_TYPES.PRIVATE ? 'private' : 'public';
+    const followTypeString = followType === FOLLOWING_TYPES.PRIVATE
+      ? 'private'
+      : 'public';
     yield apply(pixiv, pixiv.followUser, [userId, followTypeString]);
     yield put(followUserSuccess(userId));
-  }
-  catch (err) {
+  } catch (err) {
     yield put(followUserFailure(userId));
     yield put(addError(err));
   }
@@ -28,8 +29,7 @@ export function* handleUnfollowUser(action) {
   try {
     yield apply(pixiv, pixiv.unfollowUser, [userId]);
     yield put(unfollowUserSuccess(userId));
-  }
-  catch (err) {
+  } catch (err) {
     yield put(unfollowUserFailure(userId));
     yield put(addError(err));
   }

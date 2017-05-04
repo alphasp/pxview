@@ -15,8 +15,7 @@ export function* handleFetchSearchUsers(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       response = yield apply(pixiv, pixiv.searchUser, [word]);
     }
     const transformedResult = {
@@ -28,15 +27,19 @@ export function* handleFetchSearchUsers(action) {
           id: result.user.id,
         })),
     };
-    const normalized = normalize(transformedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
-    yield put(fetchSearchUsersSuccess(
-      normalized.entities,
-      normalized.result,
-      navigationStateKey,
-      response.next_url,
-    ));
-  }
-  catch (err) {
+    const normalized = normalize(
+      transformedResult.user_previews,
+      Schemas.USER_PREVIEW_ARRAY,
+    );
+    yield put(
+      fetchSearchUsersSuccess(
+        normalized.entities,
+        normalized.result,
+        navigationStateKey,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchSearchUsersFailure(navigationStateKey));
     yield put(addError(err));
   }

@@ -15,8 +15,7 @@ export function* handleFetchRecommendedUsers(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       response = yield apply(pixiv, pixiv.userRecommended, [options]);
     }
     const transformedResult = {
@@ -28,14 +27,18 @@ export function* handleFetchRecommendedUsers(action) {
           id: result.user.id,
         })),
     };
-    const normalized = normalize(transformedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
-    yield put(fetchRecommendedUsersSuccess(
-      normalized.entities,
-      normalized.result,
-      response.next_url,
-    ));
-  }
-  catch (err) {
+    const normalized = normalize(
+      transformedResult.user_previews,
+      Schemas.USER_PREVIEW_ARRAY,
+    );
+    yield put(
+      fetchRecommendedUsersSuccess(
+        normalized.entities,
+        normalized.result,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchRecommendedUsersFailure());
     yield put(addError(err));
   }

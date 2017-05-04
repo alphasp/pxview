@@ -16,12 +16,18 @@ import PXImage from '../components/PXImage';
 import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import CommentList from '../components/CommentList';
-import * as illustCommentsActionCreators from '../common/actions/illustComments';
+import * as illustCommentsActionCreators
+  from '../common/actions/illustComments';
 import { makeGetIllustCommentsItems } from '../common/selectors';
 
 class IllustComments extends Component {
   componentDidMount() {
-    const { fetchIllustComments, clearIllustComments, illustComments, illustId } = this.props;
+    const {
+      fetchIllustComments,
+      clearIllustComments,
+      illustComments,
+      illustId,
+    } = this.props;
     if (!illustComments || !illustComments.items) {
       clearIllustComments(illustId);
       InteractionManager.runAfterInteractions(() => {
@@ -36,16 +42,23 @@ class IllustComments extends Component {
       console.log('load more ', illustComments.nextUrl);
       fetchIllustComments(illustId, null, illustComments.nextUrl);
     }
-  }
+  };
 
   handleOnRefresh = () => {
     const { fetchIllustComments, clearIllustComments, illustId } = this.props;
     clearIllustComments(illustId);
     fetchIllustComments(illustId, null, null, true);
-  }
+  };
 
   render() {
-    const { illustComments, items, illustId, navigation, isFeatureInDetailPage, maxItems } = this.props;
+    const {
+      illustComments,
+      items,
+      illustId,
+      navigation,
+      isFeatureInDetailPage,
+      maxItems,
+    } = this.props;
     return (
       <CommentList
         data={{ ...illustComments, items }}

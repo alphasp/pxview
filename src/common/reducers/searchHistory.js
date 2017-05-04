@@ -1,8 +1,11 @@
 import { SEARCH_HISTORY } from '../constants/actionTypes';
 
-export default function searchHistory(state = {
-  items: [],
-}, action = {}) {
+export default function searchHistory(
+  state = {
+    items: [],
+  },
+  action = {},
+) {
   switch (action.type) {
     case SEARCH_HISTORY.ADD: {
       let newItems;
@@ -11,12 +14,10 @@ export default function searchHistory(state = {
       if (items && items.length) {
         if (items.indexOf(newItem) === -1) {
           newItems = [newItem, ...items.slice(0, 9)];
-        }
-        else {
+        } else {
           newItems = [...items];
         }
-      }
-      else {
+      } else {
         newItems = [newItem];
       }
       return {

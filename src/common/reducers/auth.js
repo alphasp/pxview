@@ -1,6 +1,9 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import {
-  LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGOUT,
   AUTH_REHYDRATE_DONE,
 } from '../actions/auth';
 // const defaultUser = {
@@ -20,12 +23,15 @@ import {
 //   refreshToken: "",
 //   expiresIn: 3600,
 // }
-export default function auth(state = {
-  loading: false,
-  loaded: false,
-  user: null,
-  rehydrated: false,
-}, action) {
+export default function auth(
+  state = {
+    loading: false,
+    loaded: false,
+    user: null,
+    rehydrated: false,
+  },
+  action,
+) {
   switch (action.type) {
     case LOGOUT:
       return {

@@ -15,20 +15,20 @@ export function* handleFetchUserIllusts(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       const options = { type: 'illust' };
       response = yield apply(pixiv, pixiv.userIllusts, [userId, options]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchUserIllustsSuccess(
-      normalized.entities,
-      normalized.result,
-      userId,
-      response.next_url,
-    ));
-  }
-  catch (err) {
+    yield put(
+      fetchUserIllustsSuccess(
+        normalized.entities,
+        normalized.result,
+        userId,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchUserIllustsFailure(userId));
     yield put(addError(err));
   }

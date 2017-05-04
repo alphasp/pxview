@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  InteractionManager,
-} from 'react-native';
+import { InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import UserListContainer from './UserListContainer';
 import * as searchUsersActionCreators from '../common/actions/searchUsers';
@@ -9,7 +7,12 @@ import { makeGetSearchUsersItems } from '../common/selectors';
 
 class SearchUsersResult extends Component {
   componentDidMount() {
-    const { navigationStateKey, fetchSearchUsers, clearSearchUsers, word } = this.props;
+    const {
+      navigationStateKey,
+      fetchSearchUsers,
+      clearSearchUsers,
+      word,
+    } = this.props;
     clearSearchUsers(navigationStateKey);
     InteractionManager.runAfterInteractions(() => {
       fetchSearchUsers(navigationStateKey, word);
@@ -18,7 +21,12 @@ class SearchUsersResult extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { word: prevWord } = this.props;
-    const { navigationStateKey, fetchSearchUsers, clearSearchUsers, word } = nextProps;
+    const {
+      navigationStateKey,
+      fetchSearchUsers,
+      clearSearchUsers,
+      word,
+    } = nextProps;
     if (word !== prevWord) {
       clearSearchUsers(navigationStateKey);
       fetchSearchUsers(navigationStateKey, word);
@@ -26,18 +34,28 @@ class SearchUsersResult extends Component {
   }
 
   loadMoreItems = () => {
-    const { navigationStateKey, fetchSearchUsers, searchUsers: { nextUrl, loading }, word } = this.props;
+    const {
+      navigationStateKey,
+      fetchSearchUsers,
+      searchUsers: { nextUrl, loading },
+      word,
+    } = this.props;
     if (!loading && nextUrl) {
       console.log('load more ', nextUrl);
       fetchSearchUsers(navigationStateKey, word, nextUrl);
     }
-  }
+  };
 
   handleOnRefresh = () => {
-    const { navigationStateKey, fetchSearchUsers, clearSearchUsers, word } = this.props;
+    const {
+      navigationStateKey,
+      fetchSearchUsers,
+      clearSearchUsers,
+      word,
+    } = this.props;
     clearSearchUsers(navigationStateKey);
     fetchSearchUsers(navigationStateKey, word, null, true);
-  }
+  };
 
   // handleOnPressRemoveTag = (index) => {
   //   const { dispatch, word } = this.props;

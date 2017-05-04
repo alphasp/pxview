@@ -1,7 +1,12 @@
 import qs from 'qs';
 import { SEARCH } from '../constants/actionTypes';
 
-export function fetchSearchSuccess(entities, items, navigationStateKey, nextUrl) {
+export function fetchSearchSuccess(
+  entities,
+  items,
+  navigationStateKey,
+  nextUrl,
+) {
   return {
     type: SEARCH.SUCCESS,
     payload: {
@@ -23,7 +28,13 @@ export function fetchSearchFailure(navigationStateKey) {
   };
 }
 
-export function fetchSearch(navigationStateKey, word, options, nextUrl, refreshing = false) {
+export function fetchSearch(
+  navigationStateKey,
+  word,
+  options,
+  nextUrl,
+  refreshing = false,
+) {
   const params = qs.parse(nextUrl);
   const offset = params.offset || '0';
   return {

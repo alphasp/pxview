@@ -18,9 +18,10 @@ export function* handleFetchUserDetail(action) {
       id: response.user.id,
     };
     const normalized = normalize(transformedResult, Schemas.USER_PROFILE);
-    yield put(fetchUserDetailSuccess(normalized.entities, normalized.result, userId));
-  }
-  catch (err) {
+    yield put(
+      fetchUserDetailSuccess(normalized.entities, normalized.result, userId),
+    );
+  } catch (err) {
     yield put(fetchUserDetailFailure(userId));
     yield put(addError(err));
   }

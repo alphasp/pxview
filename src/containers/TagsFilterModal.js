@@ -65,35 +65,43 @@ class TagsFilterModal extends Component {
     const { tag, onSelectTag } = this.props;
     const isSelected = item.value === tag;
     return (
-      <PXTouchable
-        key={item.name}
-        onPress={() => onSelectTag(item.value)}
-      >
+      <PXTouchable key={item.name} onPress={() => onSelectTag(item.value)}>
         <View style={[styles.row, isSelected && styles.selectedTagContainer]}>
           {
             <View style={styles.selectedTag}>
-              <Text style={isSelected && styles.selectedTagText}>{item.name}</Text>
+              <Text style={isSelected && styles.selectedTagText}>
+                {item.name}
+              </Text>
             </View>
           }
-          {
-            item.count &&
-            <Text style={isSelected && styles.selectedTagText}>{item.count}</Text>
-          }
+          {item.count &&
+            <Text style={isSelected && styles.selectedTagText}>
+              {item.count}
+            </Text>}
         </View>
       </PXTouchable>
     );
-  }
+  };
 
   loadMoreItems = () => {
-    const { bookmarkTags: { nextUrl, loading }, fetchBookmarkTags, tagType } = this.props;
+    const {
+      bookmarkTags: { nextUrl, loading },
+      fetchBookmarkTags,
+      tagType,
+    } = this.props;
     if (!loading && nextUrl) {
       console.log('load more ', nextUrl);
       fetchBookmarkTags(tagType, nextUrl);
     }
-  }
+  };
 
   render() {
-    const { bookmarkTags: { items, loading, loaded }, onSelectTag, isOpen, onPressCloseButton } = this.props;
+    const {
+      bookmarkTags: { items, loading, loaded },
+      onSelectTag,
+      isOpen,
+      onPressCloseButton,
+    } = this.props;
     return (
       <View>
         <Modal
@@ -130,6 +138,9 @@ class TagsFilterModal extends Component {
   }
 }
 
-export default connect((state, props) => ({
-  bookmarkTags: state.bookmarkTags[props.tagType],
-}), bookmarkTagsActionCreators)(TagsFilterModal);
+export default connect(
+  (state, props) => ({
+    bookmarkTags: state.bookmarkTags[props.tagType],
+  }),
+  bookmarkTagsActionCreators,
+)(TagsFilterModal);

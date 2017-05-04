@@ -26,7 +26,8 @@ export default function userMangas(state = {}, action) {
           loading: false,
           loaded: true,
           refreshing: false,
-          items: (state[action.payload.userId] && state[action.payload.userId].items)
+          items: state[action.payload.userId] &&
+            state[action.payload.userId].items
             ? [...state[action.payload.userId].items, ...action.payload.items]
             : action.payload.items,
           offset: action.payload.offset,

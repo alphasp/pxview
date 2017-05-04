@@ -19,7 +19,11 @@ export function fetchSearchUsersAutoCompleteFailure() {
   };
 }
 
-export function fetchSearchUsersAutoComplete(word, nextUrl, refreshing = false) {
+export function fetchSearchUsersAutoComplete(
+  word,
+  nextUrl,
+  refreshing = false,
+) {
   const params = qs.parse(nextUrl);
   const offset = params.offset || '0';
   return {

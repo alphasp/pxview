@@ -23,7 +23,12 @@ export function fetchRankingFailure(rankingMode) {
   };
 }
 
-export function fetchRanking(rankingMode, options, nextUrl, refreshing = false) {
+export function fetchRanking(
+  rankingMode,
+  options,
+  nextUrl,
+  refreshing = false,
+) {
   const params = qs.parse(nextUrl);
   const offset = params.offset || '0';
   return {

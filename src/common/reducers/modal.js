@@ -1,7 +1,4 @@
-import {
-  OPEN_MODAL,
-  CLOSE_MODAL,
-} from '../actions/modal';
+import { OPEN_MODAL, CLOSE_MODAL } from '../actions/modal';
 
 // http://stackoverflow.com/questions/35623656/how-can-i-display-a-modal-dialog-in-redux-that-performs-asynchronous-actions/35641680
 

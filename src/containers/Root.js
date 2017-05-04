@@ -48,11 +48,8 @@ const store = configureStore();
 
 class Root extends Component {
   render() {
-    return (
-      <App {...this.props} store={store} />
-    );
+    return <App {...this.props} store={store} />;
   }
 }
 
 AppRegistry.registerComponent('pixiv', () => Root);
-

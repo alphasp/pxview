@@ -23,7 +23,7 @@ class FollowButtonContainer extends Component {
     unfollowUser: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
     openModal: PropTypes.func.isRequired,
-  }
+  };
 
   handleOnPress = () => {
     const { authUser, user, navigation: { navigate } } = this.props;
@@ -33,14 +33,12 @@ class FollowButtonContainer extends Component {
           this.followUser(user.id, FOLLOWING_TYPES.PUBLIC);
         },
       });
-    }
-    else if (user.is_followed) {
+    } else if (user.is_followed) {
       this.unfollowUser(user.id);
-    }
-    else {
+    } else {
       this.followUser(user.id, FOLLOWING_TYPES.PUBLIC);
     }
-  }
+  };
 
   handleOnLongPress = () => {
     const { authUser, user, navigation: { navigate }, openModal } = this.props;
@@ -50,24 +48,23 @@ class FollowButtonContainer extends Component {
           this.followUser(user.id, FOLLOWING_TYPES.PUBLIC);
         },
       });
-    }
-    else {
+    } else {
       openModal(MODAL_TYPES.FOLLOW, {
         userId: user.id,
         isFollow: user.is_followed,
       });
     }
-  }
+  };
 
   followUser = (userId, followType) => {
     const { followUser } = this.props;
     followUser(userId, followType);
-  }
+  };
 
   unfollowUser = userId => {
     const { unfollowUser } = this.props;
     unfollowUser(userId);
-  }
+  };
 
   render() {
     const { user, restProps } = this.props;
@@ -82,6 +79,11 @@ class FollowButtonContainer extends Component {
   }
 }
 
-export default withNavigation(connect((state, props) => ({
-  authUser: state.auth.user,
-}), { ...followUserActionCreators, ...modalActionCreators })(FollowButtonContainer));
+export default withNavigation(
+  connect(
+    (state, props) => ({
+      authUser: state.auth.user,
+    }),
+    { ...followUserActionCreators, ...modalActionCreators },
+  )(FollowButtonContainer),
+);

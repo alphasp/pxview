@@ -15,20 +15,27 @@ export function* handleFetchFollowingUserIllusts(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       response = yield apply(pixiv, pixiv.illustFollow, [options]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
     // eslint-disable-next-line max-len
-    yield put(fetchFollowingUserIllustsSuccess(normalized.entities, normalized.result, response.next_url));
-  }
-  catch (err) {
+    yield put(
+      fetchFollowingUserIllustsSuccess(
+        normalized.entities,
+        normalized.result,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchFollowingUserIllustsFailure());
     yield put(addError(err));
   }
 }
 
 export function* watchFetchFollowingUserIllusts() {
-  yield takeEvery(FOLLOWING_USER_ILLUSTS.REQUEST, handleFetchFollowingUserIllusts);
+  yield takeEvery(
+    FOLLOWING_USER_ILLUSTS.REQUEST,
+    handleFetchFollowingUserIllusts,
+  );
 }

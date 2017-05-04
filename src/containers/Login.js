@@ -1,12 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Platform,
-  Linking,
-} from 'react-native';
+import { StyleSheet, Text, View, Platform, Linking } from 'react-native';
 import dismissKeyboard from 'dismissKeyboard';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
@@ -48,11 +42,15 @@ class Login extends Component {
     login: PropTypes.func.isRequired,
     onLoginSuccess: PropTypes.func,
     handleSubmit: PropTypes.func,
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     const { auth: { user: prevUser } } = this.props;
-    const { auth: { user }, navigation: { goBack }, onLoginSuccess } = nextProps;
+    const {
+      auth: { user },
+      navigation: { goBack },
+      onLoginSuccess,
+    } = nextProps;
     if (user !== prevUser) {
       goBack();
       if (onLoginSuccess) {
@@ -70,26 +68,37 @@ class Login extends Component {
     dismissKeyboard();
     login(email, password);
     // todo handle login error
-  }
+  };
 
   handleOnPressSignUp = () => {
     const url = 'https://accounts.pixiv.net/signup';
-    Linking.canOpenURL(url).then(supported => {
-      if (!supported) {
-        console.log(`Can't handle url: ${url}`);
-      }
-      else {
-        return Linking.openURL(url);
-      }
-    }).catch(err => console.error('An error occurred', err));
-  }
+    Linking.canOpenURL(url)
+      .then(supported => {
+        if (!supported) {
+          console.log(`Can't handle url: ${url}`);
+        } else {
+          return Linking.openURL(url);
+        }
+      })
+      .catch(err => console.error('An error occurred', err));
+  };
 
   render() {
     const { auth: { loading }, handleSubmit } = this.props;
     return (
       <View style={styles.container}>
-        <Field name="email" component={PXFormInput} label="Email address/Pixiv ID" autoCapitalize="none" />
-        <Field name="password" component={PXFormInput} label="Password" secureTextEntry />
+        <Field
+          name="email"
+          component={PXFormInput}
+          label="Email address/Pixiv ID"
+          autoCapitalize="none"
+        />
+        <Field
+          name="password"
+          component={PXFormInput}
+          label="Password"
+          secureTextEntry
+        />
         <Button
           title="Login"
           buttonStyle={styles.loginButton}
@@ -114,7 +123,13 @@ const LoginForm = reduxForm({
   validate,
 })(Login);
 
-export default connect((state, props) => ({
-  auth: state.auth,
-  onLoginSuccess: props.onLoginSuccess || (props.navigation.state && props.navigation.state.params && props.navigation.state.params.onLoginSuccess),
-}), { login })(LoginForm);
+export default connect(
+  (state, props) => ({
+    auth: state.auth,
+    onLoginSuccess: props.onLoginSuccess ||
+      (props.navigation.state &&
+        props.navigation.state.params &&
+        props.navigation.state.params.onLoginSuccess),
+  }),
+  { login },
+)(LoginForm);

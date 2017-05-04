@@ -1,7 +1,12 @@
 import qs from 'qs';
 import { SEARCH_USERS } from '../constants/actionTypes';
 
-export function fetchSearchUsersSuccess(entities, items, navigationStateKey, nextUrl) {
+export function fetchSearchUsersSuccess(
+  entities,
+  items,
+  navigationStateKey,
+  nextUrl,
+) {
   return {
     type: SEARCH_USERS.SUCCESS,
     payload: {
@@ -23,7 +28,12 @@ export function fetchSearchUsersFailure(navigationStateKey) {
   };
 }
 
-export function fetchSearchUsers(navigationStateKey, word, nextUrl, refreshing = false) {
+export function fetchSearchUsers(
+  navigationStateKey,
+  word,
+  nextUrl,
+  refreshing = false,
+) {
   const params = qs.parse(nextUrl);
   const offset = params.offset || '0';
   return {

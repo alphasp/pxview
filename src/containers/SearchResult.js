@@ -36,26 +36,38 @@ class SearchResult extends Component {
   }
 
   loadMoreItems = () => {
-    const { navigationStateKey, search: { nextUrl, loading }, word, options } = this.props;
+    const {
+      navigationStateKey,
+      search: { nextUrl, loading },
+      word,
+      options,
+    } = this.props;
     if (!loading && nextUrl) {
       console.log('load more ', nextUrl);
       this.search(word, options, nextUrl);
     }
-  }
+  };
 
   handleOnRefresh = () => {
     const { clearSearch, navigationStateKey, word, options } = this.props;
     clearSearch(navigationStateKey);
     this.search(word, options, null, true);
-  }
+  };
 
   search = (word, options, nextUrl, refreshing) => {
     const { fetchSearch, navigationStateKey, search } = this.props;
     fetchSearch(navigationStateKey, word, options, nextUrl, refreshing);
-  }
+  };
 
   render() {
-    const { search, items, word, options, navigation, navigationStateKey } = this.props;
+    const {
+      search,
+      items,
+      word,
+      options,
+      navigation,
+      navigationStateKey,
+    } = this.props;
     return (
       <IllustList
         data={{ ...search, items }}

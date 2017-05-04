@@ -29,7 +29,9 @@ class PageWrapper extends Component {
 
   render() {
     const { active, children } = this.props;
-    return active || this.state.loaded ? <View style={{ flex: 1 }}>{children}</View> : null;
+    return active || this.state.loaded
+      ? <View style={{ flex: 1 }}>{children}</View>
+      : null;
   }
 }
 
@@ -64,15 +66,13 @@ class NewWorks extends Component {
             routes: routes.filter(route => route.key !== 4),
             index: 0,
           });
-        }
-        else {
+        } else {
           this.setState({
             ...this.state,
             routes: routes.filter(route => route.key !== 4),
           });
         }
-      }
-      else if (!routes.some(route => route.key === 4)) {
+      } else if (!routes.some(route => route.key === 4)) {
         this.setState({
           ...this.state,
           routes: [...routes, { key: '4', title: 'My Pixiv' }],
@@ -92,7 +92,10 @@ class NewWorks extends Component {
       case '1':
         return (
           <PageWrapper active={index == this.state.index}>
-            <FollowingUserIllusts screenProps={screenProps} navigation={navigation} />
+            <FollowingUserIllusts
+              screenProps={screenProps}
+              navigation={navigation}
+            />
           </PageWrapper>
         );
       case '2':
@@ -116,7 +119,7 @@ class NewWorks extends Component {
       default:
         return null;
     }
-  }
+  };
 
   render() {
     const { user, navigation, screenProps } = this.props;

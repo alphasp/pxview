@@ -14,14 +14,19 @@ export default function configureStore() {
   const sagaMiddleware = createSagaMiddleware();
   if (process.env.NODE_ENV !== 'production') {
     // eslint-disable-next-line no-underscore-dangle
-    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    const composeEnhancers =
+      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
     enhancer = composeEnhancers(
       autoRehydrate({ log: true }),
-      applyMiddleware(invariant(), createActionBuffer(REHYDRATE), thunk, sagaMiddleware),
+      applyMiddleware(
+        invariant(),
+        createActionBuffer(REHYDRATE),
+        thunk,
+        sagaMiddleware,
+      ),
       //devTools(),
     );
-  }
-  else {
+  } else {
     enhancer = compose(
       autoRehydrate(),
       applyMiddleware(createActionBuffer(REHYDRATE), thunk, sagaMiddleware),
@@ -39,22 +44,24 @@ export default function configureStore() {
 
   // const store = createStore(rootReducer, undefined, middleware);
 
-  persistStore(store, {
-    whitelist: ['searchHistory', 'auth'],
-    storage: AsyncStorage,
-  }, () => {
-    console.log('rehydration complete');
-    // const { auth } = store.getState();
+  persistStore(
+    store,
+    {
+      whitelist: ['searchHistory', 'auth'],
+      storage: AsyncStorage,
+    },
+    () => {
+      console.log('rehydration complete');
+      // const { auth } = store.getState();
 
-    // requestRefreshToken(store.dispatch);
-    // if (auth && auth.user && auth.user.accessToken) {
-    //   pixiv.setAuthToken(auth.user.accessToken);
-    // }
-  });
+      // requestRefreshToken(store.dispatch);
+      // if (auth && auth.user && auth.user.accessToken) {
+      //   pixiv.setAuthToken(auth.user.accessToken);
+      // }
+    },
+  );
   if (module.hot) {
-    module.hot.accept('../reducers', () =>
-      store.replaceReducer(rootReducer),
-    );
+    module.hot.accept('../reducers', () => store.replaceReducer(rootReducer));
   }
 
   return store;

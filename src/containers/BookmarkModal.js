@@ -19,8 +19,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Toast, { DURATION } from 'react-native-easy-toast';
 import PXTouchable from '../components/PXTouchable';
-import * as illustBookmarkDetailActionCreators from '../common/actions/illustBookmarkDetail';
-import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
+import * as illustBookmarkDetailActionCreators
+  from '../common/actions/illustBookmarkDetail';
+import * as bookmarkIllustActionCreators
+  from '../common/actions/bookmarkIllust';
 import * as modalActionCreators from '../common/actions/modal';
 import { BOOKMARK_TYPES } from '../common/constants';
 
@@ -98,7 +100,7 @@ class BookmarkModal extends Component {
     bookmarkIllust: PropTypes.func.isRequired,
     unbookmarkIllust: PropTypes.func.isRequired,
     closeModal: PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -112,7 +114,12 @@ class BookmarkModal extends Component {
   }
 
   componentDidMount() {
-    const { illustId, fetchIllustBookmarkDetail, clearIllustBookmarkDetail, tagType } = this.props;
+    const {
+      illustId,
+      fetchIllustBookmarkDetail,
+      clearIllustBookmarkDetail,
+      tagType,
+    } = this.props;
     clearIllustBookmarkDetail(illustId);
     fetchIllustBookmarkDetail(illustId);
   }
@@ -124,7 +131,7 @@ class BookmarkModal extends Component {
       const selectedTagsCount = this.countSelectedTags(item.tags);
       const tags = item.tags.map(tag => ({
         ...tag,
-        editable: !!((tag.is_registered || selectedTagsCount < MAX_TAGS_COUNT)),
+        editable: !!(tag.is_registered || selectedTagsCount < MAX_TAGS_COUNT),
       }));
       this.setState({
         tags,
@@ -138,14 +145,17 @@ class BookmarkModal extends Component {
     this.setState({
       isPrivate: value,
     });
-  }
+  };
 
   handleOnCheckTag = checkedTag => {
     const { dataSource, tags } = this.state;
     let selectedTagsCount = this.countSelectedTags(tags);
     if (!checkedTag.editable) {
       if (selectedTagsCount > MAX_TAGS_COUNT - 1) {
-        this.toast.show(`Maximum of tags is ${MAX_TAGS_COUNT}`, DURATION.LENGTH_LONG);
+        this.toast.show(
+          `Maximum of tags is ${MAX_TAGS_COUNT}`,
+          DURATION.LENGTH_LONG,
+        );
       }
       return;
     }
@@ -153,18 +163,19 @@ class BookmarkModal extends Component {
     if (selectedTag) {
       if (selectedTag.is_registered) {
         selectedTagsCount--;
-      }
-      else {
+      } else {
         selectedTagsCount++;
       }
     }
     console.log('selectedTagsCount ', selectedTagsCount);
     const updatedTags = tags.map(tag => {
-      const isRegistered = tag.name === checkedTag.name ? !tag.is_registered : tag.is_registered;
+      const isRegistered = tag.name === checkedTag.name
+        ? !tag.is_registered
+        : tag.is_registered;
       return {
         ...tag,
         is_registered: isRegistered,
-        editable: !!((selectedTagsCount < MAX_TAGS_COUNT || isRegistered)),
+        editable: !!(selectedTagsCount < MAX_TAGS_COUNT || isRegistered),
       };
     });
     // selectedTagsCount < 3 || item.is_registered) ? true :
@@ -173,29 +184,34 @@ class BookmarkModal extends Component {
       tags: updatedTags,
       selectedTagsCount,
     });
-  }
+  };
 
-  countSelectedTags = tags => tags.reduce((count, tag) => tag.is_registered ? ++count : count, 0)
+  countSelectedTags = tags =>
+    tags.reduce((count, tag) => (tag.is_registered ? ++count : count), 0);
 
   handleOnPressBookmarkButton = () => {
     const { illustId, isBookmark, onPressBookmarkButton } = this.props;
     const { tags, isPrivate } = this.state;
-    const selectedTags = tags.filter(tag => tag.is_registered).map(tag => tag.name);
-    const bookmarkType = isPrivate ? BOOKMARK_TYPES.PRIVATE : BOOKMARK_TYPES.PUBLIC;
+    const selectedTags = tags
+      .filter(tag => tag.is_registered)
+      .map(tag => tag.name);
+    const bookmarkType = isPrivate
+      ? BOOKMARK_TYPES.PRIVATE
+      : BOOKMARK_TYPES.PUBLIC;
     this.bookmarkIllust(illustId, bookmarkType, selectedTags);
     this.handleOnModalClose();
-  }
+  };
 
   handleOnPressRemoveButton = () => {
     const { illustId } = this.props;
     this.unbookmarkIllust(illustId);
     this.handleOnModalClose();
-  }
+  };
 
   handleOnModalClose = () => {
     const { closeModal } = this.props;
     closeModal();
-  }
+  };
 
   handleOnPressAddTag = () => {
     const { newTag, tags } = this.state;
@@ -213,11 +229,13 @@ class BookmarkModal extends Component {
     if (isExistingTag) {
       const excludeExistingTagTags = tags.filter(tag => tag.name !== newTag);
       updatedTags = [newTagEntry, ...excludeExistingTagTags];
-    }
-    else {
+    } else {
       updatedTags = [newTagEntry, ...tags];
       if (this.countSelectedTags(updatedTags) > MAX_TAGS_COUNT) {
-        this.toast.show(`Maximum of tags is ${MAX_TAGS_COUNT}`, DURATION.LENGTH_LONG);
+        this.toast.show(
+          `Maximum of tags is ${MAX_TAGS_COUNT}`,
+          DURATION.LENGTH_LONG,
+        );
         this.setState({
           newTag: null,
         });
@@ -231,25 +249,23 @@ class BookmarkModal extends Component {
       newTag: null,
     });
     this.tagInput.setNativeProps({ text: '' });
-  }
+  };
 
   bookmarkIllust = (id, bookmarkType, selectedTags) => {
     const { bookmarkIllust } = this.props;
     bookmarkIllust(id, bookmarkType, selectedTags);
-  }
+  };
 
   unbookmarkIllust = id => {
     const { unbookmarkIllust } = this.props;
     unbookmarkIllust(id);
-  }
+  };
 
   renderItem = ({ item }) => {
     const { tag, onSelectTag } = this.props;
     const { selectedTagsCount } = this.state;
     return (
-      <PXTouchable
-        onPress={() => this.handleOnCheckTag(item)}
-      >
+      <PXTouchable onPress={() => this.handleOnCheckTag(item)}>
         <View style={styles.row}>
           <Text style={styles.tagText}>{item.name}</Text>
           <MKCheckbox
@@ -260,10 +276,14 @@ class BookmarkModal extends Component {
         </View>
       </PXTouchable>
     );
-  }
+  };
 
   render() {
-    const { illustBookmarkDetail: { item, loading, loaded }, isBookmark, onSelectTag } = this.props;
+    const {
+      illustBookmarkDetail: { item, loading, loaded },
+      isBookmark,
+      onSelectTag,
+    } = this.props;
     const { tags, selectedTagsCount, isPrivate } = this.state;
     return (
       <Modal
@@ -286,7 +306,7 @@ class BookmarkModal extends Component {
               </View>
               <View style={styles.newTagContainer}>
                 <TextInput
-                  ref={ref => this.tagInput = ref}
+                  ref={ref => (this.tagInput = ref)}
                   style={styles.tagInput}
                   placeholder="Add tag"
                   autoCorrect={false}
@@ -296,7 +316,9 @@ class BookmarkModal extends Component {
                   <Icon name="plus" size={20} />
                 </PXTouchable>
               </View>
-              <View style={{ maxHeight: Dimensions.get('window').height - 300 }}>
+              <View
+                style={{ maxHeight: Dimensions.get('window').height - 300 }}
+              >
                 <FlatList
                   data={tags}
                   keyExtractor={item => item.name}
@@ -306,43 +328,55 @@ class BookmarkModal extends Component {
               </View>
               <View style={styles.row}>
                 <Text>Private</Text>
-                <Switch value={isPrivate} onValueChange={this.handleOnChangeIsPrivate} />
+                <Switch
+                  value={isPrivate}
+                  onValueChange={this.handleOnChangeIsPrivate}
+                />
               </View>
-              <View style={[styles.actionContainer, !isBookmark && { justifyContent: 'center' }]}>
-                {
-                  isBookmark &&
+              <View
+                style={[
+                  styles.actionContainer,
+                  !isBookmark && { justifyContent: 'center' },
+                ]}
+              >
+                {isBookmark &&
                   <PXTouchable onPress={this.handleOnPressRemoveButton}>
                     <Text>Remove Like</Text>
-                  </PXTouchable>
-                }
+                  </PXTouchable>}
                 <PXTouchable
-                  style={!isBookmark && { flexDirection: 'row', alignItems: 'center' }}
+                  style={
+                    !isBookmark && {
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }
+                  }
                   onPress={this.handleOnPressBookmarkButton}
                 >
-                  {
-                    !isBookmark &&
+                  {!isBookmark &&
                     <MaterialIcon
                       name="favorite"
                       color="rgb(210, 212, 216)"
                       size={20}
-                    />
-                  }
+                    />}
                   <Text>{isBookmark ? 'Save' : 'Like'}</Text>
                 </PXTouchable>
               </View>
             </View>
           </TouchableWithoutFeedback>
         </PXTouchable>
-        <Toast ref={ref => this.toast = ref} />
+        <Toast ref={ref => (this.toast = ref)} />
       </Modal>
     );
   }
 }
 
-export default connect((state, props) => ({
-  illustBookmarkDetail: state.illustBookmarkDetail,
-}), {
-  ...illustBookmarkDetailActionCreators,
-  ...bookmarkIllustActionCreators,
-  ...modalActionCreators,
-})(BookmarkModal);
+export default connect(
+  (state, props) => ({
+    illustBookmarkDetail: state.illustBookmarkDetail,
+  }),
+  {
+    ...illustBookmarkDetailActionCreators,
+    ...bookmarkIllustActionCreators,
+    ...modalActionCreators,
+  },
+)(BookmarkModal);

@@ -39,7 +39,10 @@ class Trending extends Component {
 
   componentDidMount() {
     if (Platform.OS == 'android') {
-      this.backHandlerListener = BackHandler.addEventListener('hardwareBackPress', this.handleOnPressBackButton);
+      this.backHandlerListener = BackHandler.addEventListener(
+        'hardwareBackPress',
+        this.handleOnPressBackButton,
+      );
     }
   }
 
@@ -53,7 +56,10 @@ class Trending extends Component {
 
   componentWillUnmount() {
     if (this.backHandlerListener) {
-      BackHandler.removeEventListener('hardwareBackPress', this.backHandlerListener);
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        this.backHandlerListener,
+      );
     }
   }
 
@@ -61,8 +67,7 @@ class Trending extends Component {
     const { setSearchType } = this.props;
     if (index === 1) {
       setSearchType(SearchType.USER);
-    }
-    else {
+    } else {
       setSearchType(SearchType.ILLUST);
     }
   };
@@ -71,21 +76,28 @@ class Trending extends Component {
     const { navigation, screenProps } = this.props;
     switch (route.key) {
       case '1':
-        return <TrendingIllustTags navigation={navigation} screenProps={screenProps} />;
+        return (
+          <TrendingIllustTags
+            navigation={navigation}
+            screenProps={screenProps}
+          />
+        );
       case '2':
-        return <RecommendedUsers navigation={navigation} screenProps={screenProps} />;
+        return (
+          <RecommendedUsers navigation={navigation} screenProps={screenProps} />
+        );
       default:
         return null;
     }
-  }
+  };
 
   handleOnFocusSearchBar = () => {
     this.setState({ isFocusSearchBar: true });
-  }
+  };
 
   handleOnChangeSearchText = (word, searchType) => {
     this.setState({ word });
-  }
+  };
 
   handleOnPressBackButton = () => {
     const { goBack } = this.props.navigation;
@@ -101,7 +113,7 @@ class Trending extends Component {
     }
 
     goBack();
-  }
+  };
 
   render() {
     const { searchType, navigation, screenProps } = this.props;
@@ -125,22 +137,23 @@ class Trending extends Component {
             renderScene={this.renderScene}
             onRequestChangeTab={this.handleChangeTab}
           />
-          {
-            isFocusSearchBar &&
+          {isFocusSearchBar &&
             <Search
               word={word}
               navigation={navigation}
               isPushNewSearch
               searchType={searchType}
               onSubmitSearch={this.handleOnPressBackButton}
-            />
-          }
+            />}
         </View>
       </View>
     );
   }
 }
 
-export default connect((state, props) => ({
-  searchType: state.searchType.type,
-}), { setSearchType })(Trending);
+export default connect(
+  (state, props) => ({
+    searchType: state.searchType.type,
+  }),
+  { setSearchType },
+)(Trending);

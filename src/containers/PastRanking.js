@@ -84,20 +84,20 @@ class PastRanking extends Component {
 
   openRankingModeBottomSheet = () => {
     this.setState({ isOpenRankingModeBottomSheet: true });
-  }
+  };
 
   handleOnCancelRankingModeBottomSheet = () => {
     this.setState({ isOpenRankingModeBottomSheet: false });
-  }
+  };
 
   handleOnPressRankingMode = mode => {
     this.setState({ mode });
     this.handleOnCancelRankingModeBottomSheet();
-  }
+  };
 
   handleOnDateChange = date => {
     this.setState({ date });
-  }
+  };
 
   render() {
     const { user, screenProps: { strings } } = this.props;
@@ -110,7 +110,9 @@ class PastRanking extends Component {
             onPress={this.openRankingModeBottomSheet}
           >
             <View style={styles.rankingPicker}>
-              <Text style={styles.rankingPickerText}>Illust {strings[`${mode}_ranking`]} Ranking</Text>
+              <Text style={styles.rankingPickerText}>
+                Illust {strings[`${mode}_ranking`]} Ranking
+              </Text>
               <Icon
                 name="caret-down"
                 size={24}
@@ -145,37 +147,33 @@ class PastRanking extends Component {
           onCancel={this.handleOnCancelRankingModeBottomSheet}
         >
           <ScrollView>
-            {
-              Object.keys(RANKING).map(ranking => (
-                <PXTouchable key={ranking} onPress={() => this.handleOnPressRankingMode(ranking)}>
-                  <View style={styles.bottomSheetListItem}>
-                    <IonicIcon
-                      name="md-funnel"
-                      size={24}
-                    />
-                    <Text style={styles.bottomSheetText}>
-                      {strings[`${ranking}_ranking`]}
-                    </Text>
-                  </View>
-                </PXTouchable>
-                ))
-            }
-            {
-              user &&
+            {Object.keys(RANKING).map(ranking => (
+              <PXTouchable
+                key={ranking}
+                onPress={() => this.handleOnPressRankingMode(ranking)}
+              >
+                <View style={styles.bottomSheetListItem}>
+                  <IonicIcon name="md-funnel" size={24} />
+                  <Text style={styles.bottomSheetText}>
+                    {strings[`${ranking}_ranking`]}
+                  </Text>
+                </View>
+              </PXTouchable>
+            ))}
+            {user &&
               Object.keys(R18_RANKING).map(ranking => (
-                <PXTouchable key={ranking} onPress={() => this.handleOnPressRankingMode(ranking)}>
+                <PXTouchable
+                  key={ranking}
+                  onPress={() => this.handleOnPressRankingMode(ranking)}
+                >
                   <View style={styles.bottomSheetListItem}>
-                    <IonicIcon
-                      name="md-funnel"
-                      size={24}
-                    />
+                    <IonicIcon name="md-funnel" size={24} />
                     <Text style={styles.bottomSheetText}>
                       {strings[`${ranking}_ranking`]}
                     </Text>
                   </View>
                 </PXTouchable>
-                ))
-            }
+              ))}
             <PXTouchable onPress={this.handleOnCancelRankingModeBottomSheet}>
               <View style={styles.bottomSheetListItem}>
                 <IonicIcon
@@ -183,7 +181,9 @@ class PastRanking extends Component {
                   size={24}
                   style={styles.bottomSheetCancelIcon}
                 />
-                <Text style={[styles.bottomSheetText, styles.bottomSheetCancelText]}>
+                <Text
+                  style={[styles.bottomSheetText, styles.bottomSheetCancelText]}
+                >
                   {strings.cancel}
                 </Text>
               </View>

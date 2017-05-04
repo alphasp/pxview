@@ -2,9 +2,13 @@ import { schema } from 'normalizr';
 
 const illustSchema = new schema.Entity('illusts');
 const illustCommentSchema = new schema.Entity('illustComments');
-const illustTagSchema = new schema.Entity('illustTags', {}, {
-  idAttribute: 'tag',
-});
+const illustTagSchema = new schema.Entity(
+  'illustTags',
+  {},
+  {
+    idAttribute: 'tag',
+  },
+);
 const userSchema = new schema.Entity('users');
 const userPreviewSchema = new schema.Entity('userPreviews');
 const userProfileSchema = new schema.Entity('userProfiles');

@@ -15,8 +15,7 @@ export function* handleFetchUserMyPixiv(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       response = yield apply(pixiv, pixiv.userMyPixiv, [userId]);
     }
     const transformedResult = {
@@ -26,15 +25,19 @@ export function* handleFetchUserMyPixiv(action) {
         id: result.user.id,
       })),
     };
-    const normalized = normalize(transformedResult.user_previews, Schemas.USER_PREVIEW_ARRAY);
-    yield put(fetchUserMyPixivSuccess(
-      normalized.entities,
-      normalized.result,
-      userId,
-      response.next_url,
-    ));
-  }
-  catch (err) {
+    const normalized = normalize(
+      transformedResult.user_previews,
+      Schemas.USER_PREVIEW_ARRAY,
+    );
+    yield put(
+      fetchUserMyPixivSuccess(
+        normalized.entities,
+        normalized.result,
+        userId,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchUserMyPixivFailure(userId));
     yield put(addError(err));
   }

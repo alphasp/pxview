@@ -11,7 +11,8 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IllustList from '../components/IllustList';
 import { Button } from 'react-native-elements';
-import * as followingUserIllustsActionCreators from '../common/actions/followingUserIllusts';
+import * as followingUserIllustsActionCreators
+  from '../common/actions/followingUserIllusts';
 import { getFollowingUserIllustsItems } from '../common/selectors';
 
 const styles = StyleSheet.create({
@@ -32,7 +33,11 @@ const styles = StyleSheet.create({
 
 class FollowingUserIllusts extends Component {
   componentDidMount() {
-    const { user, fetchFollowingUserIllusts, clearFollowingUserIllusts } = this.props;
+    const {
+      user,
+      fetchFollowingUserIllusts,
+      clearFollowingUserIllusts,
+    } = this.props;
     if (user) {
       clearFollowingUserIllusts();
       fetchFollowingUserIllusts();
@@ -41,7 +46,11 @@ class FollowingUserIllusts extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { user: prevUser } = this.props;
-    const { user, fetchFollowingUserIllusts, clearFollowingUserIllusts } = nextProps;
+    const {
+      user,
+      fetchFollowingUserIllusts,
+      clearFollowingUserIllusts,
+    } = nextProps;
     if (user && user !== prevUser) {
       clearFollowingUserIllusts();
       fetchFollowingUserIllusts();
@@ -49,28 +58,37 @@ class FollowingUserIllusts extends Component {
   }
 
   loadMoreItems = () => {
-    const { user, fetchFollowingUserIllusts, followingUserIllusts: { loading, nextUrl } } = this.props;
+    const {
+      user,
+      fetchFollowingUserIllusts,
+      followingUserIllusts: { loading, nextUrl },
+    } = this.props;
     if (!loading && nextUrl) {
       console.log('load more ', nextUrl);
       fetchFollowingUserIllusts(nextUrl);
     }
-  }
+  };
 
   handleOnRefresh = () => {
     const { fetchFollowingUserIllusts, clearFollowingUserIllusts } = this.props;
     clearFollowingUserIllusts();
     fetchFollowingUserIllusts(null, true);
-  }
+  };
 
   handleOnPressFindRecommendedUsers = () => {
     const { navigate } = this.props.navigation;
     navigate('RecommendedUsers', {
       navigation: this.props.navigation,
     });
-  }
+  };
 
   render() {
-    const { followingUserIllusts, items, user, screenProps: { strings } } = this.props;
+    const {
+      followingUserIllusts,
+      items,
+      user,
+      screenProps: { strings },
+    } = this.props;
     if (!user) {
       return (
         <View style={styles.container}>

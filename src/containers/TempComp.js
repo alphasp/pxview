@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 const styles = StyleSheet.create({
   container: {
@@ -13,9 +9,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'red',
   },
-  tabs: {
-
-  },
+  tabs: {},
 });
 
 class TempComp extends Component {

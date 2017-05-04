@@ -39,7 +39,8 @@ class MyConnection extends Component {
 
   renderScene = ({ route }) => {
     const { userId } = this.props.navigation.state.params;
-    const screenProps = this.props.screenProps || this.props.navigation.state.params.screenProps;
+    const screenProps =
+      this.props.screenProps || this.props.navigation.state.params.screenProps;
     switch (route.key) {
       case '1':
         return (
@@ -66,21 +67,17 @@ class MyConnection extends Component {
           />
         );
       case '4':
-        return (
-          <UserMyPixiv
-            userId={userId}
-            screenProps={screenProps}
-          />
-        );
+        return <UserMyPixiv userId={userId} screenProps={screenProps} />;
       default:
         return null;
     }
-  }
+  };
 
   render() {
     // const { userId } = this.props;
     const { userId } = this.props.navigation.state.params;
-    const screenProps = this.props.screenProps || this.props.navigation.state.params.screenProps;
+    const screenProps =
+      this.props.screenProps || this.props.navigation.state.params.screenProps;
     return (
       <PXTabView
         navigationState={this.state}
@@ -93,6 +90,5 @@ class MyConnection extends Component {
     );
   }
 }
-
 
 export default MyConnection;

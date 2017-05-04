@@ -54,19 +54,19 @@ class App extends Component {
   handleOnSearchFieldFocus = searchType => {
     console.log('on focus ', searchType);
     // Actions.search();
-  }
+  };
   handleOnChangeSearchText = word => {
     const { dispatch } = this.props;
     if (word.length > 1) {
       dispatch(fetchSearchAutoComplete(word));
     }
-  }
+  };
   handleOnSubmitSearch = word => {
     console.log('submit ', word);
     if (word) {
       // Actions.searchResult({ word: word, type: ActionConst.REPLACE });
     }
-  }
+  };
 
   render() {
     const { store } = this.props;

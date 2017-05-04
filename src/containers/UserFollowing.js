@@ -13,7 +13,7 @@ class UserFollowing extends Component {
     followingType: PropTypes.string.isRequired,
     fetchUserFollowing: PropTypes.func.isRequired,
     clearUserFollowing: PropTypes.func.isRequired,
-  }
+  };
 
   componentDidMount() {
     const { fetchUserFollowing, userId, followingType } = this.props;
@@ -21,17 +21,27 @@ class UserFollowing extends Component {
   }
 
   loadMoreItems = () => {
-    const { fetchUserFollowing, userFollowing, userId, followingType } = this.props;
+    const {
+      fetchUserFollowing,
+      userFollowing,
+      userId,
+      followingType,
+    } = this.props;
     if (userFollowing && userFollowing.nextUrl) {
       fetchUserFollowing(userId, followingType, userFollowing.nextUrl);
     }
-  }
+  };
 
   handleOnRefresh = () => {
-    const { clearUserFollowing, fetchUserFollowing, userId, followingType } = this.props;
+    const {
+      clearUserFollowing,
+      fetchUserFollowing,
+      userId,
+      followingType,
+    } = this.props;
     clearUserFollowing(userId, followingType);
     fetchUserFollowing(userId, followingType, null, true);
-  }
+  };
 
   render() {
     const { userFollowing, items, userId, screenProps } = this.props;

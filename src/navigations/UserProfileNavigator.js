@@ -12,83 +12,86 @@ import UserBookmarkIllusts from '../containers/UserBookmarkIllusts';
 import RelatedIllusts from '../containers/RelatedIllusts';
 import SearchResultTabs from '../containers/SearchResultTabs'; // todo
 
-const UserProfileNavigator = StackNavigator({
-  UserProfile: {
-    screen: UserProfile,
-    navigationOptions: {
-      header: null,
+const UserProfileNavigator = StackNavigator(
+  {
+    UserProfile: {
+      screen: UserProfile,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    MyConnection: {
+      screen: MyConnection,
+      path: '/me/connection',
+      navigationOptions: {
+        title: 'Connection',
+      },
+    },
+    MyCollection: {
+      screen: MyCollection,
+      path: '/me/collection',
+      navigationOptions: {
+        title: 'Collection',
+      },
+    },
+    MyWorks: {
+      screen: MyWorks,
+      navigationOptions: {
+        title: 'My Works',
+      },
+    },
+    Detail: {
+      screen: Detail,
+    },
+    UserDetail: {
+      screen: UserDetail,
+    },
+    IllustComments: {
+      screen: IllustComments,
+      navigationOptions: {
+        title: 'User Comments',
+      },
+    },
+    RelatedIllusts: {
+      screen: RelatedIllusts,
+      navigationOptions: {
+        title: 'Related Works',
+      },
+    },
+    UserIllusts: {
+      screen: UserIllusts,
+      navigationOptions: {
+        title: 'User Illusts',
+      },
+    },
+    UserMangas: {
+      screen: UserMangas,
+      navigationOptions: {
+        title: 'User Mangas',
+      },
+    },
+    UserBookmarkIllusts: {
+      screen: UserBookmarkIllusts,
+      navigationOptions: {
+        title: 'Collection',
+      },
+    },
+    SearchResult: {
+      screen: SearchResultTabs,
     },
   },
-  MyConnection: {
-    screen: MyConnection,
-    path: '/me/connection',
+  {
+    headerMode: 'screen',
     navigationOptions: {
-      title: 'Connection',
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+      headerBackTitle: null,
     },
-  },
-  MyCollection: {
-    screen: MyCollection,
-    path: '/me/collection',
-    navigationOptions: {
-      title: 'Collection',
-    },
-  },
-  MyWorks: {
-    screen: MyWorks,
-    navigationOptions: {
-      title: 'My Works',
-    },
-  },
-  Detail: {
-    screen: Detail,
-  },
-  UserDetail: {
-    screen: UserDetail,
-  },
-  IllustComments: {
-    screen: IllustComments,
-    navigationOptions: {
-      title: 'User Comments',
-    },
-  },
-  RelatedIllusts: {
-    screen: RelatedIllusts,
-    navigationOptions: {
-      title: 'Related Works',
-    },
-  },
-  UserIllusts: {
-    screen: UserIllusts,
-    navigationOptions: {
-      title: 'User Illusts',
-    },
-  },
-  UserMangas: {
-    screen: UserMangas,
-    navigationOptions: {
-      title: 'User Mangas',
-    },
-  },
-  UserBookmarkIllusts: {
-    screen: UserBookmarkIllusts,
-    navigationOptions: {
-      title: 'Collection',
-    },
-  },
-  SearchResult: {
-    screen: SearchResultTabs,
-  },
-}, {
-  headerMode: 'screen',
-  navigationOptions: {
-    headerStyle: {
+    cardStyle: {
       backgroundColor: '#fff',
     },
-    headerBackTitle: null,
   },
-  cardStyle: {
-    backgroundColor: '#fff',
-  },
-});
+);
 
 export default UserProfileNavigator;

@@ -25,13 +25,13 @@ class NewIllusts extends Component {
       console.log('load more ', nextUrl);
       fetchNewIllusts(nextUrl);
     }
-  }
+  };
 
   handleOnRefresh = () => {
     const { fetchNewIllusts, clearNewIllusts } = this.props;
     clearNewIllusts();
     fetchNewIllusts(null, true);
-  }
+  };
 
   render() {
     const { newIllusts, items } = this.props;

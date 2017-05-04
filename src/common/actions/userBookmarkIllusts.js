@@ -1,6 +1,11 @@
 import { USER_BOOKMARK_ILLUSTS } from '../constants/actionTypes';
 
-export function fetchUserBookmarkIllustsSuccess(entities, items, userId, nextUrl) {
+export function fetchUserBookmarkIllustsSuccess(
+  entities,
+  items,
+  userId,
+  nextUrl,
+) {
   return {
     type: USER_BOOKMARK_ILLUSTS.SUCCESS,
     payload: {
@@ -22,7 +27,12 @@ export function fetchUserBookmarkIllustsFailure(userId) {
   };
 }
 
-export function fetchUserBookmarkIllusts(userId, tag, nextUrl, refreshing = false) {
+export function fetchUserBookmarkIllusts(
+  userId,
+  tag,
+  nextUrl,
+  refreshing = false,
+) {
   return {
     type: USER_BOOKMARK_ILLUSTS.REQUEST,
     payload: {

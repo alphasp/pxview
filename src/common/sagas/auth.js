@@ -36,8 +36,7 @@ export function* authAndRefreshTokenOnExpiry(email, password) {
       yield call(delay, delayMilisecond);
       try {
         yield call(authorize, credentials.username, credentials.password);
-      }
-      catch (err) {
+      } catch (err) {
         yield put(logout());
       }
     }
@@ -45,10 +44,7 @@ export function* authAndRefreshTokenOnExpiry(email, password) {
 }
 
 export function* handleLogout() {
-  yield [
-    call(Keychain.resetGenericPassword),
-    apply(pixiv, pixiv.logout),
-  ];
+  yield [call(Keychain.resetGenericPassword), apply(pixiv, pixiv.logout)];
 }
 
 export function* watchLoginRequest() {
@@ -64,9 +60,12 @@ export function* watchLoginRequest() {
       yield call(handleLogout);
       // user logged out, next while iteration will wait for the
       // next LOGIN_REQUEST action
-    }
-    catch (err) {
-      const errMessage = (err.errors && err.errors.system && err.errors.system.message) ? err.errors.system.message : '';
+    } catch (err) {
+      const errMessage = err.errors &&
+        err.errors.system &&
+        err.errors.system.message
+        ? err.errors.system.message
+        : '';
       yield put(failedLogin());
       yield put(addError(errMessage));
     }
@@ -83,15 +82,11 @@ export function* watchRehydrate() {
         console.log('watchRehydrate login');
         const credentials = yield call(Keychain.getGenericPassword);
         yield put(login(credentials.username, credentials.password));
-        yield take([
-          LOGIN_SUCCESS,
-          LOGIN_ERROR,
-        ]);
+        yield take([LOGIN_SUCCESS, LOGIN_ERROR]);
       }
       // todo put sync complete
       yield put(doneRehydrate());
-    }
-    catch (err) {
+    } catch (err) {
       // todo logout user
       console.log('err in watchRehydrate ', err);
     }

@@ -1,6 +1,11 @@
 import { MY_PRIVATE_BOOKMARK_ILLUSTS } from '../constants/actionTypes';
 
-export function fetchMyPrivateBookmarkIllustsSuccess(entities, items, userId, nextUrl) {
+export function fetchMyPrivateBookmarkIllustsSuccess(
+  entities,
+  items,
+  userId,
+  nextUrl,
+) {
   return {
     type: MY_PRIVATE_BOOKMARK_ILLUSTS.SUCCESS,
     payload: {
@@ -22,7 +27,12 @@ export function fetchMyPrivateBookmarkIllustsFailure(userId) {
   };
 }
 
-export function fetchMyPrivateBookmarkIllusts(userId, tag, nextUrl, refreshing = false) {
+export function fetchMyPrivateBookmarkIllusts(
+  userId,
+  tag,
+  nextUrl,
+  refreshing = false,
+) {
   return {
     type: MY_PRIVATE_BOOKMARK_ILLUSTS.REQUEST,
     payload: {

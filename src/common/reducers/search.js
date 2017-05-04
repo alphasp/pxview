@@ -1,12 +1,5 @@
 import { SEARCH } from '../constants/actionTypes';
 
-function concatItems(state, action) {
-  return (state[action.payload.navigationStateKey]
-    && state[action.payload.navigationStateKey].items)
-    ? [...state[action.payload.navigationStateKey].items, ...action.payload.items]
-    : action.payload.items;
-}
-
 export default function search(state = {}, action) {
   switch (action.type) {
     case SEARCH.CLEAR:
@@ -36,7 +29,13 @@ export default function search(state = {}, action) {
           loading: false,
           loaded: true,
           refreshing: false,
-          items: concatItems(state, action),
+          items: state[action.payload.navigationStateKey] &&
+            state[action.payload.navigationStateKey].items
+            ? [
+                ...state[action.payload.navigationStateKey].items,
+                ...action.payload.items,
+              ]
+            : action.payload.items,
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp,
         },

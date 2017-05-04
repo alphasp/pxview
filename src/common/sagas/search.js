@@ -1,9 +1,6 @@
 import { normalize } from 'normalizr';
 import { takeEvery, apply, put } from 'redux-saga/effects';
-import {
-  fetchSearchSuccess,
-  fetchSearchFailure,
-} from '../actions/search';
+import { fetchSearchSuccess, fetchSearchFailure } from '../actions/search';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/apiClient';
 import { SEARCH } from '../constants/actionTypes';
@@ -15,8 +12,7 @@ export function* handleFetchSearch(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       let finalOptions;
       if (options) {
         finalOptions = Object.keys(options)
@@ -29,14 +25,15 @@ export function* handleFetchSearch(action) {
       response = yield apply(pixiv, pixiv.searchIllust, [word, finalOptions]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchSearchSuccess(
-      normalized.entities,
-      normalized.result,
-      navigationStateKey,
-      response.next_url,
-    ));
-  }
-  catch (err) {
+    yield put(
+      fetchSearchSuccess(
+        normalized.entities,
+        normalized.result,
+        navigationStateKey,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchSearchFailure(navigationStateKey));
     yield put(addError(err));
   }

@@ -37,7 +37,7 @@ class MyWorks extends Component {
       default:
         return null;
     }
-  }
+  };
 
   render() {
     return (

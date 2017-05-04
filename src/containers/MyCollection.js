@@ -63,21 +63,24 @@ class MyCollection extends Component {
     const { selectedPublicTag, selectedPrivateTag } = this.state;
     switch (route.key) {
       case '1':
-        return <UserBookmarkIllusts userId={userId} tag={selectedPublicTag} reload />;
+        return (
+          <UserBookmarkIllusts userId={userId} tag={selectedPublicTag} reload />
+        );
       case '2':
-        return <MyPrivateBookmarkIllusts userId={userId} tag={selectedPrivateTag} />;
+        return (
+          <MyPrivateBookmarkIllusts userId={userId} tag={selectedPrivateTag} />
+        );
       default:
         return null;
     }
-  }
-
+  };
 
   handleOnPressCloseFilterButton = () => {
     const { navigation: { setParams } } = this.props;
     setParams({
       isOpenFilterModal: false,
     });
-  }
+  };
 
   handleOnSelectTag = tag => {
     const { navigation: { setParams } } = this.props;
@@ -86,19 +89,23 @@ class MyCollection extends Component {
     newState = {};
     if (index === 0) {
       newState.selectedPublicTag = tag;
-    }
-    else {
+    } else {
       newState.selectedPrivateTag = tag;
     }
     setParams({
       isOpenFilterModal: false,
     });
     this.setState(newState);
-  }
+  };
 
   render() {
     const { userId, isOpenFilterModal } = this.props.navigation.state.params;
-    const { index, isShowFilterButton, selectedPublicTag, selectedPrivateTag } = this.state;
+    const {
+      index,
+      isShowFilterButton,
+      selectedPublicTag,
+      selectedPrivateTag,
+    } = this.state;
     return (
       <View style={styles.container}>
         <PXTabView
@@ -106,26 +113,22 @@ class MyCollection extends Component {
           renderScene={this.renderScene}
           onRequestChangeTab={this.handleChangeTab}
         />
-        {
-          index === 0 &&
+        {index === 0 &&
           <TagsFilterModal
             tagType={TAG_TYPES.PUBLIC}
             isOpen={isOpenFilterModal || false}
             onPressCloseButton={this.handleOnPressCloseFilterButton}
             onSelectTag={this.handleOnSelectTag}
             tag={selectedPublicTag}
-          />
-        }
-        {
-          index === 1 &&
+          />}
+        {index === 1 &&
           <TagsFilterModal
             tagType={TAG_TYPES.PRIVATE}
             isOpen={isOpenFilterModal || false}
             onPressCloseButton={this.handleOnPressCloseFilterButton}
             onSelectTag={this.handleOnSelectTag}
             tag={selectedPrivateTag}
-          />
-        }
+          />}
       </View>
     );
   }

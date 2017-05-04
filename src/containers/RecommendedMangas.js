@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
-import * as recommendedMangasActionCreators from '../common/actions/recommendedMangas';
+import * as recommendedMangasActionCreators
+  from '../common/actions/recommendedMangas';
 import { getRecommendedMangasItems } from '../common/selectors';
 
 class RecommendedMangas extends Component {
@@ -20,17 +21,20 @@ class RecommendedMangas extends Component {
   }
 
   loadMoreItems = () => {
-    const { recommendedMangas: { nextUrl, loading }, fetchRecommendedMangas } = this.props;
+    const {
+      recommendedMangas: { nextUrl, loading },
+      fetchRecommendedMangas,
+    } = this.props;
     if (!loading && nextUrl) {
       fetchRecommendedMangas('', nextUrl);
     }
-  }
+  };
 
   handleOnRefresh = () => {
     const { fetchRecommendedMangas, clearRecommendedMangas } = this.props;
     clearRecommendedMangas();
     fetchRecommendedMangas(null, null, true);
-  }
+  };
 
   render() {
     const { recommendedMangas, items } = this.props;

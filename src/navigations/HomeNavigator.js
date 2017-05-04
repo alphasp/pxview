@@ -9,64 +9,66 @@ import UserBookmarkIllusts from '../containers/UserBookmarkIllusts';
 import RelatedIllusts from '../containers/RelatedIllusts';
 import SearchResultTabs from '../containers/SearchResultTabs'; // todo
 
-
-const HomeNavigator = StackNavigator({
-  Home: {
-    screen: Home,
-    navigationOptions: {
-      header: null,
+const HomeNavigator = StackNavigator(
+  {
+    Home: {
+      screen: Home,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Detail: {
+      screen: Detail,
+    },
+    UserDetail: {
+      screen: UserDetail,
+    },
+    IllustComments: {
+      screen: IllustComments,
+      navigationOptions: {
+        title: 'User Comments',
+      },
+    },
+    RelatedIllusts: {
+      screen: RelatedIllusts,
+      navigationOptions: {
+        title: 'Related Works',
+      },
+    },
+    UserIllusts: {
+      screen: UserIllusts,
+      navigationOptions: {
+        title: 'User Illusts',
+      },
+    },
+    UserMangas: {
+      screen: UserMangas,
+      navigationOptions: {
+        title: 'User Mangas',
+      },
+    },
+    UserBookmarkIllusts: {
+      screen: UserBookmarkIllusts,
+      navigationOptions: {
+        title: 'Collection',
+      },
+    },
+    SearchResult: {
+      screen: SearchResultTabs,
     },
   },
-  Detail: {
-    screen: Detail,
-  },
-  UserDetail: {
-    screen: UserDetail,
-  },
-  IllustComments: {
-    screen: IllustComments,
+  {
     navigationOptions: {
-      title: 'User Comments',
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+      headerBackTitle: null,
     },
-  },
-  RelatedIllusts: {
-    screen: RelatedIllusts,
-    navigationOptions: {
-      title: 'Related Works',
-    },
-  },
-  UserIllusts: {
-    screen: UserIllusts,
-    navigationOptions: {
-      title: 'User Illusts',
-    },
-  },
-  UserMangas: {
-    screen: UserMangas,
-    navigationOptions: {
-      title: 'User Mangas',
-    },
-  },
-  UserBookmarkIllusts: {
-    screen: UserBookmarkIllusts,
-    navigationOptions: {
-      title: 'Collection',
-    },
-  },
-  SearchResult: {
-    screen: SearchResultTabs,
-  },
-}, {
-  navigationOptions: {
-    headerStyle: {
+    cardStyle: {
       backgroundColor: '#fff',
     },
-    headerBackTitle: null,
+    headerMode: 'screen',
   },
-  cardStyle: {
-    backgroundColor: '#fff',
-  },
-  headerMode: 'screen',
-});
+);
 
 export default HomeNavigator;

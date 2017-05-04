@@ -1,8 +1,11 @@
 import { SET_SEARCH_TYPE, SearchType } from '../actions/searchType';
 
-export default function searchType(state = {
-  type: SearchType.ILLUST,
-}, action = {}) {
+export default function searchType(
+  state = {
+    type: SearchType.ILLUST,
+  },
+  action = {},
+) {
   switch (action.type) {
     case SET_SEARCH_TYPE:
       return {

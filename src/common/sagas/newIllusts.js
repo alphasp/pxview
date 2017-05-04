@@ -15,14 +15,18 @@ export function* handleFetchNewIllusts(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       response = yield apply(pixiv, pixiv.illustNew, [options]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchNewIllustsSuccess(normalized.entities, normalized.result, response.next_url));
-  }
-  catch (err) {
+    yield put(
+      fetchNewIllustsSuccess(
+        normalized.entities,
+        normalized.result,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchNewIllustsFailure());
     yield put(addError(err));
   }

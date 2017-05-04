@@ -15,18 +15,18 @@ export function* handleFetchRecommendedMangas(action) {
     let response;
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
-    }
-    else {
+    } else {
       response = yield apply(pixiv, pixiv.mangaRecommended, [options]);
     }
     const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
-    yield put(fetchRecommendedMangasSuccess(
-      normalized.entities,
-      normalized.result,
-      response.next_url,
-    ));
-  }
-  catch (err) {
+    yield put(
+      fetchRecommendedMangasSuccess(
+        normalized.entities,
+        normalized.result,
+        response.next_url,
+      ),
+    );
+  } catch (err) {
     yield put(fetchRecommendedMangasFailure());
     yield put(addError(err));
   }
