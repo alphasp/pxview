@@ -21,7 +21,11 @@ class BookmarkButton extends Component {
     unbookmarkIllust: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
     openModal: PropTypes.func.isRequired,
-  }
+  };
+
+  static defaultProps = {
+    authUser: null,
+  };
 
   constructor(props) {
     const { item } = props;
@@ -98,18 +102,18 @@ class BookmarkButton extends Component {
   }
 
   animateBookmark = () => {
-    const { isBookmark, scaleAnim } = this.state;
+    const { scaleAnim } = this.state;
     Animated.spring(scaleAnim, {
       toValue: 1,
       friction: 3,
       useNativeDriver: true,
-    }).start(({ finished }) => {
+    }).start(() => {
       scaleAnim.setValue(0);
     });
   }
 
   render() {
-    const { onPress, onLongPress, size } = this.props;
+    const { size } = this.props;
     const { isBookmark, scaleAnim } = this.state;
     const color = isBookmark ? 'rgb(255,102,102)' : 'rgb(210, 212, 216)';
     const scale = scaleAnim.interpolate({
@@ -137,6 +141,6 @@ class BookmarkButton extends Component {
   }
 }
 
-export default withNavigation(connect((state, props) => ({
+export default withNavigation(connect(state => ({
   authUser: state.auth.user,
 }), { ...bookmarkIllustActionCreators, ...modalActionCreators })(BookmarkButton));
