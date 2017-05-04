@@ -6,22 +6,13 @@ import {
   Dimensions,
   ScrollView,
   Linking,
-  RefreshControl,
-  Platform,
   findNodeHandle,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import * as Animatable from 'react-native-animatable';
 import { BlurView } from 'react-native-blur';
-import IllustCollection from '../components/IllustCollection';
-import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import PXImage from '../components/PXImage';
-import PXBlurView from '../components/PXBlurView';
-import PXTouchable from '../components/PXTouchable';
-import Loader from '../components/Loader';
 import OutlineButton from '../components/OutlineButton';
 import * as authActionCreators from '../common/actions/auth';
 import * as i18nActionCreators from '../common/actions/i18n';
