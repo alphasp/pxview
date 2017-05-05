@@ -81,8 +81,12 @@ export function* watchRehydrate() {
       if (user) {
         console.log('watchRehydrate login');
         const credentials = yield call(Keychain.getGenericPassword);
-        yield put(login(credentials.username, credentials.password));
-        yield take([LOGIN_SUCCESS, LOGIN_ERROR]);
+        if (credentials) {
+          yield put(login(credentials.username, credentials.password));
+        } else {
+          yield put(logout());
+        }
+        yield take([LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT]);
       }
       // todo put sync complete
       yield put(doneRehydrate());
