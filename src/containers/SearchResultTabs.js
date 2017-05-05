@@ -19,6 +19,7 @@ import { clearSearchAutoComplete } from '../common/actions/searchAutoComplete';
 import {
   clearSearchUserAutoComplete,
 } from '../common/actions/searchUsersAutoComplete';
+import { navigationReplace } from '../common/actions/navigation';
 
 const styles = StyleSheet.create({
   container: {
@@ -147,13 +148,18 @@ class SearchResultTabs extends Component {
   };
 
   handleOnSubmitSearch = word => {
-    const { setParams } = this.props.navigation;
+    const { dispatch, state } = this.props.navigation;
     Keyboard.dismiss();
     this.setState({
       isFocusSearchBar: false,
       newWord: word,
     });
-    setParams({ word });
+    // setParams({ word });
+    dispatch(
+      navigationReplace('SearchResult', state.key, {
+        word,
+      }),
+    );
     return true;
   };
 
