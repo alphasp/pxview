@@ -7,7 +7,8 @@ import UserIllusts from '../containers/UserIllusts';
 import UserMangas from '../containers/UserMangas';
 import UserBookmarkIllusts from '../containers/UserBookmarkIllusts';
 import RelatedIllusts from '../containers/RelatedIllusts';
-import SearchResultTabs from '../containers/SearchResultTabs'; // todo
+import SearchResultTabs from '../containers/SearchResultTabs';
+import EnhanceRouter from './routers/EnhanceRouter';
 
 const TrendingNavigator = StackNavigator(
   {
@@ -74,4 +75,4 @@ const TrendingNavigator = StackNavigator(
   },
 );
 
-export default TrendingNavigator;
+export default EnhanceRouter(TrendingNavigator);

@@ -117,38 +117,4 @@ const MainNavigator = TabNavigator(
   },
 );
 
-// const router = MainNavigator.router;
-// MainNavigator.router = {
-//   ...MainNavigator.router,
-//   getStateForAction(action, state) {
-//     console.log('router ', action, state)
-//     if (state && state.index && state.routes) {
-//     // if (state && action.type === 'goBackAndSetParams') {
-//       const lastRoute = state.routes[state.index].routes.find(route => route.key === action.key);
-//       console.log('last route ', lastRoute)
-//       if (lastRoute) {
-//         const params = {
-//           ...lastRoute.params,
-//           ...action.params,
-//         };
-//         return {
-//           ...state,
-//           routes: state.routes.map(route => {
-//             return {
-//               ...route,
-//               routes: route.routes.map(r =>
-//                 r.key === action.key ?
-//                 { ...r, params }
-//                 :
-//                 r
-//               )
-//             }
-//           }),
-//         };
-//       }
-//     }
-//     return router.getStateForAction(action, state);
-//   },
-// };
-
 export default MainNavigator;

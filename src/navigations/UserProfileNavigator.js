@@ -11,6 +11,7 @@ import UserMangas from '../containers/UserMangas';
 import UserBookmarkIllusts from '../containers/UserBookmarkIllusts';
 import RelatedIllusts from '../containers/RelatedIllusts';
 import SearchResultTabs from '../containers/SearchResultTabs'; // todo
+import EnhanceRouter from './routers/EnhanceRouter';
 
 const UserProfileNavigator = StackNavigator(
   {
@@ -94,4 +95,4 @@ const UserProfileNavigator = StackNavigator(
   },
 );
 
-export default UserProfileNavigator;
+export default EnhanceRouter(UserProfileNavigator);

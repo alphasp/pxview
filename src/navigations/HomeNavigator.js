@@ -8,6 +8,7 @@ import UserMangas from '../containers/UserMangas';
 import UserBookmarkIllusts from '../containers/UserBookmarkIllusts';
 import RelatedIllusts from '../containers/RelatedIllusts';
 import SearchResultTabs from '../containers/SearchResultTabs'; // todo
+import EnhanceRouter from './routers/EnhanceRouter';
 
 const HomeNavigator = StackNavigator(
   {
@@ -71,4 +72,4 @@ const HomeNavigator = StackNavigator(
   },
 );
 
-export default HomeNavigator;
+export default EnhanceRouter(HomeNavigator);

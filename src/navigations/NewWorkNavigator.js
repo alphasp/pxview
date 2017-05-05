@@ -9,6 +9,7 @@ import UserBookmarkIllusts from '../containers/UserBookmarkIllusts';
 import RelatedIllusts from '../containers/RelatedIllusts';
 import SearchResultTabs from '../containers/SearchResultTabs'; // todo
 import RecommendedUsers from '../containers/RecommendedUsers';
+import EnhanceRouter from './routers/EnhanceRouter';
 
 const NewWorkNavigator = StackNavigator(
   {
@@ -78,4 +79,4 @@ const NewWorkNavigator = StackNavigator(
   },
 );
 
-export default NewWorkNavigator;
+export default EnhanceRouter(NewWorkNavigator);
