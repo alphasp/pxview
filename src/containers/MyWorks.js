@@ -1,12 +1,4 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  Dimensions,
-  Platform,
-} from 'react-native';
 import PXTabView from '../components/PXTabView';
 import UserIllusts from './UserIllusts';
 import UserMangas from './UserMangas';

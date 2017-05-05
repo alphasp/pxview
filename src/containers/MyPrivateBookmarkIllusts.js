@@ -1,13 +1,4 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-  Dimensions,
-  RecyclerViewBackedScrollView,
-  RefreshControl,
-} from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import * as myPrivateBookmarkIllustActionCreators
@@ -42,17 +33,13 @@ class MyPrivateBookmarkIllusts extends Component {
 
   loadMoreItems = () => {
     const {
-      myPrivateBookmarkIllusts,
+      myPrivateBookmarkIllusts: { loading, nextUrl },
       tag,
       userId,
       fetchMyPrivateBookmarkIllusts,
     } = this.props;
-    if (
-      myPrivateBookmarkIllusts &&
-      !myPrivateBookmarkIllusts.loading &&
-      myPrivateBookmarkIllusts.nextUrl
-    ) {
-      console.log('next url ', myPrivateBookmarkIllusts.nextUrl);
+    if (!loading && nextUrl) {
+      console.log('next url ', nextUrl);
       fetchMyPrivateBookmarkIllusts(userId, tag, nextUrl);
     }
   };

@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
-import dismissKeyboard from 'dismissKeyboard';
-import Loader from '../components/Loader';
-import Separator from '../components/Separator';
 import SearchHistory from '../components/SearchHistory';
 import SearchAutoCompleteList from '../components/SearchAutoCompleteList';
 import * as searchAutoCompleteActionCreators
   from '../common/actions/searchAutoComplete';
-import { SearchType } from '../common/actions/searchType';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,7 +14,7 @@ const styles = StyleSheet.create({
 
 class SearchAutoCompleteResult extends Component {
   componentDidMount() {
-    const { word, showInitHistory, clearSearchAutoComplete } = this.props;
+    const { word, clearSearchAutoComplete } = this.props;
     clearSearchAutoComplete();
     InteractionManager.runAfterInteractions(() => {
       this.submitSearchAutoComplete(word);
@@ -27,11 +23,7 @@ class SearchAutoCompleteResult extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { word: prevWord } = this.props;
-    const {
-      word,
-      searchAutoComplete: { items },
-      clearSearchAutoComplete,
-    } = nextProps;
+    const { word, clearSearchAutoComplete } = nextProps;
     if (word && word !== prevWord) {
       clearSearchAutoComplete();
       InteractionManager.runAfterInteractions(() => {
@@ -51,7 +43,7 @@ class SearchAutoCompleteResult extends Component {
     const {
       searchAutoComplete,
       word,
-      searchAutoComplete: { items, loading, loaded },
+      searchAutoComplete: { loading, loaded },
       searchHistory,
       onPressItem,
       onPressSearchHistoryItem,
@@ -79,7 +71,7 @@ class SearchAutoCompleteResult extends Component {
 }
 
 export default connect(
-  (state, props) => ({
+  state => ({
     searchAutoComplete: state.searchAutoComplete,
   }),
   searchAutoCompleteActionCreators,

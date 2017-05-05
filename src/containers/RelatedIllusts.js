@@ -1,25 +1,10 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-  Dimensions,
-  RecyclerViewBackedScrollView,
-  RefreshControl,
-  InteractionManager,
-} from 'react-native';
+import { InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import * as relatedIllustsActionCreators
   from '../common/actions/relatedIllusts';
 import { makeGetRelatedIllustsItems } from '../common/selectors';
-
-const styles = StyleSheet.create({
-  nullResultContainer: {
-    alignItems: 'center',
-  },
-});
 
 class RelatedIllusts extends Component {
   componentDidMount() {
@@ -57,10 +42,8 @@ class RelatedIllusts extends Component {
     const {
       relatedIllusts,
       items,
-      illustId,
       isFeatureInDetailPage,
       maxItems,
-      navigation,
     } = this.props;
     return (
       <IllustList
@@ -72,8 +55,6 @@ class RelatedIllusts extends Component {
     );
   }
 }
-
-const defaultItems = [];
 
 export default connect(() => {
   const getRelatedIllustsItems = makeGetRelatedIllustsItems();

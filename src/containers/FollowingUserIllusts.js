@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button } from 'react-native-elements';
 import IllustList from '../components/IllustList';
@@ -106,11 +107,13 @@ class FollowingUserIllusts extends Component {
   }
 }
 
-export default connect(state => {
-  const { followingUserIllusts, auth: { user } } = state;
-  return {
-    followingUserIllusts,
-    items: getFollowingUserIllustsItems(state),
-    user,
-  };
-}, followingUserIllustsActionCreators)(FollowingUserIllusts);
+export default withNavigation(
+  connect(state => {
+    const { followingUserIllusts, auth: { user } } = state;
+    return {
+      followingUserIllusts,
+      items: getFollowingUserIllustsItems(state),
+      user,
+    };
+  }, followingUserIllustsActionCreators)(FollowingUserIllusts),
+);

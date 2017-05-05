@@ -34,9 +34,13 @@ const validate = values => {
 
 class Login extends Component {
   componentWillReceiveProps(nextProps) {
-    const { authUser: prevUser } = this.props;
-    const { authUser, navigation: { goBack }, onLoginSuccess } = nextProps;
-    if (authUser !== prevUser) {
+    const { auth: { user: prevUser } } = this.props;
+    const {
+      auth: { user },
+      navigation: { goBack },
+      onLoginSuccess,
+    } = nextProps;
+    if (user !== prevUser) {
       goBack();
       if (onLoginSuccess) {
         onLoginSuccess();
@@ -107,7 +111,7 @@ const LoginForm = reduxForm({
 
 export default connect(
   (state, props) => ({
-    authUser: state.auth.user,
+    auth: state.auth,
     onLoginSuccess: props.onLoginSuccess ||
       (props.navigation.state &&
         props.navigation.state.params &&

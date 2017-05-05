@@ -192,7 +192,7 @@ class UserDetail extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { userDetailItem: prevUserDetailItem } = this.props;
-    const { userDetailItem, userId, navigation: { setParams } } = nextProps;
+    const { userDetailItem, navigation: { setParams } } = nextProps;
     if (userDetailItem && userDetailItem !== prevUserDetailItem) {
       setParams({ user: userDetailItem.user });
     }
@@ -204,9 +204,9 @@ class UserDetail extends Component {
       .then(supported => {
         if (!supported) {
           console.log(`Can't handle url: ${url}`);
-        } else {
-          return Linking.openURL(url);
+          return null;
         }
+        return Linking.openURL(url);
       })
       .catch(err => {
         console.error('Error on link press ', err);
@@ -238,7 +238,6 @@ class UserDetail extends Component {
   handleOnScroll = ({ nativeEvent }) => {
     const {
       userDetail,
-      userId,
       navigation: { setParams, state: { params: { isShowTitle, isScrolled } } },
     } = this.props;
     if (!isScrolled) {
@@ -436,7 +435,6 @@ class UserDetail extends Component {
     const {
       userDetail: { loaded, loading, refreshing, item },
       userDetailItem,
-      userId,
     } = this.props;
     return (
       <View style={styles.container}>

@@ -1,18 +1,6 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-  Dimensions,
-  Platform,
-  ListView,
-  RecyclerViewBackedScrollView,
-  RefreshControl,
-  InteractionManager,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
-import debounce from 'lodash.debounce';
 import PXTabView from '../components/PXTabView';
 import SearchAutoCompleteResult from './SearchAutoCompleteResult';
 import SearchUsersAutoCompleteResult from './SearchUsersAutoCompleteResult';
@@ -23,9 +11,6 @@ import * as searchUserAutoCompleteActionCreators
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import * as searchTypeActionCreators from '../common/actions/searchType';
 import { SearchType } from '../common/actions/searchType';
-
-const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
-const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
 
 const styles = StyleSheet.create({
   container: {
@@ -63,14 +48,13 @@ class Search extends Component {
     }
   };
 
-  renderScene = ({ route, index }) => {
+  renderScene = ({ route }) => {
     const {
       word,
       searchAutoComplete,
       searchUsersAutoComplete,
       searchHistory,
     } = this.props;
-    const { initIndex } = this.state;
     switch (route.key) {
       case '1':
         return (
@@ -111,7 +95,7 @@ class Search extends Component {
     word = word.trim();
     if (word) {
       const {
-        navigation: { navigate, setParams },
+        navigation: { navigate },
         isPushNewSearch,
         searchType,
         onSubmitSearch,
@@ -119,16 +103,9 @@ class Search extends Component {
       } = this.props;
       addSearchHistory(word);
       onSubmitSearch(word);
-      console.log('submit search ', searchType, isPushNewSearch);
       if (isPushNewSearch) {
         navigate('SearchResult', { word, searchType });
       }
-      // setTimeout(() => {
-      //   setParams({
-      //     isFocusSearchBar: false,
-      //     word
-      //   });
-      // }, 0);
     }
   };
 
@@ -141,9 +118,8 @@ class Search extends Component {
   };
 
   handleOnPressUser = userId => {
-    const { navigation, onSubmitSearch, addSearchHistory } = this.props;
+    const { navigation } = this.props;
     const { navigate } = navigation;
-    // onSubmitSearch(word);
     navigate('UserDetail', { userId });
   };
 
@@ -197,7 +173,7 @@ class Search extends Component {
 
 export default connect(
   (state, props) => {
-    const { word, searchType } = props;
+    const { word } = props;
     return {
       searchAutoComplete: state.searchAutoComplete,
       searchUsersAutoComplete: state.searchUsersAutoComplete,

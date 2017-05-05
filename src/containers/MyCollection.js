@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  Dimensions,
-  Platform,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import PXTouchable from '../components/PXTouchable';
 import PXTabView from '../components/PXTabView';
 import TagsFilterModal from './TagsFilterModal';
 import MyPrivateBookmarkIllusts from './MyPrivateBookmarkIllusts';
@@ -85,8 +77,7 @@ class MyCollection extends Component {
   handleOnSelectTag = tag => {
     const { navigation: { setParams } } = this.props;
     const { index } = this.state;
-    console.log(index, tag);
-    newState = {};
+    const newState = {};
     if (index === 0) {
       newState.selectedPublicTag = tag;
     } else {
@@ -99,13 +90,8 @@ class MyCollection extends Component {
   };
 
   render() {
-    const { userId, isOpenFilterModal } = this.props.navigation.state.params;
-    const {
-      index,
-      isShowFilterButton,
-      selectedPublicTag,
-      selectedPrivateTag,
-    } = this.state;
+    const { isOpenFilterModal } = this.props.navigation.state.params;
+    const { index, selectedPublicTag, selectedPrivateTag } = this.state;
     return (
       <View style={styles.container}>
         <PXTabView

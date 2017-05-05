@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, InteractionManager } from 'react-native';
+import { InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import * as userMangasActionCreators from '../common/actions/userMangas';
@@ -31,7 +31,7 @@ class UserMangas extends Component {
   };
 
   render() {
-    const { userMangas, items, userId } = this.props;
+    const { userMangas, items } = this.props;
     return (
       <IllustList
         data={{ ...userMangas, items }}

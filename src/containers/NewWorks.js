@@ -1,39 +1,10 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  Dimensions,
-  Platform,
-} from 'react-native';
 import { connect } from 'react-redux';
 import FollowingUserIllusts from './FollowingUserIllusts';
 import NewIllusts from './NewIllusts';
 import NewMangas from './NewMangas';
 import MyPixiv from './MyPixiv';
-import Login from './Login';
 import PXTabView from '../components/PXTabView';
-
-class PageWrapper extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { loaded: props.active };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.active && !this.state.loaded) {
-      this.setState({ loaded: true });
-    }
-  }
-
-  render() {
-    const { active, children } = this.props;
-    return active || this.state.loaded
-      ? <View style={{ flex: 1 }}>{children}</View>
-      : null;
-  }
-}
 
 class NewWorks extends Component {
   constructor(props) {
@@ -85,44 +56,23 @@ class NewWorks extends Component {
     this.setState({ index });
   };
 
-  renderScene = ({ route, index }) => {
-    const { navigation, screenProps } = this.props;
-    console.log('index ', index);
+  renderScene = ({ route }) => {
+    const { screenProps } = this.props;
     switch (route.key) {
       case '1':
-        return (
-          <PageWrapper active={index == this.state.index}>
-            <FollowingUserIllusts
-              screenProps={screenProps}
-              navigation={navigation}
-            />
-          </PageWrapper>
-        );
+        return <FollowingUserIllusts screenProps={screenProps} />;
       case '2':
-        return (
-          <PageWrapper active={index == this.state.index}>
-            <NewIllusts screenProps={screenProps} />
-          </PageWrapper>
-        );
+        return <NewIllusts screenProps={screenProps} />;
       case '3':
-        return (
-          <PageWrapper active={index == this.state.index}>
-            <NewMangas screenProps={screenProps} />
-          </PageWrapper>
-        );
+        return <NewMangas screenProps={screenProps} />;
       case '4':
-        return (
-          <PageWrapper active={index == this.state.index}>
-            <MyPixiv screenProps={screenProps} />
-          </PageWrapper>
-        );
+        return <MyPixiv screenProps={screenProps} />;
       default:
         return null;
     }
   };
 
   render() {
-    const { user, navigation, screenProps } = this.props;
     return (
       <PXTabView
         navigationState={this.state}

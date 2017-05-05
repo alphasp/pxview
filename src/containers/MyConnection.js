@@ -1,23 +1,9 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  Dimensions,
-  Platform,
-} from 'react-native';
 import UserFollowing from './UserFollowing';
 import UserFollowers from './UserFollowers';
 import UserMyPixiv from './UserMyPixiv';
 import PXTabView from '../components/PXTabView';
 import { FOLLOWING_TYPES } from '../common/constants';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 class MyConnection extends Component {
   constructor(props) {
@@ -74,10 +60,6 @@ class MyConnection extends Component {
   };
 
   render() {
-    // const { userId } = this.props;
-    const { userId } = this.props.navigation.state.params;
-    const screenProps =
-      this.props.screenProps || this.props.navigation.state.params.screenProps;
     return (
       <PXTabView
         navigationState={this.state}

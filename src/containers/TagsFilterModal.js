@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  Platform,
   Text,
   FlatList,
   TouchableWithoutFeedback,
@@ -96,44 +95,36 @@ class TagsFilterModal extends Component {
   };
 
   render() {
-    const {
-      bookmarkTags: { items, loading, loaded },
-      onSelectTag,
-      isOpen,
-      onPressCloseButton,
-    } = this.props;
+    const { bookmarkTags: { items }, isOpen, onPressCloseButton } = this.props;
     return (
-      <View>
-        <Modal
-          animationType="fade"
-          transparent
-          visible={isOpen}
-          onRequestClose={onPressCloseButton}
-          onShow={() => console.log('on show modal')}
-        >
-          <PXTouchable style={styles.container} onPress={onPressCloseButton}>
-            <TouchableWithoutFeedback>
-              <View>
-                <View style={styles.sectionHeader}>
-                  <Text style={styles.sectionHeaderTitle}>
-                    Collection Tags
-                  </Text>
-                </View>
-                <View style={styles.innerContainer}>
-                  <FlatList
-                    data={items}
-                    keyExtractor={(item, index) => item.name}
-                    renderItem={this.renderItem}
-                    keyboardShouldPersistTaps="always"
-                    onEndReachedThreshold={0.1}
-                    onEndReached={this.loadMoreItems}
-                  />
-                </View>
+      <Modal
+        animationType="fade"
+        transparent
+        visible={isOpen}
+        onRequestClose={onPressCloseButton}
+      >
+        <PXTouchable style={styles.container} onPress={onPressCloseButton}>
+          <TouchableWithoutFeedback>
+            <View>
+              <View style={styles.sectionHeader}>
+                <Text style={styles.sectionHeaderTitle}>
+                  Collection Tags
+                </Text>
               </View>
-            </TouchableWithoutFeedback>
-          </PXTouchable>
-        </Modal>
-      </View>
+              <View style={styles.innerContainer}>
+                <FlatList
+                  data={items}
+                  keyExtractor={item => item.name}
+                  renderItem={this.renderItem}
+                  keyboardShouldPersistTaps="always"
+                  onEndReachedThreshold={0.1}
+                  onEndReached={this.loadMoreItems}
+                />
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </PXTouchable>
+      </Modal>
     );
   }
 }

@@ -29,7 +29,7 @@ class TrendingIllustTags extends Component {
   }
 }
 
-export default connect((state, props) => {
+export default connect(state => {
   const { trendingIllustTags } = state;
   return {
     trendingIllustTags,

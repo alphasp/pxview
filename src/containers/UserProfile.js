@@ -165,39 +165,12 @@ class UserProfile extends Component {
     };
   }
 
-  componentDidMount() {
-    const { dispatch, userId } = this.props;
-    // dispatch(clearUserDetail(userId));
-    // dispatch(fetchUserDetail(userId)).then(() => {
-    //   const { userDetail, userId } = this.props;
-    //   if (userDetail[userId] && userDetail[userId].item) {
-    //     const user = userDetail[userId].item.user;
-    //     Actions.refresh({
-    //       renderTitle: () => {
-    //         return (
-    //           <Animatable.View style={styles.navbarHeader}>
-    //             <View style={styles.thumnailNameContainer}>
-    //               <PXThumbnail uri={user.profile_image_urls.medium} />
-    //               <View style={styles.nameContainer}>
-    //                 <Text>{user.name}</Text>
-    //                 <Text>{user.account}</Text>
-    //               </View>
-    //             </View>
-    //           </Animatable.View>
-    //         )
-    //       }
-    //     });
-    //   }
-    // });
-  }
-
   handleOnAvatarImageLoaded = () => {
-    this.setState({ viewRef: findNodeHandle(this.refs.backgroundImage) });
+    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   };
 
   handleOnPressListItem = item => {
     const { user, navigation: { navigate }, screenProps, logout } = this.props;
-    console.log('on press ', item);
     switch (item.id) {
       case 'works':
         if (!user) {
@@ -223,13 +196,16 @@ class UserProfile extends Component {
           navigate('MyConnection', { userId: user.id, screenProps });
         }
         break;
-      case 'settings':
+      case 'settings': {
         // temp
         const { setLanguage } = this.props;
         setLanguage('ja');
         break;
+      }
       case 'logout':
         logout();
+        break;
+      default:
         break;
     }
   };
@@ -240,9 +216,9 @@ class UserProfile extends Component {
       .then(supported => {
         if (!supported) {
           console.log(`Can't handle url: ${url}`);
-        } else {
-          return Linking.openURL(url);
+          return null;
         }
+        return Linking.openURL(url);
       })
       .catch(err => console.error('An error occurred', err));
   };
@@ -320,9 +296,9 @@ class UserProfile extends Component {
     }
     return (
       <List>
-        {list.map((item, i) => (
+        {list.map(item => (
           <ListItem
-            key={i}
+            key={item.id}
             title={item.title}
             leftIcon={{
               name: item.icon,

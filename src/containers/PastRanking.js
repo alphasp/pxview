@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Dimensions,
-  ScrollView,
-} from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import DatePicker from 'react-native-datepicker';
@@ -75,7 +68,6 @@ class PastRanking extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      refreshing: false,
       isOpenRankingModeBottomSheet: false,
       date: moment().subtract(2, 'days').format('YYYY-MM-DD'),
       mode: 'day',
@@ -101,7 +93,7 @@ class PastRanking extends Component {
 
   render() {
     const { user, screenProps: { strings } } = this.props;
-    const { refreshing, date, mode, isOpenRankingModeBottomSheet } = this.state;
+    const { date, mode, isOpenRankingModeBottomSheet } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.filterContainer}>

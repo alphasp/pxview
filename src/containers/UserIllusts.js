@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, InteractionManager } from 'react-native';
+import { InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
 import * as userIllustsActionCreators from '../common/actions/userIllusts';
@@ -36,7 +36,7 @@ class UserIllusts extends Component {
   };
 
   render() {
-    const { userIllusts, items, userId } = this.props;
+    const { userIllusts, items } = this.props;
     return (
       <IllustList
         data={{ ...userIllusts, items }}

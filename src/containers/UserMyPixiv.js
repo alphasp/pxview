@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import UserListContainer from './UserListContainer';
@@ -6,14 +5,6 @@ import * as userMyPixivActionCreators from '../common/actions/userMyPixiv';
 import { makeGetUserMyPixivItems } from '../common/selectors';
 
 class UserMyPixiv extends Component {
-  static propTypes = {
-    userId: PropTypes.number.isRequired,
-    userMyPixiv: PropTypes.object,
-    items: PropTypes.array,
-    fetchUserMyPixiv: PropTypes.func.isRequired,
-    clearUserMyPixiv: PropTypes.func.isRequired,
-  };
-
   componentDidMount() {
     const { fetchUserMyPixiv, userId } = this.props;
     fetchUserMyPixiv(userId);
@@ -33,7 +24,7 @@ class UserMyPixiv extends Component {
   };
 
   render() {
-    const { userMyPixiv, items, userId, screenProps } = this.props;
+    const { userMyPixiv, items, screenProps } = this.props;
     return (
       <UserListContainer
         userList={{ ...userMyPixiv, items }}

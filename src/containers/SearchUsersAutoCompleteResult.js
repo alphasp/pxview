@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
-import dismissKeyboard from 'dismissKeyboard';
-import Loader from '../components/Loader';
-import Separator from '../components/Separator';
 import SearchHistory from '../components/SearchHistory';
 import SearchUsersAutoCompleteList
   from '../components/SearchUsersAutoCompleteList';
@@ -28,11 +25,7 @@ class SearchUsersAutoCompleteResult extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { word: prevWord } = this.props;
-    const {
-      word,
-      searchUsersAutoComplete: { items },
-      clearSearchUsersAutoComplete,
-    } = nextProps;
+    const { word, clearSearchUsersAutoComplete } = nextProps;
     if (word && word !== prevWord) {
       InteractionManager.runAfterInteractions(() => {
         clearSearchUsersAutoComplete();

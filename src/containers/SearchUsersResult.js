@@ -88,7 +88,7 @@ class SearchUsersResult extends Component {
   // }
 
   render() {
-    const { searchUsers, items, word, screenProps } = this.props;
+    const { searchUsers, items, screenProps } = this.props;
     return (
       <UserListContainer
         userList={{ ...searchUsers, items }}

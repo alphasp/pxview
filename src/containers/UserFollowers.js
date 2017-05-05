@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import UserListContainer from './UserListContainer';
@@ -6,14 +5,6 @@ import * as userFollowersActionCreators from '../common/actions/userFollowers';
 import { makeGetUserFollowersItems } from '../common/selectors';
 
 class UserFollowers extends Component {
-  static propTypes = {
-    userId: PropTypes.number.isRequired,
-    userFollowers: PropTypes.object,
-    items: PropTypes.array,
-    fetchUserFollowers: PropTypes.func.isRequired,
-    clearUserFollowers: PropTypes.func.isRequired,
-  };
-
   componentDidMount() {
     const { fetchUserFollowers, userId } = this.props;
     fetchUserFollowers(userId);
@@ -33,7 +24,7 @@ class UserFollowers extends Component {
   };
 
   render() {
-    const { userFollowers, items, userId, screenProps } = this.props;
+    const { userFollowers, items, screenProps } = this.props;
     return (
       <UserListContainer
         userList={{ ...userFollowers, items }}
