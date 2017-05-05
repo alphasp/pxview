@@ -41,7 +41,7 @@ class Trending extends Component {
     if (Platform.OS === 'android') {
       this.backHandlerListener = BackHandler.addEventListener(
         'hardwareBackPress',
-        this.handleOnPressHardwareBackButton,
+        this.handleOnPressBackButton,
       );
     }
   }
@@ -100,7 +100,6 @@ class Trending extends Component {
   };
 
   handleOnPressBackButton = () => {
-    const { goBack } = this.props.navigation;
     const { isFocusSearchBar } = this.state;
     if (isFocusSearchBar) {
       Keyboard.dismiss();
@@ -108,22 +107,9 @@ class Trending extends Component {
         isFocusSearchBar: false,
         word: null,
       });
-    } else {
-      goBack();
+      return true;
     }
-  };
-
-  handleOnPressHardwareBackButton = () => {
-    const { word } = this.props;
-    const { isFocusSearchBar } = this.state;
-    if (isFocusSearchBar) {
-      Keyboard.dismiss();
-      this.setState({
-        isFocusSearchBar: false,
-        newWord: word,
-      });
-    }
-    return true;
+    return false;
   };
 
   render() {

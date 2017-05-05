@@ -141,8 +141,9 @@ class SearchResultTabs extends Component {
         isFocusSearchBar: false,
         newWord: word,
       });
+      return true;
     }
-    return true;
+    return false;
   };
 
   handleOnSubmitSearch = word => {
