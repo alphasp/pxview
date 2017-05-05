@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
 class SearchUsersAutoCompleteResult extends Component {
   componentDidMount() {
     const { word, clearSearchUsersAutoComplete } = this.props;
+    clearSearchUsersAutoComplete();
     InteractionManager.runAfterInteractions(() => {
-      clearSearchUsersAutoComplete();
       this.submitSearchUsersAutoComplete(word);
     });
   }
@@ -27,8 +27,8 @@ class SearchUsersAutoCompleteResult extends Component {
     const { word: prevWord } = this.props;
     const { word, clearSearchUsersAutoComplete } = nextProps;
     if (word && word !== prevWord) {
+      clearSearchUsersAutoComplete();
       InteractionManager.runAfterInteractions(() => {
-        clearSearchUsersAutoComplete();
         this.submitSearchUsersAutoComplete(word);
       });
     }
@@ -39,7 +39,6 @@ class SearchUsersAutoCompleteResult extends Component {
       fetchSearchUsersAutoComplete,
       searchUsersAutoComplete: { nextUrl, loading },
     } = this.props;
-    console.log('loading ', loading, nextUrl);
     if (!loading && nextUrl) {
       console.log('load more ', nextUrl);
       fetchSearchUsersAutoComplete(null, nextUrl);
