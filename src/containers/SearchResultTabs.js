@@ -34,63 +34,6 @@ class SearchResultTabs extends Component {
     header: null,
   });
 
-  /* static navigationOptions = ({ navigation }) => {
-    const { state, setParams, navigate, goBack, dispatch } = navigation;
-    const { word, newWord, searchOptions, searchType, isFocusSearchBar } = state.params;
-    return {
-      headerLeft: (
-        <HeaderBackButton onPress={() => onPressBackButton(navigation)} />
-      ),
-      headerTitle:  (
-        <PXSearchBar
-          enableBack={true}
-          onFocus={() => setParams({
-            isFocusSearchBar: true
-          })}
-          searchType={searchType}
-          word={newWord !== undefined ? newWord : word}
-          onChangeText={handleOnChangeSearchText(setParams)}
-          navigation={navigation}
-          isRenderBackButton={true}
-          isRenderRightButton={true}
-        />
-      ),
-      //disabled
-      headerRight: (
-        <PXTouchable
-          disabled={searchType === SearchType.USER}
-          onPress={() => navigate("SearchFilterModal", {
-            searchFilter: searchOptions || {},
-            onPressApplyFilter: (target, duration, sort) => {
-              goBack(null);
-              setTimeout(() => setParams({
-                searchOptions: {
-                  duration,
-                  target,
-                  sort
-                },
-              }), 0);
-              setParams({
-                searchOptions: {
-                  duration,
-                  target,
-                  sort
-                },
-              })
-            }
-          })}
-        >
-          <Icon
-            name="sliders"
-            size={20}
-            color={searchType === SearchType.USER ? "grey" : "#037aff"}
-            style={{padding: 10}}
-          />
-        </PXTouchable>
-      )
-    }
-  }*/
-
   constructor(props) {
     super(props);
     const { searchType, word } = props;
@@ -111,7 +54,7 @@ class SearchResultTabs extends Component {
     if (Platform.OS === 'android') {
       this.backHandlerListener = BackHandler.addEventListener(
         'hardwareBackPress',
-        this.handleOnPressBackButton,
+        this.handleOnPressHardwareBackButton,
       );
     }
   }
@@ -176,21 +119,30 @@ class SearchResultTabs extends Component {
   };
 
   handleOnPressBackButton = () => {
-    // const { word, navigation, clearSearchAutoComplete, clearSearchUserAutoComplete } = this.props;
-    const { word, navigation: { goBack, state } } = this.props;
+    const { word, navigation: { goBack } } = this.props;
     const { isFocusSearchBar } = this.state;
-    // clearSearchAutoComplete();
-    // clearSearchUserAutoComplete();
     if (isFocusSearchBar) {
       Keyboard.dismiss();
       this.setState({
         isFocusSearchBar: false,
         newWord: word,
       });
-      return true;
+    } else {
+      goBack();
     }
+  };
 
-    goBack();
+  handleOnPressHardwareBackButton = () => {
+    const { word } = this.props;
+    const { isFocusSearchBar } = this.state;
+    if (isFocusSearchBar) {
+      Keyboard.dismiss();
+      this.setState({
+        isFocusSearchBar: false,
+        newWord: word,
+      });
+    }
+    return true;
   };
 
   handleOnSubmitSearch = word => {
@@ -231,9 +183,8 @@ class SearchResultTabs extends Component {
   };
 
   render() {
-    const { word, searchType, navigationStateKey, navigation } = this.props;
-    const { initSearchType } = this.state;
-    const { newWord, searchOptions, isFocusSearchBar } = this.state;
+    const { searchType, navigationStateKey, navigation } = this.props;
+    const { newWord, isFocusSearchBar } = this.state;
     return (
       <View style={styles.container}>
         <PXHeader

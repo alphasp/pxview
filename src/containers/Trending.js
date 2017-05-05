@@ -38,10 +38,10 @@ class Trending extends Component {
   }
 
   componentDidMount() {
-    if (Platform.OS == 'android') {
+    if (Platform.OS === 'android') {
       this.backHandlerListener = BackHandler.addEventListener(
         'hardwareBackPress',
-        this.handleOnPressBackButton,
+        this.handleOnPressHardwareBackButton,
       );
     }
   }
@@ -108,10 +108,22 @@ class Trending extends Component {
         isFocusSearchBar: false,
         word: null,
       });
-      // to disable goBack from react-navigation
-      return true;
+    } else {
+      goBack();
     }
-    goBack();
+  };
+
+  handleOnPressHardwareBackButton = () => {
+    const { word } = this.props;
+    const { isFocusSearchBar } = this.state;
+    if (isFocusSearchBar) {
+      Keyboard.dismiss();
+      this.setState({
+        isFocusSearchBar: false,
+        newWord: word,
+      });
+    }
+    return true;
   };
 
   render() {
@@ -151,7 +163,7 @@ class Trending extends Component {
 }
 
 export default connect(
-  (state, props) => ({
+  state => ({
     searchType: state.searchType.type,
   }),
   { setSearchType },
