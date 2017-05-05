@@ -98,7 +98,7 @@ class PXSearchBar extends Component {
   //   }
   // }
 
-  handleOnSubmitSearch = word => {
+  handleOnSubmitSearch = e => {
     const {
       navigation,
       addSearchHistory,
@@ -106,7 +106,7 @@ class PXSearchBar extends Component {
       onSubmitSearch,
       searchType,
     } = this.props;
-    word = word.trim();
+    const word = e.nativeEvent.text.trim();
     if (word) {
       const { navigate } = navigation;
       addSearchHistory(word);

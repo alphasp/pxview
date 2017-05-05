@@ -139,7 +139,6 @@ class SearchFilterModal extends Component {
   );
 
   renderItem = ({ item }) => {
-    console.log('item ', item);
     const { target, duration, sort } = this.state;
     return (
       <PXTouchable onPress={() => this.handleOnPressRow(item.type, item.value)}>
