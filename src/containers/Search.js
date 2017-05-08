@@ -10,7 +10,7 @@ import * as searchUserAutoCompleteActionCreators
   from '../common/actions/searchUsersAutoComplete';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import * as searchTypeActionCreators from '../common/actions/searchType';
-import { SearchType } from '../common/actions/searchType';
+import { SEARCH_TYPES } from '../common/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,7 +30,7 @@ class Search extends Component {
     super(props);
     const { searchType } = props;
     this.state = {
-      index: searchType === SearchType.USER ? 1 : 0,
+      index: searchType === SEARCH_TYPES.USER ? 1 : 0,
       routes: [
         { key: '1', title: 'Illust/Manga' },
         { key: '2', title: 'User' },
@@ -42,9 +42,9 @@ class Search extends Component {
     const { setSearchType } = this.props;
     this.setState({ index });
     if (index === 1) {
-      setSearchType(SearchType.USER);
+      setSearchType(SEARCH_TYPES.USER);
     } else {
-      setSearchType(SearchType.ILLUST);
+      setSearchType(SEARCH_TYPES.ILLUST);
     }
   };
 

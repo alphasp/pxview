@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { SearchBar } from 'react-native-elements';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
-import { SearchType } from '../common/actions/searchType';
+import { SEARCH_TYPES } from '../common/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -79,24 +79,8 @@ const styles = StyleSheet.create({
 
 class PXSearchBar extends Component {
   static defaultProps = {
-    searchType: SearchType.ILLUST,
+    searchType: SEARCH_TYPES.ILLUST,
   };
-  // handleOnChangeSearchText = (word, searchType) => {
-  //   const { fetchSearchAutoComplete, clearSearchAutoComplete, fetchSearchUserAutoComplete, clearSearchUserAutoComplete } = this.props;
-  //   console.log('handleOnChangeSearchText ', searchType, word)
-  //   if (searchType === SearchType.USER) {
-  //     clearSearchUserAutoComplete();
-  //     if (word.length > 1) {
-  //       fetchSearchUserAutoComplete(word);
-  //     }
-  //   }
-  //   else {
-  //     clearSearchAutoComplete();
-  //     if (word.length > 1) {
-  //       fetchSearchAutoComplete(word);
-  //     }
-  //   }
-  // }
 
   handleOnSubmitSearch = e => {
     const {
@@ -129,7 +113,9 @@ class PXSearchBar extends Component {
           }}
           lightTheme
           placeholder={
-            searchType === SearchType.USER ? 'Enter nickname' : 'Enter keyword'
+            searchType === SEARCH_TYPES.USER
+              ? 'Enter nickname'
+              : 'Enter keyword'
           }
           autoFocus={autoFocus}
           onFocus={onFocus}

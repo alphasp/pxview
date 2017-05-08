@@ -12,7 +12,8 @@ import TrendingIllustTags from './TrendingIllustTags';
 import RecommendedUsers from './RecommendedUsers';
 import PXHeader from '../components/PXHeader';
 import Search from './Search';
-import { setSearchType, SearchType } from '../common/actions/searchType';
+import * as searchTypeActionCreators from '../common/actions/searchType';
+import { SEARCH_TYPES } from '../common/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -50,7 +51,7 @@ class Trending extends Component {
     const { searchType: prevSearchType } = this.props;
     const { searchType } = nextProps;
     if (searchType !== prevSearchType) {
-      this.setState({ index: searchType === SearchType.USER ? 1 : 0 });
+      this.setState({ index: searchType === SEARCH_TYPES.USER ? 1 : 0 });
     }
   }
 
@@ -66,9 +67,9 @@ class Trending extends Component {
   handleChangeTab = index => {
     const { setSearchType } = this.props;
     if (index === 1) {
-      setSearchType(SearchType.USER);
+      setSearchType(SEARCH_TYPES.USER);
     } else {
-      setSearchType(SearchType.ILLUST);
+      setSearchType(SEARCH_TYPES.ILLUST);
     }
   };
 
@@ -152,5 +153,5 @@ export default connect(
   state => ({
     searchType: state.searchType.type,
   }),
-  { setSearchType },
+  searchTypeActionCreators,
 )(Trending);

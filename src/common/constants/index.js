@@ -51,3 +51,8 @@ export const TAG_TYPES = {
   PUBLIC: 'PUBLIC',
   PRIVATE: 'PRIVATE',
 };
+
+export const SEARCH_TYPES = {
+  ILLUST: 'ILLUST',
+  USER: 'USER',
+};

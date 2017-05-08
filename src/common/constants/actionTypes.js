@@ -8,6 +8,7 @@ import {
   ADD,
   REMOVE,
   REPLACE,
+  SET,
 } from './stateConstants';
 
 const appNamespace = defineAction('PIXIV');
@@ -199,3 +200,5 @@ export const SEARCH_HISTORY = defineAction(
 );
 
 export const NAVIGATION = defineAction('NAVIGATION', [REPLACE], appNamespace);
+
+export const SEARCH_TYPE = defineAction('SEARCH_TYPE', [SET], appNamespace);

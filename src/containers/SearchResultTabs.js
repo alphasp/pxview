@@ -14,12 +14,13 @@ import PXTabView from '../components/PXTabView';
 import PXTouchable from '../components/PXTouchable';
 import SearchResult from './SearchResult';
 import SearchUsersResult from './SearchUsersResult';
-import { setSearchType, SearchType } from '../common/actions/searchType';
-import { clearSearchAutoComplete } from '../common/actions/searchAutoComplete';
-import {
-  clearSearchUserAutoComplete,
-} from '../common/actions/searchUsersAutoComplete';
+import * as searchTypeActionCreators from '../common/actions/searchType';
+import * as searchAutoCompleteActionCreators
+  from '../common/actions/searchAutoComplete';
+import * as searchUsersAutoCompleteActionCreators
+  from '../common/actions/searchUsersAutoComplete';
 import { navigationReplace } from '../common/actions/navigation';
+import { SEARCH_TYPES } from '../common/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -40,7 +41,7 @@ class SearchResultTabs extends Component {
     const { searchType, word } = props;
     this.state = {
       // initSearchType: searchType,
-      index: searchType === SearchType.USER ? 1 : 0,
+      index: searchType === SEARCH_TYPES.USER ? 1 : 0,
       routes: [
         { key: '1', title: 'Illust/Manga' },
         { key: '2', title: 'User' },
@@ -64,7 +65,7 @@ class SearchResultTabs extends Component {
     const { searchType: prevSearchType } = this.props;
     const { searchType } = nextProps;
     if (searchType !== prevSearchType) {
-      this.setState({ index: searchType === SearchType.USER ? 1 : 0 });
+      this.setState({ index: searchType === SEARCH_TYPES.USER ? 1 : 0 });
     }
   }
 
@@ -80,9 +81,9 @@ class SearchResultTabs extends Component {
   handleChangeTab = index => {
     const { setSearchType } = this.props;
     if (index === 1) {
-      setSearchType(SearchType.USER);
+      setSearchType(SEARCH_TYPES.USER);
     } else {
-      setSearchType(SearchType.ILLUST);
+      setSearchType(SEARCH_TYPES.ILLUST);
     }
   };
 
@@ -204,13 +205,13 @@ class SearchResultTabs extends Component {
           onSubmitSearch={this.handleOnSubmitSearch}
           headerRight={
             <PXTouchable
-              disabled={searchType === SearchType.USER}
+              disabled={searchType === SEARCH_TYPES.USER}
               onPress={this.handleOnPressShowFilterModal}
             >
               <Icon
                 name="sliders"
                 size={20}
-                color={searchType === SearchType.USER ? 'grey' : '#037aff'}
+                color={searchType === SEARCH_TYPES.USER ? 'grey' : '#037aff'}
                 style={{ padding: 10 }}
               />
             </PXTouchable>
@@ -246,5 +247,9 @@ export default connect(
     word: props.navigation.state.params.word,
     navigationStateKey: props.navigation.state.key,
   }),
-  { clearSearchAutoComplete, clearSearchUserAutoComplete, setSearchType },
+  {
+    ...searchAutoCompleteActionCreators,
+    ...searchUsersAutoCompleteActionCreators,
+    ...searchTypeActionCreators,
+  },
 )(SearchResultTabs);

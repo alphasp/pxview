@@ -1,12 +1,9 @@
-export const SET_SEARCH_TYPE = 'SET_SEARCH_TYPE';
-export const SearchType = {
-  ILLUST: 'ILLUST',
-  USER: 'USER',
-};
+import { SEARCH_TYPE } from '../constants/actionTypes';
 
+// eslint-disable-next-line import/prefer-default-export
 export function setSearchType(type) {
   return {
-    type: SET_SEARCH_TYPE,
+    type: SEARCH_TYPE.SET,
     payload: {
       type,
     },

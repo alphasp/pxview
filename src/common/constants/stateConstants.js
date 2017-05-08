@@ -8,3 +8,5 @@ export const ADD = 'ADD';
 export const REMOVE = 'REMOVE';
 
 export const REPLACE = 'REPLACE';
+
+export const SET = 'SET';

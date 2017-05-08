@@ -13,8 +13,8 @@ export default function configureStore() {
   let enhancer;
   const sagaMiddleware = createSagaMiddleware();
   if (process.env.NODE_ENV !== 'production') {
-    // eslint-disable-next-line no-underscore-dangle
     const composeEnhancers =
+      // eslint-disable-next-line no-underscore-dangle
       window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
     enhancer = composeEnhancers(
       autoRehydrate({ log: true }),

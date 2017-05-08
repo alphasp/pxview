@@ -3,6 +3,8 @@ import { Platform, StatusBar } from 'react-native';
 import { connect, Provider } from 'react-redux';
 import Master from './Master';
 
+console.ignoredYellowBox = ['Warning: BackAndroid'];
+
 if (process.env.NODE_ENV === 'production') {
   // eslint-disable-line no-undef
   [

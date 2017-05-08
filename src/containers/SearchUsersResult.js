@@ -57,36 +57,6 @@ class SearchUsersResult extends Component {
     fetchSearchUsers(navigationStateKey, word, null, true);
   };
 
-  // handleOnPressRemoveTag = (index) => {
-  //   const { dispatch, word } = this.props;
-  //   const newWord = word.split(' ').filter((value, i) => {
-  //     return i !== index;
-  //   }).join(' ');
-  //   console.log('new word ', newWord);
-  //   if (newWord) {
-  //     clearSearchUsers();
-  //     fetchSearchUsers(newWord);
-  //     /*Actions.refresh({
-  //       word: newWord,
-  //       renderTitle: () => {
-  //         return (
-  //           <SearchBar
-  //             enableBack={true}
-  //             onFocus={this.handleOnSearchFieldFocus}
-  //             onPressRemoveTag={this.handleOnPressRemoveTag}
-  //             isRenderPlaceHolder={true}
-  //             searchType={SearchType.USER}
-  //             word={newWord}
-  //           />
-  //         )
-  //       }
-  //     });*/
-  //   }
-  //   else {
-  //     //Actions.pop();
-  //   }
-  // }
-
   render() {
     const { searchUsers, items, screenProps } = this.props;
     return (
