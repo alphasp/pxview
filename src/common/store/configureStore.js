@@ -8,6 +8,7 @@ import createActionBuffer from 'redux-action-buffer';
 import { AsyncStorage } from 'react-native';
 import rootReducer from '../reducers';
 import rootSaga from '../sagas';
+import applyAppStateListener from 'redux-enhancer-react-native-appstate';
 
 export default function configureStore() {
   let enhancer;
@@ -18,6 +19,7 @@ export default function configureStore() {
       window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
     enhancer = composeEnhancers(
       autoRehydrate({ log: true }),
+      applyAppStateListener(),
       applyMiddleware(
         invariant(),
         createActionBuffer(REHYDRATE),
@@ -29,6 +31,7 @@ export default function configureStore() {
   } else {
     enhancer = compose(
       autoRehydrate(),
+      applyAppStateListener(),
       applyMiddleware(createActionBuffer(REHYDRATE), thunk, sagaMiddleware),
     );
   }

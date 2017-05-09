@@ -1,7 +1,9 @@
 import { delay } from 'redux-saga';
 import { take, call, apply, put, race, select } from 'redux-saga/effects';
 import * as Keychain from 'react-native-keychain';
+import moment from 'moment';
 import { REHYDRATE } from 'redux-persist/constants';
+import { FOREGROUND, BACKGROUND } from 'redux-enhancer-react-native-appstate';
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -15,7 +17,7 @@ import {
 } from '../actions/auth';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/apiClient';
-import { getAuthUser } from '../selectors';
+import { getAuth, getAuthUser } from '../selectors';
 
 export function* authorize(email, password) {
   // use apply instead of call to pass this to function
@@ -25,19 +27,49 @@ export function* authorize(email, password) {
   return loginResponse;
 }
 
+export function* scheduleRefreshToken(credentials, delayMilisecond) {
+  yield call(delay, delayMilisecond);
+  try {
+    const response = yield call(
+      authorize,
+      credentials.username,
+      credentials.password,
+    );
+    return response;
+  } catch (err) {
+    yield put(logout());
+  }
+  return null;
+}
+
 export function* authAndRefreshTokenOnExpiry(email, password) {
   const loginResponse = yield call(authorize, email, password);
+  // refresh token 5 min before expire
+  // convert expires in to milisecond
+  let delayMilisecond = (loginResponse.expires_in - 300) * 1000;
   while (true) {
     const credentials = yield call(Keychain.getGenericPassword);
     if (credentials.username && credentials.password) {
-      // refresh token 5 min before expire
-      // convert expires in to milisecond
-      const delayMilisecond = (loginResponse.expires_in - 300) * 1000;
-      yield call(delay, delayMilisecond);
-      try {
-        yield call(authorize, credentials.username, credentials.password);
-      } catch (err) {
-        yield put(logout());
+      // cancel scheduleRefreshToken if app state changed to background
+      const { background, refreshTokenResponse } = yield race({
+        background: take(BACKGROUND),
+        refreshTokenResponse: call(
+          scheduleRefreshToken,
+          credentials,
+          delayMilisecond,
+        ),
+      });
+      // wait for app back to foreground before scheduleRefreshToken
+      if (background && background.type === BACKGROUND) {
+        yield take(FOREGROUND);
+        const auth = yield select(getAuth);
+        const now = moment();
+        const end = moment(auth.timestamp);
+        const duration = moment.duration(now.diff(end));
+        const ms = duration.asMilliseconds();
+        delayMilisecond -= ms;
+      } else if (refreshTokenResponse) {
+        delayMilisecond = (refreshTokenResponse.expires_in - 300) * 1000;
       }
     }
   }

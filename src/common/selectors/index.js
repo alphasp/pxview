@@ -66,6 +66,7 @@ const selectIllustComments = state => state.illustComments;
 const defaultArray = [];
 const defaultObject = {};
 
+export const getAuth = state => state.auth;
 export const getAuthUser = state => state.auth.user;
 
 const createIllustItemsSelector = createSelectorCreator(
