@@ -13,6 +13,7 @@ import {
   UIManager,
 } from 'react-native';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import HtmlView from 'react-native-htmlview';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Share from 'react-native-share';
@@ -123,7 +124,11 @@ const styles = StyleSheet.create({
 class Detail extends Component {
   static navigationOptions = ({ navigation }) => {
     const { state, navigate } = navigation;
-    const { item, openBottomSheet, shareOptions } = state.params;
+    const { item, openBottomSheet } = state.params;
+    const shareOptions = {
+      message: `${item.title} | ${item.user.name} #pixivrn`, // todo
+      url: `http://www.pixiv.net/member_illust.php?illust_id=${item.id}&mode=medium`,
+    };
     return {
       headerTitle: (
         <PXTouchable
@@ -192,14 +197,9 @@ class Detail extends Component {
   componentDidMount() {
     const { item, navigation, screenProps: { openBottomSheet } } = this.props;
     const { images } = this.state;
-    const shareOptions = {
-      message: `${item.title} | ${item.user.name} #pixivrn`, // todo
-      url: `http://www.pixiv.net/member_illust.php?illust_id=${item.id}&mode=medium`,
-    };
     navigation.setParams({
       item,
       openBottomSheet: () => openBottomSheet(images),
-      shareOptions,
     });
     InteractionManager.runAfterInteractions(() => {
       console.log('done mouting');
@@ -254,6 +254,11 @@ class Detail extends Component {
               value={item.caption}
               onLinkPress={this.handleOnLinkPress}
             />
+          </View>
+          <View style={{flexDirection: "row", alignItems: "center"}}>
+            <Text>{moment(item.create_date).format('YYYY-MM-DD')}</Text>
+            <Icon name="eye" style={{marginLeft: 10}} /><Text style={{marginLeft: 5}}>{item.total_view}</Text> 
+            <Icon name="heart" style={{marginLeft: 10}} /><Text style={{marginLeft: 5}}>{item.total_bookmarks}</Text> 
           </View>
           {<Tags tags={item.tags} onPressTag={this.handleOnPressTag} />}
         </View>
