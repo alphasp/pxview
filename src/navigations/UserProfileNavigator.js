@@ -1,17 +1,10 @@
 import { StackNavigator } from 'react-navigation';
-import UserProfile from '../containers/UserProfile';
-import MyWorks from '../containers/MyWorks';
-import MyConnection from '../containers/MyConnection';
-import MyCollection from '../containers/MyCollection';
-import Detail from '../containers/Detail';
-import UserDetail from '../containers/UserDetail';
-import IllustComments from '../containers/IllustComments';
-import UserIllusts from '../containers/UserIllusts';
-import UserMangas from '../containers/UserMangas';
-import UserBookmarkIllusts from '../containers/UserBookmarkIllusts';
-import RelatedIllusts from '../containers/RelatedIllusts';
-import SearchResultTabs from '../containers/SearchResultTabs'; // todo
+import UserProfile from '../screens/UserProfile/UserProfile';
+import MyWorks from '../screens/UserProfile/MyWorks';
+import MyConnection from '../screens/UserProfile/MyConnection/MyConnection';
+import MyCollection from '../screens/UserProfile/MyCollection/MyCollection';
 import EnhanceRouter from './routers/EnhanceRouter';
+import sharedRouteConfig from './routeConfigs/shared';
 
 const UserProfileNavigator = StackNavigator(
   {
@@ -41,45 +34,7 @@ const UserProfileNavigator = StackNavigator(
         title: 'My Works',
       },
     },
-    Detail: {
-      screen: Detail,
-    },
-    UserDetail: {
-      screen: UserDetail,
-    },
-    IllustComments: {
-      screen: IllustComments,
-      navigationOptions: {
-        title: 'User Comments',
-      },
-    },
-    RelatedIllusts: {
-      screen: RelatedIllusts,
-      navigationOptions: {
-        title: 'Related Works',
-      },
-    },
-    UserIllusts: {
-      screen: UserIllusts,
-      navigationOptions: {
-        title: 'User Illusts',
-      },
-    },
-    UserMangas: {
-      screen: UserMangas,
-      navigationOptions: {
-        title: 'User Mangas',
-      },
-    },
-    UserBookmarkIllusts: {
-      screen: UserBookmarkIllusts,
-      navigationOptions: {
-        title: 'Collection',
-      },
-    },
-    SearchResult: {
-      screen: SearchResultTabs,
-    },
+    ...sharedRouteConfig,
   },
   {
     headerMode: 'screen',
