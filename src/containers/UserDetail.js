@@ -17,7 +17,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import truncate from 'lodash.truncate';
 import * as Animatable from 'react-native-animatable';
 import { BlurView } from 'react-native-blur';
+import Share from 'react-native-share';
+import FollowButtonContainer from './FollowButtonContainer';
 import IllustCollection from '../components/IllustCollection';
+import PXTouchable from '../components/PXTouchable';
 import PXThumbnail from '../components/PXThumbnail';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import PXImage from '../components/PXImage';
@@ -135,6 +138,12 @@ class UserDetail extends Component {
 
   static navigationOptions = ({ navigation }) => {
     const { isShowTitle, isScrolled, user } = navigation.state.params;
+    const shareOptions = user
+      ? {
+          message: `${user.name} #pixivrn`,
+          url: `http://www.pixiv.net/member.php?id=${user.id}`,
+        }
+      : {};
     return {
       headerTitle: user && isScrolled
         ? <Animatable.View
@@ -149,6 +158,25 @@ class UserDetail extends Component {
             </View>
           </Animatable.View>
         : null,
+      headerRight: user &&
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginRight: 10,
+          }}
+        >
+          <FollowButtonContainer user={user} />
+          <PXTouchable
+            style={{ marginLeft: 10 }}
+            onPress={() =>
+              Share.open(shareOptions).catch(err => {
+                err && console.log(err);
+              })}
+          >
+            <Icon name="share-alt" size={20} />
+          </PXTouchable>
+        </View>,
     };
   };
 

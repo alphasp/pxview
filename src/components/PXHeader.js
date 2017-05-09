@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { StyleSheet, View, Platform } from 'react-native';
-import HeaderBackButton from 'react-navigation/src/views/HeaderBackButton';
+import { HeaderBackButton } from 'react-navigation';
 import PXSearchBar from './PXSearchBar';
 
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;

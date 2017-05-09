@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    padding: 10,
+    padding: 8,
     color: '#5cafec',
   },
 });
