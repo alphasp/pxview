@@ -1,81 +1,10 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { SearchBar } from 'react-native-elements';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import { SEARCH_TYPES } from '../common/constants';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // paddingTop: STATUSBAR_HEIGHT,
-    // //backgroundColor: Platform.OS === 'ios' ? '#EFEFF2' : '#FFF',
-    // shadowColor: 'black',
-    // shadowOpacity: 0.1,
-    // shadowRadius: StyleSheet.hairlineWidth,
-    // shadowOffset: {
-    //   height: StyleSheet.hairlineWidth,
-    // },
-    // elevation: 4,
-    // marginHorizontal: 5,
-    // height: STATUSBAR_HEIGHT + APPBAR_HEIGHT,
-    //width: windowWidth,
-    //flex: 1,
-    // flexDirection: 'row',
-    // alignItems: 'center',
-    // marginHorizontal: 16
-  },
-  searchBarInputGroup: {
-    flex: 1,
-    paddingHorizontal: 5,
-    position: 'relative',
-    justifyContent: 'space-between',
-    // justifyContent: 'center',
-    flexDirection: 'row',
-    ...Platform.select({
-      ios: {
-        backgroundColor: '#D1EEFC',
-        borderRadius: 5, // this.props.rounded ? 25 : 2,
-        height: 30,
-        borderColor: 'transparent',
-      },
-      android: {
-        // backgroundColor: '#fff',
-        // borderRadius: 2,
-        // borderColor: 'transparent',
-        // elevation: 2,
-        backgroundColor: '#D1EEFC',
-        borderRadius: 5, // this.props.rounded ? 25 : 2,
-        borderColor: 'transparent',
-        height: 37,
-      },
-    }),
-  },
-  searchBarTextInput: {
-    // height: 40,
-    flex: 1,
-    paddingLeft: 5,
-    //alignSelf: 'center',
-    //width: 300
-  },
-  searchIcon: {
-    alignSelf: 'center',
-    paddingLeft: 5,
-    // flex: 0.2
-  },
-  placeHolderTextContainer: {
-    alignSelf: 'center',
-  },
-  placeHolderText: {
-    color: 'gray',
-  },
-  // searchBarButton: {
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   flexDirection: 'row',
-  //   marginRight: -14
-  // }
-});
+import { globalStyles } from '../styles';
 
 class PXSearchBar extends Component {
   static defaultProps = {
@@ -104,7 +33,7 @@ class PXSearchBar extends Component {
   render() {
     const { searchType, onFocus, onChangeText, autoFocus, word } = this.props;
     return (
-      <View style={styles.container}>
+      <View style={globalStyles.container}>
         <SearchBar
           containerStyle={{
             backgroundColor: '#fff',

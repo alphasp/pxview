@@ -8,9 +8,7 @@ import {
 
 const PXTouchable = props => {
   if (Platform.OS === 'android') {
-    // return <TouchableOpacity {...props} />
     const { style, children, ...otherProps } = props;
-    // console.log('children ', children)
     return (
       <TouchableNativeFeedback
         background={TouchableNativeFeedback.SelectableBackground()}
@@ -24,21 +22,6 @@ const PXTouchable = props => {
           : null}
       </TouchableNativeFeedback>
     );
-    // return (
-    //   <TouchableNativeFeedback
-    //     background={ TouchableNativeFeedback.SelectableBackground() }
-    //     { ...restProps }
-    //   >
-    //     {
-    //       children ?
-    //       React.cloneElement(children, {
-    //         style: [children.props.style, style]
-    //       })
-    //       :
-    //       null
-    //     }
-    //   </TouchableNativeFeedback>
-    // )
   }
 
   return <TouchableOpacity {...props} />;

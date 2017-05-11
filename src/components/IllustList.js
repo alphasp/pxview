@@ -2,43 +2,41 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  Dimensions,
   RefreshControl,
   FlatList,
   Platform,
 } from 'react-native';
-// import FlatList from 'react-native/Libraries/Experimental/FlatList';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-// import GridView from 'react-native-grid-view';
-// import Image from 'react-native-image-progress';
 import IllustItem from './IllustItem';
 import Loader from './Loader';
 import * as bookmarkIllustActionCreators
   from '../common/actions/bookmarkIllust';
+import { globalStyles, globalStyleVariables } from '../styles';
 
-const width = Dimensions.get('window').width; // full width
+const ILLUST_COLUMNS = 3;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  footer: {
+    marginBottom: 20,
   },
 });
 
 class IllustList extends Component {
-  renderItem = ({ item }) => (
-    <IllustItem item={item} onPressItem={() => this.handleOnPressItem(item)} />
+  renderItem = ({ item, index }) => (
+    <IllustItem
+      key={item.id}
+      item={item}
+      index={index}
+      numColumns={ILLUST_COLUMNS}
+      onPressItem={() => this.handleOnPressItem(item)}
+    />
   );
 
   renderFooter = () => {
     const { data: { nextUrl, loading } } = this.props;
     return nextUrl && loading
-      ? <View
-          style={{
-            width,
-            marginBottom: 20,
-          }}
-        >
+      ? <View style={styles.footer}>
           <Loader verticalCenter={false} />
         </View>
       : null;
@@ -57,41 +55,20 @@ class IllustList extends Component {
       onScroll,
       maxItems,
     } = this.props;
-    // const { dataSource } = this.state;
-    // console.log('render illust list ', this.props.data)
     return (
-      <View style={styles.container}>
+      <View style={globalStyles.container}>
         {(!items || (!loaded && loading)) && <Loader />}
-        {/* {
-          (items && items.length) ?
-          <GridView
-            dataSource={dataSource}
-            renderRow={this.renderRow}
-            pageSize={30}
-            onEndReachedThreshold={30}
-            onEndReached={loadMoreItems}
-            renderFooter={this.renderFooter}
-            enableEmptySections={true}
-            onScroll={onScroll}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-              />
-            }
-          />
-          :
-          null
-        }*/}
         {loaded
           ? <FlatList
               data={maxItems ? items.slice(0, maxItems) : items}
-              numColumns={3}
+              numColumns={ILLUST_COLUMNS}
               keyExtractor={item => item.id}
               renderItem={this.renderItem}
               getItemLayout={(data, index) => ({
-                length: Dimensions.get('window').width / 3,
-                offset: Dimensions.get('window').width / 3 * index,
+                length: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS,
+                offset: globalStyleVariables.WINDOW_WIDTH /
+                  ILLUST_COLUMNS *
+                  index,
                 index,
               })}
               legacyImplementation={false}

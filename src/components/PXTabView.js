@@ -6,8 +6,7 @@ import {
   TabViewPagerScroll,
   TabViewPagerPan,
 } from 'react-native-tab-view';
-
-const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
+import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,7 +24,9 @@ class PXTabView extends Component {
     return (
       <TabBar
         style={{
-          paddingTop: includeStatusBarPadding ? STATUSBAR_HEIGHT : 0,
+          paddingTop: includeStatusBarPadding
+            ? globalStyleVariables.STATUSBAR_HEIGHT
+            : 0,
         }}
         {...tabBarProps}
         {...props}

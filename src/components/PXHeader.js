@@ -1,15 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { StyleSheet, View, Platform } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { HeaderBackButton } from 'react-navigation';
 import PXSearchBar from './PXSearchBar';
-
-const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
+import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    paddingTop: STATUSBAR_HEIGHT,
+    paddingTop: globalStyleVariables.STATUSBAR_HEIGHT,
   },
   subContainer: {
     flexDirection: 'row',

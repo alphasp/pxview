@@ -3,12 +3,9 @@ import { View, StyleSheet, Text, FlatList, Keyboard } from 'react-native';
 import PXTouchable from './PXTouchable';
 import Loader from './Loader';
 import Separator from './Separator';
-// import SearchHistory from './SearchHistory';
+import { globalStyles, globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   row: {
     padding: 10,
     flexDirection: 'row',
@@ -21,7 +18,7 @@ const styles = StyleSheet.create({
   separator: {
     flex: 1,
     height: StyleSheet.hairlineWidth,
-    backgroundColor: '#8E8E8E',
+    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
   },
 });
 
@@ -40,7 +37,7 @@ class SearchAutoCompleteList extends PureComponent {
   render() {
     const { data: { items, loading, loaded } } = this.props;
     return (
-      <View style={styles.container}>
+      <View style={globalStyles.container}>
         {!loaded && loading && <Loader />}
         {items && items.length
           ? <FlatList

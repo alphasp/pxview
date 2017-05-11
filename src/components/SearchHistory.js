@@ -4,12 +4,12 @@ import {
   StyleSheet,
   Text,
   FlatList,
-  Dimensions,
   Keyboard,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import Separator from './Separator';
+import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
   listItemContainer: {
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   searchHistoryText: {
-    width: Dimensions.get('window').width - 45,
+    width: globalStyleVariables.WINDOW_WIDTH - 45,
   },
 });
 
@@ -56,7 +56,7 @@ class SearchHistory extends Component {
     return (
       <View>
         <View style={styles.searchHistoryContainer}>
-          <Text style={styles.searchHistoryTitle}>Search history</Text>
+          <Text style={styles.searchHistoryTitle}>Search History</Text>
           <PXTouchable onPress={onPressClearSearchHistory}>
             <Text style={styles.searchHistoryTitle}>CLEAR ALL</Text>
           </PXTouchable>

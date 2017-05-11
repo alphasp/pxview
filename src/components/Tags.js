@@ -7,18 +7,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
-    //flex: 1,
-    // flexDirection: 'row',
   },
   tagContainer: {
-    // backgroundColor: 'red',
-    // margin: 3,
-    // borderRadius: 30,
     justifyContent: 'center',
     backgroundColor: '#5cafec',
     borderRadius: 15,
     paddingHorizontal: 12,
-    // height: 32,
     margin: 4,
   },
   tagLabel: {

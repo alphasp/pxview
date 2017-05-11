@@ -9,11 +9,9 @@ import RankingList from './RankingList';
 import PXTouchable from '../../components/PXTouchable';
 import PXBottomSheet from '../../components/PXBottomSheet';
 import { RANKING, R18_RANKING, RANKING_FOR_UI } from '../../common/constants';
+import { globalStyles } from '../../styles';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   filterContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -95,7 +93,7 @@ class PastRanking extends Component {
     const { user, screenProps: { strings } } = this.props;
     const { date, mode, isOpenRankingModeBottomSheet } = this.state;
     return (
-      <View style={styles.container}>
+      <View style={globalStyles.container}>
         <View style={styles.filterContainer}>
           <PXTouchable
             style={styles.rankingPickerContainer}

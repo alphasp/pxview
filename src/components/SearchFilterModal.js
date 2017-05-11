@@ -3,46 +3,29 @@ import { StyleSheet, Text, View, SectionList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import Separator from './Separator';
+import { globalStyles, globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   sectionHeader: {
-    backgroundColor: '#E9EBEE',
+    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
   },
   sectionHeaderTitle: {
     fontWeight: 'bold',
-    // fontSize: 20,
     padding: 10,
   },
   row: {
-    // borderBottomWidth: 1,
-    // borderBottomColor: '#000',
     padding: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  separatorContainer: {
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  separator: {
-    flex: 1,
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: '#8E8E8E',
-    // paddingLeft: 10,
-    // paddingRight: 10
   },
   searchFilterButtonContainer: {
     padding: 10,
     backgroundColor: '#fff',
   },
   searchFilterButton: {
-    backgroundColor: '#5cafec',
+    backgroundColor: globalStyleVariables.PRIMARY_COLOR,
     padding: 10,
     alignItems: 'center',
-    //margin: 10,
   },
   searchFilterButtonText: {
     color: '#fff',
@@ -147,7 +130,7 @@ class SearchFilterModal extends Component {
           {((item.type === 'target' && item.value === target) ||
             (item.type === 'duration' && item.value === duration) ||
             (item.type === 'sort' && item.value === sort)) &&
-            <Icon name="check" color="#2196F3" />}
+            <Icon name="check" color={globalStyleVariables.PRIMARY_COLOR} />}
         </View>
       </PXTouchable>
     );
@@ -172,7 +155,7 @@ class SearchFilterModal extends Component {
     const { onPressApplyFilter } = this.props.navigation.state.params;
     const { target, duration, sort } = this.state;
     return (
-      <View style={styles.container}>
+      <View style={globalStyles.container}>
         <SectionList
           renderItem={this.renderItem}
           renderSectionHeader={this.renderSectionHeader}

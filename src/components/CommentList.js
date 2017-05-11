@@ -33,6 +33,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+  footer: {
+    marginBottom: 20,
+  },
 });
 class CommentList extends Component {
   renderRow = ({ item }) => (
@@ -60,21 +63,10 @@ class CommentList extends Component {
   renderFooter = () => {
     const { data: { nextUrl, loading } } = this.props;
     return nextUrl && loading
-      ? <View style={{ marginBottom: 20 }}>
+      ? <View style={styles.footer}>
           <Loader />
         </View>
       : null;
-    /* return (
-      (nextUrl && loading) ?
-      <View style={{
-        width: width,
-        marginBottom: 20
-      }}>
-        <Loader verticalCenter={false} />
-      </View>
-      :
-      null
-    )*/
   };
 
   handleOnPressUser = userId => {

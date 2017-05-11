@@ -2,16 +2,11 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  Platform,
-  Dimensions,
   Modal,
   TouchableWithoutFeedback,
   Animated,
 } from 'react-native';
-
-const windowHeight = Dimensions.get('window').height;
-const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
-const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
+import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,27 +19,14 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     backgroundColor: '#fff',
   },
-  bottomSheetText: {
-    marginLeft: 32,
-  },
-  bottomSheetListItem: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: 48,
-  },
-  bottomSheetCancelIcon: {
-    marginLeft: 3,
-  },
-  bottomSheetCancelText: {
-    marginLeft: 36,
-  },
 });
 
 class PXBottomSheet extends Component {
   static defaultProps = {
     duration: 300,
-    height: windowHeight - APPBAR_HEIGHT - STATUSBAR_HEIGHT,
+    height: globalStyleVariables.WINDOW_HEIGHT -
+      globalStyleVariables.APPBAR_HEIGHT -
+      globalStyleVariables.STATUSBAR_HEIGHT,
   };
 
   constructor(props) {

@@ -12,11 +12,9 @@ import PXThumbnailTouchable from './PXThumbnailTouchable';
 import FollowButton from './FollowButton';
 import Loader from './Loader';
 import Separator from './Separator';
+import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   row: {
     padding: 10,
     flexDirection: 'row',
@@ -29,6 +27,9 @@ const styles = StyleSheet.create({
   },
   username: {
     marginLeft: 5,
+  },
+  footer: {
+    marginBottom: 20,
   },
 });
 
@@ -58,7 +59,7 @@ class SearchUsersAutoCompleteList extends PureComponent {
   renderFooter = () => {
     const { data: { nextUrl } } = this.props;
     return nextUrl
-      ? <View style={{ marginBottom: 20 }}>
+      ? <View style={styles.footer}>
           <Loader />
         </View>
       : null;
@@ -71,7 +72,7 @@ class SearchUsersAutoCompleteList extends PureComponent {
       loadMoreItems,
     } = this.props;
     return (
-      <View style={styles.container}>
+      <View style={globalStyleVariables.container}>
         {!loaded && loading && <Loader />}
         {items && items.length
           ? <FlatList

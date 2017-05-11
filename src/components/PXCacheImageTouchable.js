@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Dimensions } from 'react-native';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXCacheImage from './PXCacheImage';
-
-const windowWidth = Dimensions.get('window').width; // full width
+import { globalStyleVariables } from '../styles';
 
 class PXCacheImageTouchable extends Component {
   constructor(props) {
@@ -19,17 +17,22 @@ class PXCacheImageTouchable extends Component {
 
   handleOnFoundImageSize = (width, height, url) => {
     if (width && height) {
+      const newWidth = width > globalStyleVariables.WINDOW_WIDTH
+        ? globalStyleVariables.WINDOW_WIDTH
+        : width;
+      const newHeight =
+        (width > globalStyleVariables.WINDOW_WIDTH
+          ? globalStyleVariables.WINDOW_WIDTH
+          : width) *
+        height /
+        width;
       this.setState({
-        width: width > windowWidth ? windowWidth : width,
-        height: (width > windowWidth ? windowWidth : width) * height / width,
+        width: newWidth,
+        height: newHeight,
         loading: false,
       });
       if (this.props.onFoundImageSize) {
-        this.props.onFoundImageSize(
-          width > windowWidth ? windowWidth : width,
-          (width > windowWidth ? windowWidth : width) * height / width,
-          url,
-        );
+        this.props.onFoundImageSize(newWidth, newHeight, url);
       }
     }
   };

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { View, Image, Dimensions, Platform } from 'react-native';
+import { View, Image, Platform } from 'react-native';
 import moment from 'moment';
 import RNFetchBlob from 'react-native-fetch-blob';
-
-const windowWidth = Dimensions.get('window').width;
+import { globalStyleVariables } from '../styles';
 
 class PXCacheImage extends Component {
   constructor(props) {
@@ -33,14 +32,15 @@ class PXCacheImage extends Component {
             : `${res.path()}`;
           Image.getSize(filePath, (width, height) => {
             if (!this.unmounting) {
-              this.setState({ width, height });
+              this.setState({
+                imageUri: filePath,
+                width,
+                height,
+              });
               if (onFoundImageSize) {
                 onFoundImageSize(width, height, filePath);
               }
             }
-          });
-          this.setState({
-            imageUri: filePath,
           });
         }
       })
@@ -55,15 +55,14 @@ class PXCacheImage extends Component {
       this.task.cancel();
     }
   }
+
   render() {
     const { style, ...otherProps } = this.props;
     const { imageUri, width, height } = this.state;
-    // console.log('imageUri ', imageUri ? true : false)
-    // height = <user-chosen width> * original height / original width
     return imageUri && width && height
       ? <View
           style={{
-            width: windowWidth,
+            width: globalStyleVariables.WINDOW_WIDTH,
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
@@ -76,8 +75,10 @@ class PXCacheImage extends Component {
             }}
             style={[
               {
-                width: width > windowWidth ? windowWidth : width,
-                height: windowWidth * height / width,
+                width: width > globalStyleVariables.WINDOW_WIDTH
+                  ? globalStyleVariables.WINDOW_WIDTH
+                  : width,
+                height: globalStyleVariables.WINDOW_WIDTH * height / width,
               },
               style,
             ]}

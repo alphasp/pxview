@@ -1,23 +1,19 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import PXTouchable from './PXTouchable';
+import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
   button: {
-    // borderColor: '#5cafec',
-    // borderRadius: 16,
-    // borderWidth: 1,
-
-    // justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
-    borderColor: '#5cafec',
+    borderColor: globalStyleVariables.PRIMARY_COLOR,
     borderWidth: 1,
     borderRadius: 5,
     alignItems: 'center',
   },
   buttonText: {
     padding: 8,
-    color: '#5cafec',
+    color: globalStyleVariables.PRIMARY_COLOR,
   },
 });
 

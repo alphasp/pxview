@@ -1,16 +1,15 @@
 import React from 'react';
 import { View } from 'react-native';
 import PXImage from './PXImage';
-
-const defaultSize = 30;
+import { globalStyleVariables } from '../styles';
 
 const PXThumbnail = props => {
   const { uri, size, style, ...otherProps } = props;
   return (
     <View
       style={{
-        backgroundColor: '#E9EBEE',
-        borderRadius: size ? size / 2 : defaultSize / 2,
+        backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
+        borderRadius: size / 2,
         overflow: 'hidden',
       }}
     >
@@ -19,9 +18,9 @@ const PXThumbnail = props => {
         style={[
           {
             resizeMode: 'cover',
-            width: size || defaultSize,
-            height: size || defaultSize,
-            borderRadius: size ? size / 2 : defaultSize / 2,
+            width: size,
+            height: size,
+            borderRadius: size / 2,
           },
           style,
         ]}
@@ -29,6 +28,10 @@ const PXThumbnail = props => {
       />
     </View>
   );
+};
+
+PXThumbnail.defaultProps = {
+  size: 30,
 };
 
 export default PXThumbnail;

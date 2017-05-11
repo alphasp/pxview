@@ -1,21 +1,16 @@
 import React from 'react';
-import { View, StyleSheet, Text, Dimensions } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import IllustItem from './IllustItem';
 import PXTouchable from './PXTouchable';
-import PXImage from './PXImage';
-import OverlayImagePages from './OverlayImagePages';
-import OverlayBookmarkButton from '../components/OverlayBookmarkButton';
+import { globalStyleVariables } from '../styles';
 
-const windowWidth = Dimensions.get('window').width; // full width
-const ILLUST_PREVIEW_COLUMNS = 3;
+const ILLUST_COLUMNS = 3;
 const CONTAINER_MARGIN = 10;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    backgroundColor: '#E9EBEE',
+    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
     margin: CONTAINER_MARGIN,
   },
   imagePreviews: {
@@ -70,40 +65,34 @@ const IllustCollection = props => {
       <View style={styles.imagePreviews}>
         {illusts &&
           illusts.length &&
-          illusts.map(item => (
-            <PXTouchable
-              style={{
-                backgroundColor: '#fff',
-                borderColor: '#E9EBEE',
-                borderWidth: 1,
-                width: (windowWidth - CONTAINER_MARGIN * 2) /
-                  ILLUST_PREVIEW_COLUMNS,
-                height: (windowWidth - CONTAINER_MARGIN * 2) /
-                  ILLUST_PREVIEW_COLUMNS,
-              }}
+          illusts.map((item, index) => (
+            <IllustItem
               key={item.id}
-              onPress={() => navigate('Detail', { item })}
-            >
-              <View>
-                <PXImage
-                  uri={item.image_urls ? item.image_urls.square_medium : ''}
-                  style={[
-                    styles.cardImage,
-                    {
-                      resizeMode: 'cover',
-                      width: (windowWidth - CONTAINER_MARGIN * 2) /
-                        ILLUST_PREVIEW_COLUMNS,
-                      height: (windowWidth - CONTAINER_MARGIN * 2) /
-                        ILLUST_PREVIEW_COLUMNS,
-                    },
-                  ]}
-                />
-                {item.meta_pages && item.meta_pages.length
-                  ? <OverlayImagePages total={item.meta_pages.length} />
-                  : null}
-                <OverlayBookmarkButton item={item} />
-              </View>
-            </PXTouchable>
+              item={item}
+              index={index}
+              numColumns={ILLUST_COLUMNS}
+              onPressItem={() => navigate('Detail', { item })}
+              containerStyle={{
+                width: (globalStyleVariables.WINDOW_WIDTH -
+                  CONTAINER_MARGIN * 2) /
+                  ILLUST_COLUMNS -
+                  1,
+                height: (globalStyleVariables.WINDOW_WIDTH -
+                  CONTAINER_MARGIN * 2) /
+                  ILLUST_COLUMNS -
+                  1,
+              }}
+              imageStyle={{
+                width: (globalStyleVariables.WINDOW_WIDTH -
+                  CONTAINER_MARGIN * 2) /
+                  ILLUST_COLUMNS -
+                  1,
+                height: (globalStyleVariables.WINDOW_WIDTH -
+                  CONTAINER_MARGIN * 2) /
+                  ILLUST_COLUMNS -
+                  1,
+              }}
+            />
           ))}
       </View>
     </View>

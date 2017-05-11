@@ -1,44 +1,35 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  FlatList,
-  RefreshControl,
-} from 'react-native';
+import { StyleSheet, Text, View, FlatList, RefreshControl } from 'react-native';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
-import PXImage from '../components/PXImage';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import FollowButtonContainer from '../containers/FollowButtonContainer';
-import OverlayImagePages from '../components/OverlayImagePages';
+import IllustItem from './IllustItem';
+import { globalStyleVariables } from '../styles';
 
-const windowWidth = Dimensions.get('window').width; // full width
-const avatarSize = 50;
+const AVATAR_SIZE = 50;
 const ILLUST_PREVIEW_COLUMNS = 3;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    backgroundColor: '#E9EBEE',
+    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
+  },
+  itemContainer: {
+    backgroundColor: '#fff',
+    marginBottom: 20,
   },
   imagePreviews: {
     flex: 1,
     flexDirection: 'row',
   },
   userInfoContainer: {
-    // backgroundColor: '#fff',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // margin: 5,
     marginLeft: 80,
     marginRight: 5,
     marginVertical: 5,
-    //left: 70,
   },
   userInfo: {
     flexDirection: 'row',
@@ -46,14 +37,14 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     position: 'absolute',
-    // backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    // top: 0,
     left: 10,
     right: 0,
     bottom: 10,
     flex: 1,
-    width: avatarSize,
-    // paddingBottom: 40
+    width: AVATAR_SIZE,
+  },
+  footer: {
+    marginBottom: 20,
   },
 });
 
@@ -61,45 +52,17 @@ class UserList extends Component {
   renderItem = ({ item }) => {
     const { screenProps } = this.props;
     return (
-      <View
-        key={item.user.id}
-        style={{
-          backgroundColor: '#fff',
-          marginBottom: 20,
-        }}
-      >
+      <View key={item.user.id} style={styles.itemContainer}>
         <View style={styles.imagePreviews}>
           {item.illusts &&
-            item.illusts.map(illust => (
-              <PXTouchable
-                style={{
-                  borderWidth: 1,
-                  borderColor: '#E9EBEE',
-                  width: windowWidth / ILLUST_PREVIEW_COLUMNS - 1,
-                  height: windowWidth / ILLUST_PREVIEW_COLUMNS - 1,
-                }}
+            item.illusts.map((illust, index) => (
+              <IllustItem
                 key={illust.id}
-                onPress={() => this.handleOnPressImagePreview(illust)}
-              >
-                <View>
-                  <PXImage
-                    uri={
-                      illust.image_urls ? illust.image_urls.square_medium : ''
-                    }
-                    style={[
-                      styles.cardImage,
-                      {
-                        resizeMode: 'cover',
-                        width: windowWidth / ILLUST_PREVIEW_COLUMNS - 1,
-                        height: windowWidth / ILLUST_PREVIEW_COLUMNS - 1,
-                      },
-                    ]}
-                  />
-                  {illust.meta_pages && illust.meta_pages.length
-                    ? <OverlayImagePages total={illust.meta_pages.length} />
-                    : null}
-                </View>
-              </PXTouchable>
+                item={illust}
+                index={index}
+                numColumns={ILLUST_PREVIEW_COLUMNS}
+                onPressItem={() => this.handleOnPressImagePreview(illust)}
+              />
             ))}
         </View>
         <View style={styles.userInfoContainer}>
@@ -114,16 +77,21 @@ class UserList extends Component {
         <View style={styles.avatarContainer}>
           <PXThumbnailTouchable
             uri={item.user.profile_image_urls.medium}
-            size={avatarSize}
-            style={{
-              borderColor: '#E9EBEE',
-              borderWidth: 1,
-            }}
+            size={AVATAR_SIZE}
             onPress={() => this.handleOnPressAvatar(item.user.id)}
           />
         </View>
       </View>
     );
+  };
+
+  renderFooter = () => {
+    const { userList: { nextUrl } } = this.props;
+    return nextUrl
+      ? <View style={styles.footer}>
+          <Loader />
+        </View>
+      : null;
   };
 
   handleOnPressImagePreview = item => {
@@ -134,15 +102,6 @@ class UserList extends Component {
   handleOnPressAvatar = userId => {
     const { navigate } = this.props.navigation;
     navigate('UserDetail', { userId });
-  };
-
-  renderFooter = () => {
-    const { userList: { nextUrl } } = this.props;
-    return nextUrl
-      ? <View style={{ marginBottom: 20 }}>
-          <Loader />
-        </View>
-      : null;
   };
 
   render() {
