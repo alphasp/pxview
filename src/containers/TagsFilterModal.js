@@ -103,27 +103,29 @@ class TagsFilterModal extends Component {
         visible={isOpen}
         onRequestClose={onPressCloseButton}
       >
-        <PXTouchable style={styles.container} onPress={onPressCloseButton}>
-          <TouchableWithoutFeedback>
-            <View>
-              <View style={styles.sectionHeader}>
-                <Text style={styles.sectionHeaderTitle}>
-                  Collection Tags
-                </Text>
+        <TouchableWithoutFeedback onPress={onPressCloseButton}>
+          <View style={styles.container}>
+            <TouchableWithoutFeedback>
+              <View>
+                <View style={styles.sectionHeader}>
+                  <Text style={styles.sectionHeaderTitle}>
+                    Collection Tags
+                  </Text>
+                </View>
+                <View style={styles.innerContainer}>
+                  <FlatList
+                    data={items}
+                    keyExtractor={item => item.name}
+                    renderItem={this.renderItem}
+                    keyboardShouldPersistTaps="always"
+                    onEndReachedThreshold={0.1}
+                    onEndReached={this.loadMoreItems}
+                  />
+                </View>
               </View>
-              <View style={styles.innerContainer}>
-                <FlatList
-                  data={items}
-                  keyExtractor={item => item.name}
-                  renderItem={this.renderItem}
-                  keyboardShouldPersistTaps="always"
-                  onEndReachedThreshold={0.1}
-                  onEndReached={this.loadMoreItems}
-                />
-              </View>
-            </View>
-          </TouchableWithoutFeedback>
-        </PXTouchable>
+            </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
       </Modal>
     );
   }
