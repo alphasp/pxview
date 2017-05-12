@@ -89,15 +89,27 @@ const createIllustItemsSelector = createSelectorCreator(
   },
 );
 
+const createIllustItemSelector = createSelectorCreator(
+  specialMemoize,
+  (prev, next) => {
+    if (!prev || !next) {
+      return false;
+    }
+    return (
+      prev.id === next.id &&
+      prev.is_bookmarked === next.is_bookmarked &&
+      (prev.user && prev.user.is_followed) ===
+        (next.user && next.user.is_followed)
+    );
+  },
+);
+
 const createUserItemsSelector = createSelectorCreator(
   specialMemoize,
   (prev, next) => {
     if (!prev && !next) {
       return false;
     }
-    // console.log('user preview selector ', equals(prev, next, (p, n) => {
-    //   return (p.id === n.id) && (p.user.is_followed === n.user.is_followed)
-    // }));
     return equals(
       prev,
       next,
@@ -109,13 +121,13 @@ const createUserItemsSelector = createSelectorCreator(
 const createUserItemSelector = createSelectorCreator(
   specialMemoize,
   (prev, next) => {
-    if (!prev && !next) {
+    if (!prev || !next) {
       return false;
     }
-    return equals(
-      prev,
-      next,
-      (p, n) => p.id === n.id && p.is_followed === n.is_followed,
+    return (
+      prev.id === next.id &&
+      (prev.user && prev.user.is_followed) ===
+        (next.user && next.user.is_followed)
     );
   },
 );
@@ -309,13 +321,11 @@ export const makeGetUserDetailPageItems = () => {
   );
 };
 
-// export const makeGetDetailItem = () => {
-//   return createSelector([selectEntities, getProps], (entities, props) => {
-//     const id = props.navigation.state.params.item.id;
-//     console.log('gg ', denormalize(id, Schemas.ILLUST, entities))
-//     return denormalize(id, Schemas.ILLUST, entities);
-//   });
-// }
+export const makeGetDetailItem = () =>
+  createIllustItemSelector([selectEntities, getProps], (entities, props) => {
+    const id = props.navigation.state.params.item.id;
+    return denormalize(id, Schemas.ILLUST, entities);
+  });
 
 export const getRecommendedIllustsItems = createIllustItemsSelector(
   [selectRecommendedIllusts, selectEntities],

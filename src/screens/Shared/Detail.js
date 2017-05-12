@@ -27,6 +27,7 @@ import PXThumbnail from '../../components/PXThumbnail';
 import Tags from '../../components/Tags';
 import RelatedIllusts from './RelatedIllusts';
 import IllustComments from './IllustComments';
+import { makeGetDetailItem } from '../../common/selectors';
 
 const windowWidth = Dimensions.get('window').width; // full width
 const THUMBNAIL_SIZE = 30;
@@ -521,7 +522,9 @@ class Detail extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const item = props.navigation.state.params.item;
-  return { item };
+export default connect(() => {
+  const getDetailItem = makeGetDetailItem();
+  return (state, props) => ({
+    item: getDetailItem(state, props),
+  });
 })(Detail);
