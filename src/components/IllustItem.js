@@ -32,7 +32,8 @@ class IllustItem extends Component {
             marginRight: index % numColumns < numColumns - 1 ? 1 : 0,
             marginBottom: 1,
             backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
-            flexGrow: 1,
+            width: globalStyleVariables.WINDOW_WIDTH / numColumns - 1,
+            height: globalStyleVariables.WINDOW_WIDTH / numColumns - 1,
           },
           containerStyle,
         ]}
@@ -42,8 +43,9 @@ class IllustItem extends Component {
           uri={item.image_urls.square_medium}
           style={[
             {
-              height: globalStyleVariables.WINDOW_WIDTH / numColumns,
               resizeMode: 'cover',
+              width: globalStyleVariables.WINDOW_WIDTH / numColumns - 1,
+              height: globalStyleVariables.WINDOW_WIDTH / numColumns - 1,
             },
             imageStyle,
           ]}

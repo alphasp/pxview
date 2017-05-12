@@ -35,7 +35,8 @@ class IllustTagList extends Component {
         marginRight: index % ILLUST_COLUMNS < ILLUST_COLUMNS - 1 ? 1 : 0,
         marginBottom: 1,
         backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
-        flexGrow: 1,
+        width: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1,
+        height: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1,
       }}
       key={item.tag}
       onPress={() => this.handleOnPressItem(item)}
@@ -44,8 +45,9 @@ class IllustTagList extends Component {
         <PXImage
           uri={item.illust.image_urls.square_medium}
           style={{
-            height: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS,
             resizeMode: 'cover',
+            width: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1,
+            height: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1,
           }}
         />
         <View style={styles.tagContainer}>
