@@ -199,6 +199,12 @@ export const SEARCH_HISTORY = defineAction(
   appNamespace,
 );
 
+export const BROWSING_HISTORY = defineAction(
+  'BROWSING_HISTORY',
+  [ADD, REMOVE, CLEAR],
+  appNamespace,
+);
+
 export const NAVIGATION = defineAction('NAVIGATION', [REPLACE], appNamespace);
 
 export const SEARCH_TYPE = defineAction('SEARCH_TYPE', [SET], appNamespace);

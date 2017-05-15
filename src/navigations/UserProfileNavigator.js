@@ -3,6 +3,7 @@ import UserProfile from '../screens/UserProfile/UserProfile';
 import MyWorks from '../screens/UserProfile/MyWorks';
 import MyConnection from '../screens/UserProfile/MyConnection/MyConnection';
 import MyCollection from '../screens/UserProfile/MyCollection/MyCollection';
+import BrowsingHistory from '../screens/UserProfile/BrowsingHistory';
 import EnhanceRouter from './routers/EnhanceRouter';
 import sharedRouteConfig from './routeConfigs/shared';
 
@@ -32,6 +33,12 @@ const UserProfileNavigator = StackNavigator(
       screen: MyWorks,
       navigationOptions: {
         title: 'My Works',
+      },
+    },
+    BrowsingHistory: {
+      screen: BrowsingHistory,
+      navigationOptions: {
+        title: 'Browsing History',
       },
     },
     ...sharedRouteConfig,

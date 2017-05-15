@@ -27,6 +27,8 @@ import PXThumbnail from '../../components/PXThumbnail';
 import Tags from '../../components/Tags';
 import RelatedIllusts from './RelatedIllusts';
 import IllustComments from './IllustComments';
+import * as browsingHistoryActionCreators
+  from '../../common/actions/browsingHistory';
 import { makeGetDetailItem } from '../../common/selectors';
 
 const windowWidth = Dimensions.get('window').width; // full width
@@ -196,17 +198,22 @@ class Detail extends Component {
   }
 
   componentDidMount() {
-    const { item, navigation, screenProps: { openBottomSheet } } = this.props;
+    const {
+      item,
+      navigation,
+      screenProps: { openBottomSheet },
+      addBrowsingHistory,
+    } = this.props;
     const { images } = this.state;
     navigation.setParams({
       item,
       openBottomSheet: () => openBottomSheet(images),
     });
     InteractionManager.runAfterInteractions(() => {
-      console.log('done mouting');
       if (this.detailView) {
         this.setState({ mounting: false });
       }
+      addBrowsingHistory(item.id);
     });
   }
 
@@ -527,4 +534,4 @@ export default connect(() => {
   return (state, props) => ({
     item: getDetailItem(state, props),
   });
-})(Detail);
+}, browsingHistoryActionCreators)(Detail);

@@ -2,13 +2,13 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import invariant from 'redux-immutable-state-invariant';
-import { persistStore, autoRehydrate } from 'redux-persist';
+import { persistStore, autoRehydrate, createTransform } from 'redux-persist';
 import { REHYDRATE } from 'redux-persist/constants';
 import createActionBuffer from 'redux-action-buffer';
+import applyAppStateListener from 'redux-enhancer-react-native-appstate';
 import { AsyncStorage } from 'react-native';
 import rootReducer from '../reducers';
 import rootSaga from '../sagas';
-import applyAppStateListener from 'redux-enhancer-react-native-appstate';
 
 export default function configureStore() {
   let enhancer;
@@ -47,20 +47,41 @@ export default function configureStore() {
 
   // const store = createStore(rootReducer, undefined, middleware);
 
+  const myTransform = createTransform(
+    (inboundState, key) => {
+      if (key === 'entities') {
+        const { entities, browsingHistory } = store.getState();
+        const selectedUsersEntities = {};
+        const selectedIllustsEntities = browsingHistory.items.reduce(
+          (prev, id) => {
+            // return { ...obj, [key]: value };
+            prev[id] = entities.illusts[id];
+            const userId = entities.illusts[id].user;
+            selectedUsersEntities[userId] = entities.users[userId];
+            return prev;
+          },
+          {},
+        );
+        return {
+          illusts: selectedIllustsEntities,
+          users: selectedUsersEntities,
+        };
+      }
+      return inboundState;
+    },
+    outboundState => outboundState,
+    { whitelist: ['entities'] },
+  );
+
   persistStore(
     store,
     {
-      whitelist: ['searchHistory', 'auth'],
+      whitelist: ['searchHistory', 'browsingHistory', 'entities', 'auth'],
       storage: AsyncStorage,
+      transforms: [myTransform],
     },
     () => {
       console.log('rehydration complete');
-      // const { auth } = store.getState();
-
-      // requestRefreshToken(store.dispatch);
-      // if (auth && auth.user && auth.user.accessToken) {
-      //   pixiv.setAuthToken(auth.user.accessToken);
-      // }
     },
   );
   if (module.hot) {

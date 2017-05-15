@@ -30,6 +30,7 @@ import myPixiv from './myPixiv';
 import bookmarkIllust from './bookmarkIllust';
 import illustBookmarkDetail from './illustBookmarkDetail';
 import userFollowDetail from './userFollowDetail';
+import browsingHistory from './browsingHistory';
 import auth from './auth';
 import modal from './modal';
 import i18n from './i18n';
@@ -67,6 +68,7 @@ const rootReducer = combineReducers({
   bookmarkTags,
   bookmarkIllust,
   illustBookmarkDetail,
+  browsingHistory,
   auth,
   modal,
   i18n,

@@ -63,6 +63,8 @@ const selectUserDetail = state => state.userDetail;
 
 const selectIllustComments = state => state.illustComments;
 
+const selectBrowsingHistory = state => state.browsingHistory;
+
 const defaultArray = [];
 const defaultObject = {};
 
@@ -389,4 +391,10 @@ export const getSearchUsersAutoCompleteItems = createSelector(
       Schemas.USER_PREVIEW_ARRAY,
       entities,
     ),
+);
+
+export const getBrowsingHistoryItems = createIllustItemsSelector(
+  [selectBrowsingHistory, selectEntities],
+  (browsingHistory, entities) =>
+    denormalize(browsingHistory.items, Schemas.ILLUST_ARRAY, entities),
 );

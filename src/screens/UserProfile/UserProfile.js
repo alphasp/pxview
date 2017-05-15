@@ -196,6 +196,9 @@ class UserProfile extends Component {
           navigate('MyConnection', { userId: user.id, screenProps });
         }
         break;
+      case 'history':
+        navigate('BrowsingHistory');
+        break;
       case 'settings': {
         // temp
         const { setLanguage } = this.props;
