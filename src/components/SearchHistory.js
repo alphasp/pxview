@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  FlatList,
-  Keyboard,
-} from 'react-native';
+import { View, StyleSheet, Text, FlatList, Keyboard } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PXTouchable from './PXTouchable';
 import Separator from './Separator';

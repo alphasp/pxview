@@ -39,8 +39,6 @@ class MyCollection extends Component {
         { key: '1', title: 'Illustrations (Public)' },
         { key: '2', title: 'Illustrations (Private)' },
       ],
-      // isShowFilterButton: true,
-      isOpenFilterModal: false,
       selectedPublicTag: '',
       selectedPrivateTag: '',
     };

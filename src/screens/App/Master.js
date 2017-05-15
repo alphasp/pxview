@@ -79,13 +79,6 @@ class Master extends Component {
         alertType: 'error',
       });
     }
-    // if (routes.scene.name != nextRoutes.scene.name){
-    //   //maybe need to reset error on REACT_NATIVE_ROUTER_FLUX_FOCUS
-    //   dispatch(resetError());
-    //   // if (!isAuthLoaded(nextProps)) {
-    //   //   dispatch(loadUserAuth())
-    //   // }
-    // }
   }
 
   // gets the current screen from navigation state
