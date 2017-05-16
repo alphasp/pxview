@@ -1,6 +1,6 @@
 import { StackNavigator } from 'react-navigation';
 import NewWorks from '../screens/NewWorks/NewWorks';
-import EnhanceRouter from './routers/EnhanceRouter';
+import enhanceRouter from './routers/enhanceRouter';
 import sharedRouteConfig from './routeConfigs/shared';
 
 const NewWorkNavigator = StackNavigator(
@@ -27,4 +27,4 @@ const NewWorkNavigator = StackNavigator(
   },
 );
 
-export default EnhanceRouter(NewWorkNavigator);
+export default enhanceRouter(NewWorkNavigator);

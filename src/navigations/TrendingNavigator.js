@@ -1,6 +1,6 @@
 import { StackNavigator } from 'react-navigation';
 import Trending from '../screens/Trending/Trending';
-import EnhanceRouter from './routers/EnhanceRouter';
+import enhanceRouter from './routers/enhanceRouter';
 import sharedRouteConfig from './routeConfigs/shared';
 
 const TrendingNavigator = StackNavigator(
@@ -30,4 +30,4 @@ const TrendingNavigator = StackNavigator(
   },
 );
 
-export default EnhanceRouter(TrendingNavigator);
+export default enhanceRouter(TrendingNavigator);

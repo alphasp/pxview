@@ -1,6 +1,6 @@
 import { StackNavigator } from 'react-navigation';
 import Home from '../screens/Home/Home';
-import EnhanceRouter from './routers/EnhanceRouter';
+import enhanceRouter from './routers/enhanceRouter';
 import sharedRouteConfig from './routeConfigs/shared';
 
 const HomeNavigator = StackNavigator(
@@ -27,4 +27,4 @@ const HomeNavigator = StackNavigator(
   },
 );
 
-export default EnhanceRouter(HomeNavigator);
+export default enhanceRouter(HomeNavigator);

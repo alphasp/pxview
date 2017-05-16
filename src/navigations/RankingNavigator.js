@@ -1,6 +1,6 @@
 import { StackNavigator } from 'react-navigation';
 import Ranking from '../screens/Ranking/Ranking';
-import EnhanceRouter from './routers/EnhanceRouter';
+import enhanceRouter from './routers/enhanceRouter';
 import sharedRouteConfig from './routeConfigs/shared';
 
 const RankingNavigator = StackNavigator(
@@ -27,4 +27,4 @@ const RankingNavigator = StackNavigator(
   },
 );
 
-export default EnhanceRouter(RankingNavigator);
+export default enhanceRouter(RankingNavigator);

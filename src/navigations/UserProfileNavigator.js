@@ -4,7 +4,7 @@ import MyWorks from '../screens/UserProfile/MyWorks';
 import MyConnection from '../screens/UserProfile/MyConnection/MyConnection';
 import MyCollection from '../screens/UserProfile/MyCollection/MyCollection';
 import BrowsingHistory from '../screens/UserProfile/BrowsingHistory';
-import EnhanceRouter from './routers/EnhanceRouter';
+import enhanceRouter from './routers/enhanceRouter';
 import sharedRouteConfig from './routeConfigs/shared';
 
 const UserProfileNavigator = StackNavigator(
@@ -57,4 +57,4 @@ const UserProfileNavigator = StackNavigator(
   },
 );
 
-export default EnhanceRouter(UserProfileNavigator);
+export default enhanceRouter(UserProfileNavigator);

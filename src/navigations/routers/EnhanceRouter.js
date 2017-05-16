@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import { NAVIGATION } from '../../common/constants/actionTypes';
 
-const EnhanceRouter = WrappedNavigator => {
+const enhanceRouter = WrappedNavigator => {
   class Enhance extends Component {
     render() {
       return <WrappedNavigator {...this.props} />;
@@ -33,4 +33,4 @@ const EnhanceRouter = WrappedNavigator => {
   return Enhance;
 };
 
-export default EnhanceRouter;
+export default enhanceRouter;
