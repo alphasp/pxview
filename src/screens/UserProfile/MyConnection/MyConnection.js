@@ -25,15 +25,12 @@ class MyConnection extends Component {
 
   renderScene = ({ route }) => {
     const { userId } = this.props.navigation.state.params;
-    const screenProps =
-      this.props.screenProps || this.props.navigation.state.params.screenProps;
     switch (route.key) {
       case '1':
         return (
           <UserFollowing
             userId={userId}
             followingType={FOLLOWING_TYPES.PUBLIC}
-            screenProps={screenProps}
           />
         );
       case '2':
@@ -41,19 +38,12 @@ class MyConnection extends Component {
           <UserFollowing
             userId={userId}
             followingType={FOLLOWING_TYPES.PRIVATE}
-            screenProps={screenProps}
           />
         );
       case '3':
-        return (
-          <UserFollowers
-            tabLabel="Followers"
-            userId={userId}
-            screenProps={screenProps}
-          />
-        );
+        return <UserFollowers tabLabel="Followers" userId={userId} />;
       case '4':
-        return <UserMyPixiv userId={userId} screenProps={screenProps} />;
+        return <UserMyPixiv userId={userId} />;
       default:
         return null;
     }

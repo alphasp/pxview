@@ -35,13 +35,12 @@ class UserFollowing extends Component {
   };
 
   render() {
-    const { userFollowing, items, screenProps } = this.props;
+    const { userFollowing, items } = this.props;
     return (
       <UserListContainer
         userList={{ ...userFollowing, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
-        screenProps={screenProps}
       />
     );
   }

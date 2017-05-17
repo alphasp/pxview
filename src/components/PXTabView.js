@@ -41,7 +41,6 @@ class PXTabView extends Component {
 
   render() {
     const {
-      screenProps,
       navigationState,
       renderScene,
       onRequestChangeTab,

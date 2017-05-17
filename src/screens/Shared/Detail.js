@@ -237,7 +237,7 @@ class Detail extends Component {
   );
 
   renderFooter = () => {
-    const { item, navigation, screenProps } = this.props;
+    const { item, navigation } = this.props;
     return (
       <View onLayout={this.handleOnLayoutFooter}>
         <View style={styles.infoContainer}>
@@ -252,7 +252,7 @@ class Detail extends Component {
                 <Text>{item.user.account}</Text>
               </View>
             </PXTouchable>
-            <FollowButtonContainer user={item.user} screenProps={screenProps} />
+            <FollowButtonContainer user={item.user} />
           </View>
           <View style={styles.captionContainer}>
             <HtmlView

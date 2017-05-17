@@ -57,16 +57,15 @@ class NewWorks extends Component {
   };
 
   renderScene = ({ route }) => {
-    const { screenProps } = this.props;
     switch (route.key) {
       case '1':
-        return <FollowingUserIllusts screenProps={screenProps} />;
+        return <FollowingUserIllusts />;
       case '2':
-        return <NewIllusts screenProps={screenProps} />;
+        return <NewIllusts />;
       case '3':
-        return <NewMangas screenProps={screenProps} />;
+        return <NewMangas />;
       case '4':
-        return <MyPixiv screenProps={screenProps} />;
+        return <MyPixiv />;
       default:
         return null;
     }

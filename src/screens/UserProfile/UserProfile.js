@@ -172,13 +172,13 @@ class UserProfile extends Component {
   };
 
   handleOnPressListItem = item => {
-    const { user, navigation: { navigate }, screenProps, logout } = this.props;
+    const { user, navigation: { navigate }, logout } = this.props;
     switch (item.id) {
       case 'works':
         if (!user) {
           this.handleOnPressLogin();
         } else {
-          navigate('MyWorks', { userId: user.id, screenProps });
+          navigate('MyWorks', { userId: user.id });
         }
         // navigate('Web', { source: { uri: 'https://touch.pixiv.net/setting_user.php?ref=ios-app' } });
         break;
@@ -187,15 +187,14 @@ class UserProfile extends Component {
         if (!user) {
           this.handleOnPressLogin();
         } else {
-          navigate('MyCollection', { userId: user.id, screenProps });
+          navigate('MyCollection', { userId: user.id });
         }
         break;
       case 'connection':
         if (!user) {
           this.handleOnPressLogin();
         } else {
-          // Actions.myConnection({ userId: user.id });
-          navigate('MyConnection', { userId: user.id, screenProps });
+          navigate('MyConnection', { userId: user.id });
         }
         break;
       case 'history':

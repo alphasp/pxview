@@ -25,13 +25,12 @@ class UserMyPixiv extends Component {
   };
 
   render() {
-    const { userMyPixiv, items, screenProps } = this.props;
+    const { userMyPixiv, items } = this.props;
     return (
       <UserListContainer
         userList={{ ...userMyPixiv, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
-        screenProps={screenProps}
       />
     );
   }

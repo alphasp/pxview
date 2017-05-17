@@ -74,19 +74,12 @@ class Trending extends Component {
   };
 
   renderScene = ({ route }) => {
-    const { navigation, screenProps } = this.props;
+    const { navigation } = this.props;
     switch (route.key) {
       case '1':
-        return (
-          <TrendingIllustTags
-            navigation={navigation}
-            screenProps={screenProps}
-          />
-        );
+        return <TrendingIllustTags navigation={navigation} />;
       case '2':
-        return (
-          <RecommendedUsers navigation={navigation} screenProps={screenProps} />
-        );
+        return <RecommendedUsers navigation={navigation} />;
       default:
         return null;
     }

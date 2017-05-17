@@ -49,41 +49,38 @@ const styles = StyleSheet.create({
 });
 
 class UserList extends Component {
-  renderItem = ({ item }) => {
-    const { screenProps } = this.props;
-    return (
-      <View key={item.user.id} style={styles.itemContainer}>
-        <View style={styles.imagePreviews}>
-          {item.illusts &&
-            item.illusts.map((illust, index) => (
-              <IllustItem
-                key={illust.id}
-                item={illust}
-                index={index}
-                numColumns={ILLUST_PREVIEW_COLUMNS}
-                onPressItem={() => this.handleOnPressImagePreview(illust)}
-              />
-            ))}
-        </View>
-        <View style={styles.userInfoContainer}>
-          <PXTouchable
-            style={styles.userInfo}
-            onPress={() => this.handleOnPressAvatar(item)}
-          >
-            <Text>{item.user.name}</Text>
-          </PXTouchable>
-          <FollowButtonContainer user={item.user} screenProps={screenProps} />
-        </View>
-        <View style={styles.avatarContainer}>
-          <PXThumbnailTouchable
-            uri={item.user.profile_image_urls.medium}
-            size={AVATAR_SIZE}
-            onPress={() => this.handleOnPressAvatar(item.user.id)}
-          />
-        </View>
+  renderItem = ({ item }) => (
+    <View key={item.user.id} style={styles.itemContainer}>
+      <View style={styles.imagePreviews}>
+        {item.illusts &&
+          item.illusts.map((illust, index) => (
+            <IllustItem
+              key={illust.id}
+              item={illust}
+              index={index}
+              numColumns={ILLUST_PREVIEW_COLUMNS}
+              onPressItem={() => this.handleOnPressImagePreview(illust)}
+            />
+          ))}
       </View>
-    );
-  };
+      <View style={styles.userInfoContainer}>
+        <PXTouchable
+          style={styles.userInfo}
+          onPress={() => this.handleOnPressAvatar(item)}
+        >
+          <Text>{item.user.name}</Text>
+        </PXTouchable>
+        <FollowButtonContainer user={item.user} />
+      </View>
+      <View style={styles.avatarContainer}>
+        <PXThumbnailTouchable
+          uri={item.user.profile_image_urls.medium}
+          size={AVATAR_SIZE}
+          onPress={() => this.handleOnPressAvatar(item.user.id)}
+        />
+      </View>
+    </View>
+  );
 
   renderFooter = () => {
     const { userList: { nextUrl } } = this.props;

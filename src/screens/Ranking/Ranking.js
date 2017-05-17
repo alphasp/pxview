@@ -64,12 +64,7 @@ class Ranking extends Component {
       case '7':
         return <RankingList rankingMode={RANKING_FOR_UI.MONTHLY} />;
       case '8':
-        return (
-          <PastRanking
-            rankingMode={RANKING_FOR_UI.PAST}
-            screenProps={this.props.screenProps}
-          />
-        );
+        return <PastRanking rankingMode={RANKING_FOR_UI.PAST} />;
       default:
         return null;
     }

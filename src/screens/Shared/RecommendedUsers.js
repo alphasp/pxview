@@ -29,13 +29,12 @@ class RecommendedUsers extends Component {
   };
 
   render() {
-    const { recommendedUsers, items, screenProps } = this.props;
+    const { recommendedUsers, items } = this.props;
     return (
       <UserListContainer
         userList={{ ...recommendedUsers, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
-        screenProps={screenProps}
       />
     );
   }

@@ -89,9 +89,6 @@ class Master extends Component {
       <View style={styles.container}>
         {rehydrated
           ? <AppNavigator
-              screenProps={{
-                openBottomSheet: this.openBottomSheet,
-              }}
               onNavigationStateChange={this.handleOnNavigationStateChange}
             />
           : <Loader />}

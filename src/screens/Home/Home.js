@@ -20,22 +20,12 @@ class Home extends Component {
   };
 
   renderScene = ({ route }) => {
-    const { navigation, screenProps } = this.props;
+    const { navigation } = this.props;
     switch (route.key) {
       case '1':
-        return (
-          <RecommendedIllusts
-            navigation={navigation}
-            screenProps={screenProps}
-          />
-        );
+        return <RecommendedIllusts navigation={navigation} />;
       case '2':
-        return (
-          <RecommendedMangas
-            navigation={navigation}
-            screenProps={screenProps}
-          />
-        );
+        return <RecommendedMangas navigation={navigation} />;
       default:
         return null;
     }
