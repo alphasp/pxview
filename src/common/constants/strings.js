@@ -1,5 +1,12 @@
 export default {
   en: {
+    home: 'Home',
+    ranking: 'Ranking',
+    search: 'Search',
+    newest: 'Newest',
+    profile: 'Profile',
+    illust: 'Illustration',
+    manga: 'Manga',
     ok: 'OK',
     cancel: 'Cancel',
     day_ranking: 'Daily',
@@ -20,6 +27,13 @@ export default {
     findRecommendedUsers: 'Recommended Users',
   },
   ja: {
+    home: 'ホーム',
+    ranking: 'ランキング',
+    search: '検索',
+    newest: '新着',
+    profile: 'プロフィール',
+    illust: 'イラスト',
+    manga: 'マンガ',
     ok: 'OK',
     cancel: 'キャンセル',
     day_ranking: 'デイリー',
