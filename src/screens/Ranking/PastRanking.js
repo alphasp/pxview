@@ -35,14 +35,14 @@ const styles = StyleSheet.create({
   rankingPickerIcon: {
     paddingLeft: 5,
   },
-  bottomSheetText: {
-    marginLeft: 32,
-  },
   bottomSheetListItem: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
     height: 48,
+  },
+  bottomSheetText: {
+    marginLeft: 32,
   },
   bottomSheetCancelIcon: {
     marginLeft: 3,

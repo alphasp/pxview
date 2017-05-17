@@ -7,18 +7,14 @@ import PXBottomSheet from '../components/PXBottomSheet';
 import PXTouchable from '../components/PXTouchable';
 
 const styles = StyleSheet.create({
-  bottomSheet: {
-    marginHorizontal: 16,
-    marginVertical: 8,
-  },
-  bottomSheetText: {
-    marginLeft: 32,
-  },
   bottomSheetListItem: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
     height: 48,
+  },
+  bottomSheetText: {
+    marginLeft: 32,
   },
   bottomSheetCancelIcon: {
     marginLeft: 3,
@@ -87,7 +83,7 @@ class SaveImageBottomSheet extends Component {
         visible={isShowBottomSheet}
         onCancel={this.closeSaveImageBottomSheet}
       >
-        <View style={styles.bottomSheet}>
+        <View>
           <PXTouchable onPress={this.handleOnPressSaveImages}>
             <View style={styles.bottomSheetListItem}>
               <Icon name="floppy-o" size={24} />
