@@ -1,5 +1,5 @@
 import { StackNavigator } from 'react-navigation';
-import Login from '../containers/Login';
+import Login from '../screens/Login/Login';
 
 const LoginNavigator = StackNavigator(
   {
