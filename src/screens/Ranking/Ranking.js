@@ -1,42 +1,43 @@
 import React, { Component } from 'react';
-import PXTabView from '../../components/PXTabView';
 import RankingList from './RankingList';
 import PastRanking from './PastRanking';
+import PXTabView from '../../components/PXTabView';
+import { connectLocalization } from '../../components/Localization';
 import { RANKING_FOR_UI } from '../../common/constants';
 
 class Ranking extends Component {
   constructor(props) {
     super(props);
-    const strings = props.screenProps.strings;
+    const { i18n } = this.props;
     this.state = {
       index: 0,
       routes: [
-        { key: '1', title: strings.day_ranking },
-        { key: '2', title: strings.day_male_ranking },
-        { key: '3', title: strings.day_female_ranking },
-        { key: '4', title: strings.week_original_ranking },
-        { key: '5', title: strings.week_rookie_ranking },
-        { key: '6', title: strings.week_ranking },
-        { key: '7', title: strings.month_ranking },
-        { key: '8', title: strings.past_ranking },
+        { key: '1', title: i18n.day_ranking },
+        { key: '2', title: i18n.day_male_ranking },
+        { key: '3', title: i18n.day_female_ranking },
+        { key: '4', title: i18n.week_original_ranking },
+        { key: '5', title: i18n.week_rookie_ranking },
+        { key: '6', title: i18n.week_ranking },
+        { key: '7', title: i18n.month_ranking },
+        { key: '8', title: i18n.past_ranking },
       ],
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    const { strings: prevStrings } = this.props.screenProps.strings;
-    const strings = nextProps.screenProps.strings;
-    if (strings !== prevStrings) {
+    const { i18n: prevI18n } = this.props.i18n;
+    const i18n = nextProps.i18n;
+    if (i18n !== prevI18n) {
       this.setState({
         routes: [
-          { key: '1', title: strings.day_ranking },
-          { key: '2', title: strings.day_male_ranking },
-          { key: '3', title: strings.day_female_ranking },
-          { key: '4', title: strings.week_original_ranking },
-          { key: '5', title: strings.week_rookie_ranking },
-          { key: '6', title: strings.week_ranking },
-          { key: '7', title: strings.month_ranking },
-          { key: '8', title: strings.past_ranking },
+          { key: '1', title: i18n.day_ranking },
+          { key: '2', title: i18n.day_male_ranking },
+          { key: '3', title: i18n.day_female_ranking },
+          { key: '4', title: i18n.week_original_ranking },
+          { key: '5', title: i18n.week_rookie_ranking },
+          { key: '6', title: i18n.week_ranking },
+          { key: '7', title: i18n.month_ranking },
+          { key: '8', title: i18n.past_ranking },
         ],
       });
     }
@@ -89,4 +90,4 @@ class Ranking extends Component {
   }
 }
 
-export default Ranking;
+export default connectLocalization(Ranking);

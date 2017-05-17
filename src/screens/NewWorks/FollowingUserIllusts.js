@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button } from 'react-native-elements';
+import { connectLocalization } from '../../components/Localization';
 import IllustList from '../../components/IllustList';
 import * as followingUserIllustsActionCreators
   from '../../common/actions/followingUserIllusts';
@@ -76,20 +77,15 @@ class FollowingUserIllusts extends Component {
   };
 
   render() {
-    const {
-      followingUserIllusts,
-      items,
-      user,
-      screenProps: { strings },
-    } = this.props;
+    const { followingUserIllusts, items, user, i18n } = this.props;
     if (!user) {
       return (
         <View style={styles.container}>
           <Icon name="users" size={40} style={styles.usersIcon} />
-          <Text>{strings.followUserNullState}</Text>
-          <Text>{strings.newWorkFollowNullState}</Text>
+          <Text>{i18n.followUserNullState}</Text>
+          <Text>{i18n.newWorkFollowNullState}</Text>
           <Button
-            title={strings.findRecommendedUsers}
+            title={i18n.findRecommendedUsers}
             buttonStyle={styles.recommendUserButton}
             onPress={this.handleOnPressFindRecommendedUsers}
             raised
@@ -107,13 +103,15 @@ class FollowingUserIllusts extends Component {
   }
 }
 
-export default withNavigation(
-  connect(state => {
-    const { followingUserIllusts, auth: { user } } = state;
-    return {
-      followingUserIllusts,
-      items: getFollowingUserIllustsItems(state),
-      user,
-    };
-  }, followingUserIllustsActionCreators)(FollowingUserIllusts),
+export default connectLocalization(
+  withNavigation(
+    connect(state => {
+      const { followingUserIllusts, auth: { user } } = state;
+      return {
+        followingUserIllusts,
+        items: getFollowingUserIllustsItems(state),
+        user,
+      };
+    }, followingUserIllustsActionCreators)(FollowingUserIllusts),
+  ),
 );

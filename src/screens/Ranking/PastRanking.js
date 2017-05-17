@@ -8,6 +8,7 @@ import IonicIcon from 'react-native-vector-icons/Ionicons';
 import RankingList from './RankingList';
 import PXTouchable from '../../components/PXTouchable';
 import PXBottomSheet from '../../components/PXBottomSheet';
+import { connectLocalization } from '../../components/Localization';
 import { RANKING, R18_RANKING, RANKING_FOR_UI } from '../../common/constants';
 import { globalStyles } from '../../styles';
 
@@ -90,7 +91,7 @@ class PastRanking extends Component {
   };
 
   render() {
-    const { user, screenProps: { strings } } = this.props;
+    const { user, i18n } = this.props;
     const { date, mode, isOpenRankingModeBottomSheet } = this.state;
     return (
       <View style={globalStyles.container}>
@@ -101,7 +102,7 @@ class PastRanking extends Component {
           >
             <View style={styles.rankingPicker}>
               <Text style={styles.rankingPickerText}>
-                Illust {strings[`${mode}_ranking`]} Ranking
+                Illust {i18n[`${mode}_ranking`]} Ranking
               </Text>
               <Icon
                 name="caret-down"
@@ -122,8 +123,8 @@ class PastRanking extends Component {
             format="YYYY-MM-DD"
             minDate="2007-09-13"
             maxDate={new Date()}
-            confirmBtnText={strings.ok}
-            cancelBtnText={strings.cancel}
+            confirmBtnText={i18n.ok}
+            cancelBtnText={i18n.cancel}
             showIcon
             onDateChange={this.handleOnDateChange}
           />
@@ -145,7 +146,7 @@ class PastRanking extends Component {
                 <View style={styles.bottomSheetListItem}>
                   <IonicIcon name="md-funnel" size={24} />
                   <Text style={styles.bottomSheetText}>
-                    {strings[`${ranking}_ranking`]}
+                    {i18n[`${ranking}_ranking`]}
                   </Text>
                 </View>
               </PXTouchable>
@@ -159,7 +160,7 @@ class PastRanking extends Component {
                   <View style={styles.bottomSheetListItem}>
                     <IonicIcon name="md-funnel" size={24} />
                     <Text style={styles.bottomSheetText}>
-                      {strings[`${ranking}_ranking`]}
+                      {i18n[`${ranking}_ranking`]}
                     </Text>
                   </View>
                 </PXTouchable>
@@ -174,7 +175,7 @@ class PastRanking extends Component {
                 <Text
                   style={[styles.bottomSheetText, styles.bottomSheetCancelText]}
                 >
-                  {strings.cancel}
+                  {i18n.cancel}
                 </Text>
               </View>
             </PXTouchable>
@@ -185,6 +186,8 @@ class PastRanking extends Component {
   }
 }
 
-export default connect(state => ({
-  user: state.auth.user,
-}))(PastRanking);
+export default connectLocalization(
+  connect(state => ({
+    user: state.auth.user,
+  }))(PastRanking),
+);

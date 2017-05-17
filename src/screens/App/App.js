@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Platform, StatusBar } from 'react-native';
 import { connect, Provider } from 'react-redux';
 import Master from './Master';
+import { LocalizationProvider } from '../../components/Localization';
+import i18n from '../../common/helpers/i18n';
 
 console.ignoredYellowBox = ['Warning: BackAndroid'];
 
@@ -49,7 +51,9 @@ class App extends Component {
     const { store } = this.props;
     return (
       <Provider store={store}>
-        <Master />
+        <LocalizationProvider i18n={i18n}>
+          <Master />
+        </LocalizationProvider>
       </Provider>
     );
   }
