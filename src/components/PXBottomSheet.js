@@ -66,6 +66,10 @@ class PXBottomSheet extends Component {
     }
   };
 
+  handleOnCloseModal = () => {
+    this.setModalVisible(false);
+  };
+
   render() {
     const { children, onCancel } = this.props;
     const { animatedHeight, modalVisible } = this.state;
@@ -73,8 +77,8 @@ class PXBottomSheet extends Component {
       <Modal
         transparent
         visible={modalVisible}
-        onRequestClose={() => this.setModalVisible(false)}
-        animationType="none"
+        onRequestClose={this.handleOnCloseModal}
+        animationType="fade"
         supportedOrientations={[
           'portrait',
           'portrait-upside-down',
