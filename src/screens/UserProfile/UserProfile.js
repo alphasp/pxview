@@ -16,6 +16,8 @@ import PXImage from '../../components/PXImage';
 import OutlineButton from '../../components/OutlineButton';
 import * as authActionCreators from '../../common/actions/auth';
 import * as i18nActionCreators from '../../common/actions/i18n';
+import * as browsingHistoryActionCreators
+  from '../../common/actions/browsingHistory';
 
 const avatarSize = 70;
 const windowWidth = Dimensions.get('window').width;
@@ -205,9 +207,12 @@ class UserProfile extends Component {
         setLanguage('ja');
         break;
       }
-      case 'logout':
+      case 'logout': {
+        const { clearBrowsingHistory } = this.props;
         logout();
+        clearBrowsingHistory();
         break;
+      }
       default:
         break;
     }
@@ -339,5 +344,9 @@ export default connect(
   state => ({
     user: state.auth.user,
   }),
-  { ...authActionCreators, ...i18nActionCreators },
+  {
+    ...authActionCreators,
+    ...i18nActionCreators,
+    ...browsingHistoryActionCreators,
+  },
 )(UserProfile);
