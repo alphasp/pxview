@@ -18,6 +18,8 @@ import HtmlView from 'react-native-htmlview';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Share from 'react-native-share';
 import ActionButton from 'react-native-action-button';
+import RelatedIllusts from './RelatedIllusts';
+import IllustComments from './IllustComments';
 import BookmarkButton from '../../components/BookmarkButton';
 import Loader from '../../components/Loader';
 import PXTouchable from '../../components/PXTouchable';
@@ -25,8 +27,8 @@ import FollowButtonContainer from '../../containers/FollowButtonContainer';
 import PXCacheImageTouchable from '../../components/PXCacheImageTouchable';
 import PXThumbnail from '../../components/PXThumbnail';
 import Tags from '../../components/Tags';
-import RelatedIllusts from './RelatedIllusts';
-import IllustComments from './IllustComments';
+import SaveImageBottomSheet from '../../components/SaveImageBottomSheet';
+// import { connectLocalization } from '../../components/Localization';
 import * as browsingHistoryActionCreators
   from '../../common/actions/browsingHistory';
 import { makeGetDetailItem } from '../../common/selectors';
@@ -127,7 +129,7 @@ const styles = StyleSheet.create({
 class Detail extends Component {
   static navigationOptions = ({ navigation }) => {
     const { state, navigate } = navigation;
-    const { item, openBottomSheet } = state.params;
+    const { item, openSaveImageBottomSheet } = state.params;
     const shareOptions = {
       message: `${item.title} | ${item.user.name} #pixivrn`, // todo
       url: `http://www.pixiv.net/member_illust.php?illust_id=${item.id}&mode=medium`,
@@ -148,7 +150,7 @@ class Detail extends Component {
           </View>
         </PXTouchable>
       ),
-      headerRight: (
+      headerRight: openSaveImageBottomSheet &&
         <View style={{ flexDirection: 'row' }}>
           <PXTouchable
             onPress={() =>
@@ -162,15 +164,14 @@ class Detail extends Component {
               style={{ paddingVertical: 10, paddingHorizontal: 10 }}
             />
           </PXTouchable>
-          <PXTouchable onPress={openBottomSheet}>
+          <PXTouchable onPress={openSaveImageBottomSheet}>
             <Icon
               name="ellipsis-v"
               style={{ paddingVertical: 10, paddingHorizontal: 20 }}
               size={20}
             />
           </PXTouchable>
-        </View>
-      ),
+        </View>,
     };
   };
 
@@ -198,16 +199,12 @@ class Detail extends Component {
   }
 
   componentDidMount() {
-    const {
-      item,
-      navigation,
-      screenProps: { openBottomSheet },
-      addBrowsingHistory,
-    } = this.props;
+    const { item, navigation, addBrowsingHistory } = this.props;
     const { images } = this.state;
     navigation.setParams({
       item,
-      openBottomSheet: () => openBottomSheet(images),
+      openSaveImageBottomSheet: () =>
+        this.saveImageBottomSheet.openSaveImageBottomSheet(images),
     });
     InteractionManager.runAfterInteractions(() => {
       if (this.detailView) {
@@ -524,6 +521,7 @@ class Detail extends Component {
             buttonColor="rgba(255,255,255,1)"
             icon={<BookmarkButton item={item} />}
           />}
+        <SaveImageBottomSheet ref={ref => (this.saveImageBottomSheet = ref)} />
       </View>
     );
   }
