@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PXTabView from '../../components/PXTabView';
 import RecommendedIllusts from './RecommendedIllusts';
 import RecommendedMangas from './RecommendedMangas';
@@ -14,11 +15,12 @@ class Home extends Component {
 
   constructor(props) {
     super(props);
+    const { i18n } = this.props;
     this.state = {
       index: 0,
       routes: [
-        { key: '1', title: 'Illustration' },
-        { key: '2', title: 'Manga' },
+        { key: '1', title: i18n.illustration },
+        { key: '2', title: i18n.manga },
       ],
     };
   }
@@ -28,6 +30,19 @@ class Home extends Component {
     setParams({
       i18n,
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { lang: prevLang } = this.props;
+    const { lang, i18n } = nextProps;
+    if (lang !== prevLang) {
+      this.setState({
+        routes: [
+          { key: '1', title: i18n.illustration },
+          { key: '2', title: i18n.manga },
+        ],
+      });
+    }
   }
 
   handleChangeTab = index => {
@@ -58,4 +73,8 @@ class Home extends Component {
   }
 }
 
-export default connectLocalization(Home);
+export default connectLocalization(
+  connect(state => ({
+    lang: state.i18n.lang,
+  }))(Home),
+);
