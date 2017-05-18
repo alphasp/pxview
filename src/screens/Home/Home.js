@@ -2,8 +2,16 @@ import React, { Component } from 'react';
 import PXTabView from '../../components/PXTabView';
 import RecommendedIllusts from './RecommendedIllusts';
 import RecommendedMangas from './RecommendedMangas';
+import { connectLocalization } from '../../components/Localization';
 
 class Home extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      tabBarLabel: params && params.i18n.home,
+    };
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -13,6 +21,13 @@ class Home extends Component {
         { key: '2', title: 'Manga' },
       ],
     };
+  }
+
+  componentDidMount() {
+    const { i18n, navigation: { setParams } } = this.props;
+    setParams({
+      i18n,
+    });
   }
 
   handleChangeTab = index => {
@@ -43,4 +58,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default connectLocalization(Home);

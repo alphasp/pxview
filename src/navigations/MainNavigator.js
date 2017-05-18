@@ -37,7 +37,7 @@ const MainNavigator = TabNavigator(
         // }),
         tabBarIcon: ({ tintColor, focused }) =>
           renderTabBarIcon(tintColor, focused, 'home'),
-        tabBarLabel: 'Home',
+        // tabBarLabel: 'Home',
       },
     },
     RankingTab: {
@@ -46,7 +46,7 @@ const MainNavigator = TabNavigator(
       navigationOptions: {
         tabBarIcon: ({ tintColor, focused }) =>
           renderTabBarIcon(tintColor, focused, 'trophy'),
-        tabBarLabel: 'Ranking',
+        // tabBarLabel: 'Ranking',
       },
     },
     TrendingTab: {
@@ -55,7 +55,7 @@ const MainNavigator = TabNavigator(
       navigationOptions: {
         tabBarIcon: ({ tintColor, focused }) =>
           renderTabBarIcon(tintColor, focused, 'search'),
-        tabBarLabel: 'Search',
+        // tabBarLabel: 'Search',
       },
     },
     NewWorkTab: {
@@ -64,7 +64,7 @@ const MainNavigator = TabNavigator(
       navigationOptions: {
         tabBarIcon: ({ tintColor, focused }) =>
           renderTabBarIcon(tintColor, focused, 'fiber-new', 'material'),
-        tabBarLabel: 'Newest',
+        // tabBarLabel: 'Newest',
       },
     },
     UserProfileTab: {
@@ -73,7 +73,7 @@ const MainNavigator = TabNavigator(
       navigationOptions: {
         tabBarIcon: ({ tintColor, focused }) =>
           renderTabBarIcon(tintColor, focused, 'user'),
-        tabBarLabel: 'Profile',
+        // tabBarLabel: 'Profile',
       },
     },
   },

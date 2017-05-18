@@ -7,11 +7,12 @@ import {
   BackHandler,
 } from 'react-native';
 import { connect } from 'react-redux';
-import PXTabView from '../../components/PXTabView';
 import TrendingIllustTags from './TrendingIllustTags';
 import RecommendedUsers from '../Shared/RecommendedUsers';
-import PXHeader from '../../components/PXHeader';
 import Search from '../../containers/Search';
+import PXHeader from '../../components/PXHeader';
+import PXTabView from '../../components/PXTabView';
+import { connectLocalization } from '../../components/Localization';
 import * as searchTypeActionCreators from '../../common/actions/searchType';
 import { SEARCH_TYPES } from '../../common/constants';
 
@@ -25,6 +26,13 @@ const styles = StyleSheet.create({
 });
 
 class Trending extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      tabBarLabel: params && params.i18n.search,
+    };
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -39,6 +47,10 @@ class Trending extends Component {
   }
 
   componentDidMount() {
+    const { i18n, navigation: { setParams } } = this.props;
+    setParams({
+      i18n,
+    });
     if (Platform.OS === 'android') {
       this.backHandlerListener = BackHandler.addEventListener(
         'hardwareBackPress',
@@ -142,9 +154,11 @@ class Trending extends Component {
   }
 }
 
-export default connect(
-  state => ({
-    searchType: state.searchType.type,
-  }),
-  searchTypeActionCreators,
-)(Trending);
+export default connectLocalization(
+  connect(
+    state => ({
+      searchType: state.searchType.type,
+    }),
+    searchTypeActionCreators,
+  )(Trending),
+);

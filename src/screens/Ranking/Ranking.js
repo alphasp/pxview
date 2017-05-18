@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import RankingList from './RankingList';
 import PastRanking from './PastRanking';
 import PXTabView from '../../components/PXTabView';
@@ -6,6 +7,13 @@ import { connectLocalization } from '../../components/Localization';
 import { RANKING_FOR_UI } from '../../common/constants';
 
 class Ranking extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      tabBarLabel: params && params.i18n.ranking,
+    };
+  };
+
   constructor(props) {
     super(props);
     const { i18n } = this.props;
@@ -24,10 +32,17 @@ class Ranking extends Component {
     };
   }
 
+  componentDidMount() {
+    const { i18n, navigation: { setParams } } = this.props;
+    setParams({
+      i18n,
+    });
+  }
+
   componentWillReceiveProps(nextProps) {
-    const { i18n: prevI18n } = this.props.i18n;
-    const i18n = nextProps.i18n;
-    if (i18n !== prevI18n) {
+    const { lang: prevLang } = this.props;
+    const { lang, i18n } = nextProps;
+    if (lang !== prevLang) {
       this.setState({
         routes: [
           { key: '1', title: i18n.day_ranking },
@@ -85,4 +100,8 @@ class Ranking extends Component {
   }
 }
 
-export default connectLocalization(Ranking);
+export default connectLocalization(
+  connect(state => ({
+    lang: state.i18n.lang,
+  }))(Ranking),
+);

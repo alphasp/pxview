@@ -4,9 +4,17 @@ import FollowingUserIllusts from './FollowingUserIllusts';
 import NewIllusts from './NewIllusts';
 import NewMangas from './NewMangas';
 import MyPixiv from './MyPixiv';
+import { connectLocalization } from '../../components/Localization';
 import PXTabView from '../../components/PXTabView';
 
 class NewWorks extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      tabBarLabel: params && params.i18n.newest,
+    };
+  };
+
   constructor(props) {
     super(props);
     const { user } = props;
@@ -23,6 +31,13 @@ class NewWorks extends Component {
       index: 0,
       routes,
     };
+  }
+
+  componentDidMount() {
+    const { i18n, navigation: { setParams } } = this.props;
+    setParams({
+      i18n,
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -84,6 +99,8 @@ class NewWorks extends Component {
   }
 }
 
-export default connect(state => ({
-  user: state.auth.user,
-}))(NewWorks);
+export default connectLocalization(
+  connect(state => ({
+    user: state.auth.user,
+  }))(NewWorks),
+);

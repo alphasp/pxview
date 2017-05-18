@@ -11,6 +11,7 @@ import {
 import { connect } from 'react-redux';
 import { List, ListItem } from 'react-native-elements';
 import { BlurView } from 'react-native-blur';
+import { connectLocalization } from '../../components/Localization';
 import PXThumbnailTouchable from '../../components/PXThumbnailTouchable';
 import PXImage from '../../components/PXImage';
 import OutlineButton from '../../components/OutlineButton';
@@ -158,6 +159,13 @@ const menuList2 = [
 ];
 
 class UserProfile extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      tabBarLabel: params && params.i18n.myPage,
+    };
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -165,6 +173,13 @@ class UserProfile extends Component {
       isShowTitle: false,
       viewRef: 0,
     };
+  }
+
+  componentDidMount() {
+    const { i18n, navigation: { setParams } } = this.props;
+    setParams({
+      i18n,
+    });
   }
 
   handleOnAvatarImageLoaded = () => {
@@ -339,13 +354,15 @@ class UserProfile extends Component {
   }
 }
 
-export default connect(
-  state => ({
-    user: state.auth.user,
-  }),
-  {
-    ...authActionCreators,
-    ...i18nActionCreators,
-    ...browsingHistoryActionCreators,
-  },
-)(UserProfile);
+export default connectLocalization(
+  connect(
+    state => ({
+      user: state.auth.user,
+    }),
+    {
+      ...authActionCreators,
+      ...i18nActionCreators,
+      ...browsingHistoryActionCreators,
+    },
+  )(UserProfile),
+);
