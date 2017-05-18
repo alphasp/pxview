@@ -102,7 +102,7 @@ class PastRanking extends Component {
           >
             <View style={styles.rankingPicker}>
               <Text style={styles.rankingPickerText}>
-                Illust {i18n[`${mode}_ranking`]} Ranking
+                {i18n.illust} {i18n[`${mode}_ranking`]}
               </Text>
               <Icon
                 name="caret-down"
