@@ -217,8 +217,13 @@ class MyPage extends Component {
         break;
       case 'settings': {
         // temp
-        const { setLanguage } = this.props;
-        setLanguage('ja');
+        const { setLanguage, lang } = this.props;
+        if (lang === 'en') {
+          setLanguage('ja');
+        } else {
+          setLanguage('en');
+        }
+
         break;
       }
       case 'logout': {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, FlatList, Keyboard } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { connectLocalization } from './Localization';
 import PXTouchable from './PXTouchable';
 import Separator from './Separator';
 import { globalStyleVariables } from '../styles';
@@ -46,13 +47,15 @@ class SearchHistory extends Component {
   };
 
   render() {
-    const { items, onPressClearSearchHistory } = this.props;
+    const { items, onPressClearSearchHistory, i18n } = this.props;
     return (
       <View>
         <View style={styles.searchHistoryContainer}>
-          <Text style={styles.searchHistoryTitle}>Search History</Text>
+          <Text style={styles.searchHistoryTitle}>{i18n.searchHistory}</Text>
           <PXTouchable onPress={onPressClearSearchHistory}>
-            <Text style={styles.searchHistoryTitle}>CLEAR ALL</Text>
+            <Text style={styles.searchHistoryTitle}>
+              {i18n.clearSearchHistory}
+            </Text>
           </PXTouchable>
         </View>
         <FlatList
@@ -62,10 +65,11 @@ class SearchHistory extends Component {
           ItemSeparatorComponent={Separator}
           keyboardShouldPersistTaps="always"
           onScroll={Keyboard.dismiss}
+          removeClippedSubviews={false} // to prevent flatlist hidden after switch language
         />
       </View>
     );
   }
 }
 
-export default SearchHistory;
+export default connectLocalization(SearchHistory);

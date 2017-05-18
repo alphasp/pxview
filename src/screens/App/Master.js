@@ -103,5 +103,4 @@ class Master extends Component {
 export default connect(state => ({
   error: state.error,
   rehydrated: state.auth.rehydrated,
-  lang: state.i18n.lang,
 }))(Master);

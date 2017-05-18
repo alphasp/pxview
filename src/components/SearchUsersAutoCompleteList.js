@@ -12,7 +12,7 @@ import PXThumbnailTouchable from './PXThumbnailTouchable';
 import FollowButton from './FollowButton';
 import Loader from './Loader';
 import Separator from './Separator';
-import { globalStyleVariables } from '../styles';
+import { globalStyles } from '../styles';
 
 const styles = StyleSheet.create({
   row: {
@@ -72,7 +72,7 @@ class SearchUsersAutoCompleteList extends PureComponent {
       loadMoreItems,
     } = this.props;
     return (
-      <View style={globalStyleVariables.container}>
+      <View style={globalStyles.container}>
         {!loaded && loading && <Loader />}
         {items && items.length
           ? <FlatList
@@ -88,6 +88,7 @@ class SearchUsersAutoCompleteList extends PureComponent {
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
               onScroll={Keyboard.dismiss}
+              removeClippedSubviews={false} // to prevent flatlist hidden after switch language
             />
           : null}
       </View>

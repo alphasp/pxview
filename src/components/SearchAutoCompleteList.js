@@ -47,6 +47,7 @@ class SearchAutoCompleteList extends PureComponent {
               ItemSeparatorComponent={Separator}
               keyboardShouldPersistTaps="always"
               onScroll={Keyboard.dismiss}
+              removeClippedSubviews={false} // to prevent flatlist hidden after switch language
             />
           : null}
       </View>

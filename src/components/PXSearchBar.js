@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { SearchBar } from 'react-native-elements';
+import { connectLocalization } from './Localization';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import { SEARCH_TYPES } from '../common/constants';
 import { globalStyles } from '../styles';
@@ -31,7 +32,14 @@ class PXSearchBar extends Component {
   };
 
   render() {
-    const { searchType, onFocus, onChangeText, autoFocus, word } = this.props;
+    const {
+      searchType,
+      onFocus,
+      onChangeText,
+      autoFocus,
+      word,
+      i18n,
+    } = this.props;
     return (
       <View style={globalStyles.container}>
         <SearchBar
@@ -43,8 +51,8 @@ class PXSearchBar extends Component {
           lightTheme
           placeholder={
             searchType === SEARCH_TYPES.USER
-              ? 'Enter nickname'
-              : 'Enter keyword'
+              ? i18n.searchUserPlaceHolder
+              : i18n.searchPlaceHolder
           }
           autoFocus={autoFocus}
           onFocus={onFocus}
@@ -59,9 +67,11 @@ class PXSearchBar extends Component {
   }
 }
 
-export default connect(
-  state => ({
-    searchType: state.searchType.type,
-  }),
-  searchHistoryActionCreators,
-)(PXSearchBar);
+export default connectLocalization(
+  connect(
+    state => ({
+      searchType: state.searchType.type,
+    }),
+    searchHistoryActionCreators,
+  )(PXSearchBar),
+);

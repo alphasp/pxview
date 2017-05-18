@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PXTabView from '../../components/PXTabView';
 import RecommendedIllusts from './RecommendedIllusts';
 import RecommendedMangas from './RecommendedMangas';
@@ -15,7 +14,7 @@ class Home extends Component {
 
   constructor(props) {
     super(props);
-    const { i18n } = this.props;
+    const { i18n } = props;
     this.state = {
       index: 0,
       routes: [
@@ -73,8 +72,4 @@ class Home extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(state => ({
-    lang: state.i18n.lang,
-  }))(Home),
-);
+export default connectLocalization(Home);

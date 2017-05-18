@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
-import PXTabView from '../components/PXTabView';
 import SearchAutoCompleteResult from './SearchAutoCompleteResult';
 import SearchUsersAutoCompleteResult from './SearchUsersAutoCompleteResult';
+import { connectLocalization } from '../components/Localization';
+import PXTabView from '../components/PXTabView';
 import * as searchAutoCompleteActionCreators
   from '../common/actions/searchAutoComplete';
 import * as searchUserAutoCompleteActionCreators
@@ -28,14 +29,27 @@ const styles = StyleSheet.create({
 class Search extends Component {
   constructor(props) {
     super(props);
-    const { searchType } = props;
+    const { searchType, i18n } = props;
     this.state = {
       index: searchType === SEARCH_TYPES.USER ? 1 : 0,
       routes: [
-        { key: '1', title: 'Illust/Manga' },
-        { key: '2', title: 'User' },
+        { key: '1', title: i18n.illustManga },
+        { key: '2', title: i18n.user },
       ],
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { lang: prevLang } = this.props;
+    const { lang, i18n } = nextProps;
+    if (lang !== prevLang) {
+      this.setState({
+        routes: [
+          { key: '1', title: i18n.illustManga },
+          { key: '2', title: i18n.user },
+        ],
+      });
+    }
   }
 
   handleChangeTab = index => {
@@ -73,7 +87,6 @@ class Search extends Component {
       case '2':
         return (
           <SearchUsersAutoCompleteResult
-            tabLabel="User"
             searchUsersAutoComplete={searchUsersAutoComplete}
             searchHistory={searchHistory}
             onPressItem={this.handleOnPressUser}
@@ -171,20 +184,22 @@ class Search extends Component {
   }
 }
 
-export default connect(
-  (state, props) => {
-    const { word } = props;
-    return {
-      searchAutoComplete: state.searchAutoComplete,
-      searchUsersAutoComplete: state.searchUsersAutoComplete,
-      searchHistory: state.searchHistory,
-      word,
-    };
-  },
-  {
-    ...searchAutoCompleteActionCreators,
-    ...searchUserAutoCompleteActionCreators,
-    ...searchHistoryActionCreators,
-    ...searchTypeActionCreators,
-  },
-)(Search);
+export default connectLocalization(
+  connect(
+    (state, props) => {
+      const { word } = props;
+      return {
+        searchAutoComplete: state.searchAutoComplete,
+        searchUsersAutoComplete: state.searchUsersAutoComplete,
+        searchHistory: state.searchHistory,
+        word,
+      };
+    },
+    {
+      ...searchAutoCompleteActionCreators,
+      ...searchUserAutoCompleteActionCreators,
+      ...searchHistoryActionCreators,
+      ...searchTypeActionCreators,
+    },
+  )(Search),
+);

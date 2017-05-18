@@ -35,11 +35,12 @@ class Trending extends Component {
 
   constructor(props) {
     super(props);
+    const { i18n } = props;
     this.state = {
       index: 0,
       routes: [
-        { key: '1', title: 'Illust/Manga' },
-        { key: '2', title: 'User' },
+        { key: '1', title: i18n.illustManga },
+        { key: '2', title: i18n.user },
       ],
       isFocusSearchBar: false,
       word: null,
@@ -60,10 +61,18 @@ class Trending extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { searchType: prevSearchType } = this.props;
-    const { searchType } = nextProps;
+    const { searchType: prevSearchType, lang: prevLang } = this.props;
+    const { searchType, lang, i18n } = nextProps;
     if (searchType !== prevSearchType) {
       this.setState({ index: searchType === SEARCH_TYPES.USER ? 1 : 0 });
+    }
+    if (lang !== prevLang) {
+      this.setState({
+        routes: [
+          { key: '1', title: i18n.illustManga },
+          { key: '2', title: i18n.user },
+        ],
+      });
     }
   }
 

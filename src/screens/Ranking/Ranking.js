@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import RankingList from './RankingList';
 import PastRanking from './PastRanking';
 import PXTabView from '../../components/PXTabView';
@@ -63,6 +62,9 @@ class Ranking extends Component {
   };
 
   renderScene = ({ route }) => {
+    if (Math.abs(this.state.index - this.state.routes.indexOf(route)) > 2) {
+      return null;
+    }
     switch (route.key) {
       case '1':
         return <RankingList rankingMode={RANKING_FOR_UI.DAILY} />;
@@ -100,8 +102,4 @@ class Ranking extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(state => ({
-    lang: state.i18n.lang,
-  }))(Ranking),
-);
+export default connectLocalization(Ranking);

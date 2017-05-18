@@ -9,11 +9,12 @@ import {
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Search from '../../containers/Search';
+import SearchResult from '../../containers/SearchResult';
+import SearchUsersResult from '../../containers/SearchUsersResult';
+import { connectLocalization } from '../../components/Localization';
 import PXHeader from '../../components/PXHeader';
 import PXTabView from '../../components/PXTabView';
 import PXTouchable from '../../components/PXTouchable';
-import SearchResult from '../../containers/SearchResult';
-import SearchUsersResult from '../../containers/SearchUsersResult';
 import * as searchTypeActionCreators from '../../common/actions/searchType';
 import * as searchAutoCompleteActionCreators
   from '../../common/actions/searchAutoComplete';
@@ -38,13 +39,13 @@ class SearchResultTabs extends Component {
 
   constructor(props) {
     super(props);
-    const { searchType, word } = props;
+    const { searchType, word, i18n } = props;
     this.state = {
       // initSearchType: searchType,
       index: searchType === SEARCH_TYPES.USER ? 1 : 0,
       routes: [
-        { key: '1', title: 'Illust/Manga' },
-        { key: '2', title: 'User' },
+        { key: '1', title: i18n.illustManga },
+        { key: '2', title: i18n.user },
       ],
       isFocusSearchBar: false,
       newWord: word,
@@ -62,10 +63,18 @@ class SearchResultTabs extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { searchType: prevSearchType } = this.props;
-    const { searchType } = nextProps;
+    const { searchType: prevSearchType, lang: prevLang } = this.props;
+    const { searchType, lang, i18n } = nextProps;
     if (searchType !== prevSearchType) {
       this.setState({ index: searchType === SEARCH_TYPES.USER ? 1 : 0 });
+    }
+    if (lang !== prevLang) {
+      this.setState({
+        routes: [
+          { key: '1', title: i18n.illustManga },
+          { key: '2', title: i18n.user },
+        ],
+      });
     }
   }
 
@@ -241,15 +250,17 @@ class SearchResultTabs extends Component {
   }
 }
 
-export default connect(
-  (state, props) => ({
-    searchType: state.searchType.type,
-    word: props.navigation.state.params.word,
-    navigationStateKey: props.navigation.state.key,
-  }),
-  {
-    ...searchAutoCompleteActionCreators,
-    ...searchUsersAutoCompleteActionCreators,
-    ...searchTypeActionCreators,
-  },
-)(SearchResultTabs);
+export default connectLocalization(
+  connect(
+    (state, props) => ({
+      searchType: state.searchType.type,
+      word: props.navigation.state.params.word,
+      navigationStateKey: props.navigation.state.key,
+    }),
+    {
+      ...searchAutoCompleteActionCreators,
+      ...searchUsersAutoCompleteActionCreators,
+      ...searchTypeActionCreators,
+    },
+  )(SearchResultTabs),
+);

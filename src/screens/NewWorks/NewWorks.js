@@ -17,14 +17,14 @@ class NewWorks extends Component {
 
   constructor(props) {
     super(props);
-    const { user } = props;
+    const { user, i18n } = props;
     let routes = [
-      { key: '1', title: 'Following' },
-      { key: '2', title: 'Illust' },
-      { key: '3', title: 'Manga' },
+      { key: '1', title: i18n.following },
+      { key: '2', title: i18n.illustration },
+      { key: '3', title: i18n.manga },
     ];
     if (user) {
-      routes = [...routes, { key: '4', title: 'My Pixiv' }];
+      routes = [...routes, { key: '4', title: i18n.myPixiv }];
     }
 
     this.state = {
@@ -41,29 +41,39 @@ class NewWorks extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { user: prevUser } = this.props;
-    const { user } = nextProps;
+    const { user: prevUser, lang: prevLang } = this.props;
+    const { user, lang, i18n } = nextProps;
     if ((!user && prevUser) || (user && !prevUser)) {
       const { routes, index } = this.state;
       if (!user) {
         if (index === 3) {
           this.setState({
-            ...this.state,
             routes: routes.filter(route => route.key !== 4),
             index: 0,
           });
         } else {
           this.setState({
-            ...this.state,
             routes: routes.filter(route => route.key !== 4),
           });
         }
       } else if (!routes.some(route => route.key === 4)) {
         this.setState({
-          ...this.state,
           routes: [...routes, { key: '4', title: 'My Pixiv' }],
         });
       }
+    }
+    if (lang !== prevLang) {
+      let routes = [
+        { key: '1', title: i18n.following },
+        { key: '2', title: i18n.illustration },
+        { key: '3', title: i18n.manga },
+      ];
+      if (user) {
+        routes = [...routes, { key: '4', title: i18n.myPixiv }];
+      }
+      this.setState({
+        routes,
+      });
     }
   }
 

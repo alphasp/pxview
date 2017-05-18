@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import hoistNonReactStatic from 'hoist-non-react-statics';
+import { connect } from 'react-redux';
 
 const connectLocalization = WrappedComponent => {
   class Localization extends Component {
@@ -16,6 +17,8 @@ const connectLocalization = WrappedComponent => {
 
   hoistNonReactStatic(Localization, WrappedComponent);
 
-  return Localization;
+  return connect(state => ({
+    lang: state.i18n.lang,
+  }))(Localization);
 };
 export default connectLocalization;
