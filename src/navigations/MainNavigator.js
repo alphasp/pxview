@@ -6,7 +6,7 @@ import HomeNavigator from './HomeNavigator';
 import RankingNavigator from './RankingNavigator';
 import TrendingNavigator from './TrendingNavigator';
 import NewWorkNavigator from './NewWorkNavigator';
-import UserProfileNavigator from './UserProfileNavigator';
+import MyPageNavigator from './MyPageNavigator';
 
 const renderTabBarIcon = (
   tintColor,
@@ -67,8 +67,8 @@ const MainNavigator = TabNavigator(
         // tabBarLabel: 'Newest',
       },
     },
-    UserProfileTab: {
-      screen: UserProfileNavigator,
+    MyPageTab: {
+      screen: MyPageNavigator,
       path: '/profile',
       navigationOptions: {
         tabBarIcon: ({ tintColor, focused }) =>
@@ -108,7 +108,7 @@ const MainNavigator = TabNavigator(
           NewWorkTab: {
             // barBackgroundColor: '#EEEEEE',
           },
-          UserProfileTab: {
+          MyPageTab: {
             // barBackgroundColor: '#EEEEEE',
           },
         },

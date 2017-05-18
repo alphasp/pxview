@@ -158,7 +158,7 @@ const menuList2 = [
   },
 ];
 
-class UserProfile extends Component {
+class MyPage extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     return {
@@ -364,5 +364,5 @@ export default connectLocalization(
       ...i18nActionCreators,
       ...browsingHistoryActionCreators,
     },
-  )(UserProfile),
+  )(MyPage),
 );

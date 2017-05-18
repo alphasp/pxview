@@ -1,16 +1,16 @@
 import { StackNavigator } from 'react-navigation';
-import UserProfile from '../screens/UserProfile/UserProfile';
-import MyWorks from '../screens/UserProfile/MyWorks';
-import MyConnection from '../screens/UserProfile/MyConnection/MyConnection';
-import MyCollection from '../screens/UserProfile/MyCollection/MyCollection';
-import BrowsingHistory from '../screens/UserProfile/BrowsingHistory';
+import MyPage from '../screens/MyPage/MyPage';
+import MyWorks from '../screens/MyPage/MyWorks';
+import MyConnection from '../screens/MyPage/MyConnection/MyConnection';
+import MyCollection from '../screens/MyPage/MyCollection/MyCollection';
+import BrowsingHistory from '../screens/MyPage/BrowsingHistory';
 import enhanceRouter from './routers/enhanceRouter';
 import sharedRouteConfig from './routeConfigs/shared';
 
-const UserProfileNavigator = StackNavigator(
+const MyPageNavigator = StackNavigator(
   {
-    UserProfile: {
-      screen: UserProfile,
+    MyPage: {
+      screen: MyPage,
       navigationOptions: {
         header: null,
       },
@@ -57,4 +57,4 @@ const UserProfileNavigator = StackNavigator(
   },
 );
 
-export default enhanceRouter(UserProfileNavigator);
+export default enhanceRouter(MyPageNavigator);
