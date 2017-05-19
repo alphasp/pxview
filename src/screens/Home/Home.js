@@ -5,13 +5,6 @@ import RecommendedMangas from './RecommendedMangas';
 import { connectLocalization } from '../../components/Localization';
 
 class Home extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state;
-    return {
-      tabBarLabel: params && params.i18n.home,
-    };
-  };
-
   constructor(props) {
     super(props);
     const { i18n } = props;

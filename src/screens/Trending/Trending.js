@@ -26,13 +26,6 @@ const styles = StyleSheet.create({
 });
 
 class Trending extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state;
-    return {
-      tabBarLabel: params && params.i18n.search,
-    };
-  };
-
   constructor(props) {
     super(props);
     const { i18n } = props;

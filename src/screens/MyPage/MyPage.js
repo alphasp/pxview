@@ -159,13 +159,6 @@ const menuList2 = [
 ];
 
 class MyPage extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state;
-    return {
-      tabBarLabel: params && params.i18n.myPage,
-    };
-  };
-
   constructor(props) {
     super(props);
     this.state = {

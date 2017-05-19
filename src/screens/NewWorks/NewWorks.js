@@ -8,13 +8,6 @@ import { connectLocalization } from '../../components/Localization';
 import PXTabView from '../../components/PXTabView';
 
 class NewWorks extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state;
-    return {
-      tabBarLabel: params && params.i18n.newest,
-    };
-  };
-
   constructor(props) {
     super(props);
     const { user, i18n } = props;

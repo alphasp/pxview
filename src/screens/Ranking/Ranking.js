@@ -6,13 +6,6 @@ import { connectLocalization } from '../../components/Localization';
 import { RANKING_FOR_UI } from '../../common/constants';
 
 class Ranking extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state;
-    return {
-      tabBarLabel: params && params.i18n.ranking,
-    };
-  };
-
   constructor(props) {
     super(props);
     const { i18n } = this.props;

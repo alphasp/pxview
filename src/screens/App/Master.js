@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import Toast, { DURATION } from 'react-native-easy-toast';
 import AppNavigator from '../../navigations/AppNavigator';
+import { connectLocalization } from '../../components/Localization';
 import Loader from '../../components/Loader';
 import ModalRoot from '../../containers/ModalRoot';
 import { resetError } from '../../common/actions/error';
@@ -84,12 +85,13 @@ class Master extends Component {
   };
 
   render() {
-    const { rehydrated } = this.props;
+    const { rehydrated, i18n } = this.props;
     return (
       <View style={styles.container}>
         {rehydrated
           ? <AppNavigator
               onNavigationStateChange={this.handleOnNavigationStateChange}
+              screenProps={{ i18n }}
             />
           : <Loader />}
         <MessageBar ref={ref => (this.messageBarAlert = ref)} />
@@ -100,7 +102,9 @@ class Master extends Component {
   }
 }
 
-export default connect(state => ({
-  error: state.error,
-  rehydrated: state.auth.rehydrated,
-}))(Master);
+export default connectLocalization(
+  connect(state => ({
+    error: state.error,
+    rehydrated: state.auth.rehydrated,
+  }))(Master),
+);

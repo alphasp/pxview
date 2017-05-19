@@ -1,5 +1,6 @@
 import React from 'react';
-import { TabNavigator } from 'react-navigation';
+import { Platform } from 'react-native';
+import { TabNavigator, TabBarBottom } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import { NavigationComponent } from 'react-native-material-bottom-navigation';
 import HomeNavigator from './HomeNavigator';
@@ -26,55 +27,43 @@ const MainNavigator = TabNavigator(
   {
     HomeTab: {
       screen: HomeNavigator,
-      path: '/home',
-      navigationOptions: {
-        title: 'home',
-        // tabBar: () => ({
-        //   label: 'Home',
-        //   icon: ({ tintColor, focused }) => (
-        //     renderTabBarIcon(tintColor, focused, "home")
-        //   ),
-        // }),
+      navigationOptions: ({ screenProps: { i18n } }) => ({
+        tabBarLabel: i18n.home,
         tabBarIcon: ({ tintColor, focused }) =>
           renderTabBarIcon(tintColor, focused, 'home'),
-        // tabBarLabel: 'Home',
-      },
+      }),
     },
     RankingTab: {
       screen: RankingNavigator,
-      path: '/ranking',
-      navigationOptions: {
+      navigationOptions: ({ screenProps: { i18n } }) => ({
+        tabBarLabel: i18n.ranking,
         tabBarIcon: ({ tintColor, focused }) =>
           renderTabBarIcon(tintColor, focused, 'trophy'),
-        // tabBarLabel: 'Ranking',
-      },
+      }),
     },
     TrendingTab: {
       screen: TrendingNavigator,
-      path: '/trending',
-      navigationOptions: {
+      navigationOptions: ({ screenProps: { i18n } }) => ({
+        tabBarLabel: i18n.search,
         tabBarIcon: ({ tintColor, focused }) =>
           renderTabBarIcon(tintColor, focused, 'search'),
-        // tabBarLabel: 'Search',
-      },
+      }),
     },
     NewWorkTab: {
       screen: NewWorkNavigator,
-      path: '/newwork',
-      navigationOptions: {
+      navigationOptions: ({ screenProps: { i18n } }) => ({
+        tabBarLabel: i18n.newest,
         tabBarIcon: ({ tintColor, focused }) =>
           renderTabBarIcon(tintColor, focused, 'fiber-new', 'material'),
-        // tabBarLabel: 'Newest',
-      },
+      }),
     },
     MyPageTab: {
       screen: MyPageNavigator,
-      path: '/profile',
-      navigationOptions: {
+      navigationOptions: ({ screenProps: { i18n } }) => ({
+        tabBarLabel: i18n.myPage,
         tabBarIcon: ({ tintColor, focused }) =>
           renderTabBarIcon(tintColor, focused, 'user'),
-        // tabBarLabel: 'Profile',
-      },
+      }),
     },
   },
   {
@@ -83,7 +72,9 @@ const MainNavigator = TabNavigator(
     animationEnabled: false,
     lazy: true,
     tabBarPosition: 'bottom',
-    tabBarComponent: NavigationComponent,
+    tabBarComponent: Platform.OS === 'android'
+      ? NavigationComponent
+      : TabBarBottom,
     tabBarOptions: {
       activeTintColor: 'rgb(59,89,152)',
       inactiveTintColor: 'rgb(204,204,204)',
