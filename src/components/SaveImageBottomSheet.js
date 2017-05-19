@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, CameraRoll } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  CameraRoll,
+  Platform,
+  PermissionsAndroid,
+  Alert,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IonicIcon from 'react-native-vector-icons/Ionicons';
 import RNFetchBlob from 'react-native-fetch-blob';
@@ -41,35 +49,85 @@ class SaveImageBottomSheet extends Component {
     this.setState({ isShowBottomSheet: false });
   };
 
-  handleOnPressSaveImages = () => {
+  requestWriteExternalStoragePermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        {
+          title: 'Pixiv RN Storage Permission',
+          message: 'Pixiv RN needs access to your storage ' +
+            'so you can save your favorite images',
+        },
+      );
+      return granted;
+    } catch (err) {
+      console.log('Failed to request Write External Storage Permission ', err);
+      return null;
+    }
+  };
+
+  handleOnPressSaveImages = async () => {
     const { imageUrls } = this.state;
     console.log('dl images ', imageUrls);
-    const { dirs } = RNFetchBlob.fs;
     this.closeSaveImageBottomSheet();
-    const downloadImagePromises = imageUrls.map(url => {
+    if (Platform.OS === 'android') {
+      const granted = await this.requestWriteExternalStoragePermission();
+      if (granted === PermissionsAndroid.RESULTS.DENIED) {
+        return null;
+      }
+      if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+        Alert.alert(
+          'Pixiv RN Storage Permission',
+          'Storage Permission is required for download image feature, please enable it from system app settings',
+          [{ text: 'OK' }],
+          { cancelable: false },
+        );
+      }
+    }
+    const { dirs } = RNFetchBlob.fs;
+    const imagesBaseDir = Platform.OS === 'android'
+      ? dirs.PictureDir
+      : dirs.DocumentDir;
+    const imagesDir = `${imagesBaseDir}/pixivrn`;
+    try {
+      const imagesDirExists = await RNFetchBlob.fs.isDir(imagesDir);
+      console.log('imagesDir ', imagesDir, imagesDirExists);
+      if (!imagesDirExists) {
+        await RNFetchBlob.fs.mkdir(imagesDir);
+      }
+    } catch (err) {
+      console.log('failed to create imagesDir ', err);
+    }
+    const downloadImagePromises = imageUrls.map(async url => {
       const fileName = url.split('/').pop().split('#')[0].split('?')[0];
-      return RNFetchBlob.config({
-        path: `${dirs.DocumentDir}/${fileName}`,
-      })
-        .fetch('GET', url, {
+      try {
+        const res = await RNFetchBlob.config({
+          path: `${imagesDir}/${fileName}`,
+        }).fetch('GET', url, {
           referer: 'http://www.pixiv.net',
-          //'Cache-Control' : 'no-store'
-        })
-        .then(res => {
-          console.log('The file saved to ', res.path());
-          CameraRoll.saveToCameraRoll(res.path())
-            .then(result => {
-              console.log('save succeeded to camera roll ', result);
-            })
-            .catch(err => {
-              console.log('save failed to camera roll ', err);
-            });
-        })
-        .catch((err, statusCode) => {
-          // error handling
-          console.log('error fetch blob ', err, statusCode);
-        })
-        .then(() => null);
+        });
+        const filePath = res.path();
+        console.log('The file saved to ', filePath);
+        if (Platform.OS === 'ios') {
+          try {
+            const cameraRollResult = await CameraRoll.saveToCameraRoll(
+              filePath,
+            );
+            console.log('save succeeded to camera roll ', cameraRollResult);
+          } catch (err) {
+            console.log('save failed to camera roll ', err);
+          }
+        } else if (Platform.OS === 'android') {
+          try {
+            await RNFetchBlob.fs.scanFile([{ path: filePath }]);
+            console.log('scan success ', filePath);
+          } catch (err) {
+            console.log('failed to scan ', filePath, err);
+          }
+        }
+      } catch (err) {
+        console.log('error fetch blob ', err);
+      }
     });
     return Promise.all(downloadImagePromises).then(results => {
       console.log('finish download all images ', results);
