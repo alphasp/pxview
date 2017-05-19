@@ -10,9 +10,6 @@ const TrendingNavigator = StackNavigator(
       navigationOptions: {
         header: null,
       },
-      // initialRouteParams: {
-      //   isFocusSearchBar: false // not working now
-      // }
     },
     ...sharedRouteConfig,
   },

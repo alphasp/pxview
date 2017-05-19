@@ -113,25 +113,25 @@ const styles = StyleSheet.create({
 const menuList = [
   {
     id: 'works',
-    title: 'Submitted Works',
+    title: 'myWorks',
     icon: 'picture-o',
     type: 'font-awesome',
   },
   {
     id: 'connection',
-    title: 'My Connection',
+    title: 'connection',
     icon: 'users',
     type: 'font-awesome',
   },
   {
     id: 'collection',
-    title: 'Collection',
+    title: 'collection',
     icon: 'heart',
     type: 'font-awesome',
   },
   {
-    id: 'history',
-    title: 'Browsing History',
+    id: 'browsingHistory',
+    title: 'browsingHistory',
     icon: 'clock-o',
     type: 'font-awesome',
   },
@@ -140,19 +140,19 @@ const menuList = [
 const menuList2 = [
   {
     id: 'settings',
-    title: 'Settings',
+    title: 'settings',
     icon: 'cog',
     type: 'font-awesome',
   },
   {
     id: 'feedback',
-    title: 'Feedback',
+    title: 'feedback',
     icon: 'comment-o',
     type: 'font-awesome',
   },
   {
     id: 'logout',
-    title: 'Logout',
+    title: 'logout',
     icon: 'sign-out',
     type: 'font-awesome',
   },
@@ -205,7 +205,7 @@ class MyPage extends Component {
           navigate('MyConnection', { userId: user.id });
         }
         break;
-      case 'history':
+      case 'browsingHistory':
         navigate('BrowsingHistory');
         break;
       case 'settings': {
@@ -253,6 +253,7 @@ class MyPage extends Component {
   };
 
   renderProfile = user => {
+    const { i18n } = this.props;
     const { viewRef } = this.state;
     return (
       <View style={styles.coverContainer}>
@@ -295,11 +296,11 @@ class MyPage extends Component {
             ? <Text>{user.name}</Text>
             : <View style={styles.authActionContainer}>
                 <OutlineButton
-                  text="Sign Up"
+                  text={i18n.signup}
                   onPress={this.handleOnPressSignUp}
                 />
                 <OutlineButton
-                  text="Login"
+                  text={i18n.login}
                   style={{ marginLeft: 5 }}
                   onPress={this.handleOnPressLogin}
                 />
@@ -310,7 +311,7 @@ class MyPage extends Component {
   };
 
   renderList = list => {
-    const { user } = this.props;
+    const { user, i18n } = this.props;
     if (!user && list.some(l => l.id === 'logout')) {
       list = list.filter(l => l.id !== 'logout');
     }
@@ -319,7 +320,7 @@ class MyPage extends Component {
         {list.map(item => (
           <ListItem
             key={item.id}
-            title={item.title}
+            title={i18n[item.title]}
             leftIcon={{
               name: item.icon,
               type: item.type,

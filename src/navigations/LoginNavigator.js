@@ -5,10 +5,6 @@ const LoginNavigator = StackNavigator(
   {
     Login: {
       screen: Login,
-      path: '/',
-      navigationOptions: {
-        title: 'Login',
-      },
     },
   },
   {

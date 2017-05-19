@@ -1,18 +1,33 @@
 import React, { Component } from 'react';
-import PXTabView from '../../components/PXTabView';
 import UserIllusts from '../Shared/UserIllusts';
 import UserMangas from '../Shared/UserMangas';
+import { connectLocalization } from '../../components/Localization';
+import PXTabView from '../../components/PXTabView';
 
 class MyWorks extends Component {
   constructor(props) {
     super(props);
+    const { i18n } = props;
     this.state = {
       index: 0,
       routes: [
-        { key: '1', title: 'Illustration' },
-        { key: '2', title: 'Manga' },
+        { key: '1', title: i18n.illustration },
+        { key: '2', title: i18n.manga },
       ],
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { lang: prevLang } = this.props;
+    const { lang, i18n } = nextProps;
+    if (lang !== prevLang) {
+      this.setState({
+        routes: [
+          { key: '1', title: i18n.illustration },
+          { key: '2', title: i18n.manga },
+        ],
+      });
+    }
   }
 
   handleChangeTab = index => {
@@ -42,4 +57,4 @@ class MyWorks extends Component {
   }
 }
 
-export default MyWorks;
+export default connectLocalization(MyWorks);

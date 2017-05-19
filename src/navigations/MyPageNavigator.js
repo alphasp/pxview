@@ -17,29 +17,27 @@ const MyPageNavigator = StackNavigator(
     },
     MyConnection: {
       screen: MyConnection,
-      path: '/me/connection',
-      navigationOptions: {
-        title: 'Connection',
-      },
+      navigationOptions: ({ screenProps: { i18n } }) => ({
+        title: i18n.connection,
+      }),
     },
     MyCollection: {
       screen: MyCollection,
-      path: '/me/collection',
-      navigationOptions: {
-        title: 'Collection',
-      },
+      navigationOptions: ({ screenProps: { i18n } }) => ({
+        title: i18n.collection,
+      }),
     },
     MyWorks: {
       screen: MyWorks,
-      navigationOptions: {
-        title: 'My Works',
-      },
+      navigationOptions: ({ screenProps: { i18n } }) => ({
+        title: i18n.myWorks,
+      }),
     },
     BrowsingHistory: {
       screen: BrowsingHistory,
-      navigationOptions: {
-        title: 'Browsing History',
-      },
+      navigationOptions: ({ screenProps: { i18n } }) => ({
+        title: i18n.browsingHistory,
+      }),
     },
     ...sharedRouteConfig,
   },

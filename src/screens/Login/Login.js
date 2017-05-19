@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { Button } from 'react-native-elements';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
+import { connectLocalization } from '../../components/Localization';
 import PXFormInput from '../../components/PXFormInput';
 import * as authActionCreators from '../../common/actions/auth';
 
@@ -21,13 +22,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const validate = values => {
+const validate = (values, props) => {
+  const { email, password } = values;
+  const { i18n } = props;
   const errors = {};
-  if (!values.email) {
-    errors.email = 'Email address/Pixiv ID is required';
+  if (!email) {
+    errors.email = i18n.validateEmailOrPixivId;
   }
-  if (!values.password) {
-    errors.password = 'Password is required';
+  if (!password) {
+    errors.password = i18n.validatePassword;
   }
   return errors;
 };
@@ -70,29 +73,29 @@ class Login extends Component {
   };
 
   render() {
-    const { auth: { loading }, handleSubmit } = this.props;
+    const { auth: { loading }, i18n, handleSubmit } = this.props;
     return (
       <View style={styles.container}>
         <Field
           name="email"
           component={PXFormInput}
-          label="Email address/Pixiv ID"
+          label={i18n.emailOrPixivId}
           autoCapitalize="none"
         />
         <Field
           name="password"
           component={PXFormInput}
-          label="Password"
+          label={i18n.password}
           secureTextEntry
         />
         <Button
-          title="Login"
+          title={i18n.login}
           buttonStyle={styles.loginButton}
           raised
           onPress={handleSubmit(this.submit)}
         />
         <Button
-          title="Don't have an account?"
+          title={i18n.signup}
           buttonStyle={styles.signupButton}
           raised
           onPress={this.handleOnPressSignUp}
@@ -109,13 +112,15 @@ const LoginForm = reduxForm({
   validate,
 })(Login);
 
-export default connect(
-  (state, props) => ({
-    auth: state.auth,
-    onLoginSuccess: props.onLoginSuccess ||
-      (props.navigation.state &&
-        props.navigation.state.params &&
-        props.navigation.state.params.onLoginSuccess),
-  }),
-  authActionCreators,
-)(LoginForm);
+export default connectLocalization(
+  connect(
+    (state, props) => ({
+      auth: state.auth,
+      onLoginSuccess: props.onLoginSuccess ||
+        (props.navigation.state &&
+          props.navigation.state.params &&
+          props.navigation.state.params.onLoginSuccess),
+    }),
+    authActionCreators,
+  )(LoginForm),
+);

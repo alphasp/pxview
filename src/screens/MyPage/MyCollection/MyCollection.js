@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import PXTabView from '../../../components/PXTabView';
-import TagsFilterModal from '../../../containers/TagsFilterModal';
 import MyPrivateBookmarkIllusts from './MyPrivateBookmarkIllusts';
 import UserBookmarkIllusts from '../../Shared/UserBookmarkIllusts';
+import TagsFilterModal from '../../../containers/TagsFilterModal';
+import { connectLocalization } from '../../../components/Localization';
+import PXTabView from '../../../components/PXTabView';
 import { TAG_TYPES } from '../../../common/constants';
 
 const styles = StyleSheet.create({
@@ -33,15 +34,29 @@ class MyCollection extends Component {
 
   constructor(props) {
     super(props);
+    const { i18n } = props;
     this.state = {
       index: 0,
       routes: [
-        { key: '1', title: 'Illustrations (Public)' },
-        { key: '2', title: 'Illustrations (Private)' },
+        { key: '1', title: i18n.illustrationPublic },
+        { key: '2', title: i18n.illustrationPrivate },
       ],
       selectedPublicTag: '',
       selectedPrivateTag: '',
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { lang: prevLang } = this.props;
+    const { lang, i18n } = nextProps;
+    if (lang !== prevLang) {
+      this.setState({
+        routes: [
+          { key: '1', title: i18n.illustrationPublic },
+          { key: '2', title: i18n.illustrationPrivate },
+        ],
+      });
+    }
   }
 
   handleChangeTab = index => {
@@ -118,4 +133,4 @@ class MyCollection extends Component {
   }
 }
 
-export default MyCollection;
+export default connectLocalization(MyCollection);

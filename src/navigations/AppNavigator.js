@@ -8,23 +8,21 @@ const AppNavigator = StackNavigator(
   {
     Main: {
       screen: MainNavigator,
-      path: '/',
       navigationOptions: {
         header: null,
       },
     },
     Login: {
       screen: Login,
-      path: '/login',
-      navigationOptions: {
-        title: 'Login',
-      },
+      navigationOptions: ({ screenProps: { i18n } }) => ({
+        title: i18n.login,
+      }),
     },
     SearchFilterModal: {
       screen: SearchFilterModal,
-      navigationOptions: {
-        title: 'Display Options',
-      },
+      navigationOptions: ({ screenProps: { i18n } }) => ({
+        title: i18n.displayOptions,
+      }),
     },
     ImagesViewer: {
       screen: ImagesViewer,
