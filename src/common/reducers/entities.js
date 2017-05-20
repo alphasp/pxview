@@ -1,4 +1,4 @@
-import merge from 'lodash.merge';
+// import merge from 'lodash.merge';
 import {
   BOOKMARK_ILLUST,
   UNBOOKMARK_ILLUST,
@@ -17,7 +17,24 @@ export default function entities(
   action,
 ) {
   if (action && action.payload && action.payload.entities) {
-    return merge({}, state, action.payload.entities);
+    // const t0 = performance.now();
+    // const newState = merge({}, state, action.payload.entities);
+    // const t1 = performance.now();
+    // console.log(`took ${t1 - t0} milliseconds.`);
+    // return merge({}, state, action.payload.entities);
+    // https://github.com/reactjs/redux/issues/1262
+    // const t0 = performance.now();
+    const newState = { ...state };
+    Object.keys(action.payload.entities).forEach(type => {
+      const entity = action.payload.entities[type];
+      newState[type] = {
+        ...newState[type],
+        ...entity,
+      };
+    });
+    // const t1 = performance.now();
+    // console.log(`took ${t1 - t0} milliseconds.`);
+    return newState;
   }
   switch (action.type) {
     case BOOKMARK_ILLUST.REQUEST:
