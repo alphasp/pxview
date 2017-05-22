@@ -38,56 +38,60 @@ export default function entities(
   }
   switch (action.type) {
     case BOOKMARK_ILLUST.REQUEST:
+      if (!state.illusts[action.payload.illustId]) {
+        return state;
+      }
       return {
         ...state,
-        illusts: Object.keys(state.illusts).reduce(
-          (prev, id) => ({
-            ...prev,
-            [id]: state.illusts[id].id === action.payload.illustId
-              ? { ...state.illusts[id], is_bookmarked: true }
-              : state.illusts[id],
-          }),
-          {},
-        ),
+        illusts: {
+          ...state.illusts,
+          [action.payload.illustId]: {
+            ...state.illusts[action.payload.illustId],
+            is_bookmarked: true,
+          },
+        },
       };
     case UNBOOKMARK_ILLUST.REQUEST:
+      if (!state.illusts[action.payload.illustId]) {
+        return state;
+      }
       return {
         ...state,
-        illusts: Object.keys(state.illusts).reduce(
-          (prev, id) => ({
-            ...prev,
-            [id]: state.illusts[id].id === action.payload.illustId
-              ? { ...state.illusts[id], is_bookmarked: false }
-              : state.illusts[id],
-          }),
-          {},
-        ),
+        illusts: {
+          ...state.illusts,
+          [action.payload.illustId]: {
+            ...state.illusts[action.payload.illustId],
+            is_bookmarked: false,
+          },
+        },
       };
     case FOLLOW_USER.REQUEST:
+      if (!state.users[action.payload.userId]) {
+        return state;
+      }
       return {
         ...state,
-        users: Object.keys(state.users).reduce(
-          (prev, id) => ({
-            ...prev,
-            [id]: state.users[id].id === action.payload.userId
-              ? { ...state.users[id], is_followed: true }
-              : state.users[id],
-          }),
-          {},
-        ),
+        users: {
+          ...state.users,
+          [action.payload.userId]: {
+            ...state.users[action.payload.userId],
+            is_followed: true,
+          },
+        },
       };
     case UNFOLLOW_USER.REQUEST:
+      if (!state.users[action.payload.userId]) {
+        return state;
+      }
       return {
         ...state,
-        users: Object.keys(state.users).reduce(
-          (prev, id) => ({
-            ...prev,
-            [id]: state.users[id].id === action.payload.userId
-              ? { ...state.users[id], is_followed: false }
-              : state.users[id],
-          }),
-          {},
-        ),
+        users: {
+          ...state.users,
+          [action.payload.userId]: {
+            ...state.users[action.payload.userId],
+            is_followed: false,
+          },
+        },
       };
     default:
       return state;
