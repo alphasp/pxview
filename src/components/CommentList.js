@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, RefreshControl, FlatList } from 'react-native';
 import moment from 'moment';
+import { connectLocalization } from '../components/Localization';
+import NoResult from '../components/NoResult';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
+import { globalStyles } from '../styles';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   commentContainer: {
     flexDirection: 'row',
     margin: 10,
@@ -80,9 +80,10 @@ class CommentList extends Component {
       onRefresh,
       loadMoreItems,
       maxItems,
+      i18n,
     } = this.props;
     return (
-      <View style={styles.container}>
+      <View style={globalStyles.container}>
         {!loaded && loading && <Loader />}
         {loaded
           ? <FlatList
@@ -100,12 +101,10 @@ class CommentList extends Component {
           : null}
         {loaded &&
           (!items || !items.length) &&
-          <View style={styles.nullResultContainer}>
-            <Text>No comments</Text>
-          </View>}
+          <NoResult text={i18n.noComments} />}
       </View>
     );
   }
 }
 
-export default CommentList;
+export default connectLocalization(CommentList);

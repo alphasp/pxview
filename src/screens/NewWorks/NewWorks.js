@@ -12,7 +12,7 @@ class NewWorks extends Component {
     super(props);
     const { user, i18n } = props;
     let routes = [
-      { key: '1', title: i18n.following },
+      { key: '1', title: i18n.follow },
       { key: '2', title: i18n.illustration },
       { key: '3', title: i18n.manga },
     ];
@@ -57,7 +57,7 @@ class NewWorks extends Component {
     }
     if (lang !== prevLang) {
       let routes = [
-        { key: '1', title: i18n.following },
+        { key: '1', title: i18n.follow },
         { key: '2', title: i18n.illustration },
         { key: '3', title: i18n.manga },
       ];

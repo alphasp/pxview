@@ -17,42 +17,42 @@ const config = {
   },
   IllustComments: {
     screen: IllustComments,
-    navigationOptions: {
-      title: 'User Comments',
-    },
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.comments,
+    }),
   },
   RelatedIllusts: {
     screen: RelatedIllusts,
-    navigationOptions: {
-      title: 'Related Works',
-    },
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.relatedWorks,
+    }),
   },
   UserIllusts: {
     screen: UserIllusts,
-    navigationOptions: {
-      title: 'User Illusts',
-    },
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.userIllusts,
+    }),
   },
   UserMangas: {
     screen: UserMangas,
-    navigationOptions: {
-      title: 'User Mangas',
-    },
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.userMangas,
+    }),
   },
   UserBookmarkIllusts: {
     screen: UserBookmarkIllusts,
-    navigationOptions: {
-      title: 'Collection',
-    },
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.collection,
+    }),
   },
   SearchResult: {
     screen: SearchResultTabs,
   },
   RecommendedUsers: {
     screen: RecommendedUsers,
-    navigationOptions: {
-      title: 'Recommended Users',
-    },
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.recommendedUsers,
+    }),
   },
 };
 

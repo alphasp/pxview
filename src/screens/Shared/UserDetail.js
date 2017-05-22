@@ -19,6 +19,7 @@ import * as Animatable from 'react-native-animatable';
 import { BlurView } from 'react-native-blur';
 import Share from 'react-native-share';
 import FollowButtonContainer from '../../containers/FollowButtonContainer';
+import { connectLocalization } from '../../components/Localization';
 import IllustCollection from '../../components/IllustCollection';
 import PXTouchable from '../../components/PXTouchable';
 import PXThumbnail from '../../components/PXThumbnail';
@@ -381,12 +382,12 @@ class UserDetail extends Component {
   };
 
   renderIllustCollection = (items, profile) => {
-    const { userId, navigation } = this.props;
+    const { userId, navigation, i18n } = this.props;
     return (
       <IllustCollection
-        title="Illust Works"
+        title={i18n.userIllusts}
         total={profile.total_illusts}
-        viewMoreTitle="Works"
+        viewMoreTitle={i18n.worksCount}
         items={items}
         maxItems={6}
         onPressViewMore={() => navigation.navigate('UserIllusts', { userId })}
@@ -396,12 +397,12 @@ class UserDetail extends Component {
   };
 
   renderMangaCollection = (items, profile) => {
-    const { userId, navigation } = this.props;
+    const { userId, navigation, i18n } = this.props;
     return (
       <IllustCollection
-        title="Manga Works"
+        title={i18n.userMangas}
         total={profile.total_manga}
-        viewMoreTitle="Works"
+        viewMoreTitle={i18n.worksCount}
         items={items}
         maxItems={6}
         onPressViewMore={() => navigation.navigate('UserMangas', { userId })}
@@ -411,11 +412,11 @@ class UserDetail extends Component {
   };
 
   renderBookmarks = items => {
-    const { userId, navigation } = this.props;
+    const { userId, navigation, i18n } = this.props;
     return (
       <IllustCollection
-        title="Illust/Manga Collection"
-        viewMoreTitle="All"
+        title={i18n.illustMangaCollection}
+        viewMoreTitle={i18n.list}
         items={items}
         maxItems={6}
         onPressViewMore={() =>
@@ -487,7 +488,7 @@ class UserDetail extends Component {
   }
 }
 
-export default connect(
+export default connectLocalization(connect(
   () => {
     const getUserDetailPageItem = makeGetUserDetailPageItems();
     return (state, props) => {
@@ -523,4 +524,4 @@ export default connect(
     ...userMangasActionCreators,
     ...userBookmarkIllustlActionCreators,
   },
-)(UserDetail);
+)(UserDetail));

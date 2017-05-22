@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
+import { connectLocalization } from './Localization';
 import PXTouchable from './PXTouchable';
 import { globalStyleVariables } from '../styles';
 
@@ -18,16 +19,18 @@ const styles = StyleSheet.create({
 });
 
 const FollowButton = props => {
-  const { isFollow, onPress, onLongPress } = props;
+  const { isFollow, onPress, onLongPress, i18n } = props;
   return (
     <PXTouchable
       style={styles.button}
       onPress={onPress}
       onLongPress={onLongPress}
     >
-      <Text style={styles.buttonText}>{isFollow ? 'Following' : 'Follow'}</Text>
+      <Text style={styles.buttonText}>
+        {isFollow ? i18n.following : i18n.follow}
+      </Text>
     </PXTouchable>
   );
 };
 
-export default FollowButton;
+export default connectLocalization(FollowButton);

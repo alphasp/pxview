@@ -20,6 +20,7 @@ import Share from 'react-native-share';
 import ActionButton from 'react-native-action-button';
 import RelatedIllusts from './RelatedIllusts';
 import IllustComments from './IllustComments';
+import { connectLocalization } from '../../components/Localization';
 import BookmarkButton from '../../components/BookmarkButton';
 import Loader from '../../components/Loader';
 import PXTouchable from '../../components/PXTouchable';
@@ -237,7 +238,7 @@ class Detail extends Component {
   );
 
   renderFooter = () => {
-    const { item, navigation } = this.props;
+    const { item, navigation, i18n } = this.props;
     return (
       <View onLayout={this.handleOnLayoutFooter}>
         <View style={styles.infoContainer}>
@@ -271,10 +272,10 @@ class Detail extends Component {
         </View>
         <View>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Comments</Text>
+            <Text style={styles.sectionTitle}>{i18n.comments}</Text>
             <PXTouchable onPress={this.handleOnPressViewMoreComments}>
               <View style={styles.viewMoreContainer}>
-                <Text>View More</Text>
+                <Text>{i18n.viewMore}</Text>
                 <Icon name="chevron-right" style={styles.chevronIcon} />
               </View>
             </PXTouchable>
@@ -289,10 +290,10 @@ class Detail extends Component {
         {
           <View onLayout={this.handleOnLayoutRelatedIllusts}>
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>Related Works</Text>
+              <Text style={styles.sectionTitle}>{i18n.relatedWorks}</Text>
               <PXTouchable onPress={this.handleOnPressViewMoreRelatedIllusts}>
                 <View style={styles.viewMoreContainer}>
-                  <Text>View More</Text>
+                  <Text>{i18n.viewMore}</Text>
                   <Icon name="chevron-right" style={styles.chevronIcon} />
                 </View>
               </PXTouchable>
@@ -527,9 +528,9 @@ class Detail extends Component {
   }
 }
 
-export default connect(() => {
+export default connectLocalization(connect(() => {
   const getDetailItem = makeGetDetailItem();
   return (state, props) => ({
     item: getDetailItem(state, props),
   });
-}, browsingHistoryActionCreators)(Detail);
+}, browsingHistoryActionCreators)(Detail));

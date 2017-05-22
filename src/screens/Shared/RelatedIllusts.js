@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { InteractionManager } from 'react-native';
+import { View, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
+import { connectLocalization } from '../../components/Localization';
 import IllustList from '../../components/IllustList';
+import NoResult from '../../components/NoResult';
 import * as relatedIllustsActionCreators
   from '../../common/actions/relatedIllusts';
 import { makeGetRelatedIllustsItems } from '../../common/selectors';
+import { globalStyles } from '../../styles';
 
 class RelatedIllusts extends Component {
   componentDidMount() {
@@ -44,27 +47,36 @@ class RelatedIllusts extends Component {
       items,
       isFeatureInDetailPage,
       maxItems,
+      i18n,
     } = this.props;
     return (
-      <IllustList
-        data={{ ...relatedIllusts, items }}
-        loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
-        onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
-        maxItems={isFeatureInDetailPage && maxItems}
-      />
+      <View style={globalStyles.container}>
+        <IllustList
+          data={{ ...relatedIllusts, items }}
+          loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
+          onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
+          maxItems={isFeatureInDetailPage && maxItems}
+        />
+        {relatedIllusts &&
+          relatedIllusts.loaded &&
+          (!items || !items.length) &&
+          <NoResult text={i18n.noRelatedWorks} />}
+      </View>
     );
   }
 }
 
-export default connect(() => {
-  const getRelatedIllustsItems = makeGetRelatedIllustsItems();
-  return (state, props) => {
-    const { relatedIllusts } = state;
-    const illustId = props.illustId || props.navigation.state.params.illustId;
-    return {
-      relatedIllusts: relatedIllusts[illustId],
-      items: getRelatedIllustsItems(state, props),
-      illustId,
+export default connectLocalization(
+  connect(() => {
+    const getRelatedIllustsItems = makeGetRelatedIllustsItems();
+    return (state, props) => {
+      const { relatedIllusts } = state;
+      const illustId = props.illustId || props.navigation.state.params.illustId;
+      return {
+        relatedIllusts: relatedIllusts[illustId],
+        items: getRelatedIllustsItems(state, props),
+        illustId,
+      };
     };
-  };
-}, relatedIllustsActionCreators)(RelatedIllusts);
+  }, relatedIllustsActionCreators)(RelatedIllusts),
+);
