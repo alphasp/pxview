@@ -10,8 +10,9 @@ const connectLocalization = WrappedComponent => {
     };
 
     render() {
+      const { innerRef } = this.props;
       const { i18n } = this.context;
-      return <WrappedComponent {...this.props} i18n={i18n} />;
+      return <WrappedComponent {...this.props} i18n={i18n} ref={innerRef} />;
     }
   }
 
