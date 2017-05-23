@@ -8,6 +8,7 @@ import {
   Modal,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
 import * as bookmarkTagsActionCreators from '../common/actions/bookmarkTags';
 
@@ -61,15 +62,23 @@ class TagsFilterModal extends Component {
 
   renderItem = ({ item }) => {
     // const { target, duration } = this.state;
-    const { tag, onSelectTag } = this.props;
+    const { tag, onSelectTag, i18n } = this.props;
     const isSelected = item.value === tag;
+    let tagName;
+    if (item.value === '') {
+      tagName = i18n.collectionTagsAll;
+    } else if (item.value === '未分類') {
+      tagName = i18n.collectionTagsUncategorized;
+    } else {
+      tagName = item.name;
+    }
     return (
       <PXTouchable key={item.name} onPress={() => onSelectTag(item.value)}>
         <View style={[styles.row, isSelected && styles.selectedTagContainer]}>
           {
             <View style={styles.selectedTag}>
               <Text style={isSelected && styles.selectedTagText}>
-                {item.name}
+                {tagName}
               </Text>
             </View>
           }
@@ -95,7 +104,12 @@ class TagsFilterModal extends Component {
   };
 
   render() {
-    const { bookmarkTags: { items }, isOpen, onPressCloseButton } = this.props;
+    const {
+      bookmarkTags: { items },
+      isOpen,
+      onPressCloseButton,
+      i18n,
+    } = this.props;
     return (
       <Modal
         animationType="fade"
@@ -109,7 +123,7 @@ class TagsFilterModal extends Component {
               <View>
                 <View style={styles.sectionHeader}>
                   <Text style={styles.sectionHeaderTitle}>
-                    Collection Tags
+                    {i18n.collectionTags}
                   </Text>
                 </View>
                 <View style={styles.innerContainer}>
@@ -131,9 +145,11 @@ class TagsFilterModal extends Component {
   }
 }
 
-export default connect(
-  (state, props) => ({
-    bookmarkTags: state.bookmarkTags[props.tagType],
-  }),
-  bookmarkTagsActionCreators,
-)(TagsFilterModal);
+export default connectLocalization(
+  connect(
+    (state, props) => ({
+      bookmarkTags: state.bookmarkTags[props.tagType],
+    }),
+    bookmarkTagsActionCreators,
+  )(TagsFilterModal),
+);

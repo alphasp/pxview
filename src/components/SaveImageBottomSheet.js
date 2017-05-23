@@ -11,6 +11,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IonicIcon from 'react-native-vector-icons/Ionicons';
 import RNFetchBlob from 'react-native-fetch-blob';
+import { connectLocalization } from '../components/Localization';
 import PXBottomSheet from '../components/PXBottomSheet';
 import PXTouchable from '../components/PXTouchable';
 
@@ -135,6 +136,7 @@ class SaveImageBottomSheet extends Component {
   };
 
   render() {
+    const { i18n } = this.props;
     const { isShowBottomSheet, imageUrls } = this.state;
     return (
       <PXBottomSheet
@@ -146,7 +148,7 @@ class SaveImageBottomSheet extends Component {
             <View style={styles.bottomSheetListItem}>
               <Icon name="floppy-o" size={24} />
               <Text style={styles.bottomSheetText}>
-                {imageUrls.length > 1 ? 'Save All Images' : 'Save Image'}
+                {imageUrls.length > 1 ? i18n.saveAllImages : i18n.saveImage}
               </Text>
             </View>
           </PXTouchable>
@@ -160,7 +162,7 @@ class SaveImageBottomSheet extends Component {
               <Text
                 style={[styles.bottomSheetText, styles.bottomSheetCancelText]}
               >
-                Cancel
+                {i18n.cancel}
               </Text>
             </View>
           </PXTouchable>
@@ -170,4 +172,4 @@ class SaveImageBottomSheet extends Component {
   }
 }
 
-export default SaveImageBottomSheet;
+export default connectLocalization(SaveImageBottomSheet);

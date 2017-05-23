@@ -522,15 +522,19 @@ class Detail extends Component {
             buttonColor="rgba(255,255,255,1)"
             icon={<BookmarkButton item={item} />}
           />}
-        <SaveImageBottomSheet ref={ref => (this.saveImageBottomSheet = ref)} />
+        <SaveImageBottomSheet
+          innerRef={ref => (this.saveImageBottomSheet = ref)}
+        />
       </View>
     );
   }
 }
 
-export default connectLocalization(connect(() => {
-  const getDetailItem = makeGetDetailItem();
-  return (state, props) => ({
-    item: getDetailItem(state, props),
-  });
-}, browsingHistoryActionCreators)(Detail));
+export default connectLocalization(
+  connect(() => {
+    const getDetailItem = makeGetDetailItem();
+    return (state, props) => ({
+      item: getDetailItem(state, props),
+    });
+  }, browsingHistoryActionCreators)(Detail),
+);

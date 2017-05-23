@@ -288,6 +288,7 @@ class UserDetail extends Component {
   };
 
   renderProfile = detail => {
+    const { i18n } = this.props;
     const { viewRef } = this.state;
     return (
       <View>
@@ -355,15 +356,15 @@ class UserDetail extends Component {
           <View style={styles.row}>
             <View style={styles.row}>
               <Text>{detail.profile.total_follow_users}</Text>
-              <Text style={styles.statType}> Following </Text>
+              <Text style={styles.statType}> {i18n.following} </Text>
             </View>
             <View style={styles.row}>
               <Text>{detail.profile.total_follower}</Text>
-              <Text style={styles.statType}> Followers </Text>
+              <Text style={styles.statType}> {i18n.followers} </Text>
             </View>
             <View style={styles.row}>
               <Text>{detail.profile.total_mypixiv_users}</Text>
-              <Text style={styles.statType}> My Pixiv </Text>
+              <Text style={styles.statType}> {i18n.myPixiv} </Text>
             </View>
           </View>
         </View>
@@ -488,40 +489,42 @@ class UserDetail extends Component {
   }
 }
 
-export default connectLocalization(connect(
-  () => {
-    const getUserDetailPageItem = makeGetUserDetailPageItems();
-    return (state, props) => {
-      const {
-        userDetail,
-        userIllusts,
-        userMangas,
-        userBookmarkIllusts,
-      } = state;
-      const userId = props.userId || props.navigation.state.params.userId;
-      const {
-        userDetailItem,
-        userIllustsItems,
-        userMangasItems,
-        userBookmarkIllustsItems,
-      } = getUserDetailPageItem(state, props);
-      return {
-        userDetail: userDetail[userId],
-        userIllusts: userIllusts[userId],
-        userMangas: userMangas[userId],
-        userBookmarkIllusts: userBookmarkIllusts[userId],
-        userDetailItem,
-        userIllustsItems,
-        userMangasItems,
-        userBookmarkIllustsItems,
-        userId,
+export default connectLocalization(
+  connect(
+    () => {
+      const getUserDetailPageItem = makeGetUserDetailPageItems();
+      return (state, props) => {
+        const {
+          userDetail,
+          userIllusts,
+          userMangas,
+          userBookmarkIllusts,
+        } = state;
+        const userId = props.userId || props.navigation.state.params.userId;
+        const {
+          userDetailItem,
+          userIllustsItems,
+          userMangasItems,
+          userBookmarkIllustsItems,
+        } = getUserDetailPageItem(state, props);
+        return {
+          userDetail: userDetail[userId],
+          userIllusts: userIllusts[userId],
+          userMangas: userMangas[userId],
+          userBookmarkIllusts: userBookmarkIllusts[userId],
+          userDetailItem,
+          userIllustsItems,
+          userMangasItems,
+          userBookmarkIllustsItems,
+          userId,
+        };
       };
-    };
-  },
-  {
-    ...userDetailActionCreators,
-    ...userIllustsActionCreators,
-    ...userMangasActionCreators,
-    ...userBookmarkIllustlActionCreators,
-  },
-)(UserDetail));
+    },
+    {
+      ...userDetailActionCreators,
+      ...userIllustsActionCreators,
+      ...userMangasActionCreators,
+      ...userBookmarkIllustlActionCreators,
+    },
+  )(UserDetail),
+);

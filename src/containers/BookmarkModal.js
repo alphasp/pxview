@@ -17,6 +17,7 @@ import { MKCheckbox } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Toast, { DURATION } from 'react-native-easy-toast';
+import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
 import Separator from '../components/Separator';
 import * as illustBookmarkDetailActionCreators
@@ -146,14 +147,12 @@ class BookmarkModal extends Component {
   };
 
   handleOnCheckTag = checkedTag => {
+    const { i18n } = this.props;
     const { tags } = this.state;
     let selectedTagsCount = this.countSelectedTags(tags);
     if (!checkedTag.editable) {
       if (selectedTagsCount > MAX_TAGS_COUNT - 1) {
-        this.toast.show(
-          `Maximum of tags is ${MAX_TAGS_COUNT}`,
-          DURATION.LENGTH_LONG,
-        );
+        this.toast.show(i18n.collectionTagsMaxLimit, DURATION.LENGTH_LONG);
       }
       return;
     }
@@ -213,11 +212,11 @@ class BookmarkModal extends Component {
   };
 
   handleOnPressAddTag = () => {
+    const { i18n } = this.props;
     const { newTag, tags } = this.state;
     if (!newTag) {
       return;
     }
-    console.log('add tag ', newTag);
     const isExistingTag = tags.some(tag => tag.name === newTag);
     const newTagEntry = {
       name: newTag,
@@ -231,10 +230,7 @@ class BookmarkModal extends Component {
     } else {
       updatedTags = [newTagEntry, ...tags];
       if (this.countSelectedTags(updatedTags) > MAX_TAGS_COUNT) {
-        this.toast.show(
-          `Maximum of tags is ${MAX_TAGS_COUNT}`,
-          DURATION.LENGTH_LONG,
-        );
+        this.toast.show(i18n.collectionTagsMaxLimit, DURATION.LENGTH_LONG);
         this.setState({
           newTag: null,
         });
@@ -274,7 +270,7 @@ class BookmarkModal extends Component {
   );
 
   render() {
-    const { isBookmark } = this.props;
+    const { isBookmark, i18n } = this.props;
     const { tags, selectedTagsCount, isPrivate } = this.state;
     return (
       <Modal
@@ -289,18 +285,18 @@ class BookmarkModal extends Component {
               <View style={styles.innerContainer}>
                 <View style={styles.titleContainer}>
                   <Text style={styles.title}>
-                    {isBookmark ? 'Edit Like' : 'Add Like'}
+                    {isBookmark ? i18n.editLike : i18n.addLike}
                   </Text>
                 </View>
                 <View style={styles.subTitleContainer}>
-                  <Text>Collection Tags</Text>
+                  <Text>{i18n.collectionTags}</Text>
                   <Text>{selectedTagsCount} / 10</Text>
                 </View>
                 <View style={styles.newTagContainer}>
                   <TextInput
                     ref={ref => (this.tagInput = ref)}
                     style={styles.tagInput}
-                    placeholder="Add tag"
+                    placeholder={i18n.collectionTagsAdd}
                     autoCorrect={false}
                     onChangeText={text => this.setState({ newTag: text })}
                   />
@@ -320,7 +316,7 @@ class BookmarkModal extends Component {
                 </View>
                 <Separator />
                 <View style={styles.row}>
-                  <Text>Private</Text>
+                  <Text>{i18n.private}</Text>
                   <Switch
                     value={isPrivate}
                     onValueChange={this.handleOnChangeIsPrivate}
@@ -335,7 +331,7 @@ class BookmarkModal extends Component {
                 >
                   {isBookmark &&
                     <PXTouchable onPress={this.handleOnPressRemoveButton}>
-                      <Text>Remove Like</Text>
+                      <Text>{i18n.unlike}</Text>
                     </PXTouchable>}
                   <PXTouchable
                     style={
@@ -353,7 +349,7 @@ class BookmarkModal extends Component {
                         size={20}
                       />}
 
-                    <Text>{isBookmark ? 'Save' : 'Like'}</Text>
+                    <Text>{isBookmark ? i18n.save : i18n.addLike}</Text>
                   </PXTouchable>
                 </View>
               </View>
@@ -366,13 +362,15 @@ class BookmarkModal extends Component {
   }
 }
 
-export default connect(
-  state => ({
-    illustBookmarkDetail: state.illustBookmarkDetail,
-  }),
-  {
-    ...illustBookmarkDetailActionCreators,
-    ...bookmarkIllustActionCreators,
-    ...modalActionCreators,
-  },
-)(BookmarkModal);
+export default connectLocalization(
+  connect(
+    state => ({
+      illustBookmarkDetail: state.illustBookmarkDetail,
+    }),
+    {
+      ...illustBookmarkDetailActionCreators,
+      ...bookmarkIllustActionCreators,
+      ...modalActionCreators,
+    },
+  )(BookmarkModal),
+);

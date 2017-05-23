@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, SectionList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { connectLocalization } from './Localization';
 import PXTouchable from './PXTouchable';
 import Separator from './Separator';
 import { globalStyles, globalStyleVariables } from '../styles';
@@ -32,28 +33,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const typeName = {
-  target: 'Target',
-  duration: 'Duration',
-  sort: 'Sort By',
-};
-
 const sections = [
   {
     key: 'target',
     data: [
       {
-        name: 'Tag Partial',
         value: 'partial_match_for_tags',
         type: 'target',
       },
       {
-        name: 'Tag Total',
         value: 'exact_match_for_tags',
         type: 'target',
       },
       {
-        name: 'Title caption',
         value: 'title_and_caption',
         type: 'target',
       },
@@ -63,22 +55,18 @@ const sections = [
     key: 'duration',
     data: [
       {
-        name: 'Nothing',
         value: '',
         type: 'duration',
       },
       {
-        name: 'Last Day',
         value: 'within_last_day',
         type: 'duration',
       },
       {
-        name: 'Last Week',
         value: 'within_last_week',
         type: 'duration',
       },
       {
-        name: 'Last Month',
         value: 'within_last_month',
         type: 'duration',
       },
@@ -88,12 +76,10 @@ const sections = [
     key: 'sort',
     data: [
       {
-        name: 'Newest',
         value: 'date_desc',
         type: 'sort',
       },
       {
-        name: 'Oldest',
         value: 'date_asc',
         type: 'sort',
       },
@@ -113,10 +99,51 @@ class SearchFilterModal extends Component {
       sort: sort || 'date_desc',
     };
   }
+
+  getSearchTypeName = type => {
+    const { i18n } = this.props;
+    switch (type) {
+      case 'target':
+        return i18n.searchTarget;
+      case 'duration':
+        return i18n.searchDuration;
+      case 'sort':
+        return i18n.searchOrder;
+      default:
+        return '';
+    }
+  };
+
+  getSearchOptionName = option => {
+    const { i18n } = this.props;
+    switch (option) {
+      case 'partial_match_for_tags':
+        return i18n.searchTargetTagPartial;
+      case 'exact_match_for_tags':
+        return i18n.searchTargetTagTotal;
+      case 'title_and_caption':
+        return i18n.searchTargetTitleCaption;
+      case '':
+        return i18n.searchDurationNothing;
+      case 'within_last_day':
+        return i18n.searchDurationLastDay;
+      case 'within_last_week':
+        return i18n.searchDurationLastWeek;
+      case 'within_last_month':
+        return i18n.searchDurationLastMonth;
+      case 'date_desc':
+        return i18n.searchOrderNewest;
+      case 'date_asc':
+        return i18n.searchOrderOldest;
+      default:
+        return '';
+    }
+  };
+
   renderSectionHeader = ({ section }) => (
     <View key={section.key} style={styles.sectionHeader}>
       <Text style={styles.sectionHeaderTitle}>
-        {typeName[section.key]}
+        {this.getSearchTypeName(section.key)}
       </Text>
     </View>
   );
@@ -126,7 +153,7 @@ class SearchFilterModal extends Component {
     return (
       <PXTouchable onPress={() => this.handleOnPressRow(item.type, item.value)}>
         <View style={styles.row}>
-          <Text>{item.name}</Text>
+          <Text>{this.getSearchOptionName(item.value)}</Text>
           {((item.type === 'target' && item.value === target) ||
             (item.type === 'duration' && item.value === duration) ||
             (item.type === 'sort' && item.value === sort)) &&
@@ -141,7 +168,6 @@ class SearchFilterModal extends Component {
   );
 
   handleOnPressRow = (filterType, value) => {
-    console.log(filterType, value);
     if (filterType === 'target') {
       this.setState({ target: value });
     } else if (filterType === 'duration') {
@@ -152,7 +178,8 @@ class SearchFilterModal extends Component {
   };
 
   render() {
-    const { onPressApplyFilter } = this.props.navigation.state.params;
+    const { i18n, navigation } = this.props;
+    const { onPressApplyFilter } = navigation.state.params;
     const { target, duration, sort } = this.state;
     return (
       <View style={globalStyles.container}>
@@ -170,7 +197,7 @@ class SearchFilterModal extends Component {
             style={styles.searchFilterButton}
           >
             <Text style={styles.searchFilterButtonText}>
-              Apply Search Duration
+              {i18n.searchApplyFilter}
             </Text>
           </PXTouchable>
         </View>
@@ -179,4 +206,4 @@ class SearchFilterModal extends Component {
   }
 }
 
-export default SearchFilterModal;
+export default connectLocalization(SearchFilterModal);

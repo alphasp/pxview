@@ -9,6 +9,7 @@ import {
   Switch,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
 import FollowButton from '../components/FollowButton';
 import * as userFollowDetailActionCreators
@@ -127,7 +128,7 @@ class FollowModal extends Component {
   };
 
   render() {
-    const { isFollow } = this.props;
+    const { isFollow, i18n } = this.props;
     const { isPrivate } = this.state;
     return (
       <Modal
@@ -142,11 +143,11 @@ class FollowModal extends Component {
               <View style={styles.innerContainer}>
                 <View style={styles.titleContainer}>
                   <Text style={styles.title}>
-                    {isFollow ? 'Edit Follow' : 'Follow'}
+                    {isFollow ? i18n.editFollow : i18n.follow}
                   </Text>
                 </View>
                 <View style={styles.form}>
-                  <Text>Private</Text>
+                  <Text>{i18n.private}</Text>
                   <Switch
                     onValueChange={this.handleOnChangeIsPrivate}
                     value={isPrivate}
@@ -155,10 +156,10 @@ class FollowModal extends Component {
                 {isFollow
                   ? <View style={styles.actionContainer}>
                       <PXTouchable onPress={this.handleOnPressRemoveButton}>
-                        <Text>Remove</Text>
+                        <Text>{i18n.unfollow}</Text>
                       </PXTouchable>
                       <PXTouchable onPress={this.handleOnPressFollowButton}>
-                        <Text>Follow</Text>
+                        <Text>{i18n.follow}</Text>
                       </PXTouchable>
                     </View>
                   : <View style={styles.actionWithoutRemoveButtonContainer}>
@@ -176,13 +177,15 @@ class FollowModal extends Component {
   }
 }
 
-export default connect(
-  state => ({
-    userFollowDetail: state.userFollowDetail,
-  }),
-  {
-    ...userFollowDetailActionCreators,
-    ...followUserActionCreators,
-    ...modalActionCreators,
-  },
-)(FollowModal);
+export default connectLocalization(
+  connect(
+    state => ({
+      userFollowDetail: state.userFollowDetail,
+    }),
+    {
+      ...userFollowDetailActionCreators,
+      ...followUserActionCreators,
+      ...modalActionCreators,
+    },
+  )(FollowModal),
+);
