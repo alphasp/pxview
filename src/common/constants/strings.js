@@ -144,7 +144,7 @@ export default {
     userIllusts: 'イラスト作品',
     userMangas: 'マンガ作品',
     illustMangaCollection: 'イラスト・マンガコレクション',
-    recommendedUsers: 'おすすめユーザ',
+    recommendedUsers: 'おすすめユーザー',
     worksCount: '件の作品',
     list: '一覧',
     collectionTags: 'コレクションタグ',

@@ -45,15 +45,7 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     margin: 10,
-    // backgroundColor: 'transparent',
-    // position: 'absolute',
-    // overflow: 'hidden',
-    // bottom: 200,
-    // left: 0
   },
-  // commentContainer: {
-  //   margin: 10
-  // },
   sectionHeader: {
     margin: 10,
     flexDirection: 'row',
@@ -61,29 +53,6 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontWeight: 'bold',
-  },
-  viewMoreContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  chevronIcon: {
-    marginLeft: 5,
-  },
-  header: {
-    // paddingTop: 0,
-    // top: 15,
-    // right: 0,
-    // left: 100,
-    // position: 'absolute',
-    ...Platform.select({
-      ios: {
-        top: 15,
-      },
-    }),
-    // right: 0,
-    // left: 100,
-    // position: 'absolute',
-    alignItems: 'center',
   },
   headerThumnailNameContainer: {
     flexDirection: 'row',
@@ -103,10 +72,6 @@ const styles = StyleSheet.create({
   nameContainer: {
     flexDirection: 'column',
     marginLeft: 10,
-  },
-  imageContainer: {
-    width: Dimensions.get('window').width,
-    //height: Dimensions.get('window').height - 150
   },
   captionContainer: {
     marginVertical: 10,
@@ -273,12 +238,6 @@ class Detail extends Component {
         <View>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>{i18n.comments}</Text>
-            <PXTouchable onPress={this.handleOnPressViewMoreComments}>
-              <View style={styles.viewMoreContainer}>
-                <Text>{i18n.viewMore}</Text>
-                <Icon name="chevron-right" style={styles.chevronIcon} />
-              </View>
-            </PXTouchable>
           </View>
           <IllustComments
             illustId={item.id}
@@ -287,25 +246,17 @@ class Detail extends Component {
             navigation={navigation}
           />
         </View>
-        {
-          <View onLayout={this.handleOnLayoutRelatedIllusts}>
-            <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>{i18n.relatedWorks}</Text>
-              <PXTouchable onPress={this.handleOnPressViewMoreRelatedIllusts}>
-                <View style={styles.viewMoreContainer}>
-                  <Text>{i18n.viewMore}</Text>
-                  <Icon name="chevron-right" style={styles.chevronIcon} />
-                </View>
-              </PXTouchable>
-            </View>
-            <RelatedIllusts
-              illustId={item.id}
-              isFeatureInDetailPage
-              maxItems={6}
-              navigation={navigation}
-            />
+        <View onLayout={this.handleOnLayoutRelatedIllusts}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>{i18n.relatedWorks}</Text>
           </View>
-        }
+          <RelatedIllusts
+            illustId={item.id}
+            isFeatureInDetailPage
+            maxItems={6}
+            navigation={navigation}
+          />
+        </View>
       </View>
     );
   };
@@ -433,22 +384,6 @@ class Detail extends Component {
     navigate('ImagesViewer', {
       images,
       viewerIndex: index,
-    });
-  };
-
-  handleOnPressViewMoreComments = () => {
-    const { item, navigation: { navigate } } = this.props;
-    navigate('IllustComments', {
-      illustId: item.id,
-      navigation: this.props.navigation,
-    });
-  };
-
-  handleOnPressViewMoreRelatedIllusts = () => {
-    const { item, navigation: { navigate } } = this.props;
-    navigate('RelatedIllusts', {
-      illustId: item.id,
-      navigation: this.props.navigation,
     });
   };
 

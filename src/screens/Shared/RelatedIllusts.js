@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
-import { View, InteractionManager } from 'react-native';
+import { View, StyleSheet, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import { connectLocalization } from '../../components/Localization';
 import IllustList from '../../components/IllustList';
 import NoResult from '../../components/NoResult';
+import ViewMoreButton from '../../components/ViewMoreButton';
 import * as relatedIllustsActionCreators
   from '../../common/actions/relatedIllusts';
 import { makeGetRelatedIllustsItems } from '../../common/selectors';
 import { globalStyles } from '../../styles';
+
+const styles = StyleSheet.create({
+  viewMoreButtonContainer: {
+    margin: 20,
+  },
+});
 
 class RelatedIllusts extends Component {
   componentDidMount() {
@@ -41,6 +48,13 @@ class RelatedIllusts extends Component {
     fetchRelatedIllusts(illustId, null, null, true);
   };
 
+  handleOnPressViewMoreRelatedIllusts = () => {
+    const { illustId, navigation: { navigate } } = this.props;
+    navigate('RelatedIllusts', {
+      illustId,
+    });
+  };
+
   render() {
     const {
       relatedIllusts,
@@ -61,6 +75,17 @@ class RelatedIllusts extends Component {
           relatedIllusts.loaded &&
           (!items || !items.length) &&
           <NoResult text={i18n.noRelatedWorks} />}
+        {isFeatureInDetailPage &&
+          relatedIllusts &&
+          relatedIllusts.loaded &&
+          items &&
+          items.length
+          ? <View style={styles.viewMoreButtonContainer}>
+              <ViewMoreButton
+                onPress={this.handleOnPressViewMoreRelatedIllusts}
+              />
+            </View>
+          : null}
       </View>
     );
   }

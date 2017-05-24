@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { InteractionManager } from 'react-native';
+import { View, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import CommentList from '../../components/CommentList';
+import ViewMoreButton from '../../components/ViewMoreButton';
 import * as illustCommentsActionCreators
   from '../../common/actions/illustComments';
 import { makeGetIllustCommentsItems } from '../../common/selectors';
+import { globalStyles } from '../../styles';
 
 class IllustComments extends Component {
   componentDidMount() {
@@ -36,6 +38,13 @@ class IllustComments extends Component {
     fetchIllustComments(illustId, null, null, true);
   };
 
+  handleOnPressViewMoreComments = () => {
+    const { illustId, navigation: { navigate } } = this.props;
+    navigate('IllustComments', {
+      illustId,
+    });
+  };
+
   render() {
     const {
       illustComments,
@@ -45,13 +54,22 @@ class IllustComments extends Component {
       maxItems,
     } = this.props;
     return (
-      <CommentList
-        data={{ ...illustComments, items }}
-        loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
-        onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
-        maxItems={isFeatureInDetailPage && maxItems}
-        navigation={navigation}
-      />
+      <View style={globalStyles.container}>
+        <CommentList
+          data={{ ...illustComments, items }}
+          loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
+          onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
+          maxItems={isFeatureInDetailPage && maxItems}
+          navigation={navigation}
+        />
+        {isFeatureInDetailPage &&
+          illustComments &&
+          illustComments.loaded &&
+          items &&
+          items.length
+          ? <ViewMoreButton onPress={this.handleOnPressViewMoreComments} />
+          : null}
+      </View>
     );
   }
 }
