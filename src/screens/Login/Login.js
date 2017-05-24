@@ -12,13 +12,8 @@ const styles = StyleSheet.create({
   container: {
     padding: 5,
   },
-  loginButton: {
+  buttonContainer: {
     marginTop: 15,
-    backgroundColor: '#5cafec',
-  },
-  signupButton: {
-    marginTop: 15,
-    backgroundColor: '#8BC052',
   },
 });
 
@@ -90,13 +85,15 @@ class Login extends Component {
         />
         <Button
           title={i18n.login}
-          buttonStyle={styles.loginButton}
+          containerViewStyle={styles.buttonContainer}
+          backgroundColor="#5cafec"
           raised
           onPress={handleSubmit(this.submit)}
         />
         <Button
           title={i18n.signup}
-          buttonStyle={styles.signupButton}
+          containerViewStyle={styles.buttonContainer}
+          backgroundColor="#8BC052"
           raised
           onPress={this.handleOnPressSignUp}
         />

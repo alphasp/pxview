@@ -20,9 +20,8 @@ const styles = StyleSheet.create({
   usersIcon: {
     marginBottom: 10,
   },
-  recommendUserButton: {
+  recommendUserButtonContainer: {
     marginTop: 10,
-    backgroundColor: '#5cafec',
   },
 });
 
@@ -86,7 +85,8 @@ class FollowingUserIllusts extends Component {
           <Text>{i18n.newWorkFollowNullState}</Text>
           <Button
             title={i18n.findRecommendedUsers}
-            buttonStyle={styles.recommendUserButton}
+            containerViewStyle={styles.recommendUserButtonContainer}
+            backgroundColor="#5cafec"
             onPress={this.handleOnPressFindRecommendedUsers}
             raised
           />
