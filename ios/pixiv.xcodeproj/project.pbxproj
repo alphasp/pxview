@@ -41,7 +41,6 @@
 		4F8B557EDA034C43989D7BC0 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 986A17A066E541B48052019F /* SimpleLineIcons.ttf */; };
 		5648BE6DB15C482888424A1A /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A3614D7DF794420DB8D79CF6 /* Foundation.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		763BA7DF0C3844928DF64852 /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F520FD39674D64957564CD /* libRNKeychain.a */; };
 		788783CA96554DB4A33A2070 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFC5F58EEE1404AB3781A96 /* libRNBlur.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8ABF9D06F1DA4630A9D1CE9C /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3316D9A04AE5474584B578F5 /* libRNFetchBlob.a */; };
@@ -256,13 +255,6 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNShare;
 		};
-		DEBD36381E31FED800B66C6C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FBCF6C2C50FC44BA8A32CE6D /* RNKeychain.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5D82366F1B0CE05B005A9EF3;
-			remoteInfo = RNKeychain;
-		};
 		DEC2FA301E9382C8006C5406 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 242EFF9E103A451C9E75074A /* ReactNativeLocalization.xcodeproj */;
@@ -349,7 +341,6 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = pixiv/main.m; sourceTree = "<group>"; };
 		13E0F67D225944EDADAC7862 /* RNSpinkit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSpinkit.xcodeproj; path = "../node_modules/react-native-spinkit/ios/RNSpinkit.xcodeproj"; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		14F520FD39674D64957564CD /* libRNKeychain.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNKeychain.a; sourceTree = "<group>"; };
 		1EE48AFEE5AD4033A4965015 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		22840DCD9BAD4BF0B035342A /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		23E1C150C747465C9A52DEB1 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
@@ -387,7 +378,6 @@
 		DEECBAF11E696A3E004B96BC /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		E059E105EC7E4E5D8B10C22C /* libRCTMaterialKit.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTMaterialKit.a; sourceTree = "<group>"; };
 		E59CC911D5F54D7A8FC469FE /* RNBlur.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
-		FBCF6C2C50FC44BA8A32CE6D /* RNKeychain.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNKeychain.xcodeproj; path = "../node_modules/react-native-keychain/RNKeychain.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -422,7 +412,6 @@
 				C2D747417FA246C1AC1775B6 /* libRNSpinkit.a in Frameworks */,
 				0A753DBFEF834788B68B228F /* libRNVectorIcons.a in Frameworks */,
 				920C896C2054758EA30FC973 /* libPods-pixiv.a in Frameworks */,
-				763BA7DF0C3844928DF64852 /* libRNKeychain.a in Frameworks */,
 				944F20CAB39B4B27AC70824F /* libRCTMaterialKit.a in Frameworks */,
 				F5B009993B3E44CC8914D8ED /* libRNShare.a in Frameworks */,
 				DE8A8A5FAED6451AAA77322D /* libReactNativeLocalization.a in Frameworks */,
@@ -609,7 +598,6 @@
 				35B391E51F094E5FB1A33EB7 /* RNFS.xcodeproj */,
 				13E0F67D225944EDADAC7862 /* RNSpinkit.xcodeproj */,
 				56EB3DC089F84F4AAD27C812 /* RNVectorIcons.xcodeproj */,
-				FBCF6C2C50FC44BA8A32CE6D /* RNKeychain.xcodeproj */,
 				BCD3512888164C10B2E40A64 /* RCTMaterialKit.xcodeproj */,
 				4A223CCE078D40558D914702 /* RNShare.xcodeproj */,
 				242EFF9E103A451C9E75074A /* ReactNativeLocalization.xcodeproj */,
@@ -664,14 +652,6 @@
 			isa = PBXGroup;
 			children = (
 				DE2E51E61E6FF84300C81C60 /* libRNShare.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		DEBD36191E31FED800B66C6C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				DEBD36391E31FED800B66C6C /* libRNKeychain.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -957,10 +937,6 @@
 					ProjectRef = 35B391E51F094E5FB1A33EB7 /* RNFS.xcodeproj */;
 				},
 				{
-					ProductGroup = DEBD36191E31FED800B66C6C /* Products */;
-					ProjectRef = FBCF6C2C50FC44BA8A32CE6D /* RNKeychain.xcodeproj */;
-				},
-				{
 					ProductGroup = DE2E51C31E6FF84300C81C60 /* Products */;
 					ProjectRef = 4A223CCE078D40558D914702 /* RNShare.xcodeproj */;
 				},
@@ -1168,13 +1144,6 @@
 			fileType = archive.ar;
 			path = libRNShare.a;
 			remoteRef = DE2E51E51E6FF84300C81C60 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DEBD36391E31FED800B66C6C /* libRNKeychain.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNKeychain.a;
-			remoteRef = DEBD36381E31FED800B66C6C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		DEC2FA311E9382C8006C5406 /* libReactNativeLocalization.a */ = {
@@ -1456,9 +1425,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1484,9 +1450,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1569,8 +1532,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1605,8 +1566,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1635,8 +1594,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.pixiv-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1661,8 +1618,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.pixiv-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";

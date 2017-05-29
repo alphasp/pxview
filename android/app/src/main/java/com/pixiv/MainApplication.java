@@ -7,7 +7,6 @@ import com.facebook.react.ReactApplication;
 import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
 import cl.json.RNSharePackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
-import com.oblador.keychain.KeychainPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
@@ -43,7 +42,6 @@ public class MainApplication extends Application implements ReactApplication {
             new ReactNativeLocalizationPackage(),
             new RNSharePackage(),
             new ReactMaterialKitPackage(),
-            new KeychainPackage(),
             new VectorIconsPackage(),
             new FabricPackage(),
             new PhotoViewPackage(),

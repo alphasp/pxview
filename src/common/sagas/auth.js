@@ -1,65 +1,70 @@
 import { delay } from 'redux-saga';
 import { take, call, apply, put, race, select } from 'redux-saga/effects';
-import * as Keychain from 'react-native-keychain';
 import moment from 'moment';
 import { REHYDRATE } from 'redux-persist/constants';
 import { FOREGROUND, BACKGROUND } from 'redux-enhancer-react-native-appstate';
 import {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_ERROR,
-  LOGOUT,
-  login,
-  successLogin,
-  failedLogin,
+  loginSuccess,
+  loginFailure,
   logout,
-  doneRehydrate,
+  refreshAccessToken,
+  refreshAccessTokenSuccess,
+  refreshAccessTokenFailure,
+  rehydrateSuccess,
 } from '../actions/auth';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/apiClient';
 import { getAuth, getAuthUser } from '../selectors';
+import {
+  AUTH_LOGIN,
+  AUTH_LOGOUT,
+  AUTH_REFRESH_ACCESS_TOKEN,
+} from '../constants/actionTypes';
 
 export function* authorize(email, password) {
   // use apply instead of call to pass this to function
   const loginResponse = yield apply(pixiv, pixiv.login, [email, password]);
-  yield call(Keychain.setGenericPassword, email, password);
-  yield put(successLogin(loginResponse));
+  yield put(loginSuccess(loginResponse));
   return loginResponse;
 }
 
-export function* scheduleRefreshToken(credentials, delayMilisecond) {
-  yield call(delay, delayMilisecond);
+export function* handleRefreshAccessToken(refreshToken) {
   try {
-    const response = yield call(
-      authorize,
-      credentials.username,
-      credentials.password,
-    );
+    const response = yield apply(pixiv, pixiv.refreshAccessToken, [
+      refreshToken,
+    ]);
+    yield put(refreshAccessTokenSuccess(response));
     return response;
   } catch (err) {
+    yield put(refreshAccessTokenFailure());
     yield put(logout());
   }
   return null;
 }
 
-export function* authAndRefreshTokenOnExpiry(email, password) {
-  const loginResponse = yield call(authorize, email, password);
+export function* scheduleRefreshAccessToken(refreshToken, delayMilisecond) {
+  yield call(delay, delayMilisecond);
+  const response = yield call(handleRefreshAccessToken, refreshToken);
+  return response;
+}
+
+export function* refreshAccessTokenOnExpiry(authResponse) {
   // refresh token 5 min before expire
   // convert expires in to milisecond
-  let delayMilisecond = (loginResponse.expires_in - 300) * 1000;
+  let delayMilisecond = (authResponse.expires_in - 300) * 1000;
   while (true) {
-    const credentials = yield call(Keychain.getGenericPassword);
-    if (credentials.username && credentials.password) {
-      // cancel scheduleRefreshToken if app state changed to background
-      const { background, refreshTokenResponse } = yield race({
+    const authUser = yield select(getAuthUser);
+    if (authUser) {
+      // cancel scheduleRefreshAccessToken if app state changed to background
+      const { background, refreshAccessTokenResponse } = yield race({
         background: take(BACKGROUND),
-        refreshTokenResponse: call(
-          scheduleRefreshToken,
-          credentials,
+        refreshAccessTokenResponse: call(
+          scheduleRefreshAccessToken,
+          authUser.refreshToken,
           delayMilisecond,
         ),
       });
-      // wait for app back to foreground before scheduleRefreshToken
+      // wait for app back to foreground before scheduleRefreshAccessToken
       if (background && background.type === BACKGROUND) {
         yield take(FOREGROUND);
         const auth = yield select(getAuth);
@@ -68,37 +73,62 @@ export function* authAndRefreshTokenOnExpiry(email, password) {
         const duration = moment.duration(now.diff(end));
         const ms = duration.asMilliseconds();
         delayMilisecond -= ms;
-      } else if (refreshTokenResponse) {
-        delayMilisecond = (refreshTokenResponse.expires_in - 300) * 1000;
+      } else if (refreshAccessTokenResponse) {
+        delayMilisecond = (refreshAccessTokenResponse.expires_in - 300) * 1000;
       }
     }
   }
 }
 
 export function* handleLogout() {
-  yield [call(Keychain.resetGenericPassword), apply(pixiv, pixiv.logout)];
+  yield apply(pixiv, pixiv.logout);
 }
 
 export function* watchLoginRequest() {
-  // yield takeEvery(LOGIN_REQUEST, loginFlow)
   while (true) {
     try {
-      const action = yield take(LOGIN_REQUEST);
+      const action = yield take(AUTH_LOGIN.REQUEST);
       const { email, password } = action.payload;
+      const authResponse = yield call(authorize, email, password);
       yield race([
-        take(LOGOUT),
-        call(authAndRefreshTokenOnExpiry, email, password),
+        take(AUTH_LOGOUT.SUCCESS),
+        call(refreshAccessTokenOnExpiry, authResponse),
       ]);
       yield call(handleLogout);
       // user logged out, next while iteration will wait for the
-      // next LOGIN_REQUEST action
+      // next AUTH_LOGIN.REQUEST action
     } catch (err) {
       const errMessage = err.errors &&
         err.errors.system &&
         err.errors.system.message
         ? err.errors.system.message
         : '';
-      yield put(failedLogin());
+      yield put(loginFailure());
+      yield put(addError(errMessage));
+    }
+  }
+}
+
+export function* watchRefreshAccessTokenRequest() {
+  while (true) {
+    try {
+      const action = yield take(AUTH_REFRESH_ACCESS_TOKEN.REQUEST);
+      const { refreshToken } = action.payload;
+      const authResponse = yield call(handleRefreshAccessToken, refreshToken);
+      yield race([
+        take(AUTH_LOGOUT.SUCCESS),
+        call(refreshAccessTokenOnExpiry, authResponse),
+      ]);
+      yield call(handleLogout);
+      // user logged out, next while iteration will wait for the
+      // next AUTH_REFRESH_ACCESS_TOKEN.REQUEST action
+    } catch (err) {
+      const errMessage = err.errors &&
+        err.errors.system &&
+        err.errors.system.message
+        ? err.errors.system.message
+        : '';
+      yield put(refreshAccessTokenFailure());
       yield put(addError(errMessage));
     }
   }
@@ -111,20 +141,18 @@ export function* watchRehydrate() {
       yield take(REHYDRATE);
       const user = yield select(getAuthUser);
       if (user) {
-        console.log('watchRehydrate login');
-        const credentials = yield call(Keychain.getGenericPassword);
-        if (credentials) {
-          yield put(login(credentials.username, credentials.password));
-        } else {
-          yield put(logout());
-        }
-        yield take([LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT]);
+        yield put(refreshAccessToken(user.refreshToken));
+        yield take([
+          AUTH_REFRESH_ACCESS_TOKEN.SUCCESS,
+          AUTH_REFRESH_ACCESS_TOKEN.FAILURE,
+          AUTH_LOGOUT.SUCCESS,
+        ]);
       }
-      // todo put sync complete
-      yield put(doneRehydrate());
     } catch (err) {
       // todo logout user
       console.log('err in watchRehydrate ', err);
+    } finally {
+      yield put(rehydrateSuccess());
     }
   }
 }

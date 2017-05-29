@@ -15,6 +15,26 @@ import {
 
 const appNamespace = defineAction('PIXIV');
 
+export const AUTH_LOGIN = defineAction(
+  'AUTH_LOGIN',
+  [REQUEST, SUCCESS, FAILURE],
+  appNamespace,
+);
+
+export const AUTH_LOGOUT = defineAction('AUTH_LOGOUT', [SUCCESS], appNamespace);
+
+export const AUTH_REFRESH_ACCESS_TOKEN = defineAction(
+  'AUTH_REFRESH_ACCESS_TOKEN',
+  [REQUEST, SUCCESS, FAILURE],
+  appNamespace,
+);
+
+export const AUTH_REHYDRATE = defineAction(
+  'AUTH_REHYDRATE',
+  [SUCCESS],
+  appNamespace,
+);
+
 export const RECOMMENDED_ILLUSTS = defineAction(
   'RECOMMENDED_ILLUSTS',
   [REQUEST, SUCCESS, FAILURE, CLEAR],

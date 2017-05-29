@@ -145,7 +145,6 @@ dependencies {
     compile project(':react-native-localization')
     compile project(':react-native-share')
     compile project(':react-native-material-kit')
-    compile project(':react-native-keychain')
     compile project(':react-native-vector-icons')
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'

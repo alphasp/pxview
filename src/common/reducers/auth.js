@@ -1,28 +1,11 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_FAILURE,
-  LOGOUT,
-  AUTH_REHYDRATE_DONE,
-} from '../actions/auth';
-// const defaultUser = {
-//   "profile_image_urls": {
-//     "px_16x16": "https://source.pixiv.net/common/images/no_profile_ss.png",
-//     "px_50x50": "https://source.pixiv.net/common/images/no_profile_s.png",
-//     "px_170x170": "https://source.pixiv.net/common/images/no_profile.png"
-//   },
-//   "id": "17944295",
-//   "name": "mysticmana",
-//   "account": "mysticmana",
-//   "mail_address": "mysticmana@gmail.com",
-//   "is_premium": false,
-//   "x_restrict": 2,
-//   "is_mail_authorized": true,
-//   accessToken: "jfkafjlaf",
-//   refreshToken: "",
-//   expiresIn: 3600,
-// }
+  AUTH_LOGIN,
+  AUTH_LOGOUT,
+  AUTH_REFRESH_ACCESS_TOKEN,
+  AUTH_REHYDRATE,
+} from '../constants/actionTypes';
+
 export default function auth(
   state = {
     loading: false,
@@ -33,18 +16,20 @@ export default function auth(
   action,
 ) {
   switch (action.type) {
-    case LOGOUT:
+    case AUTH_LOGOUT.SUCCESS:
       return {
         ...state,
         user: null,
         loaded: false,
       };
-    case LOGIN_REQUEST:
+    case AUTH_LOGIN.REQUEST:
+    case AUTH_REFRESH_ACCESS_TOKEN.REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case LOGIN_SUCCESS:
+    case AUTH_LOGIN.SUCCESS:
+    case AUTH_REFRESH_ACCESS_TOKEN.SUCCESS:
       return {
         ...state,
         loading: false,
@@ -52,7 +37,8 @@ export default function auth(
         user: action.payload.user,
         timestamp: action.payload.timestamp,
       };
-    case LOGIN_FAILURE:
+    case AUTH_LOGIN.FAILURE:
+    case AUTH_REFRESH_ACCESS_TOKEN.FAILURE:
       return {
         ...state,
         loading: false,
@@ -64,7 +50,7 @@ export default function auth(
         ...action.payload.auth,
         rehydrated: false,
       };
-    case AUTH_REHYDRATE_DONE:
+    case AUTH_REHYDRATE.SUCCESS:
       return {
         ...state,
         rehydrated: true,

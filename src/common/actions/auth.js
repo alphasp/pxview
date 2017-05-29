@@ -1,34 +1,13 @@
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAILURE = 'LOGIN_FAILURE';
-export const LOGOUT = 'LOGOUT';
-export const AUTH_REHYDRATE_DONE = 'AUTH_REHYDRATE_DONE';
-
-// const defaultUser = {
-//   "access_token": "-L9fVk2G8esw5Oqx7W7URMUgHx5S1SwNjrDOKlnPXBM",
-//   "expires_in": 3600,
-//   "token_type": "bearer",
-//   "scope": "unlimited",
-//   "refresh_token": "jDS72HEvnwlRypILeIu46-WRs9cw1C6-p11tf89SegM",
-//   "user": {
-//     "profile_image_urls": {
-//       "px_16x16": "https://source.pixiv.net/common/images/no_profile_ss.png",
-//       "px_50x50": "https://source.pixiv.net/common/images/no_profile_s.png",
-//       "px_170x170": "https://source.pixiv.net/common/images/no_profile.png"
-//     },
-//     "id": "17944295",
-//     "name": "mysticmana",
-//     "account": "mysticmana",
-//     "mail_address": "mysticmana@gmail.com",
-//     "is_premium": false,
-//     "x_restrict": 2,
-//     "is_mail_authorized": true
-//   }
-// }
+import {
+  AUTH_LOGIN,
+  AUTH_LOGOUT,
+  AUTH_REFRESH_ACCESS_TOKEN,
+  AUTH_REHYDRATE,
+} from '../constants/actionTypes';
 
 export function login(email, password) {
   return {
-    type: LOGIN_REQUEST,
+    type: AUTH_LOGIN.REQUEST,
     payload: {
       email,
       password,
@@ -36,15 +15,15 @@ export function login(email, password) {
   };
 }
 
-export function successLogin(json) {
+export function loginSuccess(json) {
   return {
-    type: LOGIN_SUCCESS,
+    type: AUTH_LOGIN.SUCCESS,
     payload: {
       user: {
         ...json.user,
         id: parseInt(json.user.id, 10),
         accessToken: json.access_token,
-        refreshToken: json.refresh_token, // not working now
+        refreshToken: json.refresh_token,
         expiresIn: json.expires_in,
       },
       timestamp: Date.now(),
@@ -52,20 +31,51 @@ export function successLogin(json) {
   };
 }
 
-export function failedLogin() {
+export function loginFailure() {
   return {
-    type: LOGIN_FAILURE,
+    type: AUTH_LOGIN.FAILURE,
   };
 }
 
 export function logout() {
   return {
-    type: LOGOUT,
+    type: AUTH_LOGOUT.SUCCESS,
   };
 }
 
-export function doneRehydrate() {
+export function refreshAccessToken(refreshToken) {
   return {
-    type: AUTH_REHYDRATE_DONE,
+    type: AUTH_REFRESH_ACCESS_TOKEN.REQUEST,
+    payload: {
+      refreshToken,
+    },
+  };
+}
+
+export function refreshAccessTokenSuccess(json) {
+  return {
+    type: AUTH_REFRESH_ACCESS_TOKEN.SUCCESS,
+    payload: {
+      user: {
+        ...json.user,
+        id: parseInt(json.user.id, 10),
+        accessToken: json.access_token,
+        refreshToken: json.refresh_token,
+        expiresIn: json.expires_in,
+      },
+      timestamp: Date.now(),
+    },
+  };
+}
+
+export function refreshAccessTokenFailure() {
+  return {
+    type: AUTH_REFRESH_ACCESS_TOKEN.FAILURE,
+  };
+}
+
+export function rehydrateSuccess() {
+  return {
+    type: AUTH_REHYDRATE.SUCCESS,
   };
 }
