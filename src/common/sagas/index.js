@@ -27,6 +27,7 @@ import { watchFetchIllustBookmarkDetail } from './illustBookmarkDetail';
 import { watchFetchUserFollowDetail } from './userFollowDetail';
 import { watchBookmarkIllust, watchUnbookmarkIllust } from './bookmarkIllust';
 import { watchFollowUser, watchUnfollowUser } from './followUser';
+import { watchAddIllustComment } from './addIllustComment';
 
 export default function* rootSaga() {
   yield [
@@ -62,5 +63,6 @@ export default function* rootSaga() {
     watchUnbookmarkIllust(),
     watchFollowUser(),
     watchUnfollowUser(),
+    watchAddIllustComment(),
   ];
 }

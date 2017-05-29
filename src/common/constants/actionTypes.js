@@ -6,6 +6,8 @@ import {
   CLEAR,
   CLEAR_ALL,
   ADD,
+  ADD_SUCCESS,
+  ADD_FAILURE,
   REMOVE,
   REPLACE,
   SET,
@@ -34,6 +36,12 @@ export const RELATED_ILLUSTS = defineAction(
 export const ILLUST_COMMENTS = defineAction(
   'ILLUST_COMMENTS',
   [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
+export const ADD_ILLUST_COMMENT = defineAction(
+  'ADD_ILLUST_COMMENT',
+  [ADD, ADD_SUCCESS, ADD_FAILURE],
   appNamespace,
 );
 

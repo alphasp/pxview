@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
-import { View, InteractionManager } from 'react-native';
+import { View, StyleSheet, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import CommentList from '../../components/CommentList';
 import ViewMoreButton from '../../components/ViewMoreButton';
+import CommentButton from '../../components/CommentButton';
 import * as illustCommentsActionCreators
   from '../../common/actions/illustComments';
 import { makeGetIllustCommentsItems } from '../../common/selectors';
 import { globalStyles } from '../../styles';
+
+const styles = StyleSheet.create({
+  viewMoreButtonContainer: {
+    marginTop: 10,
+  },
+  textInput: {
+    flex: 1,
+    margin: 10,
+  },
+});
 
 class IllustComments extends Component {
   componentDidMount() {
@@ -45,30 +56,43 @@ class IllustComments extends Component {
     });
   };
 
+  handleOnPressCommentButton = () => {
+    const { illustId, navigation: { navigate } } = this.props;
+    navigate('AddIllustComment', {
+      illustId,
+    });
+  };
+
   render() {
     const {
       illustComments,
       items,
+      user,
       navigation,
       isFeatureInDetailPage,
       maxItems,
     } = this.props;
     return (
-      <View style={globalStyles.container}>
+      <View
+        style={globalStyles.container}
+        behavior="padding"
+        keyboardVerticalOffset={65}
+      >
         <CommentList
           data={{ ...illustComments, items }}
           loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
           onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
           maxItems={isFeatureInDetailPage && maxItems}
           navigation={navigation}
+          user={user}
         />
         {isFeatureInDetailPage &&
-          illustComments &&
-          illustComments.loaded &&
-          items &&
-          items.length
-          ? <ViewMoreButton onPress={this.handleOnPressViewMoreComments} />
-          : null}
+          <View style={styles.viewMoreButtonContainer}>
+            <ViewMoreButton onPress={this.handleOnPressViewMoreComments} />
+          </View>}
+        {!isFeatureInDetailPage &&
+          user &&
+          <CommentButton onPress={this.handleOnPressCommentButton} />}
       </View>
     );
   }
@@ -77,12 +101,13 @@ class IllustComments extends Component {
 export default connect(() => {
   const getIllustCommentsItems = makeGetIllustCommentsItems();
   return (state, props) => {
-    const { illustComments } = state;
+    const { illustComments, auth } = state;
     const illustId = props.illustId || props.navigation.state.params.illustId;
     return {
       illustComments: illustComments[illustId],
       items: getIllustCommentsItems(state, props),
       illustId,
+      user: auth.user,
     };
   };
 }, illustCommentsActionCreators)(IllustComments);
