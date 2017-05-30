@@ -16,9 +16,9 @@ import PXThumbnailTouchable from '../../components/PXThumbnailTouchable';
 import PXImage from '../../components/PXImage';
 import OutlineButton from '../../components/OutlineButton';
 import * as authActionCreators from '../../common/actions/auth';
-import * as i18nActionCreators from '../../common/actions/i18n';
 import * as browsingHistoryActionCreators
   from '../../common/actions/browsingHistory';
+import { globalStyleVariables } from '../../styles';
 
 const avatarSize = 70;
 const windowWidth = Dimensions.get('window').width;
@@ -28,19 +28,15 @@ const defaultProfileImage =
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    backgroundColor: '#E9EBEE',
+    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
   },
   coverContainer: {
-    // backgroundColor: '#5cafec',
     height: 150,
   },
   coverInnerContainer: {
     position: 'absolute',
     width: windowWidth,
     top: 15,
-    // flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 1,
@@ -209,14 +205,7 @@ class MyPage extends Component {
         navigate('BrowsingHistory');
         break;
       case 'settings': {
-        // temp
-        const { setLanguage, lang } = this.props;
-        if (lang === 'en') {
-          setLanguage('ja');
-        } else {
-          setLanguage('en');
-        }
-
+        navigate('Settings');
         break;
       }
       case 'logout': {
@@ -360,7 +349,6 @@ export default connectLocalization(
     }),
     {
       ...authActionCreators,
-      ...i18nActionCreators,
       ...browsingHistoryActionCreators,
     },
   )(MyPage),

@@ -4,6 +4,8 @@ import MyWorks from '../screens/MyPage/MyWorks';
 import MyConnection from '../screens/MyPage/MyConnection/MyConnection';
 import MyCollection from '../screens/MyPage/MyCollection/MyCollection';
 import BrowsingHistory from '../screens/MyPage/BrowsingHistory';
+import Settings from '../screens/MyPage/Settings';
+import Language from '../screens/MyPage/Language';
 import enhanceRouter from './routers/enhanceRouter';
 import sharedRouteConfig from './routeConfigs/shared';
 
@@ -37,6 +39,18 @@ const MyPageNavigator = StackNavigator(
       screen: BrowsingHistory,
       navigationOptions: ({ screenProps: { i18n } }) => ({
         title: i18n.browsingHistory,
+      }),
+    },
+    Settings: {
+      screen: Settings,
+      navigationOptions: ({ screenProps: { i18n } }) => ({
+        title: i18n.settings,
+      }),
+    },
+    Language: {
+      screen: Language,
+      navigationOptions: ({ screenProps: { i18n } }) => ({
+        title: i18n.lang,
       }),
     },
     ...sharedRouteConfig,

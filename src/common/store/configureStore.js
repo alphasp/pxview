@@ -9,6 +9,7 @@ import applyAppStateListener from 'redux-enhancer-react-native-appstate';
 import { AsyncStorage } from 'react-native';
 import rootReducer from '../reducers';
 import rootSaga from '../sagas';
+import i18n from '../helpers/i18n';
 
 export default function configureStore() {
   let enhancer;
@@ -54,10 +55,12 @@ export default function configureStore() {
         const selectedUsersEntities = {};
         const selectedIllustsEntities = browsingHistory.items.reduce(
           (prev, id) => {
-            // return { ...obj, [key]: value };
+            // todo fix crash on start up after clear app
             prev[id] = entities.illusts[id];
-            const userId = entities.illusts[id].user;
-            selectedUsersEntities[userId] = entities.users[userId];
+            if (prev[id]) {
+              const userId = entities.illusts[id].user;
+              selectedUsersEntities[userId] = entities.users[userId];
+            }
             return prev;
           },
           {},
@@ -76,11 +79,14 @@ export default function configureStore() {
   persistStore(
     store,
     {
-      whitelist: ['searchHistory', 'browsingHistory', 'entities', 'auth'],
+      whitelist: ['searchHistory', 'browsingHistory', 'entities', 'auth', 'i18n'],
       storage: AsyncStorage,
       transforms: [myTransform],
     },
     () => {
+      const { lang } = store.getState().i18n;
+      console.log('lang ', lang)
+      i18n.setLanguage(lang);
       console.log('rehydration complete');
     },
   );
