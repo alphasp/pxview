@@ -34,7 +34,7 @@ class Settings extends Component {
     const { navigation: { navigate } } = this.props;
     switch (item.id) {
       case 'accountSettings': {
-        // navigate('AccountSettings');
+        navigate('AccountSettings');
         break;
       }
       case 'lang': {

@@ -11,6 +11,7 @@ import {
 import { connect } from 'react-redux';
 import { List, ListItem } from 'react-native-elements';
 import { BlurView } from 'react-native-blur';
+import CookieManager from 'react-native-cookies';
 import { connectLocalization } from '../../components/Localization';
 import PXThumbnailTouchable from '../../components/PXThumbnailTouchable';
 import PXImage from '../../components/PXImage';
@@ -212,6 +213,8 @@ class MyPage extends Component {
         const { clearBrowsingHistory } = this.props;
         logout();
         clearBrowsingHistory();
+        // clear cookies set from webview for account settings
+        CookieManager.clearAll(() => {});
         break;
       }
       default:
@@ -323,11 +326,7 @@ class MyPage extends Component {
   };
 
   render() {
-    // user illusts
-    // bookmark illusts
-    // const { userDetail, userId } = this.props;
     const { user } = this.props;
-    console.log('user ', user);
     return (
       <View style={styles.container}>
         {

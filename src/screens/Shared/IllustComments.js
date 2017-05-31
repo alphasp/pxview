@@ -57,10 +57,23 @@ class IllustComments extends Component {
   };
 
   handleOnPressCommentButton = () => {
-    const { illustId, navigation: { navigate } } = this.props;
-    navigate('AddIllustComment', {
-      illustId,
-    });
+    const { illustId, user, navigation: { navigate, goBack } } = this.props;
+    if (!user) {
+      navigate('Login', {
+        onLoginSuccess: () => {
+          goBack();
+          setTimeout(() => {
+            navigate('AddIllustComment', {
+              illustId,
+            });
+          }, 0);
+        },
+      });
+    } else {
+      navigate('AddIllustComment', {
+        illustId,
+      });
+    }
   };
 
   render() {
@@ -91,7 +104,6 @@ class IllustComments extends Component {
             <ViewMoreButton onPress={this.handleOnPressViewMoreComments} />
           </View>}
         {!isFeatureInDetailPage &&
-          user &&
           <CommentButton onPress={this.handleOnPressCommentButton} />}
       </View>
     );
