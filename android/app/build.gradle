@@ -142,6 +142,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-cookies')
     compile project(':react-native-localization')
     compile project(':react-native-share')
     compile project(':react-native-material-kit')
