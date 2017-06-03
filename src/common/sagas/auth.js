@@ -12,9 +12,10 @@ import {
   refreshAccessTokenFailure,
   rehydrateSuccess,
 } from '../actions/auth';
+import { setLanguage } from '../actions/i18n';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/apiClient';
-import { getAuth, getAuthUser } from '../selectors';
+import { getAuth, getAuthUser, getLang } from '../selectors';
 import {
   AUTH_LOGIN,
   AUTH_LOGOUT,
@@ -148,6 +149,8 @@ export function* watchRehydrate() {
           AUTH_LOGOUT.SUCCESS,
         ]);
       }
+      const lang = yield select(getLang);
+      setLanguage(lang);
     } catch (err) {
       // todo logout user
       console.log('err in watchRehydrate ', err);

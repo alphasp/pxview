@@ -1,4 +1,8 @@
-import { watchLoginRequest, watchRefreshAccessTokenRequest, watchRehydrate } from './auth';
+import {
+  watchLoginRequest,
+  watchRefreshAccessTokenRequest,
+  watchRehydrate,
+} from './auth';
 import { watchFetchRecommendedIllusts } from './recommendedIllusts';
 import { watchFetchRecommendedMangas } from './recommendedMangas';
 import { watchFetchRelatedIllusts } from './relatedIllusts';
