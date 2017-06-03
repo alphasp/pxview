@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     margin: 10,
+    textAlignVertical: 'top',
   },
 });
 
@@ -92,6 +93,7 @@ class AddIllustComment extends Component {
           maxLength={140}
           placeholder={i18n.addComment}
           placeholderTextColor="#86939e"
+          underlineColorAndroid="transparent"
           style={styles.textInput}
           onChangeText={this.handleOnChangeComment}
           value={comment}
