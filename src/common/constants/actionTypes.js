@@ -35,6 +35,8 @@ export const AUTH_REHYDRATE = defineAction(
   appNamespace,
 );
 
+export const ERROR = defineAction('ERROR', [ADD, CLEAR], appNamespace);
+
 export const RECOMMENDED_ILLUSTS = defineAction(
   'RECOMMENDED_ILLUSTS',
   [REQUEST, SUCCESS, FAILURE, CLEAR],

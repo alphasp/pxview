@@ -7,7 +7,6 @@ import AppNavigator from '../../navigations/AppNavigator';
 import { connectLocalization } from '../../components/Localization';
 import Loader from '../../components/Loader';
 import ModalRoot from '../../containers/ModalRoot';
-import { resetError } from '../../common/actions/error';
 
 const styles = StyleSheet.create({
   container: {
@@ -50,18 +49,6 @@ class Master extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { error } = nextProps;
-    if (error) {
-      MessageBarManager.hideAlert();
-      MessageBarManager.showAlert({
-        message: error,
-        titleNumberOfLines: 0,
-        alertType: 'error',
-      });
-    }
-  }
-
   // gets the current screen from navigation state
   getCurrentRouteName = navigationState => {
     if (!navigationState) {
@@ -75,27 +62,13 @@ class Master extends Component {
     return route.routeName;
   };
 
-  handleOnNavigationStateChange = (prevState, currentState) => {
-    const currentScreen = this.getCurrentRouteName(currentState);
-    const prevScreen = this.getCurrentRouteName(prevState);
-    if (prevScreen !== currentScreen) {
-      const { dispatch } = this.props;
-      dispatch(resetError());
-    }
-  };
-
   render() {
     const { rehydrated, i18n } = this.props;
     return (
       <View style={styles.container}>
-        {rehydrated
-          ? <AppNavigator
-              onNavigationStateChange={this.handleOnNavigationStateChange}
-              screenProps={{ i18n }}
-            />
-          : <Loader />}
+        {rehydrated ? <AppNavigator screenProps={{ i18n }} /> : <Loader />}
         <MessageBar ref={ref => (this.messageBarAlert = ref)} />
-        <Toast ref={ref => (this.toast = ref)} />
+        <Toast ref={ref => (this.toast = ref)} opacity={0.7} />
         <ModalRoot />
       </View>
     );
