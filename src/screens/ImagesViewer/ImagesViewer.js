@@ -1,43 +1,26 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
-import Swiper from 'react-native-swiper';
-import PhotoView from 'react-native-photo-view';
+import { Platform, StyleSheet, View } from 'react-native';
+import {
+  TabViewAnimated,
+  TabViewPagerScroll,
+  TabViewPagerPan,
+} from 'react-native-tab-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import PXPhotoView from '../../components/PXPhotoView';
 import SaveImageBottomSheet from '../../components/SaveImageBottomSheet';
 import PXTouchable from '../../components/PXTouchable';
 import Loader from '../../components/Loader';
-// import PXPhotoView from './PXPhotoView';
-
-const { width, height } = Dimensions.get('window');
+import { globalStyles } from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#E9EBEE',
   },
   slide: {
-    // flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  photo: {
-    width,
-    height,
     flex: 1,
-  },
-  text: {
-    color: '#fff',
-    fontSize: 30,
-    fontWeight: 'bold',
-  },
-  thumbWrap: {
-    marginTop: 100,
-    borderWidth: 5,
-    borderColor: '#000',
-    flexDirection: 'row',
-  },
-  thumb: {
-    width: 50,
-    height: 50,
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
 });
 
@@ -58,8 +41,17 @@ class ImagesViewer extends Component {
 
   constructor(props) {
     super(props);
+    const { images, viewerIndex } = this.props.navigation.state.params;
     this.state = {
       loading: true,
+      index: viewerIndex,
+      images: images.map(image => ({
+        url: image,
+        loading: true,
+      })),
+      routes: images.map(image => ({
+        key: image.toString(),
+      })),
     };
   }
 
@@ -73,10 +65,9 @@ class ImagesViewer extends Component {
     });
   }
 
-  handleOnMomentumScrollEnd = (e, state) => {
+  handleOnPageSelected = index => {
     const { navigation } = this.props;
     const { images } = navigation.state.params;
-    const { index } = state;
     const openImages = [images[index]];
     navigation.setParams({
       viewerIndex: index,
@@ -85,42 +76,57 @@ class ImagesViewer extends Component {
     });
   };
 
-  handleOnImageLoaded = () => {
-    console.log('loaded');
-    this.setState({ loading: false });
+  handleOnImageLoaded = imageUrl => {
+    this.setState(({ images }) => ({
+      images: images.map(
+        image =>
+          image.url === imageUrl ? { ...image, loading: false } : image,
+      ),
+    }));
+  };
+
+  renderPager = props =>
+    Platform.OS === 'ios'
+      ? <TabViewPagerScroll {...props} />
+      : <TabViewPagerPan {...props} />;
+
+  renderScene = ({ route, index }) => {
+    if (Math.abs(this.state.index - this.state.routes.indexOf(route)) > 2) {
+      return null;
+    }
+    const image = this.state.images[index];
+    return (
+      <View key={image.url} style={styles.slide}>
+        {image.loading && <Loader />}
+        <PXPhotoView uri={image.url} onLoad={this.handleOnImageLoaded} />
+      </View>
+    );
+  };
+
+  handleChangeTab = index => {
+    const { navigation } = this.props;
+    const { images } = navigation.state.params;
+    const openImages = [images[index]];
+    this.setState({ index });
+    navigation.setParams({
+      openSaveImageBottomSheet: () =>
+        this.saveImageBottomSheet.openSaveImageBottomSheet(openImages),
+    });
   };
 
   render() {
-    const { images, viewerIndex } = this.props.navigation.state.params;
-    const { loading } = this.state;
-    console.log('viewerIndex ', viewerIndex);
     return (
       <View style={styles.container}>
-        <Swiper
-          index={viewerIndex}
-          onMomentumScrollEnd={this.handleOnMomentumScrollEnd}
-        >
-          {images.map(image => (
-            <View key={image} style={styles.slide}>
-              {loading && <Loader />}
-              <PhotoView
-                source={{
-                  uri: image,
-                  headers: {
-                    referer: 'http://www.pixiv.net',
-                  },
-                }}
-                onLoad={this.handleOnImageLoaded}
-                resizeMode="contain"
-                minimumZoomScale={0.5}
-                maximumZoomScale={3}
-                androidScaleType="fitCenter"
-                style={styles.photo}
-              />
-            </View>
-          ))}
-        </Swiper>
-        <SaveImageBottomSheet ref={ref => (this.saveImageBottomSheet = ref)} />
+        <TabViewAnimated
+          style={globalStyles.container}
+          navigationState={this.state}
+          renderScene={this.renderScene}
+          renderPager={this.renderPager}
+          onRequestChangeTab={this.handleChangeTab}
+        />
+        <SaveImageBottomSheet
+          innerRef={ref => (this.saveImageBottomSheet = ref)}
+        />
       </View>
     );
   }

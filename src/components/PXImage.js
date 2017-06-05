@@ -12,7 +12,6 @@ class PXImage extends PureComponent {
             referer: 'http://www.pixiv.net',
           },
         }}
-        onError={e => console.log('fail to load image ', e.nativeEvent.error)}
         style={style}
         {...otherProps}
       />
