@@ -15,6 +15,7 @@
     "flow": "flow"
   },
   "dependencies": {
+    "bluebird": "^3.5.0",
     "hoist-non-react-statics": "^1.2.0",
     "lodash.debounce": "^4.0.8",
     "lodash.isempty": "^4.4.0",

@@ -5,17 +5,15 @@ import {
   TabViewPagerScroll,
   TabViewPagerPan,
 } from 'react-native-tab-view';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import PXPhotoView from '../../components/PXPhotoView';
-import SaveImageBottomSheet from '../../components/SaveImageBottomSheet';
-import PXTouchable from '../../components/PXTouchable';
+import HeaderSaveImageButton from '../../components/HeaderSaveImageButton';
 import Loader from '../../components/Loader';
-import { globalStyles } from '../../styles';
+import { globalStyles, globalStyleVariables } from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E9EBEE',
+    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
   },
   slide: {
     flex: 1,
@@ -26,16 +24,11 @@ const styles = StyleSheet.create({
 
 class ImagesViewer extends Component {
   static navigationOptions = ({ navigation }) => {
-    const { openSaveImageBottomSheet } = navigation.state.params;
+    const { selectedImages } = navigation.state.params;
     return {
-      headerRight: openSaveImageBottomSheet &&
-        <PXTouchable onPress={openSaveImageBottomSheet}>
-          <Icon
-            name="ellipsis-v"
-            size={20}
-            style={{ paddingVertical: 10, paddingHorizontal: 20 }}
-          />
-        </PXTouchable>,
+      headerRight: selectedImages &&
+        selectedImages.length &&
+        <HeaderSaveImageButton imageUrls={selectedImages} />,
     };
   };
 
@@ -58,23 +51,11 @@ class ImagesViewer extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     const { images, viewerIndex } = navigation.state.params;
-    const openImages = [images[viewerIndex]];
+    const selectedImages = [images[viewerIndex]];
     navigation.setParams({
-      openSaveImageBottomSheet: () =>
-        this.saveImageBottomSheet.openSaveImageBottomSheet(openImages),
+      selectedImages,
     });
   }
-
-  handleOnPageSelected = index => {
-    const { navigation } = this.props;
-    const { images } = navigation.state.params;
-    const openImages = [images[index]];
-    navigation.setParams({
-      viewerIndex: index,
-      openSaveImageBottomSheet: () =>
-        this.saveImageBottomSheet.openSaveImageBottomSheet(openImages),
-    });
-  };
 
   handleOnImageLoaded = imageUrl => {
     this.setState(({ images }) => ({
@@ -106,11 +87,10 @@ class ImagesViewer extends Component {
   handleChangeTab = index => {
     const { navigation } = this.props;
     const { images } = navigation.state.params;
-    const openImages = [images[index]];
+    const selectedImages = [images[index]];
     this.setState({ index });
     navigation.setParams({
-      openSaveImageBottomSheet: () =>
-        this.saveImageBottomSheet.openSaveImageBottomSheet(openImages),
+      selectedImages,
     });
   };
 
@@ -123,9 +103,6 @@ class ImagesViewer extends Component {
           renderScene={this.renderScene}
           renderPager={this.renderPager}
           onRequestChangeTab={this.handleChangeTab}
-        />
-        <SaveImageBottomSheet
-          innerRef={ref => (this.saveImageBottomSheet = ref)}
         />
       </View>
     );

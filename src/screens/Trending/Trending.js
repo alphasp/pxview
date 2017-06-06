@@ -126,6 +126,7 @@ class Trending extends Component {
     return (
       <View style={styles.container}>
         <PXHeader
+          showSearchBar
           word={word}
           navigation={navigation}
           showBackButton={isFocusSearchBar}

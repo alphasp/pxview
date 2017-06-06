@@ -28,7 +28,7 @@ import FollowButtonContainer from '../../containers/FollowButtonContainer';
 import PXCacheImageTouchable from '../../components/PXCacheImageTouchable';
 import PXThumbnail from '../../components/PXThumbnail';
 import Tags from '../../components/Tags';
-import SaveImageBottomSheet from '../../components/SaveImageBottomSheet';
+import HeaderSaveImageButton from '../../components/HeaderSaveImageButton';
 // import { connectLocalization } from '../../components/Localization';
 import * as browsingHistoryActionCreators
   from '../../common/actions/browsingHistory';
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
 class Detail extends Component {
   static navigationOptions = ({ navigation }) => {
     const { state, navigate } = navigation;
-    const { item, openSaveImageBottomSheet } = state.params;
+    const { item, images } = state.params;
     const shareOptions = {
       message: `${item.title} | ${item.user.name} #pixivrn`, // todo
       url: `http://www.pixiv.net/member_illust.php?illust_id=${item.id}&mode=medium`,
@@ -116,7 +116,8 @@ class Detail extends Component {
           </View>
         </PXTouchable>
       ),
-      headerRight: openSaveImageBottomSheet &&
+      headerRight: images &&
+        images.length &&
         <View style={{ flexDirection: 'row' }}>
           <PXTouchable
             onPress={() =>
@@ -130,13 +131,7 @@ class Detail extends Component {
               style={{ paddingVertical: 10, paddingHorizontal: 10 }}
             />
           </PXTouchable>
-          <PXTouchable onPress={openSaveImageBottomSheet}>
-            <Icon
-              name="ellipsis-v"
-              style={{ paddingVertical: 10, paddingHorizontal: 20 }}
-              size={20}
-            />
-          </PXTouchable>
+          <HeaderSaveImageButton imageUrls={images} />
         </View>,
     };
   };
@@ -169,8 +164,7 @@ class Detail extends Component {
     const { images } = this.state;
     navigation.setParams({
       item,
-      openSaveImageBottomSheet: () =>
-        this.saveImageBottomSheet.openSaveImageBottomSheet(images),
+      images,
     });
     InteractionManager.runAfterInteractions(() => {
       if (this.detailView) {
@@ -457,9 +451,6 @@ class Detail extends Component {
             buttonColor="rgba(255,255,255,1)"
             icon={<BookmarkButton item={item} />}
           />}
-        <SaveImageBottomSheet
-          innerRef={ref => (this.saveImageBottomSheet = ref)}
-        />
       </View>
     );
   }

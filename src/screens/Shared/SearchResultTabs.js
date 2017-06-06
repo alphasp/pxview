@@ -205,9 +205,10 @@ class SearchResultTabs extends Component {
     return (
       <View style={styles.container}>
         <PXHeader
+          showBackButton
+          showSearchBar
           word={newWord}
           navigation={navigation}
-          showBackButton
           onFocusSearchBar={this.handleOnFocusSearchBar}
           onChangeSearchText={this.handleOnChangeSearchText}
           onPressBackButton={this.handleOnPressBackButton}
