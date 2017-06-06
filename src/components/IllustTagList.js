@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, RefreshControl, FlatList } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  RefreshControl,
+  ScrollView,
+} from 'react-native';
 import { withNavigation } from 'react-navigation';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
@@ -9,6 +15,10 @@ import { globalStyles, globalStyleVariables } from '../styles';
 const ILLUST_COLUMNS = 3;
 
 const styles = StyleSheet.create({
+  contentContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
   tagContainer: {
     position: 'absolute',
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
@@ -16,46 +26,75 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    height: globalStyleVariables.WINDOW_WIDTH / 3 - 1,
     justifyContent: 'flex-end',
     paddingBottom: 10,
-    width: globalStyleVariables.WINDOW_WIDTH / 3 - 1,
   },
   tag: {
     backgroundColor: 'transparent',
     color: '#fff',
     textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  imageContainer: {
+    marginBottom: 1,
+    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
+  },
+  image: {
+    resizeMode: 'cover',
   },
 });
 
 class IllustTagList extends Component {
-  renderItem = ({ item, index }) => (
-    <PXTouchable
-      style={{
+  renderItem = (item, index) => {
+    let imageContainerStyle = {};
+    let imageStyle = {};
+    let tagContainerStyle = {};
+    if (index === 0) {
+      imageContainerStyle = {
+        width: globalStyleVariables.WINDOW_WIDTH,
+        height: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS * 2 - 1,
+      };
+      imageStyle = {
+        width: globalStyleVariables.WINDOW_WIDTH,
+        height: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS * 2 - 1,
+      };
+      tagContainerStyle = {
+        width: globalStyleVariables.WINDOW_WIDTH,
+        height: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS * 2 - 1,
+      };
+    } else {
+      imageContainerStyle = {
         marginRight: index % ILLUST_COLUMNS < ILLUST_COLUMNS - 1 ? 1 : 0,
-        marginBottom: 1,
-        backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
         width: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1,
         height: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1,
-      }}
-      key={item.tag}
-      onPress={() => this.handleOnPressItem(item)}
-    >
-      <View>
-        <PXImage
-          uri={item.illust.image_urls.square_medium}
-          style={{
-            resizeMode: 'cover',
-            width: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1,
-            height: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1,
-          }}
-        />
-        <View style={styles.tagContainer}>
-          <Text style={styles.tag}>{item.tag}</Text>
+      };
+      imageStyle = {
+        width: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1,
+        height: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1,
+      };
+      tagContainerStyle = {
+        height: globalStyleVariables.WINDOW_WIDTH / 3 - 1,
+        width: globalStyleVariables.WINDOW_WIDTH / 3 - 1,
+      };
+    }
+    return (
+      <PXTouchable
+        style={[styles.imageContainer, imageContainerStyle]}
+        key={item.tag}
+        onPress={() => this.handleOnPressItem(item)}
+      >
+        <View>
+          <PXImage
+            uri={item.illust.image_urls.square_medium}
+            style={[styles.image, imageStyle]}
+          />
+          <View style={[styles.tagContainer, tagContainerStyle]}>
+            <Text style={styles.tag}>{item.tag}</Text>
+          </View>
         </View>
-      </View>
-    </PXTouchable>
-  );
+      </PXTouchable>
+    );
+  };
 
   handleOnPressItem = item => {
     const { navigate } = this.props.navigation;
@@ -68,6 +107,21 @@ class IllustTagList extends Component {
       onRefresh,
     } = this.props;
     return (
+      <View style={globalStyles.container}>
+        {(!items || (!loaded && loading)) && <Loader />}
+        {items && items.length
+          ? <ScrollView
+              contentContainerStyle={styles.contentContainer}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+            >
+              {items.map(this.renderItem)}
+            </ScrollView>
+          : null}
+      </View>
+    );
+    /* return (
       <View style={globalStyles.container}>
         {(!items || (!loaded && loading)) && <Loader />}
         {items && items.length
@@ -90,7 +144,7 @@ class IllustTagList extends Component {
             />
           : null}
       </View>
-    );
+    );*/
   }
 }
 
