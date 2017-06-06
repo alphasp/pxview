@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { connectLocalization } from './Localization';
 import PXTouchable from './PXTouchable';
 import Separator from './Separator';
-import { globalStyleVariables } from '../styles';
+import { globalStyles, globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
   listItemContainer: {
@@ -49,7 +49,7 @@ class SearchHistory extends Component {
   render() {
     const { items, onPressClearSearchHistory, i18n } = this.props;
     return (
-      <View>
+      <View style={globalStyles.container}>
         <View style={styles.searchHistoryContainer}>
           <Text style={styles.searchHistoryTitle}>{i18n.searchHistory}</Text>
           <PXTouchable onPress={onPressClearSearchHistory}>
@@ -64,7 +64,6 @@ class SearchHistory extends Component {
           renderItem={this.renderItem}
           ItemSeparatorComponent={Separator}
           keyboardShouldPersistTaps="always"
-          onScroll={Keyboard.dismiss}
           removeClippedSubviews={false} // to prevent flatlist hidden after switch language
         />
       </View>

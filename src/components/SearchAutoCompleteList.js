@@ -46,7 +46,6 @@ class SearchAutoCompleteList extends PureComponent {
               renderItem={this.renderItem}
               ItemSeparatorComponent={Separator}
               keyboardShouldPersistTaps="always"
-              onScroll={Keyboard.dismiss}
               removeClippedSubviews={false} // to prevent flatlist hidden after switch language
             />
           : null}

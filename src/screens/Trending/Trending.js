@@ -26,6 +26,15 @@ const styles = StyleSheet.create({
 });
 
 class Trending extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      tabBarVisible: params &&
+        params.tabBarVisible != null
+        ? params.tabBarVisible
+        : true,
+    };
+  };
   constructor(props) {
     super(props);
     const { i18n } = props;
@@ -51,6 +60,8 @@ class Trending extends Component {
         this.handleOnPressBackButton,
       );
     }
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -76,6 +87,8 @@ class Trending extends Component {
         this.backHandlerListener,
       );
     }
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
   }
 
   handleChangeTab = index => {
@@ -84,18 +97,6 @@ class Trending extends Component {
       setSearchType(SEARCH_TYPES.USER);
     } else {
       setSearchType(SEARCH_TYPES.ILLUST);
-    }
-  };
-
-  renderScene = ({ route }) => {
-    const { navigation } = this.props;
-    switch (route.key) {
-      case '1':
-        return <TrendingIllustTags navigation={navigation} />;
-      case '2':
-        return <RecommendedUsers navigation={navigation} />;
-      default:
-        return null;
     }
   };
 
@@ -118,6 +119,28 @@ class Trending extends Component {
       return true;
     }
     return false;
+  };
+
+  keyboardDidShow = () => {
+    const { setParams } = this.props.navigation;
+    setParams({ tabBarVisible: false })
+  };
+
+  keyboardDidHide = () => {
+    const { setParams } = this.props.navigation;
+    setParams({ tabBarVisible: true })
+  };
+
+  renderScene = ({ route }) => {
+    const { navigation } = this.props;
+    switch (route.key) {
+      case '1':
+        return <TrendingIllustTags navigation={navigation} />;
+      case '2':
+        return <RecommendedUsers navigation={navigation} />;
+      default:
+        return null;
+    }
   };
 
   render() {

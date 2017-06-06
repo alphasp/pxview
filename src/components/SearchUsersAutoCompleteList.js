@@ -87,7 +87,6 @@ class SearchUsersAutoCompleteList extends PureComponent {
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
-              onScroll={Keyboard.dismiss}
               removeClippedSubviews={false} // to prevent flatlist hidden after switch language
             />
           : null}

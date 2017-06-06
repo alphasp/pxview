@@ -47,6 +47,9 @@ const config = {
   },
   SearchResult: {
     screen: SearchResultTabs,
+    navigationOptions: {
+      header: null,
+    },
   },
   RecommendedUsers: {
     screen: RecommendedUsers,

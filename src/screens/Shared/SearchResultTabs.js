@@ -33,10 +33,14 @@ const styles = StyleSheet.create({
 });
 
 class SearchResultTabs extends Component {
-  static navigationOptions = () => ({
-    header: null,
-  });
-
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      tabBarVisible: params && params.tabBarVisible != null
+        ? params.tabBarVisible
+        : true,
+    };
+  };
   constructor(props) {
     super(props);
     const { searchType, word, i18n } = props;
@@ -60,6 +64,14 @@ class SearchResultTabs extends Component {
         this.handleOnPressHardwareBackButton,
       );
     }
+    this.keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      this.keyboardDidShow,
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this.keyboardDidHide,
+    );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -85,6 +97,8 @@ class SearchResultTabs extends Component {
         this.backHandlerListener,
       );
     }
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
   }
 
   handleChangeTab = index => {
@@ -171,6 +185,16 @@ class SearchResultTabs extends Component {
       }),
     );
     return true;
+  };
+
+  keyboardDidShow = () => {
+    const { setParams } = this.props.navigation;
+    setParams({ tabBarVisible: false });
+  };
+
+  keyboardDidHide = () => {
+    const { setParams } = this.props.navigation;
+    setParams({ tabBarVisible: true });
   };
 
   renderScene = ({ route }) => {
