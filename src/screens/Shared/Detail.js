@@ -29,6 +29,7 @@ import PXCacheImageTouchable from '../../components/PXCacheImageTouchable';
 import PXThumbnail from '../../components/PXThumbnail';
 import Tags from '../../components/Tags';
 import HeaderSaveImageButton from '../../components/HeaderSaveImageButton';
+import HeaderShareButton from '../../components/HeaderShareButton';
 // import { connectLocalization } from '../../components/Localization';
 import * as browsingHistoryActionCreators
   from '../../common/actions/browsingHistory';
@@ -73,6 +74,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginLeft: 10,
   },
+  headerText: {
+    color: '#fff',
+  },
   captionContainer: {
     marginVertical: 10,
   },
@@ -111,27 +115,21 @@ class Detail extends Component {
             size={THUMBNAIL_SIZE}
           />
           <View style={styles.nameContainer}>
-            <Text>{item.user.name}</Text>
-            <Text>{item.user.account}</Text>
+            <Text style={styles.headerText}>{item.user.name}</Text>
+            <Text style={styles.headerText}>{item.user.account}</Text>
           </View>
         </PXTouchable>
       ),
       headerRight: images &&
         images.length &&
         <View style={{ flexDirection: 'row' }}>
-          <PXTouchable
+          <HeaderSaveImageButton imageUrls={images} saveAll />
+          <HeaderShareButton
             onPress={() =>
               Share.open(shareOptions).catch(err => {
                 err && console.log(err);
               })}
-          >
-            <Icon
-              name="share-alt"
-              size={20}
-              style={{ paddingVertical: 10, paddingHorizontal: 10 }}
-            />
-          </PXTouchable>
-          <HeaderSaveImageButton imageUrls={images} />
+          />
         </View>,
     };
   };

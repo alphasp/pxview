@@ -21,7 +21,7 @@ import Share from 'react-native-share';
 import FollowButtonContainer from '../../containers/FollowButtonContainer';
 import { connectLocalization } from '../../components/Localization';
 import IllustCollection from '../../components/IllustCollection';
-import PXTouchable from '../../components/PXTouchable';
+import HeaderShareButton from '../../components/HeaderShareButton';
 import PXThumbnail from '../../components/PXThumbnail';
 import PXThumbnailTouchable from '../../components/PXThumbnailTouchable';
 import PXImage from '../../components/PXImage';
@@ -168,15 +168,13 @@ class UserDetail extends Component {
           }}
         >
           <FollowButtonContainer user={user} />
-          <PXTouchable
+          <HeaderShareButton
             style={{ marginLeft: 10 }}
             onPress={() =>
               Share.open(shareOptions).catch(err => {
                 err && console.log(err);
               })}
-          >
-            <Icon name="share-alt" size={20} />
-          </PXTouchable>
+          />
         </View>,
     };
   };
