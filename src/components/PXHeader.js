@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
   },
   subContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
 });
 
@@ -45,6 +46,7 @@ class PXHeader extends Component {
       isPushNewSearch,
       onPressBackButton,
       onFocusSearchBar,
+      onBlurSearchBar,
       onChangeSearchText,
       onSubmitSearch,
     } = this.props;
@@ -57,6 +59,7 @@ class PXHeader extends Component {
               <PXSearchBar
                 textInputRef="email"
                 onFocus={onFocusSearchBar}
+                onBlur={onBlurSearchBar}
                 onChangeText={onChangeSearchText}
                 onSubmitSearch={onSubmitSearch}
                 navigation={navigation}
