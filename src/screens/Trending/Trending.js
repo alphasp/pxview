@@ -29,12 +29,12 @@ class Trending extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     return {
-      tabBarVisible: params &&
-        params.tabBarVisible != null
+      tabBarVisible: params && params.tabBarVisible != null
         ? params.tabBarVisible
         : true,
     };
   };
+
   constructor(props) {
     super(props);
     const { i18n } = props;
@@ -60,13 +60,22 @@ class Trending extends Component {
         this.handleOnPressBackButton,
       );
     }
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { searchType: prevSearchType, lang: prevLang } = this.props;
-    const { searchType, lang, i18n } = nextProps;
+    const {
+      searchType: prevSearchType,
+      lang: prevLang,
+      keyboardVisible: prevKeyboardVisible,
+    } = this.props;
+    const {
+      searchType,
+      lang,
+      i18n,
+      route,
+      keyboardVisible,
+      navigation,
+    } = nextProps;
     if (searchType !== prevSearchType) {
       this.setState({ index: searchType === SEARCH_TYPES.USER ? 1 : 0 });
     }
@@ -78,6 +87,15 @@ class Trending extends Component {
         ],
       });
     }
+    if (Platform.OS === 'android') {
+      if (route.key === navigation.state.key) {
+        if (keyboardVisible !== prevKeyboardVisible) {
+          this.toggleTabBarVisibility(!keyboardVisible);
+        }
+      } else {
+        this.toggleTabBarVisibility(true);
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -87,8 +105,6 @@ class Trending extends Component {
         this.backHandlerListener,
       );
     }
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
   }
 
   handleChangeTab = index => {
@@ -121,14 +137,14 @@ class Trending extends Component {
     return false;
   };
 
-  keyboardDidShow = () => {
-    const { setParams } = this.props.navigation;
-    setParams({ tabBarVisible: false })
-  };
-
-  keyboardDidHide = () => {
-    const { setParams } = this.props.navigation;
-    setParams({ tabBarVisible: true })
+  toggleTabBarVisibility = isShow => {
+    const { setParams, state: { params } } = this.props.navigation;
+    const tabBarVisible = params && params.tabBarVisible != null
+      ? params.tabBarVisible
+      : false;
+    if (tabBarVisible !== isShow) {
+      setParams({ tabBarVisible: isShow });
+    }
   };
 
   renderScene = ({ route }) => {
@@ -184,6 +200,8 @@ export default connectLocalization(
   connect(
     state => ({
       searchType: state.searchType.type,
+      keyboardVisible: state.keyboard.visible,
+      route: state.route.route,
     }),
     searchTypeActionCreators,
   )(Trending),

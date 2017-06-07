@@ -41,6 +41,7 @@ class SearchResultTabs extends Component {
         : true,
     };
   };
+
   constructor(props) {
     super(props);
     const { searchType, word, i18n } = props;
@@ -64,19 +65,22 @@ class SearchResultTabs extends Component {
         this.handleOnPressHardwareBackButton,
       );
     }
-    this.keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      this.keyboardDidShow,
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      this.keyboardDidHide,
-    );
   }
 
   componentWillReceiveProps(nextProps) {
-    const { searchType: prevSearchType, lang: prevLang } = this.props;
-    const { searchType, lang, i18n } = nextProps;
+    const {
+      searchType: prevSearchType,
+      lang: prevLang,
+      keyboardVisible: prevKeyboardVisible,
+    } = this.props;
+    const {
+      searchType,
+      lang,
+      i18n,
+      route,
+      keyboardVisible,
+      navigationStateKey,
+    } = nextProps;
     if (searchType !== prevSearchType) {
       this.setState({ index: searchType === SEARCH_TYPES.USER ? 1 : 0 });
     }
@@ -88,6 +92,15 @@ class SearchResultTabs extends Component {
         ],
       });
     }
+    if (Platform.OS === 'android') {
+      if (route.key === navigationStateKey) {
+        if (keyboardVisible !== prevKeyboardVisible) {
+          this.toggleTabBarVisibility(!keyboardVisible);
+        }
+      } else {
+        this.toggleTabBarVisibility(true);
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -97,8 +110,6 @@ class SearchResultTabs extends Component {
         this.backHandlerListener,
       );
     }
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
   }
 
   handleChangeTab = index => {
@@ -121,25 +132,32 @@ class SearchResultTabs extends Component {
   handleOnPressShowFilterModal = () => {
     const { navigate, goBack } = this.props.navigation;
     const { searchOptions } = this.state;
-    navigate('SearchFilterModal', {
-      searchFilter: searchOptions || {},
-      onPressApplyFilter: (target, duration, sort) => {
-        goBack(null);
-        // setTimeout(() => setParams({
-        //   searchOptions: {
-        //     duration,
-        //     target,
-        //     sort
-        //   },
-        // }), 0);
-        this.setState({
-          searchOptions: {
-            duration,
-            target,
-            sort,
-          },
-        });
-      },
+    Keyboard.dismiss();
+    this.setState({
+      isFocusSearchBar: false,
+    });
+    setTimeout(() => {
+      navigate('SearchFilterModal', {
+        searchFilter: searchOptions || {},
+        onPressApplyFilter: (target, duration, sort) => {
+          goBack(null);
+          // setTimeout(() => setParams({
+          //   searchOptions: {
+          //     duration,
+          //     target,
+          //     sort
+          //   },
+          // }), 0);
+          // this.toggleTabBarVisibility(true);
+          this.setState({
+            searchOptions: {
+              duration,
+              target,
+              sort,
+            },
+          });
+        },
+      });
     });
   };
 
@@ -187,14 +205,12 @@ class SearchResultTabs extends Component {
     return true;
   };
 
-  keyboardDidShow = () => {
-    const { setParams } = this.props.navigation;
-    setParams({ tabBarVisible: false });
-  };
-
-  keyboardDidHide = () => {
-    const { setParams } = this.props.navigation;
-    setParams({ tabBarVisible: true });
+  toggleTabBarVisibility = isShow => {
+    const { setParams, state } = this.props.navigation;
+    const { tabBarVisible } = state.params;
+    if (tabBarVisible !== isShow) {
+      setParams({ tabBarVisible: isShow });
+    }
   };
 
   renderScene = ({ route }) => {
@@ -245,7 +261,7 @@ class SearchResultTabs extends Component {
               <Icon
                 name="sliders"
                 size={20}
-                color={searchType === SEARCH_TYPES.USER ? 'grey' : '#037aff'}
+                color={searchType === SEARCH_TYPES.USER ? '#E9EBEE' : '#000'}
                 style={{ padding: 10 }}
               />
             </PXTouchable>
@@ -279,8 +295,10 @@ export default connectLocalization(
   connect(
     (state, props) => ({
       searchType: state.searchType.type,
+      keyboardVisible: state.keyboard.visible,
       word: props.navigation.state.params.word,
       navigationStateKey: props.navigation.state.key,
+      route: state.route.route,
     }),
     {
       ...searchAutoCompleteActionCreators,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, DeviceEventEmitter } from 'react-native';
+import { View, StyleSheet, DeviceEventEmitter, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import Toast, { DURATION } from 'react-native-easy-toast';
@@ -7,6 +7,8 @@ import AppNavigator from '../../navigations/AppNavigator';
 import { connectLocalization } from '../../components/Localization';
 import Loader from '../../components/Loader';
 import ModalRoot from '../../containers/ModalRoot';
+import * as keyboardActionCreators from '../../common/actions/keyboard';
+import * as routeActionCreators from '../../common/actions/route';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,37 +38,68 @@ const styles = StyleSheet.create({
 class Master extends Component {
   componentDidMount() {
     MessageBarManager.registerMessageBar(this.messageBarAlert);
-    this.listener = DeviceEventEmitter.addListener('showToast', text => {
-      this.toast.show(text, DURATION.LENGTH_LONG);
-    });
-    // DeviceEventEmitter.emit('showToast', 'Maximum of tags is 10');
+    this.showToastListener = DeviceEventEmitter.addListener(
+      'showToast',
+      text => {
+        this.toast.show(text, DURATION.LENGTH_LONG);
+      },
+    );
+    this.keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      this.keyboardDidShow,
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this.keyboardDidHide,
+    );
   }
 
   componentWillUnmount() {
     MessageBarManager.unregisterMessageBar();
-    if (this.listener) {
-      this.listener.remove();
-    }
+    this.showToastListener.remove();
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
   }
 
+  keyboardDidShow = () => {
+    const { keyboardDidShow } = this.props;
+    keyboardDidShow();
+  };
+
+  keyboardDidHide = () => {
+    const { keyboardDidHide } = this.props;
+    keyboardDidHide();
+  };
+
   // gets the current screen from navigation state
-  getCurrentRouteName = navigationState => {
+  getCurrentRoute = navigationState => {
     if (!navigationState) {
       return null;
     }
     const route = navigationState.routes[navigationState.index];
     // dive into nested navigators
     if (route.routes) {
-      return this.getCurrentRouteName(route);
+      return this.getCurrentRoute(route);
     }
-    return route.routeName;
+    return route;
+  };
+
+  handleOnNavigationStateChange = navigationState => {
+    const route = this.getCurrentRoute(navigationState);
+    const { setCurrentRoute } = this.props;
+    setCurrentRoute(route);
   };
 
   render() {
     const { rehydrated, i18n } = this.props;
     return (
       <View style={styles.container}>
-        {rehydrated ? <AppNavigator screenProps={{ i18n }} /> : <Loader />}
+        {rehydrated
+          ? <AppNavigator
+              screenProps={{ i18n }}
+              onNavigationStateChange={this.handleOnNavigationStateChange}
+            />
+          : <Loader />}
         <MessageBar ref={ref => (this.messageBarAlert = ref)} />
         <Toast ref={ref => (this.toast = ref)} opacity={0.7} />
         <ModalRoot />
@@ -76,8 +109,11 @@ class Master extends Component {
 }
 
 export default connectLocalization(
-  connect(state => ({
-    error: state.error,
-    rehydrated: state.auth.rehydrated,
-  }))(Master),
+  connect(
+    state => ({
+      error: state.error,
+      rehydrated: state.auth.rehydrated,
+    }),
+    { ...keyboardActionCreators, ...routeActionCreators },
+  )(Master),
 );
