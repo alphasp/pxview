@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
+  StyleSheet,
   Platform,
   Alert,
   PermissionsAndroid,
@@ -7,10 +8,17 @@ import {
   DeviceEventEmitter,
 } from 'react-native';
 import RNFetchBlob from 'react-native-fetch-blob';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Promise from 'bluebird';
 import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
+
+const styles = StyleSheet.create({
+  icon: {
+    padding: 10,
+    color: '#fff',
+  },
+});
 
 class HeaderSaveImageButton extends PureComponent {
   requestWriteExternalStoragePermission = async () => {
@@ -107,12 +115,13 @@ class HeaderSaveImageButton extends PureComponent {
   };
 
   render() {
+    const { saveAll, restProps } = this.props;
     return (
-      <PXTouchable onPress={this.handleOnPress}>
+      <PXTouchable onPress={this.handleOnPress} {...restProps}>
         <Icon
-          name="floppy-o"
+          name={saveAll ? 'content-save-all' : 'content-save'}
           size={20}
-          style={{ paddingVertical: 10, paddingHorizontal: 20 }}
+          style={styles.icon}
         />
       </PXTouchable>
     );
