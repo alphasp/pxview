@@ -11,6 +11,8 @@ import {
   REMOVE,
   REPLACE,
   SET,
+  SHOW,
+  HIDE,
 } from './stateConstants';
 
 const appNamespace = defineAction('PIXIV');
@@ -36,6 +38,10 @@ export const AUTH_REHYDRATE = defineAction(
 );
 
 export const ERROR = defineAction('ERROR', [ADD, CLEAR], appNamespace);
+
+export const KEYBOARD = defineAction('KEYBOARD', [SHOW, HIDE], appNamespace);
+
+export const ROUTE = defineAction('ROUTE', [SET], appNamespace);
 
 export const RECOMMENDED_ILLUSTS = defineAction(
   'RECOMMENDED_ILLUSTS',

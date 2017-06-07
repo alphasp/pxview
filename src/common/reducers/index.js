@@ -36,6 +36,8 @@ import auth from './auth';
 import modal from './modal';
 import i18n from './i18n';
 import error from './error';
+import route from './route';
+import keyboard from './keyboard';
 
 const rootReducer = combineReducers({
   error,
@@ -74,6 +76,8 @@ const rootReducer = combineReducers({
   auth,
   modal,
   i18n,
+  route,
+  keyboard,
   form: formReducer,
 });
 

@@ -12,3 +12,6 @@ export const REMOVE = 'REMOVE';
 export const REPLACE = 'REPLACE';
 
 export const SET = 'SET';
+
+export const SHOW = 'SHOW';
+export const HIDE = 'HIDE';
