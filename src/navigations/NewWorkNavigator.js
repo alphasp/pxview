@@ -2,6 +2,7 @@ import { StackNavigator } from 'react-navigation';
 import NewWorks from '../screens/NewWorks/NewWorks';
 import enhanceRouter from './routers/enhanceRouter';
 import sharedRouteConfig from './routeConfigs/shared';
+import { globalStyles, globalStyleVariables } from '../styles';
 
 const NewWorkNavigator = StackNavigator(
   {
@@ -16,13 +17,11 @@ const NewWorkNavigator = StackNavigator(
   {
     navigationOptions: {
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
       },
-      headerBackTitle: null,
+      headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
     },
-    cardStyle: {
-      backgroundColor: '#fff',
-    },
+    cardStyle: globalStyles.card,
     headerMode: 'screen',
   },
 );

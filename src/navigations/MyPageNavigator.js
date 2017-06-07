@@ -9,6 +9,7 @@ import AccountSettings from '../screens/MyPage/AccountSettings';
 import Language from '../screens/MyPage/Language';
 import enhanceRouter from './routers/enhanceRouter';
 import sharedRouteConfig from './routeConfigs/shared';
+import { globalStyles, globalStyleVariables } from '../styles';
 
 const MyPageNavigator = StackNavigator(
   {
@@ -66,13 +67,11 @@ const MyPageNavigator = StackNavigator(
     headerMode: 'screen',
     navigationOptions: {
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
       },
-      headerBackTitle: null,
+      headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
     },
-    cardStyle: {
-      backgroundColor: '#fff',
-    },
+    cardStyle: globalStyles.card,
   },
 );
 

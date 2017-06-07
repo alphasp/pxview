@@ -1,5 +1,8 @@
 import { Dimensions, Platform } from 'react-native';
 
+export const HEADER_BACKGROUND_COLOR = '#2e97d8';
+export const HEADER_TINT_COLOR = '#fff';
+export const CARD_BACKGROUND_COLOR = '#fff';
 export const PRIMARY_COLOR = '#2e97d8';
 export const SECONDARY_COLOR = 'red';
 export const BACKGROUND_COLOR = '#E9EBEE';

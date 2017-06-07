@@ -5,6 +5,9 @@ const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  card: {
+    backgroundColor: '#fff',
+  },
 });
 
 export { globalStyles, globalStyleVariables };

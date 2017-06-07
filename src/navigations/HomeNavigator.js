@@ -2,6 +2,7 @@ import { StackNavigator } from 'react-navigation';
 import Home from '../screens/Home/Home';
 import enhanceRouter from './routers/enhanceRouter';
 import sharedRouteConfig from './routeConfigs/shared';
+import { globalStyles, globalStyleVariables } from '../styles';
 
 const HomeNavigator = StackNavigator(
   {
@@ -16,13 +17,12 @@ const HomeNavigator = StackNavigator(
   {
     navigationOptions: {
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
       },
+      headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
       headerBackTitle: null,
     },
-    cardStyle: {
-      backgroundColor: '#fff',
-    },
+    cardStyle: globalStyles.card,
     headerMode: 'screen',
   },
 );

@@ -1,5 +1,6 @@
 import { StackNavigator } from 'react-navigation';
 import Login from '../screens/Login/Login';
+import { globalStyles, globalStyleVariables } from '../styles';
 
 const LoginNavigator = StackNavigator(
   {
@@ -11,13 +12,11 @@ const LoginNavigator = StackNavigator(
     headerMode: 'screen',
     navigationOptions: {
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
       },
-      headerBackTitle: null,
+      headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
     },
-    cardStyle: {
-      backgroundColor: '#fff',
-    },
+    cardStyle: globalStyles.card,
   },
 );
 

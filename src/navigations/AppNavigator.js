@@ -4,6 +4,7 @@ import Login from '../screens/Login/Login';
 import SearchFilterModal from '../components/SearchFilterModal';
 import ImagesViewer from '../screens/ImagesViewer/ImagesViewer';
 import AddIllustComment from '../screens/Shared/AddIllustComment';
+import { globalStyles, globalStyleVariables } from '../styles';
 
 const AppNavigator = StackNavigator(
   {
@@ -36,10 +37,14 @@ const AppNavigator = StackNavigator(
     },
   },
   {
-    mode: 'modal',
-    cardStyle: {
-      backgroundColor: '#fff',
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
+      },
+      headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
     },
+    cardStyle: globalStyles.card,
+    mode: 'modal',
     headerMode: 'screen',
   },
 );

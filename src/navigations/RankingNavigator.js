@@ -2,6 +2,7 @@ import { StackNavigator } from 'react-navigation';
 import Ranking from '../screens/Ranking/Ranking';
 import enhanceRouter from './routers/enhanceRouter';
 import sharedRouteConfig from './routeConfigs/shared';
+import { globalStyles, globalStyleVariables } from '../styles';
 
 const RankingNavigator = StackNavigator(
   {
@@ -16,13 +17,11 @@ const RankingNavigator = StackNavigator(
   {
     navigationOptions: {
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
       },
-      headerBackTitle: null,
+      headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
     },
-    cardStyle: {
-      backgroundColor: '#fff',
-    },
+    cardStyle: globalStyles.card,
     headerMode: 'screen',
   },
 );
