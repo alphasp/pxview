@@ -50,27 +50,31 @@ class IllustTagList extends Component {
     let imageStyle = {};
     let tagContainerStyle = {};
     if (index === 0) {
+      const width = globalStyleVariables.WINDOW_WIDTH;
+      const height = globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS * 2 - 1;
       imageContainerStyle = {
-        width: globalStyleVariables.WINDOW_WIDTH,
-        height: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS * 2 - 1,
+        width,
+        height,
       };
       imageStyle = {
-        width: globalStyleVariables.WINDOW_WIDTH,
-        height: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS * 2 - 1,
+        width,
+        height,
       };
       tagContainerStyle = {
-        width: globalStyleVariables.WINDOW_WIDTH,
-        height: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS * 2 - 1,
+        width,
+        height,
       };
     } else {
+      const width = globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1;
+      const height = globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1;
       imageContainerStyle = {
         marginRight: index % ILLUST_COLUMNS < ILLUST_COLUMNS - 1 ? 1 : 0,
-        width: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1,
-        height: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1,
+        width,
+        height,
       };
       imageStyle = {
-        width: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1,
-        height: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1,
+        width,
+        height,
       };
       tagContainerStyle = {
         height: globalStyleVariables.WINDOW_WIDTH / 3 - 1,

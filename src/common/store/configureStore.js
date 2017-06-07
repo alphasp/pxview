@@ -79,13 +79,18 @@ export default function configureStore() {
   persistStore(
     store,
     {
-      whitelist: ['searchHistory', 'browsingHistory', 'entities', 'auth', 'i18n'],
+      whitelist: [
+        'searchHistory',
+        'browsingHistory',
+        'entities',
+        'auth',
+        'i18n',
+      ],
       storage: AsyncStorage,
       transforms: [myTransform],
     },
     () => {
       const { lang } = store.getState().i18n;
-      console.log('lang ', lang)
       i18n.setLanguage(lang);
       console.log('rehydration complete');
     },

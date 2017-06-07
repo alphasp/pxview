@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import hoistNonReactStatic from 'hoist-non-react-statics';
 import { connect } from 'react-redux';
+import hoistNonReactStatic from 'hoist-non-react-statics';
 
 const connectLocalization = WrappedComponent => {
   class Localization extends Component {
