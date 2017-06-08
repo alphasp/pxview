@@ -49,6 +49,7 @@ class PXSearchBar extends Component {
             borderBottomWidth: 0,
           }}
           lightTheme
+          selectionColor="#90CAF9"
           placeholder={
             searchType === SEARCH_TYPES.USER
               ? i18n.searchUserPlaceHolder
@@ -61,6 +62,7 @@ class PXSearchBar extends Component {
           returnKeyType="search"
           defaultValue={word}
           underlineColorAndroid="transparent"
+          spellCheck={false}
         />
       </View>
     );
