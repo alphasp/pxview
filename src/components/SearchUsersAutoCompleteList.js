@@ -7,6 +7,7 @@ import {
   Keyboard,
   RefreshControl,
 } from 'react-native';
+import { connectLocalization } from './Localization';
 import PXTouchable from './PXTouchable';
 import PXThumbnailTouchable from './PXThumbnailTouchable';
 import FollowButton from './FollowButton';
@@ -31,13 +32,19 @@ const styles = StyleSheet.create({
   footer: {
     marginBottom: 20,
   },
+  searchUserAutoCompleteHeaderContainer: {
+    padding: 10,
+  },
+  searchUserAutoCompleteTitle: {
+    fontWeight: 'bold',
+  },
 });
 
 class SearchUsersAutoCompleteList extends PureComponent {
   renderItem = ({ item }) => {
     const { onPressItem } = this.props;
     return (
-      <PXTouchable key={item.user.id} onPress={() => onPressItem(item.user.id)}>
+      <PXTouchable onPress={() => onPressItem(item.user.id)}>
         <View style={styles.row}>
           <View style={styles.thumnailNameContainer}>
             <PXThumbnailTouchable
@@ -70,9 +77,15 @@ class SearchUsersAutoCompleteList extends PureComponent {
       data: { items, loading, loaded, refreshing },
       onRefresh,
       loadMoreItems,
+      i18n,
     } = this.props;
     return (
       <View style={globalStyles.container}>
+        <View style={styles.searchUserAutoCompleteHeaderContainer}>
+          <Text style={styles.searchUserAutoCompleteTitle}>
+            {i18n.searchSuggest}
+          </Text>
+        </View>
         {!loaded && loading && <Loader />}
         {items && items.length
           ? <FlatList
@@ -88,6 +101,7 @@ class SearchUsersAutoCompleteList extends PureComponent {
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
               removeClippedSubviews={false} // to prevent flatlist hidden after switch language
+              onScroll={Keyboard.dismiss}
             />
           : null}
       </View>
@@ -95,4 +109,4 @@ class SearchUsersAutoCompleteList extends PureComponent {
   }
 }
 
-export default SearchUsersAutoCompleteList;
+export default connectLocalization(SearchUsersAutoCompleteList);

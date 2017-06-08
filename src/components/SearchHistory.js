@@ -65,6 +65,7 @@ class SearchHistory extends Component {
           ItemSeparatorComponent={Separator}
           keyboardShouldPersistTaps="always"
           removeClippedSubviews={false} // to prevent flatlist hidden after switch language
+          onScroll={Keyboard.dismiss}
         />
       </View>
     );
