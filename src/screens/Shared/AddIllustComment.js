@@ -26,16 +26,14 @@ class AddIllustComment extends Component {
     return {
       headerRight: submit &&
         illustId &&
-        <View style={{ flexDirection: 'row' }}>
-          <PXTouchable onPress={submit} disabled={!comment}>
-            <Icon
-              name="pencil"
-              style={{ paddingVertical: 10, paddingHorizontal: 20 }}
-              size={20}
-              color={comment ? '#000' : 'gray'}
-            />
-          </PXTouchable>
-        </View>,
+        <PXTouchable onPress={submit} disabled={!comment}>
+          <Icon
+            name="pencil"
+            style={{ padding: 10 }}
+            size={20}
+            color={comment ? '#fff' : 'gray'}
+          />
+        </PXTouchable>,
     };
   };
 
