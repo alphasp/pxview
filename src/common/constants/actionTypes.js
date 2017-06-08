@@ -41,7 +41,7 @@ export const ERROR = defineAction('ERROR', [ADD, CLEAR], appNamespace);
 
 export const KEYBOARD = defineAction('KEYBOARD', [SHOW, HIDE], appNamespace);
 
-export const ROUTE = defineAction('ROUTE', [SET], appNamespace);
+export const NAV = defineAction('NAV', [REPLACE], appNamespace);
 
 export const RECOMMENDED_ILLUSTS = defineAction(
   'RECOMMENDED_ILLUSTS',
@@ -240,7 +240,5 @@ export const BROWSING_HISTORY = defineAction(
   [ADD, REMOVE, CLEAR],
   appNamespace,
 );
-
-export const NAVIGATION = defineAction('NAVIGATION', [REPLACE], appNamespace);
 
 export const SEARCH_TYPE = defineAction('SEARCH_TYPE', [SET], appNamespace);

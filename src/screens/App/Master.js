@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, DeviceEventEmitter, Keyboard } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  DeviceEventEmitter,
+  Keyboard,
+  BackHandler,
+  Platform,
+} from 'react-native';
 import { connect } from 'react-redux';
+import { addNavigationHelpers, NavigationActions } from 'react-navigation';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import Toast, { DURATION } from 'react-native-easy-toast';
 import AppNavigator from '../../navigations/AppNavigator';
@@ -52,6 +60,12 @@ class Master extends Component {
       'keyboardDidHide',
       this.keyboardDidHide,
     );
+    if (Platform.OS === 'android') {
+      this.backHandlerListener = BackHandler.addEventListener(
+        'hardwareBackPress',
+        this.hardwareBackPress,
+      );
+    }
   }
 
   componentWillUnmount() {
@@ -59,6 +73,9 @@ class Master extends Component {
     this.showToastListener.remove();
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
+    if (Platform.OS === 'android') {
+      this.backHandlerListener.remove();
+    }
   }
 
   keyboardDidShow = () => {
@@ -71,23 +88,13 @@ class Master extends Component {
     keyboardDidHide();
   };
 
-  // gets the current screen from navigation state
-  getCurrentRoute = navigationState => {
-    if (!navigationState) {
-      return null;
+  hardwareBackPress = () => {
+    const { dispatch, nav } = this.props;
+    if (nav && nav.currentRoute && nav.currentRoute.routeName !== 'HomeTab') {
+      dispatch(NavigationActions.back());
+      return true; // will not exit, just go back
     }
-    const route = navigationState.routes[navigationState.index];
-    // dive into nested navigators
-    if (route.routes) {
-      return this.getCurrentRoute(route);
-    }
-    return route;
-  };
-
-  handleOnNavigationStateChange = navigationState => {
-    const route = this.getCurrentRoute(navigationState);
-    const { setCurrentRoute } = this.props;
-    setCurrentRoute(route);
+    return false; // exit
   };
 
   render() {
@@ -97,7 +104,10 @@ class Master extends Component {
         {rehydrated
           ? <AppNavigator
               screenProps={{ i18n }}
-              onNavigationStateChange={this.handleOnNavigationStateChange}
+              navigation={addNavigationHelpers({
+                dispatch: this.props.dispatch,
+                state: this.props.nav,
+              })}
             />
           : <Loader />}
         <MessageBar ref={ref => (this.messageBarAlert = ref)} />
@@ -111,6 +121,7 @@ class Master extends Component {
 export default connectLocalization(
   connect(
     state => ({
+      nav: state.nav,
       error: state.error,
       rehydrated: state.auth.rehydrated,
     }),

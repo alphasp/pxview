@@ -1,9 +1,9 @@
 /* eslint-disable react/prefer-stateless-function */
-// https://www.youtube.com/watch?v=-XULdsZWowU
+// https://github.com/react-community/react-navigation/issues/802#issuecomment-296728810
 
 import React, { Component } from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
-import { NAVIGATION } from '../../common/constants/actionTypes';
+import { NAV } from '../../common/constants/actionTypes';
 
 const enhanceRouter = WrappedNavigator => {
   class Enhance extends Component {
@@ -17,7 +17,7 @@ const enhanceRouter = WrappedNavigator => {
   Enhance.router = {
     ...WrappedNavigator.router,
     getStateForAction(action, state) {
-      if (state && action.type === NAVIGATION.REPLACE) {
+      if (state && action.type === NAV.REPLACE) {
         const routes = state.routes.slice(0, state.routes.length - 1);
         routes.push(action);
         return {
