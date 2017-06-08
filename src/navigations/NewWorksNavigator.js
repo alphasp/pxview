@@ -4,7 +4,7 @@ import enhanceRouter from './routers/enhanceRouter';
 import sharedRouteConfig from './routeConfigs/shared';
 import { globalStyles, globalStyleVariables } from '../styles';
 
-const NewWorkNavigator = StackNavigator(
+const NewWorksNavigator = StackNavigator(
   {
     NewWorks: {
       screen: NewWorks,
@@ -20,10 +20,11 @@ const NewWorkNavigator = StackNavigator(
         backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
       },
       headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
+      headerBackTitle: null,
     },
     cardStyle: globalStyles.card,
     headerMode: 'screen',
   },
 );
 
-export default enhanceRouter(NewWorkNavigator);
+export default enhanceRouter(NewWorksNavigator);

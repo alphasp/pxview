@@ -6,8 +6,13 @@ import { NavigationComponent } from 'react-native-material-bottom-navigation';
 import HomeNavigator from './HomeNavigator';
 import RankingNavigator from './RankingNavigator';
 import TrendingNavigator from './TrendingNavigator';
-import NewWorkNavigator from './NewWorkNavigator';
+import NewWorksNavigator from './NewWorksNavigator';
 import MyPageNavigator from './MyPageNavigator';
+import Home from '../screens/Home/Home';
+import Ranking from '../screens/Ranking/Ranking';
+import Trending from '../screens/Trending/Trending';
+import NewWorks from '../screens/NewWorks/NewWorks';
+import MyPage from '../screens/MyPage/MyPage';
 
 const renderTabBarIcon = (
   tintColor,
@@ -26,7 +31,7 @@ const renderTabBarIcon = (
 const MainNavigator = TabNavigator(
   {
     HomeTab: {
-      screen: HomeNavigator,
+      screen: Platform.OS === 'android' ? Home : HomeNavigator,
       navigationOptions: ({ screenProps: { i18n } }) => ({
         tabBarLabel: i18n.home,
         tabBarIcon: ({ tintColor, focused }) =>
@@ -34,7 +39,7 @@ const MainNavigator = TabNavigator(
       }),
     },
     RankingTab: {
-      screen: RankingNavigator,
+      screen: Platform.OS === 'android' ? Ranking : RankingNavigator,
       navigationOptions: ({ screenProps: { i18n } }) => ({
         tabBarLabel: i18n.ranking,
         tabBarIcon: ({ tintColor, focused }) =>
@@ -42,15 +47,15 @@ const MainNavigator = TabNavigator(
       }),
     },
     TrendingTab: {
-      screen: TrendingNavigator,
+      screen: Platform.OS === 'android' ? Trending : TrendingNavigator,
       navigationOptions: ({ screenProps: { i18n } }) => ({
         tabBarLabel: i18n.search,
         tabBarIcon: ({ tintColor, focused }) =>
           renderTabBarIcon(tintColor, focused, 'search'),
       }),
     },
-    NewWorkTab: {
-      screen: NewWorkNavigator,
+    NewWorksTab: {
+      screen: Platform.OS === 'android' ? NewWorks : NewWorksNavigator,
       navigationOptions: ({ screenProps: { i18n } }) => ({
         tabBarLabel: i18n.newest,
         tabBarIcon: ({ tintColor, focused }) =>
@@ -58,7 +63,7 @@ const MainNavigator = TabNavigator(
       }),
     },
     MyPageTab: {
-      screen: MyPageNavigator,
+      screen: Platform.OS === 'android' ? MyPage : MyPageNavigator,
       navigationOptions: ({ screenProps: { i18n } }) => ({
         tabBarLabel: i18n.myPage,
         tabBarIcon: ({ tintColor, focused }) =>
@@ -96,7 +101,7 @@ const MainNavigator = TabNavigator(
             // barBackgroundColor: '#EEEEEE',
             // labelColor: '#434343',
           },
-          NewWorkTab: {
+          NewWorksTab: {
             // barBackgroundColor: '#EEEEEE',
           },
           MyPageTab: {

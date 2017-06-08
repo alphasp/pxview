@@ -1,7 +1,7 @@
 import { StackNavigator } from 'react-navigation';
-import Home from '../screens/Home/Home';
 import enhanceRouter from './routers/enhanceRouter';
 import sharedRouteConfig from './routeConfigs/shared';
+import Home from '../screens/Home/Home';
 import { globalStyles, globalStyleVariables } from '../styles';
 
 const HomeNavigator = StackNavigator(

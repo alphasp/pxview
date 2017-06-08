@@ -20,6 +20,7 @@ const RankingNavigator = StackNavigator(
         backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
       },
       headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
+      headerBackTitle: null,
     },
     cardStyle: globalStyles.card,
     headerMode: 'screen',
