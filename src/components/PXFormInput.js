@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { FormLabel, FormInput } from 'react-native-elements';
+import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 
 const styles = StyleSheet.create({
   errorText: {
@@ -23,9 +23,7 @@ const PXFormInput = props => {
       <FormInput {...input} {...restProps} />
       {touched &&
         error &&
-        <Text style={[styles.errorText, errorTextStyle]}>
-          {error}
-        </Text>}
+        <FormValidationMessage>{error}</FormValidationMessage>}
     </View>
   );
 };
