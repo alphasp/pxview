@@ -19,14 +19,21 @@ const styles = StyleSheet.create({
 });
 
 const FollowButton = props => {
-  const { isFollow, onPress, onLongPress, i18n } = props;
+  const {
+    isFollow,
+    onPress,
+    onLongPress,
+    i18n,
+    buttonStyle,
+    textStyle,
+  } = props;
   return (
     <PXTouchable
-      style={styles.button}
+      style={[styles.button, buttonStyle]}
       onPress={onPress}
       onLongPress={onLongPress}
     >
-      <Text style={styles.buttonText}>
+      <Text style={[styles.buttonText, textStyle]}>
         {isFollow ? i18n.following : i18n.follow}
       </Text>
     </PXTouchable>

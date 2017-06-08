@@ -63,7 +63,7 @@ class FollowButtonContainer extends Component {
   };
 
   render() {
-    const { user, restProps } = this.props;
+    const { user, ...restProps } = this.props;
     return (
       <FollowButton
         isFollow={user.is_followed}

@@ -120,12 +120,21 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginLeft: 10,
   },
+  headerText: {
+    color: '#fff',
+  },
   blurView: {
     position: 'absolute',
     top: 0,
     left: 0,
     bottom: 0,
     right: 0,
+  },
+  followButton: {
+    borderColor: '#fff',
+  },
+  followButtonText: {
+    color: '#fff',
   },
 });
 
@@ -154,8 +163,8 @@ class UserDetail extends Component {
           >
             <PXThumbnailTouchable uri={user.profile_image_urls.medium} />
             <View style={styles.nameContainer}>
-              <Text>{user.name}</Text>
-              <Text>{user.account}</Text>
+              <Text style={styles.headerText}>{user.name}</Text>
+              <Text style={styles.headerText}>{user.account}</Text>
             </View>
           </Animatable.View>
         : null,
@@ -167,7 +176,11 @@ class UserDetail extends Component {
             marginRight: 10,
           }}
         >
-          <FollowButtonContainer user={user} />
+          <FollowButtonContainer
+            user={user}
+            buttonStyle={styles.followButton}
+            textStyle={styles.followButtonText}
+          />
           <HeaderShareButton
             style={{ marginLeft: 10 }}
             onPress={() =>
