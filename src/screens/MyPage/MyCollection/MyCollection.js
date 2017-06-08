@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import MyPrivateBookmarkIllusts from './MyPrivateBookmarkIllusts';
 import UserBookmarkIllusts from '../../Shared/UserBookmarkIllusts';
 import TagsFilterModal from '../../../containers/TagsFilterModal';
 import { connectLocalization } from '../../../components/Localization';
 import PXTabView from '../../../components/PXTabView';
+import HeaderFilterButton from '../../../components/HeaderFilterButton';
 import { TAG_TYPES } from '../../../common/constants';
 
 const styles = StyleSheet.create({
@@ -19,14 +19,8 @@ class MyCollection extends Component {
     const { setParams } = navigation;
     return {
       headerRight: (
-        <Icon
-          name="sliders"
-          size={20}
+        <HeaderFilterButton
           onPress={() => setParams({ isOpenFilterModal: true })}
-          color="#037aff"
-          style={{
-            padding: 10,
-          }}
         />
       ),
     };

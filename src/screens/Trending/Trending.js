@@ -50,10 +50,6 @@ class Trending extends Component {
   }
 
   componentDidMount() {
-    const { i18n, navigation: { setParams } } = this.props;
-    setParams({
-      i18n,
-    });
     if (Platform.OS === 'android') {
       this.backHandlerListener = BackHandler.addEventListener(
         'hardwareBackPress',
@@ -63,19 +59,8 @@ class Trending extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      searchType: prevSearchType,
-      lang: prevLang,
-      keyboardVisible: prevKeyboardVisible,
-    } = this.props;
-    const {
-      searchType,
-      lang,
-      i18n,
-      route,
-      keyboardVisible,
-      navigation,
-    } = nextProps;
+    const { searchType: prevSearchType, lang: prevLang } = this.props;
+    const { searchType, lang, i18n } = nextProps;
     if (searchType !== prevSearchType) {
       this.setState({ index: searchType === SEARCH_TYPES.USER ? 1 : 0 });
     }
@@ -86,15 +71,6 @@ class Trending extends Component {
           { key: '2', title: i18n.user },
         ],
       });
-    }
-    if (Platform.OS === 'android') {
-      if (route.key === navigation.state.key) {
-        if (keyboardVisible !== prevKeyboardVisible) {
-          this.toggleTabBarVisibility(!keyboardVisible);
-        }
-      } else {
-        this.toggleTabBarVisibility(true);
-      }
     }
   }
 
@@ -135,16 +111,6 @@ class Trending extends Component {
       return true;
     }
     return false;
-  };
-
-  toggleTabBarVisibility = isShow => {
-    const { setParams, state: { params } } = this.props.navigation;
-    const tabBarVisible = params && params.tabBarVisible != null
-      ? params.tabBarVisible
-      : false;
-    if (tabBarVisible !== isShow) {
-      setParams({ tabBarVisible: isShow });
-    }
   };
 
   renderScene = ({ route }) => {
@@ -200,8 +166,6 @@ export default connectLocalization(
   connect(
     state => ({
       searchType: state.searchType.type,
-      keyboardVisible: state.keyboard.visible,
-      route: state.route.route,
     }),
     searchTypeActionCreators,
   )(Trending),

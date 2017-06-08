@@ -7,20 +7,19 @@ import {
   BackHandler,
 } from 'react-native';
 import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import Search from '../../containers/Search';
 import SearchResult from '../../containers/SearchResult';
 import SearchUsersResult from '../../containers/SearchUsersResult';
 import { connectLocalization } from '../../components/Localization';
 import PXHeader from '../../components/PXHeader';
 import PXTabView from '../../components/PXTabView';
-import PXTouchable from '../../components/PXTouchable';
+import HeaderFilterButton from '../../components/HeaderFilterButton';
 import * as searchTypeActionCreators from '../../common/actions/searchType';
 import * as searchAutoCompleteActionCreators
   from '../../common/actions/searchAutoComplete';
 import * as searchUsersAutoCompleteActionCreators
   from '../../common/actions/searchUsersAutoComplete';
-import { navigationReplace } from '../../common/actions/navigation';
+import { navReplace } from '../../common/actions/nav';
 import { SEARCH_TYPES } from '../../common/constants';
 
 const styles = StyleSheet.create({
@@ -68,19 +67,8 @@ class SearchResultTabs extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      searchType: prevSearchType,
-      lang: prevLang,
-      keyboardVisible: prevKeyboardVisible,
-    } = this.props;
-    const {
-      searchType,
-      lang,
-      i18n,
-      route,
-      keyboardVisible,
-      navigationStateKey,
-    } = nextProps;
+    const { searchType: prevSearchType, lang: prevLang } = this.props;
+    const { searchType, lang, i18n } = nextProps;
     if (searchType !== prevSearchType) {
       this.setState({ index: searchType === SEARCH_TYPES.USER ? 1 : 0 });
     }
@@ -91,15 +79,6 @@ class SearchResultTabs extends Component {
           { key: '2', title: i18n.user },
         ],
       });
-    }
-    if (Platform.OS === 'android') {
-      if (route.key === navigationStateKey) {
-        if (keyboardVisible !== prevKeyboardVisible) {
-          this.toggleTabBarVisibility(!keyboardVisible);
-        }
-      } else {
-        this.toggleTabBarVisibility(true);
-      }
     }
   }
 
@@ -148,7 +127,6 @@ class SearchResultTabs extends Component {
           //     sort
           //   },
           // }), 0);
-          // this.toggleTabBarVisibility(true);
           this.setState({
             searchOptions: {
               duration,
@@ -196,21 +174,12 @@ class SearchResultTabs extends Component {
       isFocusSearchBar: false,
       newWord: word,
     });
-    // setParams({ word });
     dispatch(
-      navigationReplace('SearchResult', state.key, {
+      navReplace('SearchResult', state.key, {
         word,
       }),
     );
     return true;
-  };
-
-  toggleTabBarVisibility = isShow => {
-    const { setParams, state } = this.props.navigation;
-    const { tabBarVisible } = state.params;
-    if (tabBarVisible !== isShow) {
-      setParams({ tabBarVisible: isShow });
-    }
   };
 
   renderScene = ({ route }) => {
@@ -254,17 +223,11 @@ class SearchResultTabs extends Component {
           onPressBackButton={this.handleOnPressBackButton}
           onSubmitSearch={this.handleOnSubmitSearch}
           headerRight={
-            <PXTouchable
+            <HeaderFilterButton
               disabled={searchType === SEARCH_TYPES.USER}
+              color={searchType === SEARCH_TYPES.USER ? '#E9EBEE' : '#000'}
               onPress={this.handleOnPressShowFilterModal}
-            >
-              <Icon
-                name="sliders"
-                size={20}
-                color={searchType === SEARCH_TYPES.USER ? '#E9EBEE' : '#000'}
-                style={{ padding: 10 }}
-              />
-            </PXTouchable>
+            />
           }
           searchType={searchType}
         />
@@ -295,10 +258,8 @@ export default connectLocalization(
   connect(
     (state, props) => ({
       searchType: state.searchType.type,
-      keyboardVisible: state.keyboard.visible,
       word: props.navigation.state.params.word,
       navigationStateKey: props.navigation.state.key,
-      route: state.route.route,
     }),
     {
       ...searchAutoCompleteActionCreators,
