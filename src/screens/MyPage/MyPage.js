@@ -165,13 +165,6 @@ class MyPage extends Component {
     };
   }
 
-  componentDidMount() {
-    const { i18n, navigation: { setParams } } = this.props;
-    setParams({
-      i18n,
-    });
-  }
-
   handleOnAvatarImageLoaded = () => {
     this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   };

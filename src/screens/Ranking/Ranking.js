@@ -24,13 +24,6 @@ class Ranking extends Component {
     };
   }
 
-  componentDidMount() {
-    const { i18n, navigation: { setParams } } = this.props;
-    setParams({
-      i18n,
-    });
-  }
-
   componentWillReceiveProps(nextProps) {
     const { lang: prevLang } = this.props;
     const { lang, i18n } = nextProps;

@@ -26,13 +26,6 @@ class NewWorks extends Component {
     };
   }
 
-  componentDidMount() {
-    const { i18n, navigation: { setParams } } = this.props;
-    setParams({
-      i18n,
-    });
-  }
-
   componentWillReceiveProps(nextProps) {
     const { user: prevUser, lang: prevLang } = this.props;
     const { user, lang, i18n } = nextProps;
