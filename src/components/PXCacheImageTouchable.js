@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXCacheImage from './PXCacheImage';
 import { globalStyleVariables } from '../styles';
+
+const styles = StyleSheet.create({
+  pageNumberContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pageNumberText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+});
 
 class PXCacheImageTouchable extends Component {
   constructor(props) {
@@ -38,7 +51,7 @@ class PXCacheImageTouchable extends Component {
   };
 
   render() {
-    const { uri, style, imageStyle, onPress } = this.props;
+    const { uri, pageNumber, style, imageStyle, onPress } = this.props;
     const { width, height, loading } = this.state;
     return (
       <PXTouchable
@@ -51,7 +64,12 @@ class PXCacheImageTouchable extends Component {
         ]}
         onPress={onPress}
       >
-        {loading && <Loader />}
+        {loading &&
+          pageNumber &&
+          <View style={styles.pageNumberContainer}>
+            <Text style={styles.pageNumberText}>{pageNumber}</Text>
+          </View>}
+        {loading && !pageNumber && <Loader />}
         <PXCacheImage
           uri={uri}
           style={imageStyle}
