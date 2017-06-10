@@ -124,12 +124,7 @@ class Detail extends Component {
         images.length &&
         <View style={{ flexDirection: 'row' }}>
           <HeaderSaveImageButton imageUrls={images} saveAll />
-          <HeaderShareButton
-            onPress={() =>
-              Share.open(shareOptions).catch(err => {
-                err && console.log(err);
-              })}
-          />
+          <HeaderShareButton onPress={() => Share.open(shareOptions).catch()} />
         </View>,
     };
   };
@@ -185,11 +180,12 @@ class Detail extends Component {
       style={{
         backgroundColor: '#E9EBEE',
         borderBottomWidth: StyleSheet.hairlineWidth,
-        borderBottomColor: 'red',
+        borderBottomColor: 'gray',
       }}
       imageStyle={{
         resizeMode: 'contain',
       }}
+      pageNumber={index + 1}
       onPress={() => this.handleOnPressImage(index)}
     />
   );
@@ -210,7 +206,7 @@ class Detail extends Component {
                 <Text>{item.user.account}</Text>
               </View>
             </PXTouchable>
-            <FollowButtonContainer user={item.user} />
+            <FollowButtonContainer user={item.user} navigation={navigation} />
           </View>
           <View style={styles.captionContainer}>
             <HtmlView
