@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
-import {
-  View,
-  StyleSheet,
-  DeviceEventEmitter,
-  Keyboard,
-  BackHandler,
-  Platform,
-} from 'react-native';
+import { View, StyleSheet, DeviceEventEmitter, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
-import { addNavigationHelpers, NavigationActions } from 'react-navigation';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import Toast, { DURATION } from 'react-native-easy-toast';
 import AppNavigator from '../../navigations/AppNavigator';
@@ -60,12 +52,6 @@ class Master extends Component {
       'keyboardDidHide',
       this.keyboardDidHide,
     );
-    if (Platform.OS === 'android') {
-      this.backHandlerListener = BackHandler.addEventListener(
-        'hardwareBackPress',
-        this.hardwareBackPress,
-      );
-    }
   }
 
   componentWillUnmount() {
@@ -73,9 +59,6 @@ class Master extends Component {
     this.showToastListener.remove();
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
-    if (Platform.OS === 'android') {
-      this.backHandlerListener.remove();
-    }
   }
 
   keyboardDidShow = () => {
@@ -88,28 +71,11 @@ class Master extends Component {
     keyboardDidHide();
   };
 
-  hardwareBackPress = () => {
-    const { dispatch, nav } = this.props;
-    if (nav && nav.currentRoute && nav.currentRoute.routeName !== 'HomeTab') {
-      dispatch(NavigationActions.back());
-      return true; // will not exit, just go back
-    }
-    return false; // exit
-  };
-
   render() {
     const { rehydrated, i18n } = this.props;
     return (
       <View style={styles.container}>
-        {rehydrated
-          ? <AppNavigator
-              screenProps={{ i18n }}
-              navigation={addNavigationHelpers({
-                dispatch: this.props.dispatch,
-                state: this.props.nav,
-              })}
-            />
-          : <Loader />}
+        {rehydrated ? <AppNavigator screenProps={{ i18n }} /> : <Loader />}
         <MessageBar ref={ref => (this.messageBarAlert = ref)} />
         <Toast ref={ref => (this.toast = ref)} opacity={0.7} />
         <ModalRoot />
@@ -121,7 +87,6 @@ class Master extends Component {
 export default connectLocalization(
   connect(
     state => ({
-      nav: state.nav,
       error: state.error,
       rehydrated: state.auth.rehydrated,
     }),

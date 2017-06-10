@@ -34,7 +34,7 @@ import addIllustComment from './addIllustComment';
 import browsingHistory from './browsingHistory';
 import auth from './auth';
 import modal from './modal';
-import nav from './nav';
+// import nav from './nav';
 import i18n from './i18n';
 import error from './error';
 import keyboard from './keyboard';
@@ -75,7 +75,7 @@ const rootReducer = combineReducers({
   browsingHistory,
   auth,
   modal,
-  nav,
+  // nav,
   i18n,
   keyboard,
   form: formReducer,
