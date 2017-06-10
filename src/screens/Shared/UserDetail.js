@@ -180,13 +180,11 @@ class UserDetail extends Component {
             user={user}
             buttonStyle={styles.followButton}
             textStyle={styles.followButtonText}
+            navigation={navigation}
           />
           <HeaderShareButton
             style={{ marginLeft: 10 }}
-            onPress={() =>
-              Share.open(shareOptions).catch(err => {
-                err && console.log(err);
-              })}
+            onPress={() => Share.open(shareOptions).catch()}
           />
         </View>,
     };
@@ -482,7 +480,6 @@ class UserDetail extends Component {
         {(!item || (!loaded && loading)) && <Loader />}
         {item
           ? <ScrollView
-              style={styles.container}
               onScroll={this.handleOnScroll}
               scrollEventThrottle={16}
               refreshControl={

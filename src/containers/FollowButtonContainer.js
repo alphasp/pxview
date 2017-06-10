@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
 import FollowButton from '../components/FollowButton';
 import * as followUserActionCreators from '../common/actions/followUser';
 import * as modalActionCreators from '../common/actions/modal';
@@ -13,7 +12,7 @@ class FollowButtonContainer extends Component {
     user: PropTypes.object.isRequired,
     followUser: PropTypes.func.isRequired,
     unfollowUser: PropTypes.func.isRequired,
-    navigation: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired, // need to pass navigation manually, withNavigation will not work in static function
     openModal: PropTypes.func.isRequired,
   };
 
@@ -75,11 +74,9 @@ class FollowButtonContainer extends Component {
   }
 }
 
-export default withNavigation(
-  connect(
-    state => ({
-      authUser: state.auth.user,
-    }),
-    { ...followUserActionCreators, ...modalActionCreators },
-  )(FollowButtonContainer),
-);
+export default connect(
+  state => ({
+    authUser: state.auth.user,
+  }),
+  { ...followUserActionCreators, ...modalActionCreators },
+)(FollowButtonContainer);
