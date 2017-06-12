@@ -34,9 +34,9 @@ userPreviewSchema.define({
   illusts: [illustSchema],
 });
 
-userProfileSchema.define({
-  user: userSchema,
-});
+// userProfileSchema.define({
+//   user: userSchema,
+// });
 
 const Schemas = {
   ILLUST: illustSchema,
