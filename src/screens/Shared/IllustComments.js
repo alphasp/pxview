@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import ActionButton from 'react-native-action-button';
 import CommentList from '../../components/CommentList';
 import ViewMoreButton from '../../components/ViewMoreButton';
-import CommentButton from '../../components/CommentButton';
 import * as illustCommentsActionCreators
   from '../../common/actions/illustComments';
 import { makeGetIllustCommentsItems } from '../../common/selectors';
@@ -103,8 +104,14 @@ class IllustComments extends Component {
           <View style={styles.viewMoreButtonContainer}>
             <ViewMoreButton onPress={this.handleOnPressViewMoreComments} />
           </View>}
+        {/* {!isFeatureInDetailPage &&
+          <CommentButton onPress={this.handleOnPressCommentButton} />}*/}
         {!isFeatureInDetailPage &&
-          <CommentButton onPress={this.handleOnPressCommentButton} />}
+          <ActionButton
+            buttonColor="#fff"
+            icon={<Icon name="pencil" size={24} color="#737373" />}
+            onPress={this.handleOnPressCommentButton}
+          />}
       </View>
     );
   }
