@@ -83,7 +83,7 @@ class SearchUsersAutoCompleteResult extends Component {
             onPressRemoveSearchHistoryItem={onPressRemoveSearchHistoryItem}
             onPressClearSearchHistory={onPressClearSearchHistory}
           />}
-        {word
+        {word && word.length > 1
           ? <SearchUsersAutoCompleteList
               data={{ ...searchUsersAutoComplete, items }}
               onPressItem={onPressItem}

@@ -59,7 +59,7 @@ class SearchAutoCompleteResult extends Component {
             onPressRemoveSearchHistoryItem={onPressRemoveSearchHistoryItem}
             onPressClearSearchHistory={onPressClearSearchHistory}
           />}
-        {word
+        {word && word.length > 1
           ? <SearchAutoCompleteList
               data={searchAutoComplete}
               onPressItem={onPressItem}
