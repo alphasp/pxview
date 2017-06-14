@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 import SearchHistory from '../components/SearchHistory';
 import SearchUsersAutoCompleteList
   from '../components/SearchUsersAutoCompleteList';
@@ -73,6 +74,7 @@ class SearchUsersAutoCompleteResult extends Component {
       onPressSearchHistoryItem,
       onPressRemoveSearchHistoryItem,
       onPressClearSearchHistory,
+      navigation,
     } = this.props;
     return (
       <View style={styles.container}>
@@ -89,6 +91,7 @@ class SearchUsersAutoCompleteResult extends Component {
               onPressItem={onPressItem}
               loadMoreItems={this.loadMoreItems}
               onRefresh={this.handleOnRefresh}
+              navigation={navigation}
             />
           : null}
       </View>
@@ -96,10 +99,12 @@ class SearchUsersAutoCompleteResult extends Component {
   }
 }
 
-export default connect(
-  (state, props) => ({
-    searchUsersAutoComplete: state.searchUsersAutoComplete,
-    items: getSearchUsersAutoCompleteItems(state, props),
-  }),
-  searchUsersAutoCompleteActionCreators,
-)(SearchUsersAutoCompleteResult);
+export default withNavigation(
+  connect(
+    (state, props) => ({
+      searchUsersAutoComplete: state.searchUsersAutoComplete,
+      items: getSearchUsersAutoCompleteItems(state, props),
+    }),
+    searchUsersAutoCompleteActionCreators,
+  )(SearchUsersAutoCompleteResult),
+);
