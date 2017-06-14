@@ -14,20 +14,19 @@ const enhanceRouter = WrappedNavigator => {
 
   hoistNonReactStatic(Enhance, WrappedNavigator);
 
-  Enhance.router = {
-    ...WrappedNavigator.router,
-    getStateForAction(action, state) {
-      if (state && action.type === NAV.REPLACE) {
-        const routes = state.routes.slice(0, state.routes.length - 1);
-        routes.push(action);
-        return {
-          ...state,
-          routes,
-          index: routes.length - 1,
-        };
-      }
-      return WrappedNavigator.router.getStateForAction(action, state);
-    },
+  const defaultGetStateForAction = Enhance.router.getStateForAction;
+
+  Enhance.router.getStateForAction = (action, state) => {
+    if (state && action.type === NAV.REPLACE) {
+      const routes = state.routes.slice(0, state.routes.length - 1);
+      routes.push(action);
+      return {
+        ...state,
+        routes,
+        index: routes.length - 1,
+      };
+    }
+    return defaultGetStateForAction(action, state);
   };
 
   return Enhance;

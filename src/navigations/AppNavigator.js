@@ -48,7 +48,7 @@ if (Platform.OS === 'android') {
   };
 }
 
-const AppNavigator = StackNavigator(appRouteConfig, {
+const stackConfig = {
   navigationOptions: {
     headerStyle: {
       backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
@@ -58,6 +58,9 @@ const AppNavigator = StackNavigator(appRouteConfig, {
   cardStyle: globalStyles.card,
   mode: 'modal',
   headerMode: 'screen',
-});
+};
+const AppNavigator = Platform.OS === 'android'
+  ? enhanceRouter(StackNavigator(appRouteConfig, stackConfig))
+  : StackNavigator(appRouteConfig, stackConfig);
 
-export default enhanceRouter(AppNavigator);
+export default AppNavigator;
