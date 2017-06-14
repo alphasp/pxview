@@ -134,7 +134,7 @@ class BookmarkButton extends Component {
             },
           ],
         }}
-        size={size || 25}
+        size={size || 24}
         onPress={this.handleOnPress}
         onLongPress={this.handleOnLongPress}
       />
