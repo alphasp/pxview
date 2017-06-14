@@ -10,7 +10,7 @@ import {
 import { connectLocalization } from './Localization';
 import PXTouchable from './PXTouchable';
 import PXThumbnailTouchable from './PXThumbnailTouchable';
-import FollowButton from './FollowButton';
+import FollowButtonContainer from '../containers/FollowButtonContainer';
 import Loader from './Loader';
 import Separator from './Separator';
 import { globalStyles } from '../styles';
@@ -53,7 +53,7 @@ class SearchUsersAutoCompleteList extends PureComponent {
             />
             <Text style={styles.username}>{item.user.name}</Text>
           </View>
-          <FollowButton isFollow={item.user.is_followed} />
+          <FollowButtonContainer user={item.user} />
         </View>
       </PXTouchable>
     );

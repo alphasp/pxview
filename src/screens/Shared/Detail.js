@@ -206,7 +206,7 @@ class Detail extends Component {
                 <Text>{item.user.account}</Text>
               </View>
             </PXTouchable>
-            <FollowButtonContainer user={item.user} navigation={navigation} />
+            <FollowButtonContainer user={item.user} />
           </View>
           <View style={styles.captionContainer}>
             <HtmlView
