@@ -202,6 +202,10 @@ class MyPage extends Component {
         navigate('Settings');
         break;
       }
+      case 'feedback': {
+        navigate('Feedback');
+        break;
+      }
       case 'logout': {
         const { clearBrowsingHistory } = this.props;
         logout();

@@ -5,6 +5,7 @@ import BrowsingHistory from '../../screens/MyPage/BrowsingHistory';
 import Settings from '../../screens/MyPage/Settings';
 import AccountSettings from '../../screens/MyPage/AccountSettings';
 import Language from '../../screens/MyPage/Language';
+import Feedback from '../../screens/MyPage/Feedback';
 
 const config = {
   MyConnection: {
@@ -47,6 +48,12 @@ const config = {
     screen: Language,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.lang,
+    }),
+  },
+  Feedback: {
+    screen: Feedback,
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.feedback,
     }),
   },
 };
