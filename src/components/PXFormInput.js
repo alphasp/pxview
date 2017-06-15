@@ -1,13 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
-
-const styles = StyleSheet.create({
-  errorText: {
-    marginHorizontal: 20,
-    color: '#c9302c',
-  },
-});
+import { View } from 'react-native';
+import {
+  FormLabel,
+  FormInput,
+  FormValidationMessage,
+} from 'react-native-elements';
 
 const PXFormInput = props => {
   const {

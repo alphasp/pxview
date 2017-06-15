@@ -4,7 +4,7 @@ import ProgressBar from 'react-native-progress/Bar';
 import Loader from '../../components/Loader';
 import { globalStyles, globalStyleVariables } from '../../styles';
 
-const SETTING_URL = 'https://touch.pixiv.net/setting_user.php?ref=ios';
+const SETTING_URL = 'https://touch.pixiv.net/setting_user.php';
 
 class AccountSettings extends Component {
   constructor(props) {
