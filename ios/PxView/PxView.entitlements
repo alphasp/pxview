@@ -4,7 +4,7 @@
 <dict>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)org.reactjs.native.example.pixiv</string>
+		<string>$(AppIdentifierPrefix)org.reactjs.native.example.pxview</string>
 	</array>
 </dict>
 </plist>

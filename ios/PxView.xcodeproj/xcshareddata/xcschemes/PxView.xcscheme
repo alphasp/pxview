@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "pixiv.app"
-               BlueprintName = "pixiv"
-               ReferencedContainer = "container:pixiv.xcodeproj">
+               BuildableName = "PxView.app"
+               BlueprintName = "PxView"
+               ReferencedContainer = "container:PxView.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "pixivTests.xctest"
-               BlueprintName = "pixivTests"
-               ReferencedContainer = "container:pixiv.xcodeproj">
+               BuildableName = "PxViewTests.xctest"
+               BlueprintName = "PxViewTests"
+               ReferencedContainer = "container:PxView.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -61,9 +61,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "pixivTests.xctest"
-               BlueprintName = "pixivTests"
-               ReferencedContainer = "container:pixiv.xcodeproj">
+               BuildableName = "PxViewTests.xctest"
+               BlueprintName = "PxViewTests"
+               ReferencedContainer = "container:PxView.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "pixiv.app"
-            BlueprintName = "pixiv"
-            ReferencedContainer = "container:pixiv.xcodeproj">
+            BuildableName = "PxView.app"
+            BlueprintName = "PxView"
+            ReferencedContainer = "container:PxView.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "pixiv.app"
-            BlueprintName = "pixiv"
-            ReferencedContainer = "container:pixiv.xcodeproj">
+            BuildableName = "PxView.app"
+            BlueprintName = "PxView"
+            ReferencedContainer = "container:PxView.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -113,9 +113,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "pixiv.app"
-            BlueprintName = "pixiv"
-            ReferencedContainer = "container:pixiv.xcodeproj">
+            BuildableName = "PxView.app"
+            BlueprintName = "PxView"
+            ReferencedContainer = "container:PxView.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

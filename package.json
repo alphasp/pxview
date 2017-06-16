@@ -1,5 +1,5 @@
 {
-  "name": "pixiv",
+  "name": "PxView",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -27,9 +27,9 @@
     "pixiv-api-client": "^0.14.0",
     "prop-types": "^15.5.8",
     "qs": "^6.4.0",
-    "react": "^16.0.0-alpha.6",
+    "react": "^16.0.0-alpha.12",
     "react-addons-shallow-compare": "^15.4.1",
-    "react-native": "^0.44.0",
+    "react-native": "^0.45.1",
     "react-native-action-button": "^2.6.9",
     "react-native-animatable": "^1.1.1",
     "react-native-blur": "^3.0.0-alpha",
@@ -54,7 +54,7 @@
     "react-native-progress": "^3.2.1",
     "react-native-scrollable-tab-view": "^0.7.2",
     "react-native-share": "^1.0.19",
-    "react-native-spinkit": "^1.0.0",
+    "react-native-spinkit": "^1.0.3",
     "react-native-swiper": "^1.5.4",
     "react-native-tab-view": "0.0.61",
     "react-native-tags": "^0.1.1",

@@ -1,4 +1,4 @@
-package com.pixiv;
+package com.pxview;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "pixiv";
+        return "PxView";
     }
 }

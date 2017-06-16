@@ -12,4 +12,4 @@ class Root extends Component {
   }
 }
 
-AppRegistry.registerComponent('pixiv', () => Root);
+AppRegistry.registerComponent('PxView', () => Root);

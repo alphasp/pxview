@@ -1,4 +1,4 @@
-package com.pixiv;
+package com.pxview;
 
 import android.app.Application;
 
