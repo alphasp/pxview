@@ -108,10 +108,10 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file(PIXIV_RELEASE_STORE_FILE)
-            storePassword PIXIV_RELEASE_STORE_PASSWORD
-            keyAlias PIXIV_RELEASE_KEY_ALIAS
-            keyPassword PIXIV_RELEASE_KEY_PASSWORD
+            storeFile file(PXVIEW_RELEASE_STORE_FILE)
+            storePassword PXVIEW_RELEASE_STORE_PASSWORD
+            keyAlias PXVIEW_RELEASE_KEY_ALIAS
+            keyPassword PXVIEW_RELEASE_KEY_PASSWORD
         }
     }
     splits {

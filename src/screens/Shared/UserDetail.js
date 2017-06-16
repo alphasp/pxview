@@ -150,7 +150,7 @@ class UserDetail extends Component {
     const { isShowTitle, isScrolled, user } = navigation.state.params;
     const shareOptions = user
       ? {
-          message: `${user.name} #pixivrn`,
+          message: `${user.name} #pxview`,
           url: `http://www.pixiv.net/member.php?id=${user.id}`,
         }
       : {};

@@ -101,7 +101,7 @@ class Detail extends Component {
     const { state, navigate } = navigation;
     const { item, images } = state.params;
     const shareOptions = {
-      message: `${item.title} | ${item.user.name} #pixivrn`, // todo
+      message: `${item.title} | ${item.user.name} #pxview`,
       url: `http://www.pixiv.net/member_illust.php?illust_id=${item.id}&mode=medium`,
     };
     return {

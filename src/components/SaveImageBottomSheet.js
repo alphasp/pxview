@@ -89,7 +89,7 @@ class SaveImageBottomSheet extends Component {
     const imagesBaseDir = Platform.OS === 'android'
       ? dirs.PictureDir
       : dirs.DocumentDir;
-    const imagesDir = `${imagesBaseDir}/pixivrn`;
+    const imagesDir = `${imagesBaseDir}/pxview`;
     try {
       const imagesDirExists = await RNFetchBlob.fs.isDir(imagesDir);
       console.log('imagesDir ', imagesDir, imagesDirExists);
