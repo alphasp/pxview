@@ -8,23 +8,13 @@ import {
   Keyboard,
 } from 'react-native';
 import { connect } from 'react-redux';
-import firebase from 'firebase/app';
-import 'firebase/database';
 import DeviceInfo from 'react-native-device-info';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../../components/Localization';
 import PXTouchable from '../../components/PXTouchable';
 import * as errorActionCreators from '../../common/actions/error';
-import config from '../../common/config';
-
-const firebaseConfig = {
-  apiKey: config.firebase.apiKey,
-  databaseURL: config.firebase.databaseURL,
-  projectId: config.firebase.projectId,
-};
-
-firebase.initializeApp(firebaseConfig);
+import firebase from '../../common/helpers/firebase';
 
 const styles = StyleSheet.create({
   container: {
