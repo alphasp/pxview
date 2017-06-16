@@ -8,6 +8,7 @@ import {
   DeviceEventEmitter,
 } from 'react-native';
 import RNFetchBlob from 'react-native-fetch-blob';
+import OpenSettings from 'react-native-open-settings';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Promise from 'bluebird';
 import { connectLocalization } from '../components/Localization';
@@ -25,17 +26,16 @@ class HeaderSaveImageButton extends PureComponent {
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-        {
-          title: 'Pixiv RN Storage Permission',
-          message: 'Pixiv RN needs access to your storage ' +
-            'so you can save your favorite images',
-        },
       );
       return granted;
     } catch (err) {
       console.log('Failed to request Write External Storage Permission ', err);
       return null;
     }
+  };
+
+  handleOnPressOpenAppSettings = () => {
+    OpenSettings.openSettings();
   };
 
   handleOnPress = async () => {
@@ -46,10 +46,22 @@ class HeaderSaveImageButton extends PureComponent {
         return null;
       }
       if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
-        Alert.alert(
-          'Pixiv RN Storage Permission',
-          'Storage Permission is required for download image feature, please enable it from system app settings',
-          [{ text: 'OK' }],
+        return Alert.alert(
+          i18n.formatString(
+            i18n.permissionPromptStorageTitle,
+            i18n.permissionStorage,
+          ),
+          i18n.formatString(
+            i18n.permissionPromptMessage,
+            i18n.permissionStorage,
+          ),
+          [
+            { text: i18n.permissionPromptLater },
+            {
+              text: i18n.permissionGrantAppSettings,
+              onPress: this.handleOnPressOpenAppSettings,
+            },
+          ],
           { cancelable: false },
         );
       }

@@ -142,6 +142,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-open-settings')
     compile project(':react-native-device-info')
     compile project(':react-native-cookies')
     compile project(':react-native-localization')
