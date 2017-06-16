@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
@@ -75,12 +75,11 @@ class AddIllustComment extends Component {
     const { addIllustComment, navigation } = this.props;
     const { illustId } = navigation.state.params;
     const { comment } = this.state;
-    console.log('handleOnSubmitComment ', illustId, comment);
+    Keyboard.dismiss();
     addIllustComment(illustId, comment);
   };
 
   render() {
-    // onback manual close keyboard
     const { i18n, result: { loading } } = this.props;
     const { comment } = this.state;
     return (
