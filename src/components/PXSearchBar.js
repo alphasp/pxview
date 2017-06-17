@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 import { SearchBar } from 'react-native-elements';
 import { connectLocalization } from './Localization';
+import PXHeader from './PXHeader';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import { SEARCH_TYPES } from '../common/constants';
 import { globalStyles } from '../styles';
@@ -24,14 +26,16 @@ class PXSearchBar extends Component {
     if (word) {
       const { navigate } = navigation;
       addSearchHistory(word);
-      onSubmitSearch(word);
+      if (onSubmitSearch) {
+        onSubmitSearch(word);
+      }
       if (isPushNewSearch) {
         navigate('SearchResult', { word, searchType });
       }
     }
   };
 
-  render() {
+  renderSearchBar = () => {
     const {
       searchType,
       onFocus,
@@ -66,14 +70,38 @@ class PXSearchBar extends Component {
         />
       </View>
     );
+  };
+
+  render() {
+    const {
+      word,
+      showBackButton,
+      headerRight,
+      onPressBackButton,
+      onFocusSearchBar,
+      onChangeSearchText,
+    } = this.props;
+    return (
+      <PXHeader
+        headerTitle={this.renderSearchBar()}
+        headerRight={headerRight}
+        word={word}
+        showBackButton={showBackButton}
+        onFocusSearchBar={onFocusSearchBar}
+        onChangeSearchText={onChangeSearchText}
+        onPressBackButton={onPressBackButton}
+      />
+    );
   }
 }
 
 export default connectLocalization(
-  connect(
-    state => ({
-      searchType: state.searchType.type,
-    }),
-    searchHistoryActionCreators,
-  )(PXSearchBar),
+  withNavigation(
+    connect(
+      state => ({
+        searchType: state.searchType.type,
+      }),
+      searchHistoryActionCreators,
+    )(PXSearchBar),
+  ),
 );

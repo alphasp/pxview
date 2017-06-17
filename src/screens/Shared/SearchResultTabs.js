@@ -11,7 +11,7 @@ import Search from '../../containers/Search';
 import SearchResult from '../../containers/SearchResult';
 import SearchUsersResult from '../../containers/SearchUsersResult';
 import { connectLocalization } from '../../components/Localization';
-import PXHeader from '../../components/PXHeader';
+import PXSearchBar from '../../components/PXSearchBar';
 import PXTabView from '../../components/PXTabView';
 import HeaderFilterButton from '../../components/HeaderFilterButton';
 import * as searchTypeActionCreators from '../../common/actions/searchType';
@@ -213,13 +213,12 @@ class SearchResultTabs extends Component {
     const { newWord, isFocusSearchBar } = this.state;
     return (
       <View style={styles.container}>
-        <PXHeader
+        <PXSearchBar
           showBackButton
-          showSearchBar
           word={newWord}
-          navigation={navigation}
-          onFocusSearchBar={this.handleOnFocusSearchBar}
-          onChangeSearchText={this.handleOnChangeSearchText}
+          searchType={searchType}
+          onFocus={this.handleOnFocusSearchBar}
+          onChangeText={this.handleOnChangeSearchText}
           onPressBackButton={this.handleOnPressBackButton}
           onSubmitSearch={this.handleOnSubmitSearch}
           headerRight={
@@ -229,7 +228,6 @@ class SearchResultTabs extends Component {
               onPress={this.handleOnPressShowFilterModal}
             />
           }
-          searchType={searchType}
         />
         <View style={styles.content}>
           <PXTabView

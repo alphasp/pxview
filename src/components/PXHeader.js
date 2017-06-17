@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { HeaderBackButton } from 'react-navigation';
-import PXSearchBar from './PXSearchBar';
+import { HeaderBackButton, withNavigation } from 'react-navigation';
 import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
@@ -17,12 +16,8 @@ const styles = StyleSheet.create({
 
 class PXHeader extends Component {
   static propTypes = {
-    navigation: PropTypes.object.isRequired,
     onPressBackButton: PropTypes.func,
-    onFocusSearchBar: PropTypes.func.isRequired,
-    onChangeSearchText: PropTypes.func.isRequired,
     showBackButton: PropTypes.bool,
-    showSearchBar: PropTypes.bool,
     headerTitle: PropTypes.element,
     headerRight: PropTypes.element,
   };
@@ -30,42 +25,27 @@ class PXHeader extends Component {
   static defaultProps = {
     onPressBackButton: null,
     showBackButton: false,
-    showSearchBar: true,
     headerTitle: null,
     headerRight: null,
   };
 
+  handleOnPressBackButton = () => {
+    const { onPressBackButton, navigation: { goBack } } = this.props;
+    if (onPressBackButton) {
+      onPressBackButton();
+    } else {
+      goBack();
+    }
+  };
+
   render() {
-    const {
-      word,
-      showBackButton,
-      showSearchBar,
-      headerTitle,
-      headerRight,
-      navigation,
-      isPushNewSearch,
-      onPressBackButton,
-      onFocusSearchBar,
-      onBlurSearchBar,
-      onChangeSearchText,
-      onSubmitSearch,
-    } = this.props;
+    const { showBackButton, headerTitle, headerRight } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.subContainer}>
-          {showBackButton && <HeaderBackButton onPress={onPressBackButton} />}
-          {headerTitle ||
-            (showSearchBar &&
-              <PXSearchBar
-                textInputRef="email"
-                onFocus={onFocusSearchBar}
-                onBlur={onBlurSearchBar}
-                onChangeText={onChangeSearchText}
-                onSubmitSearch={onSubmitSearch}
-                navigation={navigation}
-                isPushNewSearch={isPushNewSearch}
-                word={word}
-              />)}
+          {showBackButton &&
+            <HeaderBackButton onPress={this.handleOnPressBackButton} />}
+          {headerTitle}
           {headerRight}
         </View>
       </View>
@@ -73,4 +53,4 @@ class PXHeader extends Component {
   }
 }
 
-export default PXHeader;
+export default withNavigation(PXHeader);

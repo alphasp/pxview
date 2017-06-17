@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import TrendingIllustTags from './TrendingIllustTags';
 import RecommendedUsers from '../Shared/RecommendedUsers';
 import Search from '../../containers/Search';
-import PXHeader from '../../components/PXHeader';
+import PXSearchBar from '../../components/PXSearchBar';
 import PXTabView from '../../components/PXTabView';
 import { connectLocalization } from '../../components/Localization';
 import * as searchTypeActionCreators from '../../common/actions/searchType';
@@ -130,15 +130,14 @@ class Trending extends Component {
     const { word, isFocusSearchBar } = this.state;
     return (
       <View style={styles.container}>
-        <PXHeader
+        <PXSearchBar
           showSearchBar
+          isPushNewSearch
           word={word}
-          navigation={navigation}
           showBackButton={isFocusSearchBar}
           searchType={searchType}
-          isPushNewSearch
-          onFocusSearchBar={this.handleOnFocusSearchBar}
-          onChangeSearchText={this.handleOnChangeSearchText}
+          onFocus={this.handleOnFocusSearchBar}
+          onChangeText={this.handleOnChangeSearchText}
           onPressBackButton={this.handleOnPressBackButton}
           onSubmitSearch={this.handleOnPressBackButton}
         />
