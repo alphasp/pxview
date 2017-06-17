@@ -159,7 +159,7 @@ class UserDetail extends Component {
         ? <Animatable.View
             style={styles.thumnailNameContainer}
             animation={isShowTitle ? 'fadeIn' : 'fadeOut'}
-            duration={300}
+            duration={100}
           >
             <PXThumbnailTouchable uri={user.profile_image_urls.medium} />
             <View style={styles.nameContainer}>
@@ -278,12 +278,15 @@ class UserDetail extends Component {
       userDetail,
       navigation: { setParams, state: { params: { isShowTitle, isScrolled } } },
     } = this.props;
-    if (!isScrolled) {
-      setParams({ isScrolled: true });
-    }
     if (userDetail && userDetail.item) {
       if (nativeEvent.contentOffset.y >= 135) {
-        if (!isShowTitle) {
+        if (!isScrolled) {
+          if (!isShowTitle) {
+            setParams({ isScrolled: true, isShowTitle: true });
+          } else {
+            setParams({ isScrolled: true });
+          }
+        } else if (!isShowTitle) {
           setParams({ isShowTitle: true });
         }
       } else if (isShowTitle) {
