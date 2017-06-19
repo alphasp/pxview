@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
   viewMoreContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    padding: 10,
   },
   chevronIcon: {
     marginLeft: 5,

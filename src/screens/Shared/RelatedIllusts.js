@@ -12,7 +12,7 @@ import { globalStyles } from '../../styles';
 
 const styles = StyleSheet.create({
   viewMoreButtonContainer: {
-    margin: 20,
+    margin: 10,
   },
 });
 
