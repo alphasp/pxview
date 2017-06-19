@@ -8,8 +8,7 @@
     "test": "jest",
     "test:watch": "jest --watch --coverage",
     "android": "node node_modules/react-native/local-cli/cli.js run-android",
-    "android-release": "node node_modules/react-native/local-cli/cli.js run-android --variant=release",
-    "android-release-new": "react-native run-android --configuration=release",
+    "android-release": "react-native run-android --variant=release",
     "android-clean": "cd android && ./gradlew clean",
     "ios": "react-native run-ios",
     "flow": "flow"
@@ -92,7 +91,7 @@
     "eslint-plugin-react": "^6.10.3",
     "eslint-plugin-react-native": "^2.3.2",
     "flow-bin": "^0.42.0",
-    "jest": "^19.0.2",
+    "jest": "^20.0.4",
     "prettier": "^1.3.1",
     "prettier-eslint": "^6.2.0",
     "react-test-renderer": "15.4.1",
