@@ -271,21 +271,6 @@ class Detail extends Component {
       this.setState({
         imagePageNumber: `${viewableItems[0].index + 1} / ${item.meta_pages.length}`,
       });
-      if (viewableItems.length === 2) {
-        // console.log('visible row ', visibleRowNumbers[0])
-        // Actions.refresh({ title: `${visibleRowNumbers[0] + 1} of ${item.meta_pages.length}`});
-        // visible row is visibleRowNumbers[0]
-      }
-      if (viewableItems.length === 3) {
-        // visible row is visibleRowNumbers[1]
-      }
-    } else {
-      const { imagePageNumber } = this.state;
-      if (imagePageNumber) {
-        this.setState({
-          imagePageNumber: null,
-        });
-      }
     }
   };
 
@@ -336,17 +321,24 @@ class Detail extends Component {
       ? 'down'
       : 'up';
     const layoutHeight = e.nativeEvent.layoutMeasurement.height;
-    const offsetToHide =
+    const offsetToHideActionButton =
       contentHeight -
       this.state.footerViewHeight +
       (this.state.relatedIllustsViewPosition - layoutHeight);
     // If the user is scrolling down (and the action-button is still visible) hide it
     const isActionButtonVisible =
       direction === 'up' &&
-      (currentOffset < offsetToHide || currentOffset === 0);
+      (currentOffset < offsetToHideActionButton || currentOffset === 0);
     if (isActionButtonVisible !== this.state.isActionButtonVisible) {
       LayoutAnimation.configureNext(CustomLayoutLinear);
       this.setState({ isActionButtonVisible });
+    }
+    const offsetToHideImagePageNumber =
+      contentHeight - this.state.footerViewHeight;
+    if (currentOffset > offsetToHideImagePageNumber) {
+      this.setState({
+        imagePageNumber: null,
+      });
     }
     this.listViewOffset = currentOffset;
   };
