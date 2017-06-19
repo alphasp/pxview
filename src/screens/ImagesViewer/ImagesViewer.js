@@ -24,8 +24,13 @@ const styles = StyleSheet.create({
 
 class ImagesViewer extends Component {
   static navigationOptions = ({ navigation }) => {
-    const { selectedImages } = navigation.state.params;
+    const {
+      selectedImages,
+      totalImages,
+      viewerIndex,
+    } = navigation.state.params;
     return {
+      title: totalImages > 1 ? `${viewerIndex + 1}/${totalImages}` : null,
       headerRight: selectedImages &&
         selectedImages.length &&
         <HeaderSaveImageButton imageUrls={selectedImages} />,
@@ -54,6 +59,8 @@ class ImagesViewer extends Component {
     const selectedImages = [images[viewerIndex]];
     navigation.setParams({
       selectedImages,
+      totalImages: images.length,
+      viewerIndex,
     });
   }
 
@@ -91,6 +98,7 @@ class ImagesViewer extends Component {
     this.setState({ index });
     navigation.setParams({
       selectedImages,
+      viewerIndex: index,
     });
   };
 
