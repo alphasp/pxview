@@ -386,19 +386,16 @@ class Detail extends Component {
       <View>
         {item.page_count > 1
           ? <View>
-              <View style={{ flex: 1 }}>
-                <FlatList
-                  data={item.meta_pages}
-                  keyExtractor={page => page.image_urls.large}
-                  renderItem={this.renderItem}
-                  debug={false}
-                  disableVirtualization
-                  removeClippedSubviews={false}
-                  ListFooterComponent={this.renderFooter}
-                  onScroll={this.handleOnScroll}
-                  onViewableItemsChanged={this.handleOnViewableItemsChanged}
-                />
-              </View>
+              <FlatList
+                data={item.meta_pages}
+                keyExtractor={page => page.image_urls.large}
+                renderItem={this.renderItem}
+                debug={false}
+                removeClippedSubviews={false}
+                ListFooterComponent={this.renderFooter}
+                onScroll={this.handleOnScroll}
+                onViewableItemsChanged={this.handleOnViewableItemsChanged}
+              />
               {(isInitState || isScrolling) &&
                 imagePageNumber &&
                 <View style={styles.imagePageNumberContainer}>
