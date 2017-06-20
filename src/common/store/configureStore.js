@@ -50,30 +50,37 @@ export default function configureStore() {
 
   const myTransform = createTransform(
     (inboundState, key) => {
-      if (key === 'entities') {
-        const { entities, browsingHistory } = store.getState();
-        const selectedUsersEntities = {};
-        const selectedIllustsEntities = browsingHistory.items.reduce(
-          (prev, id) => {
-            // todo fix crash on start up after clear app
-            prev[id] = entities.illusts[id];
-            if (prev[id]) {
+      switch (key) {
+        case 'entities': {
+          const { entities, browsingHistory } = store.getState();
+          const selectedUsersEntities = {};
+          const selectedIllustsEntities = browsingHistory.items
+            .filter(id => entities.illusts[id])
+            .reduce((prev, id) => {
+              prev[id] = entities.illusts[id];
               const userId = entities.illusts[id].user;
               selectedUsersEntities[userId] = entities.users[userId];
-            }
-            return prev;
-          },
-          {},
-        );
-        return {
-          illusts: selectedIllustsEntities,
-          users: selectedUsersEntities,
-        };
+              return prev;
+            }, {});
+          return {
+            ...inboundState,
+            illusts: selectedIllustsEntities,
+            users: selectedUsersEntities,
+          };
+        }
+        case 'browsingHistory': {
+          const { entities, browsingHistory } = store.getState();
+          return {
+            ...inboundState,
+            items: browsingHistory.items.filter(id => entities.illusts[id]),
+          };
+        }
+        default:
+          return inboundState;
       }
-      return inboundState;
     },
     outboundState => outboundState,
-    { whitelist: ['entities'] },
+    { whitelist: ['entities', 'browsingHistory'] },
   );
 
   persistStore(
