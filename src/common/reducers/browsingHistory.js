@@ -16,7 +16,7 @@ export default function browsingHistory(
       const newItem = action.payload.item;
       if (items && items.length) {
         if (items.indexOf(newItem) === -1) {
-          newItems = [newItem, ...items.slice(0, 100)];
+          newItems = [newItem, ...items.slice(0, 99)];
         } else {
           newItems = [...items];
         }
