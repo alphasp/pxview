@@ -285,7 +285,7 @@ class BookmarkModal extends Component {
               <View style={styles.innerContainer}>
                 <View style={styles.titleContainer}>
                   <Text style={styles.title}>
-                    {isBookmark ? i18n.editLike : i18n.addLike}
+                    {isBookmark ? i18n.likeEdit : i18n.likeAdd}
                   </Text>
                 </View>
                 <View style={styles.subTitleContainer}>
@@ -331,7 +331,7 @@ class BookmarkModal extends Component {
                 >
                   {isBookmark &&
                     <PXTouchable onPress={this.handleOnPressRemoveButton}>
-                      <Text>{i18n.unlike}</Text>
+                      <Text>{i18n.likeRemove}</Text>
                     </PXTouchable>}
                   <PXTouchable
                     style={
@@ -349,7 +349,7 @@ class BookmarkModal extends Component {
                         size={20}
                       />}
 
-                    <Text>{isBookmark ? i18n.save : i18n.addLike}</Text>
+                    <Text>{isBookmark ? i18n.save : i18n.likeAdd}</Text>
                   </PXTouchable>
                 </View>
               </View>

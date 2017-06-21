@@ -12,14 +12,14 @@ class Ranking extends Component {
     this.state = {
       index: 0,
       routes: [
-        { key: '1', title: i18n.day_ranking },
-        { key: '2', title: i18n.day_male_ranking },
-        { key: '3', title: i18n.day_female_ranking },
-        { key: '4', title: i18n.week_original_ranking },
-        { key: '5', title: i18n.week_rookie_ranking },
-        { key: '6', title: i18n.week_ranking },
-        { key: '7', title: i18n.month_ranking },
-        { key: '8', title: i18n.past_ranking },
+        { key: '1', title: i18n.rankingDay },
+        { key: '2', title: i18n.rankingDayMale },
+        { key: '3', title: i18n.rankingDayFemale },
+        { key: '4', title: i18n.rankingWeekOriginal },
+        { key: '5', title: i18n.rankingWeekRookie },
+        { key: '6', title: i18n.rankingWeek },
+        { key: '7', title: i18n.rankingMonth },
+        { key: '8', title: i18n.rankingPast },
       ],
     };
   }
@@ -30,14 +30,14 @@ class Ranking extends Component {
     if (lang !== prevLang) {
       this.setState({
         routes: [
-          { key: '1', title: i18n.day_ranking },
-          { key: '2', title: i18n.day_male_ranking },
-          { key: '3', title: i18n.day_female_ranking },
-          { key: '4', title: i18n.week_original_ranking },
-          { key: '5', title: i18n.week_rookie_ranking },
-          { key: '6', title: i18n.week_ranking },
-          { key: '7', title: i18n.month_ranking },
-          { key: '8', title: i18n.past_ranking },
+          { key: '1', title: i18n.rankingDay },
+          { key: '2', title: i18n.rankingDayMale },
+          { key: '3', title: i18n.rankingDayFemale },
+          { key: '4', title: i18n.rankingWeekOriginal },
+          { key: '5', title: i18n.rankingWeekRookie },
+          { key: '6', title: i18n.rankingWeek },
+          { key: '7', title: i18n.rankingMonth },
+          { key: '8', title: i18n.rankingPast },
         ],
       });
     }

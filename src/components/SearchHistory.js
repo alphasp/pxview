@@ -54,7 +54,7 @@ class SearchHistory extends Component {
           <Text style={styles.searchHistoryTitle}>{i18n.searchHistory}</Text>
           <PXTouchable onPress={onPressClearSearchHistory}>
             <Text style={styles.searchHistoryTitle}>
-              {i18n.clearSearchHistory}
+              {i18n.searchHistoryClear}
             </Text>
           </PXTouchable>
         </View>

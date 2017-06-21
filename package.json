@@ -17,6 +17,7 @@
     "bluebird": "^3.5.0",
     "firebase": "^4.1.2",
     "hoist-non-react-statics": "^1.2.0",
+    "lodash.camelcase": "^4.3.0",
     "lodash.debounce": "^4.0.8",
     "lodash.isempty": "^4.4.0",
     "lodash.merge": "^4.6.0",

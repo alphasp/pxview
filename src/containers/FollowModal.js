@@ -143,7 +143,7 @@ class FollowModal extends Component {
               <View style={styles.innerContainer}>
                 <View style={styles.titleContainer}>
                   <Text style={styles.title}>
-                    {isFollow ? i18n.editFollow : i18n.follow}
+                    {isFollow ? i18n.followEdit : i18n.follow}
                   </Text>
                 </View>
                 <View style={styles.form}>
@@ -156,7 +156,7 @@ class FollowModal extends Component {
                 {isFollow
                   ? <View style={styles.actionContainer}>
                       <PXTouchable onPress={this.handleOnPressRemoveButton}>
-                        <Text>{i18n.unfollow}</Text>
+                        <Text>{i18n.followRemove}</Text>
                       </PXTouchable>
                       <PXTouchable onPress={this.handleOnPressFollowButton}>
                         <Text>{i18n.follow}</Text>

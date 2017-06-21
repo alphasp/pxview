@@ -22,10 +22,10 @@ const validate = (values, props) => {
   const { i18n } = props;
   const errors = {};
   if (!email) {
-    errors.email = i18n.validateEmailOrPixivId;
+    errors.email = i18n.loginValidateEmailOrPixivId;
   }
   if (!password) {
-    errors.password = i18n.validatePassword;
+    errors.password = i18n.loginValidatePassword;
   }
   return errors;
 };
@@ -74,7 +74,7 @@ class Login extends Component {
         <Field
           name="email"
           component={PXFormInput}
-          label={i18n.emailOrPixivId}
+          label={i18n.loginEmailOrPixivId}
           autoCapitalize="none"
         />
         <Field

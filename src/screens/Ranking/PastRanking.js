@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import camelCase from 'lodash.camelcase';
 import DatePicker from 'react-native-datepicker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IonicIcon from 'react-native-vector-icons/Ionicons';
@@ -90,6 +91,11 @@ class PastRanking extends Component {
     this.setState({ date });
   };
 
+  mapRankingString = ranking => {
+    const { i18n } = this.props;
+    return i18n[`ranking${ranking.charAt(0).toUpperCase() + ranking.slice(1)}`];
+  };
+
   render() {
     const { user, i18n } = this.props;
     const { date, mode, isOpenRankingModeBottomSheet } = this.state;
@@ -102,7 +108,7 @@ class PastRanking extends Component {
           >
             <View style={styles.rankingPicker}>
               <Text style={styles.rankingPickerText}>
-                {i18n.illust} {i18n[`${mode}_ranking`]}
+                {i18n.illust} {this.mapRankingString(camelCase(mode))}
               </Text>
               <Icon
                 name="caret-down"
@@ -141,12 +147,12 @@ class PastRanking extends Component {
             {Object.keys(RANKING).map(ranking => (
               <PXTouchable
                 key={ranking}
-                onPress={() => this.handleOnPressRankingMode(ranking)}
+                onPress={() => this.handleOnPressRankingMode(RANKING[ranking])}
               >
                 <View style={styles.bottomSheetListItem}>
                   <IonicIcon name="md-funnel" size={24} />
                   <Text style={styles.bottomSheetText}>
-                    {i18n[`${ranking}_ranking`]}
+                    {this.mapRankingString(ranking)}
                   </Text>
                 </View>
               </PXTouchable>
@@ -155,12 +161,13 @@ class PastRanking extends Component {
               Object.keys(R18_RANKING).map(ranking => (
                 <PXTouchable
                   key={ranking}
-                  onPress={() => this.handleOnPressRankingMode(ranking)}
+                  onPress={() =>
+                    this.handleOnPressRankingMode(R18_RANKING[ranking])}
                 >
                   <View style={styles.bottomSheetListItem}>
                     <IonicIcon name="md-funnel" size={24} />
                     <Text style={styles.bottomSheetText}>
-                      {i18n[`${ranking}_ranking`]}
+                      {this.mapRankingString(ranking)}
                     </Text>
                   </View>
                 </PXTouchable>

@@ -81,10 +81,10 @@ class FollowingUserIllusts extends Component {
       return (
         <View style={styles.container}>
           <Icon name="users" size={40} style={styles.usersIcon} />
-          <Text>{i18n.followUserNullState}</Text>
-          <Text>{i18n.newWorkFollowNullState}</Text>
+          <Text>{i18n.noFollowUser}</Text>
+          <Text>{i18n.noNewWorkFollowSuggestion}</Text>
           <Button
-            title={i18n.findRecommendedUsers}
+            title={i18n.recommendedUsersFind}
             containerViewStyle={styles.recommendUserButtonContainer}
             backgroundColor="#5cafec"
             onPress={this.handleOnPressFindRecommendedUsers}

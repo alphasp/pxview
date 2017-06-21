@@ -26,7 +26,7 @@ let appRouteConfig = {
   SearchFilterModal: {
     screen: SearchFilterModal,
     navigationOptions: ({ screenProps: { i18n } }) => ({
-      title: i18n.displayOptions,
+      title: i18n.searchDisplayOptions,
     }),
   },
   ImagesViewer: {
@@ -35,7 +35,7 @@ let appRouteConfig = {
   AddIllustComment: {
     screen: AddIllustComment,
     navigationOptions: ({ screenProps: { i18n } }) => ({
-      title: i18n.addComment,
+      title: i18n.commentAdd,
     }),
   },
 };
