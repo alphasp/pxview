@@ -27,6 +27,7 @@ class PXTabView extends Component {
           paddingTop: includeStatusBarPadding
             ? globalStyleVariables.STATUSBAR_HEIGHT
             : 0,
+          backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
         }}
         {...tabBarProps}
         {...props}
