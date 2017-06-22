@@ -47,6 +47,9 @@ const styles = StyleSheet.create({
   infoContainer: {
     margin: 10,
   },
+  sectionContainer: {
+    marginBottom: 10,
+  },
   sectionHeader: {
     margin: 10,
     flexDirection: 'row',
@@ -223,7 +226,7 @@ class Detail extends Component {
           </View>
           {<Tags tags={item.tags} onPressTag={this.handleOnPressTag} />}
         </View>
-        <View>
+        <View style={styles.sectionContainer}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>{i18n.comments}</Text>
           </View>
@@ -234,7 +237,7 @@ class Detail extends Component {
             navigation={navigation}
           />
         </View>
-        <View onLayout={this.handleOnLayoutRelatedIllusts}>
+        <View style={styles.sectionContainer} onLayout={this.handleOnLayoutRelatedIllusts}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>{i18n.relatedWorks}</Text>
           </View>
@@ -390,7 +393,6 @@ class Detail extends Component {
                 data={item.meta_pages}
                 keyExtractor={page => page.image_urls.large}
                 renderItem={this.renderItem}
-                debug={false}
                 removeClippedSubviews={false}
                 ListFooterComponent={this.renderFooter}
                 onScroll={this.handleOnScroll}
