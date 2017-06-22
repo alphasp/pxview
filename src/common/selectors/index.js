@@ -78,9 +78,6 @@ const createIllustItemsSelector = createSelectorCreator(
     if (!prev && !next) {
       return false;
     }
-    // console.log(equals(prev, next, (p, n) => {
-    //   return (p.id === n.id) && (p.is_bookmarked === n.is_bookmarked) && (p.user.is_followed === n.user.is_followed)
-    // }));
     return equals(
       prev,
       next,
@@ -132,6 +129,16 @@ const createUserItemSelector = createSelectorCreator(
       (prev.user && prev.user.is_followed) ===
         (next.user && next.user.is_followed)
     );
+  },
+);
+
+const createTagItemsSelector = createSelectorCreator(
+  specialMemoize,
+  (prev, next) => {
+    if (!prev && !next) {
+      return false;
+    }
+    return equals(prev, next, (p, n) => p.tag === n.tag);
   },
 );
 
@@ -372,19 +379,19 @@ export const getMyPrivateBookmarkIllustsItems = createIllustItemsSelector(
     denormalize(myPrivateBookmarkIllusts.items, Schemas.ILLUST_ARRAY, entities),
 );
 
-export const getTrendingIllustTagsItems = createSelector(
+export const getTrendingIllustTagsItems = createTagItemsSelector(
   [selectTrendingIllustTags, selectEntities],
   (trendingIllustTags, entities) =>
     denormalize(trendingIllustTags.items, Schemas.ILLUST_TAG_ARRAY, entities),
 );
 
-export const getRecommendedUsersItems = createSelector(
+export const getRecommendedUsersItems = createUserItemsSelector(
   [selectRecommendedUsers, selectEntities],
   (recommendedUsers, entities) =>
     denormalize(recommendedUsers.items, Schemas.USER_PREVIEW_ARRAY, entities),
 );
 
-export const getSearchUsersAutoCompleteItems = createSelector(
+export const getSearchUsersAutoCompleteItems = createUserItemsSelector(
   [selectSearchUsersAutoComplete, selectEntities],
   (searchUsersAutoComplete, entities) =>
     denormalize(
