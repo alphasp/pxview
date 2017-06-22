@@ -54,10 +54,11 @@ class AddIllustComment extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { result: prevResult } = this.props;
-    const { result, navigation: { goBack } } = nextProps;
+    const { result, navigation: { goBack, state } } = nextProps;
     if (result !== prevResult && result.success) {
-      // todo goback and refresh
+      const { onSubmitComment } = state.params;
       goBack();
+      onSubmitComment();
     }
   }
 

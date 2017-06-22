@@ -66,6 +66,7 @@ class IllustComments extends Component {
           setTimeout(() => {
             navigate('AddIllustComment', {
               illustId,
+              onSubmitComment: this.handleOnSubmitComment,
             });
           }, 0);
         },
@@ -73,8 +74,15 @@ class IllustComments extends Component {
     } else {
       navigate('AddIllustComment', {
         illustId,
+        onSubmitComment: this.handleOnSubmitComment,
       });
     }
+  };
+
+  handleOnSubmitComment = () => {
+    const { illustId, fetchIllustComments, clearIllustComments } = this.props;
+    clearIllustComments(illustId);
+    fetchIllustComments(illustId);
   };
 
   render() {
