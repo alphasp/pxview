@@ -34,15 +34,15 @@ class NewWorks extends Component {
       if (!user) {
         if (index === 3) {
           this.setState({
-            routes: routes.filter(route => route.key !== 4),
+            routes: routes.filter(route => route.key !== '4'),
             index: 0,
           });
         } else {
           this.setState({
-            routes: routes.filter(route => route.key !== 4),
+            routes: routes.filter(route => route.key !== '4'),
           });
         }
-      } else if (!routes.some(route => route.key === 4)) {
+      } else if (!routes.some(route => route.key === '4')) {
         this.setState({
           routes: [...routes, { key: '4', title: 'My Pixiv' }],
         });
