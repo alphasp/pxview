@@ -167,7 +167,7 @@ dependencies {
     compile project(':react-native-spinkit')
     compile project(':react-native-fs')
     compile project(':react-native-fetch-blob')
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
     }
     compile fileTree(dir: "libs", include: ["*.jar"])
