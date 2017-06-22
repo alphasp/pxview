@@ -95,11 +95,7 @@ class IllustComments extends Component {
       maxItems,
     } = this.props;
     return (
-      <View
-        style={globalStyles.container}
-        behavior="padding"
-        keyboardVerticalOffset={65}
-      >
+      <View style={globalStyles.container}>
         <CommentList
           data={{ ...illustComments, items }}
           loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
@@ -112,8 +108,6 @@ class IllustComments extends Component {
           <View style={styles.viewMoreButtonContainer}>
             <ViewMoreButton onPress={this.handleOnPressViewMoreComments} />
           </View>}
-        {/* {!isFeatureInDetailPage &&
-          <CommentButton onPress={this.handleOnPressCommentButton} />}*/}
         {!isFeatureInDetailPage &&
           <ActionButton
             buttonColor="#fff"

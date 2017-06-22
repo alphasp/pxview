@@ -71,9 +71,6 @@ class IllustList extends Component {
                   index,
                 index,
               })}
-              legacyImplementation={false}
-              debug={false}
-              disableVirtualization={false}
               removeClippedSubviews={Platform.OS === 'android'}
               initialNumToRender={5}
               onEndReachedThreshold={0.1}
