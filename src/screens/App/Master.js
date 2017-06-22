@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, DeviceEventEmitter, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import Toast, { DURATION } from 'react-native-easy-toast';
 import AppNavigator from '../../navigations/AppNavigator';
@@ -52,6 +53,19 @@ class Master extends Component {
       'keyboardDidHide',
       this.keyboardDidHide,
     );
+    const { rehydrated } = this.props;
+    if (rehydrated) {
+      // call when reopen app after exit by back button on android
+      SplashScreen.hide();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { rehydrated: prevRehydrated } = this.props;
+    const { rehydrated } = nextProps;
+    if (!prevRehydrated && rehydrated) {
+      SplashScreen.hide();
+    }
   }
 
   componentWillUnmount() {

@@ -55,6 +55,7 @@
     "react-native-scrollable-tab-view": "^0.7.2",
     "react-native-share": "^1.0.19",
     "react-native-spinkit": "^1.0.3",
+    "react-native-splash-screen": "^2.1.0",
     "react-native-swiper": "^1.5.4",
     "react-native-tab-view": "0.0.61",
     "react-native-tags": "^0.1.1",

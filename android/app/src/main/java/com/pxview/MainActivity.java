@@ -1,6 +1,8 @@
 package com.pxview;
 
+import android.os.Bundle;
 import com.facebook.react.ReactActivity;
+import com.cboy.rn.splashscreen.SplashScreen; 
 
 public class MainActivity extends ReactActivity {
 
@@ -11,5 +13,11 @@ public class MainActivity extends ReactActivity {
     @Override
     protected String getMainComponentName() {
         return "PxView";
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        SplashScreen.show(this);
     }
 }
