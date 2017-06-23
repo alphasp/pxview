@@ -174,23 +174,27 @@ class MyPage extends Component {
     switch (item.id) {
       case 'works':
         if (!user) {
-          this.handleOnPressLogin();
+          this.handleOnPressLogin(authUser =>
+            navigate('MyWorks', { userId: authUser.id }),
+          );
         } else {
           navigate('MyWorks', { userId: user.id });
         }
-        // navigate('Web', { source: { uri: 'https://touch.pixiv.net/setting_user.php?ref=ios-app' } });
         break;
       case 'collection':
-        // require user login
         if (!user) {
-          this.handleOnPressLogin();
+          this.handleOnPressLogin(authUser =>
+            navigate('MyCollection', { userId: authUser.id }),
+          );
         } else {
           navigate('MyCollection', { userId: user.id });
         }
         break;
       case 'connection':
         if (!user) {
-          this.handleOnPressLogin();
+          this.handleOnPressLogin(authUser =>
+            navigate('MyConnection', { userId: authUser.id }),
+          );
         } else {
           navigate('MyConnection', { userId: user.id });
         }
@@ -232,9 +236,11 @@ class MyPage extends Component {
       .catch(err => console.error('An error occurred', err));
   };
 
-  handleOnPressLogin = () => {
+  handleOnPressLogin = onLoginSuccess => {
     const { navigation: { navigate } } = this.props;
-    navigate('Login');
+    navigate('Login', {
+      onLoginSuccess,
+    });
   };
 
   handleOnProfileImageLoaded = () => {

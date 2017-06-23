@@ -41,7 +41,7 @@ class Login extends Component {
     if (user !== prevUser) {
       goBack();
       if (onLoginSuccess) {
-        onLoginSuccess();
+        setTimeout(() => onLoginSuccess(user), 0);
       }
     }
   }
