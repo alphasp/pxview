@@ -18,7 +18,7 @@ class PXCacheImage extends Component {
       fileCache: true,
       appendExt: 'png',
       key: uri,
-      session: moment().startOf('day').format('YYYY-MM-DD'),
+      path: `${RNFetchBlob.fs.dirs.CacheDir}/pxview/${uri.split('/').pop()}`,
     }).fetch('GET', uri, {
       referer: 'http://www.pixiv.net',
       //'Cache-Control' : 'no-store'

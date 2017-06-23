@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Alert,
+  DeviceEventEmitter,
+} from 'react-native';
 import { List, ListItem } from 'react-native-elements';
+import RNFetchBlob from 'react-native-fetch-blob';
 import { connectLocalization } from '../../components/Localization';
 import { globalStyleVariables } from '../../styles';
 
@@ -20,6 +27,11 @@ const settingsList = [
     id: 'lang',
     title: 'lang',
   },
+  {
+    id: 'cacheClear',
+    title: 'cacheClear',
+    hideChevron: true,
+  },
 ];
 
 const otherList = [
@@ -31,7 +43,7 @@ const otherList = [
 
 class Settings extends Component {
   handleOnPressListItem = item => {
-    const { navigation: { navigate } } = this.props;
+    const { navigation: { navigate }, i18n } = this.props;
     switch (item.id) {
       case 'accountSettings': {
         navigate('AccountSettings');
@@ -45,9 +57,33 @@ class Settings extends Component {
         // navigate('about');
         break;
       }
+      case 'cacheClear': {
+        Alert.alert(
+          i18n.cacheClearConfirmation,
+          null,
+          [
+            { text: i18n.cancel, style: 'cancel' },
+            { text: i18n.ok, onPress: this.handleOnPressConfirmClearCache },
+          ],
+          { cancelable: false },
+        );
+        break;
+      }
       default:
         break;
     }
+  };
+
+  handleOnPressConfirmClearCache = () => {
+    const { i18n } = this.props;
+    RNFetchBlob.fs
+      .unlink(`${RNFetchBlob.fs.dirs.CacheDir}/pxview/`)
+      .then(() => {
+        DeviceEventEmitter.emit('showToast', i18n.cacheClearSuccess);
+      })
+      .catch(err => {
+        console.log('failed to clear cache ', err);
+      });
   };
 
   renderList = list => {
@@ -59,6 +95,7 @@ class Settings extends Component {
             key={item.id}
             title={i18n[item.title]}
             onPress={() => this.handleOnPressListItem(item)}
+            hideChevron={item.hideChevron}
           />
         ))}
       </List>
