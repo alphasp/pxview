@@ -125,30 +125,6 @@ class IllustTagList extends Component {
           : null}
       </View>
     );
-    /* return (
-      <View style={globalStyles.container}>
-        {(!items || (!loaded && loading)) && <Loader />}
-        {items && items.length
-          ? <FlatList
-              data={items}
-              numColumns={ILLUST_COLUMNS}
-              keyExtractor={item => item.tag}
-              renderItem={this.renderItem}
-              getItemLayout={(data, index) => ({
-                length: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS,
-                offset: globalStyleVariables.WINDOW_WIDTH /
-                  ILLUST_COLUMNS *
-                  index,
-                index,
-              })}
-              removeClippedSubviews={false}
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
-            />
-          : null}
-      </View>
-    );*/
   }
 }
 

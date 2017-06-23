@@ -237,7 +237,10 @@ class Detail extends Component {
             navigation={navigation}
           />
         </View>
-        <View style={styles.sectionContainer} onLayout={this.handleOnLayoutRelatedIllusts}>
+        <View
+          style={styles.sectionContainer}
+          onLayout={this.handleOnLayoutRelatedIllusts}
+        >
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>{i18n.relatedWorks}</Text>
           </View>
