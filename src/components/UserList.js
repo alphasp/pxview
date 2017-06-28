@@ -118,7 +118,6 @@ class UserList extends Component {
               data={items}
               keyExtractor={item => item.user.id}
               renderItem={this.renderItem}
-              removeClippedSubviews={false}
               onEndReachedThreshold={0.1}
               onEndReached={loadMoreItems}
               ListFooterComponent={this.renderFooter}

@@ -6,7 +6,8 @@ import { getMyPixivItems } from '../../common/selectors';
 
 class MyPixiv extends Component {
   componentDidMount() {
-    const { fetchMyPixiv } = this.props;
+    const { fetchMyPixiv, clearMyPixiv } = this.props;
+    clearMyPixiv();
     fetchMyPixiv();
   }
 

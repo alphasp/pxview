@@ -15,6 +15,7 @@ import PXTabView from '../../components/PXTabView';
 import { connectLocalization } from '../../components/Localization';
 import * as searchTypeActionCreators from '../../common/actions/searchType';
 import { SEARCH_TYPES } from '../../common/constants';
+import config from '../../common/config';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,15 +27,6 @@ const styles = StyleSheet.create({
 });
 
 class Trending extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state;
-    return {
-      tabBarVisible: params && params.tabBarVisible != null
-        ? params.tabBarVisible
-        : true,
-    };
-  };
-
   constructor(props) {
     super(props);
     const { i18n } = props;
@@ -135,6 +127,7 @@ class Trending extends Component {
           isPushNewSearch
           word={word}
           showBackButton={isFocusSearchBar}
+          showMenuButton={!config.navigation.tab && !isFocusSearchBar}
           searchType={searchType}
           onFocus={this.handleOnFocusSearchBar}
           onChangeText={this.handleOnChangeSearchText}

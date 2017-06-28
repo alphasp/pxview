@@ -12,3 +12,5 @@ export const WINDOW_HEIGHT = Dimensions.get('window').height;
 
 export const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 export const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
+export const DRAWER_WIDTH =
+  Dimensions.get('window').width - (Platform.OS === 'android' ? 56 : 64);

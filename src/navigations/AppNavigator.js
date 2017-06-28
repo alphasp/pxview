@@ -1,18 +1,18 @@
 import { Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import enhanceRouter from './routers/enhanceRouter';
-import MainNavigator from './MainNavigator';
+import AppTabNavigator from './AppTabNavigator';
+import AppDrawerNavigator from './AppDrawerNavigator';
 import Login from '../screens/Login/Login';
 import SearchFilterModal from '../components/SearchFilterModal';
 import ImagesViewer from '../screens/ImagesViewer/ImagesViewer';
 import AddIllustComment from '../screens/Shared/AddIllustComment';
 import myPageRouteConfig from './routeConfigs/myPage';
-import sharedRouteConfig from './routeConfigs/shared';
 import { globalStyles, globalStyleVariables } from '../styles';
+import config from '../common/config';
 
 let appRouteConfig = {
   Main: {
-    screen: MainNavigator,
+    screen: config.navigation.tab ? AppTabNavigator : AppDrawerNavigator,
     navigationOptions: {
       header: null,
     },
@@ -40,11 +40,10 @@ let appRouteConfig = {
   },
 };
 
-if (Platform.OS === 'android') {
+if (!config.navigation.tab) {
   appRouteConfig = {
     ...appRouteConfig,
     ...myPageRouteConfig,
-    ...sharedRouteConfig,
   };
 }
 
@@ -54,13 +53,13 @@ const stackConfig = {
       backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
     },
     headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
+    headerBackTitle: null,
   },
   cardStyle: globalStyles.card,
   mode: 'modal',
   headerMode: 'screen',
 };
-const AppNavigator = Platform.OS === 'android'
-  ? enhanceRouter(StackNavigator(appRouteConfig, stackConfig))
-  : StackNavigator(appRouteConfig, stackConfig);
+
+const AppNavigator = StackNavigator(appRouteConfig, stackConfig);
 
 export default AppNavigator;

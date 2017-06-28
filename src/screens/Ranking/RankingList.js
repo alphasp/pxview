@@ -7,8 +7,9 @@ import { makeGetRankingItems } from '../../common/selectors';
 
 class RankingList extends Component {
   componentDidMount() {
-    const { rankingMode, options, fetchRanking } = this.props;
+    const { rankingMode, options, fetchRanking, clearRanking } = this.props;
     InteractionManager.runAfterInteractions(() => {
+      clearRanking(rankingMode);
       fetchRanking(rankingMode, options);
     });
   }

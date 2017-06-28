@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const Separator = () => (
-  <View style={styles.separatorContainer}>
+const Separator = ({ noPadding }) => (
+  <View style={!noPadding && styles.separatorContainer}>
     <View style={styles.separator} />
   </View>
 );

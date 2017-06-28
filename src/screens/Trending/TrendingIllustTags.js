@@ -7,7 +7,8 @@ import { getTrendingIllustTagsItems } from '../../common/selectors';
 
 class TrendingIllustTags extends Component {
   componentDidMount() {
-    const { fetchTrendingIllustTags } = this.props;
+    const { fetchTrendingIllustTags, clearTrendingIllustTags } = this.props;
+    clearTrendingIllustTags();
     fetchTrendingIllustTags();
   }
 

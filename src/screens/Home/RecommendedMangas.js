@@ -7,7 +7,8 @@ import { getRecommendedMangasItems } from '../../common/selectors';
 
 class RecommendedMangas extends Component {
   componentDidMount() {
-    const { fetchRecommendedMangas } = this.props;
+    const { fetchRecommendedMangas, clearRecommendedMangas } = this.props;
+    clearRecommendedMangas();
     fetchRecommendedMangas();
   }
 

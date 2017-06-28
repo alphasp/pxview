@@ -28,7 +28,7 @@ const renderTabBarIcon = (
   />
 );
 
-const MainNavigator = TabNavigator(
+const AppTabNavigator = TabNavigator(
   {
     HomeTab: {
       screen: Platform.OS === 'android' ? Home : HomeNavigator,
@@ -113,4 +113,4 @@ const MainNavigator = TabNavigator(
   },
 );
 
-export default MainNavigator;
+export default AppTabNavigator;

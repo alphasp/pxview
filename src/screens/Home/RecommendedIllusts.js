@@ -7,7 +7,8 @@ import { getRecommendedIllustsItems } from '../../common/selectors';
 
 class RecommendedIllusts extends Component {
   componentDidMount() {
-    const { fetchRecommendedIllusts } = this.props;
+    const { fetchRecommendedIllusts, clearRecommendedIllusts } = this.props;
+    clearRecommendedIllusts();
     fetchRecommendedIllusts();
   }
 

@@ -8,6 +8,17 @@ const globalStyles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',
   },
+  header: {
+    backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
+  },
+  headerWithoutShadow: {
+    shadowOpacity: 0,
+    shadowOffset: {
+      height: 0,
+    },
+    elevation: 0,
+    backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
+  },
 });
 
 export { globalStyles, globalStyleVariables };

@@ -6,7 +6,8 @@ import { getNewMangasItems } from '../../common/selectors';
 
 class NewMangas extends Component {
   componentDidMount() {
-    const { fetchNewMangas } = this.props;
+    const { fetchNewMangas, clearNewMangas } = this.props;
+    clearNewMangas();
     fetchNewMangas();
   }
 

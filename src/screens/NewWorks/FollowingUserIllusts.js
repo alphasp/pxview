@@ -32,8 +32,8 @@ class FollowingUserIllusts extends Component {
       fetchFollowingUserIllusts,
       clearFollowingUserIllusts,
     } = this.props;
+    clearFollowingUserIllusts();
     if (user) {
-      clearFollowingUserIllusts();
       fetchFollowingUserIllusts();
     }
   }

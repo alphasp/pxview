@@ -7,7 +7,8 @@ import { getRecommendedUsersItems } from '../../common/selectors';
 
 class RecommendedUsers extends Component {
   componentDidMount() {
-    const { fetchRecommendedUsers } = this.props;
+    const { fetchRecommendedUsers, clearRecommendedUsers } = this.props;
+    clearRecommendedUsers();
     fetchRecommendedUsers();
   }
 

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { HeaderBackButton, withNavigation } from 'react-navigation';
+import DrawerMenuButton from '../components/DrawerMenuButton';
 import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
@@ -17,6 +18,7 @@ const styles = StyleSheet.create({
 class PXHeader extends Component {
   static propTypes = {
     onPressBackButton: PropTypes.func,
+    showMenuButton: PropTypes.bool,
     showBackButton: PropTypes.bool,
     headerTitle: PropTypes.element,
     headerRight: PropTypes.element,
@@ -29,6 +31,11 @@ class PXHeader extends Component {
     headerRight: null,
   };
 
+  handleOnPressDrawerMenuButton = () => {
+    const { navigation } = this.props;
+    navigation.navigate('DrawerOpen');
+  };
+
   handleOnPressBackButton = () => {
     const { onPressBackButton, navigation: { goBack } } = this.props;
     if (onPressBackButton) {
@@ -39,10 +46,17 @@ class PXHeader extends Component {
   };
 
   render() {
-    const { showBackButton, headerTitle, headerRight } = this.props;
+    const {
+      showMenuButton,
+      showBackButton,
+      headerTitle,
+      headerRight,
+    } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.subContainer}>
+          {showMenuButton &&
+            <DrawerMenuButton onPress={this.handleOnPressDrawerMenuButton} color={globalStyleVariables.PRIMARY_COLOR} />}
           {showBackButton &&
             <HeaderBackButton onPress={this.handleOnPressBackButton} />}
           {headerTitle}

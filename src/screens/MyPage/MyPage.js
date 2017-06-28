@@ -170,11 +170,11 @@ class MyPage extends Component {
   };
 
   handleOnPressListItem = item => {
-    const { user, navigation: { navigate }, logout } = this.props;
+    const { user, navigation: { navigate } } = this.props;
     switch (item.id) {
       case 'works':
         if (!user) {
-          this.handleOnPressLogin(authUser =>
+          this.navigateToLogin(authUser =>
             navigate('MyWorks', { userId: authUser.id }),
           );
         } else {
@@ -183,7 +183,7 @@ class MyPage extends Component {
         break;
       case 'collection':
         if (!user) {
-          this.handleOnPressLogin(authUser =>
+          this.navigateToLogin(authUser =>
             navigate('MyCollection', { userId: authUser.id }),
           );
         } else {
@@ -192,7 +192,7 @@ class MyPage extends Component {
         break;
       case 'connection':
         if (!user) {
-          this.handleOnPressLogin(authUser =>
+          this.navigateToLogin(authUser =>
             navigate('MyConnection', { userId: authUser.id }),
           );
         } else {
@@ -211,7 +211,7 @@ class MyPage extends Component {
         break;
       }
       case 'logout': {
-        const { clearBrowsingHistory } = this.props;
+        const { clearBrowsingHistory, logout } = this.props;
         logout();
         clearBrowsingHistory();
         // clear cookies set from webview for account settings
@@ -236,11 +236,15 @@ class MyPage extends Component {
       .catch(err => console.error('An error occurred', err));
   };
 
-  handleOnPressLogin = onLoginSuccess => {
-    const { navigation: { navigate } } = this.props;
+  navigateToLogin = onLoginSuccess => {
+    const { navigate } = this.props.navigation;
     navigate('Login', {
       onLoginSuccess,
     });
+  };
+
+  handleOnPressLogin = () => {
+    this.navigateToLogin();
   };
 
   handleOnProfileImageLoaded = () => {

@@ -6,7 +6,8 @@ import { getNewIllustsItems } from '../../common/selectors';
 
 class NewIllusts extends Component {
   componentDidMount() {
-    const { fetchNewIllusts } = this.props;
+    const { fetchNewIllusts, clearNewIllusts } = this.props;
+    clearNewIllusts();
     fetchNewIllusts();
   }
 

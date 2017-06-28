@@ -76,6 +76,7 @@ class PXSearchBar extends Component {
     const {
       word,
       showBackButton,
+      showMenuButton,
       headerRight,
       onPressBackButton,
       onFocusSearchBar,
@@ -87,6 +88,7 @@ class PXSearchBar extends Component {
         headerRight={headerRight}
         word={word}
         showBackButton={showBackButton}
+        showMenuButton={showMenuButton}
         onFocusSearchBar={onFocusSearchBar}
         onChangeSearchText={onChangeSearchText}
         onPressBackButton={onPressBackButton}
