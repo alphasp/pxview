@@ -14,7 +14,6 @@ import { connectLocalization } from '../../components/Localization';
 import PXSearchBar from '../../components/PXSearchBar';
 import PXTabView from '../../components/PXTabView';
 import HeaderFilterButton from '../../components/HeaderFilterButton';
-import * as searchTypeActionCreators from '../../common/actions/searchType';
 import * as searchAutoCompleteActionCreators
   from '../../common/actions/searchAutoComplete';
 import * as searchUsersAutoCompleteActionCreators
@@ -32,21 +31,13 @@ const styles = StyleSheet.create({
 });
 
 class SearchResultTabs extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state;
-    return {
-      tabBarVisible: params && params.tabBarVisible != null
-        ? params.tabBarVisible
-        : true,
-    };
-  };
-
   constructor(props) {
     super(props);
-    const { searchType, word, i18n } = props;
+    const { word, i18n, navigation } = props;
+    const { searchType } = navigation.state.params;
     this.state = {
-      // initSearchType: searchType,
       index: searchType === SEARCH_TYPES.USER ? 1 : 0,
+      searchType,
       routes: [
         { key: '1', title: i18n.illustManga },
         { key: '2', title: i18n.user },
@@ -67,11 +58,8 @@ class SearchResultTabs extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { searchType: prevSearchType, lang: prevLang } = this.props;
-    const { searchType, lang, i18n } = nextProps;
-    if (searchType !== prevSearchType) {
-      this.setState({ index: searchType === SEARCH_TYPES.USER ? 1 : 0 });
-    }
+    const { lang: prevLang } = this.props;
+    const { lang, i18n } = nextProps;
     if (lang !== prevLang) {
       this.setState({
         routes: [
@@ -92,12 +80,15 @@ class SearchResultTabs extends Component {
   }
 
   handleChangeTab = index => {
-    const { setSearchType } = this.props;
+    const newState = {
+      index,
+    };
     if (index === 1) {
-      setSearchType(SEARCH_TYPES.USER);
+      newState.searchType = SEARCH_TYPES.USER;
     } else {
-      setSearchType(SEARCH_TYPES.ILLUST);
+      newState.searchType = SEARCH_TYPES.ILLUST;
     }
+    this.setState(newState);
   };
 
   handleOnFocusSearchBar = () => {
@@ -120,13 +111,6 @@ class SearchResultTabs extends Component {
         searchFilter: searchOptions || {},
         onPressApplyFilter: (target, duration, sort) => {
           goBack(null);
-          // setTimeout(() => setParams({
-          //   searchOptions: {
-          //     duration,
-          //     target,
-          //     sort
-          //   },
-          // }), 0);
           this.setState({
             searchOptions: {
               duration,
@@ -182,6 +166,18 @@ class SearchResultTabs extends Component {
     return true;
   };
 
+  handleOnChangeSearchTab = index => {
+    const newState = {
+      index,
+    };
+    if (index === 1) {
+      newState.searchType = SEARCH_TYPES.USER;
+    } else {
+      newState.searchType = SEARCH_TYPES.ILLUST;
+    }
+    this.setState(newState);
+  };
+
   renderScene = ({ route }) => {
     const { word, navigation, navigationStateKey } = this.props;
     const { searchOptions } = this.state;
@@ -209,8 +205,8 @@ class SearchResultTabs extends Component {
   };
 
   render() {
-    const { searchType, navigationStateKey, navigation } = this.props;
-    const { newWord, isFocusSearchBar } = this.state;
+    const { navigationStateKey, navigation } = this.props;
+    const { newWord, isFocusSearchBar, searchType } = this.state;
     return (
       <View style={styles.container}>
         <PXSearchBar
@@ -245,6 +241,7 @@ class SearchResultTabs extends Component {
               navigation={navigation}
               searchType={searchType}
               onSubmitSearch={this.handleOnSubmitSearch}
+              onChangeTab={this.handleOnChangeSearchTab}
             />}
         </View>
       </View>
@@ -255,14 +252,12 @@ class SearchResultTabs extends Component {
 export default connectLocalization(
   connect(
     (state, props) => ({
-      searchType: state.searchType.type,
       word: props.navigation.state.params.word,
       navigationStateKey: props.navigation.state.key,
     }),
     {
       ...searchAutoCompleteActionCreators,
       ...searchUsersAutoCompleteActionCreators,
-      ...searchTypeActionCreators,
     },
   )(SearchResultTabs),
 );

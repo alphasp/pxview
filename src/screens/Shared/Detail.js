@@ -34,6 +34,7 @@ import HeaderShareButton from '../../components/HeaderShareButton';
 import * as browsingHistoryActionCreators
   from '../../common/actions/browsingHistory';
 import { makeGetDetailItem } from '../../common/selectors';
+import { SEARCH_TYPES } from '../../common/constants';
 
 const windowWidth = Dimensions.get('window').width; // full width
 const THUMBNAIL_SIZE = 30;
@@ -257,8 +258,7 @@ class Detail extends Component {
 
   handleOnPressTag = tag => {
     const { navigate } = this.props.navigation;
-    navigate('SearchResult', { word: tag });
-    // Actions.searchResult({ word: tag });
+    navigate('SearchResult', { word: tag, searchType: SEARCH_TYPES.ILLUST });
   };
 
   handleOnPressAvatar = userId => {

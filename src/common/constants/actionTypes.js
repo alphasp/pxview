@@ -10,7 +10,6 @@ import {
   ADD_FAILURE,
   REMOVE,
   REPLACE,
-  SET,
   SHOW,
   HIDE,
 } from './stateConstants';
@@ -240,5 +239,3 @@ export const BROWSING_HISTORY = defineAction(
   [ADD, REMOVE, CLEAR],
   appNamespace,
 );
-
-export const SEARCH_TYPE = defineAction('SEARCH_TYPE', [SET], appNamespace);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import RankingList from './RankingList';
 import PastRanking from './PastRanking';
 import PXTabView from '../../components/PXTabView';
+import TabContentWrapper from '../../components/TabContentWrapper';
 import { connectLocalization } from '../../components/Localization';
 import { RANKING_FOR_UI } from '../../common/constants';
 
@@ -47,27 +48,59 @@ class Ranking extends Component {
     this.setState({ index });
   };
 
-  renderScene = ({ route }) => {
-    if (Math.abs(this.state.index - this.state.routes.indexOf(route)) > 2) {
-      return null;
-    }
+  renderScene = ({ route, index }) => {
+    // if (Math.abs(this.state.index - this.state.routes.indexOf(route)) > 2) {
+    //   return null;
+    // }
     switch (route.key) {
       case '1':
-        return <RankingList rankingMode={RANKING_FOR_UI.DAILY} />;
+        return (
+          <TabContentWrapper active={index === this.state.index}>
+            <RankingList rankingMode={RANKING_FOR_UI.DAILY} />
+          </TabContentWrapper>
+        );
       case '2':
-        return <RankingList rankingMode={RANKING_FOR_UI.DAILY_MALE} />;
+        return (
+          <TabContentWrapper active={index === this.state.index}>
+            <RankingList rankingMode={RANKING_FOR_UI.DAILY_MALE} />
+          </TabContentWrapper>
+        );
       case '3':
-        return <RankingList rankingMode={RANKING_FOR_UI.DAILY_FEMALE} />;
+        return (
+          <TabContentWrapper active={index === this.state.index}>
+            <RankingList rankingMode={RANKING_FOR_UI.DAILY_FEMALE} />
+          </TabContentWrapper>
+        );
       case '4':
-        return <RankingList rankingMode={RANKING_FOR_UI.WEEKLY_ORIGINAL} />;
+        return (
+          <TabContentWrapper active={index === this.state.index}>
+            <RankingList rankingMode={RANKING_FOR_UI.WEEKLY_ORIGINAL} />
+          </TabContentWrapper>
+        );
       case '5':
-        return <RankingList rankingMode={RANKING_FOR_UI.WEEKLY_ROOKIE} />;
+        return (
+          <TabContentWrapper active={index === this.state.index}>
+            <RankingList rankingMode={RANKING_FOR_UI.WEEKLY_ROOKIE} />
+          </TabContentWrapper>
+        );
       case '6':
-        return <RankingList rankingMode={RANKING_FOR_UI.WEEKLY} />;
+        return (
+          <TabContentWrapper active={index === this.state.index}>
+            <RankingList rankingMode={RANKING_FOR_UI.WEEKLY} />
+          </TabContentWrapper>
+        );
       case '7':
-        return <RankingList rankingMode={RANKING_FOR_UI.MONTHLY} />;
+        return (
+          <TabContentWrapper active={index === this.state.index}>
+            <RankingList rankingMode={RANKING_FOR_UI.MONTHLY} />
+          </TabContentWrapper>
+        );
       case '8':
-        return <PastRanking rankingMode={RANKING_FOR_UI.PAST} />;
+        return (
+          <TabContentWrapper active={index === this.state.index}>
+            <PastRanking rankingMode={RANKING_FOR_UI.PAST} />
+          </TabContentWrapper>
+        );
       default:
         return null;
     }

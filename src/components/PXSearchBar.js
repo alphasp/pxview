@@ -15,22 +15,12 @@ class PXSearchBar extends Component {
   };
 
   handleOnSubmitSearch = e => {
-    const {
-      navigation,
-      addSearchHistory,
-      isPushNewSearch,
-      onSubmitSearch,
-      searchType,
-    } = this.props;
+    const { addSearchHistory, onSubmitSearch } = this.props;
     const word = e.nativeEvent.text.trim();
     if (word) {
-      const { navigate } = navigation;
       addSearchHistory(word);
       if (onSubmitSearch) {
         onSubmitSearch(word);
-      }
-      if (isPushNewSearch) {
-        navigate('SearchResult', { word, searchType });
       }
     }
   };
@@ -56,8 +46,8 @@ class PXSearchBar extends Component {
           selectionColor="#90CAF9"
           placeholder={
             searchType === SEARCH_TYPES.USER
-              ? i18n.searchUserPlaceHolder
-              : i18n.searchPlaceHolder
+              ? i18n.searchUserPlaceholder
+              : i18n.searchPlaceholder
           }
           autoFocus={autoFocus}
           onFocus={onFocus}
@@ -98,12 +88,5 @@ class PXSearchBar extends Component {
 }
 
 export default connectLocalization(
-  withNavigation(
-    connect(
-      state => ({
-        searchType: state.searchType.type,
-      }),
-      searchHistoryActionCreators,
-    )(PXSearchBar),
-  ),
+  withNavigation(connect(null, searchHistoryActionCreators)(PXSearchBar)),
 );

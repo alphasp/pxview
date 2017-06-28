@@ -6,14 +6,12 @@ import {
   Platform,
   BackHandler,
 } from 'react-native';
-import { connect } from 'react-redux';
 import TrendingIllustTags from './TrendingIllustTags';
 import RecommendedUsers from '../Shared/RecommendedUsers';
 import Search from '../../containers/Search';
 import PXSearchBar from '../../components/PXSearchBar';
 import PXTabView from '../../components/PXTabView';
 import { connectLocalization } from '../../components/Localization';
-import * as searchTypeActionCreators from '../../common/actions/searchType';
 import { SEARCH_TYPES } from '../../common/constants';
 import config from '../../common/config';
 
@@ -38,6 +36,7 @@ class Trending extends Component {
       ],
       isFocusSearchBar: false,
       word: null,
+      searchType: SEARCH_TYPES.ILLUST,
     };
   }
 
@@ -51,11 +50,8 @@ class Trending extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { searchType: prevSearchType, lang: prevLang } = this.props;
-    const { searchType, lang, i18n } = nextProps;
-    if (searchType !== prevSearchType) {
-      this.setState({ index: searchType === SEARCH_TYPES.USER ? 1 : 0 });
-    }
+    const { lang: prevLang } = this.props;
+    const { lang, i18n } = nextProps;
     if (lang !== prevLang) {
       this.setState({
         routes: [
@@ -76,12 +72,15 @@ class Trending extends Component {
   }
 
   handleChangeTab = index => {
-    const { setSearchType } = this.props;
+    const newState = {
+      index,
+    };
     if (index === 1) {
-      setSearchType(SEARCH_TYPES.USER);
+      newState.searchType = SEARCH_TYPES.USER;
     } else {
-      setSearchType(SEARCH_TYPES.ILLUST);
+      newState.searchType = SEARCH_TYPES.ILLUST;
     }
+    this.setState(newState);
   };
 
   handleOnFocusSearchBar = () => {
@@ -105,6 +104,25 @@ class Trending extends Component {
     return false;
   };
 
+  handleOnSubmitSearch = word => {
+    const { navigate } = this.props.navigation;
+    const { searchType } = this.state;
+    this.handleOnPressBackButton();
+    navigate('SearchResult', { word, searchType });
+  };
+
+  handleOnChangeSearchTab = index => {
+    const newState = {
+      index,
+    };
+    if (index === 1) {
+      newState.searchType = SEARCH_TYPES.USER;
+    } else {
+      newState.searchType = SEARCH_TYPES.ILLUST;
+    }
+    this.setState(newState);
+  };
+
   renderScene = ({ route }) => {
     const { navigation } = this.props;
     switch (route.key) {
@@ -118,13 +136,12 @@ class Trending extends Component {
   };
 
   render() {
-    const { searchType, navigation } = this.props;
-    const { word, isFocusSearchBar } = this.state;
+    const { navigation } = this.props;
+    const { word, isFocusSearchBar, searchType } = this.state;
     return (
       <View style={styles.container}>
         <PXSearchBar
           showSearchBar
-          isPushNewSearch
           word={word}
           showBackButton={isFocusSearchBar}
           showMenuButton={!config.navigation.tab && !isFocusSearchBar}
@@ -132,7 +149,7 @@ class Trending extends Component {
           onFocus={this.handleOnFocusSearchBar}
           onChangeText={this.handleOnChangeSearchText}
           onPressBackButton={this.handleOnPressBackButton}
-          onSubmitSearch={this.handleOnPressBackButton}
+          onSubmitSearch={this.handleOnSubmitSearch}
         />
         <View style={styles.content}>
           <PXTabView
@@ -144,9 +161,9 @@ class Trending extends Component {
             <Search
               word={word}
               navigation={navigation}
-              isPushNewSearch
               searchType={searchType}
-              onSubmitSearch={this.handleOnPressBackButton}
+              onSubmitSearch={this.handleOnSubmitSearch}
+              onChangeTab={this.handleOnChangeSearchTab}
             />}
         </View>
       </View>
@@ -154,11 +171,4 @@ class Trending extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(
-    state => ({
-      searchType: state.searchType.type,
-    }),
-    searchTypeActionCreators,
-  )(Trending),
-);
+export default connectLocalization(Trending);

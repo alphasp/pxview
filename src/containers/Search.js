@@ -10,7 +10,6 @@ import * as searchAutoCompleteActionCreators
 import * as searchUserAutoCompleteActionCreators
   from '../common/actions/searchUsersAutoComplete';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
-import * as searchTypeActionCreators from '../common/actions/searchType';
 import { SEARCH_TYPES } from '../common/constants';
 
 const styles = StyleSheet.create({
@@ -31,6 +30,7 @@ class Search extends Component {
     const { searchType, i18n } = props;
     this.state = {
       index: searchType === SEARCH_TYPES.USER ? 1 : 0,
+      searchType,
       routes: [
         { key: '1', title: i18n.illustManga },
         { key: '2', title: i18n.user },
@@ -52,12 +52,18 @@ class Search extends Component {
   }
 
   handleChangeTab = index => {
-    const { setSearchType } = this.props;
-    this.setState({ index });
+    const newState = {
+      index,
+    };
     if (index === 1) {
-      setSearchType(SEARCH_TYPES.USER);
+      newState.searchType = SEARCH_TYPES.USER;
     } else {
-      setSearchType(SEARCH_TYPES.ILLUST);
+      newState.searchType = SEARCH_TYPES.ILLUST;
+    }
+    this.setState(newState);
+    const { onChangeTab } = this.props;
+    if (onChangeTab) {
+      onChangeTab(index);
     }
   };
 
@@ -106,17 +112,10 @@ class Search extends Component {
   submitSearch = word => {
     word = word.trim();
     if (word) {
-      const {
-        navigation: { navigate },
-        isPushNewSearch,
-        searchType,
-        onSubmitSearch,
-        addSearchHistory,
-      } = this.props;
+      const { onSubmitSearch, addSearchHistory } = this.props;
       addSearchHistory(word);
-      onSubmitSearch(word);
-      if (isPushNewSearch) {
-        navigate('SearchResult', { word, searchType });
+      if (onSubmitSearch) {
+        onSubmitSearch(word);
       }
     }
   };
@@ -158,11 +157,11 @@ class Search extends Component {
   render() {
     const {
       word,
-      searchType,
       searchAutoComplete,
       searchUsersAutoComplete,
       searchHistory,
     } = this.props;
+    const { searchType } = this.state;
     return (
       <View style={styles.container}>
         <PXTabView
@@ -198,7 +197,6 @@ export default connectLocalization(
       ...searchAutoCompleteActionCreators,
       ...searchUserAutoCompleteActionCreators,
       ...searchHistoryActionCreators,
-      ...searchTypeActionCreators,
     },
   )(Search),
 );
