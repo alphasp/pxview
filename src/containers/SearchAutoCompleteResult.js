@@ -33,14 +33,15 @@ class SearchAutoCompleteResult extends Component {
   }
 
   submitSearchAutoComplete = word => {
-    const { fetchSearchAutoComplete } = this.props;
-    if (word && word.length > 1) {
+    const { fetchSearchAutoComplete, user } = this.props;
+    if (user && word && word.length > 1) {
       fetchSearchAutoComplete(word);
     }
   };
 
   render() {
     const {
+      user,
       searchAutoComplete,
       word,
       searchAutoComplete: { loading, loaded },
@@ -59,7 +60,7 @@ class SearchAutoCompleteResult extends Component {
             onPressRemoveSearchHistoryItem={onPressRemoveSearchHistoryItem}
             onPressClearSearchHistory={onPressClearSearchHistory}
           />}
-        {word && word.length > 1
+        {user && word && word.length > 1
           ? <SearchAutoCompleteList
               data={searchAutoComplete}
               onPressItem={onPressItem}
@@ -73,6 +74,7 @@ class SearchAutoCompleteResult extends Component {
 export default connect(
   state => ({
     searchAutoComplete: state.searchAutoComplete,
+    user: state.auth.user,
   }),
   searchAutoCompleteActionCreators,
 )(SearchAutoCompleteResult);
