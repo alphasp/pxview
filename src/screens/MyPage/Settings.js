@@ -55,7 +55,7 @@ class Settings extends Component {
         break;
       }
       case 'about': {
-        // navigate('about');
+        navigate(SCREENS.About);
         break;
       }
       case 'cacheClear': {

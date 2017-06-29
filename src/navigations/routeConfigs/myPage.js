@@ -6,6 +6,7 @@ import Settings from '../../screens/MyPage/Settings';
 import AccountSettings from '../../screens/MyPage/AccountSettings';
 import Language from '../../screens/MyPage/Language';
 import Feedback from '../../screens/MyPage/Feedback';
+import About from '../../screens/MyPage/About';
 import { globalStyles } from '../../styles';
 import { SCREENS } from '../../common/constants';
 
@@ -59,6 +60,12 @@ const config = {
     screen: Feedback,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.feedback,
+    }),
+  },
+  [SCREENS.About]: {
+    screen: About,
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.about,
     }),
   },
 };
