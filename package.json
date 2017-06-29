@@ -50,7 +50,7 @@
     "react-native-material-kit": "^0.4.1",
     "react-native-message-bar": "^1.6.0",
     "react-native-open-settings": "0.0.3",
-    "react-native-photo-view": "github:alphasp/react-native-photo-view",
+    "react-native-photo-view": "^1.3.0",
     "react-native-progress": "^3.2.1",
     "react-native-scrollable-tab-view": "^0.7.2",
     "react-native-share": "^1.0.19",
