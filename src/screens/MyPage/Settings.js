@@ -10,6 +10,7 @@ import { List, ListItem } from 'react-native-elements';
 import RNFetchBlob from 'react-native-fetch-blob';
 import { connectLocalization } from '../../components/Localization';
 import { globalStyleVariables } from '../../styles';
+import { SCREENS } from '../../common/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -46,11 +47,11 @@ class Settings extends Component {
     const { navigation: { navigate }, i18n } = this.props;
     switch (item.id) {
       case 'accountSettings': {
-        navigate('AccountSettings');
+        navigate(SCREENS.AccountSettings);
         break;
       }
       case 'lang': {
-        navigate('Language');
+        navigate(SCREENS.Language);
         break;
       }
       case 'about': {

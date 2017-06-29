@@ -1,5 +1,4 @@
 import React from 'react';
-import { Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import Trending from '../screens/Trending/Trending';
 import enhanceRouter from './routers/enhanceRouter';
@@ -8,6 +7,7 @@ import DrawerMenuButton from '../components/DrawerMenuButton';
 import DrawerIcon from '../components/DrawerIcon';
 import { globalStyles, globalStyleVariables } from '../styles';
 import config from '../common/config';
+import { SCREENS } from '../common/constants';
 
 const navigationOptionsForTab = {
   header: null,
@@ -24,7 +24,7 @@ const navigationOptionsForDrawer = ({ navigation, screenProps: { i18n } }) => ({
 
 const TrendingNavigator = StackNavigator(
   {
-    Trending: {
+    [SCREENS.Trending]: {
       screen: Trending,
       navigationOptions: config.navigation.tab
         ? navigationOptionsForTab

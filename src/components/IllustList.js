@@ -13,6 +13,7 @@ import Loader from './Loader';
 import * as bookmarkIllustActionCreators
   from '../common/actions/bookmarkIllust';
 import { globalStyles, globalStyleVariables } from '../styles';
+import { SCREENS } from '../common/constants';
 
 const ILLUST_COLUMNS = 3;
 
@@ -44,7 +45,7 @@ class IllustList extends Component {
 
   handleOnPressItem = item => {
     const { navigate } = this.props.navigation;
-    navigate('Detail', { item });
+    navigate(SCREENS.Detail, { item });
   };
 
   render() {

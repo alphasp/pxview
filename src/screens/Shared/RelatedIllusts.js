@@ -9,6 +9,7 @@ import * as relatedIllustsActionCreators
   from '../../common/actions/relatedIllusts';
 import { makeGetRelatedIllustsItems } from '../../common/selectors';
 import { globalStyles } from '../../styles';
+import { SCREENS } from '../../common/constants';
 
 const styles = StyleSheet.create({
   viewMoreButtonContainer: {
@@ -50,7 +51,7 @@ class RelatedIllusts extends Component {
 
   handleOnPressViewMoreRelatedIllusts = () => {
     const { illustId, navigation: { navigate } } = this.props;
-    navigate('RelatedIllusts', {
+    navigate(SCREENS.RelatedIllusts, {
       illustId,
     });
   };

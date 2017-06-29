@@ -14,6 +14,7 @@ import * as authActionCreators from '../common/actions/auth';
 import * as browsingHistoryActionCreators
   from '../common/actions/browsingHistory';
 import { globalStyles, globalStyleVariables } from '../styles';
+import { SCREENS } from '../common/constants';
 
 const avatarSize = 60;
 const defaultProfileImage =
@@ -135,46 +136,49 @@ class DrawerContent extends Component {
 
   handleOnDrawerItemPress = (item, focused) => {
     const { user, navigation: { navigate } } = this.props;
-    // todo add myPage custom menus DrawerNavigatorItems
     navigate('DrawerClose');
     if (!focused) {
       switch (item.id) {
         case 'works':
           if (!user) {
             this.handleOnPressLogin(authUser =>
-              navigate('MyWorks', { userId: authUser.id }),
+              navigate(SCREENS.MyWorks, { userId: authUser.id }),
             );
           } else {
-            this.navigateWithDebounce('MyWorks', { userId: user.id });
+            this.navigateWithDebounce(SCREENS.MyWorks, { userId: user.id });
           }
           break;
         case 'collection':
           if (!user) {
             this.handleOnPressLogin(authUser =>
-              navigate('MyCollection', { userId: authUser.id }),
+              navigate(SCREENS.MyCollection, { userId: authUser.id }),
             );
           } else {
-            this.navigateWithDebounce('MyCollection', { userId: user.id });
+            this.navigateWithDebounce(SCREENS.MyCollection, {
+              userId: user.id,
+            });
           }
           break;
         case 'connection':
           if (!user) {
             this.handleOnPressLogin(authUser =>
-              navigate('MyConnection', { userId: authUser.id }),
+              navigate(SCREENS.MyConnection, { userId: authUser.id }),
             );
           } else {
-            this.navigateWithDebounce('MyConnection', { userId: user.id });
+            this.navigateWithDebounce(SCREENS.MyConnection, {
+              userId: user.id,
+            });
           }
           break;
         case 'browsingHistory':
-          this.navigateWithDebounce('BrowsingHistory');
+          this.navigateWithDebounce(SCREENS.BrowsingHistory);
           break;
         case 'settings': {
-          this.navigateWithDebounce('Settings');
+          this.navigateWithDebounce(SCREENS.Settings);
           break;
         }
         case 'feedback': {
-          this.navigateWithDebounce('Feedback');
+          this.navigateWithDebounce(SCREENS.Feedback);
           break;
         }
         case 'logout': {
@@ -209,7 +213,7 @@ class DrawerContent extends Component {
   navigateToLogin = onLoginSuccess => {
     const { navigate } = this.props.navigation;
     navigate('DrawerClose');
-    this.navigateWithDebounce('Login', {
+    this.navigateWithDebounce(SCREENS.Login, {
       onLoginSuccess,
     });
   };

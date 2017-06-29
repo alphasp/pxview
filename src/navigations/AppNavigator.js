@@ -1,4 +1,3 @@
-import { Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import AppTabNavigator from './AppTabNavigator';
 import AppDrawerNavigator from './AppDrawerNavigator';
@@ -9,30 +8,31 @@ import AddIllustComment from '../screens/Shared/AddIllustComment';
 import myPageRouteConfig from './routeConfigs/myPage';
 import { globalStyles, globalStyleVariables } from '../styles';
 import config from '../common/config';
+import { SCREENS } from '../common/constants';
 
 let appRouteConfig = {
-  Main: {
+  [SCREENS.Main]: {
     screen: config.navigation.tab ? AppTabNavigator : AppDrawerNavigator,
     navigationOptions: {
       header: null,
     },
   },
-  Login: {
+  [SCREENS.Login]: {
     screen: Login,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.login,
     }),
   },
-  SearchFilterModal: {
+  [SCREENS.SearchFilterModal]: {
     screen: SearchFilterModal,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.searchDisplayOptions,
     }),
   },
-  ImagesViewer: {
+  [SCREENS.ImagesViewer]: {
     screen: ImagesViewer,
   },
-  AddIllustComment: {
+  [SCREENS.AddIllustComment]: {
     screen: AddIllustComment,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.commentAdd,

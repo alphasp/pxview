@@ -7,51 +7,52 @@ import UserBookmarkIllusts from '../../screens/Shared/UserBookmarkIllusts';
 import RelatedIllusts from '../../screens/Shared/RelatedIllusts';
 import SearchResultTabs from '../../screens/Shared/SearchResultTabs';
 import RecommendedUsers from '../../screens/Shared/RecommendedUsers';
+import { SCREENS } from '../../common/constants';
 
 const config = {
-  Detail: {
+  [SCREENS.Detail]: {
     screen: Detail,
   },
-  UserDetail: {
+  [SCREENS.UserDetail]: {
     screen: UserDetail,
   },
-  IllustComments: {
+  [SCREENS.IllustComments]: {
     screen: IllustComments,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.comments,
     }),
   },
-  RelatedIllusts: {
+  [SCREENS.RelatedIllusts]: {
     screen: RelatedIllusts,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.relatedWorks,
     }),
   },
-  UserIllusts: {
+  [SCREENS.UserIllusts]: {
     screen: UserIllusts,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.userIllusts,
     }),
   },
-  UserMangas: {
+  [SCREENS.UserMangas]: {
     screen: UserMangas,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.userMangas,
     }),
   },
-  UserBookmarkIllusts: {
+  [SCREENS.UserBookmarkIllusts]: {
     screen: UserBookmarkIllusts,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.collection,
     }),
   },
-  SearchResult: {
+  [SCREENS.SearchResult]: {
     screen: SearchResultTabs,
     navigationOptions: {
       header: null,
     },
   },
-  RecommendedUsers: {
+  [SCREENS.RecommendedUsers]: {
     screen: RecommendedUsers,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.recommendedUsers,

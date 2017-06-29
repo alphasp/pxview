@@ -34,7 +34,7 @@ import HeaderShareButton from '../../components/HeaderShareButton';
 import * as browsingHistoryActionCreators
   from '../../common/actions/browsingHistory';
 import { makeGetDetailItem } from '../../common/selectors';
-import { SEARCH_TYPES } from '../../common/constants';
+import { SEARCH_TYPES, SCREENS } from '../../common/constants';
 
 const windowWidth = Dimensions.get('window').width; // full width
 const THUMBNAIL_SIZE = 30;
@@ -112,7 +112,7 @@ class Detail extends Component {
       headerTitle: (
         <PXTouchable
           style={styles.headerThumnailNameContainer}
-          onPress={() => navigate('UserDetail', { userId: item.user.id })}
+          onPress={() => navigate(SCREENS.UserDetail, { userId: item.user.id })}
         >
           <PXThumbnail
             uri={item.user.profile_image_urls.medium}
@@ -258,12 +258,15 @@ class Detail extends Component {
 
   handleOnPressTag = tag => {
     const { navigate } = this.props.navigation;
-    navigate('SearchResult', { word: tag, searchType: SEARCH_TYPES.ILLUST });
+    navigate(SCREENS.SearchResult, {
+      word: tag,
+      searchType: SEARCH_TYPES.ILLUST,
+    });
   };
 
   handleOnPressAvatar = userId => {
     const { navigate } = this.props.navigation;
-    navigate('UserDetail', { userId });
+    navigate(SCREENS.UserDetail, { userId });
   };
 
   handleOnViewableItemsChanged = ({ viewableItems }) => {
@@ -367,7 +370,7 @@ class Detail extends Component {
   handleOnPressImage = index => {
     const { navigate } = this.props.navigation;
     const { images } = this.state;
-    navigate('ImagesViewer', {
+    navigate(SCREENS.ImagesViewer, {
       images,
       viewerIndex: index,
     });

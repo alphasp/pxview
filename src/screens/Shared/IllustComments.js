@@ -9,6 +9,7 @@ import * as illustCommentsActionCreators
   from '../../common/actions/illustComments';
 import { makeGetIllustCommentsItems } from '../../common/selectors';
 import { globalStyles } from '../../styles';
+import { SCREENS } from '../../common/constants';
 
 const styles = StyleSheet.create({
   viewMoreButtonContainer: {
@@ -52,7 +53,7 @@ class IllustComments extends Component {
 
   handleOnPressViewMoreComments = () => {
     const { illustId, navigation: { navigate } } = this.props;
-    navigate('IllustComments', {
+    navigate(SCREENS.IllustComments, {
       illustId,
     });
   };
@@ -60,11 +61,11 @@ class IllustComments extends Component {
   handleOnPressCommentButton = () => {
     const { illustId, user, navigation: { navigate, goBack } } = this.props;
     if (!user) {
-      navigate('Login', {
+      navigate(SCREENS.Login, {
         onLoginSuccess: () => {
           goBack();
           setTimeout(() => {
-            navigate('AddIllustComment', {
+            navigate(SCREENS.AddIllustComment, {
               illustId,
               onSubmitComment: this.handleOnSubmitComment,
             });
@@ -72,7 +73,7 @@ class IllustComments extends Component {
         },
       });
     } else {
-      navigate('AddIllustComment', {
+      navigate(SCREENS.AddIllustComment, {
         illustId,
         onSubmitComment: this.handleOnSubmitComment,
       });

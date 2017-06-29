@@ -10,7 +10,7 @@ import { withNavigation } from 'react-navigation';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
-import { SEARCH_TYPES } from '../common/constants';
+import { SEARCH_TYPES, SCREENS } from '../common/constants';
 import { globalStyles, globalStyleVariables } from '../styles';
 
 const ILLUST_COLUMNS = 3;
@@ -103,7 +103,7 @@ class IllustTagList extends Component {
 
   handleOnPressItem = item => {
     const { navigate } = this.props.navigation;
-    navigate('SearchResult', {
+    navigate(SCREENS.SearchResult, {
       word: item.tag,
       searchType: SEARCH_TYPES.ILLUST,
     });

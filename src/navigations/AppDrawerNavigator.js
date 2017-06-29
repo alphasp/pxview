@@ -5,19 +5,20 @@ import TrendingNavigator from './TrendingNavigator';
 import NewWorksNavigator from './NewWorksNavigator';
 import DrawerContent from '../components/DrawerContent';
 import { globalStyles, globalStyleVariables } from '../styles';
+import { SCREENS } from '../common/constants';
 
 const AppDrawerNavigator = DrawerNavigator(
   {
-    Home: {
+    [SCREENS.Home]: {
       screen: HomeNavigator,
     },
-    Ranking: {
+    [SCREENS.Ranking]: {
       screen: RankingNavigator,
     },
-    Trending: {
+    [SCREENS.Trending]: {
       screen: TrendingNavigator,
     },
-    NewWorks: {
+    [SCREENS.NewWorks]: {
       screen: NewWorksNavigator,
     },
   },

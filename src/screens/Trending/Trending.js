@@ -12,7 +12,7 @@ import Search from '../../containers/Search';
 import PXSearchBar from '../../components/PXSearchBar';
 import PXTabView from '../../components/PXTabView';
 import { connectLocalization } from '../../components/Localization';
-import { SEARCH_TYPES } from '../../common/constants';
+import { SEARCH_TYPES, SCREENS } from '../../common/constants';
 import config from '../../common/config';
 
 const styles = StyleSheet.create({
@@ -108,7 +108,7 @@ class Trending extends Component {
     const { navigate } = this.props.navigation;
     const { searchType } = this.state;
     this.handleOnPressBackButton();
-    navigate('SearchResult', { word, searchType });
+    navigate(SCREENS.SearchResult, { word, searchType });
   };
 
   handleOnChangeSearchTab = index => {

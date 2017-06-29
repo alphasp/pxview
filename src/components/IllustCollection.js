@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import IllustItem from './IllustItem';
 import PXTouchable from './PXTouchable';
 import { globalStyleVariables } from '../styles';
+import { SCREENS } from '../common/constants';
 
 const ILLUST_COLUMNS = 3;
 const CONTAINER_MARGIN = 10;
@@ -71,7 +72,7 @@ const IllustCollection = props => {
               item={item}
               index={index}
               numColumns={ILLUST_COLUMNS}
-              onPressItem={() => navigate('Detail', { item })}
+              onPressItem={() => navigate(SCREENS.Detail, { item })}
               containerStyle={{
                 width: (globalStyleVariables.WINDOW_WIDTH -
                   CONTAINER_MARGIN * 2) /

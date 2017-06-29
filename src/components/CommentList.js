@@ -7,6 +7,7 @@ import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import { globalStyles } from '../styles';
+import { SCREENS } from '../common/constants';
 
 const styles = StyleSheet.create({
   commentContainer: {
@@ -71,7 +72,7 @@ class CommentList extends Component {
 
   handleOnPressUser = userId => {
     const { navigate } = this.props.navigation;
-    navigate('UserDetail', { userId });
+    navigate(SCREENS.UserDetail, { userId });
   };
 
   render() {

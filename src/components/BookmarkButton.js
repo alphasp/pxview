@@ -8,7 +8,7 @@ import * as Animatable from 'react-native-animatable';
 import * as bookmarkIllustActionCreators
   from '../common/actions/bookmarkIllust';
 import * as modalActionCreators from '../common/actions/modal';
-import { MODAL_TYPES } from '../common/constants';
+import { MODAL_TYPES, SCREENS } from '../common/constants';
 
 const AnimatableIcon = Animatable.createAnimatableComponent(Icon);
 
@@ -56,7 +56,7 @@ class BookmarkButton extends Component {
     const { authUser, item, navigation: { navigate } } = this.props;
     const { isBookmark } = this.state;
     if (!authUser) {
-      navigate('Login', {
+      navigate(SCREENS.Login, {
         onLoginSuccess: () => {
           this.bookmarkIllust(item.id);
         },
@@ -77,7 +77,7 @@ class BookmarkButton extends Component {
   handleOnLongPress = () => {
     const { authUser, item, navigation: { navigate }, openModal } = this.props;
     if (!authUser) {
-      navigate('Login', {
+      navigate(SCREENS.Login, {
         onLoginSuccess: () => {
           this.bookmarkIllust(item.id);
         },

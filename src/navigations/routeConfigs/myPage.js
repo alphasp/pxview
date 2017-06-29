@@ -7,54 +7,55 @@ import AccountSettings from '../../screens/MyPage/AccountSettings';
 import Language from '../../screens/MyPage/Language';
 import Feedback from '../../screens/MyPage/Feedback';
 import { globalStyles } from '../../styles';
+import { SCREENS } from '../../common/constants';
 
 const config = {
-  MyConnection: {
+  [SCREENS.MyConnection]: {
     screen: MyConnection,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.connection,
       headerStyle: globalStyles.headerWithoutShadow,
     }),
   },
-  MyCollection: {
+  [SCREENS.MyCollection]: {
     screen: MyCollection,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.collection,
       headerStyle: globalStyles.headerWithoutShadow,
     }),
   },
-  MyWorks: {
+  [SCREENS.MyWorks]: {
     screen: MyWorks,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.myWorks,
       headerStyle: globalStyles.headerWithoutShadow,
     }),
   },
-  BrowsingHistory: {
+  [SCREENS.BrowsingHistory]: {
     screen: BrowsingHistory,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.browsingHistory,
     }),
   },
-  Settings: {
+  [SCREENS.Settings]: {
     screen: Settings,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.settings,
     }),
   },
-  AccountSettings: {
+  [SCREENS.AccountSettings]: {
     screen: AccountSettings,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.accountSettings,
     }),
   },
-  Language: {
+  [SCREENS.Language]: {
     screen: Language,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.lang,
     }),
   },
-  Feedback: {
+  [SCREENS.Feedback]: {
     screen: Feedback,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.feedback,

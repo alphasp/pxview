@@ -13,13 +13,9 @@ import Ranking from '../screens/Ranking/Ranking';
 import Trending from '../screens/Trending/Trending';
 import NewWorks from '../screens/NewWorks/NewWorks';
 import MyPage from '../screens/MyPage/MyPage';
+import { SCREENS } from '../common/constants';
 
-const renderTabBarIcon = (
-  tintColor,
-  focused,
-  name,
-  iconType, // 59,89,152
-) => (
+const renderTabBarIcon = (tintColor, focused, name, iconType) => (
   <Icon
     name={name}
     type={iconType || 'font-awesome'}
@@ -30,7 +26,7 @@ const renderTabBarIcon = (
 
 const AppTabNavigator = TabNavigator(
   {
-    HomeTab: {
+    [SCREENS.HomeTab]: {
       screen: Platform.OS === 'android' ? Home : HomeNavigator,
       navigationOptions: ({ screenProps: { i18n } }) => ({
         tabBarLabel: i18n.home,
@@ -38,7 +34,7 @@ const AppTabNavigator = TabNavigator(
           renderTabBarIcon(tintColor, focused, 'home'),
       }),
     },
-    RankingTab: {
+    [SCREENS.RankingTab]: {
       screen: Platform.OS === 'android' ? Ranking : RankingNavigator,
       navigationOptions: ({ screenProps: { i18n } }) => ({
         tabBarLabel: i18n.ranking,
@@ -46,7 +42,7 @@ const AppTabNavigator = TabNavigator(
           renderTabBarIcon(tintColor, focused, 'trophy'),
       }),
     },
-    TrendingTab: {
+    [SCREENS.TrendingTab]: {
       screen: Platform.OS === 'android' ? Trending : TrendingNavigator,
       navigationOptions: ({ screenProps: { i18n } }) => ({
         tabBarLabel: i18n.search,
@@ -54,7 +50,7 @@ const AppTabNavigator = TabNavigator(
           renderTabBarIcon(tintColor, focused, 'search'),
       }),
     },
-    NewWorksTab: {
+    [SCREENS.NewWorksTab]: {
       screen: Platform.OS === 'android' ? NewWorks : NewWorksNavigator,
       navigationOptions: ({ screenProps: { i18n } }) => ({
         tabBarLabel: i18n.newest,
@@ -62,7 +58,7 @@ const AppTabNavigator = TabNavigator(
           renderTabBarIcon(tintColor, focused, 'fiber-new', 'material'),
       }),
     },
-    MyPageTab: {
+    [SCREENS.MyPageTab]: {
       screen: Platform.OS === 'android' ? MyPage : MyPageNavigator,
       navigationOptions: ({ screenProps: { i18n } }) => ({
         tabBarLabel: i18n.myPage,

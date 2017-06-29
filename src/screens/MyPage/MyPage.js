@@ -20,6 +20,7 @@ import * as authActionCreators from '../../common/actions/auth';
 import * as browsingHistoryActionCreators
   from '../../common/actions/browsingHistory';
 import { globalStyleVariables } from '../../styles';
+import { SCREENS } from '../../common/constants';
 
 const avatarSize = 70;
 const windowWidth = Dimensions.get('window').width;
@@ -175,39 +176,39 @@ class MyPage extends Component {
       case 'works':
         if (!user) {
           this.navigateToLogin(authUser =>
-            navigate('MyWorks', { userId: authUser.id }),
+            navigate(SCREENS.MyWorks, { userId: authUser.id }),
           );
         } else {
-          navigate('MyWorks', { userId: user.id });
+          navigate(SCREENS.MyWorks, { userId: user.id });
         }
         break;
       case 'collection':
         if (!user) {
           this.navigateToLogin(authUser =>
-            navigate('MyCollection', { userId: authUser.id }),
+            navigate(SCREENS.MyCollection, { userId: authUser.id }),
           );
         } else {
-          navigate('MyCollection', { userId: user.id });
+          navigate(SCREENS.MyCollection, { userId: user.id });
         }
         break;
       case 'connection':
         if (!user) {
           this.navigateToLogin(authUser =>
-            navigate('MyConnection', { userId: authUser.id }),
+            navigate(SCREENS.MyConnection, { userId: authUser.id }),
           );
         } else {
-          navigate('MyConnection', { userId: user.id });
+          navigate(SCREENS.MyConnection, { userId: user.id });
         }
         break;
       case 'browsingHistory':
-        navigate('BrowsingHistory');
+        navigate(SCREENS.BrowsingHistory);
         break;
       case 'settings': {
-        navigate('Settings');
+        navigate(SCREENS.Settings);
         break;
       }
       case 'feedback': {
-        navigate('Feedback');
+        navigate(SCREENS.Feedback);
         break;
       }
       case 'logout': {
@@ -238,7 +239,7 @@ class MyPage extends Component {
 
   navigateToLogin = onLoginSuccess => {
     const { navigate } = this.props.navigation;
-    navigate('Login', {
+    navigate(SCREENS.Login, {
       onLoginSuccess,
     });
   };

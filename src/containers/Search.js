@@ -10,7 +10,7 @@ import * as searchAutoCompleteActionCreators
 import * as searchUserAutoCompleteActionCreators
   from '../common/actions/searchUsersAutoComplete';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
-import { SEARCH_TYPES } from '../common/constants';
+import { SEARCH_TYPES, SCREENS } from '../common/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -131,7 +131,7 @@ class Search extends Component {
   handleOnPressUser = userId => {
     const { navigation } = this.props;
     const { navigate } = navigation;
-    navigate('UserDetail', { userId });
+    navigate(SCREENS.UserDetail, { userId });
   };
 
   handleOnPressRemoveSearchHistoryItem = item => {

@@ -6,6 +6,7 @@ import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import FollowButtonContainer from '../containers/FollowButtonContainer';
 import IllustItem from './IllustItem';
 import { globalStyleVariables } from '../styles';
+import { SCREENS } from '../common/constants';
 
 const AVATAR_SIZE = 50;
 const ILLUST_PREVIEW_COLUMNS = 3;
@@ -96,12 +97,12 @@ class UserList extends Component {
 
   handleOnPressImagePreview = item => {
     const { navigate } = this.props.navigation;
-    navigate('Detail', { item });
+    navigate(SCREENS.Detail, { item });
   };
 
   handleOnPressAvatar = userId => {
     const { navigate } = this.props.navigation;
-    navigate('UserDetail', { userId });
+    navigate(SCREENS.UserDetail, { userId });
   };
 
   render() {

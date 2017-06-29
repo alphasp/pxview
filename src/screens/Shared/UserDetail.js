@@ -32,9 +32,10 @@ import * as userMangasActionCreators from '../../common/actions/userMangas';
 import * as userBookmarkIllustlActionCreators
   from '../../common/actions/userBookmarkIllusts';
 import { makeGetUserDetailPageItems } from '../../common/selectors';
+import { SCREENS } from '../../common/constants';
+import { globalStyleVariables } from '../../styles';
 
 const avatarSize = 70;
-const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     // right: 0,
     bottom: -(avatarSize / 2),
     // flex: 1,
-    width: windowWidth,
+    width: globalStyleVariables.WINDOW_WIDTH,
     alignItems: 'center',
     //paddingBottom: 40
   },
@@ -310,7 +311,7 @@ class UserDetail extends Component {
               uri={detail.user.profile_image_urls.medium}
               style={{
                 resizeMode: 'cover',
-                width: windowWidth,
+                width: globalStyleVariables.WINDOW_WIDTH,
                 height: 100,
                 backgroundColor: 'transparent',
               }}
@@ -403,7 +404,7 @@ class UserDetail extends Component {
         viewMoreTitle={i18n.worksCount}
         items={items}
         maxItems={6}
-        onPressViewMore={() => navigation.navigate('UserIllusts', { userId })}
+        onPressViewMore={() => navigation.navigate(SCREENS.UserIllusts, { userId })}
         navigation={navigation}
       />
     );
@@ -418,7 +419,7 @@ class UserDetail extends Component {
         viewMoreTitle={i18n.worksCount}
         items={items}
         maxItems={6}
-        onPressViewMore={() => navigation.navigate('UserMangas', { userId })}
+        onPressViewMore={() => navigation.navigate(SCREENS.UserMangas, { userId })}
         navigation={navigation}
       />
     );
@@ -433,7 +434,7 @@ class UserDetail extends Component {
         items={items}
         maxItems={6}
         onPressViewMore={() =>
-          navigation.navigate('UserBookmarkIllusts', { userId })}
+          navigation.navigate(SCREENS.UserBookmarkIllusts, { userId })}
         navigation={navigation}
       />
     );

@@ -19,7 +19,7 @@ import * as searchAutoCompleteActionCreators
 import * as searchUsersAutoCompleteActionCreators
   from '../../common/actions/searchUsersAutoComplete';
 import { navReplace } from '../../common/actions/nav';
-import { SEARCH_TYPES } from '../../common/constants';
+import { SEARCH_TYPES, SCREENS } from '../../common/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -107,7 +107,7 @@ class SearchResultTabs extends Component {
       isFocusSearchBar: false,
     });
     setTimeout(() => {
-      navigate('SearchFilterModal', {
+      navigate(SCREENS.SearchFilterModal, {
         searchFilter: searchOptions || {},
         onPressApplyFilter: (target, duration, sort) => {
           goBack(null);

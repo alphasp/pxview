@@ -9,6 +9,7 @@ import IllustList from '../../components/IllustList';
 import * as followingUserIllustsActionCreators
   from '../../common/actions/followingUserIllusts';
 import { getFollowingUserIllustsItems } from '../../common/selectors';
+import { SCREENS } from '../../common/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -70,7 +71,7 @@ class FollowingUserIllusts extends Component {
 
   handleOnPressFindRecommendedUsers = () => {
     const { navigate } = this.props.navigation;
-    navigate('RecommendedUsers', {
+    navigate(SCREENS.RecommendedUsers, {
       navigation: this.props.navigation,
     });
   };

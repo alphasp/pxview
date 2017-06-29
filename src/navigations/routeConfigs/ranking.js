@@ -1,7 +1,8 @@
 import Ranking from '../../screens/Ranking/Ranking';
+import { SCREENS } from '../../common/constants';
 
 const config = {
-  Ranking: {
+  [SCREENS.Ranking]: {
     screen: Ranking,
     navigationOptions: {
       header: null,

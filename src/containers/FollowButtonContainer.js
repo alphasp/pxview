@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import FollowButton from '../components/FollowButton';
 import * as followUserActionCreators from '../common/actions/followUser';
 import * as modalActionCreators from '../common/actions/modal';
-import { FOLLOWING_TYPES, MODAL_TYPES } from '../common/constants';
+import { FOLLOWING_TYPES, MODAL_TYPES, SCREENS } from '../common/constants';
 
 class FollowButtonContainer extends Component {
   static propTypes = {
@@ -23,7 +23,7 @@ class FollowButtonContainer extends Component {
   handleOnPress = () => {
     const { authUser, user, navigation: { navigate } } = this.props;
     if (!authUser) {
-      navigate('Login', {
+      navigate(SCREENS.Login, {
         onLoginSuccess: () => {
           this.followUser(user.id, FOLLOWING_TYPES.PUBLIC);
         },
@@ -38,7 +38,7 @@ class FollowButtonContainer extends Component {
   handleOnLongPress = () => {
     const { authUser, user, navigation: { navigate }, openModal } = this.props;
     if (!authUser) {
-      navigate('Login', {
+      navigate(SCREENS.Login, {
         onLoginSuccess: () => {
           this.followUser(user.id, FOLLOWING_TYPES.PUBLIC);
         },
