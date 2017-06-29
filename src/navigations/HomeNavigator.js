@@ -24,27 +24,34 @@ const navigationOptionsForDrawer = ({ navigation, screenProps: { i18n } }) => ({
   ),
 });
 
-const HomeNavigator = StackNavigator(
-  {
-    [SCREENS.Home]: {
-      screen: Home,
-      navigationOptions: config.navigation.tab
-        ? navigationOptionsForTab
-        : navigationOptionsForDrawer,
-    },
+let routeConfig = {
+  [SCREENS.Home]: {
+    screen: Home,
+    navigationOptions: config.navigation.tab
+      ? navigationOptionsForTab
+      : navigationOptionsForDrawer,
+  },
+};
+
+if (config.navigation.tab) {
+  routeConfig = {
+    ...routeConfig,
     ...sharedRouteConfig,
+  };
+}
+
+const stackConfig = {
+  navigationOptions: {
+    headerStyle: config.navigation.tab
+      ? globalStyles.headerWithoutShadow
+      : globalStyles.headerWithoutShadow,
+    headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
+    headerBackTitle: null,
   },
-  {
-    navigationOptions: {
-      headerStyle: config.navigation.tab
-        ? globalStyles.headerWithoutShadow
-        : globalStyles.headerWithoutShadow,
-      headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
-      headerBackTitle: null,
-    },
-    cardStyle: globalStyles.card,
-    headerMode: 'screen',
-  },
-);
+  cardStyle: globalStyles.card,
+  headerMode: 'screen',
+};
+
+const HomeNavigator = StackNavigator(routeConfig, stackConfig);
 
 export default enhanceRouter(HomeNavigator);

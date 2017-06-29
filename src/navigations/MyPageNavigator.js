@@ -23,28 +23,35 @@ const navigationOptionsForDrawer = ({ navigation, screenProps: { i18n } }) => ({
   ),
 });
 
-const MyPageNavigator = StackNavigator(
-  {
-    [SCREENS.MyPage]: {
-      screen: MyPage,
-      navigationOptions: config.navigation.tab
-        ? navigationOptionsForTab
-        : navigationOptionsForDrawer,
-    },
+let routeConfig = {
+  [SCREENS.MyPage]: {
+    screen: MyPage,
+    navigationOptions: config.navigation.tab
+      ? navigationOptionsForTab
+      : navigationOptionsForDrawer,
+  },
+};
+
+if (config.navigation.tab) {
+  routeConfig = {
+    ...routeConfig,
     ...myPageRouteConfig,
     ...sharedRouteConfig,
+  };
+}
+
+const stackConfig = {
+  headerMode: 'screen',
+  navigationOptions: {
+    headerStyle: config.navigation.tab
+      ? globalStyles.header
+      : globalStyles.headerWithoutShadow,
+    headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
+    headerBackTitle: null,
   },
-  {
-    headerMode: 'screen',
-    navigationOptions: {
-      headerStyle: config.navigation.tab
-        ? globalStyles.header
-        : globalStyles.headerWithoutShadow,
-      headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
-      headerBackTitle: null,
-    },
-    cardStyle: globalStyles.card,
-  },
-);
+  cardStyle: globalStyles.card,
+};
+
+const MyPageNavigator = StackNavigator(routeConfig, stackConfig);
 
 export default enhanceRouter(MyPageNavigator);

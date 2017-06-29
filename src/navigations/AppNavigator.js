@@ -6,6 +6,7 @@ import SearchFilterModal from '../components/SearchFilterModal';
 import ImagesViewer from '../screens/ImagesViewer/ImagesViewer';
 import AddIllustComment from '../screens/Shared/AddIllustComment';
 import myPageRouteConfig from './routeConfigs/myPage';
+import sharedRouteConfig from './routeConfigs/shared';
 import { globalStyles, globalStyleVariables } from '../styles';
 import config from '../common/config';
 import { SCREENS } from '../common/constants';
@@ -44,6 +45,7 @@ if (!config.navigation.tab) {
   appRouteConfig = {
     ...appRouteConfig,
     ...myPageRouteConfig,
+    ...sharedRouteConfig,
   };
 }
 
@@ -56,7 +58,7 @@ const stackConfig = {
     headerBackTitle: null,
   },
   cardStyle: globalStyles.card,
-  mode: 'modal',
+  mode: config.navigation.tab ? 'modal' : 'card', // only apply to ios for tab navigation
   headerMode: 'screen',
 };
 
