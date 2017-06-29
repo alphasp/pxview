@@ -7,7 +7,8 @@ import { makeGetUserFollowingItems } from '../../../common/selectors';
 
 class UserFollowing extends Component {
   componentDidMount() {
-    const { fetchUserFollowing, userId, followingType } = this.props;
+    const { fetchUserFollowing, clearUserFollowing, userId, followingType } = this.props;
+    clearUserFollowing(userId, followingType);
     fetchUserFollowing(userId, followingType);
   }
 

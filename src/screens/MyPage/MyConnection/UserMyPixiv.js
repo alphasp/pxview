@@ -7,7 +7,8 @@ import { makeGetUserMyPixivItems } from '../../../common/selectors';
 
 class UserMyPixiv extends Component {
   componentDidMount() {
-    const { fetchUserMyPixiv, userId } = this.props;
+    const { fetchUserMyPixiv, clearUserMyPixiv, userId } = this.props;
+    clearUserMyPixiv(userId);
     fetchUserMyPixiv(userId);
   }
 
