@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, DeviceEventEmitter, Keyboard } from 'react-native';
+import { View, StyleSheet, DeviceEventEmitter } from 'react-native';
 import { connect } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
@@ -8,7 +8,6 @@ import AppNavigator from '../../navigations/AppNavigator';
 import { connectLocalization } from '../../components/Localization';
 import Loader from '../../components/Loader';
 import ModalRoot from '../../containers/ModalRoot';
-import * as keyboardActionCreators from '../../common/actions/keyboard';
 import * as routeActionCreators from '../../common/actions/route';
 
 const styles = StyleSheet.create({
@@ -45,14 +44,6 @@ class Master extends Component {
         this.toast.show(text, DURATION.LENGTH_LONG);
       },
     );
-    this.keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      this.keyboardDidShow,
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      this.keyboardDidHide,
-    );
     const { rehydrated } = this.props;
     if (rehydrated) {
       // call when reopen app after exit by back button on android
@@ -71,19 +62,7 @@ class Master extends Component {
   componentWillUnmount() {
     MessageBarManager.unregisterMessageBar();
     this.showToastListener.remove();
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
   }
-
-  keyboardDidShow = () => {
-    const { keyboardDidShow } = this.props;
-    keyboardDidShow();
-  };
-
-  keyboardDidHide = () => {
-    const { keyboardDidHide } = this.props;
-    keyboardDidHide();
-  };
 
   render() {
     const { rehydrated, i18n } = this.props;
@@ -104,6 +83,6 @@ export default connectLocalization(
       error: state.error,
       rehydrated: state.auth.rehydrated,
     }),
-    { ...keyboardActionCreators, ...routeActionCreators },
+    routeActionCreators,
   )(Master),
 );

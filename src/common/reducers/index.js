@@ -36,7 +36,6 @@ import modal from './modal';
 // import nav from './nav';
 import i18n from './i18n';
 import error from './error';
-import keyboard from './keyboard';
 
 const rootReducer = combineReducers({
   error,
@@ -75,7 +74,6 @@ const rootReducer = combineReducers({
   modal,
   // nav,
   i18n,
-  keyboard,
   form: formReducer,
 });
 
