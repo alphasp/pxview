@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { InteractionManager } from 'react-native';
+import { View, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
+import { connectLocalization } from '../components/Localization';
 import IllustList from '../components/IllustList';
+import NoResult from '../components/NoResult';
 import * as searchActionCreators from '../common/actions/search';
 import { makeGetSearchItems } from '../common/selectors';
+import { globalStyles } from '../styles';
 
 class SearchResult extends Component {
   componentDidMount() {
@@ -43,18 +46,24 @@ class SearchResult extends Component {
   };
 
   render() {
-    const { search, items } = this.props;
+    const { search, items, i18n } = this.props;
     return (
-      <IllustList
-        data={{ ...search, items }}
-        loadMoreItems={this.loadMoreItems}
-        onRefresh={this.handleOnRefresh}
-      />
+      <View style={globalStyles.container}>
+        <IllustList
+          data={{ ...search, items }}
+          loadMoreItems={this.loadMoreItems}
+          onRefresh={this.handleOnRefresh}
+        />
+        {search &&
+          search.loaded &&
+          (!items || !items.length) &&
+          <NoResult text={i18n.noSearchResult} />}
+      </View>
     );
   }
 }
 
-export default connect(() => {
+export default connectLocalization(connect(() => {
   const getSearchItems = makeGetSearchItems();
   return (state, props) => {
     const { search } = state;
@@ -64,4 +73,4 @@ export default connect(() => {
       items: getSearchItems(state, props),
     };
   };
-}, searchActionCreators)(SearchResult);
+}, searchActionCreators)(SearchResult));

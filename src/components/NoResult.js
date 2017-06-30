@@ -8,8 +8,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const NoResult = ({ text }) => (
-  <View style={styles.nullResultContainer}>
+const NoResult = ({ text, style }) => (
+  <View style={[styles.nullResultContainer, style]}>
     <Text>{text}</Text>
   </View>
 );

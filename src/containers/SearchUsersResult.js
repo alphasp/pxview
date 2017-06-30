@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
-import { InteractionManager } from 'react-native';
+import { View, InteractionManager, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import UserListContainer from './UserListContainer';
+import { connectLocalization } from '../components/Localization';
+import NoResult from '../components/NoResult';
 import * as searchUsersActionCreators from '../common/actions/searchUsers';
 import { makeGetSearchUsersItems } from '../common/selectors';
+import { globalStyles, globalStyleVariables } from '../styles';
+
+const styles = StyleSheet.create({
+  nullResult: {
+    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
+  },
+});
 
 class SearchUsersResult extends Component {
   componentDidMount() {
@@ -58,27 +67,35 @@ class SearchUsersResult extends Component {
   };
 
   render() {
-    const { searchUsers, items } = this.props;
+    const { searchUsers, items, i18n } = this.props;
     return (
-      <UserListContainer
-        userList={{ ...searchUsers, items }}
-        loadMoreItems={this.loadMoreItems}
-        onRefresh={this.handleOnRefresh}
-      />
+      <View style={globalStyles.container}>
+        <UserListContainer
+          userList={{ ...searchUsers, items }}
+          loadMoreItems={this.loadMoreItems}
+          onRefresh={this.handleOnRefresh}
+        />
+        {searchUsers &&
+          searchUsers.loaded &&
+          (!items || !items.length) &&
+          <NoResult text={i18n.noSearchResult} style={styles.nullResult} />}
+      </View>
     );
   }
 }
 
-export default connect(() => {
-  const getSearchUsersItems = makeGetSearchUsersItems();
-  return (state, props) => {
-    const { searchUsers } = state;
-    const { navigationStateKey } = props;
-    const word = props.word || props.navigation.state.params.word;
-    return {
-      searchUsers: searchUsers[navigationStateKey],
-      items: getSearchUsersItems(state, props),
-      word,
+export default connectLocalization(
+  connect(() => {
+    const getSearchUsersItems = makeGetSearchUsersItems();
+    return (state, props) => {
+      const { searchUsers } = state;
+      const { navigationStateKey } = props;
+      const word = props.word || props.navigation.state.params.word;
+      return {
+        searchUsers: searchUsers[navigationStateKey],
+        items: getSearchUsersItems(state, props),
+        word,
+      };
     };
-  };
-}, searchUsersActionCreators)(SearchUsersResult);
+  }, searchUsersActionCreators)(SearchUsersResult),
+);
