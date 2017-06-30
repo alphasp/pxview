@@ -56,7 +56,7 @@ class PXSearchBar extends Component {
           returnKeyType="search"
           defaultValue={word}
           underlineColorAndroid="transparent"
-          spellCheck={false}
+          autoCorrect={false}
         />
       </View>
     );
