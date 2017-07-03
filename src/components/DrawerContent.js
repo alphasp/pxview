@@ -1,47 +1,18 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Linking } from 'react-native';
+import { View, ScrollView, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import { DrawerItems, withNavigation } from 'react-navigation';
-// import Icon from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import CookieManager from 'react-native-cookies';
 import { connectLocalization } from './Localization';
-import PXThumbnailTouchable from './PXThumbnailTouchable';
-import OutlineButton from './OutlineButton';
+import UserCover from './UserCover';
 import Separator from './Separator';
 import DrawerNavigatorItem from './DrawerNavigatorItem';
 import * as authActionCreators from '../common/actions/auth';
 import * as browsingHistoryActionCreators
   from '../common/actions/browsingHistory';
-import { globalStyles, globalStyleVariables } from '../styles';
+import { globalStyles } from '../styles';
 import { SCREENS } from '../common/constants';
-
-const avatarSize = 60;
-const defaultProfileImage =
-  'https://source.pixiv.net/common/images/no_profile.png';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
-  },
-  avatarContainer: {
-    height: globalStyleVariables.DRAWER_WIDTH * 9 / 16,
-    backgroundColor: globalStyleVariables.PRIMARY_COLOR,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 16,
-  },
-  usernameContainer: {
-    marginTop: 10,
-  },
-  authActionContainer: {
-    flexDirection: 'row',
-  },
-  username: {
-    color: '#fff',
-  },
-});
 
 const menuList = [
   {
@@ -93,39 +64,16 @@ const menuList2 = [
 ];
 
 class DrawerContent extends Component {
-  renderProfile = () => {
+  renderCover = () => {
     const { user, i18n } = this.props;
     return (
-      <View style={styles.avatarContainer}>
-        <PXThumbnailTouchable
-          key={
-            (user && user.profile_image_urls.px_170x170) || defaultProfileImage
-          }
-          uri={
-            (user && user.profile_image_urls.px_170x170) || defaultProfileImage
-          }
-          size={avatarSize}
-          style={styles.avatar}
-        />
-        <View style={styles.usernameContainer}>
-          {user
-            ? <Text style={styles.username}>{user.name}</Text>
-            : <View style={styles.authActionContainer}>
-                <OutlineButton
-                  text={i18n.signup}
-                  style={{ borderColor: '#fff' }}
-                  textStyle={{ color: '#fff' }}
-                  onPress={this.handleOnPressSignUp}
-                />
-                <OutlineButton
-                  text={i18n.login}
-                  style={{ marginLeft: 5, borderColor: '#fff' }}
-                  textStyle={{ color: '#fff' }}
-                  onPress={this.handleOnPressLogin}
-                />
-              </View>}
-        </View>
-      </View>
+      <UserCover
+        user={user}
+        i18n={i18n}
+        onPressAvatar={this.handleOnPressAvatar}
+        onPressLogin={this.handleOnPressLogin}
+        onPressSignUp={this.handleOnPressSignUp}
+      />
     );
   };
 
@@ -222,6 +170,14 @@ class DrawerContent extends Component {
     this.navigateToLogin();
   };
 
+  handleOnPressAvatar = () => {
+    const { user, navigation: { navigate } } = this.props;
+    navigate('DrawerClose');
+    this.navigateWithDebounce(SCREENS.UserDetail, {
+      userId: user.id,
+    });
+  };
+
   renderList = list => {
     const { user, i18n } = this.props;
     if (!user && list.some(l => l.id === 'logout')) {
@@ -245,7 +201,7 @@ class DrawerContent extends Component {
     return (
       <View style={globalStyles.container}>
         <ScrollView>
-          {this.renderProfile()}
+          {this.renderCover()}
           <DrawerItems {...this.props} />
           <Separator noPadding />
           {this.renderList(menuList)}
