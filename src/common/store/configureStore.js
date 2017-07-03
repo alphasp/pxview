@@ -1,5 +1,4 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import invariant from 'redux-immutable-state-invariant';
 import { persistStore, autoRehydrate, createTransform } from 'redux-persist';
@@ -24,7 +23,6 @@ export default function configureStore() {
       applyMiddleware(
         invariant(),
         createActionBuffer(REHYDRATE),
-        thunk,
         sagaMiddleware,
       ),
       //devTools(),
@@ -33,20 +31,11 @@ export default function configureStore() {
     enhancer = compose(
       autoRehydrate(),
       applyAppStateListener(),
-      applyMiddleware(createActionBuffer(REHYDRATE), thunk, sagaMiddleware),
+      applyMiddleware(createActionBuffer(REHYDRATE), sagaMiddleware),
     );
   }
   const store = createStore(rootReducer, undefined, enhancer);
   sagaMiddleware.run(rootSaga);
-  // middleware.listenForReplays(store);
-
-  // const middleware = compose(
-  //   applyMiddleware(invariant(), thunk),
-  //   autoRehydrate({ log:true }),
-  //   devTools(),
-  // );
-
-  // const store = createStore(rootReducer, undefined, middleware);
 
   const myTransform = createTransform(
     (inboundState, key) => {
