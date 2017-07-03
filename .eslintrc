@@ -41,7 +41,8 @@
     },
     "env": {
         "es6": true,
-        "browser": true
+        "browser": true,
+        "jest": true
     },
     "ecmaFeatures": {
         "jsx": true,
@@ -50,6 +51,7 @@
     "plugins": [
         "react",
         "react-native",
-        "prettier"
+        "prettier",
+        "jest"
     ]
 }

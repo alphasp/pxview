@@ -68,18 +68,21 @@
     "redux-enhancer-react-native-appstate": "^0.2.0",
     "redux-form": "^6.3.2",
     "redux-persist": "^4.0.0",
-    "redux-saga": "^0.14.4",
+    "redux-saga": "^0.15.4",
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
     "shallow-equals": "^1.0.0",
     "sinon": "^2.1.0"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "transformIgnorePatterns": [
+      "node_modules/(?!react-native|redux-enhancer-react-native-appstate|)"
+    ]
   },
   "devDependencies": {
     "babel-eslint": "^6.1.2",
-    "babel-jest": "^19.0.0",
+    "babel-jest": "^20.0.3",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react-native": "1.9.0",
@@ -88,6 +91,7 @@
     "eslint-config-airbnb": "^14.1.0",
     "eslint-config-prettier": "^1.7.0",
     "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jest": "^20.0.3",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-prettier": "^2.0.1",
     "eslint-plugin-react": "^6.10.3",
