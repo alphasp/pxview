@@ -150,7 +150,7 @@ export function* watchRehydrate() {
         ]);
       }
       const lang = yield select(getLang);
-      setLanguage(lang);
+      yield put(setLanguage(lang));
     } catch (err) {
       // todo logout user
       console.log('err in watchRehydrate ', err);

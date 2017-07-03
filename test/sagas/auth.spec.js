@@ -1,130 +1,253 @@
 import { delay } from 'redux-saga';
-import { take, takeEvery, takeLatest, fork, call, apply, put, race, select } from 'redux-saga/effects';
-import * as Keychain from 'react-native-keychain';
+import { take, call, apply, put, race, select } from 'redux-saga/effects';
+import { cloneableGenerator } from 'redux-saga/utils';
 import { REHYDRATE } from 'redux-persist/constants';
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT, login, requestLogin, successLogin, failedLogin, doneRehydrate } from '../../src/common/actions/auth';
-import { addError, resetError } from '../../src/common/actions/error';
-import pixiv from '../../src/common/helpers/ApiClient';
-import { watchLoginRequest, watchRehydrate, authAndRefreshTokenOnExpiry, authorize, handleLogout } from '../../src/common/sagas/auth';
-import { getAuthUser } from '../../src/common/selectors';
+import {
+  loginSuccess,
+  loginFailure,
+  logout,
+  refreshAccessToken,
+  refreshAccessTokenSuccess,
+  refreshAccessTokenFailure,
+  rehydrateSuccess,
+} from '../../src/common/actions/auth';
+import { setLanguage } from '../../src/common/actions/i18n';
+import { addError } from '../../src/common/actions/error';
+import pixiv from '../../src/common/helpers/apiClient';
+import {
+  watchLoginRequest,
+  watchRefreshAccessTokenRequest,
+  watchRehydrate,
+  refreshAccessTokenOnExpiry,
+  handleRefreshAccessToken,
+  scheduleRefreshAccessToken,
+  authorize,
+  handleLogout,
+} from '../../src/common/sagas/auth';
+import { getAuthUser, getLang } from '../../src/common/selectors';
+import {
+  AUTH_LOGIN,
+  AUTH_LOGOUT,
+  AUTH_REFRESH_ACCESS_TOKEN,
+} from '../../src/common/constants/actionTypes';
 
 const email = 'test@gmail.com';
 const password = 'password';
-const credentials = { username: email, password };
+const refreshToken = 'refreshToken';
+const delayMilisecond = 1000 * 60 * 60;
+const loginRequestAction = {
+  payload: {
+    email,
+    password,
+  },
+};
+const refreshTokenRequestAction = {
+  payload: {
+    refreshToken,
+  },
+};
 const mockLoginResponse = {
   user: {
-    id: 123
+    id: 123,
   },
   access_token: 'access_token',
   refresh_token: 'refresh_token',
-  expires_in: new Date('2017-01-01')
+  expires_in: new Date('2017-01-01'),
+};
+
+const mockAuthUser = {
+  id: 123,
+  accessToken: 'accessToken',
+  refreshToken: 'refreshToken',
+  expiresIn: new Date('2017-01-01'),
+};
+
+const mockError = {
+  errors: {
+    system: {
+      message: 'some error',
+    },
+  },
 };
 
 Date.now = jest.genMockFunction().mockReturnValue(0);
 
-test('watchLoginRequest should take every login request', () => {
-  const generator = watchLoginRequest();
-  // console.log(generator.next().value)
-  // console.log(generator.next().value)
-  expect(generator.next().value)
-    .toEqual(take(LOGIN_REQUEST));
-  //value inside next() = result of yield;
-  expect(generator.next(login(email, password)).value)
-    .toEqual(race([
-      take(LOGOUT),
-      call(authAndRefreshTokenOnExpiry, email, password)
-    ]));
-  expect(generator.next().value)
-    .toEqual(call(handleLogout));
-  //loop again
-  expect(generator.next().value)
-    .toEqual(take(LOGIN_REQUEST));
-})
-
-test('login success', () => {  
-  const generator = authAndRefreshTokenOnExpiry(email, password);
-  const delayMilisecond = (mockLoginResponse.expires_in - 300) * 1000;
-
-  expect(generator.next().value)
-    .toEqual(call(authorize, email, password));
-  expect(generator.next(mockLoginResponse).value)
-    .toEqual(call(Keychain.getGenericPassword));
-  expect(generator.next(credentials).value)
-    .toEqual(call(delay, delayMilisecond));
-  // expect(generator.next().value)
-  //   .toEqual(call(authorize, credentials.username, credentials.password));
-
-  // // loop again
-  // expect(generator.next(mockLoginResponse).value)
-  //   .toEqual(call(Keychain.getGenericPassword));
-
-    
-});
-
-test('login failure', () => {  
-  const mockError = {
-    errors: {
-      system: {
-        message: 'some error'
-      }
-    }
-  };
-  const generator = watchLoginRequest();
-  expect(generator.next().value)
-    .toEqual(take(LOGIN_REQUEST));
-  expect(generator.throw(mockError).value)
-    .toEqual(put(failedLogin()));
-  const errMessage = (mockError.errors && mockError.errors.system && mockError.errors.system.message) ? mockError.errors.system.message : '';
-  expect(generator.next().value)
-    .toEqual(put(addError(errMessage)));
-  //loop again
-  expect(generator.next().value)
-    .toEqual(take(LOGIN_REQUEST));
-});
-
-test('authorize', () => {  
+test('authorize', () => {
   const generator = authorize(email, password);
-  expect(generator.next().value)
-    .toEqual(apply(pixiv, pixiv.login, [email, password]));
-  expect(generator.next(mockLoginResponse).value)
-    .toEqual(call(Keychain.setGenericPassword, email, password));
-  expect(generator.next().value)
-    .toEqual(put(successLogin(mockLoginResponse)));
-  expect(generator.next().done)
-    .toBe(true);
+  expect(generator.next().value).toEqual(
+    apply(pixiv, pixiv.login, [email, password]),
+  );
+  expect(generator.next(mockLoginResponse).value).toEqual(
+    put(loginSuccess(mockLoginResponse)),
+  );
+  expect(generator.next().done).toBe(true);
 });
 
-// test('watchLogout', () => {
-//   const generator = watchLogout();
-//   expect(generator.next().value)
-//     .toEqual(takeLatest(LOGOUT, handleLogout));
-// });
+describe('handleRefreshAccessToken', () => {
+  const data = {};
+  // data.generator = handleRefreshAccessToken(refreshToken);
+  data.generator = cloneableGenerator(handleRefreshAccessToken)(refreshToken);
+  test('call refreshAccessToken api', () => {
+    expect(data.generator.next().value).toEqual(
+      apply(pixiv, pixiv.refreshAccessToken, [refreshToken]),
+    );
+    data.generator2 = data.generator.clone();
+  });
+
+  describe('on request success', () => {
+    test('refreshAccessTokenSuccess', () => {
+      expect(data.generator.next(mockLoginResponse).value).toEqual(
+        put(refreshAccessTokenSuccess(mockLoginResponse)),
+      );
+      expect(data.generator.next().done).toBe(true);
+    });
+  });
+
+  describe('on request failure', () => {
+    test('refreshAccessTokenFailure', () => {
+      expect(data.generator2.throw(mockError).value).toEqual(
+        put(refreshAccessTokenFailure()),
+      );
+      expect(data.generator2.next().value).toEqual(put(logout()));
+      expect(data.generator2.next().done).toBe(true);
+    });
+  });
+});
+
+test('scheduleRefreshAccessToken', () => {
+  const generator = scheduleRefreshAccessToken(refreshToken, delayMilisecond);
+  expect(generator.next().value).toEqual(call(delay, delayMilisecond));
+  expect(generator.next(mockLoginResponse).value).toEqual(
+    call(handleRefreshAccessToken, refreshToken),
+  );
+  expect(generator.next().done).toBe(true);
+});
 
 test('handleLogout', () => {
   const generator = handleLogout();
-  expect(generator.next().value)
-    .toEqual([
-      call(Keychain.resetGenericPassword),
-      call(pixiv.logout)
-    ]);
+  expect(generator.next().value).toEqual(apply(pixiv, pixiv.logout));
 });
 
-test('Login after redux rehydrated if state auth user is found', () => {
+describe('watchLoginRequest', () => {
+  const data = {};
+  data.generator = cloneableGenerator(watchLoginRequest)();
+
+  test('watchLoginRequest should take every login request', () => {
+    expect(data.generator.next().value).toEqual(take(AUTH_LOGIN.REQUEST));
+
+    data.generator2 = data.generator.clone();
+  });
+
+  describe('on login success', () => {
+    test('login success', () => {
+      expect(data.generator.next(loginRequestAction).value).toEqual(
+        call(authorize, email, password),
+      );
+      // value inside next() = result of yield;
+      expect(data.generator.next(mockLoginResponse).value).toEqual(
+        race([
+          take(AUTH_LOGOUT.SUCCESS),
+          call(refreshAccessTokenOnExpiry, mockLoginResponse),
+        ]),
+      );
+      expect(data.generator.next().value).toEqual(call(handleLogout));
+      expect(data.generator.next().value).toEqual(take(AUTH_LOGIN.REQUEST));
+    });
+  });
+
+  describe('on login failure', () => {
+    test('login failure', () => {
+      expect(data.generator2.throw(mockError).value).toEqual(
+        put(loginFailure()),
+      );
+      const errMessage = mockError.errors &&
+        mockError.errors.system &&
+        mockError.errors.system.message
+        ? mockError.errors.system.message
+        : '';
+      expect(data.generator2.next().value).toEqual(put(addError(errMessage)));
+      expect(data.generator2.next().value).toEqual(take(AUTH_LOGIN.REQUEST));
+    });
+  });
+});
+
+describe('watchRefreshAccessTokenRequest', () => {
+  const data = {};
+  data.generator = cloneableGenerator(watchRefreshAccessTokenRequest)();
+
+  test('watchRefreshAccessTokenRequest should take every refresh access token request', () => {
+    expect(data.generator.next().value).toEqual(
+      take(AUTH_REFRESH_ACCESS_TOKEN.REQUEST),
+    );
+
+    data.generator2 = data.generator.clone();
+  });
+
+  describe('on refresh token success', () => {
+    test('refresh token success', () => {
+      expect(data.generator.next(refreshTokenRequestAction).value).toEqual(
+        call(handleRefreshAccessToken, refreshToken),
+      );
+      expect(data.generator.next(mockLoginResponse).value).toEqual(
+        race([
+          take(AUTH_LOGOUT.SUCCESS),
+          call(refreshAccessTokenOnExpiry, mockLoginResponse),
+        ]),
+      );
+      expect(data.generator.next().value).toEqual(call(handleLogout));
+      expect(data.generator.next().value).toEqual(
+        take(AUTH_REFRESH_ACCESS_TOKEN.REQUEST),
+      );
+    });
+  });
+
+  describe('on refresh token failure', () => {
+    test('refresh token failure', () => {
+      expect(data.generator2.throw(mockError).value).toEqual(
+        put(refreshAccessTokenFailure()),
+      );
+      const errMessage = mockError.errors &&
+        mockError.errors.system &&
+        mockError.errors.system.message
+        ? mockError.errors.system.message
+        : '';
+      expect(data.generator2.next().value).toEqual(put(addError(errMessage)));
+      expect(data.generator2.next().value).toEqual(
+        take(AUTH_REFRESH_ACCESS_TOKEN.REQUEST),
+      );
+    });
+  });
+});
+
+describe('watchRehydrate', () => {
   const generator = watchRehydrate();
-  const user = {};
-  expect(generator.next().value)
-    .toEqual(take(REHYDRATE));
-  expect(generator.next().value)
-    .toEqual(select(getAuthUser));
-  expect(generator.next(user).value)
-    .toEqual(call(Keychain.getGenericPassword));
-  expect(generator.next(credentials).value)
-    .toEqual(put(requestLogin(credentials.username, credentials.password)));
-  expect(generator.next().value)
-    .toEqual(take([
-      LOGIN_SUCCESS,
-      LOGIN_ERROR
-    ]));
-  expect(generator.next().value)
-    .toEqual(put(doneRehydrate()));
+  test('watchRehydrate should take every rehydrate request', () => {
+    expect(generator.next().value).toEqual(take(REHYDRATE));
+    expect(generator.next().value).toEqual(select(getAuthUser));
+  });
+
+  describe('refresh access token if user is logged in', () => {
+    test('request refresh access token', () => {
+      expect(generator.next(mockAuthUser).value).toEqual(
+        put(refreshAccessToken(mockAuthUser.refreshToken)),
+      );
+    });
+    test('request refresh access token success', () => {
+      expect(generator.next().value).toEqual(
+        take([
+          AUTH_REFRESH_ACCESS_TOKEN.SUCCESS,
+          AUTH_REFRESH_ACCESS_TOKEN.FAILURE,
+          AUTH_LOGOUT.SUCCESS,
+        ]),
+      );
+    });
+  });
+  test('set language current language to redux store', () => {
+    const lang = 'en';
+    expect(generator.next().value).toEqual(select(getLang));
+    expect(generator.next(lang).value).toEqual(put(setLanguage(lang)));
+  });
+  test('dispatch rehydrate success action after rehydrate work done', () => {
+    expect(generator.next().value).toEqual(put(rehydrateSuccess()));
+  });
 });
