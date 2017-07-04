@@ -29,8 +29,12 @@ export const R18_RANKING = {
   dayMaleR18: 'day_male_r18',
   dayFemaleR18: 'day_female_r18',
   weekR18: 'week_r18',
+};
+
+export const R18_RANKING_G = {
   weekR18G: 'week_r18g',
 };
+
 
 export const RANKING_FOR_UI = {
   DAILY: 'DAILY',

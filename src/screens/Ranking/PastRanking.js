@@ -10,7 +10,12 @@ import RankingList from './RankingList';
 import PXTouchable from '../../components/PXTouchable';
 import PXBottomSheet from '../../components/PXBottomSheet';
 import { connectLocalization } from '../../components/Localization';
-import { RANKING, R18_RANKING, RANKING_FOR_UI } from '../../common/constants';
+import {
+  RANKING,
+  R18_RANKING,
+  R18_RANKING_G,
+  RANKING_FOR_UI,
+} from '../../common/constants';
 import { globalStyles } from '../../styles';
 
 const styles = StyleSheet.create({
@@ -96,6 +101,20 @@ class PastRanking extends Component {
     return i18n[`ranking${ranking.charAt(0).toUpperCase() + ranking.slice(1)}`];
   };
 
+  renderRankingOptions = (ranking, rankingMode) => (
+    <PXTouchable
+      key={ranking}
+      onPress={() => this.handleOnPressRankingMode(rankingMode)}
+    >
+      <View style={styles.bottomSheetListItem}>
+        <IonicIcon name="md-funnel" size={24} />
+        <Text style={styles.bottomSheetText}>
+          {this.mapRankingString(ranking)}
+        </Text>
+      </View>
+    </PXTouchable>
+  );
+
   render() {
     const { user, i18n } = this.props;
     const { date, mode, isOpenRankingModeBottomSheet } = this.state;
@@ -144,34 +163,19 @@ class PastRanking extends Component {
           onCancel={this.handleOnCancelRankingModeBottomSheet}
         >
           <ScrollView>
-            {Object.keys(RANKING).map(ranking => (
-              <PXTouchable
-                key={ranking}
-                onPress={() => this.handleOnPressRankingMode(RANKING[ranking])}
-              >
-                <View style={styles.bottomSheetListItem}>
-                  <IonicIcon name="md-funnel" size={24} />
-                  <Text style={styles.bottomSheetText}>
-                    {this.mapRankingString(ranking)}
-                  </Text>
-                </View>
-              </PXTouchable>
-            ))}
+            {Object.keys(RANKING).map(ranking =>
+              this.renderRankingOptions(ranking, RANKING[ranking]),
+            )}
             {user &&
-              Object.keys(R18_RANKING).map(ranking => (
-                <PXTouchable
-                  key={ranking}
-                  onPress={() =>
-                    this.handleOnPressRankingMode(R18_RANKING[ranking])}
-                >
-                  <View style={styles.bottomSheetListItem}>
-                    <IonicIcon name="md-funnel" size={24} />
-                    <Text style={styles.bottomSheetText}>
-                      {this.mapRankingString(ranking)}
-                    </Text>
-                  </View>
-                </PXTouchable>
-              ))}
+              user.x_restrict > 0 &&
+              Object.keys(R18_RANKING).map(ranking =>
+                this.renderRankingOptions(ranking, R18_RANKING[ranking]),
+              )}
+            {user &&
+              user.x_restrict > 1 &&
+              Object.keys(R18_RANKING_G).map(ranking =>
+                this.renderRankingOptions(ranking, R18_RANKING_G[ranking]),
+              )}
             <PXTouchable onPress={this.handleOnCancelRankingModeBottomSheet}>
               <View style={styles.bottomSheetListItem}>
                 <IonicIcon
