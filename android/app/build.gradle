@@ -88,14 +88,14 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId "com.pxview"
+        applicationId "com.utopia.pxview"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1

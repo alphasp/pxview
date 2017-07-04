@@ -1,4 +1,4 @@
-package com.pxview;
+package com.utopia.pxview;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;

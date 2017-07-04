@@ -1,4 +1,4 @@
-package com.pxview;
+package com.utopia.pxview;
 
 import android.app.Application;
 
