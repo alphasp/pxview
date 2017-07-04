@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Dimensions,
   ScrollView,
   Linking,
   RefreshControl,
@@ -238,18 +237,14 @@ class UserDetail extends Component {
   }
 
   handleOnLinkPress = url => {
-    console.log('clicked link: ', url);
     Linking.canOpenURL(url)
       .then(supported => {
         if (!supported) {
-          console.log(`Can't handle url: ${url}`);
           return null;
         }
         return Linking.openURL(url);
       })
-      .catch(err => {
-        console.error('Error on link press ', err);
-      });
+      .catch(err => err);
   };
 
   handleOnRefresh = () => {
@@ -404,7 +399,8 @@ class UserDetail extends Component {
         viewMoreTitle={i18n.worksCount}
         items={items}
         maxItems={6}
-        onPressViewMore={() => navigation.navigate(SCREENS.UserIllusts, { userId })}
+        onPressViewMore={() =>
+          navigation.navigate(SCREENS.UserIllusts, { userId })}
         navigation={navigation}
       />
     );
@@ -419,7 +415,8 @@ class UserDetail extends Component {
         viewMoreTitle={i18n.worksCount}
         items={items}
         maxItems={6}
-        onPressViewMore={() => navigation.navigate(SCREENS.UserMangas, { userId })}
+        onPressViewMore={() =>
+          navigation.navigate(SCREENS.UserMangas, { userId })}
         navigation={navigation}
       />
     );

@@ -353,18 +353,14 @@ class Detail extends Component {
   };
 
   handleOnLinkPress = url => {
-    console.log('clicked link: ', url);
     Linking.canOpenURL(url)
       .then(supported => {
         if (!supported) {
-          console.log(`Can't handle url: ${url}`);
           return null;
         }
         return Linking.openURL(url);
       })
-      .catch(err => {
-        console.error('Error on link press ', err);
-      });
+      .catch(err => err);
   };
 
   handleOnPressImage = index => {
