@@ -38,7 +38,7 @@ class IllustList extends Component {
     const { data: { nextUrl, loading } } = this.props;
     return nextUrl && loading
       ? <View style={styles.footer}>
-          <Loader verticalCenter={false} />
+          <Loader />
         </View>
       : null;
   };

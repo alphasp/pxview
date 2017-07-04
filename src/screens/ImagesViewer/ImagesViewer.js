@@ -85,7 +85,7 @@ class ImagesViewer extends Component {
     const image = this.state.images[index];
     return (
       <View key={image.url} style={styles.slide}>
-        {image.loading && <Loader />}
+        {image.loading && <Loader absolutePosition />}
         <PXPhotoView uri={image.url} onLoad={this.handleOnImageLoaded} />
       </View>
     );
