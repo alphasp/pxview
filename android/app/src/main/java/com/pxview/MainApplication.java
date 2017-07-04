@@ -16,10 +16,7 @@ import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 import com.smixx.fabric.FabricPackage;
 import com.reactnative.photoview.PhotoViewPackage;
-import com.cmcewen.blurview.BlurViewPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
-import com.react.rnspinkit.RNSpinkitPackage;
-import com.rnfs.RNFSPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
@@ -53,9 +50,7 @@ public class MainApplication extends Application implements ReactApplication {
             new VectorIconsPackage(),
             new FabricPackage(),
             new PhotoViewPackage(),
-            new BlurViewPackage(),
             new RNSpinkitPackage(),
-            new RNFSPackage(),
             new RNFetchBlobPackage()
       );
     }
