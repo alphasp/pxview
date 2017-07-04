@@ -28,7 +28,7 @@
     "react-native": "^0.45.1",
     "react-native-action-button": "^2.6.9",
     "react-native-animatable": "^1.1.1",
-    "react-native-blur": "^3.0.0-alpha",
+    "react-native-blur": "^3.1.2",
     "react-native-cookies": "^3.1.0",
     "react-native-datepicker": "^1.4.4",
     "react-native-device-info": "^0.10.2",
