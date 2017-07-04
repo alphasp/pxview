@@ -41,7 +41,6 @@ class SearchUsersAutoCompleteResult extends Component {
       searchUsersAutoComplete: { nextUrl, loading },
     } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl);
       fetchSearchUsersAutoComplete(null, nextUrl);
     }
   };

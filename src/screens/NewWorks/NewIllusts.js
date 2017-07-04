@@ -14,7 +14,6 @@ class NewIllusts extends Component {
   loadMoreItems = () => {
     const { fetchNewIllusts, newIllusts: { nextUrl, loading } } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl);
       fetchNewIllusts(nextUrl);
     }
   };

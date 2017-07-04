@@ -5,6 +5,11 @@ import { List, ListItem } from 'react-native-elements';
 import { connectLocalization } from '../../components/Localization';
 import { globalStyles } from '../../styles';
 
+const appStoreUrl = 'https://itunes.apple.com/us/app/px-view/id1255423811';
+const googlePlayUrl =
+  'https://play.google.com/store/apps/details?id=com.utopia.pxview';
+const sourceUrl = 'https://github.com/alphasp/pxview';
+
 const styles = StyleSheet.create({
   logoContainer: {
     alignItems: 'center',
@@ -38,7 +43,7 @@ const list = [
   {
     id: 'sourceCode',
     title: 'sourceCode',
-    subtitle: 'http://www.github.com', // todo
+    subtitle: sourceUrl,
     icon: 'github',
     type: 'font-awesome',
   },
@@ -52,12 +57,12 @@ class About extends Component {
         break;
       }
       case 'rateApp': {
-        // open play/app store
+        const url = Platform.OS === 'ios' ? appStoreUrl : googlePlayUrl;
+        this.openUrl(url);
         break;
       }
       case 'sourceCode': {
-        // todo
-        this.openUrl('http://www.github.com');
+        this.openUrl(sourceUrl);
         break;
       }
       default:
@@ -69,12 +74,11 @@ class About extends Component {
     Linking.canOpenURL(url)
       .then(supported => {
         if (!supported) {
-          console.log(`Can't handle url: ${url}`);
           return null;
         }
         return Linking.openURL(url);
       })
-      .catch(err => console.error('An error occurred', err));
+      .catch(err => err);
   };
 
   render() {

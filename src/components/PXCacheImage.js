@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Image, Platform } from 'react-native';
-import moment from 'moment';
 import RNFetchBlob from 'react-native-fetch-blob';
 import { globalStyleVariables } from '../styles';
 
@@ -44,10 +43,7 @@ class PXCacheImage extends Component {
           });
         }
       })
-      .catch((err, statusCode) => {
-        // error handling
-        console.log('error fetch blob ', err, statusCode);
-      });
+      .catch(() => {});
   }
   componentWillUnmount() {
     this.unmounting = true;

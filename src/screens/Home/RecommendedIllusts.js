@@ -28,7 +28,6 @@ class RecommendedIllusts extends Component {
       fetchRecommendedIllusts,
     } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl);
       fetchRecommendedIllusts(null, nextUrl);
     }
   };

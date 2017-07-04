@@ -19,7 +19,6 @@ class UserMangas extends Component {
   loadMoreItems = () => {
     const { userMangas, userId, fetchUserMangas } = this.props;
     if (userMangas && !userMangas.loading && userMangas.nextUrl) {
-      console.log('load more ', userMangas.nextUrl);
       fetchUserMangas(userId, userMangas.nextUrl);
     }
   };

@@ -58,7 +58,6 @@ class FollowingUserIllusts extends Component {
       followingUserIllusts: { loading, nextUrl },
     } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl);
       fetchFollowingUserIllusts(nextUrl);
     }
   };

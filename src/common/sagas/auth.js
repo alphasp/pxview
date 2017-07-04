@@ -153,7 +153,7 @@ export function* watchRehydrate() {
       yield put(setLanguage(lang));
     } catch (err) {
       // todo logout user
-      console.log('err in watchRehydrate ', err);
+      // console.log('err in watchRehydrate ', err);
     } finally {
       yield put(rehydrateSuccess());
     }

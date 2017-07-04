@@ -14,7 +14,6 @@ class MyPixiv extends Component {
   loadMoreItems = () => {
     const { fetchMyPixiv, myPixiv: { nextUrl, loading } } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl);
       fetchMyPixiv(nextUrl);
     }
   };

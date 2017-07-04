@@ -50,7 +50,6 @@ class SearchUsersResult extends Component {
       word,
     } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl);
       fetchSearchUsers(navigationStateKey, word, nextUrl);
     }
   };

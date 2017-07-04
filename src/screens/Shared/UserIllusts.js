@@ -24,7 +24,6 @@ class UserIllusts extends Component {
   loadMoreItems = () => {
     const { userIllusts, userId, fetchUserIllusts } = this.props;
     if (userIllusts && !userIllusts.loading && userIllusts.nextUrl) {
-      console.log('next url ', userIllusts);
       fetchUserIllusts(userId, userIllusts.nextUrl);
     }
   };

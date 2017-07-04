@@ -88,7 +88,6 @@ export default function configureStore() {
     () => {
       const { lang } = store.getState().i18n;
       i18n.setLanguage(lang);
-      console.log('rehydration complete');
     },
   );
   if (module.hot) {

@@ -29,7 +29,6 @@ class SearchResult extends Component {
   loadMoreItems = () => {
     const { search: { nextUrl, loading }, word, options } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl);
       this.search(word, options, nextUrl);
     }
   };
@@ -63,14 +62,16 @@ class SearchResult extends Component {
   }
 }
 
-export default connectLocalization(connect(() => {
-  const getSearchItems = makeGetSearchItems();
-  return (state, props) => {
-    const { search } = state;
-    const { navigationStateKey } = props;
-    return {
-      search: search[navigationStateKey],
-      items: getSearchItems(state, props),
+export default connectLocalization(
+  connect(() => {
+    const getSearchItems = makeGetSearchItems();
+    return (state, props) => {
+      const { search } = state;
+      const { navigationStateKey } = props;
+      return {
+        search: search[navigationStateKey],
+        items: getSearchItems(state, props),
+      };
     };
-  };
-}, searchActionCreators)(SearchResult));
+  }, searchActionCreators)(SearchResult),
+);

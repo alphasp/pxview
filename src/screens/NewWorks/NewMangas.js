@@ -14,7 +14,6 @@ class NewMangas extends Component {
   loadMoreItems = () => {
     const { fetchNewMangas, newMangas: { loading, nextUrl } } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl);
       fetchNewMangas(nextUrl);
     }
   };

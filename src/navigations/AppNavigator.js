@@ -1,6 +1,7 @@
 import { StackNavigator } from 'react-navigation';
 import AppTabNavigator from './AppTabNavigator';
 import AppDrawerNavigator from './AppDrawerNavigator';
+import enhanceRouter from './routers/enhanceRouter';
 import Login from '../screens/Login/Login';
 import SearchFilterModal from '../components/SearchFilterModal';
 import ImagesViewer from '../screens/ImagesViewer/ImagesViewer';
@@ -62,6 +63,8 @@ const stackConfig = {
   headerMode: 'screen',
 };
 
-const AppNavigator = StackNavigator(appRouteConfig, stackConfig);
+const AppNavigator = !config.navigation.tab
+  ? enhanceRouter(StackNavigator(appRouteConfig, stackConfig))
+  : StackNavigator(appRouteConfig, stackConfig);
 
 export default AppNavigator;

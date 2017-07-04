@@ -35,7 +35,6 @@ export const R18_RANKING_G = {
   weekR18G: 'week_r18g',
 };
 
-
 export const RANKING_FOR_UI = {
   DAILY: 'DAILY',
   DAILY_MALE: 'DAILY_MALE',

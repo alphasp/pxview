@@ -1,3 +1,5 @@
+/* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
+
 import React, { PureComponent } from 'react';
 import {
   StyleSheet,
@@ -29,7 +31,6 @@ class HeaderSaveImageButton extends PureComponent {
       );
       return granted;
     } catch (err) {
-      console.log('Failed to request Write External Storage Permission ', err);
       return null;
     }
   };
@@ -81,9 +82,7 @@ class HeaderSaveImageButton extends PureComponent {
       if (!imagesDirExists) {
         await RNFetchBlob.fs.mkdir(imagesDir);
       }
-    } catch (err) {
-      console.log('failed to create imagesDir ', err);
-    }
+    } catch (err) {}
     await Promise.map(
       imageUrls,
       async url => {
@@ -108,13 +107,10 @@ class HeaderSaveImageButton extends PureComponent {
             this.showToast(i18n.formatString(i18n.saveImageSuccess, fileName));
             try {
               await RNFetchBlob.fs.scanFile([{ path: filePath }]);
-            } catch (err) {
-              // console.log('failed to scan ', filePath, err);
-            }
+            } catch (err) {}
           }
         } catch (err) {
           this.showToast(i18n.formatString(i18n.saveImageError, fileName));
-          console.log('error fetch blob ', err);
         }
       },
       { concurrency: 3 },

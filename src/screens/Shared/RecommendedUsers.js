@@ -18,7 +18,6 @@ class RecommendedUsers extends Component {
       recommendedUsers: { nextUrl, loading },
     } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl);
       fetchRecommendedUsers(null, nextUrl);
     }
   };

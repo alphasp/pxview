@@ -164,7 +164,6 @@ class BookmarkModal extends Component {
         selectedTagsCount += 1;
       }
     }
-    console.log('selectedTagsCount ', selectedTagsCount);
     const updatedTags = tags.map(tag => {
       const isRegistered = tag.name === checkedTag.name
         ? !tag.is_registered

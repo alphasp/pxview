@@ -39,7 +39,6 @@ class MyPrivateBookmarkIllusts extends Component {
       fetchMyPrivateBookmarkIllusts,
     } = this.props;
     if (!loading && nextUrl) {
-      console.log('next url ', nextUrl);
       fetchMyPrivateBookmarkIllusts(userId, tag, nextUrl);
     }
   };
@@ -57,7 +56,6 @@ class MyPrivateBookmarkIllusts extends Component {
 
   render() {
     const { myPrivateBookmarkIllusts, items } = this.props;
-    console.log('getMyPrivateBookmarkIllustsItems');
     return (
       <IllustList
         data={{ ...myPrivateBookmarkIllusts, items }}

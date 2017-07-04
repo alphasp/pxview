@@ -98,7 +98,6 @@ class TagsFilterModal extends Component {
       tagType,
     } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl);
       fetchBookmarkTags(tagType, nextUrl);
     }
   };

@@ -36,7 +36,6 @@ class RankingList extends Component {
       fetchRanking,
     } = this.props;
     if (!loading && nextUrl) {
-      console.log('load more ', nextUrl);
       fetchRanking(rankingMode, options, nextUrl);
     }
   };

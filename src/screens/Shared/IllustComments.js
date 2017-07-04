@@ -40,7 +40,6 @@ class IllustComments extends Component {
   loadMoreItems = () => {
     const { fetchIllustComments, illustComments, illustId } = this.props;
     if (illustComments && !illustComments.loading && illustComments.nextUrl) {
-      console.log('load more ', illustComments.nextUrl);
       fetchIllustComments(illustId, null, illustComments.nextUrl);
     }
   };

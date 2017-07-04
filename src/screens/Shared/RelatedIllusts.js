@@ -38,7 +38,6 @@ class RelatedIllusts extends Component {
   loadMoreItems = () => {
     const { relatedIllusts, illustId, fetchRelatedIllusts } = this.props;
     if (relatedIllusts && !relatedIllusts.loading && relatedIllusts.nextUrl) {
-      console.log('load more ', relatedIllusts.nextUrl);
       fetchRelatedIllusts(illustId, null, relatedIllusts.nextUrl);
     }
   };

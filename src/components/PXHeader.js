@@ -26,6 +26,7 @@ class PXHeader extends Component {
 
   static defaultProps = {
     onPressBackButton: null,
+    showMenuButton: false,
     showBackButton: false,
     headerTitle: null,
     headerRight: null,
@@ -56,7 +57,10 @@ class PXHeader extends Component {
       <View style={styles.container}>
         <View style={styles.subContainer}>
           {showMenuButton &&
-            <DrawerMenuButton onPress={this.handleOnPressDrawerMenuButton} color={globalStyleVariables.PRIMARY_COLOR} />}
+            <DrawerMenuButton
+              onPress={this.handleOnPressDrawerMenuButton}
+              color={globalStyleVariables.PRIMARY_COLOR}
+            />}
           {showBackButton &&
             <HeaderBackButton onPress={this.handleOnPressBackButton} />}
           {headerTitle}
