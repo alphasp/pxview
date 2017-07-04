@@ -82,9 +82,7 @@ class Settings extends Component {
       .then(() => {
         DeviceEventEmitter.emit('showToast', i18n.cacheClearSuccess);
       })
-      .catch(err => {
-        console.log('failed to clear cache ', err);
-      });
+      .catch(() => {});
   };
 
   renderList = list => {

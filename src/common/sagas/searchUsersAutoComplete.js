@@ -1,5 +1,5 @@
 import { normalize } from 'normalizr';
-import { throttle, apply, put, takeLatest } from 'redux-saga/effects';
+import { apply, put, takeLatest } from 'redux-saga/effects';
 import {
   fetchSearchUsersAutoCompleteSuccess,
   fetchSearchUsersAutoCompleteFailure,
@@ -50,5 +50,8 @@ export function* watchFetchSearchUsersAutoComplete() {
   //   SEARCH_USERS_AUTOCOMPLETE.REQUEST,
   //   handleFetchSearchUsersAutoComplete,
   // );
-  yield takeLatest(SEARCH_USERS_AUTOCOMPLETE.REQUEST, handleFetchSearchUsersAutoComplete)
+  yield takeLatest(
+    SEARCH_USERS_AUTOCOMPLETE.REQUEST,
+    handleFetchSearchUsersAutoComplete,
+  );
 }

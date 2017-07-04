@@ -5,8 +5,6 @@ import Master from './Master';
 import { LocalizationProvider } from '../../components/Localization';
 import i18n from '../../common/helpers/i18n';
 
-console.ignoredYellowBox = ['Warning: BackAndroid'];
-
 if (process.env.NODE_ENV === 'production') {
   // eslint-disable-line no-undef
   [
@@ -32,9 +30,8 @@ if (process.env.NODE_ENV === 'production') {
     'trace',
     'warn',
   ].forEach(methodName => {
-    console[methodName] = () => {
-      /* noop */
-    };
+    // eslint-disable-next-line no-console
+    console[methodName] = () => {};
   });
 }
 

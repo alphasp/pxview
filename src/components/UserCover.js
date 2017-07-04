@@ -45,7 +45,9 @@ const UserCover = ({
     />
     <View style={styles.usernameContainer}>
       {user
-        ? <PXTouchable onPress={onPressAvatar}><Text style={styles.username}>{user.name}</Text></PXTouchable>
+        ? <PXTouchable onPress={onPressAvatar}>
+            <Text style={styles.username}>{user.name}</Text>
+          </PXTouchable>
         : <View style={styles.authActionContainer}>
             <OutlineButton
               text={i18n.signup}
