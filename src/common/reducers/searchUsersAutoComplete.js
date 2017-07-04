@@ -1,6 +1,6 @@
 import { SEARCH_USERS_AUTOCOMPLETE } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   refreshing: false,
@@ -9,10 +9,10 @@ const defaultState = {
   nextUrl: null,
 };
 
-export default function searchUsersAutoComplete(state = defaultState, action) {
+export default function searchUsersAutoComplete(state = initState, action) {
   switch (action.type) {
     case SEARCH_USERS_AUTOCOMPLETE.CLEAR:
-      return defaultState;
+      return initState;
     case SEARCH_USERS_AUTOCOMPLETE.REQUEST:
       return {
         ...state,

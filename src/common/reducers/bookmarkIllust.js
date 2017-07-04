@@ -1,12 +1,12 @@
 import { BOOKMARK_ILLUST, UNBOOKMARK_ILLUST } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
 };
 
 // unused
-export default function bookmarkIllust(state = defaultState, action) {
+export default function bookmarkIllust(state = initState, action) {
   switch (action.type) {
     case BOOKMARK_ILLUST.REQUEST:
     case UNBOOKMARK_ILLUST.REQUEST:

@@ -1,6 +1,6 @@
 import { NEW_MANGAS } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   refreshing: false,
@@ -8,10 +8,10 @@ const defaultState = {
   nextUrl: null,
 };
 
-export default function newMangas(state = defaultState, action) {
+export default function newMangas(state = initState, action) {
   switch (action.type) {
     case NEW_MANGAS.CLEAR:
-      return defaultState;
+      return initState;
     case NEW_MANGAS.REQUEST:
       return {
         ...state,

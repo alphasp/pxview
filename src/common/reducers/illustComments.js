@@ -1,6 +1,6 @@
 import { ILLUST_COMMENTS } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   refreshing: false,
@@ -14,7 +14,7 @@ export default function illustComments(state = {}, action) {
     case ILLUST_COMMENTS.CLEAR:
       return {
         ...state,
-        [action.payload.illustId]: defaultState,
+        [action.payload.illustId]: initState,
       };
     case ILLUST_COMMENTS.REQUEST:
       return {

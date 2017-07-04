@@ -1,7 +1,7 @@
 import { RANKING } from '../constants/actionTypes';
 import { RANKING_FOR_UI } from '../constants';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   refreshing: false,
@@ -12,7 +12,7 @@ const defaultState = {
 
 function getDefaultStateForRankings() {
   return Object.keys(RANKING_FOR_UI).reduce((prev, key) => {
-    prev[key] = defaultState;
+    prev[key] = initState;
     return prev;
   }, {});
 }
@@ -22,7 +22,7 @@ export default function search(state = getDefaultStateForRankings(), action) {
     case RANKING.CLEAR:
       return {
         ...state,
-        [action.payload.rankingMode]: defaultState,
+        [action.payload.rankingMode]: initState,
       };
     case RANKING.CLEAR_ALL:
       return getDefaultStateForRankings();

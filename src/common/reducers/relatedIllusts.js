@@ -1,6 +1,6 @@
 import { RELATED_ILLUSTS } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   refreshing: false,
@@ -13,7 +13,7 @@ export default function relatedIllusts(state = {}, action) {
     case RELATED_ILLUSTS.CLEAR:
       return {
         ...state,
-        [action.payload.illustId]: defaultState,
+        [action.payload.illustId]: initState,
       };
     case RELATED_ILLUSTS.REQUEST:
       return {

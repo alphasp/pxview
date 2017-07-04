@@ -1,12 +1,12 @@
 import { FOLLOW_USER, UNFOLLOW_USER } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
 };
 
 // unused
-export default function followUser(state = defaultState, action) {
+export default function followUser(state = initState, action) {
   switch (action.type) {
     case FOLLOW_USER.REQUEST:
     case UNFOLLOW_USER.REQUEST:

@@ -5,7 +5,7 @@ const defaultItems = [
   { name: 'All', value: '' },
   { name: 'Uncategorized', value: '未分類' },
 ];
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   items: defaultItems,
@@ -15,8 +15,8 @@ const defaultState = {
 
 export default function bookmarkTags(
   state = {
-    [TAG_TYPES.PUBLIC]: defaultState,
-    [TAG_TYPES.PRIVATE]: defaultState,
+    [TAG_TYPES.PUBLIC]: initState,
+    [TAG_TYPES.PRIVATE]: initState,
   },
   action,
 ) {
@@ -24,7 +24,7 @@ export default function bookmarkTags(
     case BOOKMARK_TAGS.CLEAR:
       return {
         ...state,
-        [action.payload.tagType]: defaultState,
+        [action.payload.tagType]: initState,
       };
     case BOOKMARK_TAGS.REQUEST:
       return {

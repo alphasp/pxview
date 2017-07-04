@@ -1,13 +1,13 @@
 import { USER_FOLLOW_DETAIL } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
 };
-export default function userFollowDetail(state = defaultState, action) {
+export default function userFollowDetail(state = initState, action) {
   switch (action.type) {
     case USER_FOLLOW_DETAIL.CLEAR:
-      return defaultState;
+      return initState;
     case USER_FOLLOW_DETAIL.REQUEST:
       return {
         ...state,

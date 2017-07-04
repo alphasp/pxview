@@ -1,6 +1,6 @@
 import { ILLUST_BOOKMARK_DETAIL } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   item: {
@@ -8,10 +8,10 @@ const defaultState = {
   },
 };
 
-export default function illustBookmarkDetail(state = defaultState, action) {
+export default function illustBookmarkDetail(state = initState, action) {
   switch (action.type) {
     case ILLUST_BOOKMARK_DETAIL.CLEAR:
-      return defaultState;
+      return initState;
     case ILLUST_BOOKMARK_DETAIL.REQUEST:
       return {
         ...state,

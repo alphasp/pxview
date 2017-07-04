@@ -1,6 +1,6 @@
 import { MY_PRIVATE_BOOKMARK_ILLUSTS } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   refreshing: false,
@@ -9,10 +9,10 @@ const defaultState = {
   nextUrl: null,
 };
 
-export default function userIllust(state = defaultState, action) {
+export default function userIllust(state = initState, action) {
   switch (action.type) {
     case MY_PRIVATE_BOOKMARK_ILLUSTS.CLEAR:
-      return defaultState;
+      return initState;
     case MY_PRIVATE_BOOKMARK_ILLUSTS.REQUEST:
       return {
         ...state,

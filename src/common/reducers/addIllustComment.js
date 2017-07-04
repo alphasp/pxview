@@ -1,12 +1,12 @@
 import { ADD_ILLUST_COMMENT } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   success: false,
 };
 
-export default function addIllustComment(state = defaultState, action) {
+export default function addIllustComment(state = initState, action) {
   switch (action.type) {
     case ADD_ILLUST_COMMENT.ADD:
       return {

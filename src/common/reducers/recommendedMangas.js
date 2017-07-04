@@ -1,6 +1,6 @@
 import { RECOMMENDED_MANGAS } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   refreshing: false,
@@ -10,10 +10,10 @@ const defaultState = {
   nextUrl: null,
 };
 
-export default function recommendedMangas(state = defaultState, action) {
+export default function recommendedMangas(state = initState, action) {
   switch (action.type) {
     case RECOMMENDED_MANGAS.CLEAR:
-      return defaultState;
+      return initState;
     case RECOMMENDED_MANGAS.REQUEST:
       return {
         ...state,

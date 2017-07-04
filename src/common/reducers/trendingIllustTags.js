@@ -1,16 +1,16 @@
 import { TRENDING_ILLUST_TAGS } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   refreshing: false,
   items: [],
 };
 
-export default function trendingIllustTags(state = defaultState, action) {
+export default function trendingIllustTags(state = initState, action) {
   switch (action.type) {
     case TRENDING_ILLUST_TAGS.CLEAR:
-      return defaultState;
+      return initState;
     case TRENDING_ILLUST_TAGS.REQUEST:
       return {
         ...state,

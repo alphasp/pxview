@@ -1,6 +1,6 @@
 import { RECOMMENDED_ILLUSTS } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   refreshing: false,
@@ -10,10 +10,10 @@ const defaultState = {
   nextUrl: null,
 };
 
-export default function recommendedIllusts(state = defaultState, action) {
+export default function recommendedIllusts(state = initState, action) {
   switch (action.type) {
     case RECOMMENDED_ILLUSTS.CLEAR:
-      return defaultState;
+      return initState;
     case RECOMMENDED_ILLUSTS.REQUEST:
       return {
         ...state,

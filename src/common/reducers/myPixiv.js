@@ -1,6 +1,6 @@
 import { MY_PIXIV } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   refreshing: false,
@@ -9,10 +9,10 @@ const defaultState = {
   nextUrl: null,
 };
 
-export default function myPixiv(state = defaultState, action) {
+export default function myPixiv(state = initState, action) {
   switch (action.type) {
     case MY_PIXIV.CLEAR:
-      return defaultState;
+      return initState;
     case MY_PIXIV.REQUEST:
       return {
         ...state,

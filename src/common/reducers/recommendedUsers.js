@@ -1,6 +1,6 @@
 import { RECOMMENDED_USERS } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   refreshing: false,
@@ -9,10 +9,10 @@ const defaultState = {
   nextUrl: null,
 };
 
-export default function recommendedUsers(state = defaultState, action) {
+export default function recommendedUsers(state = initState, action) {
   switch (action.type) {
     case RECOMMENDED_USERS.CLEAR:
-      return defaultState;
+      return initState;
     case RECOMMENDED_USERS.REQUEST:
       return {
         ...state,

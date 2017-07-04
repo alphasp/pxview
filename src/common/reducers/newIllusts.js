@@ -1,6 +1,6 @@
 import { NEW_ILLUSTS } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   refreshing: false,
@@ -8,10 +8,10 @@ const defaultState = {
   nextUrl: null,
 };
 
-export default function newIllusts(state = defaultState, action) {
+export default function newIllusts(state = initState, action) {
   switch (action.type) {
     case NEW_ILLUSTS.CLEAR:
-      return defaultState;
+      return initState;
     case NEW_ILLUSTS.REQUEST:
       return {
         ...state,

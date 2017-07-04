@@ -1,6 +1,6 @@
 import { SEARCH_USERS } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   refreshing: false,
@@ -9,12 +9,12 @@ const defaultState = {
   nextUrl: null,
 };
 
-export default function searchUsers(state = defaultState, action) {
+export default function searchUsers(state = initState, action) {
   switch (action.type) {
     case SEARCH_USERS.CLEAR:
       return {
         ...state,
-        [action.payload.navigationStateKey]: defaultState,
+        [action.payload.navigationStateKey]: initState,
       };
     case SEARCH_USERS.CLEAR_ALL:
       return {};

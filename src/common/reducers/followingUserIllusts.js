@@ -1,6 +1,6 @@
 import { FOLLOWING_USER_ILLUSTS } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   refreshing: false,
@@ -9,10 +9,10 @@ const defaultState = {
   nextUrl: null,
 };
 
-export default function followingUserIllusts(state = defaultState, action) {
+export default function followingUserIllusts(state = initState, action) {
   switch (action.type) {
     case FOLLOWING_USER_ILLUSTS.CLEAR:
-      return defaultState;
+      return initState;
     case FOLLOWING_USER_ILLUSTS.REQUEST:
       return {
         ...state,

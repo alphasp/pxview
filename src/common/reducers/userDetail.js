@@ -1,6 +1,6 @@
 import { USER_DETAIL } from '../constants/actionTypes';
 
-// const defaultState = {
+// const initState = {
 //   loading: false,
 //   loaded: false,
 //   refreshing: false,

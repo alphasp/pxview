@@ -1,15 +1,15 @@
 import { SEARCH_AUTOCOMPLETE } from '../constants/actionTypes';
 
-const defaultState = {
+const initState = {
   loading: false,
   loaded: false,
   items: [],
 };
 
-export default function searchAutoComplete(state = defaultState, action) {
+export default function searchAutoComplete(state = initState, action) {
   switch (action.type) {
     case SEARCH_AUTOCOMPLETE.CLEAR:
-      return defaultState;
+      return initState;
     case SEARCH_AUTOCOMPLETE.REQUEST:
       return {
         ...state,
