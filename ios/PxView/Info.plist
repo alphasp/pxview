@@ -49,10 +49,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>To allow us to save images</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
