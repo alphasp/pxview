@@ -1,59 +1,88 @@
 import React, { Component } from 'react';
-import { Platform, StatusBar } from 'react-native';
-import { connect, Provider } from 'react-redux';
-import Master from './Master';
-import { LocalizationProvider } from '../../components/Localization';
-import i18n from '../../common/helpers/i18n';
+import { View, StyleSheet, DeviceEventEmitter } from 'react-native';
+import { connect } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
+import { MessageBar, MessageBarManager } from 'react-native-message-bar';
+import Toast, { DURATION } from 'react-native-easy-toast';
+import AppNavigator from '../../navigations/AppNavigator';
+import { connectLocalization } from '../../components/Localization';
+import Loader from '../../components/Loader';
+import ModalRoot from '../../containers/ModalRoot';
+import * as routeActionCreators from '../../common/actions/route';
 
-if (process.env.NODE_ENV === 'production') {
-  // eslint-disable-line no-undef
-  [
-    'assert',
-    'clear',
-    'count',
-    'debug',
-    'dir',
-    'dirxml',
-    'error',
-    'exception',
-    'group',
-    'groupCollapsed',
-    'groupEnd',
-    'info',
-    'log',
-    'profile',
-    'profileEnd',
-    'table',
-    'time',
-    'timeEnd',
-    'timeStamp',
-    'trace',
-    'warn',
-  ].forEach(methodName => {
-    // eslint-disable-next-line no-console
-    console[methodName] = () => {};
-  });
-}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  bottomSheet: {
+    marginHorizontal: 16,
+    marginVertical: 8,
+  },
+  bottomSheetText: {
+    marginLeft: 32,
+  },
+  bottomSheetListItem: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    height: 48,
+  },
+  bottomSheetCancelIcon: {
+    marginLeft: 3,
+  },
+  bottomSheetCancelText: {
+    marginLeft: 36,
+  },
+});
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    if (Platform.OS === 'ios') {
-      // StatusBar.setBarStyle('light-content', true)
-      StatusBar.setBarStyle('default');
+class Master extends Component {
+  componentDidMount() {
+    MessageBarManager.registerMessageBar(this.messageBarAlert);
+    this.showToastListener = DeviceEventEmitter.addListener(
+      'showToast',
+      text => {
+        this.toast.show(text, DURATION.LENGTH_LONG);
+      },
+    );
+    const { rehydrated } = this.props;
+    if (rehydrated) {
+      // call when reopen app after exit by back button on android
+      SplashScreen.hide();
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { rehydrated: prevRehydrated } = this.props;
+    const { rehydrated } = nextProps;
+    if (!prevRehydrated && rehydrated) {
+      SplashScreen.hide();
+    }
+  }
+
+  componentWillUnmount() {
+    MessageBarManager.unregisterMessageBar();
+    this.showToastListener.remove();
+  }
+
   render() {
-    const { store } = this.props;
+    const { rehydrated, i18n } = this.props;
     return (
-      <Provider store={store}>
-        <LocalizationProvider i18n={i18n}>
-          <Master />
-        </LocalizationProvider>
-      </Provider>
+      <View style={styles.container}>
+        {rehydrated ? <AppNavigator screenProps={{ i18n }} /> : <Loader />}
+        <MessageBar ref={ref => (this.messageBarAlert = ref)} />
+        <Toast ref={ref => (this.toast = ref)} opacity={0.7} />
+        <ModalRoot />
+      </View>
     );
   }
 }
 
-export default connect()(App);
+export default connectLocalization(
+  connect(
+    state => ({
+      error: state.error,
+      rehydrated: state.auth.rehydrated,
+    }),
+    routeActionCreators,
+  )(Master),
+);
