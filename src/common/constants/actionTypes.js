@@ -10,8 +10,8 @@ import {
   ADD_FAILURE,
   REMOVE,
   REPLACE,
-  SHOW,
-  HIDE,
+  OPEN,
+  CLOSE,
 } from './stateConstants';
 
 const appNamespace = defineAction('PIXIV');
@@ -37,8 +37,6 @@ export const AUTH_REHYDRATE = defineAction(
 );
 
 export const ERROR = defineAction('ERROR', [ADD, CLEAR], appNamespace);
-
-export const KEYBOARD = defineAction('KEYBOARD', [SHOW, HIDE], appNamespace);
 
 export const NAV = defineAction('NAV', [REPLACE], appNamespace);
 
@@ -239,3 +237,5 @@ export const BROWSING_HISTORY = defineAction(
   [ADD, REMOVE, CLEAR],
   appNamespace,
 );
+
+export const MODAL = defineAction('MODAL', [OPEN, CLOSE], appNamespace);

@@ -11,5 +11,5 @@ export const REMOVE = 'REMOVE';
 
 export const REPLACE = 'REPLACE';
 
-export const SHOW = 'SHOW';
-export const HIDE = 'HIDE';
+export const OPEN = 'OPEN';
+export const CLOSE = 'CLOSE';
