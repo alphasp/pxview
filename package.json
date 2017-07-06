@@ -4,14 +4,14 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "lint": "eslint src",
+    "lint": "eslint src --fix",
     "test": "jest",
     "test:watch": "jest --watch --coverage",
     "android": "node node_modules/react-native/local-cli/cli.js run-android",
     "android-release": "react-native run-android --variant=release",
     "android-clean": "cd android && ./gradlew clean",
     "ios": "react-native run-ios",
-    "flow": "flow"
+    "ios-release": "react-native run-ios --configuration Release"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
@@ -33,7 +33,7 @@
     "react-native-datepicker": "^1.6.0",
     "react-native-device-info": "^0.10.2",
     "react-native-easy-toast": "^1.0.6",
-    "react-native-elements": "^0.13.0",
+    "react-native-elements": "^0.12.2",
     "react-native-fabric": "^0.4.1",
     "react-native-fetch-blob": "^0.10.6",
     "react-native-htmlview": "^0.10.0",
