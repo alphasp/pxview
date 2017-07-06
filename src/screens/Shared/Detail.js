@@ -195,7 +195,7 @@ class Detail extends Component {
   );
 
   renderFooter = () => {
-    const { item, navigation, i18n } = this.props;
+    const { item, navigation, i18n, authUser } = this.props;
     return (
       <View onLayout={this.handleOnLayoutFooter}>
         <View style={styles.infoContainer}>
@@ -210,7 +210,11 @@ class Detail extends Component {
                 <Text>{item.user.account}</Text>
               </View>
             </PXTouchable>
-            <FollowButtonContainer user={item.user} navigation={navigation} />
+            {((authUser && authUser.id !== item.user.id) || !authUser) &&
+              <FollowButtonContainer
+                user={item.user}
+                navigation={navigation}
+              />}
           </View>
           <View style={styles.captionContainer}>
             <HtmlView
@@ -448,6 +452,7 @@ export default connectLocalization(
     const getDetailItem = makeGetDetailItem();
     return (state, props) => ({
       item: getDetailItem(state, props),
+      authUser: state.auth.user,
     });
   }, browsingHistoryActionCreators)(Detail),
 );

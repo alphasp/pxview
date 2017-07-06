@@ -128,7 +128,7 @@ class UserDetail extends Component {
   };
 
   static navigationOptions = ({ navigation }) => {
-    const { isShowTitle, isScrolled, user } = navigation.state.params;
+    const { isShowTitle, isScrolled, user, authUser } = navigation.state.params;
     const shareOptions = user
       ? {
           message: `${user.name} #pxview`,
@@ -157,12 +157,14 @@ class UserDetail extends Component {
             marginRight: 10,
           }}
         >
-          <FollowButtonContainer
-            user={user}
-            buttonStyle={styles.followButton}
-            textStyle={styles.followButtonText}
-            navigation={navigation}
-          />
+          {user &&
+            ((authUser && user.id !== authUser.id) || !authUser) &&
+            <FollowButtonContainer
+              user={user}
+              buttonStyle={styles.followButton}
+              textStyle={styles.followButtonText}
+              navigation={navigation}
+            />}
           <HeaderShareButton
             style={{ marginLeft: 10 }}
             onPress={() => Share.open(shareOptions).catch()}
@@ -180,6 +182,7 @@ class UserDetail extends Component {
 
   componentDidMount() {
     const {
+      authUser,
       userId,
       userDetail,
       userDetailItem,
@@ -203,17 +206,24 @@ class UserDetail extends Component {
         fetchUserIllusts(userId);
         fetchUserMangas(userId);
         fetchUserBookmarkIllusts(userId);
+        setParams({ authUser });
       } else {
-        setParams({ user: userDetailItem.user });
+        setParams({ user: userDetailItem.user, authUser });
       }
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { userDetailItem: prevUserDetailItem } = this.props;
-    const { userDetailItem, navigation: { setParams } } = nextProps;
+    const {
+      userDetailItem: prevUserDetailItem,
+      authUser: prevAuthUser,
+    } = this.props;
+    const { userDetailItem, navigation: { setParams }, authUser } = nextProps;
     if (userDetailItem && userDetailItem !== prevUserDetailItem) {
       setParams({ user: userDetailItem.user });
+    }
+    if (authUser !== prevAuthUser) {
+      setParams({ authUser });
     }
   }
 
@@ -485,6 +495,7 @@ export default connectLocalization(
       const getUserDetailPageItem = makeGetUserDetailPageItems();
       return (state, props) => {
         const {
+          auth,
           userDetail,
           userIllusts,
           userMangas,
@@ -498,6 +509,7 @@ export default connectLocalization(
           userBookmarkIllustsItems,
         } = getUserDetailPageItem(state, props);
         return {
+          authUser: auth.user,
           userDetail: userDetail[userId],
           userIllusts: userIllusts[userId],
           userMangas: userMangas[userId],
