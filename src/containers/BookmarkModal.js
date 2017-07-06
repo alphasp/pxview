@@ -26,6 +26,7 @@ import * as bookmarkIllustActionCreators
   from '../common/actions/bookmarkIllust';
 import * as modalActionCreators from '../common/actions/modal';
 import { BOOKMARK_TYPES } from '../common/constants';
+import { globalStyleVariables } from '../styles';
 
 const MAX_TAGS_COUNT = 10;
 
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   selectedTagContainer: {
-    backgroundColor: '#5cafec',
+    backgroundColor: globalStyleVariables.PRIMARY_COLOR,
   },
   selectedTagText: {
     color: '#fff',

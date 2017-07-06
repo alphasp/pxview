@@ -39,35 +39,16 @@ const avatarSize = 70;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
     backgroundColor: '#E9EBEE',
   },
   coverOuterContainer: {
-    // backgroundColor: '#5cafec',
     height: 150,
-  },
-  coverInnerContainer: {
-    // backgroundColor: '#5cafec',
-    height: 100,
-  },
-  cover: {
-    backgroundColor: '#5cafec',
-    // height: 100,
-    flex: 1,
-    //flexDirection: 'row',
   },
   avatarContainer: {
     position: 'absolute',
-    // backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    // top: 0,
-    // left: 10,
-    // right: 0,
     bottom: -(avatarSize / 2),
-    // flex: 1,
     width: globalStyleVariables.WINDOW_WIDTH,
     alignItems: 'center',
-    //paddingBottom: 40
   },
   profileContainer: {
     flex: 1,

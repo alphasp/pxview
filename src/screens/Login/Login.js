@@ -7,6 +7,7 @@ import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../../components/Localization';
 import PXFormInput from '../../components/PXFormInput';
 import * as authActionCreators from '../../common/actions/auth';
+import { globalStyleVariables } from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,7 +52,6 @@ class Login extends Component {
     const { email, password } = data;
     Keyboard.dismiss();
     login(email, password);
-    // todo handle login error
   };
 
   handleOnPressSignUp = () => {
@@ -85,7 +85,7 @@ class Login extends Component {
         <Button
           title={i18n.login}
           containerViewStyle={styles.buttonContainer}
-          backgroundColor="#5cafec"
+          backgroundColor={globalStyleVariables.PRIMARY_COLOR}
           raised
           onPress={handleSubmit(this.submit)}
         />

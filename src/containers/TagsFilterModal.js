@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
 import * as bookmarkTagsActionCreators from '../common/actions/bookmarkTags';
+import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   selectedTagContainer: {
-    backgroundColor: '#5cafec',
+    backgroundColor: globalStyleVariables.PRIMARY_COLOR,
   },
   selectedTagText: {
     color: '#fff',
