@@ -146,9 +146,11 @@ class MyPage extends Component {
 
   handleOnPressAvatar = () => {
     const { user, navigation: { navigate } } = this.props;
-    navigate(SCREENS.UserDetail, {
-      userId: user.id,
-    });
+    if (user) {
+      navigate(SCREENS.UserDetail, {
+        userId: user.id,
+      });
+    }
   };
 
   renderCover = () => {
