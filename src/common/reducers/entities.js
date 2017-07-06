@@ -4,6 +4,7 @@ import {
   UNBOOKMARK_ILLUST,
   FOLLOW_USER,
   UNFOLLOW_USER,
+  AUTH_LOGOUT,
 } from '../constants/actionTypes';
 
 export default function entities(
@@ -116,6 +117,34 @@ export default function entities(
               },
             }
           : state.userProfiles,
+      };
+    case AUTH_LOGOUT.SUCCESS:
+      return {
+        ...state,
+        illusts: Object.keys(state.illusts).reduce((prev, key) => {
+          prev[key] = {
+            ...state.illusts[key],
+            is_bookmarked: false,
+          };
+          return prev;
+        }, {}),
+        users: Object.keys(state.users).reduce((prev, key) => {
+          prev[key] = {
+            ...state.users[key],
+            is_followed: false,
+          };
+          return prev;
+        }, {}),
+        userProfiles: Object.keys(state.userProfiles).reduce((prev, key) => {
+          prev[key] = {
+            ...state.userProfiles[key],
+            user: {
+              ...state.userProfiles[key].user,
+              is_followed: false,
+            },
+          };
+          return prev;
+        }, {}),
       };
     default:
       return state;
