@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import UserListContainer from '../../../containers/UserListContainer';
+import { connectLocalization } from '../../../components/Localization';
+import EmptyStateView from '../../../components/EmptyStateView';
 import * as userFollowersActionCreators
   from '../../../common/actions/userFollowers';
 import { makeGetUserFollowersItems } from '../../../common/selectors';
@@ -26,7 +28,16 @@ class UserFollowers extends Component {
   };
 
   render() {
-    const { userFollowers, items } = this.props;
+    const { userFollowers, items, i18n } = this.props;
+    if (userFollowers && userFollowers.loaded && (!items || !items.length)) {
+      return (
+        <EmptyStateView
+          iconName="users"
+          iconType="font-awesome"
+          title={i18n.noFollowers}
+        />
+      );
+    }
     return (
       <UserListContainer
         userList={{ ...userFollowers, items }}
@@ -37,15 +48,17 @@ class UserFollowers extends Component {
   }
 }
 
-export default connect(() => {
-  const getUserFollowersItems = makeGetUserFollowersItems();
-  return (state, props) => {
-    const { userFollowers } = state;
-    const userId = props.userId || props.navigation.state.params.userId;
-    return {
-      userFollowers: userFollowers[userId],
-      items: getUserFollowersItems(state, props),
-      userId,
+export default connectLocalization(
+  connect(() => {
+    const getUserFollowersItems = makeGetUserFollowersItems();
+    return (state, props) => {
+      const { userFollowers } = state;
+      const userId = props.userId || props.navigation.state.params.userId;
+      return {
+        userFollowers: userFollowers[userId],
+        items: getUserFollowersItems(state, props),
+        userId,
+      };
     };
-  };
-}, userFollowersActionCreators)(UserFollowers);
+  }, userFollowersActionCreators)(UserFollowers),
+);

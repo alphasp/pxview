@@ -1,30 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button } from 'react-native-elements';
 import { connectLocalization } from '../../components/Localization';
 import IllustList from '../../components/IllustList';
+import EmptyStateView from '../../components/EmptyStateView';
 import * as followingUserIllustsActionCreators
   from '../../common/actions/followingUserIllusts';
 import { getFollowingUserIllustsItems } from '../../common/selectors';
 import { SCREENS } from '../../common/constants';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10,
-  },
-  usersIcon: {
-    marginBottom: 10,
-  },
-  recommendUserButtonContainer: {
-    marginTop: 10,
-  },
-});
+import { globalStyleVariables } from '../../styles';
 
 class FollowingUserIllusts extends Component {
   componentDidMount() {
@@ -70,27 +55,27 @@ class FollowingUserIllusts extends Component {
 
   handleOnPressFindRecommendedUsers = () => {
     const { navigate } = this.props.navigation;
-    navigate(SCREENS.RecommendedUsers, {
-      navigation: this.props.navigation,
-    });
+    navigate(SCREENS.RecommendedUsers);
   };
 
   render() {
     const { followingUserIllusts, items, user, i18n } = this.props;
     if (!user) {
       return (
-        <View style={styles.container}>
-          <Icon name="users" size={40} style={styles.usersIcon} />
-          <Text>{i18n.noFollowUser}</Text>
-          <Text>{i18n.noNewWorkFollowSuggestion}</Text>
-          <Button
-            title={i18n.recommendedUsersFind}
-            containerViewStyle={styles.recommendUserButtonContainer}
-            backgroundColor="#5cafec"
-            onPress={this.handleOnPressFindRecommendedUsers}
-            raised
-          />
-        </View>
+        <EmptyStateView
+          iconName="users"
+          iconType="font-awesome"
+          title={i18n.noFollowUser}
+          description={i18n.noNewWorkFollowSuggestion}
+          actionButton={
+            <Button
+              title={i18n.recommendedUsersFind}
+              backgroundColor={globalStyleVariables.PRIMARY_COLOR}
+              onPress={this.handleOnPressFindRecommendedUsers}
+              raised
+            />
+          }
+        />
       );
     }
     return (
