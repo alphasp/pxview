@@ -221,8 +221,14 @@ class UserDetail extends Component {
     const { userDetailItem, navigation: { setParams }, authUser } = nextProps;
     if (userDetailItem && userDetailItem !== prevUserDetailItem) {
       setParams({ user: userDetailItem.user });
-    }
-    if (authUser !== prevAuthUser) {
+      const newParams = {
+        user: userDetailItem.user,
+      };
+      if (authUser !== prevAuthUser) {
+        newParams.authUser = authUser;
+      }
+      setParams(newParams);
+    } else if (authUser !== prevAuthUser) {
       setParams({ authUser });
     }
   }
