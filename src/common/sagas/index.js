@@ -1,3 +1,4 @@
+import { all } from 'redux-saga/effects';
 import {
   watchLoginRequest,
   watchRefreshAccessTokenRequest,
@@ -35,7 +36,7 @@ import { watchFollowUser, watchUnfollowUser } from './followUser';
 import { watchAddIllustComment } from './addIllustComment';
 
 export default function* rootSaga() {
-  yield [
+  yield all([
     watchRehydrate(),
     watchLoginRequest(),
     watchError(),
@@ -71,5 +72,5 @@ export default function* rootSaga() {
     watchFollowUser(),
     watchUnfollowUser(),
     watchAddIllustComment(),
-  ];
+  ]);
 }
