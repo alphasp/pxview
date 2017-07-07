@@ -150,6 +150,7 @@ class Trending extends Component {
           onChangeText={this.handleOnChangeSearchText}
           onPressBackButton={this.handleOnPressBackButton}
           onSubmitSearch={this.handleOnSubmitSearch}
+          isFocus={isFocusSearchBar}
         />
         <View style={styles.content}>
           <PXTabView

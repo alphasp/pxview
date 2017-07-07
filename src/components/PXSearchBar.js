@@ -33,6 +33,7 @@ class PXSearchBar extends Component {
       autoFocus,
       word,
       i18n,
+      isFocus,
     } = this.props;
     return (
       <View style={globalStyles.container}>
@@ -55,8 +56,9 @@ class PXSearchBar extends Component {
           onSubmitEditing={this.handleOnSubmitSearch}
           returnKeyType="search"
           defaultValue={word}
-          underlineColorAndroid="transparent"
           autoCorrect={false}
+          textInputRef="searchBar"
+          clearIcon={word && isFocus ? true : false} // eslint-disable-line no-unneeded-ternary
         />
       </View>
     );
@@ -69,8 +71,6 @@ class PXSearchBar extends Component {
       showMenuButton,
       headerRight,
       onPressBackButton,
-      onFocusSearchBar,
-      onChangeSearchText,
     } = this.props;
     return (
       <PXHeader
@@ -79,8 +79,6 @@ class PXSearchBar extends Component {
         word={word}
         showBackButton={showBackButton}
         showMenuButton={showMenuButton}
-        onFocusSearchBar={onFocusSearchBar}
-        onChangeSearchText={onChangeSearchText}
         onPressBackButton={onPressBackButton}
       />
     );

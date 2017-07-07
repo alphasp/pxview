@@ -224,6 +224,7 @@ class SearchResultTabs extends Component {
               onPress={this.handleOnPressShowFilterModal}
             />
           }
+          isFocus={isFocusSearchBar}
         />
         <View style={styles.content}>
           <PXTabView
