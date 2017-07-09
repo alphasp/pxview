@@ -1,74 +1,39 @@
-import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  Platform,
-  Image,
-} from 'react-native';
-import moment from 'moment';
+import React, { PureComponent } from 'react';
+import { StyleSheet } from 'react-native';
 import PhotoView from 'react-native-photo-view';
-import RNFetchBlob from 'react-native-fetch-blob';
+import { globalStyleVariables } from '../styles';
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const styles = StyleSheet.create({
+  photo: {
+    width: globalStyleVariables.WINDOW_WIDTH,
+    height: globalStyleVariables.WINDOW_HEIGHT,
+  },
+});
 
-class PXPhotoView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      imageUri: null
-    }
-  }
+class PXPhotoView extends PureComponent {
+  handleOnLoad = () => {
+    const { onLoad, uri } = this.props;
+    onLoad(uri);
+  };
 
-  componentDidMount() {
-    const { uri } = this.props;
-    this.task = RNFetchBlob
-      .config({
-        // fileCache : true,
-        // appendExt: 'png',
-        // key: uri,
-        // session: moment().startOf('day'),
-      }).fetch('GET', uri, {
-        referer: "http://www.pixiv.net",
-      });
-    this.task.then(res => {
-      if (!this.unmounting) {
-        //base64 working fine
-        const base64Str = `data:image/png;base64,${res.base64()}`;
-        //const filePath = Platform.OS === 'android' ? 'file://' + res.path()  : '' + res.path();
-        this.setState({
-          imageUri: base64Str
-        })
-      }
-    })
-    .catch((err, statusCode) => {
-      // error handling
-      console.log('error fetch blob ', err)
-    });
-  }
-
-  componentWillUnmount() {
-    this.unmounting = true;
-    if (this.task) {
-      this.task.cancel();
-    }
-  }
-
-  render () {
-    const { uri, ...otherProps } = this.props;
-    const { imageUri } = this.state;
+  render() {
+    const { uri, style, onLoad, ...restProps } = this.props;
     return (
-      imageUri ?
       <PhotoView
         source={{
-          uri: imageUri,
+          uri,
+          headers: {
+            referer: 'http://www.pixiv.net',
+          },
         }}
-        {...otherProps} 
+        resizeMode="contain"
+        androidScaleType="fitCenter"
+        minimumZoomScale={1}
+        maximumZoomScale={3}
+        style={[styles.photo, style]}
+        onLoad={this.handleOnLoad}
+        {...restProps}
       />
-      :
-      null
     );
   }
 }

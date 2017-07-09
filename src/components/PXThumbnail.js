@@ -1,24 +1,37 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-} from 'react-native';
+import { View } from 'react-native';
 import PXImage from './PXImage';
+import { globalStyleVariables } from '../styles';
 
-const PXThumbnail = (props) => {
+const PXThumbnail = props => {
   const { uri, size, style, ...otherProps } = props;
   return (
-    <PXImage
-      uri={uri}  
-      style={[{
-        resizeMode: "contain",
-        borderRadius: size ? size / 2 : 15,
-        width: size || 30,
-        height: size || 30
-      }, style]} 
-      { ...otherProps }
-    />
+    <View
+      style={{
+        backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
+        borderRadius: size / 2,
+        overflow: 'hidden',
+      }}
+    >
+      <PXImage
+        uri={uri}
+        style={[
+          {
+            resizeMode: 'cover',
+            width: size,
+            height: size,
+            borderRadius: size / 2,
+          },
+          style,
+        ]}
+        {...otherProps}
+      />
+    </View>
   );
-}
+};
+
+PXThumbnail.defaultProps = {
+  size: 30,
+};
 
 export default PXThumbnail;

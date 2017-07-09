@@ -1,74 +1,35 @@
-import qs from "qs";
-import { addError } from './error';
-import pixiv from '../helpers/ApiClient';
+import { MY_PIXIV } from '../constants/actionTypes';
 
-export const FETCH_MY_PIXIV_ILLUSTS_REQUEST = 'FETCH_MY_PIXIV_ILLUSTS_REQUEST';
-export const FETCH_MY_PIXIV_ILLUSTS_SUCCESS = 'FETCH_MY_PIXIV_ILLUSTS_SUCCESS';
-export const FETCH_MY_PIXIV_ILLUSTS_FAILURE = 'FETCH_MY_PIXIV_ILLUSTS_FAILURE';
-export const CLEAR_MY_PIXIV_ILLUSTS = 'CLEAR_MY_PIXIV_ILLUSTS';
-
-function fetchMyPixivIllustsRequest(offset) {
+export function fetchMyPixivSuccess(entities, items, nextUrl) {
   return {
-    type: FETCH_MY_PIXIV_ILLUSTS_REQUEST,
+    type: MY_PIXIV.SUCCESS,
     payload: {
-      offset
-    }
+      entities,
+      items,
+      nextUrl,
+      timestamp: Date.now(),
+    },
   };
 }
 
-function fetchMyPixivIllustsSuccess(json, offset) { 
+export function fetchMyPixivFailure() {
   return {
-    type: FETCH_MY_PIXIV_ILLUSTS_SUCCESS,
+    type: MY_PIXIV.FAILURE,
+  };
+}
+
+export function fetchMyPixiv(nextUrl, refreshing = false) {
+  return {
+    type: MY_PIXIV.REQUEST,
     payload: {
-      items: json.illusts,
-      nextUrl: json.next_url,
-      offset,
-      receivedAt: Date.now(),
-    }
+      nextUrl,
+      refreshing,
+    },
   };
 }
 
-function fetchMyPixivIllustsFailure() {
+export function clearMyPixiv() {
   return {
-    type: FETCH_MY_PIXIV_ILLUSTS_FAILURE,
-  };
-}
-
-function shouldFetchMyPixivIllusts(state) {
-  const results = state.myPixivIllust;
-  if (results && results.loading) {
-    return false;
-  } 
-  else {
-    return true;
-  }
-}
-
-function fetchMyPixivIllustsFromApi(nextUrl) {
-  return dispatch => {
-    const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.illustMyPixiv();
-    const params = qs.parse(nextUrl);
-    const offset = params.offset || "0";
-    dispatch(fetchMyPixivIllustsRequest(offset));
-    return promise
-      .then(json => dispatch(fetchMyPixivIllustsSuccess(json, offset)))
-      .catch(err => {
-        dispatch(fetchMyPixivIllustsFailure());
-        dispatch(addError(err));
-      });
-  };
-}
-
-export function fetchMyPixivIllusts(nextUrl) {
-  return (dispatch, getState) => {
-    if (shouldFetchMyPixivIllusts(getState())) {
-      return dispatch(fetchMyPixivIllustsFromApi(nextUrl));
-    }
-  };
-}
-
-export function clearMyPixivIllusts() {
-  return {
-    type: CLEAR_MY_PIXIV_ILLUSTS,
+    type: MY_PIXIV.CLEAR,
   };
 }

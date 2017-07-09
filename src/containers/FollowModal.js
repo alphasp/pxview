@@ -1,18 +1,21 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  Platform,
   Text,
   TouchableWithoutFeedback,
   Modal,
   Switch,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
 import FollowButton from '../components/FollowButton';
 import * as userFollowDetailActionCreators from '../common/actions/userFollowDetail';
-import { FollowType } from '../common/actions/followUser';
+import * as followUserActionCreators from '../common/actions/followUser';
+import * as modalActionCreators from '../common/actions/modal';
+import { FOLLOWING_TYPES } from '../common/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -23,12 +26,12 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     // borderRadius: 10,
-    //alignItems: 'center',
-    backgroundColor: '#fff', 
+    // alignItems: 'center',
+    backgroundColor: '#fff',
   },
   titleContainer: {
     backgroundColor: '#E9EBEE',
-    padding: 10
+    padding: 10,
   },
   form: {
     paddingTop: 10,
@@ -46,19 +49,17 @@ const styles = StyleSheet.create({
   actionWithoutRemoveButtonContainer: {
     marginTop: 20,
     padding: 10,
-  }
+  },
 });
 
 class FollowModal extends Component {
   static propTypes = {
     userId: PropTypes.number.isRequired,
     isFollow: PropTypes.bool.isRequired,
-    onPressFollowButton: PropTypes.func.isRequired,
-    onPressRemoveButton: PropTypes.func.isRequired,
-    onPressCloseButton: PropTypes.func.isRequired,
     fetchUserFollowDetail: PropTypes.func.isRequired,
     clearUserFollowDetail: PropTypes.func.isRequired,
-  }
+    closeModal: PropTypes.func.isRequired,
+  };
 
   constructor(props) {
     super(props);
@@ -78,86 +79,118 @@ class FollowModal extends Component {
     const { userFollowDetail: { item } } = nextProps;
     if (item && item !== prevItem) {
       this.setState({
-        isPrivate: item.restrict === 'private' ? true : false,
+        isPrivate: item.restrict === 'private',
       });
     }
   }
 
-  handleOnChangeIsPrivate = (value) => {
+  handleOnChangeIsPrivate = value => {
     this.setState({
-      isPrivate: value
+      isPrivate: value,
     });
-  }
+  };
 
   handleOnPressFollowButton = () => {
-    const { userId, onPressFollowButton } = this.props;
+    const { userId } = this.props;
     const { isPrivate } = this.state;
-    const followType = isPrivate ? FollowType.PRIVATE : FollowType.PUBLIC;
-    onPressFollowButton(userId, followType);
-  }
+    const followType = isPrivate
+      ? FOLLOWING_TYPES.PRIVATE
+      : FOLLOWING_TYPES.PUBLIC;
+    this.followUser(userId, followType);
+    this.handleOnModalClose();
+  };
 
   handleOnPressRemoveButton = () => {
-    const { userId, onPressRemoveButton } = this.props;
-    onPressRemoveButton(userId);
-  }
+    const { userId } = this.props;
+    this.unfollowUser(userId);
+    this.handleOnModalClose();
+  };
+
+  handleOnPressModalRemoveButton = userId => {
+    this.unfollowUser(userId);
+    this.handleOnModalClose();
+  };
+
+  handleOnModalClose = () => {
+    const { closeModal } = this.props;
+    closeModal();
+  };
+
+  followUser = (userId, followType) => {
+    const { followUser } = this.props;
+    followUser(userId, followType);
+  };
+
+  unfollowUser = userId => {
+    const { unfollowUser } = this.props;
+    unfollowUser(userId);
+  };
 
   render() {
-    const { isOpen, isFollow, onPressCloseButton } = this.props;
+    const { isFollow, i18n } = this.props;
     const { isPrivate } = this.state;
     return (
-      <View>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={isOpen}
-          onRequestClose={onPressCloseButton}
-          onShow={() => console.log('on show modal')}
-        >
-          <PXTouchable style={styles.container} onPress={onPressCloseButton}>
+      <Modal
+        animationType="fade"
+        transparent
+        visible
+        onRequestClose={this.handleOnModalClose}
+      >
+        <TouchableWithoutFeedback onPress={this.handleOnModalClose}>
+          <View style={styles.container}>
             <TouchableWithoutFeedback>
               <View style={styles.innerContainer}>
                 <View style={styles.titleContainer}>
                   <Text style={styles.title}>
-                    {isFollow ? "Edit Follow" : "Follow"}
+                    {isFollow ? i18n.followEdit : i18n.follow}
                   </Text>
                 </View>
                 <View style={styles.form}>
-                  <Text>Private</Text>
+                  <Text>
+                    {i18n.private}
+                  </Text>
                   <Switch
                     onValueChange={this.handleOnChangeIsPrivate}
-                    value={isPrivate} 
+                    value={isPrivate}
                   />
                 </View>
-                {
-                  isFollow ?
-                  <View style={styles.actionContainer}>
-                    <PXTouchable onPress={this.handleOnPressRemoveButton}>
-                      <Text>Remove</Text>
-                    </PXTouchable>
-                    <PXTouchable onPress={this.handleOnPressFollowButton}>
-                      <Text>Follow</Text>
-                    </PXTouchable>
-                  </View>
-                  :
-                  <View style={styles.actionWithoutRemoveButtonContainer}>
-                    <FollowButton 
-                      isFollow={isFollow} 
-                      onPress={this.handleOnPressFollowButton} 
-                    />
-                  </View>
-                }
+                {isFollow
+                  ? <View style={styles.actionContainer}>
+                      <PXTouchable onPress={this.handleOnPressRemoveButton}>
+                        <Text>
+                          {i18n.followRemove}
+                        </Text>
+                      </PXTouchable>
+                      <PXTouchable onPress={this.handleOnPressFollowButton}>
+                        <Text>
+                          {i18n.follow}
+                        </Text>
+                      </PXTouchable>
+                    </View>
+                  : <View style={styles.actionWithoutRemoveButtonContainer}>
+                      <FollowButton
+                        isFollow={isFollow}
+                        onPress={this.handleOnPressFollowButton}
+                      />
+                    </View>}
               </View>
             </TouchableWithoutFeedback>
-          </PXTouchable>
-        </Modal>
-      </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     );
   }
 }
 
-export default connect((state, props) => {
-  return {
-    userFollowDetail: state.userFollowDetail
-  }
-}, { ...userFollowDetailActionCreators })(FollowModal);
-
+export default connectLocalization(
+  connect(
+    state => ({
+      userFollowDetail: state.userFollowDetail,
+    }),
+    {
+      ...userFollowDetailActionCreators,
+      ...followUserActionCreators,
+      ...modalActionCreators,
+    },
+  )(FollowModal),
+);

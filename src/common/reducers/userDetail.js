@@ -1,46 +1,50 @@
-import { 
-  REQUEST_USER_DETAIL, 
-  RECEIVE_USER_DETAIL, 
-  STOP_USER_DETAIL, 
-  CLEAR_USER_DETAIL, 
-  CLEAR_ALL_USER_DETAIL
-} from "../actions/userDetail";
+import { USER_DETAIL } from '../constants/actionTypes';
 
+// const initState = {
+//   loading: false,
+//   loaded: false,
+//   refreshing: false,
+//   item: [],
+// };
 export default function userDetail(state = {}, action) {
   switch (action.type) {
-    case CLEAR_USER_DETAIL:
+    case USER_DETAIL.CLEAR:
       return {
         ...state,
         [action.payload.userId]: {},
       };
-    case CLEAR_ALL_USER_DETAIL:
-      return {};  
-    case REQUEST_USER_DETAIL:
+    case USER_DETAIL.CLEAR_ALL:
+      return {};
+    case USER_DETAIL.REQUEST:
       return {
         ...state,
         [action.payload.userId]: {
           ...state[action.payload.userId],
-          loading: true
-        }
+          loading: true,
+          refreshing: action.payload.refreshing,
+        },
       };
-    case RECEIVE_USER_DETAIL:
+    case USER_DETAIL.SUCCESS:
       return {
         ...state,
         [action.payload.userId]: {
           ...state[action.payload.userId],
           loading: false,
           loaded: true,
-          item: (state[action.payload.userId] && state[action.payload.userId].item) ? [...state[action.payload.userId].items, ...action.payload.item] : action.payload.item,
-          lastUpdated: action.payload.receivedAt
-        }
+          refreshing: false,
+          item: action.payload.item,
+          timestamp: action.payload.timestamp,
+        },
       };
-    case STOP_USER_DETAIL:
+    case USER_DETAIL.FAILURE:
       return {
         ...state,
         [action.payload.userId]: {
           ...state[action.payload.userId],
-          loading: false
-        }
+          loading: false,
+          loaded: true,
+          refreshing: false,
+        },
       };
     default:
       return state;

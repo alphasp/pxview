@@ -1,103 +1,68 @@
-import qs from "qs";
-import { addError } from './error';
-import pixiv from '../helpers/ApiClient';
+import qs from 'qs';
+import { USER_FOLLOWING } from '../constants/actionTypes';
 
-export const FETCH_USER_FOLLOWING_REQUEST = 'FETCH_USER_FOLLOWING_REQUEST';
-export const FETCH_USER_FOLLOWING_SUCCESS = 'FETCH_USER_FOLLOWING_SUCCESS';
-export const FETCH_USER_FOLLOWING_FAILURE = 'FETCH_USER_FOLLOWING_FAILURE';
-export const CLEAR_USER_FOLLOWING = 'CLEAR_USER_FOLLOWING';
-export const CLEAR_ALL_USER_FOLLOWING = 'CLEAR_ALL_USER_FOLLOWING';
-
-export const FollowingType = {
-  PUBLIC: 'PUBLIC',
-  PRIVATE: 'PRIVATE',
-};
-
-function fetchUserFollowingRequest(userId, followingType, offset) {
+export function fetchUserFollowingSuccess(
+  entities,
+  items,
+  userId,
+  followingType,
+  nextUrl,
+) {
   return {
-    type: FETCH_USER_FOLLOWING_REQUEST,
+    type: USER_FOLLOWING.SUCCESS,
     payload: {
       userId,
       followingType,
-      offset
-    }
+      entities,
+      items,
+      nextUrl,
+      timestamp: Date.now(),
+    },
   };
 }
 
-function fetchUserFollowingSuccess(json, userId, followingType, offset) { 
+export function fetchUserFollowingFailure(userId, followingType) {
   return {
-    type: FETCH_USER_FOLLOWING_SUCCESS,
+    type: USER_FOLLOWING.FAILURE,
+    payload: {
+      userId,
+      followingType,
+    },
+  };
+}
+
+export function fetchUserFollowing(
+  userId,
+  followingType,
+  nextUrl,
+  refreshing = false,
+) {
+  const params = qs.parse(nextUrl);
+  const offset = params.offset || '0';
+  return {
+    type: USER_FOLLOWING.REQUEST,
     payload: {
       userId,
       followingType,
       offset,
-      items: json.user_previews,
-      nextUrl: json.next_url,
-      receivedAt: Date.now(),
-    }
-  };
-}
-
-function fetchUserFollowingFailure(userId, followingType) {
-  return {
-    type: FETCH_USER_FOLLOWING_FAILURE,
-    payload: {
-      userId,
-      followingType
-    }
-  };
-}
-
-function shouldFetchUserFollowing(state, userId, followingType) {
-  //todo
-  const results = state.userFollowing[followingType][userId];
-  if (results && results.loading) {
-    return false;
-  } 
-  else {
-    return true;
-  }
-}
-
-function fetchUserFollowingFromApi(userId, followingType, nextUrl) {
-  const options = {
-    restrict: followingType === FollowingType.PRIVATE ? 'private' : 'public'
-  }
-  return dispatch => {
-    const promise = nextUrl ? pixiv.requestUrl(nextUrl) : pixiv.userFollowing(userId, options);
-    const params = qs.parse(nextUrl);
-    const offset = params.offset || "0";
-    dispatch(fetchUserFollowingRequest(userId, followingType, offset));
-    return promise
-      .then(json => dispatch(fetchUserFollowingSuccess(json, userId, followingType, offset)))
-      .catch(err => {
-        dispatch(fetchUserFollowingFailure(userId, followingType));
-        dispatch(addError(err));
-      });
-  };
-}
-
-export function fetchUserFollowing(userId, followingType, nextUrl) {
-  return (dispatch, getState) => {
-    if (shouldFetchUserFollowing(getState(), userId, followingType)) {
-      return dispatch(fetchUserFollowingFromApi(userId, followingType, nextUrl));
-    }
+      nextUrl,
+      refreshing,
+    },
   };
 }
 
 export function clearUserFollowing(userId, followingType) {
   return {
-    type: CLEAR_USER_FOLLOWING,
+    type: USER_FOLLOWING.CLEAR,
     payload: {
       userId,
-      followingType
-    }
+      followingType,
+    },
   };
 }
 
 export function clearAllUserFollowing() {
   return {
-    type: CLEAR_ALL_USER_FOLLOWING,
+    type: USER_FOLLOWING.CLEAR_ALL,
   };
 }
-

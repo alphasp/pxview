@@ -1,76 +1,60 @@
-import { 
-  REQUEST_LOGIN, SUCCESS_LOGIN, FAILED_LOGIN, LOGOUT,
-  REQUEST_REFRESH_TOKEN, SUCCESS_REFRESH_TOKEN, FAILED_REFRESH_TOKEN
-} from '../actions/auth';
+import { REHYDRATE } from 'redux-persist/constants';
+import {
+  AUTH_LOGIN,
+  AUTH_LOGOUT,
+  AUTH_REFRESH_ACCESS_TOKEN,
+  AUTH_REHYDRATE,
+} from '../constants/actionTypes';
 
-// const defaultUser = {
-//   "profile_image_urls": {
-//     "px_16x16": "https://source.pixiv.net/common/images/no_profile_ss.png",
-//     "px_50x50": "https://source.pixiv.net/common/images/no_profile_s.png",
-//     "px_170x170": "https://source.pixiv.net/common/images/no_profile.png"
-//   },
-//   "id": "17944295",
-//   "name": "mysticmana",
-//   "account": "mysticmana",
-//   "mail_address": "mysticmana@gmail.com",
-//   "is_premium": false,
-//   "x_restrict": 2,
-//   "is_mail_authorized": true,
-//   accessToken: "jfkafjlaf",
-//   refreshToken: "",
-//   expiresIn: 3600,
-// }
-export default function auth(state = {
-  loading: false,
-  loaded: false,
-  user: null,
-}, action) {
+export default function auth(
+  state = {
+    loading: false,
+    loaded: false,
+    user: null,
+    rehydrated: false,
+  },
+  action,
+) {
   switch (action.type) {
-    case LOGOUT:
+    case AUTH_LOGOUT.SUCCESS:
       return {
         ...state,
         user: null,
         loaded: false,
-      }
-    case REQUEST_LOGIN:
+      };
+    case AUTH_LOGIN.REQUEST:
+    case AUTH_REFRESH_ACCESS_TOKEN.REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case SUCCESS_LOGIN:
+    case AUTH_LOGIN.SUCCESS:
+    case AUTH_REFRESH_ACCESS_TOKEN.SUCCESS:
       return {
         ...state,
         loading: false,
         loaded: true,
         user: action.payload.user,
-        lastUpdated: action.payload.receivedAt,
+        timestamp: action.payload.timestamp,
       };
-    case FAILED_LOGIN:
+    case AUTH_LOGIN.FAILURE:
+    case AUTH_REFRESH_ACCESS_TOKEN.FAILURE:
       return {
         ...state,
         loading: false,
+        loaded: true,
       };
-    case REQUEST_REFRESH_TOKEN:
+    case REHYDRATE:
       return {
         ...state,
-        refreshTokenPromise: action.payload.refreshTokenPromise,
+        ...action.payload.auth,
+        rehydrated: false,
       };
-    case SUCCESS_REFRESH_TOKEN:
+    case AUTH_REHYDRATE.SUCCESS:
       return {
         ...state,
-        user: action.payload.user,
-        lastUpdated: Date.now(),
-        refreshTokenPromise: null,
-        //refreshTokenPromise: Promise.resolve(),
-      }
-    case FAILED_REFRESH_TOKEN: 
-      return {
-        ...state,
-        user: null,
-        lastUpdated: Date.now(),
-        refreshTokenPromise: null,
-        //refreshTokenPromise: Promise.resolve(),
-      }
+        rehydrated: true,
+      };
     default:
       return state;
   }

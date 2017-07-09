@@ -1,39 +1,40 @@
-import { ADD_SEARCH_HISTORY, REMOVE_SEARCH_HISTORY, CLEAR_SEARCH_HISTORY } from "../actions/searchHistory";
+import { SEARCH_HISTORY } from '../constants/actionTypes';
 
-export default function searchHistory(state = {
-  items: []
-}, action = {}) {
+export default function searchHistory(
+  state = {
+    items: [],
+  },
+  action = {},
+) {
   switch (action.type) {
-    case ADD_SEARCH_HISTORY:
+    case SEARCH_HISTORY.ADD: {
       let newItems;
       const items = state.items;
       const newItem = action.payload.item;
       if (items && items.length) {
         if (items.indexOf(newItem) === -1) {
-          newItems = [newItem, ...items.slice(0, 9)] 
+          newItems = [newItem, ...items.slice(0, 9)];
+        } else {
+          newItems = [...items];
         }
-        else {
-          newItems = [...items]
-        }
-      }
-      else {
+      } else {
         newItems = [newItem];
       }
       return {
         ...state,
-        items: newItems
+        items: newItems,
       };
-    case REMOVE_SEARCH_HISTORY:
+    }
+    case SEARCH_HISTORY.REMOVE:
       return {
         ...state,
-        items: state.items.filter(item => item !== action.payload.item)
-      }
-    case CLEAR_SEARCH_HISTORY: {
+        items: state.items.filter(item => item !== action.payload.item),
+      };
+    case SEARCH_HISTORY.CLEAR:
       return {
         ...state,
         items: [],
-      }
-    }
+      };
     default:
       return state;
   }

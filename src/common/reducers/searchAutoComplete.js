@@ -1,40 +1,33 @@
-import { 
-  REQUEST_SEARCH_AUTOCOMPLETE, 
-  RECEIVE_SEARCH_AUTOCOMPLETE,
-  STOP_SEARCH_AUTOCOMPLETE, 
-  CLEAR_SEARCH_AUTOCOMPLETE,
-} from "../actions/searchAutoComplete";
+import { SEARCH_AUTOCOMPLETE } from '../constants/actionTypes';
 
-export function searchAutoComplete(state = {
+const initState = {
   loading: false,
   loaded: false,
   items: [],
-}, action) {
+};
+
+export default function searchAutoComplete(state = initState, action) {
   switch (action.type) {
-    case CLEAR_SEARCH_AUTOCOMPLETE:
-      return {
-        ...state,
-        loading: false,
-        loaded: false,
-        items: [],
-      };
-    case REQUEST_SEARCH_AUTOCOMPLETE:
+    case SEARCH_AUTOCOMPLETE.CLEAR:
+      return initState;
+    case SEARCH_AUTOCOMPLETE.REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case RECEIVE_SEARCH_AUTOCOMPLETE:
+    case SEARCH_AUTOCOMPLETE.SUCCESS:
       return {
         ...state,
         loading: false,
         loaded: true,
         items: [...action.payload.items],
-        lastUpdated: action.payload.receivedAt,
+        timestamp: action.payload.timestamp,
       };
-    case STOP_SEARCH_AUTOCOMPLETE:
+    case SEARCH_AUTOCOMPLETE.FAILURE:
       return {
         ...state,
         loading: false,
+        loaded: true,
       };
     default:
       return state;

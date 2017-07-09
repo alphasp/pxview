@@ -1,45 +1,31 @@
-import { 
-  FETCH_USER_FOLLOW_DETAIL_REQUEST, 
-  FETCH_USER_FOLLOW_DETAIL_SUCCESS, 
-  FETCH_USER_FOLLOW_DETAIL_FAILURE, 
-  CLEAR_USER_FOLLOW_DETAIL,
-} from '../actions/userFollowDetail';
+import { USER_FOLLOW_DETAIL } from '../constants/actionTypes';
 
-export default function userFollowDetail(state = {
+const initState = {
   loading: false,
   loaded: false,
-  item: null,
-  userId: null,
-}, action) {
+};
+export default function userFollowDetail(state = initState, action) {
   switch (action.type) {
-    case CLEAR_USER_FOLLOW_DETAIL:
-      return {
-        ...state,
-        loading: false,
-        loaded: false,
-        item: null,
-        userId: null,
-      };
-    case FETCH_USER_FOLLOW_DETAIL_REQUEST:
+    case USER_FOLLOW_DETAIL.CLEAR:
+      return initState;
+    case USER_FOLLOW_DETAIL.REQUEST:
       return {
         ...state,
         loading: true,
-        userId: action.payload.userId
       };
-    case FETCH_USER_FOLLOW_DETAIL_SUCCESS:
+    case USER_FOLLOW_DETAIL.SUCCESS:
       return {
         ...state,
         loading: false,
         loaded: true,
         item: action.payload.item,
-        userId: action.payload.userId,
-        lastUpdated: action.payload.receivedAt,
+        timestamp: action.payload.timestamp,
       };
-    case FETCH_USER_FOLLOW_DETAIL_FAILURE:
+    case USER_FOLLOW_DETAIL.FAILURE:
       return {
         ...state,
         loading: false,
-        userId: action.payload.userId,
+        loaded: true,
       };
     default:
       return state;

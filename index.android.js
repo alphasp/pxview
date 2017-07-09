@@ -1,1 +1,1 @@
-import Root from './src/containers/Root';
+import './src/screens/App/Root';

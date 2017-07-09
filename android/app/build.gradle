@@ -34,6 +34,13 @@ import com.android.build.OutputFile
  *   // bundleInPaidRelease: true,
  *   // bundleInBeta: true,
  *
+ *   // whether to disable dev mode in custom build variants (by default only disabled in release)
+ *   // for example: to disable dev mode in the staging build type (if configured)
+ *   devDisabledInStaging: true,
+ *   // The configuration property can be in the following formats
+ *   //         'devDisabledIn${productFlavor}${buildType}'
+ *   //         'devDisabledIn${buildType}'
+ *
  *   // the root of your project, i.e. where "package.json" lives
  *   root: "../../",
  *
@@ -59,7 +66,7 @@ import com.android.build.OutputFile
  *   inputExcludes: ["android/**", "ios/**"],
  *
  *   // override which node gets called and with what additional arguments
- *   nodeExecutableAndArgs: ["node"]
+ *   nodeExecutableAndArgs: ["node"],
  *
  *   // supply additional arguments to the packager
  *   extraPackagerArgs: []
@@ -81,30 +88,30 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId "com.pixiv"
+        applicationId "com.utopia.pxview"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
-        renderscriptTargetApi 20
+        renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
     }
     signingConfigs {
         release {
-            storeFile file(PIXIV_RELEASE_STORE_FILE)
-            storePassword PIXIV_RELEASE_STORE_PASSWORD
-            keyAlias PIXIV_RELEASE_KEY_ALIAS
-            keyPassword PIXIV_RELEASE_KEY_PASSWORD
+            storeFile file(PXVIEW_RELEASE_STORE_FILE)
+            storePassword PXVIEW_RELEASE_STORE_PASSWORD
+            keyAlias PXVIEW_RELEASE_KEY_ALIAS
+            keyPassword PXVIEW_RELEASE_KEY_PASSWORD
         }
     }
     splits {
@@ -138,13 +145,18 @@ android {
 }
 
 repositories {
-    maven { url 'https://github.com/500px/500px-android-blur/raw/master/releases/' }
     maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
+    compile project(':react-native-blur')
+    compile project(':react-native-splash-screen')
+    compile project(':react-native-open-settings')
+    compile project(':react-native-device-info')
+    compile project(':react-native-cookies')
+    compile project(':react-native-localization')
+    compile project(':react-native-share')
     compile project(':react-native-material-kit')
-    compile project(':react-native-keychain')
     compile project(':react-native-vector-icons')
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
@@ -152,11 +164,9 @@ dependencies {
 
     compile project(':react-native-fabric')
     compile project(':react-native-photo-view')
-    compile project(':react-native-blur')
     compile project(':react-native-spinkit')
-    compile project(':react-native-fs')
     compile project(':react-native-fetch-blob')
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
     }
     compile fileTree(dir: "libs", include: ["*.jar"])
@@ -166,11 +176,9 @@ dependencies {
 
 buildscript {
     repositories {
-        maven { url 'https://github.com/500px/500px-android-blur/raw/master/releases/' }
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.fivehundredpx:blurringview:1.0.0'
         classpath 'io.fabric.tools:gradle:1.+'
     }
 }

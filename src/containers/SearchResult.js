@@ -1,30 +1,17 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-  Dimensions,
-  RecyclerViewBackedScrollView,
-  RefreshControl,
-  InteractionManager,
-} from 'react-native';
+import { View, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
+import { connectLocalization } from '../components/Localization';
 import IllustList from '../components/IllustList';
-import { fetchSearch, clearSearch, SortType } from '../common/actions/search';
+import NoResult from '../components/NoResult';
+import * as searchActionCreators from '../common/actions/search';
+import { makeGetSearchItems } from '../common/selectors';
+import { globalStyles } from '../styles';
 
 class SearchResult extends Component {
-  constructor(props) {
-    super(props);
-    const { word } = props;
-    this.state = {
-      refreshing: false
-    };
-  }
-
   componentDidMount() {
-    const { dispatch, navigationStateKey, sortType, word, options } = this.props;
-    dispatch(clearSearch(navigationStateKey, sortType));
+    const { clearSearch, navigationStateKey, word, options } = this.props;
+    clearSearch(navigationStateKey);
     InteractionManager.runAfterInteractions(() => {
       this.search(word, options);
     });
@@ -32,58 +19,59 @@ class SearchResult extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { options: prevOptions, word: prevWord } = this.props;
-    const { dispatch, navigationStateKey, sortType, word, options } = nextProps;
-    if ((word !== prevWord) || (options && options !== prevOptions)) {
-      const { dataSource } = this.state;
-      dispatch(clearSearch(navigationStateKey, sortType));
+    const { clearSearch, navigationStateKey, word, options } = nextProps;
+    if ((word && word !== prevWord) || (options && options !== prevOptions)) {
+      clearSearch(navigationStateKey);
       this.search(word, options);
     }
   }
 
   loadMoreItems = () => {
-    const { dispatch, navigationStateKey, search, word } = this.props;
-    console.log('load more ', search[navigationStateKey].nextUrl)
-    if (search[navigationStateKey] && search[navigationStateKey].nextUrl) {
-      this.search(word, null, search[navigationStateKey].nextUrl);
+    const { search: { nextUrl, loading }, word, options } = this.props;
+    if (!loading && nextUrl) {
+      this.search(word, options, nextUrl);
     }
-  }
+  };
 
   handleOnRefresh = () => {
-    const { dispatch, navigationStateKey, sortType, word, options } = this.props;
-    this.setState({
-      refereshing: true
-    });
-    dispatch(clearSearch(navigationStateKey, sortType));
-    this.search(word, options, null).finally(() => {
-      this.setState({
-        refereshing: false
-      }); 
-    })
-  }
+    const { clearSearch, navigationStateKey, word, options } = this.props;
+    clearSearch(navigationStateKey);
+    this.search(word, options, null, true);
+  };
 
-  search = (word, options, nextUrl) => {
-    const { dispatch, navigationStateKey, sortType, search } = this.props;
-    return dispatch(fetchSearch(navigationStateKey, word, options, sortType, nextUrl, search));
-  }
+  search = (word, options, nextUrl, refreshing) => {
+    const { fetchSearch, navigationStateKey } = this.props;
+    fetchSearch(navigationStateKey, word, options, nextUrl, refreshing);
+  };
 
   render() {
-    const { navigationStateKey, search, word, options } = this.props;
-    const { refreshing } = this.state;
-    console.log('new rr ', search)
+    const { search, items, i18n } = this.props;
     return (
-      (search[navigationStateKey] ? true : false) &&
-      <IllustList
-        data={search[navigationStateKey]}
-        refreshing={refreshing}
-        loadMoreItems={this.loadMoreItems}
-        onRefresh={this.handleOnRefresh}
-      />
+      <View style={globalStyles.container}>
+        <IllustList
+          data={{ ...search, items }}
+          loadMoreItems={this.loadMoreItems}
+          onRefresh={this.handleOnRefresh}
+        />
+        {search &&
+          search.loaded &&
+          (!items || !items.length) &&
+          <NoResult text={i18n.noSearchResult} />}
+      </View>
     );
   }
 }
 
-export default connect((state, props) => {
-  return {
-    search: state.search[props.sortType],
-  }
-})(SearchResult);
+export default connectLocalization(
+  connect(() => {
+    const getSearchItems = makeGetSearchItems();
+    return (state, props) => {
+      const { search } = state;
+      const { navigationStateKey } = props;
+      return {
+        search: search[navigationStateKey],
+        items: getSearchItems(state, props),
+      };
+    };
+  }, searchActionCreators)(SearchResult),
+);

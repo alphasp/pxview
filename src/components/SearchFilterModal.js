@@ -1,219 +1,209 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ListView,
-  Platform,
-  Dimensions,
-  Button,
-} from 'react-native';
-import { connect } from 'react-redux'
-import { Actions } from 'react-native-router-flux';
+import { StyleSheet, Text, View, SectionList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { connectLocalization } from './Localization';
 import PXTouchable from './PXTouchable';
 import Separator from './Separator';
+import { globalStyles, globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    //padding: 10
-    // position: "absolute",
-    // top:0,
-    // bottom:0,
-    // left:0,
-    // right:0,
-    // backgroundColor:"transparent",
-    // justifyContent: "center",
-    // alignItems: "center",
-  },
-  content: {
-    flex: 0.8
-  },
-  footer: {
-    flex: 0.2
-  },
   sectionHeader: {
-    backgroundColor: '#E9EBEE',
+    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
   },
   sectionHeaderTitle: {
-    fontWeight: "bold", 
-    // fontSize: 20,
-    padding: 10
+    fontWeight: 'bold',
+    padding: 10,
   },
   row: {
-    // borderBottomWidth: 1,
-    // borderBottomColor: '#000',
     padding: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  separatorContainer: {
-    paddingLeft: 10, 
-    paddingRight: 10
-  },
-  separator: {
-    flex: 1,
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: '#8E8E8E',
-    // paddingLeft: 10,
-    // paddingRight: 10
   },
   searchFilterButtonContainer: {
     padding: 10,
     backgroundColor: '#fff',
   },
   searchFilterButton: {
-    backgroundColor: '#5cafec',
+    backgroundColor: globalStyleVariables.PRIMARY_COLOR,
     padding: 10,
     alignItems: 'center',
-    //margin: 10,
   },
   searchFilterButtonText: {
     color: '#fff',
   },
 });
 
-
-const typeName = {
-  target: "Target",
-  duration: "Duration"
-}
-const data = {
-  target: [
-    {
-      name: "Tag Partial",
-      value: "partial_match_for_tags",
-      type: "target",
-    },
-    {
-      name: "Tag Total",
-      value: "exact_match_for_tags",
-      type: "target"
-    },
-    {
-      name: "Title caption",
-      value: "title_and_caption",
-      type: "target"  
-    },
-  ],
-  duration: [
-    {
-      name: "Nothing",
-      value: "",
-      type: "duration"
-    },
-    {
-      name: "Last Day",
-      value: "within_last_day",
-      type: "duration"
-    },
-    {
-      name: "Last Week",
-      value: "within_last_week",
-      type: "duration"
-    },
-    {
-      name: "Last Month",
-      value: "within_last_month",
-      type: "duration"
-    }
-  ]
-}
+const sections = [
+  {
+    key: 'target',
+    data: [
+      {
+        value: 'partial_match_for_tags',
+        type: 'target',
+      },
+      {
+        value: 'exact_match_for_tags',
+        type: 'target',
+      },
+      {
+        value: 'title_and_caption',
+        type: 'target',
+      },
+    ],
+  },
+  {
+    key: 'duration',
+    data: [
+      {
+        value: '',
+        type: 'duration',
+      },
+      {
+        value: 'within_last_day',
+        type: 'duration',
+      },
+      {
+        value: 'within_last_week',
+        type: 'duration',
+      },
+      {
+        value: 'within_last_month',
+        type: 'duration',
+      },
+    ],
+  },
+  {
+    key: 'sort',
+    data: [
+      {
+        value: 'date_desc',
+        type: 'sort',
+      },
+      {
+        value: 'date_asc',
+        type: 'sort',
+      },
+    ],
+  },
+];
 
 class SearchFilterModal extends Component {
   constructor(props) {
     super(props);
-    const { searchFilter: { target, duration } } = props;
-    this.dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-      sectionHeaderHasChanged: (s1,s2) => s1 !== s2
-    })
+    const {
+      searchFilter: { target, duration, sort },
+    } = props.navigation.state.params;
     this.state = {
       target: target || 'partial_match_for_tags',
-      duration: duration || ''
+      duration: duration || '',
+      sort: sort || 'date_desc',
     };
   }
-  renderSectionHeader = (sectionData, type) => {
-    return (
-      <View key={type} style={ styles.sectionHeader }>
-        <Text style={ styles.sectionHeaderTitle }>
-          { typeName[type] }
-        </Text>
-      </View>
-    )
-  }
 
-  renderRow = (item) => {
-    const { target, duration } = this.state;
+  getSearchTypeName = type => {
+    const { i18n } = this.props;
+    switch (type) {
+      case 'target':
+        return i18n.searchTarget;
+      case 'duration':
+        return i18n.searchDuration;
+      case 'sort':
+        return i18n.searchOrder;
+      default:
+        return '';
+    }
+  };
+
+  getSearchOptionName = option => {
+    const { i18n } = this.props;
+    switch (option) {
+      case 'partial_match_for_tags':
+        return i18n.searchTargetTagPartial;
+      case 'exact_match_for_tags':
+        return i18n.searchTargetTagTotal;
+      case 'title_and_caption':
+        return i18n.searchTargetTitleCaption;
+      case '':
+        return i18n.searchDurationNothing;
+      case 'within_last_day':
+        return i18n.searchDurationLastDay;
+      case 'within_last_week':
+        return i18n.searchDurationLastWeek;
+      case 'within_last_month':
+        return i18n.searchDurationLastMonth;
+      case 'date_desc':
+        return i18n.searchOrderNewest;
+      case 'date_asc':
+        return i18n.searchOrderOldest;
+      default:
+        return '';
+    }
+  };
+
+  renderSectionHeader = ({ section }) =>
+    <View key={section.key} style={styles.sectionHeader}>
+      <Text style={styles.sectionHeaderTitle}>
+        {this.getSearchTypeName(section.key)}
+      </Text>
+    </View>;
+
+  renderItem = ({ item }) => {
+    const { target, duration, sort } = this.state;
     return (
-      <PXTouchable 
-        key={item.id} 
-        onPress={() => this.handleOnPressRow(item.type, item.value)}
-      >
+      <PXTouchable onPress={() => this.handleOnPressRow(item.type, item.value)}>
         <View style={styles.row}>
-          <Text>{item.name}</Text>
-          {
-            item.type === "target" &&
-            item.value === target &&
-            <Icon 
-              name="check"
-              color="#2196F3" 
-            />
-          }
-          {
-            item.type === "duration" &&
-            item.value === duration &&
-            <Icon 
-              name="check"
-              color="#2196F3" 
-            />
-          }
+          <Text>
+            {this.getSearchOptionName(item.value)}
+          </Text>
+          {((item.type === 'target' && item.value === target) ||
+            (item.type === 'duration' && item.value === duration) ||
+            (item.type === 'sort' && item.value === sort)) &&
+            <Icon name="check" color={globalStyleVariables.PRIMARY_COLOR} />}
         </View>
       </PXTouchable>
-    )
-  }
+    );
+  };
 
-  renderSeparator = (sectionId, rowId) => {
-    return (
-      <Separator key={`${sectionId}-${rowId}`} />
-    )
-  }
+  renderSeparator = (sectionId, rowId) =>
+    <Separator key={`${sectionId}-${rowId}`} />;
 
   handleOnPressRow = (filterType, value) => {
-    console.log(filterType, value)
     if (filterType === 'target') {
       this.setState({ target: value });
-    }
-    else if (filterType === 'duration') {
+    } else if (filterType === 'duration') {
       this.setState({ duration: value });
+    } else if (filterType === 'sort') {
+      this.setState({ sort: value });
     }
-  }
+  };
 
   render() {
-    const { onPressApplyFilter } = this.props;
-    const { target, duration } = this.state;
-    const dataSource = this.dataSource.cloneWithRowsAndSections(data);
+    const { i18n, navigation } = this.props;
+    const { onPressApplyFilter } = navigation.state.params;
+    const { target, duration, sort } = this.state;
     return (
-      <View style={styles.container}>
-        <ListView
-          dataSource={dataSource}
-          renderRow={this.renderRow}
+      <View style={globalStyles.container}>
+        <SectionList
+          renderItem={this.renderItem}
           renderSectionHeader={this.renderSectionHeader}
-          renderSeparator={this.renderSeparator}
-          keyboardShouldPersistTaps="always"
-        />  
+          ItemSeparatorComponent={this.renderSeparator}
+          keyExtractor={item => item.value}
+          sections={sections}
+          initialNumToRender={12}
+        />
         <View style={styles.searchFilterButtonContainer}>
-          <PXTouchable 
-            onPress={() => onPressApplyFilter(target, duration)}
+          <PXTouchable
+            onPress={() => onPressApplyFilter(target, duration, sort)}
             style={styles.searchFilterButton}
           >
-            <Text style={styles.searchFilterButtonText}>Apply Search Duration</Text>
-          </PXTouchable> 
+            <Text style={styles.searchFilterButtonText}>
+              {i18n.searchApplyFilter}
+            </Text>
+          </PXTouchable>
         </View>
       </View>
-    )
+    );
   }
 }
 
-export default SearchFilterModal;
+export default connectLocalization(SearchFilterModal);

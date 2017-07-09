@@ -1,205 +1,90 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  ActivityIndicator,
-  Dimensions,
-  ListView,
-  RecyclerViewBackedScrollView,
   RefreshControl,
+  FlatList,
+  Platform,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
-//import GridView from 'react-native-grid-view';
-// import Image from 'react-native-image-progress';
-import GridView from './GridView';
+import { withNavigation } from 'react-navigation';
+import IllustItem from './IllustItem';
 import Loader from './Loader';
-import PXTouchable from './PXTouchable';
-import PXImage from './PXImage';
-import OverlayImagePages from './OverlayImagePages';
-import OverlayLikeButton from './OverlayLikeButton';
-import BookmarkModal from '../containers/BookmarkModal';
 import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
+import { globalStyles, globalStyleVariables } from '../styles';
+import { SCREENS } from '../common/constants';
 
-const width = Dimensions.get('window').width; //full width
-const height = Dimensions.get('window').height; //full height
+const ILLUST_COLUMNS = 3;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // backgroundColor: '#F5FCFF',
-  },
-  cardImage: {
-    resizeMode: 'cover',
-    //margin: 5,
-    height: Dimensions.get('window').width / 3, //require for <Image />
-    // width: 130,
+  footer: {
+    marginBottom: 20,
   },
 });
 
 class IllustList extends Component {
-  constructor(props) {
-    super(props);
-    const { items } = props;
-    this.state = {
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-      }),
-      isOpenBookmarkModal: false,
-      selectedIllustId: null,
-      isBookmark: false,
-    };
-  }
-  componentWillReceiveProps(nextProps) {
-    const { data: { items: prevItems } } = this.props;
-    const { data: { items } } = nextProps;
-    if (items && items !== prevItems) {
-      const { dataSource } = this.state;
-      this.setState({
-        dataSource: dataSource.cloneWithRows(items)
-      });
-    }
-  }
-  renderRow = (item) => {
-    const { onPressLikeButton } = this.props;
-    return (
-      <PXTouchable 
-        style={{ 
-          margin: 1,
-          backgroundColor: '#E9EBEE',
-          width: width / 3 - 2, 
-          height: width / 3 - 2,
-        }} 
-        key={item.id} 
-        onPress={() => this.handleOnPressItem(item)}
-      >
-        <PXImage 
-          uri={item.image_urls.square_medium}
-          style={[ styles.cardImage, {
-            width: width / 3 - 2, 
-            height: width / 3 - 2,
-          }]}
-        />
-        {
-          (item.meta_pages && item.meta_pages.length) ?
-          <OverlayImagePages total={item.meta_pages.length} />
-          :
-          null
-        }
-        <OverlayLikeButton 
-          isLike={item.is_bookmarked} 
-          onPress={() => this.handleOnPressLikeButton(item)} 
-          onLongPress={() => this.handleOnLongPressLikeButton(item)}
-        />
-      </PXTouchable>
-    );
-  }
+  renderItem = ({ item, index }) =>
+    <IllustItem
+      key={item.id}
+      item={item}
+      index={index}
+      numColumns={ILLUST_COLUMNS}
+      onPressItem={() => this.handleOnPressItem(item)}
+    />;
 
   renderFooter = () => {
     const { data: { nextUrl, loading } } = this.props;
-    return (
-      (nextUrl && loading) ?
-      <View style={{ 
-        width: width,
-        marginBottom: 20
-      }}>
-        <Loader verticalCenter={false} />
-      </View>
-      :
-      null
-    )
-  }
+    return nextUrl && loading
+      ? <View style={styles.footer}>
+          <Loader />
+        </View>
+      : null;
+  };
 
-  handleOnPressItem = (item) => {
-    Actions.detail({ item: item });
-  }
-
-  handleOnPressLikeButton = (item) => {
-    const { bookmarkIllust, unbookmarkIllust } = this.props;
-    if (item.is_bookmarked) {
-      unbookmarkIllust(item.id);
-    }
-    else {
-      bookmarkIllust(item.id);
-    }
-    // console.log(this.props);
-    // console.log('on press ', item.id, item.title);
-  }
-
-  handleOnLongPressLikeButton = (item) => {
-    this.setState({
-      isOpenBookmarkModal: true,
-      selectedIllustId: item.id,
-      isBookmark: item.is_bookmarked,
-    })
-  }
-
-  handleOnPressCloseBookmarkModalButton = () => {
-    this.setState({
-      isOpenBookmarkModal: false,
-      selectedIllustId: null,
-      isBookmark: false,
-    })
-  }
-
-  handleOnPressModalLikeButton = (illustId, bookmarkType, selectedTags) => {
-    const { bookmarkIllust, unbookmarkIllust } = this.props;
-    bookmarkIllust(illustId, bookmarkType, selectedTags);
-    this.handleOnPressCloseBookmarkModalButton();
-  }
-
-  handleOnPressModalRemoveButton = (illustId) => {
-    const { bookmarkIllust, unbookmarkIllust } = this.props;
-    unbookmarkIllust(illustId);
-    this.handleOnPressCloseBookmarkModalButton();
-  }
+  handleOnPressItem = item => {
+    const { navigate } = this.props.navigation;
+    navigate(SCREENS.Detail, { item });
+  };
 
   render() {
-    const { data: { items, loading, loaded }, refreshing, onRefresh, loadMoreItems, onScroll } = this.props;
-    const { dataSource, isOpenBookmarkModal, selectedIllustId, isBookmark } = this.state;
+    const {
+      data: { items, loading, loaded, refreshing },
+      onRefresh,
+      loadMoreItems,
+      onScroll,
+      maxItems,
+    } = this.props;
     return (
-      <View style={styles.container}>
-        {
-          !loaded && loading &&
-          <Loader />
-        }
-        {
-          (items && items.length) ?
-          <GridView 
-            dataSource={dataSource}
-            renderRow={this.renderRow}
-            pageSize={30}
-            onEndReachedThreshold={30}
-            onEndReached={loadMoreItems}
-            renderFooter={this.renderFooter}
-            enableEmptySections={true}
-            onScroll={onScroll}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-              />
-            }
-          />
-          :
-          null
-        }
-        {
-          isOpenBookmarkModal && selectedIllustId &&
-          <BookmarkModal 
-            illustId={selectedIllustId}
-            isBookmark={isBookmark}
-            onPressLikeButton={this.handleOnPressModalLikeButton}
-            onPressRemoveButton={this.handleOnPressModalRemoveButton}
-            onPressCloseButton={this.handleOnPressCloseBookmarkModalButton}
-          />
-        }
+      <View style={globalStyles.container}>
+        {(!items || (!loaded && loading)) && <Loader />}
+        {loaded
+          ? <FlatList
+              data={maxItems ? items.slice(0, maxItems) : items}
+              numColumns={ILLUST_COLUMNS}
+              keyExtractor={item => item.id}
+              renderItem={this.renderItem}
+              getItemLayout={(data, index) => ({
+                length: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS,
+                offset:
+                  globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS * index,
+                index,
+              })}
+              removeClippedSubviews={Platform.OS === 'android'}
+              initialNumToRender={5}
+              onEndReachedThreshold={0.1}
+              onEndReached={loadMoreItems}
+              ListFooterComponent={this.renderFooter}
+              onScroll={onScroll}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+            />
+          : null}
       </View>
     );
   }
 }
 
-export default connect(null, bookmarkIllustActionCreators)(IllustList);
+export default withNavigation(
+  connect(null, bookmarkIllustActionCreators)(IllustList),
+);

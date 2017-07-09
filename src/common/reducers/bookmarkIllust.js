@@ -1,51 +1,33 @@
-import { 
-  BOOKMARK_ILLUST, 
-  BOOKMARK_ILLUST_SUCCESS, 
-  BOOKMARK_ILLUST_FAILURE, 
-  UNBOOKMARK_ILLUST,
-  UNBOOKMARK_ILLUST_SUCCESS,
-  UNBOOKMARK_ILLUST_FAILURE,
-} from "../actions/bookmarkIllust";
+import { BOOKMARK_ILLUST, UNBOOKMARK_ILLUST } from '../constants/actionTypes';
 
-//unused
-export default function bookmarkIllust(state = {
+const initState = {
   loading: false,
   loaded: false,
-}, action) {
+};
+
+// unused
+export default function bookmarkIllust(state = initState, action) {
   switch (action.type) {
-    case BOOKMARK_ILLUST:
+    case BOOKMARK_ILLUST.REQUEST:
+    case UNBOOKMARK_ILLUST.REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case BOOKMARK_ILLUST_SUCCESS:
+    case BOOKMARK_ILLUST.SUCCESS:
+    case UNBOOKMARK_ILLUST.SUCCESS:
       return {
         ...state,
         loading: false,
         loaded: true,
-        lastUpdated: action.payload.receivedAt,
+        timestamp: action.payload.timestamp,
       };
-    case BOOKMARK_ILLUST_FAILURE:
-      return {
-        ...state,
-        loading: false,
-      };
-    case UNBOOKMARK_ILLUST:
-      return {
-        ...state,
-        loading: true,
-      };
-    case UNBOOKMARK_ILLUST_SUCCESS:
+    case BOOKMARK_ILLUST.FAILURE:
+    case UNBOOKMARK_ILLUST.FAILURE:
       return {
         ...state,
         loading: false,
         loaded: true,
-        lastUpdated: action.payload.receivedAt,
-      };
-    case UNBOOKMARK_ILLUST_FAILURE:
-      return {
-        ...state,
-        loading: false,
       };
     default:
       return state;

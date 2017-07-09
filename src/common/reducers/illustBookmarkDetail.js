@@ -1,45 +1,35 @@
-import { 
-  FETCH_ILLUST_BOOKMARK_DETAIL_REQUEST, 
-  FETCH_ILLUST_BOOKMARK_DETAIL_SUCCESS, 
-  FETCH_ILLUST_BOOKMARK_DETAIL_FAILURE, 
-  CLEAR_ILLUST_BOOKMARK_DETAIL,
-} from '../actions/illustBookmarkDetail';
+import { ILLUST_BOOKMARK_DETAIL } from '../constants/actionTypes';
 
-export default function illustBookmarkDetail(state = {
+const initState = {
   loading: false,
   loaded: false,
-  item: null,
-  illustId: null,
-}, action) {
+  item: {
+    tags: [],
+  },
+};
+
+export default function illustBookmarkDetail(state = initState, action) {
   switch (action.type) {
-    case CLEAR_ILLUST_BOOKMARK_DETAIL:
-      return {
-        ...state,
-        loading: false,
-        loaded: false,
-        item: null,
-        illustId: null,
-      };
-    case FETCH_ILLUST_BOOKMARK_DETAIL_REQUEST:
+    case ILLUST_BOOKMARK_DETAIL.CLEAR:
+      return initState;
+    case ILLUST_BOOKMARK_DETAIL.REQUEST:
       return {
         ...state,
         loading: true,
-        illustId: action.payload.illustId
       };
-    case FETCH_ILLUST_BOOKMARK_DETAIL_SUCCESS:
+    case ILLUST_BOOKMARK_DETAIL.SUCCESS:
       return {
         ...state,
         loading: false,
         loaded: true,
         item: action.payload.item,
-        illustId: action.payload.illustId,
-        lastUpdated: action.payload.receivedAt,
+        timestamp: action.payload.timestamp,
       };
-    case FETCH_ILLUST_BOOKMARK_DETAIL_FAILURE:
+    case ILLUST_BOOKMARK_DETAIL.FAILURE:
       return {
         ...state,
         loading: false,
-        illustId: action.payload.illustId,
+        loaded: true,
       };
     default:
       return state;

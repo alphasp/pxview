@@ -1,177 +1,200 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-  Dimensions,
-  ListView,
-  RecyclerViewBackedScrollView,
-  RefreshControl,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
-import debounce from 'lodash.debounce';
-import { Actions, ActionConst } from 'react-native-router-flux';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
-import SearchBar from '../components/SearchBar';
-import Header from '../components/Header';
-import SearchAutoCompleteResult from '../components/SearchAutoCompleteResult';
-import SearchUserAutoCompleteResult from '../components/SearchUserAutoCompleteResult';
-import { fetchSearchAutoComplete, clearSearchAutoComplete } from '../common/actions/searchAutoComplete';
-import { fetchSearchUserAutoComplete, clearSearchUserAutoComplete } from '../common/actions/searchUserAutoComplete';
-import { addSearchHistory ,removeSearchHistory, clearSearchHistory } from '../common/actions/searchHistory';
-import { SearchType } from '../common/actions/searchType';
+import SearchAutoCompleteResult from './SearchAutoCompleteResult';
+import SearchUsersAutoCompleteResult from './SearchUsersAutoCompleteResult';
+import { connectLocalization } from '../components/Localization';
+import PXTabView from '../components/PXTabView';
+import * as searchAutoCompleteActionCreators from '../common/actions/searchAutoComplete';
+import * as searchUserAutoCompleteActionCreators from '../common/actions/searchUsersAutoComplete';
+import * as searchHistoryActionCreators from '../common/actions/searchHistory';
+import { SEARCH_TYPES, SCREENS } from '../common/constants';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    position: 'absolute',
+    top: 0,
+    // top: APPBAR_HEIGHT + STATUSBAR_HEIGHT,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#fff',
   },
 });
 
 class Search extends Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   isShowSearchHistories: true
-    // };
+    const { searchType, i18n } = props;
+    this.state = {
+      index: searchType === SEARCH_TYPES.USER ? 1 : 0,
+      searchType,
+      routes: [
+        { key: '1', title: i18n.illustManga },
+        { key: '2', title: i18n.user },
+      ],
+    };
   }
 
-  componentDidMount() {
-    const { dispatch, word, isRenderPlaceHolder, searchType } = this.props;
-    Actions.refresh({
-      renderTitle: () => {
+  componentWillReceiveProps(nextProps) {
+    const { lang: prevLang } = this.props;
+    const { lang, i18n } = nextProps;
+    if (lang !== prevLang) {
+      this.setState({
+        routes: [
+          { key: '1', title: i18n.illustManga },
+          { key: '2', title: i18n.user },
+        ],
+      });
+    }
+  }
+
+  handleChangeTab = index => {
+    const newState = {
+      index,
+    };
+    if (index === 1) {
+      newState.searchType = SEARCH_TYPES.USER;
+    } else {
+      newState.searchType = SEARCH_TYPES.ILLUST;
+    }
+    this.setState(newState);
+    const { onChangeTab } = this.props;
+    if (onChangeTab) {
+      onChangeTab(index);
+    }
+  };
+
+  renderScene = ({ route }) => {
+    const {
+      word,
+      searchAutoComplete,
+      searchUsersAutoComplete,
+      searchHistory,
+    } = this.props;
+    switch (route.key) {
+      case '1':
         return (
-          <SearchBar 
-            enableBack={true} 
-            autoFocus={true} 
-            onSubmitEditing={this.handleOnSubmitSearch}
-            onChangeText={debounce(this.handleOnChangeSearchText, 300)}
-            onPressRemoveTag={this.handleOnPressRemoveTag}
-            word={word}
-            isRenderPlaceHolder={isRenderPlaceHolder}
-          />
-        )
-      }
-    });  
-    if (searchType === SearchType.USER) {
-      dispatch(clearSearchUserAutoComplete());
-    }
-    else {
-      dispatch(clearSearchAutoComplete());
-    }         
-  }
-
-  handleOnChangeSearchText = (word, searchType) => {
-    const { dispatch } = this.props;
-    if (searchType === SearchType.USER) {
-      dispatch(clearSearchUserAutoComplete());
-      if (word.length > 1) {
-        dispatch(fetchSearchUserAutoComplete(word));
-      }
-    }
-    else {
-      dispatch(clearSearchAutoComplete());
-      if (word.length > 1) {
-        dispatch(fetchSearchAutoComplete(word));
-      }
-    }
-  }
-  handleOnSubmitSearch = (word) => {
-    word = word.trim();
-    if (word) {
-      const { dispatch, searchType, isPopAndReplaceOnSubmit } = this.props;
-      if (isPopAndReplaceOnSubmit) {
-        Actions.pop();
-        setTimeout(() => Actions.refresh({ word: word, type: ActionConst.REPLACE }), 0)
-        //setTimeout(() => Actions.pop(), 0);
-      }
-      else {
-        if (searchType === SearchType.USER) {
-          Actions.searchUserResult({ word: word, type: ActionConst.REPLACE });
-        }
-        else {
-          Actions.searchResult({ word: word, type: ActionConst.REPLACE });
-        }
-      }
-     //dispatch(addSearchHistory(word));
-    }
-  }
-
-  handleOnPressAutoCompleteItem = (word) => {
-    this.handleOnSubmitSearch(word);
-  }
-
-  handleOnPressSearchHistoryItem = (word) => {
-    this.handleOnSubmitSearch(word);
-  }
-
-  handleOnPressUser = (userId) => {
-    Actions.userDetail({ userId: userId });
-  }
-
-  handleOnPressRemoveTag = (index) => {
-    const { word } = this.props;
-    const newWord = word.split(' ').slice(index, 1).join(' ');
-    if (newWord) {
-      this.handleOnSubmitSearch(newWord);
-    }
-    else {
-      Actions.pop();
-    }
-  }
-
-  handleOnPressRemoveSearchHistoryItem = (item) => {
-    const { dispatch } = this.props;
-    dispatch(removeSearchHistory(item));
-  }
-
-  handleOnPressClearSearchHistory = () => {
-    const { dispatch } = this.props;
-    dispatch(clearSearchHistory());
-  }
-
-  loadMoreUsers = () => {
-    const { dispatch, searchUserAutoComplete: { nextUrl } } = this.props;
-    if (nextUrl) {
-      dispatch(fetchSearchUserAutoComplete("", nextUrl));
-    }
-  }
-
-  render() {
-    const { searchType, searchAutoComplete, searchUserAutoComplete, searchHistory } = this.props;
-    return (
-      <View style={styles.container}>
-        {
-          searchType  === SearchType.USER ?
-          <SearchUserAutoCompleteResult 
-            searchUserAutoComplete={searchUserAutoComplete}
-            searchHistory={searchHistory}
-            onPressItem={this.handleOnPressUser}
-            onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
-            onPressRemoveSearchHistoryItem={this.handleOnPressRemoveSearchHistoryItem}
-            onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
-            loadMoreItems={this.loadMoreUsers}
-          />
-          :
-          <SearchAutoCompleteResult 
+          <SearchAutoCompleteResult
             searchAutoComplete={searchAutoComplete}
             searchHistory={searchHistory}
             onPressItem={this.handleOnPressAutoCompleteItem}
             onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
-            onPressRemoveSearchHistoryItem={this.handleOnPressRemoveSearchHistoryItem}
+            onPressRemoveSearchHistoryItem={
+              this.handleOnPressRemoveSearchHistoryItem
+            }
             onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
+            word={word}
           />
-        }
+        );
+      case '2':
+        return (
+          <SearchUsersAutoCompleteResult
+            searchUsersAutoComplete={searchUsersAutoComplete}
+            searchHistory={searchHistory}
+            onPressItem={this.handleOnPressUser}
+            onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
+            onPressRemoveSearchHistoryItem={
+              this.handleOnPressRemoveSearchHistoryItem
+            }
+            onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
+            loadMoreItems={this.loadMoreUsers}
+            word={word}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  submitSearch = word => {
+    word = word.trim();
+    if (word) {
+      const { onSubmitSearch, addSearchHistory } = this.props;
+      addSearchHistory(word);
+      if (onSubmitSearch) {
+        onSubmitSearch(word);
+      }
+    }
+  };
+
+  handleOnPressAutoCompleteItem = word => {
+    this.submitSearch(word);
+  };
+
+  handleOnPressSearchHistoryItem = word => {
+    this.submitSearch(word);
+  };
+
+  handleOnPressUser = userId => {
+    const { navigation } = this.props;
+    const { navigate } = navigation;
+    navigate(SCREENS.UserDetail, { userId });
+  };
+
+  handleOnPressRemoveSearchHistoryItem = item => {
+    const { removeSearchHistory } = this.props;
+    removeSearchHistory(item);
+  };
+
+  handleOnPressClearSearchHistory = () => {
+    const { clearSearchHistory } = this.props;
+    clearSearchHistory();
+  };
+
+  loadMoreUsers = () => {
+    const {
+      fetchSearchUserAutoComplete,
+      searchUsersAutoComplete: { nextUrl },
+    } = this.props;
+    if (nextUrl) {
+      fetchSearchUserAutoComplete(null, nextUrl);
+    }
+  };
+
+  render() {
+    const {
+      word,
+      searchAutoComplete,
+      searchUsersAutoComplete,
+      searchHistory,
+    } = this.props;
+    const { searchType } = this.state;
+    return (
+      <View style={styles.container}>
+        <PXTabView
+          navigationState={{
+            ...this.state,
+            word,
+            searchAutoComplete,
+            searchUsersAutoComplete,
+            searchHistory,
+            searchType,
+          }}
+          renderScene={this.renderScene}
+          onRequestChangeTab={this.handleChangeTab}
+          lazy={false}
+        />
       </View>
     );
   }
 }
 
-export default connect((state, { searchType }) => {
-  return {
-    searchAutoComplete: state.searchAutoComplete,
-    searchUserAutoComplete: state.searchUserAutoComplete,
-    searchHistory: state.searchHistory,
-    searchType: searchType || state.searchType.type,
-  }
-})(Search);
+export default connectLocalization(
+  connect(
+    (state, props) => {
+      const { word } = props;
+      return {
+        searchAutoComplete: state.searchAutoComplete,
+        searchUsersAutoComplete: state.searchUsersAutoComplete,
+        searchHistory: state.searchHistory,
+        word,
+      };
+    },
+    {
+      ...searchAutoCompleteActionCreators,
+      ...searchUserAutoCompleteActionCreators,
+      ...searchHistoryActionCreators,
+    },
+  )(Search),
+);

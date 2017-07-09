@@ -1,34 +1,32 @@
-import { 
-  REQUEST_RANKING, 
-  RECEIVE_RANKING, 
-  STOP_RANKING, 
-  CLEAR_RANKING, 
-  CLEAR_ALL_RANKING, 
-  RankingMode 
-} from "../actions/ranking";
-import { 
-  BOOKMARK_ILLUST, 
-  UNBOOKMARK_ILLUST,
-} from "../actions/bookmarkIllust";
+import { RANKING } from '../constants/actionTypes';
+import { RANKING_FOR_UI } from '../constants';
 
-export default function search(state = {
-  [RankingMode.DAILY]: { items: [] },
-  [RankingMode.WEEKLY]: { items: [] },
-  [RankingMode.MONTHLY]: { items: [] },
-}, action) {
+const initState = {
+  loading: false,
+  loaded: false,
+  refreshing: false,
+  items: [],
+  offset: null,
+  nextUrl: null,
+};
+
+function getDefaultStateForRankings() {
+  return Object.keys(RANKING_FOR_UI).reduce((prev, key) => {
+    prev[key] = initState;
+    return prev;
+  }, {});
+}
+
+export default function search(state = getDefaultStateForRankings(), action) {
   switch (action.type) {
-    case CLEAR_RANKING:
+    case RANKING.CLEAR:
       return {
         ...state,
-        [action.payload.rankingMode]: { items: [] },
+        [action.payload.rankingMode]: initState,
       };
-    case CLEAR_ALL_RANKING:
-      return {
-        [RankingMode.DAILY]: { items: [] },
-        [RankingMode.WEEKLY]: { items: [] },
-        [RankingMode.MONTHLY]: { items: [] },
-      };  
-    case REQUEST_RANKING:
+    case RANKING.CLEAR_ALL:
+      return getDefaultStateForRankings();
+    case RANKING.REQUEST:
       return {
         ...state,
         [action.payload.rankingMode]: {
@@ -36,92 +34,37 @@ export default function search(state = {
           options: action.payload.options,
           offset: action.payload.offset,
           loading: true,
-        }
+          refreshing: action.payload.refreshing,
+        },
       };
-    case RECEIVE_RANKING:
+    case RANKING.SUCCESS:
       return {
         ...state,
         [action.payload.rankingMode]: {
           ...state[action.payload.rankingMode],
-          options: action.payload.options,
           loading: false,
           loaded: true,
-          items: (state[action.payload.rankingMode] && state[action.payload.rankingMode].items) ? [...state[action.payload.rankingMode].items, ...action.payload.items] : action.payload.items,
-          offset: action.payload.offset,
+          refreshing: false,
+          items:
+            state[action.payload.rankingMode] &&
+            state[action.payload.rankingMode].items
+              ? [
+                  ...state[action.payload.rankingMode].items,
+                  ...action.payload.items,
+                ]
+              : action.payload.items,
           nextUrl: action.payload.nextUrl,
-          lastUpdated: action.payload.receivedAt
-        }
+          timestamp: action.payload.timestamp,
+        },
       };
-    case STOP_RANKING:
+    case RANKING.FAILURE:
       return {
         ...state,
         [action.payload.rankingMode]: {
           ...state[action.payload.rankingMode],
-          options: action.payload.options,
-          offset: action.payload.offset,
-          loading: false
-        }
-      };
-    case BOOKMARK_ILLUST:
-      return {
-        ...state,
-        [RankingMode.DAILY]: {
-          ...state[RankingMode.DAILY],
-          items: state[RankingMode.DAILY].items.map(item =>
-            item.id === action.payload.illustId ?
-            { ...item, is_bookmarked: true } 
-            :
-            item
-          )
-        },
-        [RankingMode.WEEKLY]: {
-          ...state[RankingMode.WEEKLY],
-          items: state[RankingMode.WEEKLY].items.map(item =>
-            item.id === action.payload.illustId ?
-            { ...item, is_bookmarked: true } 
-            :
-            item
-          )
-        },
-        [RankingMode.MONTHLY]: {
-          ...state[RankingMode.MONTHLY],
-          items: state[RankingMode.MONTHLY].items.map(item =>
-            item.id === action.payload.illustId ?
-            { ...item, is_bookmarked: true } 
-            :
-            item
-          )
-        },
-      };
-    case UNBOOKMARK_ILLUST:
-      return {
-        ...state,
-        [RankingMode.DAILY]: {
-          ...state[RankingMode.DAILY],
-          items: state[RankingMode.DAILY].items.map(item =>
-            item.id === action.payload.illustId ?
-            { ...item, is_bookmarked: false } 
-            :
-            item
-          )
-        },
-        [RankingMode.WEEKLY]: {
-          ...state[RankingMode.WEEKLY],
-          items: state[RankingMode.WEEKLY].items.map(item =>
-            item.id === action.payload.illustId ?
-            { ...item, is_bookmarked: false } 
-            :
-            item
-          )
-        },
-        [RankingMode.MONTHLY]: {
-          ...state[RankingMode.MONTHLY],
-          items: state[RankingMode.MONTHLY].items.map(item =>
-            item.id === action.payload.illustId ?
-            { ...item, is_bookmarked: false } 
-            :
-            item
-          )
+          loading: false,
+          loaded: true,
+          refreshing: false,
         },
       };
     default:

@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  Platform,
   Text,
-  ListView,
+  FlatList,
   TouchableWithoutFeedback,
   Modal,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
-import * as bookmarkTagActionCreators from '../common/actions/bookmarkTag';
+import * as bookmarkTagsActionCreators from '../common/actions/bookmarkTags';
+import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,17 +22,17 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     // borderRadius: 10,
-    //alignItems: 'center',
-    backgroundColor: '#fff', 
-    //padding: 20
+    // alignItems: 'center',
+    backgroundColor: '#fff',
+    // padding: 20
   },
   sectionHeader: {
     backgroundColor: '#E9EBEE',
   },
   sectionHeaderTitle: {
-    fontWeight: "bold", 
+    fontWeight: 'bold',
     // fontSize: 20,
-    padding: 10
+    padding: 10,
   },
   row: {
     padding: 10,
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   selectedTagContainer: {
-    backgroundColor: '#5cafec',
+    backgroundColor: globalStyleVariables.PRIMARY_COLOR,
   },
   selectedTagText: {
     color: '#fff',
@@ -50,97 +51,105 @@ class TagsFilterModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-        sectionHeaderHasChanged: (s1,s2) => s1 !== s2
-      }),
       tag: 'all',
     };
   }
 
   componentDidMount() {
-    const { fetchBookmarkTag, clearBookmarkTag, tagType } = this.props;
-    clearBookmarkTag(tagType);
-    fetchBookmarkTag(tagType);
+    const { fetchBookmarkTags, clearBookmarkTags, tagType } = this.props;
+    clearBookmarkTags(tagType);
+    fetchBookmarkTags(tagType);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { bookmarkTag: { items: prevItems } } = this.props;
-    const { bookmarkTag: { items } } = nextProps;
-    if (items && items !== prevItems) {
-      const { dataSource } = this.state;
-      this.setState({
-        dataSource: dataSource.cloneWithRows(items)
-      });
-    }
-  }
-
-  renderRow = (item) => {
-    //const { target, duration } = this.state;
-    const { tag, onSelectTag } = this.props;
+  renderItem = ({ item }) => {
+    // const { target, duration } = this.state;
+    const { tag, onSelectTag, i18n } = this.props;
     const isSelected = item.value === tag;
+    let tagName;
+    if (item.value === '') {
+      tagName = i18n.collectionTagsAll;
+    } else if (item.value === '未分類') {
+      tagName = i18n.collectionTagsUncategorized;
+    } else {
+      tagName = item.name;
+    }
     return (
-      <PXTouchable 
-        key={item.name} 
-        onPress={() => onSelectTag(item.value)}
-      >
+      <PXTouchable key={item.name} onPress={() => onSelectTag(item.value)}>
         <View style={[styles.row, isSelected && styles.selectedTagContainer]}>
           {
             <View style={styles.selectedTag}>
-              <Text style={isSelected && styles.selectedTagText}>{item.name}</Text>
+              <Text style={isSelected && styles.selectedTagText}>
+                {tagName}
+              </Text>
             </View>
           }
-          {
-            item.count &&
-            <Text style={isSelected && styles.selectedTagText}>{item.count}</Text>
-          }
+          {item.count &&
+            <Text style={isSelected && styles.selectedTagText}>
+              {item.count}
+            </Text>}
         </View>
       </PXTouchable>
-    )
-  }
+    );
+  };
 
-  renderSectionHeader = (sectionData, sectionID) => {
-    return (
-      <View key={sectionID} style={styles.sectionHeader}>
-        <Text style={styles.sectionHeaderTitle}>
-          Collection Tags
-        </Text>
-      </View>
-    )
-  }
+  loadMoreItems = () => {
+    const {
+      bookmarkTags: { nextUrl, loading },
+      fetchBookmarkTags,
+      tagType,
+    } = this.props;
+    if (!loading && nextUrl) {
+      fetchBookmarkTags(tagType, nextUrl);
+    }
+  };
 
   render() {
-    const { bookmarkTag: { items, loading, loaded }, onSelectTag, isOpen, onPressCloseButton } = this.props;
-    const { dataSource } = this.state;
+    const {
+      bookmarkTags: { items },
+      isOpen,
+      onPressCloseButton,
+      i18n,
+    } = this.props;
     return (
-      <View>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={isOpen}
-          onRequestClose={onPressCloseButton}
-          onShow={() => console.log('on show modal')}
-        >
-          <PXTouchable style={styles.container} onPress={onPressCloseButton}>
+      <Modal
+        animationType="fade"
+        transparent
+        visible={isOpen}
+        onRequestClose={onPressCloseButton}
+      >
+        <TouchableWithoutFeedback onPress={onPressCloseButton}>
+          <View style={styles.container}>
             <TouchableWithoutFeedback>
-              <View style={styles.innerContainer}>
-                <ListView
-                  dataSource={dataSource}
-                  renderRow={this.renderRow}
-                  renderSectionHeader={this.renderSectionHeader}
-                  keyboardShouldPersistTaps="always"
-                />  
+              <View>
+                <View style={styles.sectionHeader}>
+                  <Text style={styles.sectionHeaderTitle}>
+                    {i18n.collectionTags}
+                  </Text>
+                </View>
+                <View style={styles.innerContainer}>
+                  <FlatList
+                    data={items}
+                    keyExtractor={item => item.name}
+                    renderItem={this.renderItem}
+                    keyboardShouldPersistTaps="always"
+                    onEndReachedThreshold={0.1}
+                    onEndReached={this.loadMoreItems}
+                  />
+                </View>
               </View>
             </TouchableWithoutFeedback>
-          </PXTouchable>
-        </Modal>
-      </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     );
   }
 }
 
-export default connect((state, props) => {
-  return {
-    bookmarkTag: state.bookmarkTag[props.tagType]
-  }
-}, bookmarkTagActionCreators)(TagsFilterModal);
+export default connectLocalization(
+  connect(
+    (state, props) => ({
+      bookmarkTags: state.bookmarkTags[props.tagType],
+    }),
+    bookmarkTagsActionCreators,
+  )(TagsFilterModal),
+);

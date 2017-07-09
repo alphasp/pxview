@@ -1,46 +1,48 @@
-import { 
-  FETCH_USER_MY_PIXIV_REQUEST, 
-  FETCH_USER_MY_PIXIV_SUCCESS, 
-  FETCH_USER_MY_PIXIV_FAILURE, 
-  CLEAR_USER_MY_PIXIV,
-  CLEAR_ALL_USER_MY_PIXIV,
-  FollowerType
-} from '../actions/userMyPixiv';
+import { USER_MY_PIXIV } from '../constants/actionTypes';
 
 export default function userMyPixiv(state = {}, action) {
   switch (action.type) {
-    case CLEAR_USER_MY_PIXIV:
+    case USER_MY_PIXIV.CLEAR:
       return {
         ...state,
         [action.payload.userId]: {},
       };
-    case CLEAR_ALL_USER_MY_PIXIV:
+    case USER_MY_PIXIV.CLEAR_ALL:
       return {};
-    case FETCH_USER_MY_PIXIV_REQUEST:
+    case USER_MY_PIXIV.REQUEST:
       return {
         ...state,
         [action.payload.userId]: {
-          loading: true
-        }
+          ...state[action.payload.userId],
+          loading: true,
+          refreshing: action.payload.refreshing,
+        },
       };
-    case FETCH_USER_MY_PIXIV_SUCCESS:
+    case USER_MY_PIXIV.SUCCESS:
       return {
         ...state,
         [action.payload.userId]: {
           loading: false,
           loaded: true,
-          items: (state[action.payload.userId] && state[action.payload.userId].items) ? [...state[action.payload.userId].items, ...action.payload.items] : action.payload.items,
+          refreshing: false,
+          items:
+            state[action.payload.userId] && state[action.payload.userId].items
+              ? [...state[action.payload.userId].items, ...action.payload.items]
+              : action.payload.items,
           offset: action.payload.offset,
           nextUrl: action.payload.nextUrl,
-          lastUpdated: action.payload.receivedAt,
-        }
+          timestamp: action.payload.timestamp,
+        },
       };
-    case FETCH_USER_MY_PIXIV_FAILURE:
+    case USER_MY_PIXIV.FAILURE:
       return {
         ...state,
         [action.payload.userId]: {
-          loading: false
-        }
+          ...state[action.payload.userId],
+          loading: false,
+          loaded: true,
+          refreshing: true,
+        },
       };
     default:
       return state;

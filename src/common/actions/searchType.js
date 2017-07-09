@@ -1,19 +1,11 @@
-//import { createAction } from 'redux-actions';
-import qs from "qs";
-import { addError } from './error';
-import pixiv from '../helpers/ApiClient';
+import { SEARCH_TYPE } from '../constants/actionTypes';
 
-export const SET_SEARCH_TYPE = 'SET_SEARCH_TYPE';
-export const SearchType = {
-  ILLUST: 'ILLUST',
-  USER: 'USER'
-}
-
+// eslint-disable-next-line import/prefer-default-export
 export function setSearchType(type) {
   return {
-    type: SET_SEARCH_TYPE,
+    type: SEARCH_TYPE.SET,
     payload: {
       type,
-    }
+    },
   };
 }

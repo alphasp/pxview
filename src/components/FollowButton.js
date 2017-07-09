@@ -1,38 +1,43 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Platform,
-  Text,
-} from 'react-native';
+import { StyleSheet, Text } from 'react-native';
+import { connectLocalization } from './Localization';
 import PXTouchable from './PXTouchable';
+import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
   button: {
-    //borderColor: '#5cafec',
-    // borderRadius: 16,
-    // borderWidth: 1,
-
-    //justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
-    borderColor: '#5cafec',
+    borderColor: globalStyleVariables.PRIMARY_COLOR,
     borderWidth: 1,
     borderRadius: 5,
     alignItems: 'center',
   },
   buttonText: {
-    padding: 10,
-    color: '#5cafec',
-  }
+    padding: 8,
+    color: globalStyleVariables.PRIMARY_COLOR,
+  },
 });
 
-const FollowButton = (props) => {
-  const { isFollow, onPress, onLongPress } = props;
+const FollowButton = props => {
+  const {
+    isFollow,
+    onPress,
+    onLongPress,
+    i18n,
+    buttonStyle,
+    textStyle,
+  } = props;
   return (
-    <PXTouchable style={styles.button} onPress={onPress} onLongPress={onLongPress}>
-      <Text style={styles.buttonText}>{isFollow ? "Following" : "Follow"}</Text>
-    </PXTouchable> 
+    <PXTouchable
+      style={[styles.button, buttonStyle]}
+      onPress={onPress}
+      onLongPress={onLongPress}
+    >
+      <Text style={[styles.buttonText, textStyle]}>
+        {isFollow ? i18n.following : i18n.follow}
+      </Text>
+    </PXTouchable>
   );
-}
+};
 
-export default FollowButton;
+export default connectLocalization(FollowButton);
