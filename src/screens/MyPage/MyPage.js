@@ -6,8 +6,7 @@ import CookieManager from 'react-native-cookies';
 import { connectLocalization } from '../../components/Localization';
 import UserCover from '../../components/UserCover';
 import * as authActionCreators from '../../common/actions/auth';
-import * as browsingHistoryActionCreators
-  from '../../common/actions/browsingHistory';
+import * as browsingHistoryActionCreators from '../../common/actions/browsingHistory';
 import { globalStyleVariables } from '../../styles';
 import { SCREENS } from '../../common/constants';
 
@@ -173,7 +172,7 @@ class MyPage extends Component {
     }
     return (
       <List>
-        {list.map(item => (
+        {list.map(item =>
           <ListItem
             key={item.id}
             title={i18n[item.title]}
@@ -183,8 +182,8 @@ class MyPage extends Component {
               style: { width: 30, textAlign: 'center' },
             }}
             onPress={() => this.handleOnPressListItem(item)}
-          />
-        ))}
+          />,
+        )}
       </List>
     );
   };

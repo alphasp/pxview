@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
 });
 class CommentList extends Component {
-  renderRow = ({ item }) => (
+  renderRow = ({ item }) =>
     <View key={item.id} style={styles.commentContainer}>
       <PXThumbnailTouchable
         uri={item.user.profile_image_urls.medium}
@@ -48,18 +48,21 @@ class CommentList extends Component {
       <View style={styles.nameCommentContainer}>
         <View style={styles.nameContainer}>
           <PXTouchable onPress={() => this.handleOnPressUser(item.user.id)}>
-            <Text>{item.user.name}</Text>
+            <Text>
+              {item.user.name}
+            </Text>
           </PXTouchable>
           <Text style={styles.date}>
             {moment(item.date).format('YYYY-MM-DD HH:mm')}
           </Text>
         </View>
         <View style={styles.comment}>
-          <Text>{item.comment}</Text>
+          <Text>
+            {item.comment}
+          </Text>
         </View>
       </View>
-    </View>
-  );
+    </View>;
 
   renderFooter = () => {
     const { data: { nextUrl, loading } } = this.props;

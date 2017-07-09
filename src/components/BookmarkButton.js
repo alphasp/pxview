@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as Animatable from 'react-native-animatable';
-import * as bookmarkIllustActionCreators
-  from '../common/actions/bookmarkIllust';
+import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
 import * as modalActionCreators from '../common/actions/modal';
 import { MODAL_TYPES, SCREENS } from '../common/constants';
 

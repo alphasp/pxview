@@ -51,7 +51,9 @@ class SearchUsersAutoCompleteList extends PureComponent {
               uri={item.user.profile_image_urls.medium}
               onPress={() => onPressItem(item.user.id)}
             />
-            <Text style={styles.username}>{item.user.name}</Text>
+            <Text style={styles.username}>
+              {item.user.name}
+            </Text>
           </View>
           <FollowButtonContainer user={item.user} navigation={navigation} />
         </View>
@@ -59,9 +61,8 @@ class SearchUsersAutoCompleteList extends PureComponent {
     );
   };
 
-  renderSeparator = (sectionId, rowId) => (
-    <Separator key={`${sectionId}-${rowId}`} />
-  );
+  renderSeparator = (sectionId, rowId) =>
+    <Separator key={`${sectionId}-${rowId}`} />;
 
   renderFooter = () => {
     const { data: { nextUrl } } = this.props;

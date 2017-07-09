@@ -13,9 +13,8 @@ import { FOLLOWING_TYPES } from '../constants';
 export function* handleFollowUser(action) {
   const { userId, followType } = action.payload;
   try {
-    const followTypeString = followType === FOLLOWING_TYPES.PRIVATE
-      ? 'private'
-      : 'public';
+    const followTypeString =
+      followType === FOLLOWING_TYPES.PRIVATE ? 'private' : 'public';
     yield apply(pixiv, pixiv.followUser, [userId, followTypeString]);
     yield put(followUserSuccess(userId));
   } catch (err) {

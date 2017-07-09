@@ -14,10 +14,8 @@ import { connectLocalization } from '../../components/Localization';
 import PXSearchBar from '../../components/PXSearchBar';
 import PXTabView from '../../components/PXTabView';
 import HeaderFilterButton from '../../components/HeaderFilterButton';
-import * as searchAutoCompleteActionCreators
-  from '../../common/actions/searchAutoComplete';
-import * as searchUsersAutoCompleteActionCreators
-  from '../../common/actions/searchUsersAutoComplete';
+import * as searchAutoCompleteActionCreators from '../../common/actions/searchAutoComplete';
+import * as searchUsersAutoCompleteActionCreators from '../../common/actions/searchUsersAutoComplete';
 import { navReplace } from '../../common/actions/nav';
 import { SEARCH_TYPES, SCREENS } from '../../common/constants';
 

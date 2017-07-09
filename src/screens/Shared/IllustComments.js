@@ -5,8 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import ActionButton from 'react-native-action-button';
 import CommentList from '../../components/CommentList';
 import ViewMoreButton from '../../components/ViewMoreButton';
-import * as illustCommentsActionCreators
-  from '../../common/actions/illustComments';
+import * as illustCommentsActionCreators from '../../common/actions/illustComments';
 import { makeGetIllustCommentsItems } from '../../common/selectors';
 import { globalStyles } from '../../styles';
 import { SCREENS } from '../../common/constants';

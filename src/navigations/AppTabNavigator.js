@@ -15,14 +15,13 @@ import NewWorks from '../screens/NewWorks/NewWorks';
 import MyPage from '../screens/MyPage/MyPage';
 import { SCREENS } from '../common/constants';
 
-const renderTabBarIcon = (tintColor, focused, name, iconType) => (
+const renderTabBarIcon = (tintColor, focused, name, iconType) =>
   <Icon
     name={name}
     type={iconType || 'font-awesome'}
     size={24}
     color={tintColor}
-  />
-);
+  />;
 
 const AppTabNavigator = TabNavigator(
   {
@@ -73,9 +72,8 @@ const AppTabNavigator = TabNavigator(
     animationEnabled: false,
     lazy: true,
     tabBarPosition: 'bottom',
-    tabBarComponent: Platform.OS === 'android'
-      ? NavigationComponent
-      : TabBarBottom,
+    tabBarComponent:
+      Platform.OS === 'android' ? NavigationComponent : TabBarBottom,
     tabBarOptions: {
       activeTintColor: 'rgb(59,89,152)',
       inactiveTintColor: 'rgb(204,204,204)',

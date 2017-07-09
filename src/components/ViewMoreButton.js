@@ -19,15 +19,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const ViewMoreButton = ({ i18n, onPress }) => (
+const ViewMoreButton = ({ i18n, onPress }) =>
   <View style={styles.container}>
     <PXTouchable onPress={onPress}>
       <View style={styles.viewMoreContainer}>
-        <Text>{i18n.viewMore}</Text>
+        <Text>
+          {i18n.viewMore}
+        </Text>
         <Icon name="chevron-down" style={styles.chevronIcon} />
       </View>
     </PXTouchable>
-  </View>
-);
+  </View>;
 
 export default connectLocalization(ViewMoreButton);

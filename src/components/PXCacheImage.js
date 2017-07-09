@@ -20,15 +20,16 @@ class PXCacheImage extends Component {
       path: `${RNFetchBlob.fs.dirs.CacheDir}/pxview/${uri.split('/').pop()}`,
     }).fetch('GET', uri, {
       referer: 'http://www.pixiv.net',
-      //'Cache-Control' : 'no-store'
+      // 'Cache-Control' : 'no-store'
     });
     this.task
       .then(res => {
         if (!this.unmounting) {
           // const base64Str = `data:image/png;base64,${res.base64()}`;
-          const filePath = Platform.OS === 'android'
-            ? `file://${res.path()}`
-            : `${res.path()}`;
+          const filePath =
+            Platform.OS === 'android'
+              ? `file://${res.path()}`
+              : `${res.path()}`;
           Image.getSize(filePath, (width, height) => {
             if (!this.unmounting) {
               this.setState({
@@ -71,9 +72,10 @@ class PXCacheImage extends Component {
             }}
             style={[
               {
-                width: width > globalStyleVariables.WINDOW_WIDTH
-                  ? globalStyleVariables.WINDOW_WIDTH
-                  : width,
+                width:
+                  width > globalStyleVariables.WINDOW_WIDTH
+                    ? globalStyleVariables.WINDOW_WIDTH
+                    : width,
                 height: globalStyleVariables.WINDOW_WIDTH * height / width,
               },
               style,

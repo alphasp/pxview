@@ -13,9 +13,8 @@ import { BOOKMARK_TYPES } from '../constants';
 export function* handleBookmarkIllust(action) {
   const { illustId, bookmarkType, tags } = action.payload;
   try {
-    const bookmarkTypeString = bookmarkType === BOOKMARK_TYPES.PRIVATE
-      ? 'private'
-      : 'public';
+    const bookmarkTypeString =
+      bookmarkType === BOOKMARK_TYPES.PRIVATE ? 'private' : 'public';
     yield apply(pixiv, pixiv.bookmarkIllust, [
       illustId,
       bookmarkTypeString,

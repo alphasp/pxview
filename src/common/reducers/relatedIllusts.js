@@ -33,10 +33,14 @@ export default function relatedIllusts(state = {}, action) {
           loading: false,
           loaded: true,
           refreshing: false,
-          items: state[action.payload.illustId] &&
+          items:
+            state[action.payload.illustId] &&
             state[action.payload.illustId].items
-            ? [...state[action.payload.illustId].items, ...action.payload.items]
-            : action.payload.items,
+              ? [
+                  ...state[action.payload.illustId].items,
+                  ...action.payload.items,
+                ]
+              : action.payload.items,
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp,
         },

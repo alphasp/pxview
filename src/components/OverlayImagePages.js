@@ -21,11 +21,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const OverlayImagePages = props => (
+const OverlayImagePages = props =>
   <View style={styles.container}>
     <Icon name="picture-o" color="#fff" />
-    <Text style={styles.text}>{props.total}</Text>
-  </View>
-);
+    <Text style={styles.text}>
+      {props.total}
+    </Text>
+  </View>;
 
 export default OverlayImagePages;

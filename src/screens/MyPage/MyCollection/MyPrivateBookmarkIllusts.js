@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import IllustList from '../../../components/IllustList';
-import * as myPrivateBookmarkIllustActionCreators
-  from '../../../common/actions/myPrivateBookmarkIllusts';
+import * as myPrivateBookmarkIllustActionCreators from '../../../common/actions/myPrivateBookmarkIllusts';
 import { getMyPrivateBookmarkIllustsItems } from '../../../common/selectors';
 
 class MyPrivateBookmarkIllusts extends Component {

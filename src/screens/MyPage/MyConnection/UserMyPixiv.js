@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import UserListContainer from '../../../containers/UserListContainer';
-import * as userMyPixivActionCreators
-  from '../../../common/actions/userMyPixiv';
+import * as userMyPixivActionCreators from '../../../common/actions/userMyPixiv';
 import { makeGetUserMyPixivItems } from '../../../common/selectors';
 
 class UserMyPixiv extends Component {

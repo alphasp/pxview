@@ -112,7 +112,8 @@ export default connectLocalization(
   connect(
     (state, props) => ({
       auth: state.auth,
-      onLoginSuccess: props.onLoginSuccess ||
+      onLoginSuccess:
+        props.onLoginSuccess ||
         (props.navigation.state &&
           props.navigation.state.params &&
           props.navigation.state.params.onLoginSuccess),

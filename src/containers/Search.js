@@ -5,10 +5,8 @@ import SearchAutoCompleteResult from './SearchAutoCompleteResult';
 import SearchUsersAutoCompleteResult from './SearchUsersAutoCompleteResult';
 import { connectLocalization } from '../components/Localization';
 import PXTabView from '../components/PXTabView';
-import * as searchAutoCompleteActionCreators
-  from '../common/actions/searchAutoComplete';
-import * as searchUserAutoCompleteActionCreators
-  from '../common/actions/searchUsersAutoComplete';
+import * as searchAutoCompleteActionCreators from '../common/actions/searchAutoComplete';
+import * as searchUserAutoCompleteActionCreators from '../common/actions/searchUsersAutoComplete';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import { SEARCH_TYPES, SCREENS } from '../common/constants';
 

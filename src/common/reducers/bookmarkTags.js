@@ -42,10 +42,13 @@ export default function bookmarkTags(
           ...state[action.payload.tagType],
           loading: false,
           loaded: true,
-          items: state[action.payload.tagType] &&
-            state[action.payload.tagType].items
-            ? [...state[action.payload.tagType].items, ...action.payload.items]
-            : action.payload.items,
+          items:
+            state[action.payload.tagType] && state[action.payload.tagType].items
+              ? [
+                  ...state[action.payload.tagType].items,
+                  ...action.payload.items,
+                ]
+              : action.payload.items,
           offset: action.payload.offset,
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp,

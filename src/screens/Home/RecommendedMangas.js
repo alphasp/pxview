@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import IllustList from '../../components/IllustList';
-import * as recommendedMangasActionCreators
-  from '../../common/actions/recommendedMangas';
+import * as recommendedMangasActionCreators from '../../common/actions/recommendedMangas';
 import { getRecommendedMangasItems } from '../../common/selectors';
 
 class RecommendedMangas extends Component {

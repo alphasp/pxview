@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import IllustList from '../../components/IllustList';
-import * as recommendedIllustsActionCreators
-  from '../../common/actions/recommendedIllusts';
+import * as recommendedIllustsActionCreators from '../../common/actions/recommendedIllusts';
 import { getRecommendedIllustsItems } from '../../common/selectors';
 
 class RecommendedIllusts extends Component {

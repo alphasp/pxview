@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import UserListContainer from '../../../containers/UserListContainer';
 import { connectLocalization } from '../../../components/Localization';
 import EmptyStateView from '../../../components/EmptyStateView';
-import * as userFollowersActionCreators
-  from '../../../common/actions/userFollowers';
+import * as userFollowersActionCreators from '../../../common/actions/userFollowers';
 import { makeGetUserFollowersItems } from '../../../common/selectors';
 
 class UserFollowers extends Component {

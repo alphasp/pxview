@@ -89,14 +89,14 @@ class Settings extends Component {
     const { i18n } = this.props;
     return (
       <List>
-        {list.map(item => (
+        {list.map(item =>
           <ListItem
             key={item.id}
             title={i18n[item.title]}
             onPress={() => this.handleOnPressListItem(item)}
             hideChevron={item.hideChevron}
-          />
-        ))}
+          />,
+        )}
       </List>
     );
   };

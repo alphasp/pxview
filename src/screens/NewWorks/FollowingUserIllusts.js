@@ -5,8 +5,7 @@ import { Button } from 'react-native-elements';
 import { connectLocalization } from '../../components/Localization';
 import IllustList from '../../components/IllustList';
 import EmptyStateView from '../../components/EmptyStateView';
-import * as followingUserIllustsActionCreators
-  from '../../common/actions/followingUserIllusts';
+import * as followingUserIllustsActionCreators from '../../common/actions/followingUserIllusts';
 import { getFollowingUserIllustsItems } from '../../common/selectors';
 import { SCREENS } from '../../common/constants';
 import { globalStyleVariables } from '../../styles';

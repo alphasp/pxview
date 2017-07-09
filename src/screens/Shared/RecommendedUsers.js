@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import UserListContainer from '../../containers/UserListContainer';
-import * as recommendedUsersActionCreators
-  from '../../common/actions/recommendedUsers';
+import * as recommendedUsersActionCreators from '../../common/actions/recommendedUsers';
 import { getRecommendedUsersItems } from '../../common/selectors';
 
 class RecommendedUsers extends Component {

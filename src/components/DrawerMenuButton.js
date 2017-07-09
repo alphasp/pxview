@@ -2,7 +2,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import PXTouchable from './PXTouchable';
 
-const DrawerMenuButton = ({ onPress, color, ...restProps }) => (
+const DrawerMenuButton = ({ onPress, color, ...restProps }) =>
   <PXTouchable onPress={onPress} {...restProps}>
     <Icon
       name="menu"
@@ -10,7 +10,6 @@ const DrawerMenuButton = ({ onPress, color, ...restProps }) => (
       color={color || '#fff'}
       style={{ margin: 16 }}
     />
-  </PXTouchable>
-);
+  </PXTouchable>;
 
 export default DrawerMenuButton;

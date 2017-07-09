@@ -99,11 +99,10 @@ export function* watchLoginRequest() {
       // user logged out, next while iteration will wait for the
       // next AUTH_LOGIN.REQUEST action
     } catch (err) {
-      const errMessage = err.errors &&
-        err.errors.system &&
-        err.errors.system.message
-        ? err.errors.system.message
-        : '';
+      const errMessage =
+        err.errors && err.errors.system && err.errors.system.message
+          ? err.errors.system.message
+          : '';
       yield put(loginFailure());
       yield put(addError(errMessage));
     }
@@ -124,11 +123,10 @@ export function* watchRefreshAccessTokenRequest() {
       // user logged out, next while iteration will wait for the
       // next AUTH_REFRESH_ACCESS_TOKEN.REQUEST action
     } catch (err) {
-      const errMessage = err.errors &&
-        err.errors.system &&
-        err.errors.system.message
-        ? err.errors.system.message
-        : '';
+      const errMessage =
+        err.errors && err.errors.system && err.errors.system.message
+          ? err.errors.system.message
+          : '';
       yield put(refreshAccessTokenFailure());
       yield put(addError(errMessage));
     }

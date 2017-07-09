@@ -5,8 +5,7 @@ import { connectLocalization } from '../../components/Localization';
 import IllustList from '../../components/IllustList';
 import NoResult from '../../components/NoResult';
 import ViewMoreButton from '../../components/ViewMoreButton';
-import * as relatedIllustsActionCreators
-  from '../../common/actions/relatedIllusts';
+import * as relatedIllustsActionCreators from '../../common/actions/relatedIllusts';
 import { makeGetRelatedIllustsItems } from '../../common/selectors';
 import { globalStyles } from '../../styles';
 import { SCREENS } from '../../common/constants';
@@ -76,10 +75,10 @@ class RelatedIllusts extends Component {
           (!items || !items.length) &&
           <NoResult text={i18n.noRelatedWorks} />}
         {isFeatureInDetailPage &&
-          relatedIllusts &&
-          relatedIllusts.loaded &&
-          items &&
-          items.length
+        relatedIllusts &&
+        relatedIllusts.loaded &&
+        items &&
+        items.length
           ? <View style={styles.viewMoreButtonContainer}>
               <ViewMoreButton
                 onPress={this.handleOnPressViewMoreRelatedIllusts}

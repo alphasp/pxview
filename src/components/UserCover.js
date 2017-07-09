@@ -34,7 +34,7 @@ const UserCover = ({
   onPressLogin,
   onPressSignUp,
   i18n,
-}) => (
+}) =>
   <View style={styles.avatarContainer}>
     <PXThumbnailTouchable
       key={(user && user.profile_image_urls.px_170x170) || defaultProfileImage}
@@ -46,7 +46,9 @@ const UserCover = ({
     <View style={styles.usernameContainer}>
       {user
         ? <PXTouchable onPress={onPressAvatar}>
-            <Text style={styles.username}>{user.name}</Text>
+            <Text style={styles.username}>
+              {user.name}
+            </Text>
           </PXTouchable>
         : <View style={styles.authActionContainer}>
             <OutlineButton
@@ -63,7 +65,6 @@ const UserCover = ({
             />
           </View>}
     </View>
-  </View>
-);
+  </View>;
 
 export default UserCover;

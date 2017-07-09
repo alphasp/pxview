@@ -26,10 +26,10 @@ export default function userBookmarkIllusts(state = {}, action) {
           loading: false,
           loaded: true,
           refreshing: false,
-          items: state[action.payload.userId] &&
-            state[action.payload.userId].items
-            ? [...state[action.payload.userId].items, ...action.payload.items]
-            : action.payload.items,
+          items:
+            state[action.payload.userId] && state[action.payload.userId].items
+              ? [...state[action.payload.userId].items, ...action.payload.items]
+              : action.payload.items,
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp,
         },

@@ -16,9 +16,8 @@ const navigationOptionsForTab = {
 const navigationOptionsForDrawer = ({ navigation, screenProps: { i18n } }) => ({
   title: i18n.home,
   drawerLabel: i18n.home,
-  drawerIcon: ({ tintColor }) => (
-    <DrawerIcon name="home" size={24} color={tintColor} />
-  ),
+  drawerIcon: ({ tintColor }) =>
+    <DrawerIcon name="home" size={24} color={tintColor} />,
   headerLeft: (
     <DrawerMenuButton onPress={() => navigation.navigate('DrawerOpen')} />
   ),

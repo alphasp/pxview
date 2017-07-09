@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import IllustTagList from '../../components/IllustTagList';
-import * as trendingIllustTagsActionCreators
-  from '../../common/actions/trendingIllustTags';
+import * as trendingIllustTagsActionCreators from '../../common/actions/trendingIllustTags';
 import { getTrendingIllustTagsItems } from '../../common/selectors';
 
 class TrendingIllustTags extends Component {

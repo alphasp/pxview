@@ -28,8 +28,7 @@ import Loader from '../../components/Loader';
 import * as userDetailActionCreators from '../../common/actions/userDetail';
 import * as userIllustsActionCreators from '../../common/actions/userIllusts';
 import * as userMangasActionCreators from '../../common/actions/userMangas';
-import * as userBookmarkIllustlActionCreators
-  from '../../common/actions/userBookmarkIllusts';
+import * as userBookmarkIllustlActionCreators from '../../common/actions/userBookmarkIllusts';
 import { makeGetUserDetailPageItems } from '../../common/selectors';
 import { SCREENS } from '../../common/constants';
 import { globalStyleVariables } from '../../styles';
@@ -136,20 +135,26 @@ class UserDetail extends Component {
         }
       : {};
     return {
-      headerTitle: user && isScrolled
-        ? <Animatable.View
-            style={styles.thumnailNameContainer}
-            animation={isShowTitle ? 'fadeIn' : 'fadeOut'}
-            duration={100}
-          >
-            <PXThumbnailTouchable uri={user.profile_image_urls.medium} />
-            <View style={styles.nameContainer}>
-              <Text style={styles.headerText}>{user.name}</Text>
-              <Text style={styles.headerText}>{user.account}</Text>
-            </View>
-          </Animatable.View>
-        : null,
-      headerRight: user &&
+      headerTitle:
+        user && isScrolled
+          ? <Animatable.View
+              style={styles.thumnailNameContainer}
+              animation={isShowTitle ? 'fadeIn' : 'fadeOut'}
+              duration={100}
+            >
+              <PXThumbnailTouchable uri={user.profile_image_urls.medium} />
+              <View style={styles.nameContainer}>
+                <Text style={styles.headerText}>
+                  {user.name}
+                </Text>
+                <Text style={styles.headerText}>
+                  {user.account}
+                </Text>
+              </View>
+            </Animatable.View>
+          : null,
+      headerRight:
+        user &&
         <View
           style={{
             flexDirection: 'row',
@@ -326,7 +331,9 @@ class UserDetail extends Component {
           </View>
         </View>
         <View style={styles.profileContainer}>
-          <Text style={styles.userName}>{detail.user.name}</Text>
+          <Text style={styles.userName}>
+            {detail.user.name}
+          </Text>
           <View style={{ flexDirection: 'row' }}>
             {detail.profile.webpage
               ? <View style={styles.row}>
@@ -339,7 +346,9 @@ class UserDetail extends Component {
                     )}
                     onPress={url => this.handleOnLinkPress(url)}
                   >
-                    <Text style={styles.stat}>{detail.profile.webpage}</Text>
+                    <Text style={styles.stat}>
+                      {detail.profile.webpage}
+                    </Text>
                   </Hyperlink>
                 </View>
               : null}
@@ -360,16 +369,28 @@ class UserDetail extends Component {
           </View>
           <View style={styles.row}>
             <View style={styles.row}>
-              <Text>{detail.profile.total_follow_users}</Text>
-              <Text style={styles.statType}> {i18n.following} </Text>
+              <Text>
+                {detail.profile.total_follow_users}
+              </Text>
+              <Text style={styles.statType}>
+                {' '}{i18n.following}{' '}
+              </Text>
             </View>
             <View style={styles.row}>
-              <Text>{detail.profile.total_follower}</Text>
-              <Text style={styles.statType}> {i18n.followers} </Text>
+              <Text>
+                {detail.profile.total_follower}
+              </Text>
+              <Text style={styles.statType}>
+                {' '}{i18n.followers}{' '}
+              </Text>
             </View>
             <View style={styles.row}>
-              <Text>{detail.profile.total_mypixiv_users}</Text>
-              <Text style={styles.statType}> {i18n.myPixiv} </Text>
+              <Text>
+                {detail.profile.total_mypixiv_users}
+              </Text>
+              <Text style={styles.statType}>
+                {' '}{i18n.myPixiv}{' '}
+              </Text>
             </View>
           </View>
         </View>
@@ -379,7 +400,9 @@ class UserDetail extends Component {
               linkStyle={styles.hyperlink}
               onPress={url => this.handleOnLinkPress(url)}
             >
-              <Text>{detail.user.comment}</Text>
+              <Text>
+                {detail.user.comment}
+              </Text>
             </Hyperlink>
           </View>
         </View>
@@ -447,21 +470,21 @@ class UserDetail extends Component {
       <View>
         {this.renderProfile(detail)}
         {userIllusts &&
-          !userIllusts.loading &&
-          userIllusts.items &&
-          userIllusts.items.length
+        !userIllusts.loading &&
+        userIllusts.items &&
+        userIllusts.items.length
           ? this.renderIllustCollection(userIllustsItems, detail.profile)
           : null}
         {userMangas &&
-          !userMangas.loading &&
-          userMangas.items &&
-          userMangas.items.length
+        !userMangas.loading &&
+        userMangas.items &&
+        userMangas.items.length
           ? this.renderMangaCollection(userMangasItems, detail.profile)
           : null}
         {userBookmarkIllusts &&
-          !userBookmarkIllusts.loading &&
-          userBookmarkIllusts.items &&
-          userBookmarkIllusts.items.length
+        !userBookmarkIllusts.loading &&
+        userBookmarkIllusts.items &&
+        userBookmarkIllusts.items.length
           ? this.renderBookmarks(userBookmarkIllustsItems)
           : null}
       </View>

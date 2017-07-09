@@ -30,9 +30,10 @@ class PXCacheImageTouchable extends Component {
 
   handleOnFoundImageSize = (width, height, url) => {
     if (width && height) {
-      const newWidth = width > globalStyleVariables.WINDOW_WIDTH
-        ? globalStyleVariables.WINDOW_WIDTH
-        : width;
+      const newWidth =
+        width > globalStyleVariables.WINDOW_WIDTH
+          ? globalStyleVariables.WINDOW_WIDTH
+          : width;
       const newHeight =
         (width > globalStyleVariables.WINDOW_WIDTH
           ? globalStyleVariables.WINDOW_WIDTH
@@ -67,7 +68,9 @@ class PXCacheImageTouchable extends Component {
         {loading &&
           pageNumber &&
           <View style={styles.pageNumberContainer}>
-            <Text style={styles.pageNumberText}>{pageNumber}</Text>
+            <Text style={styles.pageNumberText}>
+              {pageNumber}
+            </Text>
           </View>}
         {loading && !pageNumber && <Loader />}
         <PXCacheImage

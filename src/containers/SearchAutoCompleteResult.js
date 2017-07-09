@@ -3,8 +3,7 @@ import { View, StyleSheet, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import SearchHistory from '../components/SearchHistory';
 import SearchAutoCompleteList from '../components/SearchAutoCompleteList';
-import * as searchAutoCompleteActionCreators
-  from '../common/actions/searchAutoComplete';
+import * as searchAutoCompleteActionCreators from '../common/actions/searchAutoComplete';
 
 const styles = StyleSheet.create({
   container: {

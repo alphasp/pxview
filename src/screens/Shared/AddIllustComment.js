@@ -5,8 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../../components/Localization';
 import PXTouchable from '../../components/PXTouchable';
-import * as addIllustCommentActionCreators
-  from '../../common/actions/addIllustComment';
+import * as addIllustCommentActionCreators from '../../common/actions/addIllustComment';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,7 +23,8 @@ class AddIllustComment extends Component {
     const { state } = navigation;
     const { submit, comment, illustId } = state.params;
     return {
-      headerRight: submit &&
+      headerRight:
+        submit &&
         illustId &&
         <PXTouchable onPress={submit} disabled={!comment}>
           <Icon

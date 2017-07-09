@@ -94,7 +94,9 @@ class IllustTagList extends Component {
             style={[styles.image, imageStyle]}
           />
           <View style={[styles.tagContainer, tagContainerStyle]}>
-            <Text style={styles.tag}>{item.tag}</Text>
+            <Text style={styles.tag}>
+              {item.tag}
+            </Text>
           </View>
         </View>
       </PXTouchable>

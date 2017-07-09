@@ -18,9 +18,8 @@ export function* handleFetchUserFollowing(action) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
     } else {
       const options = {
-        restrict: followingType === FOLLOWING_TYPES.PRIVATE
-          ? 'private'
-          : 'public',
+        restrict:
+          followingType === FOLLOWING_TYPES.PRIVATE ? 'private' : 'public',
       };
       response = yield apply(pixiv, pixiv.userFollowing, [userId, options]);
     }

@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../../components/IllustList';
-import * as userBookmarkIllustActionCreators
-  from '../../common/actions/userBookmarkIllusts';
+import * as userBookmarkIllustActionCreators from '../../common/actions/userBookmarkIllusts';
 import { makeGetUserBookmarkIllustsItems } from '../../common/selectors';
 
 class UserBookmarkIllusts extends Component {

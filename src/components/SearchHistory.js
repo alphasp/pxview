@@ -34,7 +34,9 @@ class SearchHistory extends Component {
           onPress={() => onPressItem(item)}
           style={styles.searchHistoryText}
         >
-          <Text>{item}</Text>
+          <Text>
+            {item}
+          </Text>
         </PXTouchable>
         <Icon
           name="times"
@@ -51,7 +53,9 @@ class SearchHistory extends Component {
     return (
       <View style={globalStyles.container}>
         <View style={styles.searchHistoryContainer}>
-          <Text style={styles.searchHistoryTitle}>{i18n.searchHistory}</Text>
+          <Text style={styles.searchHistoryTitle}>
+            {i18n.searchHistory}
+          </Text>
           <PXTouchable onPress={onPressClearSearchHistory}>
             <Text style={styles.searchHistoryTitle}>
               {i18n.searchHistoryClear}

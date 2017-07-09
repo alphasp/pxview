@@ -31,8 +31,7 @@ import Tags from '../../components/Tags';
 import HeaderSaveImageButton from '../../components/HeaderSaveImageButton';
 import HeaderShareButton from '../../components/HeaderShareButton';
 // import { connectLocalization } from '../../components/Localization';
-import * as browsingHistoryActionCreators
-  from '../../common/actions/browsingHistory';
+import * as browsingHistoryActionCreators from '../../common/actions/browsingHistory';
 import { makeGetDetailItem } from '../../common/selectors';
 import { SEARCH_TYPES, SCREENS } from '../../common/constants';
 
@@ -119,12 +118,17 @@ class Detail extends Component {
             size={THUMBNAIL_SIZE}
           />
           <View style={styles.nameContainer}>
-            <Text style={styles.headerText}>{item.user.name}</Text>
-            <Text style={styles.headerText}>{item.user.account}</Text>
+            <Text style={styles.headerText}>
+              {item.user.name}
+            </Text>
+            <Text style={styles.headerText}>
+              {item.user.account}
+            </Text>
           </View>
         </PXTouchable>
       ),
-      headerRight: images &&
+      headerRight:
+        images &&
         images.length &&
         <View style={{ flexDirection: 'row' }}>
           <HeaderSaveImageButton imageUrls={images} saveAll />
@@ -137,9 +141,10 @@ class Detail extends Component {
     // const { item } = props;
     super(props);
     const { item } = props;
-    const images = item.page_count > 1
-      ? item.meta_pages.map(page => page.image_urls.original)
-      : [item.meta_single_page.original_image_url];
+    const images =
+      item.page_count > 1
+        ? item.meta_pages.map(page => page.image_urls.original)
+        : [item.meta_single_page.original_image_url];
     this.state = {
       mounting: true,
       isInitState: true,
@@ -175,7 +180,7 @@ class Detail extends Component {
     clearTimeout(this.timer);
   }
 
-  renderItem = ({ item, index }) => (
+  renderItem = ({ item, index }) =>
     <PXCacheImageTouchable
       key={item.image_urls.large}
       uri={item.image_urls.large}
@@ -191,8 +196,7 @@ class Detail extends Component {
       }}
       pageNumber={index + 1}
       onPress={() => this.handleOnPressImage(index)}
-    />
-  );
+    />;
 
   renderFooter = () => {
     const { item, navigation, i18n, authUser } = this.props;
@@ -206,8 +210,12 @@ class Detail extends Component {
             >
               <PXThumbnail uri={item.user.profile_image_urls.medium} />
               <View style={styles.nameContainer}>
-                <Text>{item.user.name}</Text>
-                <Text>{item.user.account}</Text>
+                <Text>
+                  {item.user.name}
+                </Text>
+                <Text>
+                  {item.user.account}
+                </Text>
               </View>
             </PXTouchable>
             {((authUser && authUser.id !== item.user.id) || !authUser) &&
@@ -223,17 +231,25 @@ class Detail extends Component {
             />
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text>{moment(item.create_date).format('YYYY-MM-DD')}</Text>
+            <Text>
+              {moment(item.create_date).format('YYYY-MM-DD')}
+            </Text>
             <Icon name="eye" style={{ marginLeft: 10 }} />
-            <Text style={{ marginLeft: 5 }}>{item.total_view}</Text>
+            <Text style={{ marginLeft: 5 }}>
+              {item.total_view}
+            </Text>
             <Icon name="heart" style={{ marginLeft: 10 }} />
-            <Text style={{ marginLeft: 5 }}>{item.total_bookmarks}</Text>
+            <Text style={{ marginLeft: 5 }}>
+              {item.total_bookmarks}
+            </Text>
           </View>
           {<Tags tags={item.tags} onPressTag={this.handleOnPressTag} />}
         </View>
         <View style={styles.sectionContainer}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>{i18n.comments}</Text>
+            <Text style={styles.sectionTitle}>
+              {i18n.comments}
+            </Text>
           </View>
           <IllustComments
             illustId={item.id}
@@ -247,7 +263,9 @@ class Detail extends Component {
           onLayout={this.handleOnLayoutRelatedIllusts}
         >
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>{i18n.relatedWorks}</Text>
+            <Text style={styles.sectionTitle}>
+              {i18n.relatedWorks}
+            </Text>
           </View>
           <RelatedIllusts
             illustId={item.id}
@@ -282,7 +300,8 @@ class Detail extends Component {
       viewableItems.length
     ) {
       this.setState({
-        imagePageNumber: `${viewableItems[0].index + 1} / ${item.meta_pages.length}`,
+        imagePageNumber: `${viewableItems[0].index + 1} / ${item.meta_pages
+          .length}`,
       });
     }
   };
@@ -330,9 +349,8 @@ class Detail extends Component {
     // Check if the user is scrolling up or down by confronting the new scroll position with your own one
     const currentOffset = e.nativeEvent.contentOffset.y;
     const contentHeight = e.nativeEvent.contentSize.height;
-    const direction = currentOffset > 0 && currentOffset > this.listViewOffset
-      ? 'down'
-      : 'up';
+    const direction =
+      currentOffset > 0 && currentOffset > this.listViewOffset ? 'down' : 'up';
     const layoutHeight = e.nativeEvent.layoutMeasurement.height;
     const offsetToHideActionButton =
       contentHeight -

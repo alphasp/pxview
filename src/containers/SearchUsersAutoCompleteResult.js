@@ -3,10 +3,8 @@ import { View, StyleSheet, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import SearchHistory from '../components/SearchHistory';
-import SearchUsersAutoCompleteList
-  from '../components/SearchUsersAutoCompleteList';
-import * as searchUsersAutoCompleteActionCreators
-  from '../common/actions/searchUsersAutoComplete';
+import SearchUsersAutoCompleteList from '../components/SearchUsersAutoCompleteList';
+import * as searchUsersAutoCompleteActionCreators from '../common/actions/searchUsersAutoComplete';
 import { getSearchUsersAutoCompleteItems } from '../common/selectors';
 
 const styles = StyleSheet.create({

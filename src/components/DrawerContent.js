@@ -9,8 +9,7 @@ import UserCover from './UserCover';
 import Separator from './Separator';
 import DrawerNavigatorItem from './DrawerNavigatorItem';
 import * as authActionCreators from '../common/actions/auth';
-import * as browsingHistoryActionCreators
-  from '../common/actions/browsingHistory';
+import * as browsingHistoryActionCreators from '../common/actions/browsingHistory';
 import { globalStyles } from '../styles';
 import { SCREENS } from '../common/constants';
 
@@ -184,14 +183,14 @@ class DrawerContent extends Component {
     }
     return (
       <View>
-        {list.map(item => (
+        {list.map(item =>
           <DrawerNavigatorItem
             key={item.id}
             label={i18n[item.title]}
             icon={<Icon name={item.icon} size={item.size || 24} />}
             onPress={() => this.handleOnDrawerItemPress(item)}
-          />
-        ))}
+          />,
+        )}
       </View>
     );
   };

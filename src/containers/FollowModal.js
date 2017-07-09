@@ -12,8 +12,7 @@ import { connect } from 'react-redux';
 import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
 import FollowButton from '../components/FollowButton';
-import * as userFollowDetailActionCreators
-  from '../common/actions/userFollowDetail';
+import * as userFollowDetailActionCreators from '../common/actions/userFollowDetail';
 import * as followUserActionCreators from '../common/actions/followUser';
 import * as modalActionCreators from '../common/actions/modal';
 import { FOLLOWING_TYPES } from '../common/constants';
@@ -147,7 +146,9 @@ class FollowModal extends Component {
                   </Text>
                 </View>
                 <View style={styles.form}>
-                  <Text>{i18n.private}</Text>
+                  <Text>
+                    {i18n.private}
+                  </Text>
                   <Switch
                     onValueChange={this.handleOnChangeIsPrivate}
                     value={isPrivate}
@@ -156,10 +157,14 @@ class FollowModal extends Component {
                 {isFollow
                   ? <View style={styles.actionContainer}>
                       <PXTouchable onPress={this.handleOnPressRemoveButton}>
-                        <Text>{i18n.followRemove}</Text>
+                        <Text>
+                          {i18n.followRemove}
+                        </Text>
                       </PXTouchable>
                       <PXTouchable onPress={this.handleOnPressFollowButton}>
-                        <Text>{i18n.follow}</Text>
+                        <Text>
+                          {i18n.follow}
+                        </Text>
                       </PXTouchable>
                     </View>
                   : <View style={styles.actionWithoutRemoveButtonContainer}>

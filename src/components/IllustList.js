@@ -10,8 +10,7 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import IllustItem from './IllustItem';
 import Loader from './Loader';
-import * as bookmarkIllustActionCreators
-  from '../common/actions/bookmarkIllust';
+import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
 import { globalStyles, globalStyleVariables } from '../styles';
 import { SCREENS } from '../common/constants';
 
@@ -24,15 +23,14 @@ const styles = StyleSheet.create({
 });
 
 class IllustList extends Component {
-  renderItem = ({ item, index }) => (
+  renderItem = ({ item, index }) =>
     <IllustItem
       key={item.id}
       item={item}
       index={index}
       numColumns={ILLUST_COLUMNS}
       onPressItem={() => this.handleOnPressItem(item)}
-    />
-  );
+    />;
 
   renderFooter = () => {
     const { data: { nextUrl, loading } } = this.props;
@@ -67,9 +65,8 @@ class IllustList extends Component {
               renderItem={this.renderItem}
               getItemLayout={(data, index) => ({
                 length: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS,
-                offset: globalStyleVariables.WINDOW_WIDTH /
-                  ILLUST_COLUMNS *
-                  index,
+                offset:
+                  globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS * index,
                 index,
               })}
               removeClippedSubviews={Platform.OS === 'android'}

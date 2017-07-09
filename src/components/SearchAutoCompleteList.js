@@ -27,7 +27,9 @@ class SearchAutoCompleteList extends PureComponent {
     return (
       <PXTouchable onPress={() => onPressItem(item)}>
         <View style={styles.row}>
-          <Text>{item}</Text>
+          <Text>
+            {item}
+          </Text>
         </View>
       </PXTouchable>
     );

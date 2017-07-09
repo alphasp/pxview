@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const DrawerNavigatorItem = ({ label, icon, onPress }) => (
+const DrawerNavigatorItem = ({ label, icon, onPress }) =>
   <PXTouchable onPress={onPress} delayPressIn={0}>
     <View style={styles.item}>
       {icon
@@ -40,7 +40,6 @@ const DrawerNavigatorItem = ({ label, icon, onPress }) => (
           </Text>
         : label}
     </View>
-  </PXTouchable>
-);
+  </PXTouchable>;
 
 export default DrawerNavigatorItem;

@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import IllustList from '../../components/IllustList';
 import HeaderClearButton from '../../components/HeaderClearButton';
-import * as browsingHistoryActionCreators
-  from '../../common/actions/browsingHistory';
+import * as browsingHistoryActionCreators from '../../common/actions/browsingHistory';
 import { getBrowsingHistoryItems } from '../../common/selectors';
 
 class BrowsingHistory extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     return {
-      headerRight: params &&
+      headerRight:
+        params &&
         params.clearBrowsingHistory &&
         <HeaderClearButton onPress={params.clearBrowsingHistory} />,
     };

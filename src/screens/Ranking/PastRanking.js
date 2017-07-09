@@ -101,7 +101,7 @@ class PastRanking extends Component {
     return i18n[`ranking${ranking.charAt(0).toUpperCase() + ranking.slice(1)}`];
   };
 
-  renderRankingOptions = (ranking, rankingMode) => (
+  renderRankingOptions = (ranking, rankingMode) =>
     <PXTouchable
       key={ranking}
       onPress={() => this.handleOnPressRankingMode(rankingMode)}
@@ -112,8 +112,7 @@ class PastRanking extends Component {
           {this.mapRankingString(ranking)}
         </Text>
       </View>
-    </PXTouchable>
-  );
+    </PXTouchable>;
 
   render() {
     const { user, i18n } = this.props;

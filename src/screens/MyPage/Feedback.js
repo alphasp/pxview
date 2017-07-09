@@ -31,7 +31,8 @@ class Feedback extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     return {
-      headerRight: params &&
+      headerRight:
+        params &&
         params.submit &&
         <PXTouchable onPress={params.submit} disabled={!params.feedback}>
           <Icon

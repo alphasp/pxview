@@ -25,7 +25,7 @@ export default function configureStore() {
         createActionBuffer(REHYDRATE),
         sagaMiddleware,
       ),
-      //devTools(),
+      // devTools(),
     );
   } else {
     enhancer = compose(

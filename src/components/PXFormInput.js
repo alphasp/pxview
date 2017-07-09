@@ -16,11 +16,15 @@ const PXFormInput = props => {
   } = props;
   return (
     <View>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel>
+        {label}
+      </FormLabel>
       <FormInput {...input} {...restProps} />
       {touched &&
         error &&
-        <FormValidationMessage>{error}</FormValidationMessage>}
+        <FormValidationMessage>
+          {error}
+        </FormValidationMessage>}
     </View>
   );
 };

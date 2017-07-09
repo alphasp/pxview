@@ -31,7 +31,8 @@ class ImagesViewer extends Component {
     } = navigation.state.params;
     return {
       title: totalImages > 1 ? `${viewerIndex + 1}/${totalImages}` : null,
-      headerRight: selectedImages &&
+      headerRight:
+        selectedImages &&
         selectedImages.length &&
         <HeaderSaveImageButton imageUrls={selectedImages} />,
     };

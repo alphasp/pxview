@@ -29,13 +29,14 @@ export default function search(state = {}, action) {
           loading: false,
           loaded: true,
           refreshing: false,
-          items: state[action.payload.navigationStateKey] &&
+          items:
+            state[action.payload.navigationStateKey] &&
             state[action.payload.navigationStateKey].items
-            ? [
-                ...state[action.payload.navigationStateKey].items,
-                ...action.payload.items,
-              ]
-            : action.payload.items,
+              ? [
+                  ...state[action.payload.navigationStateKey].items,
+                  ...action.payload.items,
+                ]
+              : action.payload.items,
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp,
         },

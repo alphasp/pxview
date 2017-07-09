@@ -73,9 +73,8 @@ class HeaderSaveImageButton extends PureComponent {
       ),
     );
     const { dirs } = RNFetchBlob.fs;
-    const imagesBaseDir = Platform.OS === 'android'
-      ? dirs.PictureDir
-      : dirs.DocumentDir;
+    const imagesBaseDir =
+      Platform.OS === 'android' ? dirs.PictureDir : dirs.DocumentDir;
     const imagesDir = `${imagesBaseDir}/pxview`;
     try {
       const imagesDirExists = await RNFetchBlob.fs.isDir(imagesDir);

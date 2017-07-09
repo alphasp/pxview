@@ -26,15 +26,17 @@ const Tags = props => {
   const { tags, onPressTag } = props;
   return (
     <View style={styles.container}>
-      {tags.map(tag => (
+      {tags.map(tag =>
         <PXTouchable
           key={tag.name}
           style={styles.tagContainer}
           onPress={() => onPressTag(tag.name)}
         >
-          <Text style={styles.tagLabel}>{tag.name}</Text>
-        </PXTouchable>
-      ))}
+          <Text style={styles.tagLabel}>
+            {tag.name}
+          </Text>
+        </PXTouchable>,
+      )}
     </View>
   );
 };

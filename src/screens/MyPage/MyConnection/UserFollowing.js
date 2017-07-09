@@ -4,8 +4,7 @@ import { Button } from 'react-native-elements';
 import UserListContainer from '../../../containers/UserListContainer';
 import { connectLocalization } from '../../../components/Localization';
 import EmptyStateView from '../../../components/EmptyStateView';
-import * as userFollowingActionCreators
-  from '../../../common/actions/userFollowing';
+import * as userFollowingActionCreators from '../../../common/actions/userFollowing';
 import { makeGetUserFollowingItems } from '../../../common/selectors';
 import { SCREENS } from '../../../common/constants';
 import { globalStyleVariables } from '../../../styles';

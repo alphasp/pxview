@@ -91,11 +91,13 @@ class About extends Component {
             style={styles.logo}
           />
           <View style={styles.nameContainer}>
-            <Text style={styles.name}>Px View v{DeviceInfo.getVersion()}</Text>
+            <Text style={styles.name}>
+              Px View v{DeviceInfo.getVersion()}
+            </Text>
           </View>
         </View>
         <List>
-          {list.map(item => (
+          {list.map(item =>
             <ListItem
               key={item.id}
               title={i18n.formatString(
@@ -110,8 +112,8 @@ class About extends Component {
               onPress={() => this.handleOnPressListItem(item)}
               subtitle={item.subtitle}
               hideChevron
-            />
-          ))}
+            />,
+          )}
         </List>
       </View>
     );

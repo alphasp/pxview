@@ -45,13 +45,14 @@ export default function search(state = getDefaultStateForRankings(), action) {
           loading: false,
           loaded: true,
           refreshing: false,
-          items: state[action.payload.rankingMode] &&
+          items:
+            state[action.payload.rankingMode] &&
             state[action.payload.rankingMode].items
-            ? [
-                ...state[action.payload.rankingMode].items,
-                ...action.payload.items,
-              ]
-            : action.payload.items,
+              ? [
+                  ...state[action.payload.rankingMode].items,
+                  ...action.payload.items,
+                ]
+              : action.payload.items,
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp,
         },

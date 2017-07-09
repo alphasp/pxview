@@ -54,11 +54,18 @@ const IllustCollection = props => {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Text>{title}</Text>
+        <Text>
+          {title}
+        </Text>
         <PXTouchable onPress={onPressViewMore}>
           <View style={styles.viewAllContainer}>
-            {total && <Text style={styles.total}>{total}</Text>}
-            <Text>{viewMoreTitle}</Text>
+            {total &&
+              <Text style={styles.total}>
+                {total}
+              </Text>}
+            <Text>
+              {viewMoreTitle}
+            </Text>
             <Icon name="chevron-right" style={styles.chevronIcon} />
           </View>
         </PXTouchable>
@@ -66,7 +73,7 @@ const IllustCollection = props => {
       <View style={styles.imagePreviews}>
         {illusts &&
           illusts.length &&
-          illusts.map((item, index) => (
+          illusts.map((item, index) =>
             <IllustItem
               key={item.id}
               item={item}
@@ -74,27 +81,27 @@ const IllustCollection = props => {
               numColumns={ILLUST_COLUMNS}
               onPressItem={() => navigate(SCREENS.Detail, { item })}
               containerStyle={{
-                width: (globalStyleVariables.WINDOW_WIDTH -
-                  CONTAINER_MARGIN * 2) /
-                  ILLUST_COLUMNS -
+                width:
+                  (globalStyleVariables.WINDOW_WIDTH - CONTAINER_MARGIN * 2) /
+                    ILLUST_COLUMNS -
                   1,
-                height: (globalStyleVariables.WINDOW_WIDTH -
-                  CONTAINER_MARGIN * 2) /
-                  ILLUST_COLUMNS -
+                height:
+                  (globalStyleVariables.WINDOW_WIDTH - CONTAINER_MARGIN * 2) /
+                    ILLUST_COLUMNS -
                   1,
               }}
               imageStyle={{
-                width: (globalStyleVariables.WINDOW_WIDTH -
-                  CONTAINER_MARGIN * 2) /
-                  ILLUST_COLUMNS -
+                width:
+                  (globalStyleVariables.WINDOW_WIDTH - CONTAINER_MARGIN * 2) /
+                    ILLUST_COLUMNS -
                   1,
-                height: (globalStyleVariables.WINDOW_WIDTH -
-                  CONTAINER_MARGIN * 2) /
-                  ILLUST_COLUMNS -
+                height:
+                  (globalStyleVariables.WINDOW_WIDTH - CONTAINER_MARGIN * 2) /
+                    ILLUST_COLUMNS -
                   1,
               }}
-            />
-          ))}
+            />,
+          )}
       </View>
     </View>
   );

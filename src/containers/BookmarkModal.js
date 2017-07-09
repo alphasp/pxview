@@ -20,10 +20,8 @@ import Toast, { DURATION } from 'react-native-easy-toast';
 import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
 import Separator from '../components/Separator';
-import * as illustBookmarkDetailActionCreators
-  from '../common/actions/illustBookmarkDetail';
-import * as bookmarkIllustActionCreators
-  from '../common/actions/bookmarkIllust';
+import * as illustBookmarkDetailActionCreators from '../common/actions/illustBookmarkDetail';
+import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
 import * as modalActionCreators from '../common/actions/modal';
 import { BOOKMARK_TYPES } from '../common/constants';
 import { globalStyleVariables } from '../styles';
@@ -41,7 +39,7 @@ const styles = StyleSheet.create({
     // borderRadius: 10,
     // alignItems: 'center',
     backgroundColor: '#fff',
-    //padding: 20
+    // padding: 20
   },
   titleContainer: {
     backgroundColor: '#E9EBEE',
@@ -89,7 +87,7 @@ const styles = StyleSheet.create({
   },
   tagText: {
     fontSize: 12,
-    flex: 1, //wrap text
+    flex: 1, // wrap text
   },
 });
 
@@ -166,9 +164,8 @@ class BookmarkModal extends Component {
       }
     }
     const updatedTags = tags.map(tag => {
-      const isRegistered = tag.name === checkedTag.name
-        ? !tag.is_registered
-        : tag.is_registered;
+      const isRegistered =
+        tag.name === checkedTag.name ? !tag.is_registered : tag.is_registered;
       return {
         ...tag,
         is_registered: isRegistered,
@@ -256,18 +253,19 @@ class BookmarkModal extends Component {
     unbookmarkIllust(id);
   };
 
-  renderItem = ({ item }) => (
+  renderItem = ({ item }) =>
     <PXTouchable onPress={() => this.handleOnCheckTag(item)}>
       <View style={styles.row}>
-        <Text style={styles.tagText}>{item.name}</Text>
+        <Text style={styles.tagText}>
+          {item.name}
+        </Text>
         <MKCheckbox
           checked={item.is_registered}
           onCheckedChange={() => this.handleOnCheckTag(item)}
           editable={item.editable}
         />
       </View>
-    </PXTouchable>
-  );
+    </PXTouchable>;
 
   render() {
     const { isBookmark, i18n } = this.props;
@@ -289,8 +287,12 @@ class BookmarkModal extends Component {
                   </Text>
                 </View>
                 <View style={styles.subTitleContainer}>
-                  <Text>{i18n.collectionTags}</Text>
-                  <Text>{selectedTagsCount} / 10</Text>
+                  <Text>
+                    {i18n.collectionTags}
+                  </Text>
+                  <Text>
+                    {selectedTagsCount} / 10
+                  </Text>
                 </View>
                 <View style={styles.newTagContainer}>
                   <TextInput
@@ -316,7 +318,9 @@ class BookmarkModal extends Component {
                 </View>
                 <Separator />
                 <View style={styles.row}>
-                  <Text>{i18n.private}</Text>
+                  <Text>
+                    {i18n.private}
+                  </Text>
                   <Switch
                     value={isPrivate}
                     onValueChange={this.handleOnChangeIsPrivate}
@@ -331,7 +335,9 @@ class BookmarkModal extends Component {
                 >
                   {isBookmark &&
                     <PXTouchable onPress={this.handleOnPressRemoveButton}>
-                      <Text>{i18n.likeRemove}</Text>
+                      <Text>
+                        {i18n.likeRemove}
+                      </Text>
                     </PXTouchable>}
                   <PXTouchable
                     style={
@@ -349,7 +355,9 @@ class BookmarkModal extends Component {
                         size={20}
                       />}
 
-                    <Text>{isBookmark ? i18n.save : i18n.likeAdd}</Text>
+                    <Text>
+                      {isBookmark ? i18n.save : i18n.likeAdd}
+                    </Text>
                   </PXTouchable>
                 </View>
               </View>
