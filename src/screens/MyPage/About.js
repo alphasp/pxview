@@ -5,7 +5,7 @@ import { List, ListItem } from 'react-native-elements';
 import { connectLocalization } from '../../components/Localization';
 import { globalStyles } from '../../styles';
 
-const appStoreUrl = 'https://itunes.apple.com/us/app/pxview/id1255423811';
+const appStoreUrl = '';
 const googlePlayUrl =
   'https://play.google.com/store/apps/details?id=com.utopia.pxview';
 const sourceUrl = 'https://github.com/alphasp/pxview';
@@ -58,7 +58,9 @@ class About extends Component {
       }
       case 'rateApp': {
         const url = Platform.OS === 'ios' ? appStoreUrl : googlePlayUrl;
-        this.openUrl(url);
+        if (Platform.OS === 'android') {
+          this.openUrl(url);
+        }
         break;
       }
       case 'sourceCode': {
