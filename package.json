@@ -1,6 +1,7 @@
 {
   "name": "PxView",
   "version": "0.0.1",
+  "description": "Unofficial Pixiv app client for Android and iOS, built in React Native",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -11,7 +12,8 @@
     "android-release": "react-native run-android --variant=release",
     "android-clean": "cd android && ./gradlew clean",
     "ios": "react-native run-ios",
-    "ios-release": "react-native run-ios --configuration Release"
+    "ios-release": "react-native run-ios --configuration Release",
+    "pod-install": "cd ios && pod install"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
