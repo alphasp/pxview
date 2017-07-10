@@ -5,7 +5,11 @@
 Unofficial Pixiv app client for Android and iOS, built in React Native.
 
 ## Screenshots
-
+![android_home](./screenshots/android/en/1.png)
+![android_search](./screenshots/android/en/2.png)
+![android_detail](./screenshots/android/en/3.png)
+![ios_connection](./screenshots/ios/en/4.png)
+![ios_ranking](./screenshots/ios/en/5.png)
 
 ## Features
 - Tab navigation on iOS, drawer navigation on Android
