@@ -30,7 +30,7 @@ Unofficial Pixiv app client for Android and iOS, built in React Native.
  	- Search for users.
  	- View the latest trends on pixiv with "Featured Tags"
 - One tap button to save multiple images
-- Support localization (English and Japanese)
+- Support localization (English, Japanese, Chinese)
 - Ad free
 
 
