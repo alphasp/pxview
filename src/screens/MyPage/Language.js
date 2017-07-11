@@ -21,6 +21,18 @@ const languageList = [
     id: 'ja',
     title: '日本語',
   },
+  {
+    id: 'zh',
+    ids: ['zh', 'zh-CN', 'zh-SG'],
+    title: '中文(简体)',
+    multipleId: true,
+  },
+  {
+    id: 'zh-TW',
+    ids: ['zh-TW', 'zh-HK', 'zh-MO'],
+    title: '中文(繁體)',
+    multipleId: true,
+  },
 ];
 
 class Settings extends Component {
@@ -43,7 +55,11 @@ class Settings extends Component {
               type: 'font-awesome',
               color: globalStyleVariables.PRIMARY_COLOR,
             }}
-            hideChevron={item.id !== lang}
+            hideChevron={
+              item.multipleId && item.ids
+                ? !item.ids.includes(lang)
+                : item.id !== lang
+            }
             onPress={() => this.handleOnPressListItem(item.id)}
           />,
         )}
