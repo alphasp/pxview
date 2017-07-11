@@ -10,16 +10,18 @@ const PXFormInput = props => {
   const {
     label,
     meta: { touched, error },
+    labelStyle,
+    inputStyle,
     errorTextStyle,
     input,
     ...restProps
   } = props;
   return (
     <View>
-      <FormLabel>
+      <FormLabel labelStyle={labelStyle}>
         {label}
       </FormLabel>
-      <FormInput {...input} {...restProps} />
+      <FormInput inputStyle={inputStyle} {...input} {...restProps} />
       {touched &&
         error &&
         <FormValidationMessage>

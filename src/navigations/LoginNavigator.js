@@ -7,6 +7,9 @@ const LoginNavigator = StackNavigator(
   {
     [SCREENS.Login]: {
       screen: Login,
+      navigationOptions: {
+        header: null,
+      },
     },
   },
   {

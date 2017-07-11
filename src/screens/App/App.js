@@ -5,6 +5,7 @@ import SplashScreen from 'react-native-splash-screen';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import Toast, { DURATION } from 'react-native-easy-toast';
 import AppNavigator from '../../navigations/AppNavigator';
+import LoginNavigator from '../../navigations/LoginNavigator';
 import { connectLocalization } from '../../components/Localization';
 import Loader from '../../components/Loader';
 import ModalRoot from '../../containers/ModalRoot';
@@ -65,10 +66,18 @@ class Master extends Component {
   }
 
   render() {
-    const { rehydrated, i18n } = this.props;
+    const { rehydrated, user, i18n } = this.props;
+    let renderComponent;
+    if (!rehydrated) {
+      renderComponent = <Loader />;
+    } else if (user) {
+      renderComponent = <AppNavigator screenProps={{ i18n }} />;
+    } else {
+      renderComponent = <LoginNavigator screenProps={{ i18n }} />;
+    }
     return (
       <View style={styles.container}>
-        {rehydrated ? <AppNavigator screenProps={{ i18n }} /> : <Loader />}
+        {renderComponent}
         <MessageBar ref={ref => (this.messageBarAlert = ref)} />
         <Toast ref={ref => (this.toast = ref)} opacity={0.7} />
         <ModalRoot />
@@ -82,6 +91,7 @@ export default connectLocalization(
     state => ({
       error: state.error,
       rehydrated: state.auth.rehydrated,
+      user: state.auth.user,
     }),
     routeActionCreators,
   )(Master),

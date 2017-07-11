@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Linking, Keyboard } from 'react-native';
+import { Image, StyleSheet, View, Linking, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { Button } from 'react-native-elements';
@@ -11,10 +11,31 @@ import { globalStyleVariables } from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
-    padding: 5,
+    flex: 1,
+    paddingHorizontal: 5,
+    paddingTop: 30,
+    backgroundColor: globalStyleVariables.PRIMARY_COLOR,
   },
   buttonContainer: {
     marginTop: 15,
+  },
+  outlineButtonContainer: {
+    borderColor: '#fff',
+    borderWidth: 1,
+  },
+  formLabel: {
+    color: '#fff',
+  },
+  formInput: {
+    color: '#fff',
+  },
+  logoContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logo: {
+    width: 100,
+    height: 100,
   },
 });
 
@@ -32,26 +53,28 @@ const validate = (values, props) => {
 };
 
 class Login extends Component {
-  componentWillReceiveProps(nextProps) {
-    const { auth: { user: prevUser } } = this.props;
-    const {
-      auth: { user },
-      navigation: { goBack },
-      onLoginSuccess,
-    } = nextProps;
-    if (user !== prevUser) {
-      goBack();
-      if (onLoginSuccess) {
-        setTimeout(() => onLoginSuccess(user), 0);
-      }
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   const { auth: { user: prevUser } } = this.props;
+  //   const {
+  //     auth: { user },
+  //     navigation: { goBack },
+  //     onLoginSuccess,
+  //   } = nextProps;
+  //   if (user !== prevUser) {
+  //     goBack();
+  //     if (onLoginSuccess) {
+  //       setTimeout(() => onLoginSuccess(user), 0);
+  //     }
+  //   }
+  // }
 
   submit = data => {
     const { login } = this.props;
     const { email, password } = data;
-    Keyboard.dismiss();
-    login(email, password);
+    if (email && password) {
+      Keyboard.dismiss();
+      login(email, password);
+    }
   };
 
   handleOnPressSignUp = () => {
@@ -70,30 +93,43 @@ class Login extends Component {
     const { auth: { loading }, i18n, handleSubmit } = this.props;
     return (
       <View style={styles.container}>
+        <View style={styles.logoContainer}>
+          <Image
+            source={require('../../images/logo_transparent.png')} // eslint-disable-line global-require
+            style={styles.logo}
+          />
+        </View>
         <Field
           name="email"
           component={PXFormInput}
           label={i18n.loginEmailOrPixivId}
           autoCapitalize="none"
+          labelStyle={styles.formLabel}
+          inputStyle={styles.formInput}
         />
         <Field
           name="password"
           component={PXFormInput}
           label={i18n.password}
           secureTextEntry
+          labelStyle={styles.formLabel}
+          inputStyle={styles.formInput}
         />
         <Button
           title={i18n.login}
           containerViewStyle={styles.buttonContainer}
-          backgroundColor={globalStyleVariables.PRIMARY_COLOR}
+          backgroundColor="#fff"
+          color={globalStyleVariables.PRIMARY_COLOR}
           raised
           onPress={handleSubmit(this.submit)}
         />
         <Button
           title={i18n.signup}
-          containerViewStyle={styles.buttonContainer}
-          backgroundColor="#8BC052"
-          raised
+          containerViewStyle={[
+            styles.buttonContainer,
+            styles.outlineButtonContainer,
+          ]}
+          backgroundColor="transparent"
           onPress={this.handleOnPressSignUp}
         />
         <OverlaySpinner visible={loading} />
