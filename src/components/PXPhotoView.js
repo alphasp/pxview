@@ -6,7 +6,11 @@ import { globalStyleVariables } from '../styles';
 const styles = StyleSheet.create({
   photo: {
     width: globalStyleVariables.WINDOW_WIDTH,
-    height: globalStyleVariables.WINDOW_HEIGHT,
+    height:
+      globalStyleVariables.WINDOW_HEIGHT -
+      globalStyleVariables.APPBAR_HEIGHT -
+      globalStyleVariables.STATUSBAR_HEIGHT -
+      30,
   },
 });
 
