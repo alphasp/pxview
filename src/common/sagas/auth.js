@@ -4,8 +4,11 @@ import moment from 'moment';
 import { REHYDRATE } from 'redux-persist/constants';
 import { FOREGROUND, BACKGROUND } from 'redux-enhancer-react-native-appstate';
 import {
+  login,
   loginSuccess,
   loginFailure,
+  signUpSuccess,
+  signUpFailure,
   logout,
   refreshAccessToken,
   refreshAccessTokenSuccess,
@@ -18,14 +21,21 @@ import pixiv from '../helpers/apiClient';
 import { getAuth, getAuthUser, getLang } from '../selectors';
 import {
   AUTH_LOGIN,
+  AUTH_SIGNUP,
   AUTH_LOGOUT,
   AUTH_REFRESH_ACCESS_TOKEN,
 } from '../constants/actionTypes';
 
-export function* authorize(email, password) {
+const setProvisionalAccountOptions = (isProvisonalAccount, password) => ({
+  isProvisonalAccount,
+  password: isProvisonalAccount ? password : null,
+});
+
+export function* authorize(email, password, isProvisonalAccount) {
   // use apply instead of call to pass this to function
   const loginResponse = yield apply(pixiv, pixiv.login, [email, password]);
-  yield put(loginSuccess(loginResponse));
+  const options = setProvisionalAccountOptions(isProvisonalAccount, password);
+  yield put(loginSuccess(loginResponse, options));
   return loginResponse;
 }
 
@@ -34,7 +44,13 @@ export function* handleRefreshAccessToken(refreshToken) {
     const response = yield apply(pixiv, pixiv.refreshAccessToken, [
       refreshToken,
     ]);
-    yield put(refreshAccessTokenSuccess(response));
+    const user = yield select(getAuthUser);
+    const options = setProvisionalAccountOptions(
+      user.isProvisonalAccount,
+      user.password,
+    );
+
+    yield put(refreshAccessTokenSuccess(response, options));
     return response;
   } catch (err) {
     yield put(refreshAccessTokenFailure());
@@ -89,8 +105,13 @@ export function* watchLoginRequest() {
   while (true) {
     try {
       const action = yield take(AUTH_LOGIN.REQUEST);
-      const { email, password } = action.payload;
-      const authResponse = yield call(authorize, email, password);
+      const { email, password, isProvisonalAccount } = action.payload;
+      const authResponse = yield call(
+        authorize,
+        email,
+        password,
+        isProvisonalAccount,
+      );
       yield race([
         take(AUTH_LOGOUT.SUCCESS),
         call(refreshAccessTokenOnExpiry, authResponse),
@@ -128,6 +149,34 @@ export function* watchRefreshAccessTokenRequest() {
           ? err.errors.system.message
           : '';
       yield put(refreshAccessTokenFailure());
+      yield put(addError(errMessage));
+    }
+  }
+}
+
+export function* signUp(nickname) {
+  const signUpResponse = yield apply(pixiv, pixiv.createProvisionalAccount, [
+    nickname,
+  ]);
+  yield put(signUpSuccess(signUpResponse));
+  return signUpResponse;
+}
+
+export function* watchSignUpRequest() {
+  while (true) {
+    try {
+      const action = yield take(AUTH_SIGNUP.REQUEST);
+      const { nickname } = action.payload;
+      const signUpResponse = yield call(signUp, nickname);
+      yield put(
+        login(signUpResponse.user_account, signUpResponse.password, true),
+      );
+    } catch (err) {
+      const errMessage =
+        err.errors && err.errors.system && err.errors.system.message
+          ? err.errors.system.message
+          : '';
+      yield put(signUpFailure());
       yield put(addError(errMessage));
     }
   }

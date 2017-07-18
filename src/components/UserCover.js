@@ -52,7 +52,7 @@ const UserCover = ({
           </PXTouchable>
         : <View style={styles.authActionContainer}>
             <OutlineButton
-              text={i18n.signup}
+              text={i18n.signUp}
               style={{ borderColor: '#fff' }}
               textStyle={{ color: '#fff' }}
               onPress={onPressSignUp}

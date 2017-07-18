@@ -22,6 +22,13 @@ export const AUTH_LOGIN = defineAction(
   appNamespace,
 );
 
+export const AUTH_SIGNUP = defineAction(
+  'AUTH_SIGNUP',
+  [REQUEST, SUCCESS, FAILURE],
+  appNamespace,
+);
+
+
 export const AUTH_LOGOUT = defineAction('AUTH_LOGOUT', [SUCCESS], appNamespace);
 
 export const AUTH_REFRESH_ACCESS_TOKEN = defineAction(

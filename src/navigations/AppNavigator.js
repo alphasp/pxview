@@ -2,7 +2,7 @@ import { StackNavigator } from 'react-navigation';
 import AppTabNavigator from './AppTabNavigator';
 import AppDrawerNavigator from './AppDrawerNavigator';
 import enhanceRouter from './routers/enhanceRouter';
-import Login from '../screens/Login/Login';
+// import Login from '../screens/Login/Login';
 import SearchFilterModal from '../components/SearchFilterModal';
 import ImagesViewer from '../screens/ImagesViewer/ImagesViewer';
 import AddIllustComment from '../screens/Shared/AddIllustComment';
@@ -19,12 +19,12 @@ let appRouteConfig = {
       header: null,
     },
   },
-  [SCREENS.Login]: {
-    screen: Login,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
-      title: i18n.login,
-    }),
-  },
+  // [SCREENS.Login]: {
+  //   screen: Login,
+  //   navigationOptions: ({ screenProps: { i18n } }) => ({
+  //     title: i18n.login,
+  //   }),
+  // },
   [SCREENS.SearchFilterModal]: {
     screen: SearchFilterModal,
     navigationOptions: ({ screenProps: { i18n } }) => ({

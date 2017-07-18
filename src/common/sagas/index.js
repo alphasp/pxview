@@ -1,6 +1,7 @@
 import { all } from 'redux-saga/effects';
 import {
   watchLoginRequest,
+  watchSignUpRequest,
   watchRefreshAccessTokenRequest,
   watchRehydrate,
 } from './auth';
@@ -39,6 +40,7 @@ export default function* rootSaga() {
   yield all([
     watchRehydrate(),
     watchLoginRequest(),
+    watchSignUpRequest(),
     watchError(),
     watchRefreshAccessTokenRequest(),
     watchFetchRecommendedIllusts(),
