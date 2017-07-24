@@ -18,7 +18,10 @@ export function* handleFetchRecommendedMangas(action) {
     } else {
       response = yield apply(pixiv, pixiv.mangaRecommended, [options]);
     }
-    const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
+    const normalized = normalize(
+      response.illusts.filter(illust => illust.visible),
+      Schemas.ILLUST_ARRAY,
+    );
     yield put(
       fetchRecommendedMangasSuccess(
         normalized.entities,

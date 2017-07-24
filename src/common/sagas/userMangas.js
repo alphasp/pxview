@@ -19,7 +19,10 @@ export function* handleFetchUserMangas(action) {
       const options = { type: 'manga' };
       response = yield apply(pixiv, pixiv.userIllusts, [userId, options]);
     }
-    const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
+    const normalized = normalize(
+      response.illusts.filter(illust => illust.visible),
+      Schemas.ILLUST_ARRAY,
+    );
     yield put(
       fetchUserMangasSuccess(
         normalized.entities,

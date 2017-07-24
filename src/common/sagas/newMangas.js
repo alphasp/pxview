@@ -18,7 +18,10 @@ export function* handleFetchNewMangas(action) {
     } else {
       response = yield apply(pixiv, pixiv.mangaNew, [options]);
     }
-    const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
+    const normalized = normalize(
+      response.illusts.filter(illust => illust.visible),
+      Schemas.ILLUST_ARRAY,
+    );
     yield put(
       fetchNewMangasSuccess(
         normalized.entities,

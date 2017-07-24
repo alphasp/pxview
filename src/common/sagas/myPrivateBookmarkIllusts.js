@@ -25,7 +25,10 @@ export function* handleFetchMyPrivateBookmarkIllusts(action) {
         options,
       ]);
     }
-    const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
+    const normalized = normalize(
+      response.illusts.filter(illust => illust.visible),
+      Schemas.ILLUST_ARRAY,
+    );
     yield put(
       fetchMyPrivateBookmarkIllustsSuccess(
         normalized.entities,
