@@ -25,7 +25,11 @@ export function* handleFetchUserBookmarkIllusts(action) {
         options,
       ]);
     }
-    const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
+
+    const normalized = normalize(
+      response.illusts.filter(illust => illust.visible),
+      Schemas.ILLUST_ARRAY,
+    );
     // eslint-disable-next-line max-len
     yield put(
       fetchUserBookmarkIllustsSuccess(

@@ -1,10 +1,12 @@
 import { all } from 'redux-saga/effects';
 import {
   watchLoginRequest,
+  watchSignUpRequest,
   watchRefreshAccessTokenRequest,
   watchRehydrate,
 } from './auth';
 import { watchError } from './error';
+import { watchFetchWalkthroughIllusts } from './walkthroughIllusts';
 import { watchFetchRecommendedIllusts } from './recommendedIllusts';
 import { watchFetchRecommendedMangas } from './recommendedMangas';
 import { watchFetchRelatedIllusts } from './relatedIllusts';
@@ -34,13 +36,18 @@ import { watchFetchUserFollowDetail } from './userFollowDetail';
 import { watchBookmarkIllust, watchUnbookmarkIllust } from './bookmarkIllust';
 import { watchFollowUser, watchUnfollowUser } from './followUser';
 import { watchAddIllustComment } from './addIllustComment';
+import { watchFetchMyAccountState } from './myAccountState';
+import { watchEditAccount } from './editAccount';
+import { watchSendVerificationEmail } from './verificationEmail';
 
 export default function* rootSaga() {
   yield all([
     watchRehydrate(),
     watchLoginRequest(),
+    watchSignUpRequest(),
     watchError(),
     watchRefreshAccessTokenRequest(),
+    watchFetchWalkthroughIllusts(),
     watchFetchRecommendedIllusts(),
     watchFetchRecommendedMangas(),
     watchFetchRelatedIllusts(),
@@ -72,5 +79,8 @@ export default function* rootSaga() {
     watchFollowUser(),
     watchUnfollowUser(),
     watchAddIllustComment(),
+    watchFetchMyAccountState(),
+    watchEditAccount(),
+    watchSendVerificationEmail(),
   ]);
 }

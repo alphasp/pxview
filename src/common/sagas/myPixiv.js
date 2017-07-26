@@ -15,7 +15,10 @@ export function* handleFetchMyPixiv(action) {
     } else {
       response = yield apply(pixiv, pixiv.illustMyPixiv);
     }
-    const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
+    const normalized = normalize(
+      response.illusts.filter(illust => illust.visible),
+      Schemas.ILLUST_ARRAY,
+    );
     yield put(
       fetchMyPixivSuccess(
         normalized.entities,

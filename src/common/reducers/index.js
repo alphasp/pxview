@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import entities from './entities';
+import walkthroughIllusts from './walkthroughIllusts';
 import recommendedIllusts from './recommendedIllusts';
 import recommendedMangas from './recommendedMangas';
 import relatedIllusts from './relatedIllusts';
@@ -32,6 +33,9 @@ import userFollowDetail from './userFollowDetail';
 import addIllustComment from './addIllustComment';
 import browsingHistory from './browsingHistory';
 import auth from './auth';
+import myAccountState from './myAccountState';
+import editAccount from './editAccount';
+import verificationEmail from './verificationEmail';
 import modal from './modal';
 // import nav from './nav';
 import i18n from './i18n';
@@ -40,6 +44,7 @@ import error from './error';
 const rootReducer = combineReducers({
   error,
   entities,
+  walkthroughIllusts,
   recommendedIllusts,
   recommendedMangas,
   relatedIllusts,
@@ -71,6 +76,9 @@ const rootReducer = combineReducers({
   addIllustComment,
   browsingHistory,
   auth,
+  myAccountState,
+  editAccount,
+  verificationEmail,
   modal,
   // nav,
   i18n,

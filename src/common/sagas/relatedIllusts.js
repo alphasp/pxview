@@ -18,7 +18,10 @@ export function* handleFetchRelatedIllusts(action) {
     } else {
       response = yield apply(pixiv, pixiv.illustRelated, [illustId, options]);
     }
-    const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
+    const normalized = normalize(
+      response.illusts.filter(illust => illust.visible),
+      Schemas.ILLUST_ARRAY,
+    );
     yield put(
       fetchRelatedIllustsSuccess(
         normalized.entities,

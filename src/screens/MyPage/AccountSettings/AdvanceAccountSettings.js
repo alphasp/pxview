@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { View, WebView } from 'react-native';
 import ProgressBar from 'react-native-progress/Bar';
-import Loader from '../../components/Loader';
-import { globalStyles, globalStyleVariables } from '../../styles';
+import Loader from '../../../components/Loader';
+import { globalStyles, globalStyleVariables } from '../../../styles';
 
 const SETTING_URL = 'https://touch.pixiv.net/setting_user.php';
 
-class AccountSettings extends Component {
+class AdvanceAccountSettings extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -61,4 +61,4 @@ class AccountSettings extends Component {
   }
 }
 
-export default AccountSettings;
+export default AdvanceAccountSettings;

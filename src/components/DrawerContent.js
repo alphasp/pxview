@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Linking } from 'react-native';
+import { View, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { DrawerItems, withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -70,8 +70,6 @@ class DrawerContent extends Component {
         user={user}
         i18n={i18n}
         onPressAvatar={this.handleOnPressAvatar}
-        onPressLogin={this.handleOnPressLogin}
-        onPressSignUp={this.handleOnPressSignUp}
       />
     );
   };
@@ -87,35 +85,17 @@ class DrawerContent extends Component {
     if (!focused) {
       switch (item.id) {
         case 'works':
-          if (!user) {
-            this.handleOnPressLogin(authUser =>
-              navigate(SCREENS.MyWorks, { userId: authUser.id }),
-            );
-          } else {
-            this.navigateWithDebounce(SCREENS.MyWorks, { userId: user.id });
-          }
+          this.navigateWithDebounce(SCREENS.MyWorks, { userId: user.id });
           break;
         case 'collection':
-          if (!user) {
-            this.handleOnPressLogin(authUser =>
-              navigate(SCREENS.MyCollection, { userId: authUser.id }),
-            );
-          } else {
-            this.navigateWithDebounce(SCREENS.MyCollection, {
-              userId: user.id,
-            });
-          }
+          this.navigateWithDebounce(SCREENS.MyCollection, {
+            userId: user.id,
+          });
           break;
         case 'connection':
-          if (!user) {
-            this.handleOnPressLogin(authUser =>
-              navigate(SCREENS.MyConnection, { userId: authUser.id }),
-            );
-          } else {
-            this.navigateWithDebounce(SCREENS.MyConnection, {
-              userId: user.id,
-            });
-          }
+          this.navigateWithDebounce(SCREENS.MyConnection, {
+            userId: user.id,
+          });
           break;
         case 'browsingHistory':
           this.navigateWithDebounce(SCREENS.BrowsingHistory);
@@ -129,11 +109,7 @@ class DrawerContent extends Component {
           break;
         }
         case 'logout': {
-          const { clearBrowsingHistory, logout } = this.props;
-          logout();
-          clearBrowsingHistory();
-          // clear cookies set from webview for account settings
-          CookieManager.clearAll(() => {});
+          this.handleOnPressLogout();
           break;
         }
         default:
@@ -142,30 +118,49 @@ class DrawerContent extends Component {
     }
   };
 
-  handleOnPressSignUp = () => {
-    const { navigation: { navigate } } = this.props;
-    navigate('DrawerClose');
-    const url = 'https://accounts.pixiv.net/signup';
-    Linking.canOpenURL(url)
-      .then(supported => {
-        if (!supported) {
-          return null;
-        }
-        return Linking.openURL(url);
-      })
-      .catch(err => err);
+  handleOnPressLogout = () => {
+    const { user, i18n } = this.props;
+    if (user.isProvisionalAccount) {
+      Alert.alert(
+        i18n.logoutConfirmNoRegisterTitle,
+        i18n.logoutConfirmNoRegisterDescription,
+        [
+          { text: i18n.cancel, style: 'cancel' },
+          {
+            text: i18n.commentRequireAccountRegistrationAction,
+            onPress: this.handleOnPressRegisterAccount,
+          },
+          {
+            text: i18n.logout,
+            style: 'destructive',
+            onPress: this.handleOnPressConfirmLogout,
+          },
+        ],
+        { cancelable: false },
+      );
+    } else {
+      Alert.alert(
+        i18n.logoutConfirm,
+        null,
+        [
+          { text: i18n.cancel, style: 'cancel' },
+          {
+            text: i18n.logout,
+            style: 'destructive',
+            onPress: this.handleOnPressConfirmLogout,
+          },
+        ],
+        { cancelable: false },
+      );
+    }
   };
 
-  navigateToLogin = onLoginSuccess => {
-    const { navigate } = this.props.navigation;
-    navigate('DrawerClose');
-    this.navigateWithDebounce(SCREENS.Login, {
-      onLoginSuccess,
-    });
-  };
-
-  handleOnPressLogin = () => {
-    this.navigateToLogin();
+  handleOnPressConfirmLogout = () => {
+    const { clearBrowsingHistory, logout } = this.props;
+    logout();
+    clearBrowsingHistory();
+    // clear cookies set from webview for account settings
+    CookieManager.clearAll(() => {});
   };
 
   handleOnPressAvatar = () => {

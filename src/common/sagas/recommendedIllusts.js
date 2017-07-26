@@ -22,7 +22,10 @@ export function* handleFetchRecommendedIllusts(action) {
     } else {
       response = yield apply(pixiv, pixiv.illustRecommendedPublic, [options]);
     }
-    const normalized = normalize(response.illusts, Schemas.ILLUST_ARRAY);
+    const normalized = normalize(
+      response.illusts.filter(illust => illust.visible),
+      Schemas.ILLUST_ARRAY,
+    );
     yield put(
       fetchRecommendedIllustsSuccess(
         normalized.entities,

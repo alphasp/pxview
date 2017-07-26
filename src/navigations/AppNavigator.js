@@ -2,10 +2,11 @@ import { StackNavigator } from 'react-navigation';
 import AppTabNavigator from './AppTabNavigator';
 import AppDrawerNavigator from './AppDrawerNavigator';
 import enhanceRouter from './routers/enhanceRouter';
-import Login from '../screens/Login/Login';
+// import Login from '../screens/Login/Login';
 import SearchFilterModal from '../components/SearchFilterModal';
 import ImagesViewer from '../screens/ImagesViewer/ImagesViewer';
 import AddIllustComment from '../screens/Shared/AddIllustComment';
+import AccountSettings from '../screens/MyPage/AccountSettings/AccountSettings';
 import myPageRouteConfig from './routeConfigs/myPage';
 import sharedRouteConfig from './routeConfigs/shared';
 import { globalStyles, globalStyleVariables } from '../styles';
@@ -19,12 +20,12 @@ let appRouteConfig = {
       header: null,
     },
   },
-  [SCREENS.Login]: {
-    screen: Login,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
-      title: i18n.login,
-    }),
-  },
+  // [SCREENS.Login]: {
+  //   screen: Login,
+  //   navigationOptions: ({ screenProps: { i18n } }) => ({
+  //     title: i18n.login,
+  //   }),
+  // },
   [SCREENS.SearchFilterModal]: {
     screen: SearchFilterModal,
     navigationOptions: ({ screenProps: { i18n } }) => ({
@@ -38,6 +39,12 @@ let appRouteConfig = {
     screen: AddIllustComment,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.commentAdd,
+    }),
+  },
+  [SCREENS.AccountSettingsModal]: {
+    screen: AccountSettings,
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.accountSettings,
     }),
   },
 };

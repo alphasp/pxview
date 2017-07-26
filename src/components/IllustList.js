@@ -46,6 +46,13 @@ class IllustList extends Component {
     navigate(SCREENS.Detail, { item });
   };
 
+  handleOnLayout = e => {
+    const { onListLayout } = this.props;
+    if (onListLayout) {
+      onListLayout(e, this.illustList);
+    }
+  };
+
   render() {
     const {
       data: { items, loading, loaded, refreshing },
@@ -59,7 +66,13 @@ class IllustList extends Component {
         {(!items || (!loaded && loading)) && <Loader />}
         {loaded
           ? <FlatList
-              data={maxItems ? items.slice(0, maxItems) : items}
+              onLayout={this.handleOnLayout}
+              ref={ref => (this.illustList = ref)}
+              data={
+                maxItems && (items && items.length)
+                  ? items.slice(0, maxItems)
+                  : items
+              }
               numColumns={ILLUST_COLUMNS}
               keyExtractor={item => item.id}
               renderItem={this.renderItem}

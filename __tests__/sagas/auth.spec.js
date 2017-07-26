@@ -1,11 +1,23 @@
 import { delay } from 'redux-saga';
-import { take, call, apply, put, race, select } from 'redux-saga/effects';
-import { cloneableGenerator } from 'redux-saga/utils';
+import {
+  take,
+  call,
+  apply,
+  put,
+  race,
+  select,
+  cancel,
+  fork,
+} from 'redux-saga/effects';
+import { cloneableGenerator, createMockTask } from 'redux-saga/utils';
 import { REHYDRATE } from 'redux-persist/constants';
 import {
+  login,
   loginSuccess,
   loginFailure,
   logout,
+  signUpSuccess,
+  signUpFailure,
   refreshAccessToken,
   refreshAccessTokenSuccess,
   refreshAccessTokenFailure,
@@ -17,33 +29,50 @@ import pixiv from '../../src/common/helpers/apiClient';
 import {
   watchLoginRequest,
   watchRefreshAccessTokenRequest,
+  watchLoginRequestTask,
+  watchRefreshAccessTokenRequestTask,
+  watchSignUpRequest,
   watchRehydrate,
   refreshAccessTokenOnExpiry,
   handleRefreshAccessToken,
   scheduleRefreshAccessToken,
   authorize,
   handleLogout,
+  signUp,
 } from '../../src/common/sagas/auth';
 import { getAuthUser, getLang } from '../../src/common/selectors';
 import {
   AUTH_LOGIN,
   AUTH_LOGOUT,
   AUTH_REFRESH_ACCESS_TOKEN,
+  AUTH_SIGNUP,
 } from '../../src/common/constants/actionTypes';
 
 const email = 'test@gmail.com';
 const password = 'password';
+const nickname = 'nickname';
+const isProvisionalAccount = false;
+const loginOptions = {
+  isProvisionalAccount,
+  password,
+};
 const refreshToken = 'refreshToken';
 const delayMilisecond = 1000 * 60 * 60;
 const loginRequestAction = {
   payload: {
     email,
     password,
+    isProvisionalAccount,
   },
 };
 const refreshTokenRequestAction = {
   payload: {
     refreshToken,
+  },
+};
+const signUpRequestAction = {
+  payload: {
+    nickname,
   },
 };
 const mockLoginResponse = {
@@ -53,6 +82,12 @@ const mockLoginResponse = {
   access_token: 'access_token',
   refresh_token: 'refresh_token',
   expires_in: new Date('2017-01-01'),
+  isProvisionalAccount: false,
+};
+const mockSignUpResponse = {
+  user_account: 'user_account',
+  password,
+  device_token: 'device_token',
 };
 
 const mockAuthUser = {
@@ -73,12 +108,12 @@ const mockError = {
 Date.now = jest.genMockFunction().mockReturnValue(0);
 
 test('authorize', () => {
-  const generator = authorize(email, password);
+  const generator = authorize(email, password, isProvisionalAccount);
   expect(generator.next().value).toEqual(
-    apply(pixiv, pixiv.login, [email, password]),
+    apply(pixiv, pixiv.login, [email, password, false]),
   );
   expect(generator.next(mockLoginResponse).value).toEqual(
-    put(loginSuccess(mockLoginResponse)),
+    put(loginSuccess(mockLoginResponse, loginOptions)),
   );
   expect(generator.next().done).toBe(true);
 });
@@ -97,7 +132,10 @@ describe('handleRefreshAccessToken', () => {
   describe('on request success', () => {
     test('refreshAccessTokenSuccess', () => {
       expect(data.generator.next(mockLoginResponse).value).toEqual(
-        put(refreshAccessTokenSuccess(mockLoginResponse)),
+        select(getAuthUser),
+      );
+      expect(data.generator.next(mockAuthUser).value).toEqual(
+        put(refreshAccessTokenSuccess(mockLoginResponse, loginOptions)),
       );
       expect(data.generator.next().done).toBe(true);
     });
@@ -128,20 +166,27 @@ test('handleLogout', () => {
   expect(generator.next().value).toEqual(apply(pixiv, pixiv.logout));
 });
 
-describe('watchLoginRequest', () => {
+test('watchLoginRequest', () => {
+  const generator = watchLoginRequest();
+  expect(generator.next().value).toEqual(fork(watchLoginRequestTask));
+  const mockTask = createMockTask();
+  expect(generator.next(mockTask).value).toEqual(take(AUTH_LOGIN.STOP));
+  expect(generator.next().value).toEqual(cancel(mockTask));
+});
+
+describe('watchLoginRequestTask', () => {
   const data = {};
-  data.generator = cloneableGenerator(watchLoginRequest)();
+  data.generator = cloneableGenerator(watchLoginRequestTask)();
 
-  test('watchLoginRequest should take every login request', () => {
+  test('watchLoginRequestTask should take every login request', () => {
     expect(data.generator.next().value).toEqual(take(AUTH_LOGIN.REQUEST));
-
     data.generator2 = data.generator.clone();
   });
 
   describe('on login success', () => {
     test('login success', () => {
       expect(data.generator.next(loginRequestAction).value).toEqual(
-        call(authorize, email, password),
+        call(authorize, email, password, isProvisionalAccount),
       );
       // value inside next() = result of yield;
       expect(data.generator.next(mockLoginResponse).value).toEqual(
@@ -160,22 +205,33 @@ describe('watchLoginRequest', () => {
       expect(data.generator2.throw(mockError).value).toEqual(
         put(loginFailure()),
       );
-      const errMessage = mockError.errors &&
+      const errMessage =
+        mockError.errors &&
         mockError.errors.system &&
         mockError.errors.system.message
-        ? mockError.errors.system.message
-        : '';
+          ? mockError.errors.system.message
+          : '';
       expect(data.generator2.next().value).toEqual(put(addError(errMessage)));
       expect(data.generator2.next().value).toEqual(take(AUTH_LOGIN.REQUEST));
     });
   });
 });
 
-describe('watchRefreshAccessTokenRequest', () => {
-  const data = {};
-  data.generator = cloneableGenerator(watchRefreshAccessTokenRequest)();
+test('watchRefreshAccessTokenRequest', () => {
+  const generator = watchRefreshAccessTokenRequest();
+  expect(generator.next().value).toEqual(
+    fork(watchRefreshAccessTokenRequestTask),
+  );
+  const mockTask = createMockTask();
+  expect(generator.next(mockTask).value).toEqual(take(AUTH_LOGIN.STOP));
+  expect(generator.next().value).toEqual(cancel(mockTask));
+});
 
-  test('watchRefreshAccessTokenRequest should take every refresh access token request', () => {
+describe('watchRefreshAccessTokenRequestTask', () => {
+  const data = {};
+  data.generator = cloneableGenerator(watchRefreshAccessTokenRequestTask)();
+
+  test('watchRefreshAccessTokenRequestTask should take every refresh access token request', () => {
     expect(data.generator.next().value).toEqual(
       take(AUTH_REFRESH_ACCESS_TOKEN.REQUEST),
     );
@@ -206,17 +262,71 @@ describe('watchRefreshAccessTokenRequest', () => {
       expect(data.generator2.throw(mockError).value).toEqual(
         put(refreshAccessTokenFailure()),
       );
-      const errMessage = mockError.errors &&
+      const errMessage =
+        mockError.errors &&
         mockError.errors.system &&
         mockError.errors.system.message
-        ? mockError.errors.system.message
-        : '';
+          ? mockError.errors.system.message
+          : '';
       expect(data.generator2.next().value).toEqual(put(addError(errMessage)));
       expect(data.generator2.next().value).toEqual(
         take(AUTH_REFRESH_ACCESS_TOKEN.REQUEST),
       );
     });
   });
+});
+
+describe('watchSignUpRequest', () => {
+  const data = {};
+  data.generator = cloneableGenerator(watchSignUpRequest)();
+
+  test('watchSignUpRequest should take every login request', () => {
+    expect(data.generator.next().value).toEqual(take(AUTH_SIGNUP.REQUEST));
+    data.generator2 = data.generator.clone();
+  });
+
+  describe('on signup success', () => {
+    test('signup success', () => {
+      expect(data.generator.next(signUpRequestAction).value).toEqual(
+        call(signUp, nickname),
+      );
+      expect(data.generator.next(mockSignUpResponse).value).toEqual(
+        put(
+          login(
+            mockSignUpResponse.user_account,
+            mockSignUpResponse.password,
+            true,
+          ),
+        ),
+      );
+    });
+  });
+
+  describe('on signup failure', () => {
+    test('signup failure', () => {
+      expect(data.generator2.throw(mockError).value).toEqual(
+        put(signUpFailure()),
+      );
+      const errMessage =
+        mockError.errors &&
+        mockError.errors.system &&
+        mockError.errors.system.message
+          ? mockError.errors.system.message
+          : '';
+      expect(data.generator2.next().value).toEqual(put(addError(errMessage)));
+    });
+  });
+});
+
+test('signUp', () => {
+  const generator = signUp(nickname);
+  expect(generator.next().value).toEqual(
+    apply(pixiv, pixiv.createProvisionalAccount, [nickname]),
+  );
+  expect(generator.next(mockSignUpResponse).value).toEqual(
+    put(signUpSuccess(mockSignUpResponse)),
+  );
+  expect(generator.next().done).toBe(true);
 });
 
 describe('watchRehydrate', () => {

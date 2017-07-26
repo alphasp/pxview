@@ -11,6 +11,7 @@ export const FOLLOWING_TYPES = {
 export const MODAL_TYPES = {
   FOLLOW: 'FOLLOW',
   BOOKMARK: 'BOOKMARK',
+  SIGNUP: 'SIGNUP',
 };
 
 // map values for ranking api option
@@ -64,7 +65,9 @@ export const SEARCH_TYPES = {
 export const SCREENS = {
   Main: 'Main',
   Login: 'Login',
+  SignUp: 'SignUp',
   SearchFilterModal: 'SearchFilterModal',
+  AccountSettingsModal: 'AccountSettingsModal',
   ImagesViewer: 'ImagesViewer',
   AddIllustComment: 'AddIllustComment',
   HomeTab: 'HomeTab',
@@ -91,6 +94,7 @@ export const SCREENS = {
   BrowsingHistory: 'BrowsingHistory',
   Settings: 'Settings',
   AccountSettings: 'AccountSettings',
+  AdvanceAccountSettings: 'AdvanceAccountSettings',
   Language: 'Language',
   Feedback: 'Feedback',
   About: 'About',

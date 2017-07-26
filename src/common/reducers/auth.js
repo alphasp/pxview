@@ -1,6 +1,7 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import {
   AUTH_LOGIN,
+  AUTH_SIGNUP,
   AUTH_LOGOUT,
   AUTH_REFRESH_ACCESS_TOKEN,
   AUTH_REHYDRATE,
@@ -23,6 +24,7 @@ export default function auth(
         loaded: false,
       };
     case AUTH_LOGIN.REQUEST:
+    case AUTH_SIGNUP.REQUEST:
     case AUTH_REFRESH_ACCESS_TOKEN.REQUEST:
       return {
         ...state,
@@ -38,6 +40,7 @@ export default function auth(
         timestamp: action.payload.timestamp,
       };
     case AUTH_LOGIN.FAILURE:
+    case AUTH_SIGNUP.FAILURE:
     case AUTH_REFRESH_ACCESS_TOKEN.FAILURE:
       return {
         ...state,

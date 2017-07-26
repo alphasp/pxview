@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, InteractionManager } from 'react-native';
+import { View, StyleSheet, InteractionManager, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ActionButton from 'react-native-action-button';
+import OverlaySpinner from 'react-native-loading-spinner-overlay';
+import { connectLocalization } from '../../components/Localization';
 import CommentList from '../../components/CommentList';
 import ViewMoreButton from '../../components/ViewMoreButton';
 import * as illustCommentsActionCreators from '../../common/actions/illustComments';
+import * as verificationEmailActionCreators from '../../common/actions/verificationEmail';
 import { makeGetIllustCommentsItems } from '../../common/selectors';
 import { globalStyles } from '../../styles';
 import { SCREENS } from '../../common/constants';
@@ -57,25 +60,51 @@ class IllustComments extends Component {
   };
 
   handleOnPressCommentButton = () => {
-    const { illustId, user, navigation: { navigate, goBack } } = this.props;
-    if (!user) {
-      navigate(SCREENS.Login, {
-        onLoginSuccess: () => {
-          goBack();
-          setTimeout(() => {
-            navigate(SCREENS.AddIllustComment, {
-              illustId,
-              onSubmitComment: this.handleOnSubmitComment,
-            });
-          }, 0);
-        },
-      });
+    const { illustId, user, navigation: { navigate }, i18n } = this.props;
+    if (!user.mail_address) {
+      Alert.alert(
+        i18n.commentAdd,
+        i18n.commentRequireAccountRegistration,
+        [
+          { text: i18n.cancel },
+          {
+            text: i18n.commentRequireAccountRegistrationAction,
+            onPress: this.handleOnPressRegisterAccount,
+          },
+        ],
+        { cancelable: false },
+      );
+    } else if (user.mail_address && !user.is_mail_authorized) {
+      Alert.alert(
+        i18n.emailVerificationPostComment,
+        null,
+        [
+          { text: i18n.cancel },
+          {
+            text: i18n.emailVerificationSend,
+            onPress: this.handleOnPressSendVerificationEmail,
+          },
+        ],
+        { cancelable: false },
+      );
     } else {
       navigate(SCREENS.AddIllustComment, {
         illustId,
         onSubmitComment: this.handleOnSubmitComment,
       });
     }
+  };
+
+  handleOnPressSendVerificationEmail = () => {
+    const { sendVerificationEmail } = this.props;
+    sendVerificationEmail();
+  };
+
+  handleOnPressRegisterAccount = () => {
+    const { navigate } = this.props.navigation;
+    navigate(SCREENS.AccountSettingsModal, {
+      hideAdvanceSettings: true,
+    });
   };
 
   handleOnSubmitComment = () => {
@@ -88,6 +117,7 @@ class IllustComments extends Component {
     const {
       illustComments,
       items,
+      verificationEmail,
       user,
       navigation,
       isFeatureInDetailPage,
@@ -113,21 +143,29 @@ class IllustComments extends Component {
             icon={<Icon name="pencil" size={24} color="#737373" />}
             onPress={this.handleOnPressCommentButton}
           />}
+        <OverlaySpinner visible={verificationEmail.loading} />
       </View>
     );
   }
 }
 
-export default connect(() => {
-  const getIllustCommentsItems = makeGetIllustCommentsItems();
-  return (state, props) => {
-    const { illustComments, auth } = state;
-    const illustId = props.illustId || props.navigation.state.params.illustId;
-    return {
-      illustComments: illustComments[illustId],
-      items: getIllustCommentsItems(state, props),
-      illustId,
-      user: auth.user,
-    };
-  };
-}, illustCommentsActionCreators)(IllustComments);
+export default connectLocalization(
+  connect(
+    () => {
+      const getIllustCommentsItems = makeGetIllustCommentsItems();
+      return (state, props) => {
+        const { illustComments, auth } = state;
+        const illustId =
+          props.illustId || props.navigation.state.params.illustId;
+        return {
+          illustComments: illustComments[illustId],
+          items: getIllustCommentsItems(state, props),
+          verificationEmail: state.verificationEmail,
+          illustId,
+          user: auth.user,
+        };
+      };
+    },
+    { ...illustCommentsActionCreators, ...verificationEmailActionCreators },
+  )(IllustComments),
+);

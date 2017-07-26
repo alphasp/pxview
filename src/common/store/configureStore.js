@@ -8,7 +8,6 @@ import applyAppStateListener from 'redux-enhancer-react-native-appstate';
 import { AsyncStorage } from 'react-native';
 import rootReducer from '../reducers';
 import rootSaga from '../sagas';
-import i18n from '../helpers/i18n';
 
 export default function configureStore() {
   let enhancer;
@@ -72,24 +71,11 @@ export default function configureStore() {
     { whitelist: ['entities', 'browsingHistory'] },
   );
 
-  persistStore(
-    store,
-    {
-      whitelist: [
-        'searchHistory',
-        'browsingHistory',
-        'entities',
-        'auth',
-        'i18n',
-      ],
-      storage: AsyncStorage,
-      transforms: [myTransform],
-    },
-    () => {
-      const { lang } = store.getState().i18n;
-      i18n.setLanguage(lang);
-    },
-  );
+  persistStore(store, {
+    whitelist: ['searchHistory', 'browsingHistory', 'entities', 'auth', 'i18n'],
+    storage: AsyncStorage,
+    transforms: [myTransform],
+  });
   if (module.hot) {
     module.hot.accept('../reducers', () => store.replaceReducer(rootReducer));
   }
