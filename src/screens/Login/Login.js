@@ -3,7 +3,6 @@ import {
   Image,
   StyleSheet,
   View,
-  Linking,
   Keyboard,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -13,10 +12,10 @@ import { Button } from 'react-native-elements';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../../components/Localization';
 import PXFormInput from '../../components/PXFormInput';
-import TeaserList from '../../containers/TeaserList';
+import WalkthroughIllustList from '../../containers/WalkthroughIllustList';
 import * as authActionCreators from '../../common/actions/auth';
 import * as modalActionCreators from '../../common/actions/modal';
-import { RANKING_FOR_UI, MODAL_TYPES } from '../../common/constants';
+import { MODAL_TYPES } from '../../common/constants';
 import { globalStyleVariables } from '../../styles';
 
 const styles = StyleSheet.create({
@@ -109,7 +108,7 @@ class Login extends Component {
           style={{ flex: 1 }}
           onLayout={this.handleOnLayout}
         >
-          <TeaserList rankingMode={RANKING_FOR_UI.DAILY} />
+          <WalkthroughIllustList />
         </View>
         {modal.modalType !== MODAL_TYPES.SIGNUP &&
           <View

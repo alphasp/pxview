@@ -38,6 +38,7 @@ function specialMemoize(
 const getProps = (state, props) => props;
 const selectEntities = state => state.entities;
 const selectRanking = state => state.ranking;
+const selectWalkthroughIllusts = state => state.walkthroughIllusts;
 const selectRecommendedIllusts = state => state.recommendedIllusts;
 const selectRecommendedMangas = state => state.recommendedMangas;
 const selectTrendingIllustTags = state => state.trendingIllustTags;
@@ -336,6 +337,12 @@ export const makeGetDetailItem = () =>
     const id = props.navigation.state.params.item.id;
     return denormalize(id, Schemas.ILLUST, entities);
   });
+
+export const getWalkthroughIllustsItems = createIllustItemsSelector(
+  [selectWalkthroughIllusts, selectEntities],
+  (walkthroughIllusts, entities) =>
+    denormalize(walkthroughIllusts.items, Schemas.ILLUST_ARRAY, entities),
+);
 
 export const getRecommendedIllustsItems = createIllustItemsSelector(
   [selectRecommendedIllusts, selectEntities],

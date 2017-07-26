@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import { InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../components/IllustList';
-import * as rankingActionCreators from '../common/actions/ranking';
-import { makeGetRankingItems } from '../common/selectors';
+import * as walkthroughIllustsActionCreators from '../common/actions/walkthroughIllusts';
+import { getWalkthroughIllustsItems } from '../common/selectors';
 
 const ILLUST_COLUMNS = 3;
 
-class TeaserList extends Component {
+class WalkthroughIllustList extends Component {
   scrollOffset = 0;
 
   componentDidMount() {
-    const { rankingMode, options, fetchRanking, clearRanking } = this.props;
+    const { fetchWalkthroughIllusts, clearWalkthroughIllusts } = this.props;
     InteractionManager.runAfterInteractions(() => {
-      clearRanking(rankingMode);
-      fetchRanking(rankingMode, options);
+      clearWalkthroughIllusts();
+      fetchWalkthroughIllusts();
     });
   }
 
@@ -39,9 +39,8 @@ class TeaserList extends Component {
 
   autoScroll = (listRef, maxScrollableHeight) => {
     if (this.scrollOffset >= maxScrollableHeight) {
-      // console.log('done ', maxScrollableHeight);
       clearTimeout(this.autoScrollTimer);
-    } else {
+    } else if (listRef) {
       listRef.scrollToOffset({
         animated: true,
         offset: (this.scrollOffset += 0.1),
@@ -60,28 +59,20 @@ class TeaserList extends Component {
   }
 
   render() {
-    const { ranking, items } = this.props;
-    console.log('items ', items.length)
+    const { walkthroughIllusts, items } = this.props;
     return (
       <IllustList
-        data={{ ...ranking, items }}
+        data={{ ...walkthroughIllusts, items }}
         onListLayout={this.handleOnListLayout}
       />
     );
   }
 }
 
-export default connect(() => {
-  const getRankingItems = makeGetRankingItems();
-  return (state, props) => {
-    const { ranking } = state;
-    const items = getRankingItems(state, props);
-    return {
-      ranking: ranking[props.rankingMode],
-      items:
-        items && items.length && items.length % 3
-          ? items.slice(0, items.length - 2)
-          : items,
-    };
+export default connect((state, props) => {
+  const { walkthroughIllusts } = state;
+  return {
+    walkthroughIllusts,
+    items: getWalkthroughIllustsItems(state, props),
   };
-}, rankingActionCreators)(TeaserList);
+}, walkthroughIllustsActionCreators)(WalkthroughIllustList);
