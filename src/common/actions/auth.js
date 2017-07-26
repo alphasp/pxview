@@ -6,13 +6,13 @@ import {
   AUTH_REHYDRATE,
 } from '../constants/actionTypes';
 
-export function login(email, password, isProvisonalAccount = false) {
+export function login(email, password, isProvisionalAccount = false) {
   return {
     type: AUTH_LOGIN.REQUEST,
     payload: {
       email,
       password,
-      isProvisonalAccount,
+      isProvisionalAccount,
     },
   };
 }
@@ -28,10 +28,10 @@ export function loginSuccess(json, options) {
     },
     timestamp: Date.now(),
   };
-  if (options && options.isProvisonalAccount && options.password) {
+  if (options && options.isProvisionalAccount && options.password) {
     payload.user = {
       ...payload.user,
-      isProvisonalAccount: options.isProvisonalAccount,
+      isProvisionalAccount: options.isProvisionalAccount,
       password: options.password,
     };
   }
@@ -44,6 +44,13 @@ export function loginSuccess(json, options) {
 export function loginFailure() {
   return {
     type: AUTH_LOGIN.FAILURE,
+  };
+}
+
+// Cancel watch login request saga
+export function stopLogin() {
+  return {
+    type: AUTH_LOGIN.STOP,
   };
 }
 
@@ -100,10 +107,10 @@ export function refreshAccessTokenSuccess(json, options) {
     },
     timestamp: Date.now(),
   };
-  if (options && options.isProvisonalAccount && options.password) {
+  if (options && options.isProvisionalAccount && options.password) {
     payload.user = {
       ...payload.user,
-      isProvisonalAccount: options.isProvisonalAccount,
+      isProvisionalAccount: options.isProvisionalAccount,
       password: options.password,
     };
   }
