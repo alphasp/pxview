@@ -1,5 +1,14 @@
 import { delay } from 'redux-saga';
-import { take, call, apply, put, race, select } from 'redux-saga/effects';
+import {
+  take,
+  call,
+  apply,
+  put,
+  race,
+  select,
+  fork,
+  cancel,
+} from 'redux-saga/effects';
 import moment from 'moment';
 import { REHYDRATE } from 'redux-persist/constants';
 import { FOREGROUND, BACKGROUND } from 'redux-enhancer-react-native-appstate';
@@ -26,15 +35,19 @@ import {
   AUTH_REFRESH_ACCESS_TOKEN,
 } from '../constants/actionTypes';
 
-const setProvisionalAccountOptions = (isProvisonalAccount, password) => ({
-  isProvisonalAccount,
-  password: isProvisonalAccount ? password : null,
+const setProvisionalAccountOptions = (isProvisionalAccount, password) => ({
+  isProvisionalAccount,
+  password: isProvisionalAccount ? password : null,
 });
 
-export function* authorize(email, password, isProvisonalAccount) {
+export function* authorize(email, password, isProvisionalAccount) {
   // use apply instead of call to pass this to function
-  const loginResponse = yield apply(pixiv, pixiv.login, [email, password]);
-  const options = setProvisionalAccountOptions(isProvisonalAccount, password);
+  const loginResponse = yield apply(pixiv, pixiv.login, [
+    email,
+    password,
+    false,
+  ]);
+  const options = setProvisionalAccountOptions(isProvisionalAccount, password);
   yield put(loginSuccess(loginResponse, options));
   return loginResponse;
 }
@@ -46,7 +59,7 @@ export function* handleRefreshAccessToken(refreshToken) {
     ]);
     const user = yield select(getAuthUser);
     const options = setProvisionalAccountOptions(
-      user.isProvisonalAccount,
+      user.isProvisionalAccount,
       user.password,
     );
 
@@ -101,16 +114,16 @@ export function* handleLogout() {
   yield apply(pixiv, pixiv.logout);
 }
 
-export function* watchLoginRequest() {
+export function* watchLoginRequestTask() {
   while (true) {
     try {
       const action = yield take(AUTH_LOGIN.REQUEST);
-      const { email, password, isProvisonalAccount } = action.payload;
+      const { email, password, isProvisionalAccount } = action.payload;
       const authResponse = yield call(
         authorize,
         email,
         password,
-        isProvisonalAccount,
+        isProvisionalAccount,
       );
       yield race([
         take(AUTH_LOGOUT.SUCCESS),
@@ -130,7 +143,15 @@ export function* watchLoginRequest() {
   }
 }
 
-export function* watchRefreshAccessTokenRequest() {
+export function* watchLoginRequest() {
+  while (true) {
+    const loginRequestTask = yield fork(watchLoginRequestTask);
+    yield take(AUTH_LOGIN.STOP);
+    yield cancel(loginRequestTask);
+  }
+}
+
+export function* watchRefreshAccessTokenRequestTask() {
   while (true) {
     try {
       const action = yield take(AUTH_REFRESH_ACCESS_TOKEN.REQUEST);
@@ -151,6 +172,16 @@ export function* watchRefreshAccessTokenRequest() {
       yield put(refreshAccessTokenFailure());
       yield put(addError(errMessage));
     }
+  }
+}
+
+export function* watchRefreshAccessTokenRequest() {
+  while (true) {
+    const refreshAccessTokenTask = yield fork(
+      watchRefreshAccessTokenRequestTask,
+    );
+    yield take(AUTH_LOGIN.STOP);
+    yield cancel(refreshAccessTokenTask);
   }
 }
 

@@ -13,3 +13,5 @@ export const REPLACE = 'REPLACE';
 
 export const OPEN = 'OPEN';
 export const CLOSE = 'CLOSE';
+
+export const STOP = 'STOP';

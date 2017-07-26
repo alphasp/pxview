@@ -3,7 +3,8 @@ import MyConnection from '../../screens/MyPage/MyConnection/MyConnection';
 import MyCollection from '../../screens/MyPage/MyCollection/MyCollection';
 import BrowsingHistory from '../../screens/MyPage/BrowsingHistory';
 import Settings from '../../screens/MyPage/Settings';
-import AccountSettings from '../../screens/MyPage/AccountSettings';
+import AccountSettings from '../../screens/MyPage/AccountSettings/AccountSettings';
+import AdvanceAccountSettings from '../../screens/MyPage/AccountSettings/AdvanceAccountSettings';
 import Language from '../../screens/MyPage/Language';
 import Feedback from '../../screens/MyPage/Feedback';
 import About from '../../screens/MyPage/About';
@@ -48,6 +49,12 @@ const config = {
     screen: AccountSettings,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.accountSettings,
+    }),
+  },
+  [SCREENS.AdvanceAccountSettings]: {
+    screen: AdvanceAccountSettings,
+    navigationOptions: () => ({
+      title: null,
     }),
   },
   [SCREENS.Language]: {

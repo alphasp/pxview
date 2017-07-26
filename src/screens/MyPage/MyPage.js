@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView, Linking } from 'react-native';
+import { StyleSheet, View, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'react-native-elements';
 import CookieManager from 'react-native-cookies';
@@ -70,31 +70,13 @@ class MyPage extends Component {
     const { user, navigation: { navigate } } = this.props;
     switch (item.id) {
       case 'works':
-        if (!user) {
-          this.navigateToLogin(authUser =>
-            navigate(SCREENS.MyWorks, { userId: authUser.id }),
-          );
-        } else {
-          navigate(SCREENS.MyWorks, { userId: user.id });
-        }
+        navigate(SCREENS.MyWorks, { userId: user.id });
         break;
       case 'collection':
-        if (!user) {
-          this.navigateToLogin(authUser =>
-            navigate(SCREENS.MyCollection, { userId: authUser.id }),
-          );
-        } else {
-          navigate(SCREENS.MyCollection, { userId: user.id });
-        }
+        navigate(SCREENS.MyCollection, { userId: user.id });
         break;
       case 'connection':
-        if (!user) {
-          this.navigateToLogin(authUser =>
-            navigate(SCREENS.MyConnection, { userId: authUser.id }),
-          );
-        } else {
-          navigate(SCREENS.MyConnection, { userId: user.id });
-        }
+        navigate(SCREENS.MyConnection, { userId: user.id });
         break;
       case 'browsingHistory':
         navigate(SCREENS.BrowsingHistory);
@@ -108,11 +90,7 @@ class MyPage extends Component {
         break;
       }
       case 'logout': {
-        const { clearBrowsingHistory, logout } = this.props;
-        logout();
-        clearBrowsingHistory();
-        // clear cookies set from webview for account settings
-        CookieManager.clearAll(() => {});
+        this.handleOnPressLogout();
         break;
       }
       default:
@@ -120,27 +98,56 @@ class MyPage extends Component {
     }
   };
 
-  handleOnPressSignUp = () => {
-    const url = 'https://accounts.pixiv.net/signup';
-    Linking.canOpenURL(url)
-      .then(supported => {
-        if (!supported) {
-          return null;
-        }
-        return Linking.openURL(url);
-      })
-      .catch(err => err);
+  handleOnPressLogout = () => {
+    const { user, i18n } = this.props;
+    if (user.isProvisionalAccount) {
+      Alert.alert(
+        i18n.logoutConfirmNoRegisterTitle,
+        i18n.logoutConfirmNoRegisterDescription,
+        [
+          { text: i18n.cancel, style: 'cancel' },
+          {
+            text: i18n.commentRequireAccountRegistrationAction,
+            onPress: this.handleOnPressRegisterAccount,
+          },
+          {
+            text: i18n.logout,
+            style: 'destructive',
+            onPress: this.handleOnPressConfirmLogout,
+          },
+        ],
+        { cancelable: false },
+      );
+    } else {
+      Alert.alert(
+        i18n.logoutConfirm,
+        null,
+        [
+          { text: i18n.cancel, style: 'cancel' },
+          {
+            text: i18n.logout,
+            style: 'destructive',
+            onPress: this.handleOnPressConfirmLogout,
+          },
+        ],
+        { cancelable: false },
+      );
+    }
   };
 
-  navigateToLogin = onLoginSuccess => {
+  handleOnPressConfirmLogout = () => {
+    const { clearBrowsingHistory, logout } = this.props;
+    logout();
+    clearBrowsingHistory();
+    // clear cookies set from webview for account settings
+    CookieManager.clearAll(() => {});
+  };
+
+  handleOnPressRegisterAccount = () => {
     const { navigate } = this.props.navigation;
-    navigate(SCREENS.Login, {
-      onLoginSuccess,
+    navigate(SCREENS.AccountSettingsModal, {
+      hideAdvanceSettings: true,
     });
-  };
-
-  handleOnPressLogin = () => {
-    this.navigateToLogin();
   };
 
   handleOnPressAvatar = () => {
@@ -159,8 +166,6 @@ class MyPage extends Component {
         user={user}
         i18n={i18n}
         onPressAvatar={this.handleOnPressAvatar}
-        onPressLogin={this.handleOnPressLogin}
-        onPressSignUp={this.handleOnPressSignUp}
       />
     );
   };

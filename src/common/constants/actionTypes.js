@@ -12,13 +12,14 @@ import {
   REPLACE,
   OPEN,
   CLOSE,
+  STOP,
 } from './stateConstants';
 
 const appNamespace = defineAction('PIXIV');
 
 export const AUTH_LOGIN = defineAction(
   'AUTH_LOGIN',
-  [REQUEST, SUCCESS, FAILURE],
+  [REQUEST, SUCCESS, FAILURE, STOP],
   appNamespace,
 );
 
@@ -27,7 +28,6 @@ export const AUTH_SIGNUP = defineAction(
   [REQUEST, SUCCESS, FAILURE],
   appNamespace,
 );
-
 
 export const AUTH_LOGOUT = defineAction('AUTH_LOGOUT', [SUCCESS], appNamespace);
 
@@ -43,9 +43,33 @@ export const AUTH_REHYDRATE = defineAction(
   appNamespace,
 );
 
+export const MY_ACCOUNT_STATE = defineAction(
+  'MY_ACCOUNT_STATE',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
+export const EDIT_ACCOUNT = defineAction(
+  'EDIT_ACCOUNT',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
+export const VERIFICATION_EMAIL = defineAction(
+  'VERIFICATION_EMAIL',
+  [REQUEST, SUCCESS, FAILURE],
+  appNamespace,
+);
+
 export const ERROR = defineAction('ERROR', [ADD, CLEAR], appNamespace);
 
 export const NAV = defineAction('NAV', [REPLACE], appNamespace);
+
+export const WALKTHROUGH_ILLUSTS = defineAction(
+  'WALKTHROUGH_ILLUSTS',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
 
 export const RECOMMENDED_ILLUSTS = defineAction(
   'RECOMMENDED_ILLUSTS',
