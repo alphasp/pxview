@@ -12,9 +12,15 @@ import { SCREENS } from '../../common/constants';
 const config = {
   [SCREENS.Detail]: {
     screen: Detail,
+    navigationOptions: {
+      header: null,
+    },
   },
   [SCREENS.UserDetail]: {
     screen: UserDetail,
+    navigationOptions: {
+      header: null,
+    },
   },
   [SCREENS.IllustComments]: {
     screen: IllustComments,
