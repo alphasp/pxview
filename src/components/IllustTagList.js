@@ -6,11 +6,13 @@ import {
   RefreshControl,
   ScrollView,
 } from 'react-native';
+import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
 import { SEARCH_TYPES, SCREENS } from '../common/constants';
+import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import { globalStyles, globalStyleVariables } from '../styles';
 
 const ILLUST_COLUMNS = 3;
@@ -104,7 +106,8 @@ class IllustTagList extends Component {
   };
 
   handleOnPressItem = item => {
-    const { navigate } = this.props.navigation;
+    const { addSearchHistory, navigation: { navigate } } = this.props;
+    addSearchHistory(item.tag);
     navigate(SCREENS.SearchResult, {
       word: item.tag,
       searchType: SEARCH_TYPES.ILLUST,
@@ -134,4 +137,6 @@ class IllustTagList extends Component {
   }
 }
 
-export default withNavigation(IllustTagList);
+export default withNavigation(
+  connect(null, searchHistoryActionCreators)(IllustTagList),
+);
