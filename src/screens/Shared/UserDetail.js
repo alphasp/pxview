@@ -19,6 +19,7 @@ import { BlurView } from 'react-native-blur';
 import Share from 'react-native-share';
 import FollowButtonContainer from '../../containers/FollowButtonContainer';
 import { connectLocalization } from '../../components/Localization';
+import PXHeader from '../../components/PXHeader';
 import IllustCollection from '../../components/IllustCollection';
 import HeaderShareButton from '../../components/HeaderShareButton';
 import PXThumbnail from '../../components/PXThumbnail';
@@ -126,72 +127,19 @@ class UserDetail extends Component {
     userBookmarkIllusts: {},
   };
 
-  static navigationOptions = ({ navigation }) => {
-    const { isShowTitle, isScrolled, user, authUser } = navigation.state.params;
-    const shareOptions = user
-      ? {
-          message: `${user.name} #pxview`,
-          url: `http://www.pixiv.net/member.php?id=${user.id}`,
-        }
-      : {};
-    return {
-      headerTitle:
-        user && isScrolled
-          ? <Animatable.View
-              style={styles.thumnailNameContainer}
-              animation={isShowTitle ? 'fadeIn' : 'fadeOut'}
-              duration={100}
-            >
-              <PXThumbnailTouchable uri={user.profile_image_urls.medium} />
-              <View style={styles.nameContainer}>
-                <Text style={styles.headerText}>
-                  {user.name}
-                </Text>
-                <Text style={styles.headerText}>
-                  {user.account}
-                </Text>
-              </View>
-            </Animatable.View>
-          : null,
-      headerRight:
-        user &&
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginRight: 10,
-          }}
-        >
-          {user &&
-            ((authUser && user.id !== authUser.id) || !authUser) &&
-            <FollowButtonContainer
-              user={user}
-              buttonStyle={styles.followButton}
-              textStyle={styles.followButtonText}
-              navigation={navigation}
-            />}
-          <HeaderShareButton
-            style={{ marginLeft: 10 }}
-            onPress={() => Share.open(shareOptions).catch()}
-          />
-        </View>,
-    };
-  };
-
   constructor(props) {
     super(props);
     this.state = {
       viewRef: 0,
+      isScrolled: false,
+      isShowTitle: false,
     };
   }
 
   componentDidMount() {
     const {
-      authUser,
       userId,
       userDetail,
-      userDetailItem,
-      navigation: { setParams },
       fetchUserDetail,
       clearUserDetail,
       fetchUserIllusts,
@@ -211,31 +159,8 @@ class UserDetail extends Component {
         fetchUserIllusts(userId);
         fetchUserMangas(userId);
         fetchUserBookmarkIllusts(userId);
-        setParams({ authUser });
-      } else {
-        setParams({ user: userDetailItem.user, authUser });
       }
     });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {
-      userDetailItem: prevUserDetailItem,
-      authUser: prevAuthUser,
-    } = this.props;
-    const { userDetailItem, navigation: { setParams }, authUser } = nextProps;
-    if (userDetailItem && userDetailItem !== prevUserDetailItem) {
-      setParams({ user: userDetailItem.user });
-      const newParams = {
-        user: userDetailItem.user,
-      };
-      if (authUser !== prevAuthUser) {
-        newParams.authUser = authUser;
-      }
-      setParams(newParams);
-    } else if (authUser !== prevAuthUser) {
-      setParams({ authUser });
-    }
   }
 
   handleOnLinkPress = url => {
@@ -272,29 +197,108 @@ class UserDetail extends Component {
   };
 
   handleOnScroll = ({ nativeEvent }) => {
-    const {
-      userDetail,
-      navigation: { setParams, state: { params: { isShowTitle, isScrolled } } },
-    } = this.props;
+    const { userDetail } = this.props;
+    const { isShowTitle, isScrolled } = this.state;
+    let newState;
     if (userDetail && userDetail.item) {
       if (nativeEvent.contentOffset.y >= 135) {
         if (!isScrolled) {
           if (!isShowTitle) {
-            setParams({ isScrolled: true, isShowTitle: true });
+            newState = {
+              isScrolled: true,
+              isShowTitle: true,
+            };
           } else {
-            setParams({ isScrolled: true });
+            newState = {
+              isScrolled: true,
+            };
           }
         } else if (!isShowTitle) {
-          setParams({ isShowTitle: true });
+          newState = {
+            isShowTitle: true,
+          };
         }
       } else if (isShowTitle) {
-        setParams({ isShowTitle: false });
+        newState = {
+          isShowTitle: false,
+        };
+      }
+      if (newState) {
+        this.setState(newState);
       }
     }
   };
 
   handleOnProfileImageLoaded = () => {
     this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
+  };
+
+  renderHeaderTitle = () => {
+    const { userDetailItem } = this.props;
+    const { isShowTitle, isScrolled } = this.state;
+    if (!userDetailItem || !userDetailItem.user) {
+      return null;
+    }
+    const { user } = userDetailItem;
+    return (
+      <Animatable.View
+        style={[
+          styles.thumnailNameContainer,
+          {
+            opacity: isScrolled ? 1 : 0,
+            flex: 1,
+            justifyContent: Platform.OS === 'android' ? 'flex-start' : 'center',
+          },
+        ]}
+        // eslint-disable-next-line no-nested-ternary
+        animation={isScrolled ? (isShowTitle ? 'fadeIn' : 'fadeOut') : null}
+        duration={100}
+      >
+        <PXThumbnailTouchable uri={user.profile_image_urls.medium} />
+        <View style={styles.nameContainer}>
+          <Text style={styles.headerText}>
+            {user.name}
+          </Text>
+          <Text style={styles.headerText}>
+            {user.account}
+          </Text>
+        </View>
+      </Animatable.View>
+    );
+  };
+
+  renderHeaderRight = () => {
+    const { userDetailItem, authUser, navigation } = this.props;
+    if (!userDetailItem || !userDetailItem.user) {
+      return null;
+    }
+    const { user } = userDetailItem;
+    const shareOptions = {
+      message: `${user.name} #pxview`,
+      url: `http://www.pixiv.net/member.php?id=${user.id}`,
+    };
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginRight: 10,
+        }}
+      >
+        {user &&
+          ((authUser && user.id !== authUser.id) || !authUser) &&
+          <FollowButtonContainer
+            user={user}
+            buttonStyle={styles.followButton}
+            textStyle={styles.followButtonText}
+            navigation={navigation}
+          />}
+        <HeaderShareButton
+          style={{ marginLeft: 10 }}
+          onPress={() => Share.open(shareOptions).catch()}
+        />
+      </View>
+    );
   };
 
   renderProfile = detail => {
@@ -498,6 +502,13 @@ class UserDetail extends Component {
     } = this.props;
     return (
       <View style={styles.container}>
+        <PXHeader
+          headerTitle={this.renderHeaderTitle()}
+          headerRight={this.renderHeaderRight()}
+          darkTheme
+          showBackButton
+          onPressBackButton={this.handleOnPressHeaderBackButton}
+        />
         {(!item || (!loaded && loading)) && <Loader />}
         {item
           ? <ScrollView

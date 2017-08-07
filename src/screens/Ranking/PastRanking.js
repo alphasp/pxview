@@ -115,7 +115,7 @@ class PastRanking extends Component {
     </PXTouchable>;
 
   render() {
-    const { user, i18n } = this.props;
+    const { user, i18n, navigation } = this.props;
     const { date, mode, isOpenRankingModeBottomSheet } = this.state;
     return (
       <View style={globalStyles.container}>
@@ -156,6 +156,7 @@ class PastRanking extends Component {
         <RankingList
           rankingMode={RANKING_FOR_UI.PAST}
           options={{ date, mode }}
+          navigation={navigation}
         />
         <PXBottomSheet
           visible={isOpenRankingModeBottomSheet}

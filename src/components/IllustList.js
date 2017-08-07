@@ -5,6 +5,7 @@ import {
   RefreshControl,
   FlatList,
   Platform,
+  DeviceEventEmitter,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
@@ -23,6 +24,17 @@ const styles = StyleSheet.create({
 });
 
 class IllustList extends Component {
+  componentDidUpdate(prevProps) {
+    const { data: { items: prevItems } } = prevProps;
+    const { data: { items }, listKey, maxItems } = this.props;
+    if (listKey && items !== prevItems) {
+      DeviceEventEmitter.emit('masterListUpdate', {
+        listKey,
+        items: maxItems ? items.slice(0, maxItems) : items,
+      });
+    }
+  }
+
   renderItem = ({ item, index }) =>
     <IllustItem
       key={item.id}
@@ -42,8 +54,20 @@ class IllustList extends Component {
   };
 
   handleOnPressItem = item => {
-    const { navigate } = this.props.navigation;
-    navigate(SCREENS.Detail, { item });
+    const {
+      data: { items },
+      navigation: { navigate },
+      loadMoreItems,
+      listKey,
+      maxItems,
+    } = this.props;
+    const index = items.findIndex(i => i.id === item.id);
+    navigate(SCREENS.Detail, {
+      items: maxItems ? items.slice(0, maxItems) : items,
+      index,
+      onListEndReached: loadMoreItems,
+      parentListKey: listKey,
+    });
   };
 
   handleOnLayout = e => {

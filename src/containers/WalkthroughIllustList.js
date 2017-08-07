@@ -59,10 +59,11 @@ class WalkthroughIllustList extends Component {
   }
 
   render() {
-    const { walkthroughIllusts, items } = this.props;
+    const { walkthroughIllusts, items, listKey } = this.props;
     return (
       <IllustList
         data={{ ...walkthroughIllusts, items }}
+        listKey={listKey}
         onListLayout={this.handleOnListLayout}
       />
     );
@@ -74,5 +75,6 @@ export default connect((state, props) => {
   return {
     walkthroughIllusts,
     items: getWalkthroughIllustsItems(state, props),
+    listKey: 'walkthroughIllustList',
   };
 }, walkthroughIllustsActionCreators)(WalkthroughIllustList);

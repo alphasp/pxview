@@ -9,6 +9,9 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: globalStyleVariables.STATUSBAR_HEIGHT,
   },
+  containerDark: {
+    backgroundColor: globalStyleVariables.PRIMARY_COLOR,
+  },
   subContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -22,6 +25,7 @@ class PXHeader extends Component {
     showBackButton: PropTypes.bool,
     headerTitle: PropTypes.element,
     headerRight: PropTypes.element,
+    darkTheme: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -30,6 +34,7 @@ class PXHeader extends Component {
     showBackButton: false,
     headerTitle: null,
     headerRight: null,
+    darkTheme: false,
   };
 
   handleOnPressDrawerMenuButton = () => {
@@ -52,17 +57,21 @@ class PXHeader extends Component {
       showBackButton,
       headerTitle,
       headerRight,
+      darkTheme,
     } = this.props;
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, darkTheme && styles.containerDark]}>
         <View style={styles.subContainer}>
           {showMenuButton &&
             <DrawerMenuButton
               onPress={this.handleOnPressDrawerMenuButton}
-              color={globalStyleVariables.PRIMARY_COLOR}
+              color={darkTheme ? '#fff' : globalStyleVariables.PRIMARY_COLOR}
             />}
           {showBackButton &&
-            <HeaderBackButton onPress={this.handleOnPressBackButton} />}
+            <HeaderBackButton
+              onPress={this.handleOnPressBackButton}
+              tintColor={darkTheme && '#fff'}
+            />}
           {headerTitle}
           {headerRight}
         </View>

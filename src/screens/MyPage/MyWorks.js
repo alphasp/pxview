@@ -35,12 +35,13 @@ class MyWorks extends Component {
   };
 
   renderScene = ({ route }) => {
-    const { userId } = this.props.navigation.state.params;
+    const { navigation } = this.props;
+    const { userId } = navigation.state.params;
     switch (route.key) {
       case '1':
-        return <UserIllusts userId={userId} />;
+        return <UserIllusts userId={userId} navigation={navigation} />;
       case '2':
-        return <UserMangas userId={userId} />;
+        return <UserMangas userId={userId} navigation={navigation} />;
       default:
         return null;
     }

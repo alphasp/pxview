@@ -334,7 +334,9 @@ export const makeGetUserDetailPageItems = () => {
 
 export const makeGetDetailItem = () =>
   createIllustItemSelector([selectEntities, getProps], (entities, props) => {
-    const id = props.navigation.state.params.item.id;
+    const items = props.navigation.state.params.items;
+    const index = props.navigation.state.params.index;
+    const id = items[index].id;
     return denormalize(id, Schemas.ILLUST, entities);
   });
 

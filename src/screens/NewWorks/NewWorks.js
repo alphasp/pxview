@@ -68,15 +68,16 @@ class NewWorks extends Component {
   };
 
   renderScene = ({ route }) => {
+    const { navigation } = this.props;
     switch (route.key) {
       case '1':
-        return <FollowingUserIllusts />;
+        return <FollowingUserIllusts navigation={navigation} />;
       case '2':
-        return <NewIllusts />;
+        return <NewIllusts navigation={navigation} />;
       case '3':
-        return <NewMangas />;
+        return <NewMangas navigation={navigation} />;
       case '4':
-        return <MyPixiv />;
+        return <MyPixiv navigation={navigation} />;
       default:
         return null;
     }

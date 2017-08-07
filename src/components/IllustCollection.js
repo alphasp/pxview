@@ -79,7 +79,8 @@ const IllustCollection = props => {
               item={item}
               index={index}
               numColumns={ILLUST_COLUMNS}
-              onPressItem={() => navigate(SCREENS.Detail, { item })}
+              onPressItem={() =>
+                navigate(SCREENS.Detail, { items: illusts, index })}
               containerStyle={{
                 width:
                   (globalStyleVariables.WINDOW_WIDTH - CONTAINER_MARGIN * 2) /

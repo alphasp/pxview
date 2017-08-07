@@ -25,10 +25,11 @@ class NewMangas extends Component {
   };
 
   render() {
-    const { newMangas, items } = this.props;
+    const { newMangas, items, listKey } = this.props;
     return (
       <IllustList
         data={{ ...newMangas, items }}
+        listKey={listKey}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -36,10 +37,11 @@ class NewMangas extends Component {
   }
 }
 
-export default connect(state => {
+export default connect((state, props) => {
   const { newMangas } = state;
   return {
     newMangas,
     items: getNewMangasItems(state),
+    listKey: `${props.navigation.state.key}-newMangas`,
   };
 }, newMangasActionCreators)(NewMangas);

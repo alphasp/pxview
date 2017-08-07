@@ -30,10 +30,11 @@ class UserMangas extends Component {
   };
 
   render() {
-    const { userMangas, items } = this.props;
+    const { userMangas, items, listKey } = this.props;
     return (
       <IllustList
         data={{ ...userMangas, items }}
+        listKey={listKey}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -50,6 +51,7 @@ export default connect(() => {
       userMangas: userMangas[userId],
       items: getUserMangasItems(state, props),
       userId,
+      listKey: props.navigation.state.key,
     };
   };
 }, userMangasActionCreators)(UserMangas);

@@ -62,7 +62,8 @@ class UserList extends Component {
                 item={illust}
                 index={index}
                 numColumns={ILLUST_PREVIEW_COLUMNS}
-                onPressItem={() => this.handleOnPressImagePreview(illust)}
+                onPressItem={() =>
+                  this.handleOnPressImagePreview(item.illusts, index)}
               />,
             )}
         </View>
@@ -97,9 +98,9 @@ class UserList extends Component {
       : null;
   };
 
-  handleOnPressImagePreview = item => {
+  handleOnPressImagePreview = (illusts, index) => {
     const { navigate } = this.props.navigation;
-    navigate(SCREENS.Detail, { item });
+    navigate(SCREENS.Detail, { items: illusts, index });
   };
 
   handleOnPressAvatar = userId => {

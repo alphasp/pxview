@@ -52,53 +52,78 @@ class Ranking extends Component {
     // if (Math.abs(this.state.index - this.state.routes.indexOf(route)) > 2) {
     //   return null;
     // }
+    const { navigation } = this.props;
     switch (route.key) {
       case '1':
         return (
           <TabContentWrapper active={index === this.state.index}>
-            <RankingList rankingMode={RANKING_FOR_UI.DAILY} />
+            <RankingList
+              rankingMode={RANKING_FOR_UI.DAILY}
+              navigation={navigation}
+            />
           </TabContentWrapper>
         );
       case '2':
         return (
           <TabContentWrapper active={index === this.state.index}>
-            <RankingList rankingMode={RANKING_FOR_UI.DAILY_MALE} />
+            <RankingList
+              rankingMode={RANKING_FOR_UI.DAILY_MALE}
+              navigation={navigation}
+            />
           </TabContentWrapper>
         );
       case '3':
         return (
           <TabContentWrapper active={index === this.state.index}>
-            <RankingList rankingMode={RANKING_FOR_UI.DAILY_FEMALE} />
+            <RankingList
+              rankingMode={RANKING_FOR_UI.DAILY_FEMALE}
+              navigation={navigation}
+            />
           </TabContentWrapper>
         );
       case '4':
         return (
           <TabContentWrapper active={index === this.state.index}>
-            <RankingList rankingMode={RANKING_FOR_UI.WEEKLY_ORIGINAL} />
+            <RankingList
+              rankingMode={RANKING_FOR_UI.WEEKLY_ORIGINAL}
+              navigation={navigation}
+            />
           </TabContentWrapper>
         );
       case '5':
         return (
           <TabContentWrapper active={index === this.state.index}>
-            <RankingList rankingMode={RANKING_FOR_UI.WEEKLY_ROOKIE} />
+            <RankingList
+              rankingMode={RANKING_FOR_UI.WEEKLY_ROOKIE}
+              navigation={navigation}
+            />
           </TabContentWrapper>
         );
       case '6':
         return (
           <TabContentWrapper active={index === this.state.index}>
-            <RankingList rankingMode={RANKING_FOR_UI.WEEKLY} />
+            <RankingList
+              rankingMode={RANKING_FOR_UI.WEEKLY}
+              navigation={navigation}
+            />
           </TabContentWrapper>
         );
       case '7':
         return (
           <TabContentWrapper active={index === this.state.index}>
-            <RankingList rankingMode={RANKING_FOR_UI.MONTHLY} />
+            <RankingList
+              rankingMode={RANKING_FOR_UI.MONTHLY}
+              navigation={navigation}
+            />
           </TabContentWrapper>
         );
       case '8':
         return (
           <TabContentWrapper active={index === this.state.index}>
-            <PastRanking rankingMode={RANKING_FOR_UI.PAST} />
+            <PastRanking
+              rankingMode={RANKING_FOR_UI.PAST}
+              navigation={navigation}
+            />
           </TabContentWrapper>
         );
       default:

@@ -25,10 +25,11 @@ class MyPixiv extends Component {
   };
 
   render() {
-    const { myPixiv, items } = this.props;
+    const { myPixiv, items, listKey } = this.props;
     return (
       <IllustList
         data={{ ...myPixiv, items }}
+        listKey={listKey}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -36,10 +37,11 @@ class MyPixiv extends Component {
   }
 }
 
-export default connect(state => {
+export default connect((state, props) => {
   const { myPixiv } = state;
   return {
     myPixiv,
     items: getMyPixivItems(state),
+    listKey: `${props.navigation.state.key}-myPixiv`,
   };
 }, myPixivActionCreators)(MyPixiv);

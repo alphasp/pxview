@@ -159,8 +159,8 @@ class DrawerContent extends Component {
     const { clearBrowsingHistory, logout } = this.props;
     logout();
     clearBrowsingHistory();
-    // clear cookies set from webview for account settings
-    CookieManager.clearAll(() => {});
+    // clear cookies set from webview for advance account settings
+    CookieManager.clearAll();
   };
 
   handleOnPressAvatar = () => {
