@@ -45,6 +45,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
   footerSpacer: {
     marginBottom: Platform.OS === 'ios' ? 120 : 60,
   },
@@ -91,6 +96,9 @@ class DetailFooter extends PureComponent {
               />}
           </View>
           <View style={styles.captionContainer}>
+            <Text style={styles.title}>
+              {item.title}
+            </Text>
             <HtmlView value={item.caption} onLinkPress={onPressLink} />
           </View>
           <View style={styles.statContainer}>
