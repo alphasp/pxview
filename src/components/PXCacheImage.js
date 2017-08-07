@@ -54,9 +54,9 @@ class PXCacheImage extends Component {
   }
 
   render() {
-    const { style, ...otherProps } = this.props;
-    const { imageUri, width, height } = this.state;
-    return imageUri && width && height
+    const { uri, style, ...otherProps } = this.props;
+    const { width, height } = this.state;
+    return width && height
       ? <View
           style={{
             width: globalStyleVariables.WINDOW_WIDTH,
@@ -68,7 +68,10 @@ class PXCacheImage extends Component {
         >
           <Image
             source={{
-              uri: imageUri,
+              uri,
+              headers: {
+                referer: 'http://www.pixiv.net',
+              },
             }}
             style={[
               {
