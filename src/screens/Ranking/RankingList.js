@@ -47,10 +47,11 @@ class RankingList extends Component {
   };
 
   render() {
-    const { ranking, items } = this.props;
+    const { ranking, items, listKey } = this.props;
     return (
       <IllustList
         data={{ ...ranking, items }}
+        listKey={listKey}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -65,6 +66,7 @@ export default connect(() => {
     return {
       ranking: ranking[props.rankingMode],
       items: getRankingItems(state, props),
+      listKey: `${props.navigation.state.key}-${props.rankingMode}`,
     };
   };
 }, rankingActionCreators)(RankingList);

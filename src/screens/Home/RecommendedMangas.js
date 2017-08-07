@@ -28,10 +28,11 @@ class RecommendedMangas extends Component {
   };
 
   render() {
-    const { recommendedMangas, items } = this.props;
+    const { recommendedMangas, items, listKey } = this.props;
     return (
       <IllustList
         data={{ ...recommendedMangas, items }}
+        listKey={listKey}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -44,5 +45,6 @@ export default connect((state, props) => {
   return {
     recommendedMangas,
     items: getRecommendedMangasItems(state, props),
+    listKey: `${props.navigation.state.key}-recommendedMangas`,
   };
 }, recommendedMangasActionCreators)(RecommendedMangas);

@@ -54,10 +54,11 @@ class MyPrivateBookmarkIllusts extends Component {
   };
 
   render() {
-    const { myPrivateBookmarkIllusts, items } = this.props;
+    const { myPrivateBookmarkIllusts, items, listKey } = this.props;
     return (
       <IllustList
         data={{ ...myPrivateBookmarkIllusts, items }}
+        listKey={listKey}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -72,5 +73,6 @@ export default connect((state, props) => {
     myPrivateBookmarkIllusts,
     items: getMyPrivateBookmarkIllustsItems(state),
     userId,
+    listKey: props.navigation.state.key,
   };
 }, myPrivateBookmarkIllustActionCreators)(MyPrivateBookmarkIllusts);

@@ -38,10 +38,11 @@ class RecommendedIllusts extends Component {
   };
 
   render() {
-    const { recommendedIllusts, items } = this.props;
+    const { recommendedIllusts, items, listKey } = this.props;
     return (
       <IllustList
         data={{ ...recommendedIllusts, items }}
+        listKey={listKey}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -55,5 +56,6 @@ export default connect((state, props) => {
     recommendedIllusts,
     items: getRecommendedIllustsItems(state, props),
     user,
+    listKey: `${props.navigation.state.key}-recommendedIllusts`,
   };
 }, recommendedIllustsActionCreators)(RecommendedIllusts);

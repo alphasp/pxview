@@ -45,11 +45,12 @@ class SearchResult extends Component {
   };
 
   render() {
-    const { search, items, i18n } = this.props;
+    const { search, items, i18n, listKey } = this.props;
     return (
       <View style={globalStyles.container}>
         <IllustList
           data={{ ...search, items }}
+          listKey={listKey}
           loadMoreItems={this.loadMoreItems}
           onRefresh={this.handleOnRefresh}
         />
@@ -71,6 +72,7 @@ export default connectLocalization(
       return {
         search: search[navigationStateKey],
         items: getSearchItems(state, props),
+        listKey: navigationStateKey,
       };
     };
   }, searchActionCreators)(SearchResult),

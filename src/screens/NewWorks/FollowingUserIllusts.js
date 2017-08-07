@@ -58,7 +58,7 @@ class FollowingUserIllusts extends Component {
   };
 
   render() {
-    const { followingUserIllusts, items, user, i18n } = this.props;
+    const { followingUserIllusts, items, user, i18n, listKey } = this.props;
     if (!user) {
       return (
         <EmptyStateView
@@ -80,6 +80,7 @@ class FollowingUserIllusts extends Component {
     return (
       <IllustList
         data={{ ...followingUserIllusts, items }}
+        listKey={listKey}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -89,12 +90,13 @@ class FollowingUserIllusts extends Component {
 
 export default connectLocalization(
   withNavigation(
-    connect(state => {
+    connect((state, props) => {
       const { followingUserIllusts, auth: { user } } = state;
       return {
         followingUserIllusts,
         items: getFollowingUserIllustsItems(state),
         user,
+        listKey: `${props.navigation.state.key}-followingUserIllusts`,
       };
     }, followingUserIllustsActionCreators)(FollowingUserIllusts),
   ),

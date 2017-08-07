@@ -61,11 +61,13 @@ class RelatedIllusts extends Component {
       isFeatureInDetailPage,
       maxItems,
       i18n,
+      listKey,
     } = this.props;
     return (
       <View style={globalStyles.container}>
         <IllustList
           data={{ ...relatedIllusts, items }}
+          listKey={listKey}
           loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
           onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
           maxItems={isFeatureInDetailPage && maxItems}
@@ -100,6 +102,7 @@ export default connectLocalization(
         relatedIllusts: relatedIllusts[illustId],
         items: getRelatedIllustsItems(state, props),
         illustId,
+        listKey: `${props.navigation.state.key}-${illustId}`,
       };
     };
   }, relatedIllustsActionCreators)(RelatedIllusts),

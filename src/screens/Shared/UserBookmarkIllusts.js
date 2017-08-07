@@ -65,10 +65,11 @@ class UserBookmarkIllusts extends Component {
   };
 
   render() {
-    const { userBookmarkIllusts, items } = this.props;
+    const { userBookmarkIllusts, items, listKey } = this.props;
     return (
       <IllustList
         data={{ ...userBookmarkIllusts, items }}
+        listKey={listKey}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
       />
@@ -85,6 +86,7 @@ export default connect(() => {
       userBookmarkIllusts: userBookmarkIllusts[userId],
       items: getUserBookmarkIllustsItems(state, props),
       userId,
+      listKey: `${props.navigation.state.key}-userbookmarkIllusts`,
     };
   };
 }, userBookmarkIllustActionCreators)(UserBookmarkIllusts);

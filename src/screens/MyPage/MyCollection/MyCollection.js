@@ -58,16 +58,26 @@ class MyCollection extends Component {
   };
 
   renderScene = ({ route }) => {
-    const { userId } = this.props.navigation.state.params;
+    const { navigation } = this.props;
+    const { userId } = navigation.state.params;
     const { selectedPublicTag, selectedPrivateTag } = this.state;
     switch (route.key) {
       case '1':
         return (
-          <UserBookmarkIllusts userId={userId} tag={selectedPublicTag} reload />
+          <UserBookmarkIllusts
+            userId={userId}
+            tag={selectedPublicTag}
+            reload
+            navigation={navigation}
+          />
         );
       case '2':
         return (
-          <MyPrivateBookmarkIllusts userId={userId} tag={selectedPrivateTag} />
+          <MyPrivateBookmarkIllusts
+            userId={userId}
+            tag={selectedPrivateTag}
+            navigation={navigation}
+          />
         );
       default:
         return null;

@@ -25,8 +25,10 @@ class BrowsingHistory extends Component {
   }
 
   render() {
-    const { browsingHistory, items } = this.props;
-    return <IllustList data={{ ...browsingHistory, items }} />;
+    const { browsingHistory, items, listKey } = this.props;
+    return (
+      <IllustList data={{ ...browsingHistory, items }} listKey={listKey} />
+    );
   }
 }
 
@@ -35,5 +37,6 @@ export default connect((state, props) => {
   return {
     browsingHistory,
     items: getBrowsingHistoryItems(state, props),
+    listKey: props.navigation.state.key,
   };
 }, browsingHistoryActionCreators)(BrowsingHistory);
