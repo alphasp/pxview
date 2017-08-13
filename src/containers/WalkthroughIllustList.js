@@ -1,3 +1,5 @@
+/* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
+
 import React, { Component } from 'react';
 import { InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
@@ -41,14 +43,17 @@ class WalkthroughIllustList extends Component {
     if (this.scrollOffset >= maxScrollableHeight) {
       clearTimeout(this.autoScrollTimer);
     } else if (listRef) {
-      listRef.scrollToOffset({
-        animated: true,
-        offset: (this.scrollOffset += 0.1),
-      });
-      this.autoScrollTimer = setTimeout(
-        () => this.autoScroll(listRef, maxScrollableHeight),
-        10,
-      );
+      try {
+        // listRef may not have reference of FlatList in certain situation
+        listRef.scrollToOffset({
+          animated: true,
+          offset: (this.scrollOffset += 0.1),
+        });
+        this.autoScrollTimer = setTimeout(
+          () => this.autoScroll(listRef, maxScrollableHeight),
+          10,
+        );
+      } catch (e) {}
     }
   };
 
