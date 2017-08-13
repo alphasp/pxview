@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import Loader from './Loader';
+import PXTouchable from './PXTouchable';
 import PXCacheImage from './PXCacheImage';
 import { globalStyleVariables } from '../styles';
 
@@ -54,31 +55,31 @@ class PXCacheImageTouchable extends Component {
     const { uri, pageNumber, style, imageStyle, onPress } = this.props;
     const { height, loading } = this.state;
     return (
-      <TouchableWithoutFeedback onPress={onPress}>
-        <View
-          style={[
-            style,
-            {
-              width: globalStyleVariables.WINDOW_WIDTH,
-              height,
-            },
-          ]}
-        >
-          {loading &&
-            pageNumber &&
-            <View style={styles.pageNumberContainer}>
-              <Text style={styles.pageNumberText}>
-                {pageNumber}
-              </Text>
-            </View>}
-          {loading && !pageNumber && <Loader />}
-          <PXCacheImage
-            uri={uri}
-            style={imageStyle}
-            onFoundImageSize={this.handleOnFoundImageSize}
-          />
-        </View>
-      </TouchableWithoutFeedback>
+      <PXTouchable
+        onPress={onPress}
+        style={[
+          style,
+          {
+            width: globalStyleVariables.WINDOW_WIDTH,
+            height,
+          },
+        ]}
+        activeOpacity={1}
+      >
+        {loading &&
+          pageNumber &&
+          <View style={styles.pageNumberContainer}>
+            <Text style={styles.pageNumberText}>
+              {pageNumber}
+            </Text>
+          </View>}
+        {loading && !pageNumber && <Loader />}
+        <PXCacheImage
+          uri={uri}
+          style={imageStyle}
+          onFoundImageSize={this.handleOnFoundImageSize}
+        />
+      </PXTouchable>
     );
   }
 }
