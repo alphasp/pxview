@@ -70,7 +70,7 @@ class UserList extends Component {
         <View style={styles.userInfoContainer}>
           <PXTouchable
             style={styles.userInfo}
-            onPress={() => this.handleOnPressAvatar(item)}
+            onPress={() => this.handleOnPressAvatar(item.user.id)}
           >
             <Text>
               {item.user.name}
