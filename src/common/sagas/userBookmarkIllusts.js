@@ -27,7 +27,7 @@ export function* handleFetchUserBookmarkIllusts(action) {
     }
 
     const normalized = normalize(
-      response.illusts.filter(illust => illust.visible),
+      response.illusts.filter(illust => illust.visible && illust.id),
       Schemas.ILLUST_ARRAY,
     );
     // eslint-disable-next-line max-len

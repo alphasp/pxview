@@ -19,7 +19,7 @@ export function* handleFetchNewIllusts(action) {
       response = yield apply(pixiv, pixiv.illustNew, [options]);
     }
     const normalized = normalize(
-      response.illusts.filter(illust => illust.visible),
+      response.illusts.filter(illust => illust.visible && illust.id),
       Schemas.ILLUST_ARRAY,
     );
     yield put(
