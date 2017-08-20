@@ -22,23 +22,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const Tags = props => {
-  const { tags, onPressTag } = props;
-  return (
-    <View style={styles.container}>
-      {tags.map(tag =>
-        <PXTouchable
-          key={tag.name}
-          style={styles.tagContainer}
-          onPress={() => onPressTag(tag.name)}
-        >
-          <Text style={styles.tagLabel}>
-            {tag.name}
-          </Text>
-        </PXTouchable>,
-      )}
-    </View>
-  );
-};
+const Tags = ({ tags, onPressTag, onLongPressTag }) =>
+  <View style={styles.container}>
+    {tags.map(tag =>
+      <PXTouchable
+        key={tag.name}
+        style={styles.tagContainer}
+        onPress={() => onPressTag(tag.name)}
+        onLongPress={() => onLongPressTag(tag.name)}
+      >
+        <Text style={styles.tagLabel}>
+          {tag.name}
+        </Text>
+      </PXTouchable>,
+    )}
+  </View>;
 
 export default Tags;

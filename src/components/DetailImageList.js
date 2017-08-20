@@ -95,6 +95,13 @@ class DetailImageList extends Component {
     });
   };
 
+  handleOnLongPressTag = tag => {
+    const { navigate } = this.props.navigation;
+    navigate(SCREENS.Encyclopedia, {
+      word: tag,
+    });
+  };
+
   handleOnPressAvatar = userId => {
     const { navigate } = this.props.navigation;
     navigate(SCREENS.UserDetail, { userId });
@@ -191,6 +198,7 @@ class DetailImageList extends Component {
         authUser={authUser}
         onPressAvatar={this.handleOnPressAvatar}
         onPressTag={this.handleOnPressTag}
+        onLongPressTag={this.handleOnLongPressTag}
         onPressLink={this.handleOnPressLink}
       />
     );

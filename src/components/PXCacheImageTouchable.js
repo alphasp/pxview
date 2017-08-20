@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXCacheImage from './PXCacheImage';
