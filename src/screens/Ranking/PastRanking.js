@@ -5,10 +5,11 @@ import moment from 'moment';
 import camelCase from 'lodash.camelcase';
 import DatePicker from 'react-native-datepicker';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import IonicIcon from 'react-native-vector-icons/Ionicons';
 import RankingList from './RankingList';
 import PXTouchable from '../../components/PXTouchable';
 import PXBottomSheet from '../../components/PXBottomSheet';
+import PXBottomSheetButton from '../../components/PXBottomSheetButton';
+import PXBottomSheetCancelButton from '../../components/PXBottomSheetCancelButton';
 import { connectLocalization } from '../../components/Localization';
 import {
   RANKING,
@@ -102,17 +103,13 @@ class PastRanking extends Component {
   };
 
   renderRankingOptions = (ranking, rankingMode) =>
-    <PXTouchable
+    <PXBottomSheetButton
       key={ranking}
       onPress={() => this.handleOnPressRankingMode(rankingMode)}
-    >
-      <View style={styles.bottomSheetListItem}>
-        <IonicIcon name="md-funnel" size={24} />
-        <Text style={styles.bottomSheetText}>
-          {this.mapRankingString(ranking)}
-        </Text>
-      </View>
-    </PXTouchable>;
+      iconName="md-funnel"
+      iconType="ionicon"
+      text={this.mapRankingString(ranking)}
+    />;
 
   render() {
     const { user, i18n, navigation } = this.props;
@@ -176,20 +173,10 @@ class PastRanking extends Component {
               Object.keys(R18_RANKING_G).map(ranking =>
                 this.renderRankingOptions(ranking, R18_RANKING_G[ranking]),
               )}
-            <PXTouchable onPress={this.handleOnCancelRankingModeBottomSheet}>
-              <View style={styles.bottomSheetListItem}>
-                <IonicIcon
-                  name="md-close"
-                  size={24}
-                  style={styles.bottomSheetCancelIcon}
-                />
-                <Text
-                  style={[styles.bottomSheetText, styles.bottomSheetCancelText]}
-                >
-                  {i18n.cancel}
-                </Text>
-              </View>
-            </PXTouchable>
+            <PXBottomSheetCancelButton
+              onPress={this.handleOnCancelRankingModeBottomSheet}
+              text={i18n.cancel}
+            />
           </ScrollView>
         </PXBottomSheet>
       </View>
