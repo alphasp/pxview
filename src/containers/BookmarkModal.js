@@ -151,7 +151,10 @@ class BookmarkModal extends Component {
     let selectedTagsCount = this.countSelectedTags(tags);
     if (!checkedTag.editable) {
       if (selectedTagsCount > MAX_TAGS_COUNT - 1) {
-        this.toast.show(i18n.collectionTagsMaxLimit, DURATION.LENGTH_LONG);
+        this.toast.show(
+          i18n.formatString(i18n.tagsMaxLimit, MAX_TAGS_COUNT),
+          DURATION.LENGTH_LONG,
+        );
       }
       return;
     }
@@ -227,7 +230,10 @@ class BookmarkModal extends Component {
     } else {
       updatedTags = [newTagEntry, ...tags];
       if (this.countSelectedTags(updatedTags) > MAX_TAGS_COUNT) {
-        this.toast.show(i18n.collectionTagsMaxLimit, DURATION.LENGTH_LONG);
+        this.toast.show(
+          i18n.formatString(i18n.tagsMaxLimit, MAX_TAGS_COUNT),
+          DURATION.LENGTH_LONG,
+        );
         this.setState({
           newTag: null,
         });
