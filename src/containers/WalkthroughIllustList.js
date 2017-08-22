@@ -47,11 +47,11 @@ class WalkthroughIllustList extends Component {
         // listRef may not have reference of FlatList in certain situation
         listRef.scrollToOffset({
           animated: true,
-          offset: (this.scrollOffset += 0.1),
+          offset: (this.scrollOffset += 1),
         });
         this.autoScrollTimer = setTimeout(
           () => this.autoScroll(listRef, maxScrollableHeight),
-          10,
+          16,
         );
       } catch (e) {}
     }
@@ -70,6 +70,7 @@ class WalkthroughIllustList extends Component {
         data={{ ...walkthroughIllusts, items }}
         listKey={listKey}
         onListLayout={this.handleOnListLayout}
+        showsVerticalScrollIndicator={false}
       />
     );
   }
