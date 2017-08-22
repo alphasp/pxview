@@ -72,7 +72,15 @@ export default function configureStore() {
   );
 
   persistStore(store, {
-    whitelist: ['searchHistory', 'browsingHistory', 'entities', 'auth', 'i18n'],
+    whitelist: [
+      'searchHistory',
+      'browsingHistory',
+      'highlightTags',
+      'muteTags',
+      'entities',
+      'auth',
+      'i18n',
+    ],
     storage: AsyncStorage,
     transforms: [myTransform],
   });
