@@ -269,4 +269,16 @@ export const BROWSING_HISTORY = defineAction(
   appNamespace,
 );
 
+export const MUTE_TAGS = defineAction(
+  'MUTE_TAGS',
+  [ADD, REMOVE, CLEAR],
+  appNamespace,
+);
+
+export const HIGHLIGHT_TAGS = defineAction(
+  'HIGHLIGHT_TAGS',
+  [ADD, REMOVE, CLEAR],
+  appNamespace,
+);
+
 export const MODAL = defineAction('MODAL', [OPEN, CLOSE], appNamespace);

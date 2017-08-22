@@ -69,6 +69,7 @@ class DetailFooter extends PureComponent {
       i18n,
       onLayoutView,
       onPressTag,
+      onLongPressTag,
       onPressLink,
     } = this.props;
     return (
@@ -114,7 +115,13 @@ class DetailFooter extends PureComponent {
               {item.total_bookmarks}
             </Text>
           </View>
-          {<Tags tags={item.tags} onPressTag={onPressTag} />}
+          {
+            <Tags
+              tags={item.tags}
+              onPressTag={onPressTag}
+              onLongPressTag={onLongPressTag}
+            />
+          }
         </View>
         <View style={styles.sectionContainer}>
           <View style={styles.sectionHeader}>

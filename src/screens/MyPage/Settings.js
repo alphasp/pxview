@@ -25,6 +25,14 @@ const settingsList = [
     title: 'accountSettings',
   },
   {
+    id: 'tagHighlightSettings',
+    title: 'tagHighlightSettings',
+  },
+  {
+    id: 'tagMuteSettings',
+    title: 'tagMuteSettings',
+  },
+  {
     id: 'lang',
     title: 'lang',
   },
@@ -48,6 +56,14 @@ class Settings extends Component {
     switch (item.id) {
       case 'accountSettings': {
         navigate(SCREENS.AccountSettings);
+        break;
+      }
+      case 'tagHighlightSettings': {
+        navigate(SCREENS.HighlightTagsSettings);
+        break;
+      }
+      case 'tagMuteSettings': {
+        navigate(SCREENS.MuteTagsSettings);
         break;
       }
       case 'lang': {

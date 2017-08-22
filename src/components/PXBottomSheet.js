@@ -94,7 +94,9 @@ class PXBottomSheet extends Component {
               style={[styles.innerContainer, { maxHeight: animatedHeight }]}
             >
               <TouchableWithoutFeedback>
-                {children}
+                <View>
+                  {children}
+                </View>
               </TouchableWithoutFeedback>
             </Animated.View>
           </View>

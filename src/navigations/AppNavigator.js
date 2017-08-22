@@ -7,6 +7,7 @@ import SearchFilterModal from '../components/SearchFilterModal';
 import ImagesViewer from '../screens/ImagesViewer/ImagesViewer';
 import AddIllustComment from '../screens/Shared/AddIllustComment';
 import AccountSettings from '../screens/MyPage/AccountSettings/AccountSettings';
+import Encyclopedia from '../screens/Shared/Encyclopedia';
 import myPageRouteConfig from './routeConfigs/myPage';
 import sharedRouteConfig from './routeConfigs/shared';
 import { globalStyles, globalStyleVariables } from '../styles';
@@ -46,6 +47,9 @@ let appRouteConfig = {
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.accountSettings,
     }),
+  },
+  [SCREENS.Encyclopedia]: {
+    screen: Encyclopedia,
   },
 };
 

@@ -25,7 +25,7 @@ export function* handleFetchSearch(action) {
       response = yield apply(pixiv, pixiv.searchIllust, [word, finalOptions]);
     }
     const normalized = normalize(
-      response.illusts.filter(illust => illust.visible),
+      response.illusts.filter(illust => illust.visible && illust.id),
       Schemas.ILLUST_ARRAY,
     );
     yield put(

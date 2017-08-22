@@ -15,25 +15,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  bottomSheet: {
-    marginHorizontal: 16,
-    marginVertical: 8,
-  },
-  bottomSheetText: {
-    marginLeft: 32,
-  },
-  bottomSheetListItem: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: 48,
-  },
-  bottomSheetCancelIcon: {
-    marginLeft: 3,
-  },
-  bottomSheetCancelText: {
-    marginLeft: 36,
-  },
 });
 
 class Master extends Component {

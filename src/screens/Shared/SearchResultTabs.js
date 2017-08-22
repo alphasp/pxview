@@ -14,6 +14,7 @@ import { connectLocalization } from '../../components/Localization';
 import PXSearchBar from '../../components/PXSearchBar';
 import PXTabView from '../../components/PXTabView';
 import HeaderFilterButton from '../../components/HeaderFilterButton';
+import HeaderEncyclopediaButton from '../../components/HeaderEncyclopediaButton';
 import * as searchAutoCompleteActionCreators from '../../common/actions/searchAutoComplete';
 import * as searchUsersAutoCompleteActionCreators from '../../common/actions/searchUsersAutoComplete';
 import { navReplace } from '../../common/actions/nav';
@@ -121,6 +122,13 @@ class SearchResultTabs extends Component {
     });
   };
 
+  handleOnPressViewEncyclopedia = () => {
+    const { word, navigation: { navigate } } = this.props;
+    navigate(SCREENS.Encyclopedia, {
+      word,
+    });
+  };
+
   handleOnPressBackButton = () => {
     const { word, navigation: { goBack } } = this.props;
     const { isFocusSearchBar } = this.state;
@@ -216,11 +224,18 @@ class SearchResultTabs extends Component {
           onPressBackButton={this.handleOnPressBackButton}
           onSubmitSearch={this.handleOnSubmitSearch}
           headerRight={
-            <HeaderFilterButton
-              disabled={searchType === SEARCH_TYPES.USER}
-              color={searchType === SEARCH_TYPES.USER ? '#E9EBEE' : '#000'}
-              onPress={this.handleOnPressShowFilterModal}
-            />
+            <View style={{ flexDirection: 'row' }}>
+              <HeaderEncyclopediaButton
+                disabled={searchType === SEARCH_TYPES.USER}
+                color={searchType === SEARCH_TYPES.USER ? '#E9EBEE' : '#000'}
+                onPress={this.handleOnPressViewEncyclopedia}
+              />
+              <HeaderFilterButton
+                disabled={searchType === SEARCH_TYPES.USER}
+                color={searchType === SEARCH_TYPES.USER ? '#E9EBEE' : '#000'}
+                onPress={this.handleOnPressShowFilterModal}
+              />
+            </View>
           }
           isFocus={isFocusSearchBar}
         />

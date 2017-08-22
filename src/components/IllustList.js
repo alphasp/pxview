@@ -83,6 +83,7 @@ class IllustList extends Component {
       onRefresh,
       loadMoreItems,
       onScroll,
+      showsVerticalScrollIndicator,
       maxItems,
     } = this.props;
     return (
@@ -114,6 +115,11 @@ class IllustList extends Component {
               onScroll={onScroll}
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+              showsVerticalScrollIndicator={
+                showsVerticalScrollIndicator !== null
+                  ? showsVerticalScrollIndicator
+                  : true
               }
             />
           : null}

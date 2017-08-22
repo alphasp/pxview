@@ -5,6 +5,8 @@ import BrowsingHistory from '../../screens/MyPage/BrowsingHistory';
 import Settings from '../../screens/MyPage/Settings';
 import AccountSettings from '../../screens/MyPage/AccountSettings/AccountSettings';
 import AdvanceAccountSettings from '../../screens/MyPage/AccountSettings/AdvanceAccountSettings';
+import HighlightTagsSettings from '../../screens/MyPage/HighlightTagsSettings';
+import MuteTagsSettings from '../../screens/MyPage/MuteTagsSettings';
 import Language from '../../screens/MyPage/Language';
 import Feedback from '../../screens/MyPage/Feedback';
 import About from '../../screens/MyPage/About';
@@ -55,6 +57,18 @@ const config = {
     screen: AdvanceAccountSettings,
     navigationOptions: () => ({
       title: null,
+    }),
+  },
+  [SCREENS.HighlightTagsSettings]: {
+    screen: HighlightTagsSettings,
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.tagHighlightSettings,
+    }),
+  },
+  [SCREENS.MuteTagsSettings]: {
+    screen: MuteTagsSettings,
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.tagMuteSettings,
     }),
   },
   [SCREENS.Language]: {
