@@ -10,7 +10,13 @@ import {
 import { connect } from 'react-redux';
 import DetailFooter from './DetailFooter';
 import PXCacheImageTouchable from './PXCacheImageTouchable';
+import PXBottomSheet from './PXBottomSheet';
+import PXBottomSheetButton from './PXBottomSheetButton';
+import PXBottomSheetCancelButton from './PXBottomSheetCancelButton';
+import OverlayMutedIndicator from './OverlayMutedIndicator';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
+import * as highlightTagsActionCreators from '../common/actions/highlightTags';
+import * as muteTagsActionCreators from '../common/actions/muteTags';
 import { SEARCH_TYPES, SCREENS } from '../common/constants';
 import { globalStyleVariables } from '../styles';
 
@@ -43,6 +49,11 @@ const styles = StyleSheet.create({
   image: {
     resizeMode: 'contain',
   },
+  mutedImageContainer: {
+    flex: 1,
+    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
+    height: 200,
+  },
 });
 
 class DetailImageList extends Component {
@@ -52,6 +63,8 @@ class DetailImageList extends Component {
       isInitState: true,
       isScrolling: false,
       imagePageNumber: null,
+      isOpenTagBottomSheet: false,
+      selectedTag: null,
     };
   }
 
@@ -62,15 +75,25 @@ class DetailImageList extends Component {
       isInitState: prevIsInitState,
       isScrolling: prevIsScrolling,
       imagePageNumber: prevImagePageNumber,
+      isOpenTagBottomSheet: prevIsOpenTagBottomSheet,
+      selectedTag: prevSelectedTag,
     } = this.state;
-    const { isInitState, isScrolling, imagePageNumber } = nextState;
+    const {
+      isInitState,
+      isScrolling,
+      imagePageNumber,
+      isOpenTagBottomSheet,
+      selectedTag,
+    } = nextState;
     if (item.user.is_followed !== prevItem.user.is_followed) {
       return true;
     }
     if (
       isInitState !== prevIsInitState ||
       isScrolling !== prevIsScrolling ||
-      imagePageNumber !== prevImagePageNumber
+      imagePageNumber !== prevImagePageNumber ||
+      isOpenTagBottomSheet !== prevIsOpenTagBottomSheet ||
+      selectedTag !== prevSelectedTag
     ) {
       return true;
     }
@@ -96,10 +119,49 @@ class DetailImageList extends Component {
   };
 
   handleOnLongPressTag = tag => {
-    const { navigate } = this.props.navigation;
-    navigate(SCREENS.Encyclopedia, {
-      word: tag,
+    this.setState({
+      isOpenTagBottomSheet: true,
+      selectedTag: tag,
     });
+  };
+
+  handleOnCancelTagBottomSheet = () => {
+    this.setState({
+      isOpenTagBottomSheet: false,
+    });
+  };
+
+  handleOnPressOpenEncyclopedia = () => {
+    const { navigate } = this.props.navigation;
+    const { selectedTag } = this.state;
+    if (selectedTag) {
+      this.handleOnCancelTagBottomSheet();
+      navigate(SCREENS.Encyclopedia, {
+        word: selectedTag,
+      });
+    }
+  };
+
+  handleOnPressToggleHighlightTag = () => {
+    const { highlightTags, addHighlightTag, removeHighlightTag } = this.props;
+    const { selectedTag } = this.state;
+    this.handleOnCancelTagBottomSheet();
+    if (highlightTags.includes(selectedTag)) {
+      removeHighlightTag(selectedTag);
+    } else {
+      addHighlightTag(selectedTag);
+    }
+  };
+
+  handleOnPressToggleMuteTag = () => {
+    const { muteTags, addMuteTag, removeMuteTag } = this.props;
+    const { selectedTag } = this.state;
+    this.handleOnCancelTagBottomSheet();
+    if (muteTags.includes(selectedTag)) {
+      removeMuteTag(selectedTag);
+    } else {
+      addMuteTag(selectedTag);
+    }
   };
 
   handleOnPressAvatar = userId => {
@@ -205,11 +267,18 @@ class DetailImageList extends Component {
   };
 
   render() {
-    const { item, onScroll } = this.props;
-    const { imagePageNumber, isScrolling, isInitState } = this.state;
+    const { item, onScroll, i18n, highlightTags, muteTags } = this.props;
+    const {
+      imagePageNumber,
+      isScrolling,
+      isInitState,
+      isOpenTagBottomSheet,
+      selectedTag,
+    } = this.state;
+    const isMute = item.tags.some(t => muteTags.includes(t.name));
     return (
       <View key={item.id} style={styles.container}>
-        {item.page_count > 1
+        {!isMute && item.page_count > 1
           ? <View>
               <FlatList
                 data={item.meta_pages}
@@ -235,25 +304,77 @@ class DetailImageList extends Component {
               scrollEventThrottle={16}
               bounces={false}
             >
-              <PXCacheImageTouchable
-                uri={item.image_urls.medium}
-                initWidth={
-                  item.width > globalStyleVariables.WINDOW_WIDTH
-                    ? globalStyleVariables.WINDOW_WIDTH
-                    : item.width
-                }
-                initHeight={
-                  globalStyleVariables.WINDOW_WIDTH * item.height / item.width
-                }
-                style={styles.imageContainer}
-                imageStyle={styles.image}
-                onPress={() => this.handleOnPressImage(0)}
-              />
+              {isMute
+                ? <View style={styles.mutedImageContainer}>
+                    <OverlayMutedIndicator />
+                  </View>
+                : <PXCacheImageTouchable
+                    uri={item.image_urls.medium}
+                    initWidth={
+                      item.width > globalStyleVariables.WINDOW_WIDTH
+                        ? globalStyleVariables.WINDOW_WIDTH
+                        : item.width
+                    }
+                    initHeight={
+                      globalStyleVariables.WINDOW_WIDTH *
+                      item.height /
+                      item.width
+                    }
+                    style={styles.imageContainer}
+                    imageStyle={styles.image}
+                    onPress={() => this.handleOnPressImage(0)}
+                  />}
+
               {this.renderFooter()}
             </ScrollView>}
+        <PXBottomSheet
+          visible={isOpenTagBottomSheet}
+          onCancel={this.handleOnCancelTagBottomSheet}
+        >
+          <PXBottomSheetButton
+            onPress={this.handleOnPressOpenEncyclopedia}
+            iconName="book"
+            iconType="font-awesome"
+            text={i18n.encyclopedia}
+          />
+          <PXBottomSheetButton
+            onPress={this.handleOnPressToggleHighlightTag}
+            iconName="tag"
+            iconType="font-awesome"
+            text={
+              highlightTags.includes(selectedTag)
+                ? i18n.tagHighlightRemove
+                : i18n.tagHighlightAdd
+            }
+          />
+          <PXBottomSheetButton
+            onPress={this.handleOnPressToggleMuteTag}
+            iconName="tag"
+            iconType="font-awesome"
+            text={
+              muteTags.includes(selectedTag)
+                ? i18n.tagMuteRemove
+                : i18n.tagMuteAdd
+            }
+          />
+          <PXBottomSheetCancelButton
+            onPress={this.handleOnCancelTagBottomSheet}
+            text={i18n.cancel}
+          />
+        </PXBottomSheet>
       </View>
     );
   }
 }
 
-export default connect(null, searchHistoryActionCreators)(DetailImageList);
+export default connect(
+  state => ({
+    highlightTags: state.highlightTags.items,
+    muteTags: state.muteTags.items,
+  }),
+  {
+    ...searchHistoryActionCreators,
+    ...highlightTagsActionCreators,
+    ...muteTagsActionCreators,
+  },
+)(DetailImageList);
