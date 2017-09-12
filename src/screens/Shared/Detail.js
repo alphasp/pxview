@@ -32,7 +32,6 @@ const THUMBNAIL_SIZE = 30;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: 'center',
   },
   headerTitleContainer: {
     flex: 1,
@@ -41,7 +40,6 @@ const styles = StyleSheet.create({
   headerThumnailNameContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginHorizontal: 16,
   },
   nameContainer: {
     flexDirection: 'column',
@@ -175,10 +173,18 @@ class Detail extends Component {
             size={THUMBNAIL_SIZE}
           />
           <View style={styles.nameContainer}>
-            <Text style={styles.headerText}>
+            <Text
+              style={styles.headerText}
+              ellipsizeMode="tail"
+              numberOfLines={1}
+            >
               {item.user.name}
             </Text>
-            <Text style={styles.headerText}>
+            <Text
+              style={styles.headerText}
+              ellipsizeMode="tail"
+              numberOfLines={1}
+            >
               {item.user.account}
             </Text>
           </View>

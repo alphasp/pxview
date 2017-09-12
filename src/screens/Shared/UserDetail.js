@@ -256,10 +256,18 @@ class UserDetail extends Component {
       >
         <PXThumbnailTouchable uri={user.profile_image_urls.medium} />
         <View style={styles.nameContainer}>
-          <Text style={styles.headerText}>
+          <Text
+            style={styles.headerText}
+            ellipsizeMode="tail"
+            numberOfLines={1}
+          >
             {user.name}
           </Text>
-          <Text style={styles.headerText}>
+          <Text
+            style={styles.headerText}
+            ellipsizeMode="tail"
+            numberOfLines={1}
+          >
             {user.account}
           </Text>
         </View>
