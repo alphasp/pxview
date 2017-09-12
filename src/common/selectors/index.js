@@ -66,6 +66,9 @@ const selectIllustComments = state => state.illustComments;
 
 const selectBrowsingHistory = state => state.browsingHistory;
 
+const selectHighlightTags = state => state.highlightTags.items;
+const selectMuteTags = state => state.muteTags.items;
+
 const defaultArray = [];
 const defaultObject = {};
 
@@ -140,6 +143,23 @@ const createTagItemsSelector = createSelectorCreator(
       return false;
     }
     return equals(prev, next, (p, n) => p.tag === n.tag);
+  },
+);
+
+const createTagsWithStatusSelector = createSelectorCreator(
+  specialMemoize,
+  (prev, next) => {
+    if (!prev && !next) {
+      return false;
+    }
+    return equals(
+      prev,
+      next,
+      (p, n) =>
+        p.name === n.name &&
+        p.isHighlight === n.isHighlight &&
+        p.isMute === n.isMute,
+    );
   },
 );
 
@@ -339,6 +359,17 @@ export const makeGetDetailItem = () =>
     const id = items[index].id;
     return denormalize(id, Schemas.ILLUST, entities);
   });
+
+export const makeGetTagsWithStatus = () =>
+  createTagsWithStatusSelector(
+    [selectHighlightTags, selectMuteTags, getProps],
+    (highlightTags, muteTags, { item }) =>
+      item.tags.map(tag => ({
+        ...tag,
+        isHighlight: highlightTags.includes(tag.name),
+        isMute: muteTags.includes(tag.name),
+      })),
+  );
 
 export const getWalkthroughIllustsItems = createIllustItemsSelector(
   [selectWalkthroughIllusts, selectEntities],

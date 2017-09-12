@@ -17,6 +17,7 @@ import OverlayMutedIndicator from './OverlayMutedIndicator';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import * as highlightTagsActionCreators from '../common/actions/highlightTags';
 import * as muteTagsActionCreators from '../common/actions/muteTags';
+import { makeGetTagsWithStatus } from '../common/selectors';
 import { SEARCH_TYPES, SCREENS } from '../common/constants';
 import { globalStyleVariables } from '../styles';
 
@@ -69,8 +70,8 @@ class DetailImageList extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const { item: prevItem } = this.props;
-    const { item } = nextProps;
+    const { item: prevItem, tags: prevTags } = this.props;
+    const { item, tags } = nextProps;
     const {
       isInitState: prevIsInitState,
       isScrolling: prevIsScrolling,
@@ -93,7 +94,8 @@ class DetailImageList extends Component {
       isScrolling !== prevIsScrolling ||
       imagePageNumber !== prevImagePageNumber ||
       isOpenTagBottomSheet !== prevIsOpenTagBottomSheet ||
-      selectedTag !== prevSelectedTag
+      selectedTag !== prevSelectedTag ||
+      tags !== prevTags
     ) {
       return true;
     }
@@ -250,11 +252,20 @@ class DetailImageList extends Component {
     />;
 
   renderFooter = () => {
-    const { item, navigation, i18n, authUser } = this.props;
+    const {
+      item,
+      navigation,
+      i18n,
+      authUser,
+      highlightTags,
+      muteTags,
+      tags,
+    } = this.props;
     return (
       <DetailFooter
         onLayoutView={this.handleOnLayoutFooter}
         item={item}
+        tags={tags}
         navigation={navigation}
         i18n={i18n}
         authUser={authUser}
@@ -267,7 +278,7 @@ class DetailImageList extends Component {
   };
 
   render() {
-    const { item, onScroll, i18n, highlightTags, muteTags } = this.props;
+    const { item, onScroll, i18n, tags, highlightTags, muteTags } = this.props;
     const {
       imagePageNumber,
       isScrolling,
@@ -275,7 +286,7 @@ class DetailImageList extends Component {
       isOpenTagBottomSheet,
       selectedTag,
     } = this.state;
-    const isMute = item.tags.some(t => muteTags.includes(t.name));
+    const isMute = tags.some(t => t.isMute);
     return (
       <View key={item.id} style={styles.container}>
         {!isMute && item.page_count > 1
@@ -368,10 +379,14 @@ class DetailImageList extends Component {
 }
 
 export default connect(
-  state => ({
-    highlightTags: state.highlightTags.items,
-    muteTags: state.muteTags.items,
-  }),
+  () => {
+    const getTagsWithStatus = makeGetTagsWithStatus();
+    return (state, props) => ({
+      highlightTags: state.highlightTags.items,
+      muteTags: state.muteTags.items,
+      tags: getTagsWithStatus(state, props),
+    });
+  },
   {
     ...searchHistoryActionCreators,
     ...highlightTagsActionCreators,

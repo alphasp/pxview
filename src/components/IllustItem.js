@@ -12,7 +12,7 @@ const HIGHLIGHT_BORDER_WIDTH = 3;
 const styles = StyleSheet.create({
   highlight: {
     borderWidth: HIGHLIGHT_BORDER_WIDTH,
-    borderColor: 'green',
+    borderColor: globalStyleVariables.HIGHLIGHT_COLOR,
   },
 });
 
