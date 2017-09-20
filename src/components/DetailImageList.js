@@ -70,8 +70,12 @@ class DetailImageList extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const { item: prevItem, tags: prevTags } = this.props;
-    const { item, tags } = nextProps;
+    const {
+      item: prevItem,
+      tags: prevTags,
+      isMuteUser: prevIsMuteUser,
+    } = this.props;
+    const { item, tags, isMuteUser } = nextProps;
     const {
       isInitState: prevIsInitState,
       isScrolling: prevIsScrolling,
@@ -95,7 +99,8 @@ class DetailImageList extends Component {
       imagePageNumber !== prevImagePageNumber ||
       isOpenTagBottomSheet !== prevIsOpenTagBottomSheet ||
       selectedTag !== prevSelectedTag ||
-      tags !== prevTags
+      tags !== prevTags ||
+      isMuteUser !== prevIsMuteUser
     ) {
       return true;
     }
@@ -278,7 +283,15 @@ class DetailImageList extends Component {
   };
 
   render() {
-    const { item, onScroll, i18n, tags, highlightTags, muteTags } = this.props;
+    const {
+      item,
+      onScroll,
+      i18n,
+      tags,
+      highlightTags,
+      muteTags,
+      isMuteUser,
+    } = this.props;
     const {
       imagePageNumber,
       isScrolling,
@@ -286,7 +299,7 @@ class DetailImageList extends Component {
       isOpenTagBottomSheet,
       selectedTag,
     } = this.state;
-    const isMute = tags.some(t => t.isMute);
+    const isMute = tags.some(t => t.isMute) || isMuteUser;
     return (
       <View key={item.id} style={styles.container}>
         {!isMute && item.page_count > 1
@@ -384,6 +397,7 @@ export default connect(
     return (state, props) => ({
       highlightTags: state.highlightTags.items,
       muteTags: state.muteTags.items,
+      isMuteUser: state.muteUsers.items.some(m => m === props.item.user.id),
       tags: getTagsWithStatus(state, props),
     });
   },

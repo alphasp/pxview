@@ -90,10 +90,10 @@ class IllustItem extends Component {
 }
 
 export default connect((state, props) => {
-  const { highlightTags, muteTags } = state;
-  const { tags } = props.item;
+  const { highlightTags, muteTags, muteUsers } = state;
+  const { tags, user } = props.item;
   return {
     isHighlight: tags.some(t => highlightTags.items.includes(t.name)),
-    isMute: tags.some(t => muteTags.items.includes(t.name)),
+    isMute: tags.some(t => muteTags.items.includes(t.name)) || muteUsers.items.some(m => m === user.id),
   };
 })(IllustItem);
