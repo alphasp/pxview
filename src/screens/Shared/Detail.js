@@ -16,14 +16,17 @@ import DetailImageList from '../../components/DetailImageList';
 import { connectLocalization } from '../../components/Localization';
 import PXHeader from '../../components/PXHeader';
 import PXViewPager from '../../components/PXViewPager';
+import PXBottomSheet from '../../components/PXBottomSheet';
+import PXBottomSheetButton from '../../components/PXBottomSheetButton';
+import PXBottomSheetCancelButton from '../../components/PXBottomSheetCancelButton';
 import BookmarkButton from '../../components/BookmarkButton';
 import Loader from '../../components/Loader';
 import PXTouchable from '../../components/PXTouchable';
 import PXThumbnail from '../../components/PXThumbnail';
 import HeaderSaveImageButton from '../../components/HeaderSaveImageButton';
-import HeaderShareButton from '../../components/HeaderShareButton';
-// import { connectLocalization } from '../../components/Localization';
+import HeaderMenuButton from '../../components/HeaderMenuButton';
 import * as browsingHistoryActionCreators from '../../common/actions/browsingHistory';
+import * as muteUsersActionCreators from '../../common/actions/muteUsers';
 import { makeGetDetailItem } from '../../common/selectors';
 import { SCREENS } from '../../common/constants';
 
@@ -50,6 +53,7 @@ const styles = StyleSheet.create({
   },
   headerRightContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
 });
 
@@ -59,6 +63,7 @@ class Detail extends Component {
     this.state = {
       mounting: true,
       isActionButtonVisible: true,
+      isOpenMenuBottomSheet: false,
     };
     this.listViewOffset = 0;
     if (Platform.OS === 'android') {
@@ -160,6 +165,39 @@ class Detail extends Component {
     goBack();
   };
 
+  handleOnPressOpenMenuBottomSheet = () => {
+    this.setState({
+      isOpenMenuBottomSheet: true,
+    });
+  };
+
+  handleOnCancelMenuBottomSheet = () => {
+    this.setState({
+      isOpenMenuBottomSheet: false,
+    });
+  };
+
+  handleOnPressToggleMuteUser = () => {
+    const { item, isMuteUser, addMuteUser, removeMuteUser } = this.props;
+    if (isMuteUser) {
+      removeMuteUser(item.user.id);
+    } else {
+      addMuteUser(item.user.id);
+    }
+    this.handleOnCancelMenuBottomSheet();
+  };
+
+  handleOnPressShareIllust = () => {
+    const { item } = this.props;
+    const shareOptions = {
+      message: `${item.title} | ${item.user.name} #pxview`,
+      url: `http://www.pixiv.net/member_illust.php?illust_id=${item.id}&mode=medium`,
+    };
+    Share.open(shareOptions)
+      .then(this.handleOnCancelMenuBottomSheet)
+      .catch(this.handleOnCancelMenuBottomSheet);
+  };
+
   renderHeaderTitle = item => {
     const { navigation: { navigate } } = this.props;
     return (
@@ -194,10 +232,6 @@ class Detail extends Component {
   };
 
   renderHeaderRight = item => {
-    const shareOptions = {
-      message: `${item.title} | ${item.user.name} #pxview`,
-      url: `http://www.pixiv.net/member_illust.php?illust_id=${item.id}&mode=medium`,
-    };
     const images =
       item.page_count > 1
         ? item.meta_pages.map(page => page.image_urls.original)
@@ -205,7 +239,7 @@ class Detail extends Component {
     return (
       <View style={styles.headerRightContainer}>
         <HeaderSaveImageButton imageUrls={images} saveAll />
-        <HeaderShareButton onPress={() => Share.open(shareOptions).catch()} />
+        <HeaderMenuButton onPress={this.handleOnPressOpenMenuBottomSheet} />
       </View>
     );
   };
@@ -234,8 +268,12 @@ class Detail extends Component {
   };
 
   render() {
-    const { items, item, index } = this.props;
-    const { mounting, isActionButtonVisible } = this.state;
+    const { items, item, index, isMuteUser, i18n } = this.props;
+    const {
+      mounting,
+      isActionButtonVisible,
+      isOpenMenuBottomSheet,
+    } = this.state;
     return (
       <View style={styles.container} ref={ref => (this.detailView = ref)}>
         {mounting
@@ -250,24 +288,59 @@ class Detail extends Component {
         {isActionButtonVisible &&
           <ActionButton
             buttonColor="rgba(255,255,255,1)"
-            bgColor={'red'}
+            bgColor="red"
             icon={<BookmarkButton item={item} />}
           />}
+        <PXBottomSheet
+          visible={isOpenMenuBottomSheet}
+          onCancel={this.handleOnCancelMenuBottomSheet}
+        >
+          <PXBottomSheetButton
+            onPress={this.handleOnPressShareIllust}
+            iconName="share"
+            iconType="entypo"
+            text={i18n.share}
+          />
+          <PXBottomSheetButton
+            onPress={this.handleOnPressToggleMuteUser}
+            iconName="user-times"
+            iconType="font-awesome"
+            textStyle={{
+              marginLeft: 28,
+            }}
+            text={isMuteUser ? i18n.userMuteRemove : i18n.userMuteAdd}
+          />
+          <PXBottomSheetCancelButton
+            onPress={this.handleOnCancelMenuBottomSheet}
+            textStyle={{
+              marginLeft: 38,
+            }}
+            text={i18n.cancel}
+          />
+        </PXBottomSheet>
       </View>
     );
   }
 }
 
 export default connectLocalization(
-  connect(() => {
-    const getDetailItem = makeGetDetailItem();
-    return (state, props) => ({
-      item: getDetailItem(state, props),
-      items: props.navigation.state.params.items,
-      index: props.navigation.state.params.index,
-      onListEndReached: props.navigation.state.params.onListEndReached,
-      parentListKey: props.navigation.state.params.parentListKey,
-      authUser: state.auth.user,
-    });
-  }, browsingHistoryActionCreators)(Detail),
+  connect(
+    () => {
+      const getDetailItem = makeGetDetailItem();
+      return (state, props) => {
+        const item = getDetailItem(state, props);
+        const isMuteUser = state.muteUsers.items.some(m => m === item.user.id);
+        return {
+          item,
+          isMuteUser,
+          items: props.navigation.state.params.items,
+          index: props.navigation.state.params.index,
+          onListEndReached: props.navigation.state.params.onListEndReached,
+          parentListKey: props.navigation.state.params.parentListKey,
+          authUser: state.auth.user,
+        };
+      };
+    },
+    { ...browsingHistoryActionCreators, ...muteUsersActionCreators },
+  )(Detail),
 );
