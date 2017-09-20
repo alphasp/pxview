@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { DURATION } from 'react-native-easy-toast';
 import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
-import { globalStyleVariables } from '../styles';
+import { globalStyles, globalStyleVariables } from '../styles';
 
 const MAX_TAGS_COUNT = 200;
 
@@ -74,7 +74,7 @@ class TagSettings extends Component {
   render() {
     const { items, formInputPlaceholder } = this.props;
     return (
-      <View style={globalStyleVariables.container}>
+      <View style={globalStyles.container}>
         <View style={styles.inputContainer}>
           <FormInput
             ref={ref => (this.formInput = ref)}

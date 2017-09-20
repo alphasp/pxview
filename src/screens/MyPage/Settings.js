@@ -33,6 +33,10 @@ const settingsList = [
     title: 'tagMuteSettings',
   },
   {
+    id: 'userMuteSettings',
+    title: 'userMuteSettings',
+  },
+  {
     id: 'lang',
     title: 'lang',
   },
@@ -64,6 +68,10 @@ class Settings extends Component {
       }
       case 'tagMuteSettings': {
         navigate(SCREENS.MuteTagsSettings);
+        break;
+      }
+      case 'userMuteSettings': {
+        navigate(SCREENS.MuteUsersSettings);
         break;
       }
       case 'lang': {

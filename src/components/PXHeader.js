@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
   subContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });
 

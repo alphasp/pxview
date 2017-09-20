@@ -66,6 +66,11 @@ const selectIllustComments = state => state.illustComments;
 
 const selectBrowsingHistory = state => state.browsingHistory;
 
+const selectHighlightTags = state => state.highlightTags.items;
+const selectMuteTags = state => state.muteTags.items;
+
+const selectMuteUsers = state => state.muteUsers;
+
 const defaultArray = [];
 const defaultObject = {};
 
@@ -133,6 +138,20 @@ const createUserItemSelector = createSelectorCreator(
   },
 );
 
+const createMuteUserItemsSelector = createSelectorCreator(
+  specialMemoize,
+  (prev, next) => {
+    if (!prev && !next) {
+      return false;
+    }
+    return equals(
+      prev,
+      next,
+      (p, n) => p.id === n.id && p.is_followed === n.is_followed,
+    );
+  },
+);
+
 const createTagItemsSelector = createSelectorCreator(
   specialMemoize,
   (prev, next) => {
@@ -140,6 +159,23 @@ const createTagItemsSelector = createSelectorCreator(
       return false;
     }
     return equals(prev, next, (p, n) => p.tag === n.tag);
+  },
+);
+
+const createTagsWithStatusSelector = createSelectorCreator(
+  specialMemoize,
+  (prev, next) => {
+    if (!prev && !next) {
+      return false;
+    }
+    return equals(
+      prev,
+      next,
+      (p, n) =>
+        p.name === n.name &&
+        p.isHighlight === n.isHighlight &&
+        p.isMute === n.isMute,
+    );
   },
 );
 
@@ -340,6 +376,17 @@ export const makeGetDetailItem = () =>
     return denormalize(id, Schemas.ILLUST, entities);
   });
 
+export const makeGetTagsWithStatus = () =>
+  createTagsWithStatusSelector(
+    [selectHighlightTags, selectMuteTags, getProps],
+    (highlightTags, muteTags, { item }) =>
+      item.tags.map(tag => ({
+        ...tag,
+        isHighlight: highlightTags.includes(tag.name),
+        isMute: muteTags.includes(tag.name),
+      })),
+  );
+
 export const getWalkthroughIllustsItems = createIllustItemsSelector(
   [selectWalkthroughIllusts, selectEntities],
   (walkthroughIllusts, entities) =>
@@ -414,4 +461,10 @@ export const getBrowsingHistoryItems = createIllustItemsSelector(
   [selectBrowsingHistory, selectEntities],
   (browsingHistory, entities) =>
     denormalize(browsingHistory.items, Schemas.ILLUST_ARRAY, entities),
+);
+
+export const getMuteUsersItems = createMuteUserItemsSelector(
+  [selectMuteUsers, selectEntities],
+  (muteUsers, entities) =>
+    denormalize(muteUsers.items, Schemas.USER_ARRAY, entities),
 );

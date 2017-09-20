@@ -7,6 +7,7 @@ import AccountSettings from '../../screens/MyPage/AccountSettings/AccountSetting
 import AdvanceAccountSettings from '../../screens/MyPage/AccountSettings/AdvanceAccountSettings';
 import HighlightTagsSettings from '../../screens/MyPage/HighlightTagsSettings';
 import MuteTagsSettings from '../../screens/MyPage/MuteTagsSettings';
+import MuteUsersSettings from '../../screens/MyPage/MuteUsersSettings';
 import Language from '../../screens/MyPage/Language';
 import Feedback from '../../screens/MyPage/Feedback';
 import About from '../../screens/MyPage/About';
@@ -69,6 +70,12 @@ const config = {
     screen: MuteTagsSettings,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.tagMuteSettings,
+    }),
+  },
+  [SCREENS.MuteUsersSettings]: {
+    screen: MuteUsersSettings,
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.userMuteSettings,
     }),
   },
   [SCREENS.Language]: {

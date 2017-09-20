@@ -79,7 +79,8 @@
   "newest": "Newest",
   "noComments": "No comments",
   "noFollowers": "You don't have any followers yet",
-  "noFollowUser": "You are't following anyone yet",
+  "noFollowUser": "You aren't following anyone yet",
+  "noMuteUser": "You aren't muting anyone yet",
   "noNewWorkFollowSuggestion": "Follow your favourite users to keep up to date with their latest works",
   "noRelatedWorks": "No related works",
   "noSearchResult": "No search results found",
@@ -138,6 +139,7 @@
   "searchTargetTitleCaption": "Title Caption",
   "searchUserPlaceholder": "Enter nickname",
   "settings": "Settings",
+  "share": "Share",
   "signUp": "Sign Up",
   "signUpNickname": "Nickname",
   "signUpNicknameHelp": "You can change your nickname at any time",
@@ -155,6 +157,9 @@
   "user": "User",
   "userIllusts": "Illust Works",
   "userMangas": "Manga Works",
+  "userMuteAdd": "Mute works from this user",
+  "userMuteRemove": "Unmute works from this user",
+  "userMuteSettings": "Mute Users Settings",
   "viewMore": "View More",
   "worksCount": "Works"
 }

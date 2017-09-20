@@ -21,15 +21,19 @@ import FollowButtonContainer from '../../containers/FollowButtonContainer';
 import { connectLocalization } from '../../components/Localization';
 import PXHeader from '../../components/PXHeader';
 import IllustCollection from '../../components/IllustCollection';
-import HeaderShareButton from '../../components/HeaderShareButton';
 import PXThumbnail from '../../components/PXThumbnail';
 import PXThumbnailTouchable from '../../components/PXThumbnailTouchable';
 import PXImage from '../../components/PXImage';
+import PXBottomSheet from '../../components/PXBottomSheet';
+import PXBottomSheetButton from '../../components/PXBottomSheetButton';
+import PXBottomSheetCancelButton from '../../components/PXBottomSheetCancelButton';
+import HeaderMenuButton from '../../components/HeaderMenuButton';
 import Loader from '../../components/Loader';
 import * as userDetailActionCreators from '../../common/actions/userDetail';
 import * as userIllustsActionCreators from '../../common/actions/userIllusts';
 import * as userMangasActionCreators from '../../common/actions/userMangas';
 import * as userBookmarkIllustlActionCreators from '../../common/actions/userBookmarkIllusts';
+import * as muteUsersActionCreators from '../../common/actions/muteUsers';
 import { makeGetUserDetailPageItems } from '../../common/selectors';
 import { SCREENS } from '../../common/constants';
 import { globalStyleVariables } from '../../styles';
@@ -133,6 +137,7 @@ class UserDetail extends Component {
       viewRef: 0,
       isScrolled: false,
       isShowTitle: false,
+      isOpenMenuBottomSheet: false,
     };
   }
 
@@ -233,6 +238,39 @@ class UserDetail extends Component {
     this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   };
 
+  handleOnPressOpenMenuBottomSheet = () => {
+    this.setState({
+      isOpenMenuBottomSheet: true,
+    });
+  };
+
+  handleOnCancelMenuBottomSheet = () => {
+    this.setState({
+      isOpenMenuBottomSheet: false,
+    });
+  };
+
+  handleOnPressShareUser = () => {
+    const { user } = this.props.userDetailItem;
+    const shareOptions = {
+      message: `${user.name} #pxview`,
+      url: `http://www.pixiv.net/member.php?id=${user.id}`,
+    };
+    Share.open(shareOptions)
+      .then(this.handleOnCancelMenuBottomSheet)
+      .catch(this.handleOnCancelMenuBottomSheet);
+  };
+
+  handleOnPressToggleMuteUser = () => {
+    const { userId, isMuteUser, addMuteUser, removeMuteUser } = this.props;
+    if (isMuteUser) {
+      removeMuteUser(userId);
+    } else {
+      addMuteUser(userId);
+    }
+    this.handleOnCancelMenuBottomSheet();
+  };
+
   renderHeaderTitle = () => {
     const { userDetailItem } = this.props;
     const { isShowTitle, isScrolled } = this.state;
@@ -256,10 +294,18 @@ class UserDetail extends Component {
       >
         <PXThumbnailTouchable uri={user.profile_image_urls.medium} />
         <View style={styles.nameContainer}>
-          <Text style={styles.headerText}>
+          <Text
+            style={styles.headerText}
+            ellipsizeMode="tail"
+            numberOfLines={1}
+          >
             {user.name}
           </Text>
-          <Text style={styles.headerText}>
+          <Text
+            style={styles.headerText}
+            ellipsizeMode="tail"
+            numberOfLines={1}
+          >
             {user.account}
           </Text>
         </View>
@@ -273,16 +319,11 @@ class UserDetail extends Component {
       return null;
     }
     const { user } = userDetailItem;
-    const shareOptions = {
-      message: `${user.name} #pxview`,
-      url: `http://www.pixiv.net/member.php?id=${user.id}`,
-    };
     return (
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          marginRight: 10,
         }}
       >
         {user &&
@@ -293,9 +334,9 @@ class UserDetail extends Component {
             textStyle={styles.followButtonText}
             navigation={navigation}
           />}
-        <HeaderShareButton
+        <HeaderMenuButton
+          onPress={this.handleOnPressOpenMenuBottomSheet}
           style={{ marginLeft: 10 }}
-          onPress={() => Share.open(shareOptions).catch()}
         />
       </View>
     );
@@ -499,7 +540,12 @@ class UserDetail extends Component {
     const {
       userDetail: { loaded, loading, refreshing, item },
       userDetailItem,
+      userId,
+      authUser,
+      isMuteUser,
+      i18n,
     } = this.props;
+    const { isOpenMenuBottomSheet } = this.state;
     return (
       <View style={styles.container}>
         <PXHeader
@@ -524,6 +570,34 @@ class UserDetail extends Component {
               {this.renderContent(userDetailItem)}
             </ScrollView>
           : null}
+        <PXBottomSheet
+          visible={isOpenMenuBottomSheet}
+          onCancel={this.handleOnCancelMenuBottomSheet}
+        >
+          <PXBottomSheetButton
+            onPress={this.handleOnPressShareUser}
+            iconName="share"
+            iconType="entypo"
+            text={i18n.share}
+          />
+          {((authUser && userId !== authUser.id) || !authUser) &&
+            <PXBottomSheetButton
+              onPress={this.handleOnPressToggleMuteUser}
+              iconName="user-times"
+              iconType="font-awesome"
+              textStyle={{
+                marginLeft: 28,
+              }}
+              text={isMuteUser ? i18n.userMuteRemove : i18n.userMuteAdd}
+            />}
+          <PXBottomSheetCancelButton
+            onPress={this.handleOnCancelMenuBottomSheet}
+            textStyle={{
+              marginLeft: 38,
+            }}
+            text={i18n.cancel}
+          />
+        </PXBottomSheet>
       </View>
     );
   }
@@ -540,6 +614,7 @@ export default connectLocalization(
           userIllusts,
           userMangas,
           userBookmarkIllusts,
+          muteUsers,
         } = state;
         const userId = props.userId || props.navigation.state.params.userId;
         const {
@@ -548,6 +623,7 @@ export default connectLocalization(
           userMangasItems,
           userBookmarkIllustsItems,
         } = getUserDetailPageItem(state, props);
+        const isMuteUser = muteUsers.items.some(m => m === userId);
         return {
           authUser: auth.user,
           userDetail: userDetail[userId],
@@ -559,6 +635,7 @@ export default connectLocalization(
           userMangasItems,
           userBookmarkIllustsItems,
           userId,
+          isMuteUser,
         };
       };
     },
@@ -567,6 +644,7 @@ export default connectLocalization(
       ...userIllustsActionCreators,
       ...userMangasActionCreators,
       ...userBookmarkIllustlActionCreators,
+      ...muteUsersActionCreators,
     },
   )(UserDetail),
 );

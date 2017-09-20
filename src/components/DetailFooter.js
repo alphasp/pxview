@@ -71,6 +71,7 @@ class DetailFooter extends PureComponent {
       onPressTag,
       onLongPressTag,
       onPressLink,
+      tags,
     } = this.props;
     return (
       <View onLayout={onLayoutView}>
@@ -117,7 +118,7 @@ class DetailFooter extends PureComponent {
           </View>
           {
             <Tags
-              tags={item.tags}
+              tags={tags}
               onPressTag={onPressTag}
               onLongPressTag={onLongPressTag}
             />

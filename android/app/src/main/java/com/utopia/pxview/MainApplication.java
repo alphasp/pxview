@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
 import com.facebook.react.ReactApplication;
+import com.BV.LinearGradient.LinearGradientPackage;
 import com.cmcewen.blurview.BlurViewPackage;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.opensettings.OpenSettingsPackage;
@@ -41,6 +42,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new RNSpinkitPackage(),
            new MainReactPackage(),
+            new LinearGradientPackage(),
             new BlurViewPackage(),
             new SplashScreenReactPackage(),
             new OpenSettingsPackage(),
