@@ -97,6 +97,7 @@ export const SCREENS = {
   AdvanceAccountSettings: 'AdvanceAccountSettings',
   HighlightTagsSettings: 'HighlightTagsSettings',
   MuteTagsSettings: 'MuteTagsSettings',
+  MuteUsersSettings: 'MuteUsersSettings',
   Encyclopedia: 'Encyclopedia',
   Language: 'Language',
   Feedback: 'Feedback',
