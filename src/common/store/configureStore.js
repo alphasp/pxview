@@ -40,7 +40,7 @@ export default function configureStore() {
     (inboundState, key) => {
       switch (key) {
         case 'entities': {
-          const { entities, browsingHistory } = store.getState();
+          const { entities, browsingHistory, muteUsers } = store.getState();
           const selectedUsersEntities = {};
           const selectedIllustsEntities = browsingHistory.items
             .filter(id => entities.illusts[id])
@@ -50,10 +50,20 @@ export default function configureStore() {
               selectedUsersEntities[userId] = entities.users[userId];
               return prev;
             }, {});
+          const selectedUsersEntities2 = muteUsers.items
+            .filter(id => entities.users[id])
+            .reduce((prev, id) => {
+              prev[id] = entities.users[id];
+              return prev;
+            }, {});
+          const finalSelectedUsersEntities = {
+            ...selectedUsersEntities,
+            ...selectedUsersEntities2,
+          }
           return {
             ...inboundState,
             illusts: selectedIllustsEntities,
-            users: selectedUsersEntities,
+            users: finalSelectedUsersEntities,
           };
         }
         case 'browsingHistory': {
@@ -68,7 +78,7 @@ export default function configureStore() {
       }
     },
     outboundState => outboundState,
-    { whitelist: ['entities', 'browsingHistory'] },
+    { whitelist: ['entities', 'browsingHistory', 'muteUsers'] },
   );
 
   persistStore(store, {
@@ -77,6 +87,7 @@ export default function configureStore() {
       'browsingHistory',
       'highlightTags',
       'muteTags',
+      'muteUsers',
       'entities',
       'auth',
       'i18n',
