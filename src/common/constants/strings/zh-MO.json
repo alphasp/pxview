@@ -80,6 +80,7 @@
   "noComments": "沒有評論",
   "noFollowers": "你尚無任何關注者",
   "noFollowUser": "你尚未關注任何人",
+  "noMuteUser": "你沒有屏蔽任何用戶",
   "noNewWorkFollowSuggestion": "關注你喜愛的用戶以追踪最新動態/作品",
   "noRelatedWorks": "無任何相關作品",
   "noSearchResult": "未找到任何相關結果",
@@ -138,6 +139,7 @@
   "searchTargetTitleCaption": "標題說明文",
   "searchUserPlaceholder": "輸入用戶暱稱",
   "settings": "設置",
+  "share": "分享",
   "signUp": "註冊",
   "signUpNickname": "昵稱",
   "signUpNicknameHelp": "昵稱可隨時變更",
@@ -155,6 +157,9 @@
   "user": "用户",
   "userIllusts": "插畫",
   "userMangas": "漫畫",
+  "userMuteAdd": "屏蔽此用戶",
+  "userMuteRemove": "取消屏蔽此用戶",
+  "userMuteSettings": "屏蔽用戶設置",
   "viewMore": "查看更多",
   "worksCount": "件作品"
 }

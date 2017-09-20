@@ -80,6 +80,7 @@
   "noComments": "コメントがありません",
   "noFollowers": "まだフォロワーがいません",
   "noFollowUser": "ユーザーをフォローしていません",
+  "noMuteUser": "ミュートしているユーザーはありません",
   "noNewWorkFollowSuggestion": "好きなユーザーをフォローして最新投稿を追いかけましょう",
   "noRelatedWorks": "関連作品がありません",
   "noSearchResult": "見つかりませんでした",
@@ -138,6 +139,7 @@
   "searchTargetTitleCaption": "タイトルキャプション",
   "searchUserPlaceholder": "ニックネームを入力",
   "settings": "設定",
+  "share": "共有",
   "signUp": "新規登録",
   "signUpNickname": "ニックネーム",
   "signUpNicknameHelp": "ニックネームはいつでも変更できます",
@@ -155,6 +157,9 @@
   "user": "ユーザー",
   "userIllusts": "イラスト作品",
   "userMangas": "マンガ作品",
+  "userMuteAdd": "ミュートユーザーに追加",
+  "userMuteRemove": "ミュートユーザーから削除",
+  "userMuteSettings": "ミュートユーザー設定",
   "viewMore": "もっと見る",
   "worksCount": "件の作品"
 }
