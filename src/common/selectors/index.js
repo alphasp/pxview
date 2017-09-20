@@ -69,6 +69,8 @@ const selectBrowsingHistory = state => state.browsingHistory;
 const selectHighlightTags = state => state.highlightTags.items;
 const selectMuteTags = state => state.muteTags.items;
 
+const selectMuteUsers = state => state.muteUsers;
+
 const defaultArray = [];
 const defaultObject = {};
 
@@ -132,6 +134,20 @@ const createUserItemSelector = createSelectorCreator(
       prev.id === next.id &&
       (prev.user && prev.user.is_followed) ===
         (next.user && next.user.is_followed)
+    );
+  },
+);
+
+const createMuteUserItemsSelector = createSelectorCreator(
+  specialMemoize,
+  (prev, next) => {
+    if (!prev && !next) {
+      return false;
+    }
+    return equals(
+      prev,
+      next,
+      (p, n) => p.id === n.id && p.is_followed === n.is_followed,
     );
   },
 );
@@ -445,4 +461,10 @@ export const getBrowsingHistoryItems = createIllustItemsSelector(
   [selectBrowsingHistory, selectEntities],
   (browsingHistory, entities) =>
     denormalize(browsingHistory.items, Schemas.ILLUST_ARRAY, entities),
+);
+
+export const getMuteUsersItems = createMuteUserItemsSelector(
+  [selectMuteUsers, selectEntities],
+  (muteUsers, entities) =>
+    denormalize(muteUsers.items, Schemas.USER_ARRAY, entities),
 );
