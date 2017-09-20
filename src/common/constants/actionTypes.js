@@ -281,4 +281,11 @@ export const HIGHLIGHT_TAGS = defineAction(
   appNamespace,
 );
 
+export const MUTE_USERS = defineAction(
+  'MUTE_USERS',
+  [ADD, REMOVE, CLEAR],
+  appNamespace,
+);
+
+
 export const MODAL = defineAction('MODAL', [OPEN, CLOSE], appNamespace);
