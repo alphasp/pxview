@@ -257,15 +257,7 @@ class DetailImageList extends Component {
     />;
 
   renderFooter = () => {
-    const {
-      item,
-      navigation,
-      i18n,
-      authUser,
-      highlightTags,
-      muteTags,
-      tags,
-    } = this.props;
+    const { item, navigation, i18n, authUser, tags } = this.props;
     return (
       <DetailFooter
         onLayoutView={this.handleOnLayoutFooter}

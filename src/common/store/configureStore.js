@@ -59,7 +59,7 @@ export default function configureStore() {
           const finalSelectedUsersEntities = {
             ...selectedUsersEntities,
             ...selectedUsersEntities2,
-          }
+          };
           return {
             ...inboundState,
             illusts: selectedIllustsEntities,

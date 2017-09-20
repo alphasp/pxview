@@ -287,5 +287,4 @@ export const MUTE_USERS = defineAction(
   appNamespace,
 );
 
-
 export const MODAL = defineAction('MODAL', [OPEN, CLOSE], appNamespace);
