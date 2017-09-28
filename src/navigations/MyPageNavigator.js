@@ -1,8 +1,6 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
 import enhanceRouter from './routers/enhanceRouter';
-import sharedRouteConfig from './routeConfigs/shared';
-import myPageRouteConfig from './routeConfigs/myPage';
 import MyPage from '../screens/MyPage/MyPage';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import DrawerIcon from '../components/DrawerIcon';
@@ -23,7 +21,7 @@ const navigationOptionsForDrawer = ({ navigation, screenProps: { i18n } }) => ({
   ),
 });
 
-let routeConfig = {
+const routeConfig = {
   [SCREENS.MyPage]: {
     screen: MyPage,
     navigationOptions: config.navigation.tab
@@ -31,14 +29,6 @@ let routeConfig = {
       : navigationOptionsForDrawer,
   },
 };
-
-if (config.navigation.tab) {
-  routeConfig = {
-    ...routeConfig,
-    ...myPageRouteConfig,
-    ...sharedRouteConfig,
-  };
-}
 
 const stackConfig = {
   headerMode: 'screen',
