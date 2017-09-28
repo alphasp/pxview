@@ -34,7 +34,7 @@ const routeConfig = {
 const stackConfig = {
   navigationOptions: {
     headerStyle: config.navigation.tab
-      ? globalStyles.headerWithoutShadow
+      ? globalStyles.header
       : globalStyles.headerWithoutShadow,
     headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
     headerBackTitle: null,
