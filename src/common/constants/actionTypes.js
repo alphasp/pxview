@@ -83,6 +83,12 @@ export const RECOMMENDED_MANGAS = defineAction(
   appNamespace,
 );
 
+export const ILLUST_DETAIL = defineAction(
+  'ILLUST_DETAIL',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
 export const RELATED_ILLUSTS = defineAction(
   'RELATED_ILLUSTS',
   [REQUEST, SUCCESS, FAILURE, CLEAR],

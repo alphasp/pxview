@@ -7,6 +7,7 @@ import recommendedMangas from './recommendedMangas';
 import relatedIllusts from './relatedIllusts';
 import trendingIllustTags from './trendingIllustTags';
 import recommendedUsers from './recommendedUsers';
+import illustDetail from './illustDetail';
 import illustComments from './illustComments';
 import searchAutoComplete from './searchAutoComplete';
 import search from './search';
@@ -53,6 +54,7 @@ const rootReducer = combineReducers({
   relatedIllusts,
   trendingIllustTags,
   recommendedUsers,
+  illustDetail,
   illustComments,
   search,
   ranking,
