@@ -5,7 +5,9 @@ import {
   TabViewPagerScroll,
   TabViewPagerPan,
 } from 'react-native-tab-view';
+import PXHeader from '../../components/PXHeader';
 import PXPhotoView from '../../components/PXPhotoView';
+import HeaderTextTitle from '../../components/HeaderTextTitle';
 import HeaderSaveImageButton from '../../components/HeaderSaveImageButton';
 import Loader from '../../components/Loader';
 import { globalStyles, globalStyleVariables } from '../../styles';
@@ -17,27 +19,10 @@ const styles = StyleSheet.create({
   },
   slide: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
   },
 });
 
 class ImagesViewer extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const {
-      selectedImages,
-      totalImages,
-      viewerIndex,
-    } = navigation.state.params;
-    return {
-      title: totalImages > 1 ? `${viewerIndex + 1}/${totalImages}` : null,
-      headerRight:
-        selectedImages &&
-        selectedImages.length &&
-        <HeaderSaveImageButton imageUrls={selectedImages} />,
-    };
-  };
-
   constructor(props) {
     super(props);
     const { images, viewerIndex } = this.props.navigation.state.params;
@@ -52,17 +37,6 @@ class ImagesViewer extends Component {
         key: image.toString(),
       })),
     };
-  }
-
-  componentDidMount() {
-    const { navigation } = this.props;
-    const { images, viewerIndex } = navigation.state.params;
-    const selectedImages = [images[viewerIndex]];
-    navigation.setParams({
-      selectedImages,
-      totalImages: images.length,
-      viewerIndex,
-    });
   }
 
   handleOnImageLoaded = imageUrl => {
@@ -93,25 +67,31 @@ class ImagesViewer extends Component {
   };
 
   handleChangeTab = index => {
-    const { navigation } = this.props;
-    const { images } = navigation.state.params;
-    const selectedImages = [images[index]];
     this.setState({ index });
-    navigation.setParams({
-      selectedImages,
-      viewerIndex: index,
-    });
   };
 
   render() {
+    const { images } = this.props.navigation.state.params;
+    const { index } = this.state;
+    const selectedImages = [images[index]];
     return (
       <View style={styles.container}>
+        <PXHeader
+          darkTheme
+          showBackButton
+          headerTitle={
+            <HeaderTextTitle>
+              {images.length > 1 ? `${index + 1}/${images.length}` : null}
+            </HeaderTextTitle>
+          }
+          headerRight={<HeaderSaveImageButton imageUrls={selectedImages} />}
+        />
         <TabViewAnimated
           style={globalStyles.container}
           navigationState={this.state}
           renderScene={this.renderScene}
           renderPager={this.renderPager}
-          onRequestChangeTab={this.handleChangeTab}
+          onIndexChange={this.handleChangeTab}
         />
       </View>
     );

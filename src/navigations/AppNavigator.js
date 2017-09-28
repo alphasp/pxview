@@ -29,6 +29,9 @@ const appRouteConfig = {
   },
   [SCREENS.ImagesViewer]: {
     screen: ImagesViewer,
+    navigationOptions: {
+      header: null,
+    },
   },
   [SCREENS.AddIllustComment]: {
     screen: AddIllustComment,
