@@ -52,7 +52,12 @@ class Master extends Component {
     if (!rehydrated) {
       renderComponent = <Loader />;
     } else if (user) {
-      renderComponent = <AppNavigator screenProps={{ i18n }} />;
+      renderComponent = (
+        <AppNavigator
+          screenProps={{ i18n }}
+          uriPrefix={/^(?:https?:\/\/)?(?:www|touch)\.pixiv\.net\/|^pixiv:\/\//}
+        />
+      );
     } else {
       renderComponent = <LoginNavigator screenProps={{ i18n }} />;
     }

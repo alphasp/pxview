@@ -222,7 +222,11 @@ export const makeGetUserBookmarkIllustsItems = () =>
   createIllustItemsSelector(
     [selectUserBookmarkIllusts, selectEntities, getProps],
     (userBookmarkIllusts, entities, props) => {
-      const userId = props.userId || props.navigation.state.params.userId;
+      const userId =
+        props.userId ||
+        props.navigation.state.params.userId ||
+        parseInt(props.navigation.state.params.id, 10) ||
+        parseInt(props.navigation.state.params.uid, 10);
       return userBookmarkIllusts[userId]
         ? denormalize(
             userBookmarkIllusts[userId].items,
@@ -237,7 +241,11 @@ export const makeGetUserIllustsItems = () =>
   createIllustItemsSelector(
     [selectUserIllusts, selectEntities, getProps],
     (userIllusts, entities, props) => {
-      const userId = props.userId || props.navigation.state.params.userId;
+      const userId =
+        props.userId ||
+        props.navigation.state.params.userId ||
+        parseInt(props.navigation.state.params.id, 10) ||
+        parseInt(props.navigation.state.params.uid, 10);
       return userIllusts[userId]
         ? denormalize(userIllusts[userId].items, Schemas.ILLUST_ARRAY, entities)
         : defaultArray;
@@ -248,7 +256,11 @@ export const makeGetUserMangasItems = () =>
   createIllustItemsSelector(
     [selectUserMangas, selectEntities, getProps],
     (userMangas, entities, props) => {
-      const userId = props.userId || props.navigation.state.params.userId;
+      const userId =
+        props.userId ||
+        props.navigation.state.params.userId ||
+        parseInt(props.navigation.state.params.id, 10) ||
+        parseInt(props.navigation.state.params.uid, 10);
       return userMangas[userId]
         ? denormalize(userMangas[userId].items, Schemas.ILLUST_ARRAY, entities)
         : defaultArray;
@@ -333,7 +345,11 @@ const makeGetUserDetailItem = () =>
   createUserItemSelector(
     [selectUserDetail, selectEntities, getProps],
     (userDetail, entities, props) => {
-      const userId = props.userId || props.navigation.state.params.userId;
+      const userId =
+        props.userId ||
+        props.navigation.state.params.userId ||
+        parseInt(props.navigation.state.params.id, 10) ||
+        parseInt(props.navigation.state.params.uid, 10);
       return userDetail[userId]
         ? denormalize(userDetail[userId].item, Schemas.USER_PROFILE, entities)
         : defaultObject;
@@ -370,9 +386,20 @@ export const makeGetUserDetailPageItems = () => {
 
 export const makeGetDetailItem = () =>
   createIllustItemSelector([selectEntities, getProps], (entities, props) => {
-    const items = props.navigation.state.params.items;
-    const index = props.navigation.state.params.index;
-    const id = items[index].id;
+    const {
+      illust_id: illustIdFromQS, // from deep link params
+      illustId, // from deep link querystring
+      items,
+      index,
+    } = props.navigation.state.params;
+    let id;
+    if (illustIdFromQS) {
+      id = parseInt(illustIdFromQS, 10);
+    } else if (illustId) {
+      id = parseInt(illustId, 10);
+    } else {
+      id = items[index].id;
+    }
     return denormalize(id, Schemas.ILLUST, entities);
   });
 
