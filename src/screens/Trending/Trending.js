@@ -156,7 +156,7 @@ class Trending extends Component {
           <PXTabView
             navigationState={this.state}
             renderScene={this.renderScene}
-            onRequestChangeTab={this.handleChangeTab}
+            onIndexChange={this.handleChangeTab}
           />
           {isFocusSearchBar &&
             <Search

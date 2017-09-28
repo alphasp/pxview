@@ -88,7 +88,7 @@ class NewWorks extends Component {
       <PXTabView
         navigationState={this.state}
         renderScene={this.renderScene}
-        onRequestChangeTab={this.handleChangeTab}
+        onIndexChange={this.handleChangeTab}
         includeStatusBarPadding
         tabBarProps={{ scrollEnabled: true }}
       />

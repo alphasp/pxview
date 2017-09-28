@@ -247,7 +247,7 @@ class SearchResultTabs extends Component {
               navigationStateKey,
             }}
             renderScene={this.renderScene}
-            onRequestChangeTab={this.handleChangeTab}
+            onIndexChange={this.handleChangeTab}
           />
           {isFocusSearchBar &&
             <Search
