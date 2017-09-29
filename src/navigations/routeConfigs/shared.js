@@ -12,12 +12,14 @@ import { SCREENS } from '../../common/constants';
 const config = {
   [SCREENS.Detail]: {
     screen: Detail,
+    path: '(member_illust.php|illusts)/:illustId?',
     navigationOptions: {
       header: null,
     },
   },
   [SCREENS.UserDetail]: {
     screen: UserDetail,
+    path: '(member.php|user)/:uid?',
     navigationOptions: {
       header: null,
     },

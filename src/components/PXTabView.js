@@ -44,7 +44,7 @@ class PXTabView extends Component {
     const {
       navigationState,
       renderScene,
-      onRequestChangeTab,
+      onIndexChange,
       lazy,
       ...restProps
     } = this.props;
@@ -55,7 +55,7 @@ class PXTabView extends Component {
         renderScene={renderScene}
         renderHeader={this.renderHeader}
         renderPager={this.renderPager}
-        onRequestChangeTab={onRequestChangeTab}
+        onIndexChange={onIndexChange}
         lazy={lazy}
         {...restProps}
       />

@@ -2,7 +2,6 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 import Ranking from '../screens/Ranking/Ranking';
 import enhanceRouter from './routers/enhanceRouter';
-import sharedRouteConfig from './routeConfigs/shared';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import DrawerIcon from '../components/DrawerIcon';
 import { globalStyles, globalStyleVariables } from '../styles';
@@ -22,7 +21,7 @@ const navigationOptionsForDrawer = ({ navigation, screenProps: { i18n } }) => ({
   ),
 });
 
-let routeConfig = {
+const routeConfig = {
   [SCREENS.Ranking]: {
     screen: Ranking,
     navigationOptions: config.navigation.tab
@@ -30,13 +29,6 @@ let routeConfig = {
       : navigationOptionsForDrawer,
   },
 };
-
-if (config.navigation.tab) {
-  routeConfig = {
-    ...routeConfig,
-    ...sharedRouteConfig,
-  };
-}
 
 const stackConfig = {
   navigationOptions: {

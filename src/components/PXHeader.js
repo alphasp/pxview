@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Platform } from 'react-native';
 import { HeaderBackButton, withNavigation } from 'react-navigation';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import { globalStyleVariables } from '../styles';
@@ -8,6 +8,21 @@ import { globalStyleVariables } from '../styles';
 const styles = StyleSheet.create({
   container: {
     paddingTop: globalStyleVariables.STATUSBAR_HEIGHT,
+    ...Platform.select({
+      ios: {
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: 'rgba(0, 0, 0, .3)',
+      },
+      android: {
+        shadowColor: 'black',
+        shadowOpacity: 0.1,
+        shadowRadius: StyleSheet.hairlineWidth,
+        shadowOffset: {
+          height: StyleSheet.hairlineWidth,
+        },
+        elevation: 4,
+      },
+    }),
   },
   containerDark: {
     backgroundColor: globalStyleVariables.PRIMARY_COLOR,

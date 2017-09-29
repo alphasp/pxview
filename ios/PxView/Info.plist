@@ -20,6 +20,19 @@
 	<string>1.7</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.utopia.pxview</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>pixiv</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>8</string>
 	<key>Fabric</key>

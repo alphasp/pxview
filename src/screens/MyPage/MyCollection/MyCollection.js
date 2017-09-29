@@ -114,7 +114,7 @@ class MyCollection extends Component {
         <PXTabView
           navigationState={this.state}
           renderScene={this.renderScene}
-          onRequestChangeTab={this.handleChangeTab}
+          onIndexChange={this.handleChangeTab}
         />
         {index === 0 &&
           <TagsFilterModal

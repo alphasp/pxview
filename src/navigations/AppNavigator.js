@@ -14,19 +14,13 @@ import { globalStyles, globalStyleVariables } from '../styles';
 import config from '../common/config';
 import { SCREENS } from '../common/constants';
 
-let appRouteConfig = {
+const appRouteConfig = {
   [SCREENS.Main]: {
     screen: config.navigation.tab ? AppTabNavigator : AppDrawerNavigator,
     navigationOptions: {
       header: null,
     },
   },
-  // [SCREENS.Login]: {
-  //   screen: Login,
-  //   navigationOptions: ({ screenProps: { i18n } }) => ({
-  //     title: i18n.login,
-  //   }),
-  // },
   [SCREENS.SearchFilterModal]: {
     screen: SearchFilterModal,
     navigationOptions: ({ screenProps: { i18n } }) => ({
@@ -35,6 +29,9 @@ let appRouteConfig = {
   },
   [SCREENS.ImagesViewer]: {
     screen: ImagesViewer,
+    navigationOptions: {
+      header: null,
+    },
   },
   [SCREENS.AddIllustComment]: {
     screen: AddIllustComment,
@@ -51,15 +48,9 @@ let appRouteConfig = {
   [SCREENS.Encyclopedia]: {
     screen: Encyclopedia,
   },
+  ...myPageRouteConfig,
+  ...sharedRouteConfig,
 };
-
-if (!config.navigation.tab) {
-  appRouteConfig = {
-    ...appRouteConfig,
-    ...myPageRouteConfig,
-    ...sharedRouteConfig,
-  };
-}
 
 const stackConfig = {
   navigationOptions: {
@@ -70,12 +61,9 @@ const stackConfig = {
     headerBackTitle: null,
   },
   cardStyle: globalStyles.card,
-  mode: config.navigation.tab ? 'modal' : 'card', // only apply to ios for tab navigation
   headerMode: 'screen',
 };
 
-const AppNavigator = !config.navigation.tab
-  ? enhanceRouter(StackNavigator(appRouteConfig, stackConfig))
-  : StackNavigator(appRouteConfig, stackConfig);
+const AppNavigator = StackNavigator(appRouteConfig, stackConfig);
 
-export default AppNavigator;
+export default enhanceRouter(AppNavigator);

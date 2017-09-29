@@ -1,7 +1,6 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
 import enhanceRouter from './routers/enhanceRouter';
-import sharedRouteConfig from './routeConfigs/shared';
 import Home from '../screens/Home/Home';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import DrawerIcon from '../components/DrawerIcon';
@@ -23,7 +22,7 @@ const navigationOptionsForDrawer = ({ navigation, screenProps: { i18n } }) => ({
   ),
 });
 
-let routeConfig = {
+const routeConfig = {
   [SCREENS.Home]: {
     screen: Home,
     navigationOptions: config.navigation.tab
@@ -32,17 +31,10 @@ let routeConfig = {
   },
 };
 
-if (config.navigation.tab) {
-  routeConfig = {
-    ...routeConfig,
-    ...sharedRouteConfig,
-  };
-}
-
 const stackConfig = {
   navigationOptions: {
     headerStyle: config.navigation.tab
-      ? globalStyles.headerWithoutShadow
+      ? globalStyles.header
       : globalStyles.headerWithoutShadow,
     headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
     headerBackTitle: null,

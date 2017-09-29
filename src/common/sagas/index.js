@@ -10,6 +10,7 @@ import { watchFetchWalkthroughIllusts } from './walkthroughIllusts';
 import { watchFetchRecommendedIllusts } from './recommendedIllusts';
 import { watchFetchRecommendedMangas } from './recommendedMangas';
 import { watchFetchRelatedIllusts } from './relatedIllusts';
+import { watchFetchIllustDetail } from './illustDetail';
 import { watchFetchIllustComments } from './illustComments';
 import { watchFetchRanking } from './ranking';
 import { watchFetchUserDetail } from './userDetail';
@@ -51,6 +52,7 @@ export default function* rootSaga() {
     watchFetchRecommendedIllusts(),
     watchFetchRecommendedMangas(),
     watchFetchRelatedIllusts(),
+    watchFetchIllustDetail(),
     watchFetchIllustComments(),
     watchFetchRanking(),
     watchFetchUserDetail(),

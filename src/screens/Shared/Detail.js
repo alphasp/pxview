@@ -12,8 +12,8 @@ import {
 import { connect } from 'react-redux';
 import Share from 'react-native-share';
 import ActionButton from 'react-native-action-button';
+import enhanceSaveImage from '../../components/HOC/enhanceSaveImage';
 import DetailImageList from '../../components/DetailImageList';
-import { connectLocalization } from '../../components/Localization';
 import PXHeader from '../../components/PXHeader';
 import PXViewPager from '../../components/PXViewPager';
 import PXBottomSheet from '../../components/PXBottomSheet';
@@ -27,6 +27,7 @@ import HeaderSaveImageButton from '../../components/HeaderSaveImageButton';
 import HeaderMenuButton from '../../components/HeaderMenuButton';
 import * as browsingHistoryActionCreators from '../../common/actions/browsingHistory';
 import * as muteUsersActionCreators from '../../common/actions/muteUsers';
+import * as illustDetailActionCreators from '../../common/actions/illustDetail';
 import { makeGetDetailItem } from '../../common/selectors';
 import { SCREENS } from '../../common/constants';
 
@@ -64,6 +65,7 @@ class Detail extends Component {
       mounting: true,
       isActionButtonVisible: true,
       isOpenMenuBottomSheet: false,
+      selectedImageIndex: null,
     };
     this.listViewOffset = 0;
     if (Platform.OS === 'android') {
@@ -74,21 +76,54 @@ class Detail extends Component {
   }
 
   componentDidMount() {
-    const { item, addBrowsingHistory } = this.props;
+    const {
+      illustId,
+      item,
+      isFromDeepLink,
+      addBrowsingHistory,
+      fetchIllustDetail,
+    } = this.props;
     InteractionManager.runAfterInteractions(() => {
       if (this.detailView) {
         this.setState({ mounting: false });
       }
-      addBrowsingHistory(item.id);
+      if (isFromDeepLink) {
+        fetchIllustDetail(illustId);
+      } else {
+        this.masterListUpdateListener = DeviceEventEmitter.addListener(
+          'masterListUpdate',
+          this.handleOnMasterListUpdate,
+        );
+        addBrowsingHistory(item.id);
+      }
     });
-    this.masterListUpdateListener = DeviceEventEmitter.addListener(
-      'masterListUpdate',
-      this.handleOnMasterListUpdate,
-    );
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { illustDetail: prevIllustDetail } = this.props;
+    const {
+      illustId,
+      isFromDeepLink,
+      illustDetail,
+      addBrowsingHistory,
+    } = nextProps;
+    if (
+      illustId &&
+      isFromDeepLink &&
+      illustDetail &&
+      illustDetail.loaded &&
+      illustDetail.loaded !== prevIllustDetail.prevLoaded &&
+      illustDetail.item
+    ) {
+      // only add browsing history if item is loaded for illust that open from deep link
+      addBrowsingHistory(illustId);
+    }
   }
 
   componentWillUnmount() {
-    this.masterListUpdateListener.remove();
+    if (this.masterListUpdateListener) {
+      this.masterListUpdateListener.remove();
+    }
   }
 
   handleOnScrollDetailImageList = e => {
@@ -133,9 +168,13 @@ class Detail extends Component {
     });
   };
 
+  handleOnLongPressImage = index => {
+    this.handleOnPressOpenMenuBottomSheet(index);
+  };
+
   handleOnViewPagerPageSelected = index => {
     const { items, addBrowsingHistory, navigation } = this.props;
-    if (this.props.index !== index) {
+    if (this.props.index !== undefined && this.props.index !== index) {
       const { setParams } = navigation;
       setParams({
         index,
@@ -165,15 +204,20 @@ class Detail extends Component {
     goBack();
   };
 
-  handleOnPressOpenMenuBottomSheet = () => {
-    this.setState({
+  handleOnPressOpenMenuBottomSheet = selectedImageIndex => {
+    const newState = {
       isOpenMenuBottomSheet: true,
-    });
+    };
+    if (selectedImageIndex !== null) {
+      newState.selectedImageIndex = selectedImageIndex;
+    }
+    this.setState(newState);
   };
 
   handleOnCancelMenuBottomSheet = () => {
     this.setState({
       isOpenMenuBottomSheet: false,
+      selectedImageIndex: null,
     });
   };
 
@@ -196,6 +240,17 @@ class Detail extends Component {
     Share.open(shareOptions)
       .then(this.handleOnCancelMenuBottomSheet)
       .catch(this.handleOnCancelMenuBottomSheet);
+  };
+
+  handleOnPressSaveImage = () => {
+    const { saveImage, item } = this.props;
+    const { selectedImageIndex } = this.state;
+    const images =
+      item.page_count > 1
+        ? item.meta_pages.map(page => page.image_urls.original)
+        : [item.meta_single_page.original_image_url];
+    saveImage([images[selectedImageIndex]]);
+    this.handleOnCancelMenuBottomSheet();
   };
 
   renderHeaderTitle = item => {
@@ -239,7 +294,9 @@ class Detail extends Component {
     return (
       <View style={styles.headerRightContainer}>
         <HeaderSaveImageButton imageUrls={images} saveAll />
-        <HeaderMenuButton onPress={this.handleOnPressOpenMenuBottomSheet} />
+        <HeaderMenuButton
+          onPress={() => this.handleOnPressOpenMenuBottomSheet(null)}
+        />
       </View>
     );
   };
@@ -261,31 +318,56 @@ class Detail extends Component {
           i18n={i18n}
           authUser={authUser}
           onPressImage={this.handleOnPressImage}
+          onLongPressImage={this.handleOnLongPressImage}
           onScroll={this.handleOnScrollDetailImageList}
         />
       </View>
     );
   };
 
+  renderMainContent() {
+    const { items, item, index, isFromDeepLink } = this.props;
+    const { mounting } = this.state;
+    if (mounting) {
+      return <Loader />;
+    }
+    if (isFromDeepLink) {
+      if (!item) {
+        return <Loader />;
+      }
+      return (
+        <PXViewPager
+          items={[item]}
+          index={0}
+          renderContent={this.renderContent}
+          onPageSelected={this.handleOnViewPagerPageSelected}
+          onEndReached={this.handleOnListEndReached}
+        />
+      );
+    }
+    return (
+      <PXViewPager
+        items={items}
+        index={index}
+        renderContent={this.renderContent}
+        onPageSelected={this.handleOnViewPagerPageSelected}
+        onEndReached={this.handleOnListEndReached}
+      />
+    );
+  }
+
   render() {
-    const { items, item, index, isMuteUser, i18n } = this.props;
+    const { item, isMuteUser, i18n } = this.props;
     const {
-      mounting,
       isActionButtonVisible,
       isOpenMenuBottomSheet,
+      selectedImageIndex,
     } = this.state;
     return (
       <View style={styles.container} ref={ref => (this.detailView = ref)}>
-        {mounting
-          ? <Loader />
-          : <PXViewPager
-              items={items}
-              index={index}
-              renderContent={this.renderContent}
-              onPageSelected={this.handleOnViewPagerPageSelected}
-              onEndReached={this.handleOnListEndReached}
-            />}
+        {this.renderMainContent()}
         {isActionButtonVisible &&
+          item &&
           <ActionButton
             buttonColor="rgba(255,255,255,1)"
             bgColor="red"
@@ -295,6 +377,13 @@ class Detail extends Component {
           visible={isOpenMenuBottomSheet}
           onCancel={this.handleOnCancelMenuBottomSheet}
         >
+          {selectedImageIndex !== null &&
+            <PXBottomSheetButton
+              onPress={this.handleOnPressSaveImage}
+              iconName="content-save"
+              iconType="material-community"
+              text={i18n.saveImage}
+            />}
           <PXBottomSheetButton
             onPress={this.handleOnPressShareIllust}
             iconName="share"
@@ -323,24 +412,42 @@ class Detail extends Component {
   }
 }
 
-export default connectLocalization(
+export default enhanceSaveImage(
   connect(
     () => {
       const getDetailItem = makeGetDetailItem();
       return (state, props) => {
         const item = getDetailItem(state, props);
-        const isMuteUser = state.muteUsers.items.some(m => m === item.user.id);
+        const isMuteUser = item
+          ? state.muteUsers.items.some(m => m === item.user.id)
+          : false;
+        const {
+          illust_id: illustIdFromQS,
+          illustId,
+          items,
+          index,
+          onListEndReached,
+          parentListKey,
+        } = props.navigation.state.params;
+        const id = parseInt(illustIdFromQS || illustId, 0);
         return {
+          illustId: id || item.id,
+          illustDetail: state.illustDetail[id], // get illustDetail from api if load from deep link
           item,
           isMuteUser,
-          items: props.navigation.state.params.items,
-          index: props.navigation.state.params.index,
-          onListEndReached: props.navigation.state.params.onListEndReached,
-          parentListKey: props.navigation.state.params.parentListKey,
+          isFromDeepLink: !!id,
+          items,
+          index,
+          onListEndReached,
+          parentListKey,
           authUser: state.auth.user,
         };
       };
     },
-    { ...browsingHistoryActionCreators, ...muteUsersActionCreators },
+    {
+      ...browsingHistoryActionCreators,
+      ...muteUsersActionCreators,
+      ...illustDetailActionCreators,
+    },
   )(Detail),
 );

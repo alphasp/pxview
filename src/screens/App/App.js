@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class Master extends Component {
+class App extends Component {
   componentDidMount() {
     MessageBarManager.registerMessageBar(this.messageBarAlert);
     this.showToastListener = DeviceEventEmitter.addListener(
@@ -52,7 +52,12 @@ class Master extends Component {
     if (!rehydrated) {
       renderComponent = <Loader />;
     } else if (user) {
-      renderComponent = <AppNavigator screenProps={{ i18n }} />;
+      renderComponent = (
+        <AppNavigator
+          screenProps={{ i18n }}
+          uriPrefix={/^(?:https?:\/\/)?(?:www|touch)\.pixiv\.net\/|^pixiv:\/\//}
+        />
+      );
     } else {
       renderComponent = <LoginNavigator screenProps={{ i18n }} />;
     }
@@ -75,5 +80,5 @@ export default connectLocalization(
       user: state.auth.user,
     }),
     routeActionCreators,
-  )(Master),
+  )(App),
 );

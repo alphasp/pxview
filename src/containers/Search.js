@@ -172,7 +172,7 @@ class Search extends Component {
             searchType,
           }}
           renderScene={this.renderScene}
-          onRequestChangeTab={this.handleChangeTab}
+          onIndexChange={this.handleChangeTab}
           lazy={false}
         />
       </View>

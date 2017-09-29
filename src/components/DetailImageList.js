@@ -111,11 +111,6 @@ class DetailImageList extends Component {
     clearTimeout(this.timer);
   }
 
-  handleOnPressImage = index => {
-    const { onPressImage } = this.props;
-    onPressImage(index);
-  };
-
   handleOnPressTag = tag => {
     const { addSearchHistory, navigation: { navigate } } = this.props;
     addSearchHistory(tag);
@@ -244,17 +239,23 @@ class DetailImageList extends Component {
     this.footerViewHeight = e.nativeEvent.layout.height;
   };
 
-  renderItem = ({ item, index }) =>
-    <PXCacheImageTouchable
-      key={item.image_urls.medium}
-      uri={item.image_urls.medium}
-      initWidth={globalStyleVariables.WINDOW_HEIGHT}
-      initHeight={200}
-      style={styles.multiImageContainer}
-      imageStyle={styles.image}
-      pageNumber={index + 1}
-      onPress={() => this.handleOnPressImage(index)}
-    />;
+  renderItem = ({ item, index }) => {
+    const { onPressImage, onLongPressImage } = this.props;
+    return (
+      <PXCacheImageTouchable
+        key={item.image_urls.medium}
+        uri={item.image_urls.medium}
+        initWidth={globalStyleVariables.WINDOW_HEIGHT}
+        initHeight={200}
+        style={styles.multiImageContainer}
+        imageStyle={styles.image}
+        pageNumber={index + 1}
+        index={index}
+        onPress={onPressImage}
+        onLongPress={onLongPressImage}
+      />
+    );
+  };
 
   renderFooter = () => {
     const { item, navigation, i18n, authUser, tags } = this.props;
@@ -283,6 +284,8 @@ class DetailImageList extends Component {
       highlightTags,
       muteTags,
       isMuteUser,
+      onPressImage,
+      onLongPressImage,
     } = this.props;
     const {
       imagePageNumber,
@@ -338,7 +341,9 @@ class DetailImageList extends Component {
                     }
                     style={styles.imageContainer}
                     imageStyle={styles.image}
-                    onPress={() => this.handleOnPressImage(0)}
+                    onPress={onPressImage}
+                    onLongPress={onLongPressImage}
+                    index={0}
                   />}
 
               {this.renderFooter()}
