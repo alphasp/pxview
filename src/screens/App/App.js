@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class Master extends Component {
+class App extends Component {
   componentDidMount() {
     MessageBarManager.registerMessageBar(this.messageBarAlert);
     this.showToastListener = DeviceEventEmitter.addListener(
@@ -80,5 +80,5 @@ export default connectLocalization(
       user: state.auth.user,
     }),
     routeActionCreators,
-  )(Master),
+  )(App),
 );
