@@ -51,12 +51,27 @@ class PXCacheImageTouchable extends Component {
     }
   };
 
+  handleOnPressImage = () => {
+    const { index, onPress } = this.props;
+    if (onPress && index !== null) {
+      onPress(index);
+    }
+  };
+
+  handleOnLongPressImage = () => {
+    const { index, onLongPress } = this.props;
+    if (onLongPress && index !== null) {
+      onLongPress(index);
+    }
+  };
+
   render() {
-    const { uri, pageNumber, style, imageStyle, onPress } = this.props;
+    const { uri, pageNumber, style, imageStyle } = this.props;
     const { height, loading } = this.state;
     return (
       <PXTouchable
-        onPress={onPress}
+        onPress={this.handleOnPressImage}
+        onLongPress={this.handleOnLongPressImage}
         style={[
           style,
           {

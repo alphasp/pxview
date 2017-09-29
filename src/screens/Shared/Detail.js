@@ -12,8 +12,8 @@ import {
 import { connect } from 'react-redux';
 import Share from 'react-native-share';
 import ActionButton from 'react-native-action-button';
+import enhanceSaveImage from '../../components/HOC/enhanceSaveImage';
 import DetailImageList from '../../components/DetailImageList';
-import { connectLocalization } from '../../components/Localization';
 import PXHeader from '../../components/PXHeader';
 import PXViewPager from '../../components/PXViewPager';
 import PXBottomSheet from '../../components/PXBottomSheet';
@@ -65,6 +65,7 @@ class Detail extends Component {
       mounting: true,
       isActionButtonVisible: true,
       isOpenMenuBottomSheet: false,
+      selectedImageIndex: null,
     };
     this.listViewOffset = 0;
     if (Platform.OS === 'android') {
@@ -167,6 +168,10 @@ class Detail extends Component {
     });
   };
 
+  handleOnLongPressImage = index => {
+    this.handleOnPressOpenMenuBottomSheet(index);
+  };
+
   handleOnViewPagerPageSelected = index => {
     const { items, addBrowsingHistory, navigation } = this.props;
     if (this.props.index !== undefined && this.props.index !== index) {
@@ -199,15 +204,20 @@ class Detail extends Component {
     goBack();
   };
 
-  handleOnPressOpenMenuBottomSheet = () => {
-    this.setState({
+  handleOnPressOpenMenuBottomSheet = selectedImageIndex => {
+    const newState = {
       isOpenMenuBottomSheet: true,
-    });
+    };
+    if (selectedImageIndex !== null) {
+      newState.selectedImageIndex = selectedImageIndex;
+    }
+    this.setState(newState);
   };
 
   handleOnCancelMenuBottomSheet = () => {
     this.setState({
       isOpenMenuBottomSheet: false,
+      selectedImageIndex: null,
     });
   };
 
@@ -230,6 +240,17 @@ class Detail extends Component {
     Share.open(shareOptions)
       .then(this.handleOnCancelMenuBottomSheet)
       .catch(this.handleOnCancelMenuBottomSheet);
+  };
+
+  handleOnPressSaveImage = () => {
+    const { saveImage, item } = this.props;
+    const { selectedImageIndex } = this.state;
+    const images =
+      item.page_count > 1
+        ? item.meta_pages.map(page => page.image_urls.original)
+        : [item.meta_single_page.original_image_url];
+    saveImage([images[selectedImageIndex]]);
+    this.handleOnCancelMenuBottomSheet();
   };
 
   renderHeaderTitle = item => {
@@ -273,7 +294,9 @@ class Detail extends Component {
     return (
       <View style={styles.headerRightContainer}>
         <HeaderSaveImageButton imageUrls={images} saveAll />
-        <HeaderMenuButton onPress={this.handleOnPressOpenMenuBottomSheet} />
+        <HeaderMenuButton
+          onPress={() => this.handleOnPressOpenMenuBottomSheet(null)}
+        />
       </View>
     );
   };
@@ -295,6 +318,7 @@ class Detail extends Component {
           i18n={i18n}
           authUser={authUser}
           onPressImage={this.handleOnPressImage}
+          onLongPressImage={this.handleOnLongPressImage}
           onScroll={this.handleOnScrollDetailImageList}
         />
       </View>
@@ -334,7 +358,11 @@ class Detail extends Component {
 
   render() {
     const { item, isMuteUser, i18n } = this.props;
-    const { isActionButtonVisible, isOpenMenuBottomSheet } = this.state;
+    const {
+      isActionButtonVisible,
+      isOpenMenuBottomSheet,
+      selectedImageIndex,
+    } = this.state;
     return (
       <View style={styles.container} ref={ref => (this.detailView = ref)}>
         {this.renderMainContent()}
@@ -349,6 +377,13 @@ class Detail extends Component {
           visible={isOpenMenuBottomSheet}
           onCancel={this.handleOnCancelMenuBottomSheet}
         >
+          {selectedImageIndex !== null &&
+            <PXBottomSheetButton
+              onPress={this.handleOnPressSaveImage}
+              iconName="content-save"
+              iconType="material-community"
+              text={i18n.saveImage}
+            />}
           <PXBottomSheetButton
             onPress={this.handleOnPressShareIllust}
             iconName="share"
@@ -377,7 +412,7 @@ class Detail extends Component {
   }
 }
 
-export default connectLocalization(
+export default enhanceSaveImage(
   connect(
     () => {
       const getDetailItem = makeGetDetailItem();
