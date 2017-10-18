@@ -10,6 +10,7 @@ import {
 import { connect } from 'react-redux';
 import DetailFooter from './DetailFooter';
 import PXCacheImageTouchable from './PXCacheImageTouchable';
+import UgoiraViewTouchable from './UgoiraViewTouchable';
 import PXBottomSheet from './PXBottomSheet';
 import PXBottomSheetButton from './PXBottomSheetButton';
 import PXBottomSheetCancelButton from './PXBottomSheetCancelButton';
@@ -257,6 +258,37 @@ class DetailImageList extends Component {
     );
   };
 
+  renderImageOrUgoira = isMute => {
+    const { item, onPressImage, onLongPressImage } = this.props;
+    if (isMute) {
+      return (
+        <View style={styles.mutedImageContainer}>
+          <OverlayMutedIndicator />
+        </View>
+      );
+    } else if (item.type === 'ugoira') {
+      return <UgoiraViewTouchable item={item} />;
+    }
+    return (
+      <PXCacheImageTouchable
+        uri={item.image_urls.medium}
+        initWidth={
+          item.width > globalStyleVariables.WINDOW_WIDTH
+            ? globalStyleVariables.WINDOW_WIDTH
+            : item.width
+        }
+        initHeight={
+          globalStyleVariables.WINDOW_WIDTH * item.height / item.width
+        }
+        style={styles.imageContainer}
+        imageStyle={styles.image}
+        onPress={onPressImage}
+        onLongPress={onLongPressImage}
+        index={0}
+      />
+    );
+  };
+
   renderFooter = () => {
     const { item, navigation, i18n, authUser, tags } = this.props;
     return (
@@ -284,8 +316,6 @@ class DetailImageList extends Component {
       highlightTags,
       muteTags,
       isMuteUser,
-      onPressImage,
-      onLongPressImage,
     } = this.props;
     const {
       imagePageNumber,
@@ -323,29 +353,7 @@ class DetailImageList extends Component {
               scrollEventThrottle={16}
               bounces={false}
             >
-              {isMute
-                ? <View style={styles.mutedImageContainer}>
-                    <OverlayMutedIndicator />
-                  </View>
-                : <PXCacheImageTouchable
-                    uri={item.image_urls.medium}
-                    initWidth={
-                      item.width > globalStyleVariables.WINDOW_WIDTH
-                        ? globalStyleVariables.WINDOW_WIDTH
-                        : item.width
-                    }
-                    initHeight={
-                      globalStyleVariables.WINDOW_WIDTH *
-                      item.height /
-                      item.width
-                    }
-                    style={styles.imageContainer}
-                    imageStyle={styles.image}
-                    onPress={onPressImage}
-                    onLongPress={onLongPressImage}
-                    index={0}
-                  />}
-
+              {this.renderImageOrUgoira(isMute)}
               {this.renderFooter()}
             </ScrollView>}
         <PXBottomSheet
