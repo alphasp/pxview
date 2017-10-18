@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
 import com.facebook.react.ReactApplication;
+import com.rnziparchive.RNZipArchivePackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.cmcewen.blurview.BlurViewPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
@@ -20,11 +21,11 @@ import com.smixx.fabric.FabricPackage;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
-import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.utopia.pxview.UgoiraView.UgoiraViewPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,6 +43,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new RNSpinkitPackage(),
            new MainReactPackage(),
+            new UgoiraViewPackage(),
+            new RNZipArchivePackage(),
             new LinearGradientPackage(),
             new BlurViewPackage(),
             new SplashScreenReactPackage(),
