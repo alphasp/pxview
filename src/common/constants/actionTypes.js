@@ -263,6 +263,12 @@ export const UNFOLLOW_USER = defineAction(
   appNamespace,
 );
 
+export const UGOIRA_META = defineAction(
+  'UGOIRA_META',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
 export const SEARCH_HISTORY = defineAction(
   'SEARCH_HISTORY',
   [ADD, REMOVE, CLEAR],

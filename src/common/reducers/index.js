@@ -32,6 +32,7 @@ import bookmarkIllust from './bookmarkIllust';
 import illustBookmarkDetail from './illustBookmarkDetail';
 import userFollowDetail from './userFollowDetail';
 import addIllustComment from './addIllustComment';
+import ugoiraMeta from './ugoiraMeta';
 import browsingHistory from './browsingHistory';
 import highlightTags from './highlightTags';
 import muteTags from './muteTags';
@@ -79,6 +80,7 @@ const rootReducer = combineReducers({
   bookmarkIllust,
   illustBookmarkDetail,
   addIllustComment,
+  ugoiraMeta,
   browsingHistory,
   highlightTags,
   muteTags,
