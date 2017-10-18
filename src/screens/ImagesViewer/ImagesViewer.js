@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View, StatusBar } from 'react-native';
 import {
   TabViewAnimated,
   TabViewPagerScroll,
@@ -10,12 +10,12 @@ import PXPhotoView from '../../components/PXPhotoView';
 import HeaderTextTitle from '../../components/HeaderTextTitle';
 import HeaderSaveImageButton from '../../components/HeaderSaveImageButton';
 import Loader from '../../components/Loader';
-import { globalStyles, globalStyleVariables } from '../../styles';
+import { globalStyles } from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
+    backgroundColor: '#000',
   },
   slide: {
     flex: 1,
@@ -36,6 +36,7 @@ class ImagesViewer extends Component {
       routes: images.map(image => ({
         key: image.toString(),
       })),
+      hideHeader: true,
     };
   }
 
@@ -45,6 +46,12 @@ class ImagesViewer extends Component {
         image =>
           image.url === imageUrl ? { ...image, loading: false } : image,
       ),
+    }));
+  };
+
+  handleOnPressImage = () => {
+    this.setState(prevState => ({
+      hideHeader: !prevState.hideHeader,
     }));
   };
 
@@ -60,8 +67,14 @@ class ImagesViewer extends Component {
     const image = this.state.images[index];
     return (
       <View key={image.url} style={styles.slide}>
-        {image.loading && <Loader absolutePosition />}
-        <PXPhotoView uri={image.url} onLoad={this.handleOnImageLoaded} />
+        {image.loading &&
+          <Loader absolutePosition style={styles.loader} color="#fff" />}
+        <PXPhotoView
+          uri={image.url}
+          onLoad={this.handleOnImageLoaded}
+          onTap={this.handleOnPressImage}
+          onViewTap={this.handleOnPressImage}
+        />
       </View>
     );
   };
@@ -72,20 +85,24 @@ class ImagesViewer extends Component {
 
   render() {
     const { images } = this.props.navigation.state.params;
-    const { index } = this.state;
+    const { index, hideHeader } = this.state;
     const selectedImages = [images[index]];
     return (
       <View style={styles.container}>
-        <PXHeader
-          darkTheme
-          showBackButton
-          headerTitle={
-            <HeaderTextTitle>
-              {images.length > 1 ? `${index + 1}/${images.length}` : null}
-            </HeaderTextTitle>
-          }
-          headerRight={<HeaderSaveImageButton imageUrls={selectedImages} />}
-        />
+        <StatusBar hidden={hideHeader} barStyle="light-content" translucent />
+        {!hideHeader &&
+          <PXHeader
+            darkTheme
+            hideStatusBar
+            absolutePosition
+            showBackButton
+            headerTitle={
+              <HeaderTextTitle>
+                {images.length > 1 ? `${index + 1}/${images.length}` : null}
+              </HeaderTextTitle>
+            }
+            headerRight={<HeaderSaveImageButton imageUrls={selectedImages} />}
+          />}
         <TabViewAnimated
           style={globalStyles.container}
           navigationState={this.state}

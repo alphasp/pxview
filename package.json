@@ -8,7 +8,7 @@
     "lint": "eslint src --fix",
     "test": "jest",
     "test:watch": "jest --watch --coverage",
-    "android": "node node_modules/react-native/local-cli/cli.js run-android",
+    "android": "react-native run-android",
     "android-release": "react-native run-android --variant=release",
     "android-clean": "cd android && ./gradlew clean",
     "ios": "react-native run-ios",
