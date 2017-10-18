@@ -16,11 +16,14 @@ const styles = StyleSheet.create({
   text: {
     marginTop: 5,
   },
+  icon: {
+    backgroundColor: 'transparent',
+  },
 });
 
 const OverlayPlayIcon = () =>
   <View style={styles.container}>
-    <Icon name="play-circle" size={60} />
+    <Icon name="play-circle" size={80} style={styles.icon} />
   </View>;
 
 export default OverlayPlayIcon;
