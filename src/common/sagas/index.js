@@ -37,6 +37,7 @@ import { watchFetchUserFollowDetail } from './userFollowDetail';
 import { watchBookmarkIllust, watchUnbookmarkIllust } from './bookmarkIllust';
 import { watchFollowUser, watchUnfollowUser } from './followUser';
 import { watchAddIllustComment } from './addIllustComment';
+import { watchFetchUgoiraMeta } from './ugoiraMeta';
 import { watchFetchMyAccountState } from './myAccountState';
 import { watchEditAccount } from './editAccount';
 import { watchSendVerificationEmail } from './verificationEmail';
@@ -81,6 +82,7 @@ export default function* rootSaga() {
     watchFollowUser(),
     watchUnfollowUser(),
     watchAddIllustComment(),
+    watchFetchUgoiraMeta(),
     watchFetchMyAccountState(),
     watchEditAccount(),
     watchSendVerificationEmail(),

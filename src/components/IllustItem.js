@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
 import OverlayImagePages from './OverlayImagePages';
+import OverlayUgoiraIndicator from './OverlayUgoiraIndicator';
 import OverlayBookmarkButton from '../components/OverlayBookmarkButton';
 import OverlayMutedIndicator from '../components/OverlayMutedIndicator';
 import { globalStyleVariables } from '../styles';
@@ -84,6 +85,7 @@ class IllustItem extends Component {
         {item.meta_pages && item.meta_pages.length
           ? <OverlayImagePages total={item.meta_pages.length} />
           : null}
+        {item.type === 'ugoira' && <OverlayUgoiraIndicator />}
       </PXTouchable>
     );
   }

@@ -9,10 +9,10 @@ export const BACKGROUND_COLOR = '#E9EBEE';
 export const HIGHLIGHT_COLOR = 'green';
 export const MUTE_COLOR = 'red';
 
-export const WINDOW_WIDTH = Dimensions.get('window').width;
-export const WINDOW_HEIGHT = Dimensions.get('window').height;
+export const WINDOW_WIDTH = Math.floor(Dimensions.get('window').width);
+export const WINDOW_HEIGHT = Math.floor(Dimensions.get('window').height);
 
 export const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 export const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
 export const DRAWER_WIDTH =
-  Dimensions.get('window').width - (Platform.OS === 'android' ? 56 : 64);
+  WINDOW_WIDTH - (Platform.OS === 'android' ? 56 : 64);

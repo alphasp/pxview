@@ -48,6 +48,9 @@
         "jsx": true,
         "experimentalObjectRestSpread": true
     },
+    "settings": {
+        "import/resolver": "react-native"
+    },
     "plugins": [
         "react",
         "react-native",

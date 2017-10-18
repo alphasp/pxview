@@ -91,8 +91,8 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = true
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "com.utopia.pxview"
@@ -145,10 +145,13 @@ android {
 }
 
 repositories {
+    mavenCentral()
     maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://maven.google.com' }
 }
 
 dependencies {
+    compile project(':react-native-zip-archive')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-blur')
     compile project(':react-native-splash-screen')
@@ -170,6 +173,10 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
     }
+    compile 'com.github.bumptech.glide:glide:4.2.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.5'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
