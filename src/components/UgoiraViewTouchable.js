@@ -151,7 +151,10 @@ class UgoiraViewTouchable extends Component {
       globalStyleVariables.WINDOW_WIDTH * item.height / item.width,
     );
     return (
-      <TouchableWithoutFeedback onPress={this.fetchUgoiraMetaOrToggleAnimation}>
+      <TouchableWithoutFeedback
+        onPress={this.fetchUgoiraMetaOrToggleAnimation}
+        disabled={(ugoiraMeta && ugoiraMeta.loading) || isDownloadingZip}
+      >
         <View
           style={[
             styles.imageContainer,
