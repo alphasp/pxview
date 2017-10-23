@@ -14,6 +14,7 @@ const AnimatableIcon = Animatable.createAnimatableComponent(Icon);
 class BookmarkButton extends Component {
   static propTypes = {
     authUser: PropTypes.object,
+    loading: PropTypes.bool.isRequired,
     item: PropTypes.object.isRequired,
     bookmarkIllust: PropTypes.func.isRequired,
     unbookmarkIllust: PropTypes.func.isRequired,
@@ -52,7 +53,8 @@ class BookmarkButton extends Component {
   }
 
   handleOnPress = () => {
-    const { authUser, item, navigation: { navigate } } = this.props;
+    const { authUser, item, loading, navigation: { navigate } } = this.props;
+    if (loading) return;
     const { isBookmark } = this.state;
     if (!authUser) {
       navigate(SCREENS.Login, {
@@ -74,7 +76,14 @@ class BookmarkButton extends Component {
   };
 
   handleOnLongPress = () => {
-    const { authUser, item, navigation: { navigate }, openModal } = this.props;
+    const {
+      authUser,
+      item,
+      navigation: { navigate },
+      loading,
+      openModal,
+    } = this.props;
+    if (loading) return;
     if (!authUser) {
       navigate(SCREENS.Login, {
         onLoginSuccess: () => {
@@ -145,6 +154,7 @@ export default withNavigation(
   connect(
     state => ({
       authUser: state.auth.user,
+      loading: state.bookmarkIllust.loading,
     }),
     { ...bookmarkIllustActionCreators, ...modalActionCreators },
   )(BookmarkButton),
