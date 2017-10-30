@@ -11,6 +11,9 @@ const ILLUST_COLUMNS = 3;
 
 class WalkthroughIllustList extends Component {
   scrollOffset = 0;
+  tmpFps = 0;
+  fps = 0;
+  last = 0;
 
   componentDidMount() {
     const { fetchWalkthroughIllusts, clearWalkthroughIllusts } = this.props;
@@ -29,6 +32,7 @@ class WalkthroughIllustList extends Component {
       totalRowHeight - e.nativeEvent.layout.height,
       0,
     );
+    this.last = Date.now();
     this.autoScroll(listRef, maxScrollableHeight);
     // console.log({
     //   maxScrollableHeight,
@@ -41,25 +45,33 @@ class WalkthroughIllustList extends Component {
 
   autoScroll = (listRef, maxScrollableHeight) => {
     if (this.scrollOffset >= maxScrollableHeight) {
-      clearTimeout(this.autoScrollTimer);
+      cancelAnimationFrame(this.autoScrollTimer);
     } else if (listRef) {
       try {
         // listRef may not have reference of FlatList in certain situation
-        listRef.scrollToOffset({
-          animated: true,
-          offset: (this.scrollOffset += 1),
+        if (this.fps > 30) {
+          listRef.scrollToOffset({
+            animated: false,
+            offset: (this.scrollOffset += 30 / this.fps),
+          });
+        }
+        this.autoScrollTimer = requestAnimationFrame(() => {
+          const offset = Date.now() - this.last;
+          this.tmpFps += 1;
+          if (offset >= 1000) {
+            this.fps = this.tmpFps / offset * 1000;
+            this.last = Date.now();
+            this.tmpFps = 0;
+          }
+          this.autoScroll(listRef, maxScrollableHeight);
         });
-        this.autoScrollTimer = setTimeout(
-          () => this.autoScroll(listRef, maxScrollableHeight),
-          16,
-        );
       } catch (e) {}
     }
   };
 
   componentWillUnmount() {
     if (this.autoScrollTimer) {
-      clearTimeout(this.autoScrollTimer);
+      cancelAnimationFrame(this.autoScrollTimer);
     }
   }
 
