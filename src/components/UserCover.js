@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     backgroundColor: globalStyleVariables.PRIMARY_COLOR,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingLeft: 16,
+    paddingLeft: 0,
   },
   usernameContainer: {
     marginTop: 10,
