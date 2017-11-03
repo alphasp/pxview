@@ -12,10 +12,13 @@ import PXBottomSheetButton from '../../components/PXBottomSheetButton';
 import PXBottomSheetCancelButton from '../../components/PXBottomSheetCancelButton';
 import { connectLocalization } from '../../components/Localization';
 import {
-  RANKING,
-  R18_RANKING,
-  R18_RANKING_G,
-  RANKING_FOR_UI,
+  RANKING_ILLUST,
+  R18_RANKING_ILLUST,
+  R18G_RANKING_ILLUST,
+  RANKING_MANGA,
+  R18_RANKING_MANGA,
+  R18G_RANKING_MANGA,
+  RANKING_TYPES,
 } from '../../common/constants';
 import { globalStyles } from '../../styles';
 
@@ -73,10 +76,23 @@ const styles = StyleSheet.create({
 class PastRanking extends Component {
   constructor(props) {
     super(props);
+    const { rankingType } = props;
+    let mode;
+    if (rankingType === RANKING_TYPES.ILLUST) {
+      this.ranking = RANKING_ILLUST;
+      this.r18Ranking = R18_RANKING_ILLUST;
+      this.r18GRanking = R18G_RANKING_ILLUST;
+      mode = 'day';
+    } else if (rankingType === RANKING_TYPES.MANGA) {
+      this.ranking = RANKING_MANGA;
+      this.r18Ranking = R18_RANKING_MANGA;
+      this.r18GRanking = R18G_RANKING_MANGA;
+      mode = 'day_manga';
+    }
     this.state = {
       isOpenRankingModeBottomSheet: false,
       date: moment().subtract(2, 'days').format('YYYY-MM-DD'),
-      mode: 'day',
+      mode,
     };
   }
 
@@ -112,8 +128,10 @@ class PastRanking extends Component {
     />;
 
   render() {
-    const { user, i18n, navigation } = this.props;
+    const { user, i18n, navigation, rankingMode, rankingType } = this.props;
     const { date, mode, isOpenRankingModeBottomSheet } = this.state;
+    const selectedRankingMode =
+      rankingType === RANKING_TYPES.MANGA ? mode.replace('_manga', '') : mode;
     return (
       <View style={globalStyles.container}>
         <View style={styles.filterContainer}>
@@ -123,7 +141,7 @@ class PastRanking extends Component {
           >
             <View style={styles.rankingPicker}>
               <Text style={styles.rankingPickerText}>
-                {i18n.illust} {this.mapRankingString(camelCase(mode))}
+                {this.mapRankingString(camelCase(selectedRankingMode))}
               </Text>
               <Icon
                 name="caret-down"
@@ -151,7 +169,7 @@ class PastRanking extends Component {
           />
         </View>
         <RankingList
-          rankingMode={RANKING_FOR_UI.PAST}
+          rankingMode={rankingMode}
           options={{ date, mode }}
           navigation={navigation}
         />
@@ -160,18 +178,18 @@ class PastRanking extends Component {
           onCancel={this.handleOnCancelRankingModeBottomSheet}
         >
           <ScrollView>
-            {Object.keys(RANKING).map(ranking =>
-              this.renderRankingOptions(ranking, RANKING[ranking]),
+            {Object.keys(this.ranking).map(ranking =>
+              this.renderRankingOptions(ranking, this.ranking[ranking]),
             )}
             {user &&
               user.x_restrict > 0 &&
-              Object.keys(R18_RANKING).map(ranking =>
-                this.renderRankingOptions(ranking, R18_RANKING[ranking]),
+              Object.keys(this.r18Ranking).map(ranking =>
+                this.renderRankingOptions(ranking, this.r18Ranking[ranking]),
               )}
             {user &&
               user.x_restrict > 1 &&
-              Object.keys(R18_RANKING_G).map(ranking =>
-                this.renderRankingOptions(ranking, R18_RANKING_G[ranking]),
+              Object.keys(this.r18GRanking).map(ranking =>
+                this.renderRankingOptions(ranking, this.r18GRanking[ranking]),
               )}
             <PXBottomSheetCancelButton
               onPress={this.handleOnCancelRankingModeBottomSheet}

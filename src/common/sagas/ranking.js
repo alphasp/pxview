@@ -9,20 +9,30 @@ import Schemas from '../constants/schemas';
 
 function mapRankingMode(rankingMode) {
   switch (rankingMode) {
-    case RANKING_FOR_UI.DAILY:
+    // Illust
+    case RANKING_FOR_UI.DAILY_ILLUST:
       return 'day';
-    case RANKING_FOR_UI.DAILY_MALE:
+    case RANKING_FOR_UI.DAILY_MALE_ILLUST:
       return 'day_male';
-    case RANKING_FOR_UI.DAILY_FEMALE:
+    case RANKING_FOR_UI.DAILY_FEMALE_ILLUST:
       return 'day_female';
-    case RANKING_FOR_UI.WEEKLY_ORIGINAL:
+    case RANKING_FOR_UI.WEEKLY_ORIGINAL_ILLUST:
       return 'week_original';
-    case RANKING_FOR_UI.WEEKLY_ROOKIE:
+    case RANKING_FOR_UI.WEEKLY_ROOKIE_ILLUST:
       return 'week_rookie';
-    case RANKING_FOR_UI.WEEKLY:
+    case RANKING_FOR_UI.WEEKLY_ILLUST:
       return 'week';
-    case RANKING_FOR_UI.MONTHLY:
+    case RANKING_FOR_UI.MONTHLY_ILLUST:
       return 'month';
+    // Manga
+    case RANKING_FOR_UI.DAILY_MANGA:
+      return 'day_manga';
+    case RANKING_FOR_UI.WEEKLY_MANGA:
+      return 'week_manga';
+    case RANKING_FOR_UI.MONTHLY_MANGA:
+      return 'month_manga';
+    case RANKING_FOR_UI.WEEKLY_ROOKIE_MANGA:
+      return 'week_rookie_manga';
     default:
       return null;
   }

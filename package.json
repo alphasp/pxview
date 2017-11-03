@@ -50,6 +50,7 @@
     "react-native-photo-view": "github:alphasp/react-native-photo-view",
     "react-native-progress": "^3.3.0",
     "react-native-share": "^1.0.21",
+    "react-native-snap-carousel": "^3.3.4",
     "react-native-spinkit": "^1.1.1",
     "react-native-splash-screen": "^3.0.1",
     "react-native-tab-view": "0.0.69",
