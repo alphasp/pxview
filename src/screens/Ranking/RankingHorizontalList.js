@@ -65,6 +65,15 @@ class RankingHorizontalList extends Component {
     });
   };
 
+  handleOnPressItem = item => {
+    const { items, navigation: { navigate } } = this.props;
+    const index = items.findIndex(i => i.id === item.id);
+    navigate(SCREENS.Detail, {
+      items,
+      index,
+    });
+  };
+
   mapRankingTypeString = rankingType => {
     const { i18n } = this.props;
     switch (rankingType) {
