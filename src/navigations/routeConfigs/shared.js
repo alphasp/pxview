@@ -7,6 +7,7 @@ import UserBookmarkIllusts from '../../screens/Shared/UserBookmarkIllusts';
 import RelatedIllusts from '../../screens/Shared/RelatedIllusts';
 import SearchResultTabs from '../../screens/Shared/SearchResultTabs';
 import RecommendedUsers from '../../screens/Shared/RecommendedUsers';
+import ImagesViewer from '../../screens/Shared/ImagesViewer';
 import { SCREENS } from '../../common/constants';
 
 const config = {
@@ -20,6 +21,12 @@ const config = {
   [SCREENS.UserDetail]: {
     screen: UserDetail,
     path: '(member.php|user)/:uid?',
+    navigationOptions: {
+      header: null,
+    },
+  },
+  [SCREENS.ImagesViewer]: {
+    screen: ImagesViewer,
     navigationOptions: {
       header: null,
     },

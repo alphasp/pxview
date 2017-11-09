@@ -2,9 +2,7 @@ import { StackNavigator } from 'react-navigation';
 import AppTabNavigator from './AppTabNavigator';
 import AppDrawerNavigator from './AppDrawerNavigator';
 import enhanceRouter from './routers/enhanceRouter';
-// import Login from '../screens/Login/Login';
 import SearchFilterModal from '../components/SearchFilterModal';
-import ImagesViewer from '../screens/ImagesViewer/ImagesViewer';
 import AddIllustComment from '../screens/Shared/AddIllustComment';
 import AccountSettings from '../screens/MyPage/AccountSettings/AccountSettings';
 import Encyclopedia from '../screens/Shared/Encyclopedia';
@@ -26,12 +24,6 @@ const appRouteConfig = {
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.searchDisplayOptions,
     }),
-  },
-  [SCREENS.ImagesViewer]: {
-    screen: ImagesViewer,
-    navigationOptions: {
-      header: null,
-    },
   },
   [SCREENS.AddIllustComment]: {
     screen: AddIllustComment,
