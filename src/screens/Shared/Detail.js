@@ -30,6 +30,7 @@ import * as muteUsersActionCreators from '../../common/actions/muteUsers';
 import * as illustDetailActionCreators from '../../common/actions/illustDetail';
 import { makeGetDetailItem } from '../../common/selectors';
 import { SCREENS } from '../../common/constants';
+import { globalStyleVariables } from '../../styles';
 
 const THUMBNAIL_SIZE = 30;
 
@@ -40,6 +41,11 @@ const styles = StyleSheet.create({
   headerTitleContainer: {
     flex: 1,
     alignItems: Platform.OS === 'android' ? 'flex-start' : 'center',
+    ...Platform.select({
+      ios: {
+        maxWidth: globalStyleVariables.WINDOW_WIDTH - 150,
+      },
+    }),
   },
   headerThumnailNameContainer: {
     flexDirection: 'row',
