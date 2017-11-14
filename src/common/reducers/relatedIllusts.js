@@ -37,8 +37,10 @@ export default function relatedIllusts(state = {}, action) {
             state[action.payload.illustId] &&
             state[action.payload.illustId].items
               ? [
-                  ...state[action.payload.illustId].items,
-                  ...action.payload.items,
+                  ...new Set([
+                    ...state[action.payload.illustId].items,
+                    ...action.payload.items,
+                  ]),
                 ]
               : action.payload.items,
           nextUrl: action.payload.nextUrl,

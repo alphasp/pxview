@@ -45,8 +45,10 @@ export default function bookmarkTags(
           items:
             state[action.payload.tagType] && state[action.payload.tagType].items
               ? [
-                  ...state[action.payload.tagType].items,
-                  ...action.payload.items,
+                  ...new Set([
+                    ...state[action.payload.tagType].items,
+                    ...action.payload.items,
+                  ]),
                 ]
               : action.payload.items,
           offset: action.payload.offset,

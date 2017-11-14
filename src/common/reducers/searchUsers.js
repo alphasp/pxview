@@ -41,8 +41,10 @@ export default function searchUsers(state = initState, action) {
             state[action.payload.navigationStateKey] &&
             state[action.payload.navigationStateKey].items
               ? [
-                  ...state[action.payload.navigationStateKey].items,
-                  ...action.payload.items,
+                  ...new Set([
+                    ...state[action.payload.navigationStateKey].items,
+                    ...action.payload.items,
+                  ]),
                 ]
               : action.payload.items,
           nextUrl: action.payload.nextUrl,

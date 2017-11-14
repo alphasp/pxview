@@ -28,7 +28,12 @@ export default function userBookmarkIllusts(state = {}, action) {
           refreshing: false,
           items:
             state[action.payload.userId] && state[action.payload.userId].items
-              ? [...state[action.payload.userId].items, ...action.payload.items]
+              ? [
+                  ...new Set([
+                    ...state[action.payload.userId].items,
+                    ...action.payload.items,
+                  ]),
+                ]
               : action.payload.items,
           nextUrl: action.payload.nextUrl,
           timestamp: action.payload.timestamp,

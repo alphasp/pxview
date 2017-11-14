@@ -27,7 +27,7 @@ export default function recommendedIllusts(state = initState, action) {
         loading: false,
         loaded: true,
         refreshing: false,
-        items: [...state.items, ...action.payload.items],
+        items: [...new Set([...state.items, ...action.payload.items])],
         offset: action.payload.offset,
         nextUrl: action.payload.nextUrl,
         timestamp: action.payload.timestamp,
