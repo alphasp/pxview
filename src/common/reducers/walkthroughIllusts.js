@@ -23,7 +23,7 @@ export default function walkthroughIllusts(state = initState, action) {
         loading: false,
         loaded: true,
         refreshing: false,
-        items: [...state.items, ...action.payload.items],
+        items: [...new Set([...state.items, ...action.payload.items])],
         timestamp: action.payload.timestamp,
       };
     case WALKTHROUGH_ILLUSTS.FAILURE:

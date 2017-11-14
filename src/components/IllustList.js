@@ -41,7 +41,7 @@ class IllustList extends Component {
       item={item}
       index={index}
       numColumns={ILLUST_COLUMNS}
-      onPressItem={() => this.handleOnPressItem(item)}
+      onPressItem={() => this.handleOnPressItem(item, index)}
     />;
 
   renderFooter = () => {
@@ -53,7 +53,7 @@ class IllustList extends Component {
       : null;
   };
 
-  handleOnPressItem = item => {
+  handleOnPressItem = (item, index) => {
     const {
       data: { items },
       navigation: { navigate },
@@ -61,7 +61,6 @@ class IllustList extends Component {
       listKey,
       maxItems,
     } = this.props;
-    const index = items.findIndex(i => i.id === item.id);
     navigate(SCREENS.Detail, {
       items: maxItems ? items.slice(0, maxItems) : items,
       index,

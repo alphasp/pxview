@@ -24,7 +24,7 @@ export default function newIllusts(state = initState, action) {
         loading: false,
         loaded: true,
         refreshing: false,
-        items: [...state.items, ...action.payload.items],
+        items: [...new Set([...state.items, ...action.payload.items])],
         nextUrl: action.payload.nextUrl,
         timestamp: action.payload.timestamp,
       };
