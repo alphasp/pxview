@@ -8,14 +8,13 @@ class UgoiraView extends Component {
     this.state = {
       imageIndex: 0,
     };
+    this.frame = null;
+    this.lastFrameTime = null;
+    this.currentFramePlayedTime = 0;
   }
 
   componentDidMount() {
-    const { images } = this.props;
-    const { imageIndex } = this.state;
-    const { delay } = images[imageIndex];
-    this.remaining = delay;
-    this.displayFrame(this.remaining);
+    this.resumeFrame();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,42 +30,35 @@ class UgoiraView extends Component {
   }
 
   componentWillUnmount() {
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
+    cancelAnimationFrame(this.frame);
   }
 
-  displayFrame = delay => {
-    this.timer = setTimeout(() => {
-      const { images } = this.props;
-      const { imageIndex } = this.state;
+  displayFrame = () => {
+    const { images } = this.props;
+    const { imageIndex } = this.state;
+    const now = new Date();
+    if (now - this.lastFrameTime > images[imageIndex].delay) {
+      this.lastFrameTime = now;
       const index = imageIndex + 1;
       if (index >= images.length) {
         this.setState({
           imageIndex: 0,
         });
+      } else {
+        this.setState({ imageIndex: index });
       }
-      this.nextFrame();
-    }, delay);
-  };
-
-  nextFrame = () => {
-    const { images } = this.props;
-    const { imageIndex } = this.state;
-    const index = imageIndex + 1;
-    this.setState({ imageIndex: index });
-    this.displayFrame(images[index].delay);
+    }
+    this.frame = requestAnimationFrame(() => this.displayFrame());
   };
 
   pauseFrame = () => {
-    clearTimeout(this.timer);
-    this.remaining -= new Date() - this.start;
+    this.currentFramePlayedTime = new Date() - this.lastFrameTime;
+    cancelAnimationFrame(this.frame);
   };
 
   resumeFrame = () => {
-    this.start = new Date();
-    clearTimeout(this.timer);
-    this.displayFrame(this.remaining);
+    this.lastFrameTime = new Date() - this.currentFramePlayedTime;
+    this.frame = requestAnimationFrame(() => this.displayFrame());
   };
 
   render() {
