@@ -9,7 +9,7 @@ import {
 const PXFormInput = props => {
   const {
     label,
-    meta: { touched, error },
+    meta: { touched, dirty, error },
     labelStyle,
     inputStyle,
     errorTextStyle,
@@ -21,7 +21,15 @@ const PXFormInput = props => {
       <FormLabel labelStyle={labelStyle}>
         {label}
       </FormLabel>
-      <FormInput inputStyle={inputStyle} {...input} {...restProps} />
+      <FormInput
+        inputStyle={inputStyle}
+        {...input}
+        {...restProps}
+        onChangeText={text => {
+          input.onChange(text);
+        }}
+        value={props.text || (dirty ? undefined : input.value)}
+      />
       {touched &&
         error &&
         <FormValidationMessage>
