@@ -19,7 +19,7 @@ import PXViewPager from '../../components/PXViewPager';
 import PXBottomSheet from '../../components/PXBottomSheet';
 import PXBottomSheetButton from '../../components/PXBottomSheetButton';
 import PXBottomSheetCancelButton from '../../components/PXBottomSheetCancelButton';
-import BookmarkButton from '../../components/BookmarkButton';
+import BookmarkIllustButton from '../../components/BookmarkIllustButton';
 import Loader from '../../components/Loader';
 import PXTouchable from '../../components/PXTouchable';
 import PXThumbnail from '../../components/PXThumbnail';
@@ -377,7 +377,7 @@ class Detail extends Component {
           <ActionButton
             buttonColor="rgba(255,255,255,1)"
             bgColor="red"
-            icon={<BookmarkButton item={item} />}
+            icon={<BookmarkIllustButton item={item} />}
           />}
         <PXBottomSheet
           visible={isOpenMenuBottomSheet}

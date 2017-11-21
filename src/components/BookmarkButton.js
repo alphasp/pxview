@@ -1,25 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Animated } from 'react-native';
-import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as Animatable from 'react-native-animatable';
-import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
-import * as modalActionCreators from '../common/actions/modal';
-import { MODAL_TYPES, SCREENS } from '../common/constants';
 
 const AnimatableIcon = Animatable.createAnimatableComponent(Icon);
 
 class BookmarkButton extends Component {
   static propTypes = {
-    authUser: PropTypes.object,
-    loading: PropTypes.bool.isRequired,
     item: PropTypes.object.isRequired,
-    bookmarkIllust: PropTypes.func.isRequired,
-    unbookmarkIllust: PropTypes.func.isRequired,
-    navigation: PropTypes.object.isRequired,
-    openModal: PropTypes.func.isRequired,
+    onPress: PropTypes.func.isRequired,
+    onLongPress: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -53,59 +44,18 @@ class BookmarkButton extends Component {
   }
 
   handleOnPress = () => {
-    const { authUser, item, loading, navigation: { navigate } } = this.props;
-    if (loading) return;
+    const { onPress } = this.props;
     const { isBookmark } = this.state;
-    if (!authUser) {
-      navigate(SCREENS.Login, {
-        onLoginSuccess: () => {
-          this.bookmarkIllust(item.id);
-        },
-      });
-    } else {
-      this.animateBookmark();
-      this.setState({
-        isBookmark: !isBookmark,
-      });
-      if (item.is_bookmarked) {
-        this.unbookmarkIllust(item.id);
-      } else {
-        this.bookmarkIllust(item.id);
-      }
-    }
+    this.animateBookmark();
+    this.setState({
+      isBookmark: !isBookmark,
+    });
+    onPress();
   };
 
   handleOnLongPress = () => {
-    const {
-      authUser,
-      item,
-      navigation: { navigate },
-      loading,
-      openModal,
-    } = this.props;
-    if (loading) return;
-    if (!authUser) {
-      navigate(SCREENS.Login, {
-        onLoginSuccess: () => {
-          this.bookmarkIllust(item.id);
-        },
-      });
-    } else {
-      openModal(MODAL_TYPES.BOOKMARK, {
-        illustId: item.id,
-        isBookmark: item.is_bookmarked,
-      });
-    }
-  };
-
-  bookmarkIllust = id => {
-    const { bookmarkIllust } = this.props;
-    bookmarkIllust(id);
-  };
-
-  unbookmarkIllust = id => {
-    const { unbookmarkIllust } = this.props;
-    unbookmarkIllust(id);
+    const { onLongPress } = this.props;
+    onLongPress();
   };
 
   animateBookmark = () => {
@@ -120,17 +70,13 @@ class BookmarkButton extends Component {
   };
 
   render() {
-    const { size } = this.props;
+    const { size, onLongPress } = this.props;
     const { isBookmark, scaleAnim } = this.state;
     const color = isBookmark ? 'rgb(255,102,102)' : 'rgb(210, 212, 216)';
     const scale = scaleAnim.interpolate({
       inputRange: [0, 0.5, 1],
       outputRange: [1, 0.8, 1],
     });
-    // const color = this.state.colorAnim.interpolate({
-    //   inputRange: [0, 1],
-    //   outputRange: ['rgb(210, 212, 216)', 'rgb(255,102,102)']
-    // })
     return (
       <AnimatableIcon
         name="favorite"
@@ -144,18 +90,10 @@ class BookmarkButton extends Component {
         }}
         size={size || 24}
         onPress={this.handleOnPress}
-        onLongPress={this.handleOnLongPress}
+        onLongPress={onLongPress}
       />
     );
   }
 }
 
-export default withNavigation(
-  connect(
-    state => ({
-      authUser: state.auth.user,
-      loading: state.bookmarkIllust.loading,
-    }),
-    { ...bookmarkIllustActionCreators, ...modalActionCreators },
-  )(BookmarkButton),
-);
+export default BookmarkButton;
