@@ -23,21 +23,22 @@ class PXViewPager extends Component {
     const { onPageSelected } = this.props;
     const index = e.nativeEvent.position;
     onPageSelected(index);
-    if (index >= items.length - 2) {
+    if (onEndReached && index >= items.length - 2) {
       onEndReached();
     }
   };
 
   renderContentForAndroid = () => {
-    const { items, renderContent, index } = this.props;
+    const { items, keyExtractor, renderContent, index } = this.props;
     // console.log('renderContentForAndroid ', items);
     const size = Math.floor(LIST_WINDOW_SIZE / 2);
     return items.map((item, i) => {
       if (i >= index - size && i <= index + size) {
-        return renderContent({ item });
+        return renderContent({ item, index: i });
       }
+      const key = keyExtractor(item, i);
       return (
-        <View key={item.id}>
+        <View key={key}>
           <Loader />
         </View>
       );
@@ -45,10 +46,18 @@ class PXViewPager extends Component {
   };
 
   render() {
-    const { items, index, renderContent, onEndReached } = this.props;
+    const {
+      items,
+      index,
+      keyExtractor,
+      renderContent,
+      onEndReached,
+      viewPagerRef,
+    } = this.props;
     if (Platform.OS === 'android') {
       return (
         <ViewPagerAndroid
+          ref={viewPagerRef}
           key={`pxViewPager-${items.length}`} // https://github.com/facebook/react-native/issues/4775
           initialPage={index}
           style={globalStyles.container}
@@ -60,9 +69,9 @@ class PXViewPager extends Component {
     }
     return (
       <FlatList
-        ref={ref => (this.flatList = ref)}
+        ref={viewPagerRef}
         data={items}
-        keyExtractor={item => item.id}
+        keyExtractor={keyExtractor}
         renderItem={renderContent}
         scrollEventThrottle={16}
         onMomentumScrollEnd={this.handleOnIOSViewPagerPageSelected}
