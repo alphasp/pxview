@@ -10,9 +10,7 @@ import {
   Modal,
   Switch,
   Keyboard,
-  Dimensions,
 } from 'react-native';
-import { connect } from 'react-redux';
 import { MKCheckbox } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
@@ -20,9 +18,6 @@ import Toast, { DURATION } from 'react-native-easy-toast';
 import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
 import Separator from '../components/Separator';
-import * as illustBookmarkDetailActionCreators from '../common/actions/illustBookmarkDetail';
-import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
-import * as modalActionCreators from '../common/actions/modal';
 import { BOOKMARK_TYPES } from '../common/constants';
 import { globalStyleVariables } from '../styles';
 
@@ -36,10 +31,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   innerContainer: {
-    // borderRadius: 10,
-    // alignItems: 'center',
     backgroundColor: '#fff',
-    // padding: 20
   },
   titleContainer: {
     backgroundColor: '#E9EBEE',
@@ -47,13 +39,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: 'bold',
-    // fontSize: 20,
   },
   subTitleContainer: {
     paddingTop: 10,
     paddingHorizontal: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  tagsContainer: {
+    maxHeight: globalStyleVariables.WINDOW_HEIGHT - 300,
   },
   newTagContainer: {
     padding: 10,
@@ -93,13 +87,11 @@ const styles = StyleSheet.create({
 
 class BookmarkModal extends Component {
   static propTypes = {
-    illustId: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
     isBookmark: PropTypes.bool.isRequired,
-    fetchIllustBookmarkDetail: PropTypes.func.isRequired,
-    clearIllustBookmarkDetail: PropTypes.func.isRequired,
-    bookmarkIllust: PropTypes.func.isRequired,
-    unbookmarkIllust: PropTypes.func.isRequired,
-    closeModal: PropTypes.func.isRequired,
+    onPressBookmark: PropTypes.func.isRequired,
+    onPressRemoveBookmark: PropTypes.func.isRequired,
+    onModalClose: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -112,19 +104,9 @@ class BookmarkModal extends Component {
     };
   }
 
-  componentDidMount() {
-    const {
-      illustId,
-      fetchIllustBookmarkDetail,
-      clearIllustBookmarkDetail,
-    } = this.props;
-    clearIllustBookmarkDetail(illustId);
-    fetchIllustBookmarkDetail(illustId);
-  }
-
   componentWillReceiveProps(nextProps) {
-    const { illustBookmarkDetail: { item: prevItem } } = this.props;
-    const { illustBookmarkDetail: { item } } = nextProps;
+    const { item: prevItem } = this.props;
+    const { item } = nextProps;
     if (item && item !== prevItem) {
       const selectedTagsCount = this.countSelectedTags(item.tags);
       const tags = item.tags.map(tag => ({
@@ -175,8 +157,6 @@ class BookmarkModal extends Component {
         editable: !!(selectedTagsCount < MAX_TAGS_COUNT || isRegistered),
       };
     });
-    // selectedTagsCount < 3 || item.is_registered) ? true :
-    // const selectedTagsCount = this.countSelectedTags(updatedTags);
     this.setState({
       tags: updatedTags,
       selectedTagsCount,
@@ -188,7 +168,7 @@ class BookmarkModal extends Component {
     tags.reduce((count, tag) => (tag.is_registered ? ++count : count), 0);
 
   handleOnPressBookmarkButton = () => {
-    const { illustId } = this.props;
+    const { id, onPressBookmark } = this.props;
     const { tags, isPrivate } = this.state;
     const selectedTags = tags
       .filter(tag => tag.is_registered)
@@ -196,19 +176,12 @@ class BookmarkModal extends Component {
     const bookmarkType = isPrivate
       ? BOOKMARK_TYPES.PRIVATE
       : BOOKMARK_TYPES.PUBLIC;
-    this.bookmarkIllust(illustId, bookmarkType, selectedTags);
-    this.handleOnModalClose();
+    onPressBookmark(id, bookmarkType, selectedTags);
   };
 
   handleOnPressRemoveButton = () => {
-    const { illustId } = this.props;
-    this.unbookmarkIllust(illustId);
-    this.handleOnModalClose();
-  };
-
-  handleOnModalClose = () => {
-    const { closeModal } = this.props;
-    closeModal();
+    const { id, onPressRemoveBookmark } = this.props;
+    onPressRemoveBookmark(id);
   };
 
   handleOnPressAddTag = () => {
@@ -249,16 +222,6 @@ class BookmarkModal extends Component {
     this.tagInput.setNativeProps({ text: '' });
   };
 
-  bookmarkIllust = (id, bookmarkType, selectedTags) => {
-    const { bookmarkIllust } = this.props;
-    bookmarkIllust(id, bookmarkType, selectedTags);
-  };
-
-  unbookmarkIllust = id => {
-    const { unbookmarkIllust } = this.props;
-    unbookmarkIllust(id);
-  };
-
   renderItem = ({ item }) =>
     <PXTouchable onPress={() => this.handleOnCheckTag(item)}>
       <View style={styles.row}>
@@ -274,16 +237,16 @@ class BookmarkModal extends Component {
     </PXTouchable>;
 
   render() {
-    const { isBookmark, i18n } = this.props;
+    const { isBookmark, i18n, onModalClose } = this.props;
     const { tags, selectedTagsCount, isPrivate } = this.state;
     return (
       <Modal
         animationType="fade"
         transparent
         visible
-        onRequestClose={this.handleOnModalClose}
+        onRequestClose={onModalClose}
       >
-        <TouchableWithoutFeedback onPress={this.handleOnModalClose}>
+        <TouchableWithoutFeedback onPress={onModalClose}>
           <View style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View style={styles.innerContainer}>
@@ -312,9 +275,7 @@ class BookmarkModal extends Component {
                     <Icon name="plus" size={20} />
                   </PXTouchable>
                 </View>
-                <View
-                  style={{ maxHeight: Dimensions.get('window').height - 300 }}
-                >
+                <View style={styles.tagsContainer}>
                   <FlatList
                     data={tags}
                     keyExtractor={item => item.name}
@@ -376,15 +337,4 @@ class BookmarkModal extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(
-    state => ({
-      illustBookmarkDetail: state.illustBookmarkDetail,
-    }),
-    {
-      ...illustBookmarkDetailActionCreators,
-      ...bookmarkIllustActionCreators,
-      ...modalActionCreators,
-    },
-  )(BookmarkModal),
-);
+export default connectLocalization(BookmarkModal);

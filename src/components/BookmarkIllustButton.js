@@ -29,7 +29,7 @@ class BookmarkIllustButton extends Component {
   handleOnLongPress = () => {
     const { item, loading, openModal } = this.props;
     if (!loading) {
-      openModal(MODAL_TYPES.BOOKMARK, {
+      openModal(MODAL_TYPES.BOOKMARK_ILLUST, {
         illustId: item.id,
         isBookmark: item.is_bookmarked,
       });

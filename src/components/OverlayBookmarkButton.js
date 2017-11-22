@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import BookmarkButton from '../components/BookmarkButton';
+import BookmarkIllustButton from '../components/BookmarkIllustButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 
 const OverlayBookmarkButton = props =>
   <View style={styles.container}>
-    <BookmarkButton {...props} />
+    <BookmarkIllustButton {...props} />
   </View>;
 
 export default OverlayBookmarkButton;
