@@ -5,10 +5,13 @@ import HtmlView from 'react-native-htmlview';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import RelatedIllusts from '../screens/Shared/RelatedIllusts';
 import IllustComments from '../screens/Shared/IllustComments';
+import NovelComments from '../screens/Shared/NovelComments';
+import NovelSeries from '../screens/Shared/NovelSeries';
 import FollowButtonContainer from '../containers/FollowButtonContainer';
 import Tags from './Tags';
 import PXTouchable from './PXTouchable';
 import PXThumbnail from './PXThumbnail';
+import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
   infoContainer: {
@@ -48,6 +51,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  seriesTitle: {
+    color: globalStyleVariables.PRIMARY_COLOR,
     marginBottom: 5,
   },
   footerSpacer: {
@@ -98,6 +105,11 @@ class DetailFooter extends PureComponent {
               />}
           </View>
           <View style={styles.captionContainer}>
+            {item.series &&
+              item.series.id &&
+              <Text style={styles.seriesTitle}>
+                {item.series.title}
+              </Text>}
             <Text style={styles.title}>
               {item.title}
             </Text>
@@ -130,29 +142,49 @@ class DetailFooter extends PureComponent {
               {i18n.comments}
             </Text>
           </View>
-          <IllustComments
-            illustId={item.id}
-            isFeatureInDetailPage
-            maxItems={6}
-            navigation={navigation}
-          />
+          {item.text_length
+            ? <NovelComments
+                novelId={item.id}
+                isFeatureInDetailPage
+                maxItems={6}
+                navigation={navigation}
+              />
+            : <IllustComments
+                illustId={item.id}
+                isFeatureInDetailPage
+                maxItems={6}
+                navigation={navigation}
+              />}
         </View>
-        <View
-          style={styles.sectionContainer}
-          onLayout={this.handleOnLayoutRelatedIllusts}
-        >
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>
-              {i18n.relatedWorks}
-            </Text>
-          </View>
-          <RelatedIllusts
-            illustId={item.id}
-            isFeatureInDetailPage
-            maxItems={6}
-            navigation={navigation}
-          />
-        </View>
+        {!item.text_length &&
+          <View style={styles.sectionContainer}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>
+                {i18n.relatedWorks}
+              </Text>
+            </View>
+            <RelatedIllusts
+              illustId={item.id}
+              isFeatureInDetailPage
+              maxItems={6}
+              navigation={navigation}
+            />
+          </View>}
+        {item.series &&
+          item.series.id &&
+          <View style={styles.sectionContainer}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>
+                {item.series.title}
+              </Text>
+            </View>
+            <NovelSeries
+              seriesId={item.series.id}
+              isFeatureInDetailPage
+              maxItems={6}
+              navigation={navigation}
+            />
+          </View>}
         {
           /* workaround for missing height in viewpager  */
           <View style={styles.footerSpacer} />

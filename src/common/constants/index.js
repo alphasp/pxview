@@ -11,6 +11,7 @@ export const FOLLOWING_TYPES = {
 export const MODAL_TYPES = {
   FOLLOW: 'FOLLOW',
   BOOKMARK_ILLUST: 'BOOKMARK_ILLUST',
+  BOOKMARK_NOVEL: 'BOOKMARK_NOVEL',
   SIGNUP: 'SIGNUP',
 };
 
@@ -99,7 +100,9 @@ export const SCREENS = {
   SearchFilterModal: 'SearchFilterModal',
   AccountSettingsModal: 'AccountSettingsModal',
   ImagesViewer: 'ImagesViewer',
+  NovelReader: 'NovelReader',
   AddIllustComment: 'AddIllustComment',
+  AddNovelComment: 'AddNovelComment',
   HomeTab: 'HomeTab',
   RankingTab: 'RankingTab',
   TrendingTab: 'TrendingTab',
@@ -110,8 +113,11 @@ export const SCREENS = {
   Trending: 'Trending',
   NewWorks: 'NewWorks',
   Detail: 'Detail',
+  NovelDetail: 'NovelDetail',
   UserDetail: 'UserDetail',
   IllustComments: 'IllustComments',
+  NovelComments: 'NovelComments',
+  NovelSeries: 'NovelSeries',
   RelatedIllusts: 'RelatedIllusts',
   UserIllusts: 'UserIllusts',
   UserMangas: 'UserMangas',

@@ -1,6 +1,10 @@
 import Detail from '../../screens/Shared/Detail';
+import NovelDetail from '../../screens/Shared/NovelDetail';
 import UserDetail from '../../screens/Shared/UserDetail';
 import IllustComments from '../../screens/Shared/IllustComments';
+import NovelComments from '../../screens/Shared/NovelComments';
+import NovelSeries from '../../screens/Shared/NovelSeries';
+import NovelReader from '../../screens/Shared/NovelReader';
 import UserIllusts from '../../screens/Shared/UserIllusts';
 import UserMangas from '../../screens/Shared/UserMangas';
 import UserBookmarkIllusts from '../../screens/Shared/UserBookmarkIllusts';
@@ -18,6 +22,13 @@ const config = {
       header: null,
     },
   },
+  [SCREENS.NovelDetail]: {
+    screen: NovelDetail,
+    // path: '(member_illust.php|illusts)/:illustId?',
+    navigationOptions: {
+      header: null,
+    },
+  },
   [SCREENS.UserDetail]: {
     screen: UserDetail,
     path: '(member.php|user)/:uid?',
@@ -31,11 +42,29 @@ const config = {
       header: null,
     },
   },
+  [SCREENS.NovelReader]: {
+    screen: NovelReader,
+    navigationOptions: {
+      header: null,
+    },
+  },
   [SCREENS.IllustComments]: {
     screen: IllustComments,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.comments,
     }),
+  },
+  [SCREENS.NovelComments]: {
+    screen: NovelComments,
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.comments,
+    }),
+  },
+  [SCREENS.NovelSeries]: {
+    screen: NovelSeries,
+    // navigationOptions: ({ screenProps: { i18n } }) => ({
+    //   title: i18n.comments,
+    // }),
   },
   [SCREENS.RelatedIllusts]: {
     screen: RelatedIllusts,

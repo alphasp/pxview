@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PXTabView from '../../components/PXTabView';
 import RecommendedIllusts from './RecommendedIllusts';
 import RecommendedMangas from './RecommendedMangas';
+import RecommendedNovels from './RecommendedNovels';
 import { connectLocalization } from '../../components/Localization';
 
 class Home extends Component {
@@ -13,6 +14,7 @@ class Home extends Component {
       routes: [
         { key: '1', title: i18n.illustration },
         { key: '2', title: i18n.manga },
+        { key: '3', title: i18n.novel },
       ],
     };
   }
@@ -25,6 +27,7 @@ class Home extends Component {
         routes: [
           { key: '1', title: i18n.illustration },
           { key: '2', title: i18n.manga },
+          { key: '3', title: i18n.novel },
         ],
       });
     }
@@ -41,6 +44,8 @@ class Home extends Component {
         return <RecommendedIllusts navigation={navigation} />;
       case '2':
         return <RecommendedMangas navigation={navigation} />;
+      case '3':
+        return <RecommendedNovels navigation={navigation} />;
       default:
         return null;
     }
