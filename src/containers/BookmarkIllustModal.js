@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import BookmarkModal from './BookmarkModal';
-import { connectLocalization } from '../components/Localization';
 import * as illustBookmarkDetailActionCreators from '../common/actions/illustBookmarkDetail';
 import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
 import * as modalActionCreators from '../common/actions/modal';
@@ -59,15 +58,13 @@ class BookmarkIllustModal extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(
-    state => ({
-      illustBookmarkDetail: state.illustBookmarkDetail,
-    }),
-    {
-      ...illustBookmarkDetailActionCreators,
-      ...bookmarkIllustActionCreators,
-      ...modalActionCreators,
-    },
-  )(BookmarkIllustModal),
-);
+export default connect(
+  state => ({
+    illustBookmarkDetail: state.illustBookmarkDetail,
+  }),
+  {
+    ...illustBookmarkDetailActionCreators,
+    ...bookmarkIllustActionCreators,
+    ...modalActionCreators,
+  },
+)(BookmarkIllustModal);
