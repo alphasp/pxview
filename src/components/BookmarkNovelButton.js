@@ -1,0 +1,57 @@
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import BookmarkButton from './BookmarkButton';
+import * as bookmarkNovelActionCreators from '../common/actions/bookmarkNovel';
+import * as modalActionCreators from '../common/actions/modal';
+import { MODAL_TYPES } from '../common/constants';
+
+class BookmarkNovelButton extends Component {
+  static propTypes = {
+    item: PropTypes.object.isRequired,
+    loading: PropTypes.bool.isRequired,
+    bookmarkNovel: PropTypes.func.isRequired,
+    unbookmarkNovel: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
+  };
+
+  handleOnPress = () => {
+    const { item, loading, bookmarkNovel, unbookmarkNovel } = this.props;
+    if (!loading) {
+      if (item.is_bookmarked) {
+        unbookmarkNovel(item.id);
+      } else {
+        bookmarkNovel(item.id);
+      }
+    }
+  };
+
+  handleOnLongPress = () => {
+    const { item, loading, openModal } = this.props;
+    if (!loading) {
+      openModal(MODAL_TYPES.BOOKMARK_NOVEL, {
+        novelId: item.id,
+        isBookmark: item.is_bookmarked,
+      });
+    }
+  };
+
+  render() {
+    const { item, size } = this.props;
+    return (
+      <BookmarkButton
+        item={item}
+        size={size}
+        onPress={this.handleOnPress}
+        onLongPress={this.handleOnLongPress}
+      />
+    );
+  }
+}
+
+export default connect(
+  state => ({
+    loading: state.bookmarkNovel.loading,
+  }),
+  { ...bookmarkNovelActionCreators, ...modalActionCreators },
+)(BookmarkNovelButton);
