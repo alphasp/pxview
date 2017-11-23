@@ -3,7 +3,7 @@ import { InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../../components/IllustList';
 import * as rankingActionCreators from '../../common/actions/ranking';
-import { makeGetRankingItems } from '../../common/selectors';
+import { makeGetIllustRankingItems } from '../../common/selectors';
 
 class RankingList extends Component {
   componentDidMount() {
@@ -60,7 +60,7 @@ class RankingList extends Component {
 }
 
 export default connect(() => {
-  const getRankingItems = makeGetRankingItems();
+  const getRankingItems = makeGetIllustRankingItems();
   return (state, props) => {
     const { ranking } = state;
     return {

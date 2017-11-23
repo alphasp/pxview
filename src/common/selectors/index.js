@@ -217,7 +217,7 @@ const createTagsWithStatusSelector = createSelectorCreator(
   },
 );
 
-export const makeGetRankingItems = () =>
+export const makeGetIllustRankingItems = () =>
   createIllustItemsSelector(
     [selectRanking, selectEntities, getProps],
     (ranking, entities, props) =>

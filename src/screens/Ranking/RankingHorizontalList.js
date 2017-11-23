@@ -8,7 +8,7 @@ import PXTouchable from '../../components/PXTouchable';
 import { connectLocalization } from '../../components/Localization';
 
 import * as rankingActionCreators from '../../common/actions/ranking';
-import { makeGetRankingItems } from '../../common/selectors';
+import { makeGetIllustRankingItems } from '../../common/selectors';
 import { SCREENS, RANKING_TYPES } from '../../common/constants';
 import { globalStyleVariables } from '../../styles';
 
@@ -135,7 +135,7 @@ class RankingHorizontalList extends Component {
 
 export default connectLocalization(
   connect(() => {
-    const getRankingItems = makeGetRankingItems();
+    const getRankingItems = makeGetIllustRankingItems();
     return (state, props) => {
       const { ranking } = state;
       return {
