@@ -16,9 +16,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const OverlayBookmarkButton = props =>
+const OverlayBookmarkIllustButton = props =>
   <View style={styles.container}>
     <BookmarkIllustButton {...props} />
   </View>;
 
-export default OverlayBookmarkButton;
+export default OverlayBookmarkIllustButton;

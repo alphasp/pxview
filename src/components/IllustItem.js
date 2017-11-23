@@ -5,7 +5,7 @@ import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
 import OverlayImagePages from './OverlayImagePages';
 import OverlayUgoiraIndicator from './OverlayUgoiraIndicator';
-import OverlayBookmarkButton from '../components/OverlayBookmarkButton';
+import OverlayBookmarkIllustButton from '../components/OverlayBookmarkIllustButton';
 import OverlayMutedIndicator from '../components/OverlayMutedIndicator';
 import { globalStyleVariables } from '../styles';
 
@@ -80,7 +80,7 @@ class IllustItem extends Component {
                   imageStyle,
                 ]}
               />
-              <OverlayBookmarkButton item={item} />
+              <OverlayBookmarkIllustButton item={item} />
             </View>}
         {item.meta_pages && item.meta_pages.length
           ? <OverlayImagePages total={item.meta_pages.length} />
