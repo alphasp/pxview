@@ -4,11 +4,15 @@ import entities from './entities';
 import walkthroughIllusts from './walkthroughIllusts';
 import recommendedIllusts from './recommendedIllusts';
 import recommendedMangas from './recommendedMangas';
+import recommendedNovels from './recommendedNovels';
 import relatedIllusts from './relatedIllusts';
 import trendingIllustTags from './trendingIllustTags';
 import recommendedUsers from './recommendedUsers';
 import illustDetail from './illustDetail';
 import illustComments from './illustComments';
+import novelComments from './novelComments';
+import novelSeries from './novelSeries';
+import novelText from './novelText';
 import searchAutoComplete from './searchAutoComplete';
 import search from './search';
 import searchUsers from './searchUsers';
@@ -30,6 +34,8 @@ import newMangas from './newMangas';
 import myPixiv from './myPixiv';
 import bookmarkIllust from './bookmarkIllust';
 import illustBookmarkDetail from './illustBookmarkDetail';
+import bookmarkNovel from './bookmarkNovel';
+import novelBookmarkDetail from './novelBookmarkDetail';
 import userFollowDetail from './userFollowDetail';
 import addIllustComment from './addIllustComment';
 import ugoiraMeta from './ugoiraMeta';
@@ -52,11 +58,15 @@ const rootReducer = combineReducers({
   walkthroughIllusts,
   recommendedIllusts,
   recommendedMangas,
+  recommendedNovels,
   relatedIllusts,
   trendingIllustTags,
   recommendedUsers,
   illustDetail,
   illustComments,
+  novelComments,
+  novelSeries,
+  novelText,
   search,
   ranking,
   searchAutoComplete,
@@ -79,6 +89,8 @@ const rootReducer = combineReducers({
   bookmarkTags,
   bookmarkIllust,
   illustBookmarkDetail,
+  bookmarkNovel,
+  novelBookmarkDetail,
   addIllustComment,
   ugoiraMeta,
   browsingHistory,

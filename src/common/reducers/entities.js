@@ -2,6 +2,8 @@
 import {
   BOOKMARK_ILLUST,
   UNBOOKMARK_ILLUST,
+  BOOKMARK_NOVEL,
+  UNBOOKMARK_NOVEL,
   FOLLOW_USER,
   UNFOLLOW_USER,
   AUTH_LOGOUT,
@@ -11,6 +13,8 @@ export default function entities(
   state = {
     illusts: {},
     illustComments: {},
+    novels: {},
+    novelComments: {},
     users: {},
     userPreviews: {},
     userProfiles: {},
@@ -62,6 +66,34 @@ export default function entities(
           ...state.illusts,
           [action.payload.illustId]: {
             ...state.illusts[action.payload.illustId],
+            is_bookmarked: false,
+          },
+        },
+      };
+    case BOOKMARK_NOVEL.REQUEST:
+      if (!state.novels[action.payload.novelId]) {
+        return state;
+      }
+      return {
+        ...state,
+        novels: {
+          ...state.novels,
+          [action.payload.novelId]: {
+            ...state.novels[action.payload.novelId],
+            is_bookmarked: true,
+          },
+        },
+      };
+    case UNBOOKMARK_NOVEL.REQUEST:
+      if (!state.novels[action.payload.novelId]) {
+        return state;
+      }
+      return {
+        ...state,
+        novels: {
+          ...state.novels,
+          [action.payload.novelId]: {
+            ...state.novels[action.payload.novelId],
             is_bookmarked: false,
           },
         },

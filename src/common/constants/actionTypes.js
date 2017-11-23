@@ -83,6 +83,12 @@ export const RECOMMENDED_MANGAS = defineAction(
   appNamespace,
 );
 
+export const RECOMMENDED_NOVELS = defineAction(
+  'RECOMMENDED_NOVELS',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
 export const ILLUST_DETAIL = defineAction(
   'ILLUST_DETAIL',
   [REQUEST, SUCCESS, FAILURE, CLEAR],
@@ -104,6 +110,24 @@ export const ILLUST_COMMENTS = defineAction(
 export const ADD_ILLUST_COMMENT = defineAction(
   'ADD_ILLUST_COMMENT',
   [ADD, ADD_SUCCESS, ADD_FAILURE],
+  appNamespace,
+);
+
+export const NOVEL_COMMENTS = defineAction(
+  'NOVEL_COMMENTS',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
+export const NOVEL_SERIES = defineAction(
+  'NOVEL_SERIES',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
+export const NOVEL_TEXT = defineAction(
+  'NOVEL_TEXT',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
   appNamespace,
 );
 
@@ -233,6 +257,12 @@ export const ILLUST_BOOKMARK_DETAIL = defineAction(
   appNamespace,
 );
 
+export const NOVEL_BOOKMARK_DETAIL = defineAction(
+  'NOVEL_BOOKMARK_DETAIL',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
 export const BOOKMARK_ILLUST = defineAction(
   'BOOKMARK_ILLUST',
   [REQUEST, SUCCESS, FAILURE],
@@ -241,6 +271,18 @@ export const BOOKMARK_ILLUST = defineAction(
 
 export const UNBOOKMARK_ILLUST = defineAction(
   'UNBOOKMARK_ILLUST',
+  [REQUEST, SUCCESS, FAILURE],
+  appNamespace,
+);
+
+export const BOOKMARK_NOVEL = defineAction(
+  'BOOKMARK_NOVEL',
+  [REQUEST, SUCCESS, FAILURE],
+  appNamespace,
+);
+
+export const UNBOOKMARK_NOVEL = defineAction(
+  'UNBOOKMARK_NOVEL',
   [REQUEST, SUCCESS, FAILURE],
   appNamespace,
 );

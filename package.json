@@ -24,6 +24,7 @@
     "moment": "^2.18.1",
     "normalizr": "^3.2.3",
     "pixiv-api-client": "^0.16.0",
+    "pixiv-novel-parser": "^0.3.0",
     "prop-types": "^15.5.10",
     "qs": "^6.5.0",
     "react": "16.0.0-alpha.12",

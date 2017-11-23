@@ -9,9 +9,13 @@ import { watchError } from './error';
 import { watchFetchWalkthroughIllusts } from './walkthroughIllusts';
 import { watchFetchRecommendedIllusts } from './recommendedIllusts';
 import { watchFetchRecommendedMangas } from './recommendedMangas';
+import { watchFetchRecommendedNovels } from './recommendedNovels';
 import { watchFetchRelatedIllusts } from './relatedIllusts';
 import { watchFetchIllustDetail } from './illustDetail';
 import { watchFetchIllustComments } from './illustComments';
+import { watchFetchNovelComments } from './novelComments';
+import { watchFetchNovelSeries } from './novelSeries';
+import { watchFetchNovelText } from './novelText';
 import { watchFetchRanking } from './ranking';
 import { watchFetchUserDetail } from './userDetail';
 import { watchFetchUserIllusts } from './userIllusts';
@@ -33,8 +37,10 @@ import { watchFetchSearchAutoComplete } from './searchAutoComplete';
 import { watchFetchSearchUsersAutoComplete } from './searchUsersAutoComplete';
 import { watchFetchBookmarkTags } from './bookmarkTags';
 import { watchFetchIllustBookmarkDetail } from './illustBookmarkDetail';
+import { watchFetchNovelBookmarkDetail } from './novelBookmarkDetail';
 import { watchFetchUserFollowDetail } from './userFollowDetail';
 import { watchBookmarkIllust, watchUnbookmarkIllust } from './bookmarkIllust';
+import { watchBookmarkNovel, watchUnbookmarkNovel } from './bookmarkNovel';
 import { watchFollowUser, watchUnfollowUser } from './followUser';
 import { watchAddIllustComment } from './addIllustComment';
 import { watchFetchUgoiraMeta } from './ugoiraMeta';
@@ -52,9 +58,13 @@ export default function* rootSaga() {
     watchFetchWalkthroughIllusts(),
     watchFetchRecommendedIllusts(),
     watchFetchRecommendedMangas(),
+    watchFetchRecommendedNovels(),
     watchFetchRelatedIllusts(),
     watchFetchIllustDetail(),
     watchFetchIllustComments(),
+    watchFetchNovelComments(),
+    watchFetchNovelSeries(),
+    watchFetchNovelText(),
     watchFetchRanking(),
     watchFetchUserDetail(),
     watchFetchUserIllusts(),
@@ -76,9 +86,12 @@ export default function* rootSaga() {
     watchFetchSearchUsersAutoComplete(),
     watchFetchBookmarkTags(),
     watchFetchIllustBookmarkDetail(),
+    watchFetchNovelBookmarkDetail(),
     watchFetchUserFollowDetail(),
     watchBookmarkIllust(),
     watchUnbookmarkIllust(),
+    watchBookmarkNovel(),
+    watchUnbookmarkNovel(),
     watchFollowUser(),
     watchUnfollowUser(),
     watchAddIllustComment(),

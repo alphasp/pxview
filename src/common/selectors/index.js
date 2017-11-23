@@ -4,6 +4,7 @@
 import { createSelector, createSelectorCreator } from 'reselect';
 import equals from 'shallow-equals';
 import { denormalize } from 'normalizr';
+import { Parser as NovelParser } from 'pixiv-novel-parser';
 import Schemas from '../constants/schemas';
 
 function defaultEqualityCheck(currentVal, previousVal) {
@@ -41,6 +42,7 @@ const selectRanking = state => state.ranking;
 const selectWalkthroughIllusts = state => state.walkthroughIllusts;
 const selectRecommendedIllusts = state => state.recommendedIllusts;
 const selectRecommendedMangas = state => state.recommendedMangas;
+const selectRecommendedNovels = state => state.recommendedNovels;
 const selectTrendingIllustTags = state => state.trendingIllustTags;
 const selectSearch = state => state.search;
 const selectRelatedIllusts = state => state.relatedIllusts;
@@ -63,6 +65,10 @@ const selectSearchUsers = state => state.searchUsers;
 const selectUserDetail = state => state.userDetail;
 
 const selectIllustComments = state => state.illustComments;
+const selectNovelComments = state => state.novelComments;
+
+const selectNovelSeries = state => state.novelSeries;
+const selectNovelText = state => state.novelText;
 
 const selectBrowsingHistory = state => state.browsingHistory;
 
@@ -96,6 +102,38 @@ const createIllustItemsSelector = createSelectorCreator(
 );
 
 const createIllustItemSelector = createSelectorCreator(
+  specialMemoize,
+  (prev, next) => {
+    if (!prev || !next) {
+      return false;
+    }
+    return (
+      prev.id === next.id &&
+      prev.is_bookmarked === next.is_bookmarked &&
+      (prev.user && prev.user.is_followed) ===
+        (next.user && next.user.is_followed)
+    );
+  },
+);
+
+const createNovelItemsSelector = createSelectorCreator(
+  specialMemoize,
+  (prev, next) => {
+    if (!prev && !next) {
+      return false;
+    }
+    return equals(
+      prev,
+      next,
+      (p, n) =>
+        p.id === n.id &&
+        p.is_bookmarked === n.is_bookmarked &&
+        p.user.is_followed === n.user.is_followed,
+    );
+  },
+);
+
+const createNovelItemSelector = createSelectorCreator(
   specialMemoize,
   (prev, next) => {
     if (!prev || !next) {
@@ -341,6 +379,96 @@ export const makeGetIllustCommentsItems = () =>
     },
   );
 
+export const makeGetNovelCommentsItems = () =>
+  createUserItemsSelector(
+    [selectNovelComments, selectEntities, getProps],
+    (novelComments, entities, props) => {
+      const novelId = props.novelId || props.navigation.state.params.novelId;
+      return novelComments[novelId]
+        ? denormalize(
+            novelComments[novelId].items,
+            Schemas.NOVEL_COMMENT_ARRAY,
+            entities,
+          )
+        : defaultArray;
+    },
+  );
+
+export const makeGetNovelSeriesItems = () =>
+  createNovelItemsSelector(
+    [selectNovelSeries, selectEntities, getProps],
+    (novelSeries, entities, props) => {
+      const seriesId = props.seriesId || props.navigation.state.params.seriesId;
+      return novelSeries[seriesId]
+        ? denormalize(
+            novelSeries[seriesId].items,
+            Schemas.NOVEL_ARRAY,
+            entities,
+          )
+        : defaultArray;
+    },
+  );
+
+export const makeGetParsedNovelText = () =>
+  createSelector([selectNovelText, getProps], (novelText, props) => {
+    const novelId = props.novelId || props.navigation.state.params.novelId;
+    if (novelText[novelId] && novelText[novelId].text) {
+      // const parsedNovelText = NovelParser.parse(
+      //   `${novelText[novelId]
+      //     .text}[jump:2]blabla[[jumpuri:とある[[rb: 魔術 > まじゅつ]]の[[rb:禁書目録>インデックス]] > http://www.project-index.net/]]`,
+      // );
+      const parsedNovelText = NovelParser.parse(novelText[novelId].text);
+      const items = [];
+      let text = '';
+      // console.log('parsedNovelText ', parsedNovelText);
+      parsedNovelText.forEach((p, index) => {
+        if (p.type === 'text') {
+          text += p.val;
+        } else if (p.type === 'tag') {
+          if (p.name === 'chapter') {
+            text += '<chapter>';
+            p.title.forEach(pp => {
+              if (pp.name === 'text') {
+                text += pp.val;
+              } else if (pp.name === 'rb') {
+                text += `${pp.rubyBase}(${pp.rubyText})`;
+              }
+            });
+            text += '</chapter>';
+          } else if (p.name === 'rb') {
+            text += `${p.rubyBase}(${p.rubyText})`;
+          } else if (p.name === 'jump') {
+            text += `<jump page=${p.pageNumber}>${p.pageNumber}ページへ</jump>`;
+          } else if (p.name === 'jumpuri') {
+            text += `<a href='${p.uri}'>`;
+            p.title.forEach(pp => {
+              if (pp.name === 'text') {
+                text += pp.val;
+              } else if (pp.name === 'rb') {
+                text += `${pp.rubyBase}(${pp.rubyText})`;
+              }
+            });
+            text += '</a>';
+          } else if (p.name === 'newpage') {
+            items.push(text);
+            text = '';
+          }
+        }
+        // if this is last item and no new page tag
+        if (
+          index === parsedNovelText.length - 1 &&
+          (!items.length || p.name !== 'newpage')
+        ) {
+          items.push(text);
+        }
+      });
+      return items;
+    }
+    return novelText[novelId] && novelText[novelId].text
+      ? NovelParser.parse(novelText[novelId].text)
+      : null;
+  });
+
 const makeGetUserDetailItem = () =>
   createUserItemSelector(
     [selectUserDetail, selectEntities, getProps],
@@ -403,6 +531,26 @@ export const makeGetDetailItem = () =>
     return denormalize(id, Schemas.ILLUST, entities);
   });
 
+export const makeGetDetailNovelItem = () =>
+  createNovelItemSelector([selectEntities, getProps], (entities, props) => {
+    const {
+      // illust_id: illustIdFromQS, // from deep link params
+      // illustId, // from deep link querystring
+      items,
+      index,
+    } = props.navigation.state.params;
+    let id;
+    // if (illustIdFromQS) {
+    //   id = parseInt(illustIdFromQS, 10);
+    // } else if (illustId) {
+    //   id = parseInt(illustId, 10);
+    // } else {
+    //   id = items[index].id;
+    // }
+    id = items[index].id;
+    return denormalize(id, Schemas.NOVEL, entities);
+  });
+
 export const makeGetTagsWithStatus = () =>
   createTagsWithStatusSelector(
     [selectHighlightTags, selectMuteTags, getProps],
@@ -430,6 +578,12 @@ export const getRecommendedMangasItems = createIllustItemsSelector(
   [selectRecommendedMangas, selectEntities],
   (recommendedMangas, entities) =>
     denormalize(recommendedMangas.items, Schemas.ILLUST_ARRAY, entities),
+);
+
+export const getRecommendedNovelsItems = createIllustItemsSelector(
+  [selectRecommendedNovels, selectEntities],
+  (recommendedNovels, entities) =>
+    denormalize(recommendedNovels.items, Schemas.NOVEL_ARRAY, entities),
 );
 
 export const getFollowingUserIllustsItems = createIllustItemsSelector(
