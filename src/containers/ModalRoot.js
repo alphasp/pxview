@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import FollowModal from './FollowModal';
 import BookmarkIllustModal from './BookmarkIllustModal';
 import BookmarkNovelModal from './BookmarkNovelModal';
+import NovelSettingsModal from './NovelSettingsModal';
 import SignUpModal from './SignUpModal';
 
 const MODAL_COMPONENTS = {
   FOLLOW: FollowModal,
   BOOKMARK_ILLUST: BookmarkIllustModal,
   BOOKMARK_NOVEL: BookmarkNovelModal,
+  NOVEL_SETTINGS: NovelSettingsModal,
   SIGNUP: SignUpModal,
 };
 

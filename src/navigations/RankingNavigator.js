@@ -1,7 +1,8 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
-import Ranking from '../screens/Ranking/Ranking';
 import RankingPreview from '../screens/Ranking/RankingPreview';
+import Ranking from '../screens/Ranking/Ranking';
+import NovelRanking from '../screens/Ranking/NovelRanking';
 import enhanceRouter from './routers/enhanceRouter';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import DrawerIcon from '../components/DrawerIcon';
@@ -42,6 +43,15 @@ const routeConfig = {
   },
   [SCREENS.Ranking]: {
     screen: Ranking,
+    navigationOptions: ({ screenProps: { i18n }, navigation }) => ({
+      title: `${mapRankingTypeString(
+        navigation.state.params.rankingType,
+        i18n,
+      )} ${i18n.ranking}`,
+    }),
+  },
+  [SCREENS.NovelRanking]: {
+    screen: NovelRanking,
     navigationOptions: ({ screenProps: { i18n }, navigation }) => ({
       title: `${mapRankingTypeString(
         navigation.state.params.rankingType,

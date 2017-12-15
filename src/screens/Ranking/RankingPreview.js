@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import RankingHorizontalList from './RankingHorizontalList';
+import NovelRankingPreview from './NovelRankingPreview';
 import { connectLocalization } from '../../components/Localization';
 import { RANKING_TYPES, RANKING_FOR_UI } from '../../common/constants';
 
@@ -24,6 +25,10 @@ class RankingPreview extends Component {
         <RankingHorizontalList
           rankingMode={RANKING_FOR_UI.DAILY_MANGA}
           rankingType={RANKING_TYPES.MANGA}
+          navigation={navigation}
+        />
+        <NovelRankingPreview
+          rankingMode={RANKING_FOR_UI.DAILY_NOVEL}
           navigation={navigation}
         />
       </ScrollView>

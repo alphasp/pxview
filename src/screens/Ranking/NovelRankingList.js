@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
-import IllustList from '../../components/IllustList';
+import NovelList from '../../components/NovelList';
 import * as rankingActionCreators from '../../common/actions/ranking';
-import { makeGetIllustRankingItems } from '../../common/selectors';
+import { makeGetNovelRankingItems } from '../../common/selectors';
 
-class RankingList extends Component {
+class NovelRankingList extends Component {
   static defaultProps = {
     reload: true,
   };
@@ -62,7 +62,7 @@ class RankingList extends Component {
   render() {
     const { ranking, items, listKey } = this.props;
     return (
-      <IllustList
+      <NovelList
         data={{ ...ranking, items }}
         listKey={listKey}
         loadMoreItems={this.loadMoreItems}
@@ -73,7 +73,7 @@ class RankingList extends Component {
 }
 
 export default connect(() => {
-  const getRankingItems = makeGetIllustRankingItems();
+  const getRankingItems = makeGetNovelRankingItems();
   return (state, props) => {
     const { ranking } = state;
     return {
@@ -82,4 +82,4 @@ export default connect(() => {
       listKey: `${props.navigation.state.key}-${props.rankingMode}`,
     };
   };
-}, rankingActionCreators)(RankingList);
+}, rankingActionCreators)(NovelRankingList);

@@ -6,6 +6,7 @@ import camelCase from 'lodash.camelcase';
 import DatePicker from 'react-native-datepicker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import RankingList from './RankingList';
+import NovelRankingList from './NovelRankingList';
 import PXTouchable from '../../components/PXTouchable';
 import PXBottomSheet from '../../components/PXBottomSheet';
 import PXBottomSheetButton from '../../components/PXBottomSheetButton';
@@ -18,6 +19,9 @@ import {
   RANKING_MANGA,
   R18_RANKING_MANGA,
   R18G_RANKING_MANGA,
+  RANKING_NOVEL,
+  R18_RANKING_NOVEL,
+  R18G_RANKING_NOVEL,
   RANKING_TYPES,
 } from '../../common/constants';
 import { globalStyles } from '../../styles';
@@ -88,6 +92,11 @@ class PastRanking extends Component {
       this.r18Ranking = R18_RANKING_MANGA;
       this.r18GRanking = R18G_RANKING_MANGA;
       mode = 'day_manga';
+    } else if (rankingType === RANKING_TYPES.NOVEL) {
+      this.ranking = RANKING_NOVEL;
+      this.r18Ranking = R18_RANKING_NOVEL;
+      this.r18GRanking = R18G_RANKING_NOVEL;
+      mode = 'day';
     }
     this.state = {
       isOpenRankingModeBottomSheet: false,
@@ -132,6 +141,7 @@ class PastRanking extends Component {
     const { date, mode, isOpenRankingModeBottomSheet } = this.state;
     const selectedRankingMode =
       rankingType === RANKING_TYPES.MANGA ? mode.replace('_manga', '') : mode;
+    console.log('pr ', this.props);
     return (
       <View style={globalStyles.container}>
         <View style={styles.filterContainer}>
@@ -168,11 +178,18 @@ class PastRanking extends Component {
             onDateChange={this.handleOnDateChange}
           />
         </View>
-        <RankingList
-          rankingMode={rankingMode}
-          options={{ date, mode }}
-          navigation={navigation}
-        />
+        {rankingType === RANKING_TYPES.NOVEL
+          ? <NovelRankingList
+              rankingMode={rankingMode}
+              options={{ date, mode }}
+              navigation={navigation}
+            />
+          : <RankingList
+              rankingMode={rankingMode}
+              options={{ date, mode }}
+              navigation={navigation}
+            />}
+
         <PXBottomSheet
           visible={isOpenRankingModeBottomSheet}
           onCancel={this.handleOnCancelRankingModeBottomSheet}

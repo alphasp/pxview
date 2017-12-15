@@ -379,6 +379,17 @@ export const makeGetIllustCommentsItems = () =>
     },
   );
 
+export const makeGetNovelRankingItems = () =>
+  createNovelItemsSelector(
+    [selectRanking, selectEntities, getProps],
+    (ranking, entities, props) =>
+      denormalize(
+        ranking[props.rankingMode].items,
+        Schemas.NOVEL_ARRAY,
+        entities,
+      ),
+  );
+
 export const makeGetNovelCommentsItems = () =>
   createUserItemsSelector(
     [selectNovelComments, selectEntities, getProps],

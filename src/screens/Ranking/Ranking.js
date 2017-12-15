@@ -36,6 +36,7 @@ class Ranking extends Component {
             key: '1',
             title: i18n.rankingDay,
             rankingMode: RANKING_FOR_UI.DAILY_ILLUST,
+            reload: false,
           },
           {
             key: '2',
@@ -79,6 +80,7 @@ class Ranking extends Component {
             key: '1',
             title: i18n.rankingDay,
             rankingMode: RANKING_FOR_UI.DAILY_MANGA,
+            reload: false,
           },
           {
             key: '2',
@@ -113,7 +115,7 @@ class Ranking extends Component {
   renderScene = ({ index }) => {
     const { navigation } = this.props;
     const { rankingType } = navigation.state.params;
-    const { rankingMode } = this.state.routes[index];
+    const { rankingMode, reload } = this.state.routes[index];
     return (
       <TabContentWrapper active={index === this.state.index}>
         {rankingMode === RANKING_FOR_UI.PAST_ILLUST ||
@@ -123,7 +125,11 @@ class Ranking extends Component {
               rankingMode={rankingMode}
               navigation={navigation}
             />
-          : <RankingList rankingMode={rankingMode} navigation={navigation} />}
+          : <RankingList
+              rankingMode={rankingMode}
+              navigation={navigation}
+              reload={reload}
+            />}
       </TabContentWrapper>
     );
   };

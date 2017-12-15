@@ -14,10 +14,12 @@ import { connectLocalization } from '../../components/Localization';
 import PXHeader from '../../components/PXHeader';
 import PXViewPager from '../../components/PXViewPager';
 import HeaderTextTitle from '../../components/HeaderTextTitle';
-import HeaderSaveImageButton from '../../components/HeaderSaveImageButton';
+import HeaderSettingsButton from '../../components/HeaderSettingsButton';
 import Loader from '../../components/Loader';
 import * as novelTextActionCreators from '../../common/actions/novelText';
+import * as modalActionCreators from '../../common/actions/modal';
 import { makeGetParsedNovelText } from '../../common/selectors';
+import { MODAL_TYPES } from '../../common/constants';
 import { globalStyles, globalStyleVariables } from '../../styles';
 
 const styles = StyleSheet.create({
@@ -96,23 +98,48 @@ class NovelReader extends Component {
     }
   };
 
+  handleOnPressOpenSettings = () => {
+    const { openModal } = this.props;
+    openModal(MODAL_TYPES.NOVEL_SETTINGS);
+  };
+
+  renderHeaderTitle = () => {
+    const { parsedNovelText } = this.props;
+    const { index } = this.state;
+    return (
+      <HeaderTextTitle>
+        {`${index + 1}/${parsedNovelText.length}`}
+      </HeaderTextTitle>
+    );
+  };
+
+  renderHeaderRight = () =>
+    <View style={styles.headerRightContainer}>
+      <HeaderSettingsButton onPress={this.handleOnPressOpenSettings} />
+    </View>;
+
   renderContent = ({ item, index }) => {
-    const { novelId } = this.props;
-    console.log('render content ', novelId, index);
+    const { novelId, novelSettings: { fontSize, lineHeight } } = this.props;
     // render text by chunks to prevent over text limit https://github.com/facebook/react-native/issues/15663
     return (
-      <View key={`${novelId}-${index}`} style={styles.container}>
+      <View
+        key={`${novelId}-${index}-${fontSize}-${lineHeight}`}
+        style={styles.container}
+      >
         <ScrollView>
-          {item
-            .match(/.{1,5000}/g)
-            .map((t, i) =>
-              <HtmlView
-                key={`${novelId}-${index}-${i}`}
-                value={t}
-                renderNode={this.handleRenderNode}
-              />,
-            )}
-
+          {item.match(/.{1,5000}/g).map((t, i) =>
+            <HtmlView
+              key={`${novelId}-${index}-${i}`}
+              value={t}
+              renderNode={this.handleRenderNode}
+              textComponentProps={{
+                style: {
+                  fontSize,
+                  lineHeight: fontSize * lineHeight,
+                },
+              }}
+            />,
+          )}
           <View style={{ marginBottom: 50 }} />
         </ScrollView>
       </View>
@@ -128,12 +155,8 @@ class NovelReader extends Component {
         <PXHeader
           darkTheme
           showBackButton
-          headerTitle={
-            parsedNovelText &&
-            <HeaderTextTitle>
-              {`${index + 1}/${parsedNovelText.length}`}
-            </HeaderTextTitle>
-          }
+          headerTitle={parsedNovelText && this.renderHeaderTitle()}
+          headerRight={this.renderHeaderRight()}
         />
         {(!novelText || (!novelText.loaded || novelText.loading)) && <Loader />}
         {parsedNovelText &&
@@ -151,17 +174,21 @@ class NovelReader extends Component {
 }
 
 export default connectLocalization(
-  connect(() => {
-    const getParsedNovelText = makeGetParsedNovelText();
-    return (state, props) => {
-      const { novelText } = state;
-      const parsedNovelText = getParsedNovelText(state, props);
-      const novelId = props.novelId || props.navigation.state.params.novelId;
-      return {
-        novelText: novelText[novelId],
-        novelId,
-        parsedNovelText,
+  connect(
+    () => {
+      const getParsedNovelText = makeGetParsedNovelText();
+      return (state, props) => {
+        const { novelText, novelSettings } = state;
+        const parsedNovelText = getParsedNovelText(state, props);
+        const novelId = props.novelId || props.navigation.state.params.novelId;
+        return {
+          novelText: novelText[novelId],
+          novelId,
+          parsedNovelText,
+          novelSettings,
+        };
       };
-    };
-  }, novelTextActionCreators)(NovelReader),
+    },
+    { ...novelTextActionCreators, ...modalActionCreators },
+  )(NovelReader),
 );

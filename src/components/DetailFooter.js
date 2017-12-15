@@ -172,6 +172,7 @@ class DetailFooter extends PureComponent {
           </View>}
         {item.series &&
           item.series.id &&
+          item.text_length > 0 &&
           <View style={styles.sectionContainer}>
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>

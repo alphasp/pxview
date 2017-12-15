@@ -13,6 +13,7 @@ import {
   OPEN,
   CLOSE,
   STOP,
+  SET,
 } from './stateConstants';
 
 const appNamespace = defineAction('PIXIV');
@@ -341,4 +342,9 @@ export const MUTE_USERS = defineAction(
   appNamespace,
 );
 
+export const NOVEL_SETTINGS = defineAction(
+  'NOVEL_SETTINGS',
+  [SET],
+  appNamespace,
+);
 export const MODAL = defineAction('MODAL', [OPEN, CLOSE], appNamespace);
