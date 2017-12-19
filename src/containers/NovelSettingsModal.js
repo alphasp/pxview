@@ -22,8 +22,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   innerContainer: {
-    // borderRadius: 10,
-    // alignItems: 'center',
     backgroundColor: '#fff',
   },
   titleContainer: {
@@ -31,8 +29,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   form: {
-    paddingTop: 10,
-    paddingHorizontal: 10,
+    padding: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
