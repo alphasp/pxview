@@ -12,7 +12,7 @@ class Home extends Component {
     this.state = {
       index: 0,
       routes: [
-        { key: '1', title: i18n.illustration },
+        { key: '1', title: i18n.illust },
         { key: '2', title: i18n.manga },
         { key: '3', title: i18n.novel },
       ],
