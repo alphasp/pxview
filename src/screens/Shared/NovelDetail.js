@@ -33,15 +33,13 @@ import * as muteUsersActionCreators from '../../common/actions/muteUsers';
 // import * as novelDetailActionCreators from '../../common/actions/novelDetail';
 import { makeGetDetailNovelItem } from '../../common/selectors';
 import { SCREENS } from '../../common/constants';
-import { globalStyleVariables } from '../../styles';
+import { globalStyles, globalStyleVariables } from '../../styles';
 
 const THUMBNAIL_SIZE = 30;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   content: {
+    flex: 1,
     width: globalStyleVariables.WINDOW_WIDTH,
   },
   headerTitleContainer: {
@@ -407,7 +405,7 @@ class NovelDetail extends Component {
       item ? `${item.id}, ${item.page_count}, ${item.text_length}` : null,
     );
     return (
-      <View style={styles.container} ref={ref => (this.detailView = ref)}>
+      <View style={globalStyles.container} ref={ref => (this.detailView = ref)}>
         {this.renderMainContent()}
         {isActionButtonVisible &&
           item &&

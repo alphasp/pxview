@@ -14,6 +14,10 @@ import PXThumbnail from './PXThumbnail';
 import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: globalStyleVariables.WINDOW_WIDTH,
+  },
   infoContainer: {
     margin: 10,
   },
@@ -81,7 +85,7 @@ class DetailFooter extends PureComponent {
       tags,
     } = this.props;
     return (
-      <View onLayout={onLayoutView}>
+      <View style={styles.container} onLayout={onLayoutView}>
         <View style={styles.infoContainer}>
           <View style={styles.profileContainer}>
             <PXTouchable
@@ -186,10 +190,6 @@ class DetailFooter extends PureComponent {
               navigation={navigation}
             />
           </View>}
-        {
-          /* workaround for missing height in viewpager  */
-          <View style={styles.footerSpacer} />
-        }
       </View>
     );
   }

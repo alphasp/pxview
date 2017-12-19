@@ -30,13 +30,14 @@ import * as muteUsersActionCreators from '../../common/actions/muteUsers';
 import * as illustDetailActionCreators from '../../common/actions/illustDetail';
 import { makeGetDetailItem } from '../../common/selectors';
 import { SCREENS } from '../../common/constants';
-import { globalStyleVariables } from '../../styles';
+import { globalStyleVariables, globalStyles } from '../../styles';
 
 const THUMBNAIL_SIZE = 30;
 
 const styles = StyleSheet.create({
-  container: {
+  content: {
     flex: 1,
+    width: globalStyleVariables.WINDOW_WIDTH,
   },
   headerTitleContainer: {
     flex: 1,
@@ -310,7 +311,7 @@ class Detail extends Component {
   renderContent = ({ item }) => {
     const { navigation, i18n, authUser } = this.props;
     return (
-      <View key={item.id}>
+      <View style={styles.content} key={item.id}>
         <PXHeader
           headerTitle={this.renderHeaderTitle(item)}
           headerRight={this.renderHeaderRight(item)}
@@ -372,7 +373,7 @@ class Detail extends Component {
       selectedImageIndex,
     } = this.state;
     return (
-      <View style={styles.container} ref={ref => (this.detailView = ref)}>
+      <View style={globalStyles.container} ref={ref => (this.detailView = ref)}>
         {this.renderMainContent()}
         {isActionButtonVisible &&
           item &&
