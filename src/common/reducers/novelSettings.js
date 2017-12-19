@@ -8,7 +8,6 @@ const initState = {
 export default function novelSettings(state = initState, action) {
   switch (action.type) {
     case NOVEL_SETTINGS.SET:
-      console.log('aaa ', action.payload, state);
       return {
         ...state,
         fontSize:

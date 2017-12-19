@@ -431,7 +431,6 @@ export const makeGetParsedNovelText = () =>
       const parsedNovelText = NovelParser.parse(novelText[novelId].text);
       const items = [];
       let text = '';
-      // console.log('parsedNovelText ', parsedNovelText);
       parsedNovelText.forEach((p, index) => {
         if (p.type === 'text') {
           text += p.val;
