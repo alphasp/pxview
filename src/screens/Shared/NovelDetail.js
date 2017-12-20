@@ -413,6 +413,7 @@ class NovelDetail extends Component {
             buttonColor="rgba(255,255,255,1)"
             bgColor="red"
             icon={<BookmarkNovelButton item={item} />}
+            fixNativeFeedbackRadius
           />}
       </View>
     );

@@ -142,6 +142,7 @@ class NovelComments extends Component {
             buttonColor="#fff"
             icon={<Icon name="pencil" size={24} color="#737373" />}
             onPress={this.handleOnPressCommentButton}
+            fixNativeFeedbackRadius
           />}
         <OverlaySpinner visible={verificationEmail.loading} />
       </View>

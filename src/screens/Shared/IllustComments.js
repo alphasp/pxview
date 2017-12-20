@@ -141,6 +141,7 @@ class IllustComments extends Component {
           <ActionButton
             buttonColor="#fff"
             icon={<Icon name="pencil" size={24} color="#737373" />}
+            fixNativeFeedbackRadius
             onPress={this.handleOnPressCommentButton}
           />}
         <OverlaySpinner visible={verificationEmail.loading} />

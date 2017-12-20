@@ -381,6 +381,7 @@ class Detail extends Component {
             buttonColor="rgba(255,255,255,1)"
             bgColor="red"
             icon={<BookmarkIllustButton item={item} />}
+            fixNativeFeedbackRadius
           />}
         <PXBottomSheet
           visible={isOpenMenuBottomSheet}
