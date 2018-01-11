@@ -52,6 +52,8 @@ const selectNewMangas = state => state.newMangas;
 const selectMyPixiv = state => state.myPixiv;
 const selectUserBookmarkIllusts = state => state.userBookmarkIllusts;
 const selectMyPrivateBookmarkIllusts = state => state.myPrivateBookmarkIllusts;
+const selectUserBookmarkNovels = state => state.userBookmarkNovels;
+const selectMyPrivateBookmarkNovels = state => state.myPrivateBookmarkNovels;
 const selectUserIllusts = state => state.userIllusts;
 const selectUserMangas = state => state.userMangas;
 
@@ -390,6 +392,25 @@ export const makeGetNovelRankingItems = () =>
       ),
   );
 
+export const makeGetUserBookmarkNovelsItems = () =>
+  createNovelItemsSelector(
+    [selectUserBookmarkNovels, selectEntities, getProps],
+    (userBookmarkNovels, entities, props) => {
+      const userId =
+        props.userId ||
+        props.navigation.state.params.userId ||
+        parseInt(props.navigation.state.params.id, 10) ||
+        parseInt(props.navigation.state.params.uid, 10);
+      return userBookmarkNovels[userId]
+        ? denormalize(
+            userBookmarkNovels[userId].items,
+            Schemas.NOVEL_ARRAY,
+            entities,
+          )
+        : defaultArray;
+    },
+  );
+
 export const makeGetNovelCommentsItems = () =>
   createUserItemsSelector(
     [selectNovelComments, selectEntities, getProps],
@@ -624,6 +645,12 @@ export const getMyPrivateBookmarkIllustsItems = createIllustItemsSelector(
   [selectMyPrivateBookmarkIllusts, selectEntities],
   (myPrivateBookmarkIllusts, entities) =>
     denormalize(myPrivateBookmarkIllusts.items, Schemas.ILLUST_ARRAY, entities),
+);
+
+export const getMyPrivateBookmarkNovelsItems = createIllustItemsSelector(
+  [selectMyPrivateBookmarkNovels, selectEntities],
+  (myPrivateBookmarkNovels, entities) =>
+    denormalize(myPrivateBookmarkNovels.items, Schemas.NOVEL_ARRAY, entities),
 );
 
 export const getTrendingIllustTagsItems = createTagItemsSelector(

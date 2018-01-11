@@ -103,7 +103,7 @@ class NovelViewer extends Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          {item.match(/(.|[\r\n]){1,5000}/g).map((t, i) =>
+          {item.match(/(.|[\r\n]){1,3000}/g).map((t, i) =>
             <HtmlView
               key={`${novelId}-${index}-${i}`}
               value={t}

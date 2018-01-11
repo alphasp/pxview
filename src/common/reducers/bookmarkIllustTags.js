@@ -1,4 +1,4 @@
-import { BOOKMARK_TAGS } from '../constants/actionTypes';
+import { BOOKMARK_ILLUST_TAGS } from '../constants/actionTypes';
 import { TAG_TYPES } from '../constants';
 
 const defaultItems = [
@@ -13,7 +13,7 @@ const initState = {
   nextUrl: null,
 };
 
-export default function bookmarkTags(
+export default function bookmarkIllustTags(
   state = {
     [TAG_TYPES.PUBLIC]: initState,
     [TAG_TYPES.PRIVATE]: initState,
@@ -21,12 +21,12 @@ export default function bookmarkTags(
   action,
 ) {
   switch (action.type) {
-    case BOOKMARK_TAGS.CLEAR:
+    case BOOKMARK_ILLUST_TAGS.CLEAR:
       return {
         ...state,
         [action.payload.tagType]: initState,
       };
-    case BOOKMARK_TAGS.REQUEST:
+    case BOOKMARK_ILLUST_TAGS.REQUEST:
       return {
         ...state,
         [action.payload.tagType]: {
@@ -35,7 +35,7 @@ export default function bookmarkTags(
           loading: true,
         },
       };
-    case BOOKMARK_TAGS.SUCCESS:
+    case BOOKMARK_ILLUST_TAGS.SUCCESS:
       return {
         ...state,
         [action.payload.tagType]: {
@@ -56,7 +56,7 @@ export default function bookmarkTags(
           timestamp: action.payload.timestamp,
         },
       };
-    case BOOKMARK_TAGS.FAILURE:
+    case BOOKMARK_ILLUST_TAGS.FAILURE:
       return {
         ...state,
         [action.payload.tagType]: {

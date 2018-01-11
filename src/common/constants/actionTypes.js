@@ -162,6 +162,12 @@ export const USER_BOOKMARK_ILLUSTS = defineAction(
   appNamespace,
 );
 
+export const USER_BOOKMARK_NOVELS = defineAction(
+  'USER_BOOKMARK_NOVELS',
+  [REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL],
+  appNamespace,
+);
+
 export const USER_FOLLOWING = defineAction(
   'USER_FOLLOWING',
   [REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL],
@@ -182,6 +188,12 @@ export const USER_MY_PIXIV = defineAction(
 
 export const MY_PRIVATE_BOOKMARK_ILLUSTS = defineAction(
   'MY_PRIVATE_BOOKMARK_ILLUSTS',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
+export const MY_PRIVATE_BOOKMARK_NOVELS = defineAction(
+  'MY_PRIVATE_BOOKMARK_NOVELS',
   [REQUEST, SUCCESS, FAILURE, CLEAR],
   appNamespace,
 );
@@ -246,8 +258,14 @@ export const SEARCH_USERS_AUTOCOMPLETE = defineAction(
   appNamespace,
 );
 
-export const BOOKMARK_TAGS = defineAction(
-  'BOOKMARK_TAGS',
+export const BOOKMARK_ILLUST_TAGS = defineAction(
+  'BOOKMARK_ILLUST_TAGS',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
+export const BOOKMARK_NOVEL_TAGS = defineAction(
+  'BOOKMARK_NOVEL_TAGS',
   [REQUEST, SUCCESS, FAILURE, CLEAR],
   appNamespace,
 );

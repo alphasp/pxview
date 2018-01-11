@@ -85,6 +85,8 @@
   "noRelatedWorks": "No related works",
   "noSearchResult": "No search results found",
   "novel": "Novel",
+  "novelPrivate": "Novel (Private)",
+  "novelPublic": "Novel (Public)",
   "ok": "OK",
   "password": "Password",
   "permissionGrantAppSettings": "App Settings",

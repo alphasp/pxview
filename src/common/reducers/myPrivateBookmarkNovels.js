@@ -1,4 +1,4 @@
-import { MY_PRIVATE_BOOKMARK_ILLUSTS } from '../constants/actionTypes';
+import { MY_PRIVATE_BOOKMARK_NOVELS } from '../constants/actionTypes';
 
 const initState = {
   loading: false,
@@ -9,17 +9,17 @@ const initState = {
   nextUrl: null,
 };
 
-export default function myPrivateBookmarkIllusts(state = initState, action) {
+export default function myPrivateBookmarkNovels(state = initState, action) {
   switch (action.type) {
-    case MY_PRIVATE_BOOKMARK_ILLUSTS.CLEAR:
+    case MY_PRIVATE_BOOKMARK_NOVELS.CLEAR:
       return initState;
-    case MY_PRIVATE_BOOKMARK_ILLUSTS.REQUEST:
+    case MY_PRIVATE_BOOKMARK_NOVELS.REQUEST:
       return {
         ...state,
         loading: true,
         refreshing: action.payload.refreshing,
       };
-    case MY_PRIVATE_BOOKMARK_ILLUSTS.SUCCESS:
+    case MY_PRIVATE_BOOKMARK_NOVELS.SUCCESS:
       return {
         ...state,
         loading: false,
@@ -30,7 +30,7 @@ export default function myPrivateBookmarkIllusts(state = initState, action) {
         nextUrl: action.payload.nextUrl,
         timestamp: action.payload.timestamp,
       };
-    case MY_PRIVATE_BOOKMARK_ILLUSTS.FAILURE:
+    case MY_PRIVATE_BOOKMARK_NOVELS.FAILURE:
       return {
         ...state,
         loading: false,

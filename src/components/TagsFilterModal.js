@@ -7,10 +7,8 @@ import {
   TouchableWithoutFeedback,
   Modal,
 } from 'react-native';
-import { connect } from 'react-redux';
 import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
-import * as bookmarkTagsActionCreators from '../common/actions/bookmarkTags';
 import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
@@ -55,12 +53,6 @@ class TagsFilterModal extends Component {
     };
   }
 
-  componentDidMount() {
-    const { fetchBookmarkTags, clearBookmarkTags, tagType } = this.props;
-    clearBookmarkTags(tagType);
-    fetchBookmarkTags(tagType);
-  }
-
   renderItem = ({ item }) => {
     // const { target, duration } = this.state;
     const { tag, onSelectTag, i18n } = this.props;
@@ -92,23 +84,13 @@ class TagsFilterModal extends Component {
     );
   };
 
-  loadMoreItems = () => {
-    const {
-      bookmarkTags: { nextUrl, loading },
-      fetchBookmarkTags,
-      tagType,
-    } = this.props;
-    if (!loading && nextUrl) {
-      fetchBookmarkTags(tagType, nextUrl);
-    }
-  };
-
   render() {
     const {
-      bookmarkTags: { items },
+      items,
       isOpen,
       onPressCloseButton,
       i18n,
+      onEndReached,
     } = this.props;
     return (
       <Modal
@@ -133,7 +115,7 @@ class TagsFilterModal extends Component {
                     renderItem={this.renderItem}
                     keyboardShouldPersistTaps="always"
                     onEndReachedThreshold={0.1}
-                    onEndReached={this.loadMoreItems}
+                    onEndReached={onEndReached}
                   />
                 </View>
               </View>
@@ -145,11 +127,4 @@ class TagsFilterModal extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(
-    (state, props) => ({
-      bookmarkTags: state.bookmarkTags[props.tagType],
-    }),
-    bookmarkTagsActionCreators,
-  )(TagsFilterModal),
-);
+export default connectLocalization(TagsFilterModal);

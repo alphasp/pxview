@@ -85,6 +85,8 @@
   "noRelatedWorks": "関連作品がありません",
   "noSearchResult": "見つかりませんでした",
   "novel": "小説",
+  "novelPrivate": "小説 (非公開)",
+  "novelPublic": "小説 (公開)",
   "ok": "OK",
   "password": "パスワード",
   "permissionGrantAppSettings": "アプリ設定",

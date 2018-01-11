@@ -21,10 +21,12 @@ import { watchFetchUserDetail } from './userDetail';
 import { watchFetchUserIllusts } from './userIllusts';
 import { watchFetchUserMangas } from './userMangas';
 import { watchFetchUserBookmarkIllusts } from './userBookmarkIllusts';
+import { watchFetchUserBookmarkNovels } from './userBookmarkNovels';
 import { watchFetchUserFollowers } from './userFollowers';
 import { watchFetchUserFollowing } from './userFollowing';
 import { watchFetchUserMyPixiv } from './userMyPixiv';
 import { watchFetchMyPrivateBookmarkIllusts } from './myPrivateBookmarkIllusts';
+import { watchFetchMyPrivateBookmarkNovels } from './myPrivateBookmarkNovels';
 import { watchFetchFollowingUserIllusts } from './followingUserIllusts';
 import { watchFetchNewIllusts } from './newIllusts';
 import { watchFetchNewMangas } from './newMangas';
@@ -35,7 +37,8 @@ import { watchFetchSearch } from './search';
 import { watchFetchSearchUsers } from './searchUsers';
 import { watchFetchSearchAutoComplete } from './searchAutoComplete';
 import { watchFetchSearchUsersAutoComplete } from './searchUsersAutoComplete';
-import { watchFetchBookmarkTags } from './bookmarkTags';
+import { watchFetchBookmarkIllustTags } from './bookmarkIllustTags';
+import { watchFetchBookmarkNovelTags } from './bookmarkNovelTags';
 import { watchFetchIllustBookmarkDetail } from './illustBookmarkDetail';
 import { watchFetchNovelBookmarkDetail } from './novelBookmarkDetail';
 import { watchFetchUserFollowDetail } from './userFollowDetail';
@@ -70,10 +73,12 @@ export default function* rootSaga() {
     watchFetchUserIllusts(),
     watchFetchUserMangas(),
     watchFetchUserBookmarkIllusts(),
+    watchFetchUserBookmarkNovels(),
     watchFetchUserFollowers(),
     watchFetchUserFollowing(),
     watchFetchUserMyPixiv(),
     watchFetchMyPrivateBookmarkIllusts(),
+    watchFetchMyPrivateBookmarkNovels(),
     watchFetchFollowingUserIllusts(),
     watchFetchNewIllusts(),
     watchFetchNewMangas(),
@@ -84,7 +89,8 @@ export default function* rootSaga() {
     watchFetchSearchUsers(),
     watchFetchSearchAutoComplete(),
     watchFetchSearchUsersAutoComplete(),
-    watchFetchBookmarkTags(),
+    watchFetchBookmarkIllustTags(),
+    watchFetchBookmarkNovelTags(),
     watchFetchIllustBookmarkDetail(),
     watchFetchNovelBookmarkDetail(),
     watchFetchUserFollowDetail(),

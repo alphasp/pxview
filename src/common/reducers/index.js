@@ -23,10 +23,13 @@ import userIllusts from './userIllusts';
 import userMangas from './userMangas';
 import userBookmarkIllusts from './userBookmarkIllusts';
 import myPrivateBookmarkIllusts from './myPrivateBookmarkIllusts';
+import myPrivateBookmarkNovels from './myPrivateBookmarkNovels';
+import userBookmarkNovels from './userBookmarkNovels';
 import userFollowing from './userFollowing';
 import userFollowers from './userFollowers';
 import userMyPixiv from './userMyPixiv';
-import bookmarkTags from './bookmarkTags';
+import bookmarkIllustTags from './bookmarkIllustTags';
+import bookmarkNovelTags from './bookmarkNovelTags';
 import ranking from './ranking';
 import followingUserIllusts from './followingUserIllusts';
 import newIllusts from './newIllusts';
@@ -78,6 +81,8 @@ const rootReducer = combineReducers({
   userMangas,
   userBookmarkIllusts,
   myPrivateBookmarkIllusts,
+  userBookmarkNovels,
+  myPrivateBookmarkNovels,
   userFollowing,
   userFollowers,
   userFollowDetail,
@@ -86,7 +91,8 @@ const rootReducer = combineReducers({
   newIllusts,
   newMangas,
   myPixiv,
-  bookmarkTags,
+  bookmarkIllustTags,
+  bookmarkNovelTags,
   bookmarkIllust,
   illustBookmarkDetail,
   bookmarkNovel,
