@@ -6,7 +6,9 @@ import FollowingUserNovels from './FollowingUserNovels';
 import { connectLocalization } from '../../components/Localization';
 import Pills from '../../components/Pills';
 import HeaderFilterButton from '../../components/HeaderFilterButton';
+import VisibilityFilterModal from '../../components/VisibilityFilterModal';
 import EmptyStateView from '../../components/EmptyStateView';
+import { SCREENS } from '../../common/constants';
 import { globalStyles, globalStyleVariables } from '../../styles';
 
 const styles = StyleSheet.create({
@@ -24,7 +26,10 @@ class FollowingUserNewWorks extends Component {
     super(props);
     this.state = {
       index: 0,
-      pillFilterType: 'all',
+      isOpenFilterModal: false,
+      options: {
+        restrict: 'all',
+      },
     };
   }
 
@@ -32,11 +37,37 @@ class FollowingUserNewWorks extends Component {
     this.setState({ index });
   };
 
+  handleOnPressFilterButton = () => {
+    this.setState({
+      isOpenFilterModal: true,
+    });
+  };
+
+  handleOnPressCloseFilterButton = () => {
+    this.setState({
+      isOpenFilterModal: false,
+    });
+  };
+
+  handleOnSelectVisibility = visibility => {
+    this.setState({
+      isOpenFilterModal: false,
+      options: {
+        restrict: visibility,
+      },
+    });
+  };
+
+  handleOnPressFindRecommendedUsers = () => {
+    const { navigate } = this.props.navigation;
+    navigate(SCREENS.RecommendedUsers);
+  };
+
   renderPillFilterButton = () =>
     <View style={styles.pillFilterButton}>
       <HeaderFilterButton
         color={globalStyleVariables.PRIMARY_COLOR}
-        onPress={this.handleOnPressPillFilterButton}
+        onPress={this.handleOnPressFilterButton}
       />
     </View>;
 
@@ -83,7 +114,7 @@ class FollowingUserNewWorks extends Component {
 
   render() {
     const { navigation } = this.props;
-    const { index } = this.state;
+    const { index, isOpenFilterModal, options } = this.state;
     return (
       <View style={globalStyles.container}>
         {index === 0
@@ -91,12 +122,20 @@ class FollowingUserNewWorks extends Component {
               navigation={navigation}
               renderEmpty={this.renderEmpty}
               renderHeader={this.renderHeader}
+              options={options}
             />
           : <FollowingUserNovels
               navigation={navigation}
               renderEmpty={this.renderEmpty}
               renderHeader={this.renderHeader}
+              options={options}
             />}
+        <VisibilityFilterModal
+          isOpen={isOpenFilterModal}
+          onPressCloseButton={this.handleOnPressCloseFilterButton}
+          onSelectVisibility={this.handleOnSelectVisibility}
+          visibility={options.restrict}
+        />
       </View>
     );
   }

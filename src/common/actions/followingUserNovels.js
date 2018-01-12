@@ -19,12 +19,13 @@ export function fetchFollowingUserNovelsFailure() {
   };
 }
 
-export function fetchFollowingUserNovels(nextUrl, refreshing = false) {
+export function fetchFollowingUserNovels(options, nextUrl, refreshing = false) {
   const params = qs.parse(nextUrl);
   const offset = params.offset || '0';
   return {
     type: FOLLOWING_USER_NOVELS.REQUEST,
     payload: {
+      options,
       offset,
       nextUrl,
       refreshing,

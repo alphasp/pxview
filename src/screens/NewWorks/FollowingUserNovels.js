@@ -9,9 +9,26 @@ import { SCREENS } from '../../common/constants';
 
 class FollowingUserNovels extends Component {
   componentDidMount() {
-    const { fetchFollowingUserNovels, clearFollowingUserNovels } = this.props;
+    const {
+      fetchFollowingUserNovels,
+      clearFollowingUserNovels,
+      options,
+    } = this.props;
     clearFollowingUserNovels();
-    fetchFollowingUserNovels();
+    fetchFollowingUserNovels(options);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { options: prevOptions } = this.props;
+    const {
+      options,
+      fetchFollowingUserNovels,
+      clearFollowingUserNovels,
+    } = nextProps;
+    if (options !== prevOptions) {
+      clearFollowingUserNovels();
+      fetchFollowingUserNovels(options);
+    }
   }
 
   loadMoreItems = () => {
@@ -20,14 +37,18 @@ class FollowingUserNovels extends Component {
       followingUserNovels: { loading, nextUrl },
     } = this.props;
     if (!loading && nextUrl) {
-      fetchFollowingUserNovels(nextUrl);
+      fetchFollowingUserNovels(null, nextUrl);
     }
   };
 
   handleOnRefresh = () => {
-    const { fetchFollowingUserNovels, clearFollowingUserNovels } = this.props;
+    const {
+      fetchFollowingUserNovels,
+      clearFollowingUserNovels,
+      options,
+    } = this.props;
     clearFollowingUserNovels();
-    fetchFollowingUserNovels(null, true);
+    fetchFollowingUserNovels(options, null, true);
   };
 
   handleOnPressFindRecommendedUsers = () => {

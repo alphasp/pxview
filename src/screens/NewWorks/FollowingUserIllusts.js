@@ -9,9 +9,26 @@ import { SCREENS } from '../../common/constants';
 
 class FollowingUserIllusts extends Component {
   componentDidMount() {
-    const { fetchFollowingUserIllusts, clearFollowingUserIllusts } = this.props;
+    const {
+      fetchFollowingUserIllusts,
+      clearFollowingUserIllusts,
+      options,
+    } = this.props;
     clearFollowingUserIllusts();
-    fetchFollowingUserIllusts();
+    fetchFollowingUserIllusts(options);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { options: prevOptions } = this.props;
+    const {
+      options,
+      fetchFollowingUserIllusts,
+      clearFollowingUserIllusts,
+    } = nextProps;
+    if (options !== prevOptions) {
+      clearFollowingUserIllusts();
+      fetchFollowingUserIllusts(options);
+    }
   }
 
   loadMoreItems = () => {
@@ -20,14 +37,18 @@ class FollowingUserIllusts extends Component {
       followingUserIllusts: { loading, nextUrl },
     } = this.props;
     if (!loading && nextUrl) {
-      fetchFollowingUserIllusts(nextUrl);
+      fetchFollowingUserIllusts(null, nextUrl);
     }
   };
 
   handleOnRefresh = () => {
-    const { fetchFollowingUserIllusts, clearFollowingUserIllusts } = this.props;
+    const {
+      fetchFollowingUserIllusts,
+      clearFollowingUserIllusts,
+      options,
+    } = this.props;
     clearFollowingUserIllusts();
-    fetchFollowingUserIllusts(null, true);
+    fetchFollowingUserIllusts(options, null, true);
   };
 
   handleOnPressFindRecommendedUsers = () => {

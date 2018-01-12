@@ -5,6 +5,7 @@ const initState = {
   loaded: false,
   refreshing: false,
   items: [],
+  options: null,
   offset: 0,
   nextUrl: null,
 };
@@ -17,6 +18,7 @@ export default function followingUserIllusts(state = initState, action) {
       return {
         ...state,
         loading: true,
+        options: action.payload.options,
         refreshing: action.payload.refreshing,
       };
     case FOLLOWING_USER_ILLUSTS.SUCCESS:

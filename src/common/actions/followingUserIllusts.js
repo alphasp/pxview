@@ -19,12 +19,17 @@ export function fetchFollowingUserIllustsFailure() {
   };
 }
 
-export function fetchFollowingUserIllusts(nextUrl, refreshing = false) {
+export function fetchFollowingUserIllusts(
+  options,
+  nextUrl,
+  refreshing = false,
+) {
   const params = qs.parse(nextUrl);
   const offset = params.offset || '0';
   return {
     type: FOLLOWING_USER_ILLUSTS.REQUEST,
     payload: {
+      options,
       offset,
       nextUrl,
       refreshing,
