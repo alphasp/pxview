@@ -84,6 +84,8 @@ class NovelList extends Component {
     const {
       data: { items, loading, loaded, refreshing },
       onRefresh,
+      renderEmpty,
+      renderHeader,
       loadMoreItems,
       onScroll,
       showsVerticalScrollIndicator,
@@ -91,6 +93,7 @@ class NovelList extends Component {
     } = this.props;
     return (
       <View style={globalStyles.container}>
+        {!loaded && renderHeader && renderHeader()}
         {(!items || (!loaded && loading)) && <Loader />}
         {loaded
           ? <FlatList
@@ -108,6 +111,8 @@ class NovelList extends Component {
               onEndReachedThreshold={0.1}
               onEndReached={loadMoreItems}
               ItemSeparatorComponent={this.renderSeparator}
+              ListEmptyComponent={renderEmpty}
+              ListHeaderComponent={renderHeader}
               ListFooterComponent={this.renderFooter}
               onScroll={onScroll}
               refreshControl={

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import FollowingUserIllusts from './FollowingUserIllusts';
+import FollowingUserNewWorks from './FollowingUserNewWorks';
 import NewIllusts from './NewIllusts';
 import NewMangas from './NewMangas';
 import MyPixiv from './MyPixiv';
@@ -71,7 +71,7 @@ class NewWorks extends Component {
     const { navigation } = this.props;
     switch (route.key) {
       case '1':
-        return <FollowingUserIllusts navigation={navigation} />;
+        return <FollowingUserNewWorks navigation={navigation} />;
       case '2':
         return <NewIllusts navigation={navigation} />;
       case '3':

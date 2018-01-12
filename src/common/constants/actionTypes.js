@@ -204,6 +204,12 @@ export const FOLLOWING_USER_ILLUSTS = defineAction(
   appNamespace,
 );
 
+export const FOLLOWING_USER_NOVELS = defineAction(
+  'FOLLOWING_USER_NOVELS',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
 export const NEW_ILLUSTS = defineAction(
   'NEW_ILLUSTS',
   [REQUEST, SUCCESS, FAILURE, CLEAR],

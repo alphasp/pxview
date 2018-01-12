@@ -47,6 +47,7 @@ const selectTrendingIllustTags = state => state.trendingIllustTags;
 const selectSearch = state => state.search;
 const selectRelatedIllusts = state => state.relatedIllusts;
 const selectFollowingUserIllusts = state => state.followingUserIllusts;
+const selectFollowingUserNovels = state => state.followingUserNovels;
 const selectNewIllusts = state => state.newIllusts;
 const selectNewMangas = state => state.newMangas;
 const selectMyPixiv = state => state.myPixiv;
@@ -621,6 +622,12 @@ export const getFollowingUserIllustsItems = createIllustItemsSelector(
   [selectFollowingUserIllusts, selectEntities],
   (followingUserIllusts, entities) =>
     denormalize(followingUserIllusts.items, Schemas.ILLUST_ARRAY, entities),
+);
+
+export const getFollowingUserNovelsItems = createIllustItemsSelector(
+  [selectFollowingUserNovels, selectEntities],
+  (followingUserNovels, entities) =>
+    denormalize(followingUserNovels.items, Schemas.NOVEL_ARRAY, entities),
 );
 
 export const getNewIllustsItems = createIllustItemsSelector(

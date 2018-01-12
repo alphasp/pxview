@@ -28,6 +28,7 @@ import { watchFetchUserMyPixiv } from './userMyPixiv';
 import { watchFetchMyPrivateBookmarkIllusts } from './myPrivateBookmarkIllusts';
 import { watchFetchMyPrivateBookmarkNovels } from './myPrivateBookmarkNovels';
 import { watchFetchFollowingUserIllusts } from './followingUserIllusts';
+import { watchFetchFollowingUserNovels } from './followingUserNovels';
 import { watchFetchNewIllusts } from './newIllusts';
 import { watchFetchNewMangas } from './newMangas';
 import { watchFetchMyPixiv } from './myPixiv';
@@ -80,6 +81,7 @@ export default function* rootSaga() {
     watchFetchMyPrivateBookmarkIllusts(),
     watchFetchMyPrivateBookmarkNovels(),
     watchFetchFollowingUserIllusts(),
+    watchFetchFollowingUserNovels(),
     watchFetchNewIllusts(),
     watchFetchNewMangas(),
     watchFetchMyPixiv(),
