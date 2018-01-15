@@ -1,4 +1,4 @@
-import { MY_PIXIV } from '../constants/actionTypes';
+import { MY_PIXIV_ILLUSTS } from '../constants/actionTypes';
 
 const initState = {
   loading: false,
@@ -9,17 +9,17 @@ const initState = {
   nextUrl: null,
 };
 
-export default function myPixiv(state = initState, action) {
+export default function myPixivIllusts(state = initState, action) {
   switch (action.type) {
-    case MY_PIXIV.CLEAR:
+    case MY_PIXIV_ILLUSTS.CLEAR:
       return initState;
-    case MY_PIXIV.REQUEST:
+    case MY_PIXIV_ILLUSTS.REQUEST:
       return {
         ...state,
         loading: true,
         refreshing: action.payload.refreshing,
       };
-    case MY_PIXIV.SUCCESS:
+    case MY_PIXIV_ILLUSTS.SUCCESS:
       return {
         ...state,
         loading: false,
@@ -30,7 +30,7 @@ export default function myPixiv(state = initState, action) {
         nextUrl: action.payload.nextUrl,
         timestamp: action.payload.timestamp,
       };
-    case MY_PIXIV.FAILURE:
+    case MY_PIXIV_ILLUSTS.FAILURE:
       return {
         ...state,
         loading: false,

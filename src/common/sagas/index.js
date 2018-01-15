@@ -31,7 +31,9 @@ import { watchFetchFollowingUserIllusts } from './followingUserIllusts';
 import { watchFetchFollowingUserNovels } from './followingUserNovels';
 import { watchFetchNewIllusts } from './newIllusts';
 import { watchFetchNewMangas } from './newMangas';
-import { watchFetchMyPixiv } from './myPixiv';
+import { watchFetchNewNovels } from './newNovels';
+import { watchFetchMyPixivIllusts } from './myPixivIllusts';
+import { watchFetchMyPixivNovels } from './myPixivNovels';
 import { watchFetchTrendingIllustTags } from './trendingIllustTags';
 import { watchFetchRecommendedUsers } from './recommendedUsers';
 import { watchFetchSearch } from './search';
@@ -84,7 +86,9 @@ export default function* rootSaga() {
     watchFetchFollowingUserNovels(),
     watchFetchNewIllusts(),
     watchFetchNewMangas(),
-    watchFetchMyPixiv(),
+    watchFetchNewNovels(),
+    watchFetchMyPixivIllusts(),
+    watchFetchMyPixivNovels(),
     watchFetchTrendingIllustTags(),
     watchFetchRecommendedUsers(),
     watchFetchSearch(),

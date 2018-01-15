@@ -35,7 +35,9 @@ import followingUserIllusts from './followingUserIllusts';
 import followingUserNovels from './followingUserNovels';
 import newIllusts from './newIllusts';
 import newMangas from './newMangas';
-import myPixiv from './myPixiv';
+import newNovels from './newNovels';
+import myPixivIllusts from './myPixivIllusts';
+import myPixivNovels from './myPixivNovels';
 import bookmarkIllust from './bookmarkIllust';
 import illustBookmarkDetail from './illustBookmarkDetail';
 import bookmarkNovel from './bookmarkNovel';
@@ -92,7 +94,9 @@ const rootReducer = combineReducers({
   followingUserNovels,
   newIllusts,
   newMangas,
-  myPixiv,
+  newNovels,
+  myPixivIllusts,
+  myPixivNovels,
   bookmarkIllustTags,
   bookmarkNovelTags,
   bookmarkIllust,

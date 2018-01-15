@@ -1,12 +1,15 @@
 import { normalize } from 'normalizr';
 import { takeEvery, apply, put } from 'redux-saga/effects';
-import { fetchMyPixivSuccess, fetchMyPixivFailure } from '../actions/myPixiv';
+import {
+  fetchMyPixivIllustsSuccess,
+  fetchMyPixivIllustsFailure,
+} from '../actions/myPixivIllusts';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/apiClient';
-import { MY_PIXIV } from '../constants/actionTypes';
+import { MY_PIXIV_ILLUSTS } from '../constants/actionTypes';
 import Schemas from '../constants/schemas';
 
-export function* handleFetchMyPixiv(action) {
+export function* handleFetchMyPixivIllusts(action) {
   const { nextUrl } = action.payload;
   try {
     let response;
@@ -20,18 +23,18 @@ export function* handleFetchMyPixiv(action) {
       Schemas.ILLUST_ARRAY,
     );
     yield put(
-      fetchMyPixivSuccess(
+      fetchMyPixivIllustsSuccess(
         normalized.entities,
         normalized.result,
         response.next_url,
       ),
     );
   } catch (err) {
-    yield put(fetchMyPixivFailure());
+    yield put(fetchMyPixivIllustsFailure());
     yield put(addError(err));
   }
 }
 
-export function* watchFetchMyPixiv() {
-  yield takeEvery(MY_PIXIV.REQUEST, handleFetchMyPixiv);
+export function* watchFetchMyPixivIllusts() {
+  yield takeEvery(MY_PIXIV_ILLUSTS.REQUEST, handleFetchMyPixivIllusts);
 }

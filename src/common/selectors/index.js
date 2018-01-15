@@ -50,7 +50,9 @@ const selectFollowingUserIllusts = state => state.followingUserIllusts;
 const selectFollowingUserNovels = state => state.followingUserNovels;
 const selectNewIllusts = state => state.newIllusts;
 const selectNewMangas = state => state.newMangas;
-const selectMyPixiv = state => state.myPixiv;
+const selectNewNovels = state => state.newNovels;
+const selectMyPixivIllusts = state => state.myPixivIllusts;
+const selectMyPixivNovels = state => state.myPixivNovels;
 const selectUserBookmarkIllusts = state => state.userBookmarkIllusts;
 const selectMyPrivateBookmarkIllusts = state => state.myPrivateBookmarkIllusts;
 const selectUserBookmarkNovels = state => state.userBookmarkNovels;
@@ -642,10 +644,22 @@ export const getNewMangasItems = createIllustItemsSelector(
     denormalize(newMangas.items, Schemas.ILLUST_ARRAY, entities),
 );
 
-export const getMyPixivItems = createIllustItemsSelector(
-  [selectMyPixiv, selectEntities],
-  (myPixiv, entities) =>
-    denormalize(myPixiv.items, Schemas.ILLUST_ARRAY, entities),
+export const getNewNovelsItems = createIllustItemsSelector(
+  [selectNewNovels, selectEntities],
+  (newNovels, entities) =>
+    denormalize(newNovels.items, Schemas.NOVEL_ARRAY, entities),
+);
+
+export const getMyPixivIllustsItems = createIllustItemsSelector(
+  [selectMyPixivIllusts, selectEntities],
+  (myPixivIllusts, entities) =>
+    denormalize(myPixivIllusts.items, Schemas.ILLUST_ARRAY, entities),
+);
+
+export const getMyPixivNovelsItems = createIllustItemsSelector(
+  [selectMyPixivNovels, selectEntities],
+  (myPixivNovels, entities) =>
+    denormalize(myPixivNovels.items, Schemas.NOVEL_ARRAY, entities),
 );
 
 export const getMyPrivateBookmarkIllustsItems = createIllustItemsSelector(

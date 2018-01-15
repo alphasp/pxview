@@ -222,8 +222,20 @@ export const NEW_MANGAS = defineAction(
   appNamespace,
 );
 
-export const MY_PIXIV = defineAction(
-  'MY_PIXIV',
+export const NEW_NOVELS = defineAction(
+  'NEW_NOVELS',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
+export const MY_PIXIV_ILLUSTS = defineAction(
+  'MY_PIXIV_ILLUSTS',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
+export const MY_PIXIV_NOVELS = defineAction(
+  'MY_PIXIV_NOVELS',
   [REQUEST, SUCCESS, FAILURE, CLEAR],
   appNamespace,
 );
