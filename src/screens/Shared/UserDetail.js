@@ -21,6 +21,7 @@ import FollowButtonContainer from '../../containers/FollowButtonContainer';
 import { connectLocalization } from '../../components/Localization';
 import PXHeader from '../../components/PXHeader';
 import IllustCollection from '../../components/IllustCollection';
+import NovelCollection from '../../components/NovelCollection';
 import PXThumbnail from '../../components/PXThumbnail';
 import PXThumbnailTouchable from '../../components/PXThumbnailTouchable';
 import PXImage from '../../components/PXImage';
@@ -32,6 +33,7 @@ import Loader from '../../components/Loader';
 import * as userDetailActionCreators from '../../common/actions/userDetail';
 import * as userIllustsActionCreators from '../../common/actions/userIllusts';
 import * as userMangasActionCreators from '../../common/actions/userMangas';
+import * as userNovelsActionCreators from '../../common/actions/userNovels';
 import * as userBookmarkIllustlActionCreators from '../../common/actions/userBookmarkIllusts';
 import * as muteUsersActionCreators from '../../common/actions/muteUsers';
 import { makeGetUserDetailPageItems } from '../../common/selectors';
@@ -128,6 +130,7 @@ class UserDetail extends Component {
     userDetail: { refreshing: false },
     userIllusts: {},
     userMangas: {},
+    userNovels: {},
     userBookmarkIllusts: {},
   };
 
@@ -142,31 +145,39 @@ class UserDetail extends Component {
   }
 
   componentDidMount() {
+    const { userDetail } = this.props;
+    InteractionManager.runAfterInteractions(() => {
+      if (!userDetail || !userDetail.item) {
+        this.fetchUserInfos();
+      }
+    });
+  }
+
+  fetchUserInfos = () => {
     const {
       userId,
-      userDetail,
       fetchUserDetail,
       clearUserDetail,
       fetchUserIllusts,
       clearUserIllusts,
       fetchUserMangas,
       clearUserMangas,
+      fetchUserNovels,
+      clearUserNovels,
       fetchUserBookmarkIllusts,
       clearUserBookmarkIllusts,
     } = this.props;
-    InteractionManager.runAfterInteractions(() => {
-      if (!userDetail || !userDetail.item) {
-        clearUserDetail(userId);
-        clearUserIllusts(userId);
-        clearUserMangas(userId);
-        clearUserBookmarkIllusts(userId);
-        fetchUserDetail(userId);
-        fetchUserIllusts(userId);
-        fetchUserMangas(userId);
-        fetchUserBookmarkIllusts(userId);
-      }
-    });
-  }
+    clearUserDetail(userId);
+    clearUserIllusts(userId);
+    clearUserMangas(userId);
+    clearUserNovels(userId);
+    clearUserBookmarkIllusts(userId);
+    fetchUserDetail(userId);
+    fetchUserIllusts(userId);
+    fetchUserMangas(userId);
+    fetchUserNovels(userId);
+    fetchUserBookmarkIllusts(userId);
+  };
 
   handleOnLinkPress = url => {
     Linking.canOpenURL(url)
@@ -180,25 +191,7 @@ class UserDetail extends Component {
   };
 
   handleOnRefresh = () => {
-    const {
-      userId,
-      fetchUserDetail,
-      clearUserDetail,
-      fetchUserIllusts,
-      clearUserIllusts,
-      fetchUserMangas,
-      clearUserMangas,
-      fetchUserBookmarkIllusts,
-      clearUserBookmarkIllusts,
-    } = this.props;
-    clearUserDetail(userId);
-    clearUserIllusts(userId);
-    clearUserMangas(userId);
-    clearUserBookmarkIllusts(userId);
-    fetchUserDetail(userId);
-    fetchUserIllusts(userId);
-    fetchUserMangas(userId);
-    fetchUserBookmarkIllusts(userId);
+    this.fetchUserInfos();
   };
 
   handleOnScroll = ({ nativeEvent }) => {
@@ -487,6 +480,22 @@ class UserDetail extends Component {
     );
   };
 
+  renderNovelCollection = (items, profile) => {
+    const { userId, navigation, i18n } = this.props;
+    return (
+      <NovelCollection
+        title={i18n.userNovels}
+        total={profile.total_novels}
+        viewMoreTitle={i18n.worksCount}
+        items={items}
+        maxItems={3}
+        onPressViewMore={() =>
+          navigation.navigate(SCREENS.UserNovels, { userId })}
+        navigation={navigation}
+      />
+    );
+  };
+
   renderBookmarks = items => {
     const { userId, navigation, i18n } = this.props;
     return (
@@ -506,11 +515,14 @@ class UserDetail extends Component {
     const {
       userIllusts,
       userMangas,
+      userNovels,
       userBookmarkIllusts,
       userIllustsItems,
       userMangasItems,
+      userNovelsItems,
       userBookmarkIllustsItems,
     } = this.props;
+    console.log('un ', userNovels, userNovelsItems);
     return (
       <View>
         {this.renderProfile(detail)}
@@ -525,6 +537,12 @@ class UserDetail extends Component {
         userMangas.items &&
         userMangas.items.length
           ? this.renderMangaCollection(userMangasItems, detail.profile)
+          : null}
+        {userNovels &&
+        !userNovels.loading &&
+        userNovels.items &&
+        userNovels.items.length
+          ? this.renderNovelCollection(userNovelsItems, detail.profile)
           : null}
         {userBookmarkIllusts &&
         !userBookmarkIllusts.loading &&
@@ -613,6 +631,7 @@ export default connectLocalization(
           userDetail,
           userIllusts,
           userMangas,
+          userNovels,
           userBookmarkIllusts,
           muteUsers,
         } = state;
@@ -628,6 +647,7 @@ export default connectLocalization(
           userDetailItem,
           userIllustsItems,
           userMangasItems,
+          userNovelsItems,
           userBookmarkIllustsItems,
         } = getUserDetailPageItem(state, props);
         const isMuteUser = muteUsers.items.some(m => m === userId);
@@ -636,10 +656,12 @@ export default connectLocalization(
           userDetail: userDetail[userId],
           userIllusts: userIllusts[userId],
           userMangas: userMangas[userId],
+          userNovels: userNovels[userId],
           userBookmarkIllusts: userBookmarkIllusts[userId],
           userDetailItem,
           userIllustsItems,
           userMangasItems,
+          userNovelsItems,
           userBookmarkIllustsItems,
           userId,
           isMuteUser,
@@ -650,6 +672,7 @@ export default connectLocalization(
       ...userDetailActionCreators,
       ...userIllustsActionCreators,
       ...userMangasActionCreators,
+      ...userNovelsActionCreators,
       ...userBookmarkIllustlActionCreators,
       ...muteUsersActionCreators,
     },

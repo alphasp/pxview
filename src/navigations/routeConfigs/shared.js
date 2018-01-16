@@ -7,6 +7,7 @@ import NovelSeries from '../../screens/Shared/NovelSeries';
 import NovelReader from '../../screens/Shared/NovelReader';
 import UserIllusts from '../../screens/Shared/UserIllusts';
 import UserMangas from '../../screens/Shared/UserMangas';
+import UserNovels from '../../screens/Shared/UserNovels';
 import UserBookmarkIllusts from '../../screens/Shared/UserBookmarkIllusts';
 import RelatedIllusts from '../../screens/Shared/RelatedIllusts';
 import SearchResultTabs from '../../screens/Shared/SearchResultTabs';
@@ -82,6 +83,12 @@ const config = {
     screen: UserMangas,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.userMangas,
+    }),
+  },
+  [SCREENS.UserNovels]: {
+    screen: UserNovels,
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.userNovels,
     }),
   },
   [SCREENS.UserBookmarkIllusts]: {

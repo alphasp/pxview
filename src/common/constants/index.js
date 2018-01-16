@@ -151,6 +151,7 @@ export const SCREENS = {
   RelatedIllusts: 'RelatedIllusts',
   UserIllusts: 'UserIllusts',
   UserMangas: 'UserMangas',
+  UserNovels: 'UserNovels',
   UserBookmarkIllusts: 'UserBookmarkIllusts',
   SearchResult: 'SearchResult',
   RecommendedUsers: 'RecommendedUsers',

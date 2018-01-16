@@ -156,6 +156,12 @@ export const USER_MANGAS = defineAction(
   appNamespace,
 );
 
+export const USER_NOVELS = defineAction(
+  'USER_NOVELS',
+  [REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL],
+  appNamespace,
+);
+
 export const USER_BOOKMARK_ILLUSTS = defineAction(
   'USER_BOOKMARK_ILLUSTS',
   [REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL],

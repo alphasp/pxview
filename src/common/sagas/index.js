@@ -20,6 +20,7 @@ import { watchFetchRanking } from './ranking';
 import { watchFetchUserDetail } from './userDetail';
 import { watchFetchUserIllusts } from './userIllusts';
 import { watchFetchUserMangas } from './userMangas';
+import { watchFetchUserNovels } from './userNovels';
 import { watchFetchUserBookmarkIllusts } from './userBookmarkIllusts';
 import { watchFetchUserBookmarkNovels } from './userBookmarkNovels';
 import { watchFetchUserFollowers } from './userFollowers';
@@ -75,6 +76,7 @@ export default function* rootSaga() {
     watchFetchUserDetail(),
     watchFetchUserIllusts(),
     watchFetchUserMangas(),
+    watchFetchUserNovels(),
     watchFetchUserBookmarkIllusts(),
     watchFetchUserBookmarkNovels(),
     watchFetchUserFollowers(),

@@ -21,6 +21,7 @@ import searchHistory from './searchHistory';
 import userDetail from './userDetail';
 import userIllusts from './userIllusts';
 import userMangas from './userMangas';
+import userNovels from './userNovels';
 import userBookmarkIllusts from './userBookmarkIllusts';
 import myPrivateBookmarkIllusts from './myPrivateBookmarkIllusts';
 import myPrivateBookmarkNovels from './myPrivateBookmarkNovels';
@@ -82,6 +83,7 @@ const rootReducer = combineReducers({
   userDetail,
   userIllusts,
   userMangas,
+  userNovels,
   userBookmarkIllusts,
   myPrivateBookmarkIllusts,
   userBookmarkNovels,

@@ -273,6 +273,11 @@ class NovelDetail extends Component {
     });
   };
 
+  handleOnPressAvatar = userId => {
+    const { navigate } = this.props.navigation;
+    navigate(SCREENS.UserDetail, { userId });
+  };
+
   renderHeaderTitle = item => {
     const { navigation: { navigate } } = this.props;
     return (
@@ -354,6 +359,7 @@ class NovelDetail extends Component {
             navigation={navigation}
             i18n={i18n}
             authUser={authUser}
+            onPressAvatar={this.handleOnPressAvatar}
           />
         </ScrollView>
       </View>

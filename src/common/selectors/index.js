@@ -59,6 +59,7 @@ const selectUserBookmarkNovels = state => state.userBookmarkNovels;
 const selectMyPrivateBookmarkNovels = state => state.myPrivateBookmarkNovels;
 const selectUserIllusts = state => state.userIllusts;
 const selectUserMangas = state => state.userMangas;
+const selectUserNovels = state => state.userNovels;
 
 const selectRecommendedUsers = state => state.recommendedUsers;
 const selectSearchUsersAutoComplete = state => state.searchUsersAutoComplete;
@@ -310,6 +311,21 @@ export const makeGetUserMangasItems = () =>
     },
   );
 
+export const makeGetUserNovelsItems = () =>
+  createNovelItemsSelector(
+    [selectUserNovels, selectEntities, getProps],
+    (userNovels, entities, props) => {
+      const userId =
+        props.userId ||
+        props.navigation.state.params.userId ||
+        parseInt(props.navigation.state.params.id, 10) ||
+        parseInt(props.navigation.state.params.uid, 10);
+      return userNovels[userId]
+        ? denormalize(userNovels[userId].items, Schemas.NOVEL_ARRAY, entities)
+        : defaultArray;
+    },
+  );
+
 export const makeGetUserFollowingItems = () =>
   createUserItemsSelector(
     [selectUserFollowing, selectEntities, getProps],
@@ -522,6 +538,7 @@ export const makeGetUserDetailPageItems = () => {
   const getUserDetailItem = makeGetUserDetailItem();
   const getUserIllustItems = makeGetUserIllustsItems();
   const getUserMangaItems = makeGetUserMangasItems();
+  const getUserNovelsItems = makeGetUserNovelsItems();
   const getUserBookmarkIllustItems = makeGetUserBookmarkIllustsItems();
 
   return createSelector(
@@ -529,6 +546,7 @@ export const makeGetUserDetailPageItems = () => {
       getUserDetailItem,
       getUserIllustItems,
       getUserMangaItems,
+      getUserNovelsItems,
       getUserBookmarkIllustItems,
       getProps,
     ],
@@ -536,11 +554,13 @@ export const makeGetUserDetailPageItems = () => {
       userDetailItem,
       userIllustsItems,
       userMangasItems,
+      userNovelsItems,
       userBookmarkIllustsItems,
     ) => ({
       userDetailItem,
       userIllustsItems,
       userMangasItems,
+      userNovelsItems,
       userBookmarkIllustsItems,
     }),
   );
