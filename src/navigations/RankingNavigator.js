@@ -29,6 +29,8 @@ const mapRankingTypeString = (rankingType, i18n) => {
       return i18n.illustration;
     case RANKING_TYPES.MANGA:
       return i18n.manga;
+    case RANKING_TYPES.NOVEL:
+      return i18n.novel;
     default:
       return '';
   }
