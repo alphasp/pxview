@@ -593,20 +593,29 @@ export const makeGetDetailNovelItem = () =>
   createNovelItemSelector([selectEntities, getProps], (entities, props) => {
     const {
       // illust_id: illustIdFromQS, // from deep link params
-      // illustId, // from deep link querystring
+      novelId, // from deep link querystring
       items,
       index,
     } = props.navigation.state.params;
     let id;
-    // if (illustIdFromQS) {
-    //   id = parseInt(illustIdFromQS, 10);
-    // } else if (illustId) {
-    //   id = parseInt(illustId, 10);
-    // } else {
-    //   id = items[index].id;
-    // }
-    id = items[index].id;
+    if (novelId) {
+      id = parseInt(novelId, 10);
+    } else {
+      id = items[index].id;
+    }
     return denormalize(id, Schemas.NOVEL, entities);
+  });
+
+export const makeGetIllustItem = () =>
+  createIllustItemSelector([selectEntities, getProps], (entities, props) => {
+    const { illustId } = props;
+    return denormalize(illustId, Schemas.ILLUST, entities);
+  });
+
+export const makeGetNovelItem = () =>
+  createNovelItemSelector([selectEntities, getProps], (entities, props) => {
+    const { novelId } = props;
+    return denormalize(novelId, Schemas.NOVEL, entities);
   });
 
 export const makeGetTagsWithStatus = () =>

@@ -41,7 +41,7 @@ class NovelList extends Component {
   renderItem = ({ item, index }) =>
     <NovelItem
       key={item.id}
-      item={item}
+      novelId={item.id}
       index={index}
       onPressItem={() => this.handleOnPressItem(item, index)}
     />;

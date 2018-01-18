@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
+import { View, StyleSheet, Text } from 'react-native';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
-import OverlayImagePages from './OverlayImagePages';
-import OverlayUgoiraIndicator from './OverlayUgoiraIndicator';
-import OverlayBookmarkIllustButton from '../components/OverlayBookmarkIllustButton';
+import OverlayNovelPages from './OverlayNovelPages';
+import OverlayBookmarkNovelButton from '../components/OverlayBookmarkNovelButton';
 import OverlayMutedIndicator from '../components/OverlayMutedIndicator';
-import { makeGetIllustItem } from '../common/selectors';
 import { globalStyleVariables } from '../styles';
 
 const HIGHLIGHT_BORDER_WIDTH = 3;
@@ -16,25 +13,28 @@ const styles = StyleSheet.create({
     borderWidth: HIGHLIGHT_BORDER_WIDTH,
     borderColor: globalStyleVariables.HIGHLIGHT_COLOR,
   },
+  overlayTitleContainer: {
+    // flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    position: 'absolute',
+    justifyContent: 'center',
+    paddingHorizontal: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 5,
+  },
+  text: {
+    color: '#fff',
+    fontSize: 12,
+    // backgroundColor: 'transparent',
+  },
 });
 
-class IllustItem extends Component {
-  shouldComponentUpdate(nextProps) {
-    const {
-      item: prevItem,
-      isHighlight: prevIsHighlight,
-      isMute: prevIsMute,
-    } = this.props;
-    const { item, isHighlight, isMute } = nextProps;
-    // console.log(item.id, (prevItem.is_bookmarked !== item.is_bookmarked) || (prevItem.user.is_followed !== item.user.is_followed));
-    return (
-      prevItem.is_bookmarked !== item.is_bookmarked ||
-      prevItem.user.is_followed !== item.user.is_followed ||
-      prevIsHighlight !== isHighlight ||
-      prevIsMute !== isMute
-    );
-  }
-
+class NovelGridViewItem extends Component {
   render() {
     const {
       item,
@@ -81,29 +81,19 @@ class IllustItem extends Component {
                   imageStyle,
                 ]}
               />
-              <OverlayBookmarkIllustButton item={item} />
+              <View style={styles.overlayTitleContainer}>
+                <Text style={styles.text}>
+                  {item.title}
+                </Text>
+              </View>
+              <OverlayBookmarkNovelButton item={item} gridView />
             </View>}
-        {item.meta_pages && item.meta_pages.length
-          ? <OverlayImagePages total={item.meta_pages.length} />
+        {item.page_count > 1
+          ? <OverlayNovelPages total={item.page_count} />
           : null}
-        {item.type === 'ugoira' && <OverlayUgoiraIndicator />}
       </PXTouchable>
     );
   }
 }
 
-export default connect(() => {
-  const getIllustItem = makeGetIllustItem();
-  return (state, props) => {
-    const { highlightTags, muteTags, muteUsers } = state;
-    const item = getIllustItem(state, props);
-    const { tags, user } = item;
-    return {
-      item,
-      isHighlight: tags.some(t => highlightTags.items.includes(t.name)),
-      isMute:
-        tags.some(t => muteTags.items.includes(t.name)) ||
-        muteUsers.items.some(m => m === user.id),
-    };
-  };
-})(IllustItem);
+export default NovelGridViewItem;

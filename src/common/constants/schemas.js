@@ -37,11 +37,13 @@ novelCommentSchema.define({
 
 userSchema.define({
   illusts: [illustSchema],
+  novels: [novelSchema],
 });
 
 userPreviewSchema.define({
   user: userSchema,
   illusts: [illustSchema],
+  novels: [novelSchema],
 });
 
 // userProfileSchema.define({

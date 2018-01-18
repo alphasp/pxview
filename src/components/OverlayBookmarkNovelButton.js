@@ -4,7 +4,6 @@ import BookmarkNovelButton from './BookmarkNovelButton';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     bottom: 0,
     right: 0,
     position: 'absolute',
@@ -14,19 +13,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5,
   },
+  gridViewContainer: {
+    backgroundColor: 'rgba(0,0,0,0)',
+  },
+  listViewContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    left: 0,
+  },
   text: {
     marginLeft: 3,
     color: '#fff',
-    backgroundColor: 'transparent',
+    fontSize: 12,
   },
 });
 
-const OverlayBookmarkNovelButton = ({ total, ...restProps }) =>
-  <View style={styles.container}>
+const OverlayBookmarkNovelButton = ({ total, gridView, ...restProps }) =>
+  <View
+    style={[
+      styles.container,
+      gridView ? styles.gridViewContainer : styles.listViewContainer,
+    ]}
+  >
     <BookmarkNovelButton {...restProps} />
-    <Text style={styles.text}>
-      {total}
-    </Text>
+    {!gridView &&
+      total &&
+      <Text style={styles.text}>
+        {total}
+      </Text>}
   </View>;
 
 export default OverlayBookmarkNovelButton;

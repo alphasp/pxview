@@ -76,7 +76,7 @@ const IllustCollection = props => {
           illusts.map((item, index) =>
             <IllustItem
               key={item.id}
-              item={item}
+              illustId={item.id}
               index={index}
               numColumns={ILLUST_COLUMNS}
               onPressItem={() =>

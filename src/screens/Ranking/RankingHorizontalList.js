@@ -90,7 +90,7 @@ class RankingHorizontalList extends Component {
     <View style={styles.sliderContainer}>
       <IllustItem
         key={item.id}
-        item={item}
+        illustId={item.id}
         index={index}
         numColumns={3}
         onPressItem={() => this.handleOnPressItem(item)}

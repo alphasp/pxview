@@ -4,7 +4,7 @@ import BookmarkIllustButton from '../components/BookmarkIllustButton';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(0, 0, 0, 0)',
+    backgroundColor: 'rgba(0,0,0,0)',
     bottom: 0,
     right: 0,
     position: 'absolute',

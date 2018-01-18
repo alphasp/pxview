@@ -38,7 +38,7 @@ class IllustList extends Component {
   renderItem = ({ item, index }) =>
     <IllustItem
       key={item.id}
-      item={item}
+      illustId={item.id}
       index={index}
       numColumns={ILLUST_COLUMNS}
       onPressItem={() => this.handleOnPressItem(item, index)}

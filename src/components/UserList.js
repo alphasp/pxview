@@ -5,11 +5,12 @@ import PXTouchable from '../components/PXTouchable';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import FollowButtonContainer from '../containers/FollowButtonContainer';
 import IllustItem from './IllustItem';
+import NovelItem from './NovelItem';
 import { globalStyleVariables } from '../styles';
 import { SCREENS } from '../common/constants';
 
 const AVATAR_SIZE = 50;
-const ILLUST_PREVIEW_COLUMNS = 3;
+const PREVIEW_COLUMNS = 3;
 
 const styles = StyleSheet.create({
   container: {
@@ -58,12 +59,25 @@ class UserList extends Component {
           {item.illusts &&
             item.illusts.map((illust, index) =>
               <IllustItem
-                key={illust.id}
-                item={illust}
+                key={`userIllust-${illust.id}`}
+                illustId={illust.id}
                 index={index}
-                numColumns={ILLUST_PREVIEW_COLUMNS}
+                numColumns={PREVIEW_COLUMNS}
                 onPressItem={() =>
-                  this.handleOnPressImagePreview(item.illusts, index)}
+                  this.handleOnPressIllustPreview(item.illusts, index)}
+              />,
+            )}
+          {(!item.illusts || !item.illusts.length) &&
+            item.novels &&
+            item.novels.map((novel, index) =>
+              <NovelItem
+                key={`userNovel-${novel.id}`}
+                gridView
+                novelId={novel.id}
+                index={index}
+                numColumns={PREVIEW_COLUMNS}
+                onPressItem={() =>
+                  this.handleOnPressNovelPreview(item.novels, index)}
               />,
             )}
         </View>
@@ -98,9 +112,14 @@ class UserList extends Component {
       : null;
   };
 
-  handleOnPressImagePreview = (illusts, index) => {
+  handleOnPressIllustPreview = (illusts, index) => {
     const { navigate } = this.props.navigation;
     navigate(SCREENS.Detail, { items: illusts, index });
+  };
+
+  handleOnPressNovelPreview = (novels, index) => {
+    const { navigate } = this.props.navigation;
+    navigate(SCREENS.NovelDetail, { items: novels, index });
   };
 
   handleOnPressAvatar = userId => {
