@@ -536,18 +536,20 @@ const makeGetUserDetailItem = () =>
 
 export const makeGetUserDetailPageItems = () => {
   const getUserDetailItem = makeGetUserDetailItem();
-  const getUserIllustItems = makeGetUserIllustsItems();
-  const getUserMangaItems = makeGetUserMangasItems();
+  const getUserIllustsItems = makeGetUserIllustsItems();
+  const getUserMangasItems = makeGetUserMangasItems();
   const getUserNovelsItems = makeGetUserNovelsItems();
-  const getUserBookmarkIllustItems = makeGetUserBookmarkIllustsItems();
+  const getUserBookmarkIllustsItems = makeGetUserBookmarkIllustsItems();
+  const getUserBookmarkNovelsItems = makeGetUserBookmarkNovelsItems();
 
   return createSelector(
     [
       getUserDetailItem,
-      getUserIllustItems,
-      getUserMangaItems,
+      getUserIllustsItems,
+      getUserMangasItems,
       getUserNovelsItems,
-      getUserBookmarkIllustItems,
+      getUserBookmarkIllustsItems,
+      getUserBookmarkNovelsItems,
       getProps,
     ],
     (
@@ -556,12 +558,14 @@ export const makeGetUserDetailPageItems = () => {
       userMangasItems,
       userNovelsItems,
       userBookmarkIllustsItems,
+      userBookmarkNovelsItems,
     ) => ({
       userDetailItem,
       userIllustsItems,
       userMangasItems,
       userNovelsItems,
       userBookmarkIllustsItems,
+      userBookmarkNovelsItems,
     }),
   );
 };

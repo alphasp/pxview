@@ -25,7 +25,7 @@ class NewWorks extends Component {
     if (lang !== prevLang) {
       this.setState({
         routes: [
-          { key: '1', title: i18n.following },
+          { key: '1', title: i18n.follow },
           { key: '2', title: i18n.illustration },
           { key: '3', title: i18n.myPixiv },
         ],

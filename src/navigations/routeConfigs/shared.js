@@ -9,6 +9,7 @@ import UserIllusts from '../../screens/Shared/UserIllusts';
 import UserMangas from '../../screens/Shared/UserMangas';
 import UserNovels from '../../screens/Shared/UserNovels';
 import UserBookmarkIllusts from '../../screens/Shared/UserBookmarkIllusts';
+import UserBookmarkNovels from '../../screens/Shared/UserBookmarkNovels';
 import RelatedIllusts from '../../screens/Shared/RelatedIllusts';
 import SearchResultTabs from '../../screens/Shared/SearchResultTabs';
 import RecommendedUsers from '../../screens/Shared/RecommendedUsers';
@@ -93,6 +94,12 @@ const config = {
   },
   [SCREENS.UserBookmarkIllusts]: {
     screen: UserBookmarkIllusts,
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.collection,
+    }),
+  },
+  [SCREENS.UserBookmarkNovels]: {
+    screen: UserBookmarkNovels,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.collection,
     }),

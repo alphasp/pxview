@@ -34,7 +34,8 @@ import * as userDetailActionCreators from '../../common/actions/userDetail';
 import * as userIllustsActionCreators from '../../common/actions/userIllusts';
 import * as userMangasActionCreators from '../../common/actions/userMangas';
 import * as userNovelsActionCreators from '../../common/actions/userNovels';
-import * as userBookmarkIllustlActionCreators from '../../common/actions/userBookmarkIllusts';
+import * as userBookmarkIllustsActionCreators from '../../common/actions/userBookmarkIllusts';
+import * as userBookmarkNovelsActionCreators from '../../common/actions/userBookmarkNovels';
 import * as muteUsersActionCreators from '../../common/actions/muteUsers';
 import { makeGetUserDetailPageItems } from '../../common/selectors';
 import { SCREENS } from '../../common/constants';
@@ -166,17 +167,21 @@ class UserDetail extends Component {
       clearUserNovels,
       fetchUserBookmarkIllusts,
       clearUserBookmarkIllusts,
+      fetchUserBookmarkNovels,
+      clearUserBookmarkNovels,
     } = this.props;
     clearUserDetail(userId);
     clearUserIllusts(userId);
     clearUserMangas(userId);
     clearUserNovels(userId);
     clearUserBookmarkIllusts(userId);
+    clearUserBookmarkNovels(userId);
     fetchUserDetail(userId);
     fetchUserIllusts(userId);
     fetchUserMangas(userId);
     fetchUserNovels(userId);
     fetchUserBookmarkIllusts(userId);
+    fetchUserBookmarkNovels(userId);
   };
 
   handleOnLinkPress = url => {
@@ -491,12 +496,11 @@ class UserDetail extends Component {
         maxItems={3}
         onPressViewMore={() =>
           navigation.navigate(SCREENS.UserNovels, { userId })}
-        navigation={navigation}
       />
     );
   };
 
-  renderBookmarks = items => {
+  renderBookmarkIllusts = items => {
     const { userId, navigation, i18n } = this.props;
     return (
       <IllustCollection
@@ -511,18 +515,33 @@ class UserDetail extends Component {
     );
   };
 
+  renderBookmarkNovels = items => {
+    const { userId, navigation, i18n } = this.props;
+    return (
+      <NovelCollection
+        title={i18n.novelCollection}
+        viewMoreTitle={i18n.list}
+        items={items}
+        maxItems={3}
+        onPressViewMore={() =>
+          navigation.navigate(SCREENS.UserBookmarkNovels, { userId })}
+      />
+    );
+  };
+
   renderContent = detail => {
     const {
       userIllusts,
       userMangas,
       userNovels,
       userBookmarkIllusts,
+      userBookmarkNovels,
       userIllustsItems,
       userMangasItems,
       userNovelsItems,
       userBookmarkIllustsItems,
+      userBookmarkNovelsItems,
     } = this.props;
-    console.log('un ', userNovels, userNovelsItems);
     return (
       <View>
         {this.renderProfile(detail)}
@@ -548,7 +567,13 @@ class UserDetail extends Component {
         !userBookmarkIllusts.loading &&
         userBookmarkIllusts.items &&
         userBookmarkIllusts.items.length
-          ? this.renderBookmarks(userBookmarkIllustsItems)
+          ? this.renderBookmarkIllusts(userBookmarkIllustsItems)
+          : null}
+        {userBookmarkNovels &&
+        !userBookmarkNovels.loading &&
+        userBookmarkNovels.items &&
+        userBookmarkNovels.items.length
+          ? this.renderBookmarkNovels(userBookmarkNovelsItems)
           : null}
       </View>
     );
@@ -633,6 +658,7 @@ export default connectLocalization(
           userMangas,
           userNovels,
           userBookmarkIllusts,
+          userBookmarkNovels,
           muteUsers,
         } = state;
         const userId =
@@ -649,6 +675,7 @@ export default connectLocalization(
           userMangasItems,
           userNovelsItems,
           userBookmarkIllustsItems,
+          userBookmarkNovelsItems,
         } = getUserDetailPageItem(state, props);
         const isMuteUser = muteUsers.items.some(m => m === userId);
         return {
@@ -658,11 +685,13 @@ export default connectLocalization(
           userMangas: userMangas[userId],
           userNovels: userNovels[userId],
           userBookmarkIllusts: userBookmarkIllusts[userId],
+          userBookmarkNovels: userBookmarkNovels[userId],
           userDetailItem,
           userIllustsItems,
           userMangasItems,
           userNovelsItems,
           userBookmarkIllustsItems,
+          userBookmarkNovelsItems,
           userId,
           isMuteUser,
         };
@@ -673,7 +702,8 @@ export default connectLocalization(
       ...userIllustsActionCreators,
       ...userMangasActionCreators,
       ...userNovelsActionCreators,
-      ...userBookmarkIllustlActionCreators,
+      ...userBookmarkIllustsActionCreators,
+      ...userBookmarkNovelsActionCreators,
       ...muteUsersActionCreators,
     },
   )(UserDetail),
