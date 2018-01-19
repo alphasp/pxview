@@ -7,6 +7,7 @@ import recommendedMangas from './recommendedMangas';
 import recommendedNovels from './recommendedNovels';
 import relatedIllusts from './relatedIllusts';
 import trendingIllustTags from './trendingIllustTags';
+import trendingNovelTags from './trendingNovelTags';
 import recommendedUsers from './recommendedUsers';
 import illustDetail from './illustDetail';
 import illustComments from './illustComments';
@@ -14,7 +15,8 @@ import novelComments from './novelComments';
 import novelSeries from './novelSeries';
 import novelText from './novelText';
 import searchAutoComplete from './searchAutoComplete';
-import search from './search';
+import searchIllusts from './searchIllusts';
+import searchNovels from './searchNovels';
 import searchUsers from './searchUsers';
 import searchUsersAutoComplete from './searchUsersAutoComplete';
 import searchHistory from './searchHistory';
@@ -68,14 +70,16 @@ const rootReducer = combineReducers({
   recommendedNovels,
   relatedIllusts,
   trendingIllustTags,
+  trendingNovelTags,
   recommendedUsers,
   illustDetail,
   illustComments,
   novelComments,
   novelSeries,
   novelText,
-  search,
   ranking,
+  searchIllusts,
+  searchNovels,
   searchAutoComplete,
   searchUsers,
   searchUsersAutoComplete,

@@ -36,8 +36,10 @@ import { watchFetchNewNovels } from './newNovels';
 import { watchFetchMyPixivIllusts } from './myPixivIllusts';
 import { watchFetchMyPixivNovels } from './myPixivNovels';
 import { watchFetchTrendingIllustTags } from './trendingIllustTags';
+import { watchFetchTrendingNovelTags } from './trendingNovelTags';
 import { watchFetchRecommendedUsers } from './recommendedUsers';
-import { watchFetchSearch } from './search';
+import { watchFetchSearchIllusts } from './searchIllusts';
+import { watchFetchSearchNovels } from './searchNovels';
 import { watchFetchSearchUsers } from './searchUsers';
 import { watchFetchSearchAutoComplete } from './searchAutoComplete';
 import { watchFetchSearchUsersAutoComplete } from './searchUsersAutoComplete';
@@ -92,8 +94,10 @@ export default function* rootSaga() {
     watchFetchMyPixivIllusts(),
     watchFetchMyPixivNovels(),
     watchFetchTrendingIllustTags(),
+    watchFetchTrendingNovelTags(),
     watchFetchRecommendedUsers(),
-    watchFetchSearch(),
+    watchFetchSearchIllusts(),
+    watchFetchSearchNovels(),
     watchFetchSearchUsers(),
     watchFetchSearchAutoComplete(),
     watchFetchSearchUsersAutoComplete(),

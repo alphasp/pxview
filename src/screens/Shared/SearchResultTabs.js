@@ -8,11 +8,11 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Search from '../../containers/Search';
-import SearchResult from '../../containers/SearchResult';
+import SearchIllustsResult from '../../containers/SearchIllustsResult';
+import SearchNovelsResult from '../../containers/SearchNovelsResult';
 import SearchUsersResult from '../../containers/SearchUsersResult';
 import { connectLocalization } from '../../components/Localization';
 import PXSearchBar from '../../components/PXSearchBar';
-import PXTabView from '../../components/PXTabView';
 import HeaderFilterButton from '../../components/HeaderFilterButton';
 import HeaderEncyclopediaButton from '../../components/HeaderEncyclopediaButton';
 import * as searchAutoCompleteActionCreators from '../../common/actions/searchAutoComplete';
@@ -32,15 +32,11 @@ const styles = StyleSheet.create({
 class SearchResultTabs extends Component {
   constructor(props) {
     super(props);
-    const { word, i18n, navigation } = props;
+    const { word, navigation } = props;
     const { searchType } = navigation.state.params;
     this.state = {
-      index: searchType === SEARCH_TYPES.USER ? 1 : 0,
       searchType,
-      routes: [
-        { key: '1', title: i18n.illustManga },
-        { key: '2', title: i18n.user },
-      ],
+      newSearchType: searchType,
       isFocusSearchBar: false,
       newWord: word,
       searchOptions: {},
@@ -56,19 +52,6 @@ class SearchResultTabs extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { lang: prevLang } = this.props;
-    const { lang, i18n } = nextProps;
-    if (lang !== prevLang) {
-      this.setState({
-        routes: [
-          { key: '1', title: i18n.illustManga },
-          { key: '2', title: i18n.user },
-        ],
-      });
-    }
-  }
-
   componentWillUnmount() {
     if (this.backHandlerListener) {
       BackHandler.removeEventListener(
@@ -77,18 +60,6 @@ class SearchResultTabs extends Component {
       );
     }
   }
-
-  handleChangeTab = index => {
-    const newState = {
-      index,
-    };
-    if (index === 1) {
-      newState.searchType = SEARCH_TYPES.USER;
-    } else {
-      newState.searchType = SEARCH_TYPES.ILLUST;
-    }
-    this.setState(newState);
-  };
 
   handleOnFocusSearchBar = () => {
     this.setState({ isFocusSearchBar: true });
@@ -100,7 +71,7 @@ class SearchResultTabs extends Component {
 
   handleOnPressShowFilterModal = () => {
     const { navigate, goBack } = this.props.navigation;
-    const { searchOptions } = this.state;
+    const { searchOptions, newSearchType } = this.state;
     Keyboard.dismiss();
     this.setState({
       isFocusSearchBar: false,
@@ -108,6 +79,7 @@ class SearchResultTabs extends Component {
     setTimeout(() => {
       navigate(SCREENS.SearchFilterModal, {
         searchFilter: searchOptions || {},
+        searchType: newSearchType,
         onPressApplyFilter: (target, duration, sort) => {
           goBack(null);
           this.setState({
@@ -131,12 +103,13 @@ class SearchResultTabs extends Component {
 
   handleOnPressBackButton = () => {
     const { word, navigation: { goBack } } = this.props;
-    const { isFocusSearchBar } = this.state;
+    const { isFocusSearchBar, searchType } = this.state;
     if (isFocusSearchBar) {
       Keyboard.dismiss();
       this.setState({
         isFocusSearchBar: false,
         newWord: word,
+        newSearchType: searchType,
       });
     } else {
       goBack();
@@ -145,12 +118,13 @@ class SearchResultTabs extends Component {
 
   handleOnPressHardwareBackButton = () => {
     const { word } = this.props;
-    const { isFocusSearchBar } = this.state;
+    const { isFocusSearchBar, searchType } = this.state;
     if (isFocusSearchBar) {
       Keyboard.dismiss();
       this.setState({
         isFocusSearchBar: false,
         newWord: word,
+        newSearchType: searchType,
       });
       return true;
     }
@@ -159,11 +133,17 @@ class SearchResultTabs extends Component {
 
   handleOnSubmitSearch = word => {
     const { dispatch, state } = this.props.navigation;
+    const { searchType, newSearchType } = this.state;
     Keyboard.dismiss();
-    this.setState({
+    const nextState = {
       isFocusSearchBar: false,
       newWord: word,
-    });
+    };
+    if (searchType !== newSearchType) {
+      nextState.searchType = newSearchType;
+      nextState.searchOptions = {};
+    }
+    this.setState(nextState);
     dispatch(
       navReplace('SearchResult', state.key, {
         word,
@@ -172,32 +152,41 @@ class SearchResultTabs extends Component {
     return true;
   };
 
-  handleOnChangeSearchTab = index => {
-    const newState = {
-      index,
-    };
-    if (index === 1) {
-      newState.searchType = SEARCH_TYPES.USER;
+  handleOnChangePill = index => {
+    const newState = {};
+    if (index === 0) {
+      newState.newSearchType = SEARCH_TYPES.ILLUST;
+    } else if (index === 1) {
+      newState.newSearchType = SEARCH_TYPES.NOVEL;
     } else {
-      newState.searchType = SEARCH_TYPES.ILLUST;
+      newState.newSearchType = SEARCH_TYPES.USER;
     }
     this.setState(newState);
   };
 
-  renderScene = ({ route }) => {
+  renderContent() {
     const { word, navigation, navigationStateKey } = this.props;
-    const { searchOptions } = this.state;
-    switch (route.key) {
-      case '1':
+    const { searchOptions, searchType } = this.state;
+    switch (searchType) {
+      case SEARCH_TYPES.ILLUST:
         return (
-          <SearchResult
+          <SearchIllustsResult
             word={word}
             options={searchOptions}
             navigation={navigation}
             navigationStateKey={navigationStateKey}
           />
         );
-      case '2':
+      case SEARCH_TYPES.NOVEL:
+        return (
+          <SearchNovelsResult
+            word={word}
+            options={searchOptions}
+            navigation={navigation}
+            navigationStateKey={navigationStateKey}
+          />
+        );
+      case SEARCH_TYPES.USER:
         return (
           <SearchUsersResult
             word={word}
@@ -208,10 +197,10 @@ class SearchResultTabs extends Component {
       default:
         return null;
     }
-  };
+  }
 
   render() {
-    const { navigationStateKey, navigation } = this.props;
+    const { navigation } = this.props;
     const { newWord, isFocusSearchBar, searchType } = this.state;
     return (
       <View style={styles.container}>
@@ -224,38 +213,30 @@ class SearchResultTabs extends Component {
           onPressBackButton={this.handleOnPressBackButton}
           onSubmitSearch={this.handleOnSubmitSearch}
           headerRight={
-            <View style={{ flexDirection: 'row' }}>
-              <HeaderEncyclopediaButton
-                disabled={searchType === SEARCH_TYPES.USER}
-                color={searchType === SEARCH_TYPES.USER ? '#E9EBEE' : '#000'}
-                onPress={this.handleOnPressViewEncyclopedia}
-              />
-              <HeaderFilterButton
-                disabled={searchType === SEARCH_TYPES.USER}
-                color={searchType === SEARCH_TYPES.USER ? '#E9EBEE' : '#000'}
-                onPress={this.handleOnPressShowFilterModal}
-              />
-            </View>
+            !isFocusSearchBar && searchType !== SEARCH_TYPES.USER
+              ? <View style={{ flexDirection: 'row' }}>
+                  <HeaderEncyclopediaButton
+                    color="#000"
+                    onPress={this.handleOnPressViewEncyclopedia}
+                  />
+                  <HeaderFilterButton
+                    color="#000"
+                    onPress={this.handleOnPressShowFilterModal}
+                  />
+                </View>
+              : null
           }
           isFocus={isFocusSearchBar}
         />
         <View style={styles.content}>
-          <PXTabView
-            navigationState={{
-              ...this.state,
-              navigation,
-              navigationStateKey,
-            }}
-            renderScene={this.renderScene}
-            onIndexChange={this.handleChangeTab}
-          />
+          {this.renderContent()}
           {isFocusSearchBar &&
             <Search
               word={newWord}
               navigation={navigation}
               searchType={searchType}
               onSubmitSearch={this.handleOnSubmitSearch}
-              onChangeTab={this.handleOnChangeSearchTab}
+              onChangePill={this.handleOnChangePill}
             />}
         </View>
       </View>

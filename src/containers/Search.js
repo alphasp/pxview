@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import SearchAutoCompleteResult from './SearchAutoCompleteResult';
 import SearchUsersAutoCompleteResult from './SearchUsersAutoCompleteResult';
 import { connectLocalization } from '../components/Localization';
-import PXTabView from '../components/PXTabView';
+import Pills from '../components/Pills';
 import * as searchAutoCompleteActionCreators from '../common/actions/searchAutoComplete';
 import * as searchUserAutoCompleteActionCreators from '../common/actions/searchUsersAutoComplete';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
@@ -20,92 +20,49 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: '#fff',
   },
+  pills: {
+    padding: 10,
+    ...Platform.select({
+      ios: {
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: 'rgba(0, 0, 0, .3)',
+      },
+      android: {
+        shadowColor: 'black',
+        shadowOpacity: 0.1,
+        shadowRadius: StyleSheet.hairlineWidth,
+        shadowOffset: {
+          height: StyleSheet.hairlineWidth,
+        },
+        elevation: 4,
+      },
+    }),
+  },
 });
 
 class Search extends Component {
   constructor(props) {
     super(props);
-    const { searchType, i18n } = props;
-    this.state = {
-      index: searchType === SEARCH_TYPES.USER ? 1 : 0,
-      searchType,
-      routes: [
-        { key: '1', title: i18n.illustManga },
-        { key: '2', title: i18n.user },
-      ],
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { lang: prevLang } = this.props;
-    const { lang, i18n } = nextProps;
-    if (lang !== prevLang) {
-      this.setState({
-        routes: [
-          { key: '1', title: i18n.illustManga },
-          { key: '2', title: i18n.user },
-        ],
-      });
-    }
-  }
-
-  handleChangeTab = index => {
-    const newState = {
-      index,
-    };
-    if (index === 1) {
-      newState.searchType = SEARCH_TYPES.USER;
-    } else {
-      newState.searchType = SEARCH_TYPES.ILLUST;
-    }
-    this.setState(newState);
-    const { onChangeTab } = this.props;
-    if (onChangeTab) {
-      onChangeTab(index);
-    }
-  };
-
-  renderScene = ({ route }) => {
-    const {
-      word,
-      searchAutoComplete,
-      searchUsersAutoComplete,
-      searchHistory,
-    } = this.props;
-    switch (route.key) {
-      case '1':
-        return (
-          <SearchAutoCompleteResult
-            searchAutoComplete={searchAutoComplete}
-            searchHistory={searchHistory}
-            onPressItem={this.handleOnPressAutoCompleteItem}
-            onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
-            onPressRemoveSearchHistoryItem={
-              this.handleOnPressRemoveSearchHistoryItem
-            }
-            onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
-            word={word}
-          />
-        );
-      case '2':
-        return (
-          <SearchUsersAutoCompleteResult
-            searchUsersAutoComplete={searchUsersAutoComplete}
-            searchHistory={searchHistory}
-            onPressItem={this.handleOnPressUser}
-            onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
-            onPressRemoveSearchHistoryItem={
-              this.handleOnPressRemoveSearchHistoryItem
-            }
-            onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
-            loadMoreItems={this.loadMoreUsers}
-            word={word}
-          />
-        );
+    const { searchType } = props;
+    let index;
+    switch (searchType) {
+      case SEARCH_TYPES.ILLUST:
+        index = 0;
+        break;
+      case SEARCH_TYPES.NOVEL:
+        index = 1;
+        break;
+      case SEARCH_TYPES.USER:
+        index = 2;
+        break;
       default:
-        return null;
+        break;
     }
-  };
+    this.state = {
+      index,
+      searchType,
+    };
+  }
 
   submitSearch = word => {
     word = word.trim();
@@ -152,29 +109,109 @@ class Search extends Component {
     }
   };
 
-  render() {
+  handleOnPressPill = index => {
+    const newState = {
+      index,
+    };
+    if (index === 0) {
+      newState.searchType = SEARCH_TYPES.ILLUST;
+    } else if (index === 1) {
+      newState.searchType = SEARCH_TYPES.NOVEL;
+    } else {
+      newState.searchType = SEARCH_TYPES.USER;
+    }
+    this.setState(newState);
+    const { onChangePill } = this.props;
+    if (onChangePill) {
+      onChangePill(index);
+    }
+  };
+
+  renderHeader = () => {
+    const { i18n } = this.props;
+    const { index } = this.state;
+    return (
+      <Pills
+        items={[
+          {
+            title: i18n.illustManga,
+          },
+          {
+            title: i18n.novel,
+          },
+          {
+            title: i18n.user,
+          },
+        ]}
+        onPressItem={this.handleOnPressPill}
+        selectedIndex={index}
+        style={styles.pills}
+      />
+    );
+  };
+
+  renderContent = () => {
     const {
       word,
       searchAutoComplete,
       searchUsersAutoComplete,
       searchHistory,
     } = this.props;
-    const { searchType } = this.state;
+    const { index } = this.state;
+    switch (index) {
+      case 0:
+        return (
+          <SearchAutoCompleteResult
+            searchAutoComplete={searchAutoComplete}
+            searchHistory={searchHistory}
+            onPressItem={this.handleOnPressAutoCompleteItem}
+            onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
+            onPressRemoveSearchHistoryItem={
+              this.handleOnPressRemoveSearchHistoryItem
+            }
+            onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
+            word={word}
+          />
+        );
+      case 1:
+        return (
+          <SearchAutoCompleteResult
+            searchAutoComplete={searchAutoComplete}
+            searchHistory={searchHistory}
+            onPressItem={this.handleOnPressAutoCompleteItem}
+            onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
+            onPressRemoveSearchHistoryItem={
+              this.handleOnPressRemoveSearchHistoryItem
+            }
+            onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
+            word={word}
+          />
+        );
+      case 2:
+        return (
+          <SearchUsersAutoCompleteResult
+            searchUsersAutoComplete={searchUsersAutoComplete}
+            searchHistory={searchHistory}
+            onPressItem={this.handleOnPressUser}
+            onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
+            onPressRemoveSearchHistoryItem={
+              this.handleOnPressRemoveSearchHistoryItem
+            }
+            onPressClearSearchHistory={this.handleOnPressClearSearchHistory}
+            loadMoreItems={this.loadMoreUsers}
+            word={word}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  render() {
     return (
       <View style={styles.container}>
-        <PXTabView
-          navigationState={{
-            ...this.state,
-            word,
-            searchAutoComplete,
-            searchUsersAutoComplete,
-            searchHistory,
-            searchType,
-          }}
-          renderScene={this.renderScene}
-          onIndexChange={this.handleChangeTab}
-          lazy={false}
-        />
+        {this.renderHeader()}
+        {this.renderContent()}
       </View>
     );
   }

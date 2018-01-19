@@ -65,6 +65,7 @@ class PXHeader extends Component {
     headerTitle: null,
     headerRight: null,
     darkTheme: false,
+    withShadow: true,
   };
 
   handleOnPressDrawerMenuButton = () => {
@@ -89,13 +90,15 @@ class PXHeader extends Component {
       headerRight,
       darkTheme,
       absolutePosition,
+      withShadow,
     } = this.props;
     return (
       <View
         style={[
           styles.container,
           darkTheme && styles.containerDark,
-          absolutePosition ? styles.absolutePosition : styles.containerShadow,
+          absolutePosition && styles.absolutePosition,
+          withShadow && styles.containerShadow,
         ]}
       >
         <View style={styles.subContainer}>

@@ -1,14 +1,14 @@
 import qs from 'qs';
-import { SEARCH } from '../constants/actionTypes';
+import { SEARCH_ILLUSTS } from '../constants/actionTypes';
 
-export function fetchSearchSuccess(
+export function fetchSearchIllustsSuccess(
   entities,
   items,
   navigationStateKey,
   nextUrl,
 ) {
   return {
-    type: SEARCH.SUCCESS,
+    type: SEARCH_ILLUSTS.SUCCESS,
     payload: {
       navigationStateKey,
       entities,
@@ -19,16 +19,16 @@ export function fetchSearchSuccess(
   };
 }
 
-export function fetchSearchFailure(navigationStateKey) {
+export function fetchSearchIllustsFailure(navigationStateKey) {
   return {
-    type: SEARCH.FAILURE,
+    type: SEARCH_ILLUSTS.FAILURE,
     payload: {
       navigationStateKey,
     },
   };
 }
 
-export function fetchSearch(
+export function fetchSearchIllusts(
   navigationStateKey,
   word,
   options,
@@ -38,7 +38,7 @@ export function fetchSearch(
   const params = qs.parse(nextUrl);
   const offset = params.offset || '0';
   return {
-    type: SEARCH.REQUEST,
+    type: SEARCH_ILLUSTS.REQUEST,
     payload: {
       navigationStateKey,
       word,
@@ -50,17 +50,17 @@ export function fetchSearch(
   };
 }
 
-export function clearSearch(navigationStateKey) {
+export function clearSearchIllusts(navigationStateKey) {
   return {
-    type: SEARCH.CLEAR,
+    type: SEARCH_ILLUSTS.CLEAR,
     payload: {
       navigationStateKey,
     },
   };
 }
 
-export function clearAllSearch() {
+export function clearAllSearchIllusts() {
   return {
-    type: SEARCH.CLEAR_ALL,
+    type: SEARCH_ILLUSTS.CLEAR_ALL,
   };
 }

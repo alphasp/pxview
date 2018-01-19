@@ -44,7 +44,9 @@ const selectRecommendedIllusts = state => state.recommendedIllusts;
 const selectRecommendedMangas = state => state.recommendedMangas;
 const selectRecommendedNovels = state => state.recommendedNovels;
 const selectTrendingIllustTags = state => state.trendingIllustTags;
-const selectSearch = state => state.search;
+const selectTrendingNovelTags = state => state.trendingNovelTags;
+const selectSearchIllusts = state => state.searchIllusts;
+const selectSearchNovels = state => state.searchNovels;
 const selectRelatedIllusts = state => state.relatedIllusts;
 const selectFollowingUserIllusts = state => state.followingUserIllusts;
 const selectFollowingUserNovels = state => state.followingUserNovels;
@@ -234,14 +236,27 @@ export const makeGetIllustRankingItems = () =>
       ),
   );
 
-export const makeGetSearchItems = () =>
+export const makeGetSearchIllustsItems = () =>
   createIllustItemsSelector(
-    [selectSearch, selectEntities, getProps],
-    (search, entities, props) =>
-      search[props.navigationStateKey]
+    [selectSearchIllusts, selectEntities, getProps],
+    (searchIllusts, entities, props) =>
+      searchIllusts[props.navigationStateKey]
         ? denormalize(
-            search[props.navigationStateKey].items,
+            searchIllusts[props.navigationStateKey].items,
             Schemas.ILLUST_ARRAY,
+            entities,
+          )
+        : defaultArray,
+  );
+
+export const makeGetSearchNovelsItems = () =>
+  createNovelItemsSelector(
+    [selectSearchNovels, selectEntities, getProps],
+    (searchNovels, entities, props) =>
+      searchNovels[props.navigationStateKey]
+        ? denormalize(
+            searchNovels[props.navigationStateKey].items,
+            Schemas.NOVEL_ARRAY,
             entities,
           )
         : defaultArray,
@@ -711,6 +726,12 @@ export const getTrendingIllustTagsItems = createTagItemsSelector(
   [selectTrendingIllustTags, selectEntities],
   (trendingIllustTags, entities) =>
     denormalize(trendingIllustTags.items, Schemas.ILLUST_TAG_ARRAY, entities),
+);
+
+export const getTrendingNovelTagsItems = createTagItemsSelector(
+  [selectTrendingNovelTags, selectEntities],
+  (trendingNovelTags, entities) =>
+    denormalize(trendingNovelTags.items, Schemas.ILLUST_TAG_ARRAY, entities),
 );
 
 export const getRecommendedUsersItems = createUserItemsSelector(

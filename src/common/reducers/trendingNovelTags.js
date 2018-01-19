@@ -1,37 +1,32 @@
-import { SEARCH_USERS_AUTOCOMPLETE } from '../constants/actionTypes';
+import { TRENDING_NOVEL_TAGS } from '../constants/actionTypes';
 
 const initState = {
   loading: false,
   loaded: false,
   refreshing: false,
   items: [],
-  word: null,
-  offset: 0,
-  nextUrl: null,
 };
 
-export default function searchUsersAutoComplete(state = initState, action) {
+export default function trendingIllustTags(state = initState, action) {
   switch (action.type) {
-    case SEARCH_USERS_AUTOCOMPLETE.CLEAR:
+    case TRENDING_NOVEL_TAGS.CLEAR:
       return initState;
-    case SEARCH_USERS_AUTOCOMPLETE.REQUEST:
+    case TRENDING_NOVEL_TAGS.REQUEST:
       return {
         ...state,
         loading: true,
         refreshing: action.payload.refreshing,
-        word: action.payload.word,
       };
-    case SEARCH_USERS_AUTOCOMPLETE.SUCCESS:
+    case TRENDING_NOVEL_TAGS.SUCCESS:
       return {
         ...state,
         loading: false,
         loaded: true,
         refreshing: false,
         items: [...new Set([...state.items, ...action.payload.items])],
-        nextUrl: action.payload.nextUrl,
         timestamp: action.payload.timestamp,
       };
-    case SEARCH_USERS_AUTOCOMPLETE.FAILURE:
+    case TRENDING_NOVEL_TAGS.FAILURE:
       return {
         ...state,
         loading: false,

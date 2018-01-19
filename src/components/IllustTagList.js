@@ -11,7 +11,7 @@ import { withNavigation } from 'react-navigation';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
-import { SEARCH_TYPES, SCREENS } from '../common/constants';
+import { SCREENS } from '../common/constants';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import { globalStyles, globalStyleVariables } from '../styles';
 
@@ -71,7 +71,7 @@ class IllustTagList extends Component {
       const width = globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1;
       const height = globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS - 1;
       imageContainerStyle = {
-        marginRight: index % ILLUST_COLUMNS < ILLUST_COLUMNS - 1 ? 1 : 0,
+        marginRight: index % ILLUST_COLUMNS ? 1 : 0,
         width,
         height,
       };
@@ -106,11 +106,15 @@ class IllustTagList extends Component {
   };
 
   handleOnPressItem = item => {
-    const { addSearchHistory, navigation: { navigate } } = this.props;
+    const {
+      addSearchHistory,
+      searchType,
+      navigation: { navigate },
+    } = this.props;
     addSearchHistory(item.tag);
     navigate(SCREENS.SearchResult, {
       word: item.tag,
-      searchType: SEARCH_TYPES.ILLUST,
+      searchType,
     });
   };
 

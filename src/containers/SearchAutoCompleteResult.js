@@ -13,11 +13,13 @@ const styles = StyleSheet.create({
 
 class SearchAutoCompleteResult extends Component {
   componentDidMount() {
-    const { word, clearSearchAutoComplete } = this.props;
-    clearSearchAutoComplete();
-    InteractionManager.runAfterInteractions(() => {
-      this.submitSearchAutoComplete(word);
-    });
+    const { searchAutoComplete, word, clearSearchAutoComplete } = this.props;
+    if (word !== searchAutoComplete.word) {
+      clearSearchAutoComplete();
+      InteractionManager.runAfterInteractions(() => {
+        this.submitSearchAutoComplete(word);
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {

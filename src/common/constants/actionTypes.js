@@ -252,14 +252,26 @@ export const TRENDING_ILLUST_TAGS = defineAction(
   appNamespace,
 );
 
+export const TRENDING_NOVEL_TAGS = defineAction(
+  'TRENDING_NOVEL_TAGS',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
 export const RECOMMENDED_USERS = defineAction(
   'RECOMMENDED_USERS',
   [REQUEST, SUCCESS, FAILURE, CLEAR],
   appNamespace,
 );
 
-export const SEARCH = defineAction(
-  'SEARCH',
+export const SEARCH_ILLUSTS = defineAction(
+  'SEARCH_ILLUSTS',
+  [REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL],
+  appNamespace,
+);
+
+export const SEARCH_NOVELS = defineAction(
+  'SEARCH_NOVELS',
   [REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL],
   appNamespace,
 );

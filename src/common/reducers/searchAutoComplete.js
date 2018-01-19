@@ -4,6 +4,7 @@ const initState = {
   loading: false,
   loaded: false,
   items: [],
+  word: null,
 };
 
 export default function searchAutoComplete(state = initState, action) {
@@ -14,6 +15,7 @@ export default function searchAutoComplete(state = initState, action) {
       return {
         ...state,
         loading: true,
+        word: action.payload.word,
       };
     case SEARCH_AUTOCOMPLETE.SUCCESS:
       return {

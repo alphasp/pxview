@@ -37,7 +37,7 @@ const OverlayBookmarkNovelButton = ({ total, gridView, ...restProps }) =>
   >
     <BookmarkNovelButton {...restProps} />
     {!gridView &&
-      total &&
+      total > 0 &&
       <Text style={styles.text}>
         {total}
       </Text>}

@@ -1,12 +1,15 @@
 import { normalize } from 'normalizr';
 import { takeEvery, apply, put } from 'redux-saga/effects';
-import { fetchSearchSuccess, fetchSearchFailure } from '../actions/search';
+import {
+  fetchSearchIllustsSuccess,
+  fetchSearchIllustsFailure,
+} from '../actions/searchIllusts';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/apiClient';
-import { SEARCH } from '../constants/actionTypes';
+import { SEARCH_ILLUSTS } from '../constants/actionTypes';
 import Schemas from '../constants/schemas';
 
-export function* handleFetchSearch(action) {
+export function* handleFetchSearchIllusts(action) {
   const { navigationStateKey, word, options, nextUrl } = action.payload;
   try {
     let response;
@@ -29,7 +32,7 @@ export function* handleFetchSearch(action) {
       Schemas.ILLUST_ARRAY,
     );
     yield put(
-      fetchSearchSuccess(
+      fetchSearchIllustsSuccess(
         normalized.entities,
         normalized.result,
         navigationStateKey,
@@ -37,11 +40,11 @@ export function* handleFetchSearch(action) {
       ),
     );
   } catch (err) {
-    yield put(fetchSearchFailure(navigationStateKey));
+    yield put(fetchSearchIllustsFailure(navigationStateKey));
     yield put(addError(err));
   }
 }
 
-export function* watchFetchSearch() {
-  yield takeEvery(SEARCH.REQUEST, handleFetchSearch);
+export function* watchFetchSearchIllusts() {
+  yield takeEvery(SEARCH_ILLUSTS.REQUEST, handleFetchSearchIllusts);
 }

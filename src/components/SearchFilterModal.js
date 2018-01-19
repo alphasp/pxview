@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { connectLocalization } from './Localization';
 import PXTouchable from './PXTouchable';
 import Separator from './Separator';
+import { SEARCH_TYPES } from '../common/constants';
 import { globalStyles, globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
@@ -33,71 +34,90 @@ const styles = StyleSheet.create({
   },
 });
 
-const sections = [
-  {
-    key: 'target',
-    data: [
-      {
-        value: 'partial_match_for_tags',
-        type: 'target',
-      },
-      {
-        value: 'exact_match_for_tags',
-        type: 'target',
-      },
-      {
-        value: 'title_and_caption',
-        type: 'target',
-      },
-    ],
-  },
-  {
-    key: 'duration',
-    data: [
-      {
-        value: '',
-        type: 'duration',
-      },
-      {
-        value: 'within_last_day',
-        type: 'duration',
-      },
-      {
-        value: 'within_last_week',
-        type: 'duration',
-      },
-      {
-        value: 'within_last_month',
-        type: 'duration',
-      },
-    ],
-  },
-  {
-    key: 'sort',
-    data: [
-      {
-        value: 'date_desc',
-        type: 'sort',
-      },
-      {
-        value: 'date_asc',
-        type: 'sort',
-      },
-    ],
-  },
-];
-
 class SearchFilterModal extends Component {
   constructor(props) {
     super(props);
     const {
       searchFilter: { target, duration, sort },
+      searchType,
     } = props.navigation.state.params;
     this.state = {
       target: target || 'partial_match_for_tags',
       duration: duration || '',
       sort: sort || 'date_desc',
     };
+    let targetSectionData;
+    if (searchType === SEARCH_TYPES.ILLUST) {
+      targetSectionData = [
+        {
+          value: 'partial_match_for_tags',
+          type: 'target',
+        },
+        {
+          value: 'exact_match_for_tags',
+          type: 'target',
+        },
+        {
+          value: 'title_and_caption',
+          type: 'target',
+        },
+      ];
+    } else {
+      targetSectionData = [
+        {
+          value: 'partial_match_for_tags',
+          type: 'target',
+        },
+        {
+          value: 'text',
+          type: 'target',
+        },
+        {
+          value: 'keyword',
+          type: 'target',
+        },
+      ];
+    }
+    this.sections = [
+      {
+        key: 'target',
+        data: targetSectionData,
+      },
+      {
+        key: 'duration',
+        data: [
+          {
+            value: '',
+            type: 'duration',
+          },
+          {
+            value: 'within_last_day',
+            type: 'duration',
+          },
+          {
+            value: 'within_last_week',
+            type: 'duration',
+          },
+          {
+            value: 'within_last_month',
+            type: 'duration',
+          },
+        ],
+      },
+      {
+        key: 'sort',
+        data: [
+          {
+            value: 'date_desc',
+            type: 'sort',
+          },
+          {
+            value: 'date_asc',
+            type: 'sort',
+          },
+        ],
+      },
+    ];
   }
 
   getSearchTypeName = type => {
@@ -123,6 +143,10 @@ class SearchFilterModal extends Component {
         return i18n.searchTargetTagTotal;
       case 'title_and_caption':
         return i18n.searchTargetTitleCaption;
+      case 'text':
+        return i18n.searchTargetText;
+      case 'keyword':
+        return i18n.searchTargetKeyword;
       case '':
         return i18n.searchDurationNothing;
       case 'within_last_day':
@@ -188,7 +212,7 @@ class SearchFilterModal extends Component {
           renderSectionHeader={this.renderSectionHeader}
           ItemSeparatorComponent={this.renderSeparator}
           keyExtractor={item => item.value}
-          sections={sections}
+          sections={this.sections}
           initialNumToRender={12}
         />
         <View style={styles.searchFilterButtonContainer}>

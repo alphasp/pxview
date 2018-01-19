@@ -1,15 +1,15 @@
-import { SEARCH } from '../constants/actionTypes';
+import { SEARCH_ILLUSTS } from '../constants/actionTypes';
 
-export default function search(state = {}, action) {
+export default function searchIllusts(state = {}, action) {
   switch (action.type) {
-    case SEARCH.CLEAR:
+    case SEARCH_ILLUSTS.CLEAR:
       return {
         ...state,
         [action.payload.navigationStateKey]: {},
       };
-    case SEARCH.CLEAR_ALL:
+    case SEARCH_ILLUSTS.CLEAR_ALL:
       return {};
-    case SEARCH.REQUEST:
+    case SEARCH_ILLUSTS.REQUEST:
       return {
         ...state,
         [action.payload.navigationStateKey]: {
@@ -21,7 +21,7 @@ export default function search(state = {}, action) {
           offset: action.payload.offset,
         },
       };
-    case SEARCH.SUCCESS:
+    case SEARCH_ILLUSTS.SUCCESS:
       return {
         ...state,
         [action.payload.navigationStateKey]: {
@@ -43,7 +43,7 @@ export default function search(state = {}, action) {
           timestamp: action.payload.timestamp,
         },
       };
-    case SEARCH.FAILURE:
+    case SEARCH_ILLUSTS.FAILURE:
       return {
         ...state,
         [action.payload.navigationStateKey]: {
