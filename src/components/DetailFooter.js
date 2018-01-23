@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import { View, Text, StyleSheet, Platform, Linking } from 'react-native';
 import moment from 'moment';
 import HtmlView from 'react-native-htmlview';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -8,6 +8,7 @@ import IllustComments from '../screens/Shared/IllustComments';
 import NovelComments from '../screens/Shared/NovelComments';
 import NovelSeries from '../screens/Shared/NovelSeries';
 import FollowButtonContainer from '../containers/FollowButtonContainer';
+import { connectLocalization } from './Localization';
 import Tags from './Tags';
 import PXTouchable from './PXTouchable';
 import PXThumbnail from './PXThumbnail';
@@ -72,6 +73,17 @@ class DetailFooter extends PureComponent {
     onPressAvatar(item.user.id);
   };
 
+  handleOnPressLink = url => {
+    Linking.canOpenURL(url)
+      .then(supported => {
+        if (!supported) {
+          return null;
+        }
+        return Linking.openURL(url);
+      })
+      .catch(err => err);
+  };
+
   render() {
     const {
       item,
@@ -81,7 +93,6 @@ class DetailFooter extends PureComponent {
       onLayoutView,
       onPressTag,
       onLongPressTag,
-      onPressLink,
       tags,
     } = this.props;
     return (
@@ -103,10 +114,7 @@ class DetailFooter extends PureComponent {
               </View>
             </PXTouchable>
             {((authUser && authUser.id !== item.user.id) || !authUser) &&
-              <FollowButtonContainer
-                user={item.user}
-                navigation={navigation}
-              />}
+              <FollowButtonContainer userId={item.user.id} />}
           </View>
           <View style={styles.captionContainer}>
             {item.series &&
@@ -117,7 +125,10 @@ class DetailFooter extends PureComponent {
             <Text style={styles.title}>
               {item.title}
             </Text>
-            <HtmlView value={item.caption} onLinkPress={onPressLink} />
+            <HtmlView
+              value={item.caption}
+              onLinkPress={this.handleOnPressLink}
+            />
           </View>
           <View style={styles.statContainer}>
             <Text>
@@ -195,4 +206,4 @@ class DetailFooter extends PureComponent {
   }
 }
 
-export default DetailFooter;
+export default connectLocalization(DetailFooter);

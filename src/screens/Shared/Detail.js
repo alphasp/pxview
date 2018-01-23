@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import Share from 'react-native-share';
 import ActionButton from 'react-native-action-button';
 import enhanceSaveImage from '../../components/HOC/enhanceSaveImage';
-import DetailImageList from '../../components/DetailImageList';
+import IllustDetailContent from '../../components/IllustDetailContent';
 import PXHeader from '../../components/PXHeader';
 import PXViewPager from '../../components/PXViewPager';
 import PXBottomSheet from '../../components/PXBottomSheet';
@@ -309,7 +309,7 @@ class Detail extends Component {
   };
 
   renderContent = ({ item }) => {
-    const { navigation, i18n, authUser } = this.props;
+    const { navigation, authUser } = this.props;
     return (
       <View style={styles.content} key={item.id}>
         <PXHeader
@@ -319,10 +319,9 @@ class Detail extends Component {
           showBackButton
           onPressBackButton={this.handleOnPressHeaderBackButton}
         />
-        <DetailImageList
+        <IllustDetailContent
           item={item}
           navigation={navigation}
-          i18n={i18n}
           authUser={authUser}
           onPressImage={this.handleOnPressImage}
           onLongPressImage={this.handleOnLongPressImage}

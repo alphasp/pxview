@@ -15,7 +15,7 @@ import Share from 'react-native-share';
 import ActionButton from 'react-native-action-button';
 import { connectLocalization } from '../../components/Localization';
 import PXCacheImageTouchable from '../../components/PXCacheImageTouchable';
-import DetailFooter from '../..//components/DetailFooter';
+import NovelDetailContent from '../../components/NovelDetailContent';
 import PXHeader from '../../components/PXHeader';
 import PXViewPager from '../../components/PXViewPager';
 import PXBottomSheet from '../../components/PXBottomSheet';
@@ -273,11 +273,6 @@ class NovelDetail extends Component {
     });
   };
 
-  handleOnPressAvatar = userId => {
-    const { navigate } = this.props.navigation;
-    navigate(SCREENS.UserDetail, { userId });
-  };
-
   renderHeaderTitle = item => {
     const { navigation: { navigate } } = this.props;
     return (
@@ -320,7 +315,7 @@ class NovelDetail extends Component {
     </View>;
 
   renderContent = ({ item }) => {
-    const { navigation, i18n, authUser } = this.props;
+    const { navigation, authUser } = this.props;
     return (
       <View key={item.id} style={styles.content}>
         <PXHeader
@@ -330,38 +325,11 @@ class NovelDetail extends Component {
           showBackButton
           onPressBackButton={this.handleOnPressHeaderBackButton}
         />
-        {/* <DetailImageList
+        <NovelDetailContent
           item={item}
           navigation={navigation}
-          i18n={i18n}
           authUser={authUser}
-          onPressImage={this.handleOnPressImage}
-          onLongPressImage={this.handleOnLongPressImage}
-          onScroll={this.handleOnScrollDetailImageList}
-        /> */}
-        <ScrollView>
-          <View>
-            <PXCacheImageTouchable
-              key={item.image_urls.medium}
-              uri={item.image_urls.medium}
-              initWidth={globalStyleVariables.WINDOW_HEIGHT}
-              initHeight={200}
-              imageStyle={styles.image}
-              onPress={this.handleOnPressNovelImage}
-            />
-            {item.page_count > 1
-              ? <OverlayNovelPages total={item.page_count} />
-              : null}
-          </View>
-          <DetailFooter
-            item={item}
-            tags={item.tags}
-            navigation={navigation}
-            i18n={i18n}
-            authUser={authUser}
-            onPressAvatar={this.handleOnPressAvatar}
-          />
-        </ScrollView>
+        />
       </View>
     );
   };
@@ -400,7 +368,7 @@ class NovelDetail extends Component {
   }
 
   render() {
-    const { item, isMuteUser, i18n } = this.props;
+    const { item, isMuteUser } = this.props;
     const {
       isActionButtonVisible,
       isOpenMenuBottomSheet,
@@ -426,41 +394,39 @@ class NovelDetail extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(
-    () => {
-      const getDetailItem = makeGetDetailNovelItem();
-      return (state, props) => {
-        const item = getDetailItem(state, props);
-        const isMuteUser = item
-          ? state.muteUsers.items.some(m => m === item.user.id)
-          : false;
-        const {
-          novel_id: novelIdFromQS,
-          novelId,
-          items,
-          index,
-          onListEndReached,
-          parentListKey,
-        } = props.navigation.state.params;
-        const id = parseInt(novelIdFromQS || novelId, 0);
-        return {
-          novelId: id || item.id,
-          // novelDetail: state.novelDetail[id], // get novelDetail from api if load from deep link
-          item,
-          isMuteUser,
-          isFromDeepLink: !!id,
-          items,
-          index,
-          onListEndReached,
-          parentListKey,
-          authUser: state.auth.user,
-        };
+export default connect(
+  () => {
+    const getDetailItem = makeGetDetailNovelItem();
+    return (state, props) => {
+      const item = getDetailItem(state, props);
+      const isMuteUser = item
+        ? state.muteUsers.items.some(m => m === item.user.id)
+        : false;
+      const {
+        novel_id: novelIdFromQS,
+        novelId,
+        items,
+        index,
+        onListEndReached,
+        parentListKey,
+      } = props.navigation.state.params;
+      const id = parseInt(novelIdFromQS || novelId, 0);
+      return {
+        novelId: id || item.id,
+        // novelDetail: state.novelDetail[id], // get novelDetail from api if load from deep link
+        item,
+        isMuteUser,
+        isFromDeepLink: !!id,
+        items,
+        index,
+        onListEndReached,
+        parentListKey,
+        authUser: state.auth.user,
       };
-    },
-    {
-      ...browsingHistoryActionCreators,
-      ...muteUsersActionCreators,
-    },
-  )(NovelDetail),
-);
+    };
+  },
+  {
+    ...browsingHistoryActionCreators,
+    ...muteUsersActionCreators,
+  },
+)(NovelDetail);
