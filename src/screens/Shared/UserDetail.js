@@ -312,7 +312,7 @@ class UserDetail extends Component {
   };
 
   renderHeaderRight = () => {
-    const { userDetailItem, authUser, navigation } = this.props;
+    const { userDetailItem, authUser } = this.props;
     if (!userDetailItem || !userDetailItem.user) {
       return null;
     }
@@ -327,10 +327,9 @@ class UserDetail extends Component {
         {user &&
           ((authUser && user.id !== authUser.id) || !authUser) &&
           <FollowButtonContainer
-            user={user}
+            userId={user.id}
             buttonStyle={styles.followButton}
             textStyle={styles.followButtonText}
-            navigation={navigation}
           />}
         <HeaderMenuButton
           onPress={this.handleOnPressOpenMenuBottomSheet}

@@ -4,31 +4,20 @@ import { connect } from 'react-redux';
 import FollowButton from '../components/FollowButton';
 import * as followUserActionCreators from '../common/actions/followUser';
 import * as modalActionCreators from '../common/actions/modal';
-import { FOLLOWING_TYPES, MODAL_TYPES, SCREENS } from '../common/constants';
+import { FOLLOWING_TYPES, MODAL_TYPES } from '../common/constants';
+import { makeGetUserItem } from '../common/selectors';
 
 class FollowButtonContainer extends Component {
   static propTypes = {
-    authUser: PropTypes.object,
-    user: PropTypes.object.isRequired,
+    userId: PropTypes.number.isRequired,
     followUser: PropTypes.func.isRequired,
     unfollowUser: PropTypes.func.isRequired,
-    navigation: PropTypes.object.isRequired, // need to pass navigation manually, withNavigation will not work in static function
     openModal: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-    authUser: null,
-  };
-
   handleOnPress = () => {
-    const { authUser, user, navigation: { navigate } } = this.props;
-    if (!authUser) {
-      navigate(SCREENS.Login, {
-        onLoginSuccess: () => {
-          this.followUser(user.id, FOLLOWING_TYPES.PUBLIC);
-        },
-      });
-    } else if (user.is_followed) {
+    const { user } = this.props;
+    if (user.is_followed) {
       this.unfollowUser(user.id);
     } else {
       this.followUser(user.id, FOLLOWING_TYPES.PUBLIC);
@@ -36,19 +25,11 @@ class FollowButtonContainer extends Component {
   };
 
   handleOnLongPress = () => {
-    const { authUser, user, navigation: { navigate }, openModal } = this.props;
-    if (!authUser) {
-      navigate(SCREENS.Login, {
-        onLoginSuccess: () => {
-          this.followUser(user.id, FOLLOWING_TYPES.PUBLIC);
-        },
-      });
-    } else {
-      openModal(MODAL_TYPES.FOLLOW, {
-        userId: user.id,
-        isFollow: user.is_followed,
-      });
-    }
+    const { user, openModal } = this.props;
+    openModal(MODAL_TYPES.FOLLOW, {
+      userId: user.id,
+      isFollow: user.is_followed,
+    });
   };
 
   followUser = (userId, followType) => {
@@ -75,8 +56,14 @@ class FollowButtonContainer extends Component {
 }
 
 export default connect(
-  state => ({
-    authUser: state.auth.user,
-  }),
+  () => {
+    const getUserItem = makeGetUserItem();
+    return (state, props) => {
+      const user = getUserItem(state, props);
+      return {
+        user,
+      };
+    };
+  },
   { ...followUserActionCreators, ...modalActionCreators },
 )(FollowButtonContainer);

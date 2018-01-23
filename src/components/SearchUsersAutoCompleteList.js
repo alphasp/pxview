@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 
 class SearchUsersAutoCompleteList extends PureComponent {
   renderItem = ({ item }) => {
-    const { onPressItem, navigation } = this.props;
+    const { onPressItem } = this.props;
     return (
       <PXTouchable onPress={() => onPressItem(item.user.id)}>
         <View style={styles.row}>
@@ -55,7 +55,7 @@ class SearchUsersAutoCompleteList extends PureComponent {
               {item.user.name}
             </Text>
           </View>
-          <FollowButtonContainer user={item.user} navigation={navigation} />
+          <FollowButtonContainer userId={item.user.id} />
         </View>
       </PXTouchable>
     );

@@ -165,12 +165,36 @@ const createUserItemsSelector = createSelectorCreator(
     return equals(
       prev,
       next,
+      (p, n) => p.id === n.id && p.is_followed === n.is_followed,
+    );
+  },
+);
+
+const createUserPreviewItemsSelector = createSelectorCreator(
+  specialMemoize,
+  (prev, next) => {
+    if (!prev && !next) {
+      return false;
+    }
+    return equals(
+      prev,
+      next,
       (p, n) => p.id === n.id && p.user.is_followed === n.user.is_followed,
     );
   },
 );
 
 const createUserItemSelector = createSelectorCreator(
+  specialMemoize,
+  (prev, next) => {
+    if (!prev || !next) {
+      return false;
+    }
+    return prev.id === next.id && prev.is_followed === next.is_followed;
+  },
+);
+
+const createUserDetailItemSelector = createSelectorCreator(
   specialMemoize,
   (prev, next) => {
     if (!prev || !next) {
@@ -342,7 +366,7 @@ export const makeGetUserNovelsItems = () =>
   );
 
 export const makeGetUserFollowingItems = () =>
-  createUserItemsSelector(
+  createUserPreviewItemsSelector(
     [selectUserFollowing, selectEntities, getProps],
     (userFollowing, entities, props) => {
       const userId = props.userId || props.navigation.state.params.userId;
@@ -358,7 +382,7 @@ export const makeGetUserFollowingItems = () =>
   );
 
 export const makeGetUserFollowersItems = () =>
-  createUserItemsSelector(
+  createUserPreviewItemsSelector(
     [selectUserFollowers, selectEntities, getProps],
     (userFollowers, entities, props) => {
       const userId = props.userId || props.navigation.state.params.userId;
@@ -373,7 +397,7 @@ export const makeGetUserFollowersItems = () =>
   );
 
 export const makeGetUserMyPixivItems = () =>
-  createUserItemsSelector(
+  createUserPreviewItemsSelector(
     [selectUserMyPixiv, selectEntities, getProps],
     (userMyPixiv, entities, props) => {
       const userId = props.userId || props.navigation.state.params.userId;
@@ -388,7 +412,7 @@ export const makeGetUserMyPixivItems = () =>
   );
 
 export const makeGetSearchUsersItems = () =>
-  createUserItemsSelector(
+  createUserPreviewItemsSelector(
     [selectSearchUsers, selectEntities, getProps],
     (searchUsers, entities, props) =>
       searchUsers[props.navigationStateKey]
@@ -534,8 +558,14 @@ export const makeGetParsedNovelText = () =>
       : null;
   });
 
+export const makeGetUserItem = () =>
+  createUserItemSelector([selectEntities, getProps], (entities, props) => {
+    const userId = props.userId || props.navigation.state.params.userId;
+    return denormalize(userId, Schemas.USER, entities);
+  });
+
 const makeGetUserDetailItem = () =>
-  createUserItemSelector(
+  createUserDetailItemSelector(
     [selectUserDetail, selectEntities, getProps],
     (userDetail, entities, props) => {
       const userId =
@@ -734,13 +764,13 @@ export const getTrendingNovelTagsItems = createTagItemsSelector(
     denormalize(trendingNovelTags.items, Schemas.ILLUST_TAG_ARRAY, entities),
 );
 
-export const getRecommendedUsersItems = createUserItemsSelector(
+export const getRecommendedUsersItems = createUserPreviewItemsSelector(
   [selectRecommendedUsers, selectEntities],
   (recommendedUsers, entities) =>
     denormalize(recommendedUsers.items, Schemas.USER_PREVIEW_ARRAY, entities),
 );
 
-export const getSearchUsersAutoCompleteItems = createUserItemsSelector(
+export const getSearchUsersAutoCompleteItems = createUserPreviewItemsSelector(
   [selectSearchUsersAutoComplete, selectEntities],
   (searchUsersAutoComplete, entities) =>
     denormalize(
