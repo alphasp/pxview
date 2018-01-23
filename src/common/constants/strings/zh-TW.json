@@ -19,6 +19,7 @@
   "accountSettingsValidatePixivId": "請輸入您的pixiv ID",
   "all": "全部",
   "browsingHistory": "瀏覽記錄",
+  "browsingHistoryClearConfirmation": "確定清除瀏覽記錄?",
   "cacheClear": "清除緩存",
   "cacheClearConfirmation": "確定清除缓存?",
   "cacheClearSuccess": "緩存清除成功",

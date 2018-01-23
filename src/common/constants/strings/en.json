@@ -19,6 +19,7 @@
   "accountSettingsValidatePixivId": "Please enter your pixiv ID",
   "all": "All",
   "browsingHistory": "Browsing History",
+  "browsingHistoryClearConfirmation": "Confirm clear browsing history?",
   "cacheClear": "Clear Cache",
   "cacheClearConfirmation": "Confirm clear cache?",
   "cacheClearSuccess": "Cache clear successfully",

@@ -1,6 +1,6 @@
-import { BROWSING_HISTORY } from '../constants/actionTypes';
+import { BROWSING_HISTORY_NOVELS } from '../constants/actionTypes';
 
-export default function browsingHistory(
+export default function browsingHistoryNovels(
   state = {
     loading: false,
     loaded: true,
@@ -10,7 +10,7 @@ export default function browsingHistory(
   action = {},
 ) {
   switch (action.type) {
-    case BROWSING_HISTORY.ADD: {
+    case BROWSING_HISTORY_NOVELS.ADD: {
       let newItems;
       const items = state.items;
       const newItem = action.payload.item;
@@ -28,12 +28,12 @@ export default function browsingHistory(
         items: newItems,
       };
     }
-    case BROWSING_HISTORY.REMOVE:
+    case BROWSING_HISTORY_NOVELS.REMOVE:
       return {
         ...state,
         items: state.items.filter(item => item !== action.payload.item),
       };
-    case BROWSING_HISTORY.CLEAR:
+    case BROWSING_HISTORY_NOVELS.CLEAR:
       return {
         ...state,
         items: [],

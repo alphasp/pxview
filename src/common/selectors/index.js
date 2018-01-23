@@ -78,7 +78,8 @@ const selectNovelComments = state => state.novelComments;
 const selectNovelSeries = state => state.novelSeries;
 const selectNovelText = state => state.novelText;
 
-const selectBrowsingHistory = state => state.browsingHistory;
+const selectBrowsingHistoryIllusts = state => state.browsingHistoryIllusts;
+const selectBrowsingHistoryNovels = state => state.browsingHistoryNovels;
 
 const selectHighlightTags = state => state.highlightTags.items;
 const selectMuteTags = state => state.muteTags.items;
@@ -780,10 +781,16 @@ export const getSearchUsersAutoCompleteItems = createUserPreviewItemsSelector(
     ),
 );
 
-export const getBrowsingHistoryItems = createIllustItemsSelector(
-  [selectBrowsingHistory, selectEntities],
-  (browsingHistory, entities) =>
-    denormalize(browsingHistory.items, Schemas.ILLUST_ARRAY, entities),
+export const getBrowsingHistoryIllustsItems = createIllustItemsSelector(
+  [selectBrowsingHistoryIllusts, selectEntities],
+  (browsingHistoryIllusts, entities) =>
+    denormalize(browsingHistoryIllusts.items, Schemas.ILLUST_ARRAY, entities),
+);
+
+export const getBrowsingHistoryNovelsItems = createNovelItemsSelector(
+  [selectBrowsingHistoryNovels, selectEntities],
+  (browsingHistoryNovels, entities) =>
+    denormalize(browsingHistoryNovels.items, Schemas.NOVEL_ARRAY, entities),
 );
 
 export const getMuteUsersItems = createMuteUserItemsSelector(

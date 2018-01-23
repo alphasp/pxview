@@ -372,12 +372,17 @@ export const SEARCH_HISTORY = defineAction(
   appNamespace,
 );
 
-export const BROWSING_HISTORY = defineAction(
-  'BROWSING_HISTORY',
+export const BROWSING_HISTORY_ILLUSTS = defineAction(
+  'BROWSING_HISTORY_ILLUSTS',
   [ADD, REMOVE, CLEAR],
   appNamespace,
 );
 
+export const BROWSING_HISTORY_NOVELS = defineAction(
+  'BROWSING_HISTORY_NOVELS',
+  [ADD, REMOVE, CLEAR],
+  appNamespace,
+);
 export const MUTE_TAGS = defineAction(
   'MUTE_TAGS',
   [ADD, REMOVE, CLEAR],

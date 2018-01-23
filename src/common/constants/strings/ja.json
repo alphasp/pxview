@@ -19,6 +19,7 @@
   "accountSettingsValidatePixivId": "pixiv IDが未記入です",
   "all": "すべて",
   "browsingHistory": "閲覧履歴",
+  "browsingHistoryClearConfirmation": "閲覧履歴を削除しますか?",
   "cacheClear": "キャッシュを削除",
   "cacheClearConfirmation": "キャッシュを削除しますか?",
   "cacheClearSuccess": "削除しました",

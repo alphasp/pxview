@@ -28,7 +28,7 @@ import PXTouchable from '../../components/PXTouchable';
 import PXThumbnail from '../../components/PXThumbnail';
 import HeaderSaveImageButton from '../../components/HeaderSaveImageButton';
 import HeaderMenuButton from '../../components/HeaderMenuButton';
-import * as browsingHistoryActionCreators from '../../common/actions/browsingHistory';
+import * as browsingHistoryNovelsActionCreators from '../../common/actions/browsingHistoryNovels';
 import * as muteUsersActionCreators from '../../common/actions/muteUsers';
 // import * as novelDetailActionCreators from '../../common/actions/novelDetail';
 import { makeGetDetailNovelItem } from '../../common/selectors';
@@ -93,21 +93,22 @@ class NovelDetail extends Component {
       novelId,
       item,
       isFromDeepLink,
-      addBrowsingHistory,
-      fetchIllustDetail,
+      addBrowsingHistoryNovels,
+      // fetchNovelDetail,
     } = this.props;
     InteractionManager.runAfterInteractions(() => {
       if (this.detailView) {
         this.setState({ mounting: false });
       }
       if (isFromDeepLink) {
-        // fetchIllustDetail(novelId);
+        // todo
+        // fetchNovelDetail(novelId);
       } else {
         this.masterListUpdateListener = DeviceEventEmitter.addListener(
           'masterListUpdate',
           this.handleOnMasterListUpdate,
         );
-        // addBrowsingHistory(item.id);
+        addBrowsingHistoryNovels(item.id);
       }
     });
   }
@@ -118,7 +119,7 @@ class NovelDetail extends Component {
       novelId,
       isFromDeepLink,
       novelDetail,
-      addBrowsingHistory,
+      addBrowsingHistoryNovels,
     } = nextProps;
     if (
       novelId &&
@@ -128,8 +129,8 @@ class NovelDetail extends Component {
       novelDetail.loaded !== prevIllustDetail.prevLoaded &&
       novelDetail.item
     ) {
-      // only add browsing history if item is loaded for illust that open from deep link
-      // addBrowsingHistory(novelId);
+      // only add browsing history if item is loaded for novel that open from deep link
+      addBrowsingHistoryNovels(novelId);
     }
   }
 
@@ -186,14 +187,14 @@ class NovelDetail extends Component {
   };
 
   handleOnViewPagerPageSelected = index => {
-    const { items, addBrowsingHistory, navigation } = this.props;
+    const { items, addBrowsingHistoryNovels, navigation } = this.props;
     if (this.props.index !== undefined && this.props.index !== index) {
       const { setParams } = navigation;
       setParams({
         index,
       });
       InteractionManager.runAfterInteractions(() => {
-        addBrowsingHistory(items[index].id);
+        addBrowsingHistoryNovels(items[index].id);
       });
     }
   };
@@ -426,7 +427,7 @@ export default connect(
     };
   },
   {
-    ...browsingHistoryActionCreators,
+    ...browsingHistoryNovelsActionCreators,
     ...muteUsersActionCreators,
   },
 )(NovelDetail);

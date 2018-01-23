@@ -25,7 +25,7 @@ import PXTouchable from '../../components/PXTouchable';
 import PXThumbnail from '../../components/PXThumbnail';
 import HeaderSaveImageButton from '../../components/HeaderSaveImageButton';
 import HeaderMenuButton from '../../components/HeaderMenuButton';
-import * as browsingHistoryActionCreators from '../../common/actions/browsingHistory';
+import * as browsingHistoryIllustsActionCreators from '../../common/actions/browsingHistoryIllusts';
 import * as muteUsersActionCreators from '../../common/actions/muteUsers';
 import * as illustDetailActionCreators from '../../common/actions/illustDetail';
 import { makeGetDetailItem } from '../../common/selectors';
@@ -87,7 +87,7 @@ class Detail extends Component {
       illustId,
       item,
       isFromDeepLink,
-      addBrowsingHistory,
+      addBrowsingHistoryIllusts,
       fetchIllustDetail,
     } = this.props;
     InteractionManager.runAfterInteractions(() => {
@@ -101,7 +101,7 @@ class Detail extends Component {
           'masterListUpdate',
           this.handleOnMasterListUpdate,
         );
-        addBrowsingHistory(item.id);
+        addBrowsingHistoryIllusts(item.id);
       }
     });
   }
@@ -112,7 +112,7 @@ class Detail extends Component {
       illustId,
       isFromDeepLink,
       illustDetail,
-      addBrowsingHistory,
+      addBrowsingHistoryIllusts,
     } = nextProps;
     if (
       illustId &&
@@ -123,7 +123,7 @@ class Detail extends Component {
       illustDetail.item
     ) {
       // only add browsing history if item is loaded for illust that open from deep link
-      addBrowsingHistory(illustId);
+      addBrowsingHistoryIllusts(illustId);
     }
   }
 
@@ -180,14 +180,14 @@ class Detail extends Component {
   };
 
   handleOnViewPagerPageSelected = index => {
-    const { items, addBrowsingHistory, navigation } = this.props;
+    const { items, addBrowsingHistoryIllusts, navigation } = this.props;
     if (this.props.index !== undefined && this.props.index !== index) {
       const { setParams } = navigation;
       setParams({
         index,
       });
       InteractionManager.runAfterInteractions(() => {
-        addBrowsingHistory(items[index].id);
+        addBrowsingHistoryIllusts(items[index].id);
       });
     }
   };
@@ -454,7 +454,7 @@ export default enhanceSaveImage(
       };
     },
     {
-      ...browsingHistoryActionCreators,
+      ...browsingHistoryIllustsActionCreators,
       ...muteUsersActionCreators,
       ...illustDetailActionCreators,
     },

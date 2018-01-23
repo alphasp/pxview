@@ -40,13 +40,26 @@ export default function configureStore() {
     (inboundState, key) => {
       switch (key) {
         case 'entities': {
-          const { entities, browsingHistory, muteUsers } = store.getState();
+          const {
+            entities,
+            browsingHistoryIllusts,
+            browsingHistoryNovels,
+            muteUsers,
+          } = store.getState();
           const selectedUsersEntities = {};
-          const selectedIllustsEntities = browsingHistory.items
+          const selectedIllustsEntities = browsingHistoryIllusts.items
             .filter(id => entities.illusts[id])
             .reduce((prev, id) => {
               prev[id] = entities.illusts[id];
               const userId = entities.illusts[id].user;
+              selectedUsersEntities[userId] = entities.users[userId];
+              return prev;
+            }, {});
+          const selectedNovelsEntities = browsingHistoryNovels.items
+            .filter(id => entities.novels[id])
+            .reduce((prev, id) => {
+              prev[id] = entities.novels[id];
+              const userId = entities.novels[id].user;
               selectedUsersEntities[userId] = entities.users[userId];
               return prev;
             }, {});
@@ -63,14 +76,26 @@ export default function configureStore() {
           return {
             ...inboundState,
             illusts: selectedIllustsEntities,
+            novels: selectedNovelsEntities,
             users: finalSelectedUsersEntities,
           };
         }
-        case 'browsingHistory': {
-          const { entities, browsingHistory } = store.getState();
+        case 'browsingHistoryIllusts': {
+          const { entities, browsingHistoryIllusts } = store.getState();
           return {
             ...inboundState,
-            items: browsingHistory.items.filter(id => entities.illusts[id]),
+            items: browsingHistoryIllusts.items.filter(
+              id => entities.illusts[id],
+            ),
+          };
+        }
+        case 'browsingHistoryNovels': {
+          const { entities, browsingHistoryNovels } = store.getState();
+          return {
+            ...inboundState,
+            items: browsingHistoryNovels.items.filter(
+              id => entities.novels[id],
+            ),
           };
         }
         default:
@@ -78,13 +103,21 @@ export default function configureStore() {
       }
     },
     outboundState => outboundState,
-    { whitelist: ['entities', 'browsingHistory', 'muteUsers'] },
+    {
+      whitelist: [
+        'entities',
+        'browsingHistoryIllusts',
+        'browsingHistoryNovels',
+        'muteUsers',
+      ],
+    },
   );
 
   persistStore(store, {
     whitelist: [
       'searchHistory',
-      'browsingHistory',
+      'browsingHistoryIllusts',
+      'browsingHistoryNovels',
       'highlightTags',
       'muteTags',
       'muteUsers',

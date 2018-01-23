@@ -1,19 +1,22 @@
-import { HIGHLIGHT_TAGS } from '../constants/actionTypes';
+import { BROWSING_HISTORY_ILLUSTS } from '../constants/actionTypes';
 
-export default function highlightTags(
+export default function browsingHistoryIllusts(
   state = {
+    loading: false,
+    loaded: true,
+    refreshing: false,
     items: [],
   },
   action = {},
 ) {
   switch (action.type) {
-    case HIGHLIGHT_TAGS.ADD: {
+    case BROWSING_HISTORY_ILLUSTS.ADD: {
       let newItems;
       const items = state.items;
       const newItem = action.payload.item;
       if (items && items.length) {
         if (items.indexOf(newItem) === -1) {
-          newItems = [newItem, ...items.slice(0, 200)];
+          newItems = [newItem, ...items.slice(0, 101)];
         } else {
           newItems = [...items];
         }
@@ -25,12 +28,12 @@ export default function highlightTags(
         items: newItems,
       };
     }
-    case HIGHLIGHT_TAGS.REMOVE:
+    case BROWSING_HISTORY_ILLUSTS.REMOVE:
       return {
         ...state,
         items: state.items.filter(item => item !== action.payload.item),
       };
-    case HIGHLIGHT_TAGS.CLEAR:
+    case BROWSING_HISTORY_ILLUSTS.CLEAR:
       return {
         ...state,
         items: [],
