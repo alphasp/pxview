@@ -216,11 +216,9 @@ class SearchResultTabs extends Component {
             !isFocusSearchBar && searchType !== SEARCH_TYPES.USER
               ? <View style={{ flexDirection: 'row' }}>
                   <HeaderEncyclopediaButton
-                    color="#000"
                     onPress={this.handleOnPressViewEncyclopedia}
                   />
                   <HeaderFilterButton
-                    color="#000"
                     onPress={this.handleOnPressShowFilterModal}
                   />
                 </View>

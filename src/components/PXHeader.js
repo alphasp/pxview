@@ -56,6 +56,7 @@ class PXHeader extends Component {
     headerTitle: PropTypes.element,
     headerRight: PropTypes.element,
     darkTheme: PropTypes.bool,
+    withShadow: PropTypes.bool,
   };
 
   static defaultProps = {
