@@ -6,13 +6,14 @@ import {
   Text,
   TouchableWithoutFeedback,
   Modal,
-  Slider,
 } from 'react-native';
 import { connect } from 'react-redux';
+import Slider from 'react-native-slider';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connectLocalization } from '../components/Localization';
 import * as modalActionCreators from '../common/actions/modal';
 import * as novelSettingsActionCreators from '../common/actions/novelSettings';
+import { globalStyleVariables } from '../styles/index';
 
 const styles = StyleSheet.create({
   container: {
@@ -95,6 +96,8 @@ class NovelSettingsModal extends Component {
                     minimumValue={10}
                     maximumValue={18}
                     step={2}
+                    minimumTrackTintColor={globalStyleVariables.PRIMARY_COLOR}
+                    thumbTintColor={globalStyleVariables.PRIMARY_COLOR}
                     onSlidingComplete={this.handleOnFontSizeSlidingComplete}
                   />
                 </View>
@@ -106,6 +109,8 @@ class NovelSettingsModal extends Component {
                     minimumValue={1}
                     maximumValue={2}
                     step={0.25}
+                    minimumTrackTintColor={globalStyleVariables.PRIMARY_COLOR}
+                    thumbTintColor={globalStyleVariables.PRIMARY_COLOR}
                     onSlidingComplete={this.handleOnLineHeightSlidingComplete}
                   />
                 </View>
