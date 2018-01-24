@@ -12,8 +12,10 @@ import { makeGetIllustRankingItems } from '../../common/selectors';
 import { SCREENS, RANKING_TYPES } from '../../common/constants';
 import { globalStyleVariables } from '../../styles';
 
-const sliderWidth = globalStyleVariables.WINDOW_WIDTH;
-const itemWidth = globalStyleVariables.WINDOW_WIDTH / 3;
+const SLIDER_WIDTH = globalStyleVariables.WINDOW_WIDTH;
+const ITEM_HORIZONTAL_PADDING = 5;
+const ITEM_WIDTH =
+  globalStyleVariables.WINDOW_WIDTH / 3 + ITEM_HORIZONTAL_PADDING * 2;
 
 const styles = StyleSheet.create({
   container: {
@@ -25,10 +27,9 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   sliderContainer: {
-    width: itemWidth,
-    height: itemWidth,
-    paddingHorizontal: 10,
-    // paddingBottom: 18,
+    width: ITEM_WIDTH,
+    height: ITEM_WIDTH,
+    paddingHorizontal: ITEM_HORIZONTAL_PADDING,
   },
   titleContainer: {
     flexDirection: 'row',
@@ -121,8 +122,8 @@ class RankingHorizontalList extends Component {
           }}
           data={items}
           renderItem={this.renderItem}
-          sliderWidth={sliderWidth}
-          itemWidth={itemWidth}
+          sliderWidth={SLIDER_WIDTH}
+          itemWidth={ITEM_WIDTH}
           activeSlideAlignment="start"
           enableMomentum
           decelerationRate={0.9}
