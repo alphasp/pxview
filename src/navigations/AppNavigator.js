@@ -46,9 +46,7 @@ const appRouteConfig = {
 
 const stackConfig = {
   navigationOptions: {
-    headerStyle: {
-      backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
-    },
+    headerStyle: globalStyles.header,
     headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
     headerBackTitle: null,
   },

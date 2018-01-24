@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { StyleSheet, View, Platform, StatusBar } from 'react-native';
+import { StyleSheet, View, Platform } from 'react-native';
 import { HeaderBackButton, withNavigation } from 'react-navigation';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import { globalStyleVariables } from '../styles';
@@ -8,6 +8,13 @@ import { globalStyleVariables } from '../styles';
 const styles = StyleSheet.create({
   container: {
     paddingTop: globalStyleVariables.STATUSBAR_HEIGHT,
+    ...Platform.select({
+      android: {
+        height:
+          globalStyleVariables.STATUSBAR_HEIGHT +
+          globalStyleVariables.APPBAR_HEIGHT,
+      },
+    }),
   },
   containerShadow: {
     ...Platform.select({
@@ -31,7 +38,8 @@ const styles = StyleSheet.create({
   },
   absolutePosition: {
     position: 'absolute',
-    top: StatusBar.currentHeight || 0, // android only for use with translucent status bar
+    // top: StatusBar.currentHeight || 0, // android only for use with translucent status bar
+    top: 0,
     left: 0,
     right: 0,
     bottom: 0,

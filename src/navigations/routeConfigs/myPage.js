@@ -40,6 +40,7 @@ const config = {
     screen: BrowsingHistory,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.browsingHistory,
+      headerStyle: globalStyles.headerWithoutShadow,
     }),
   },
   [SCREENS.Settings]: {

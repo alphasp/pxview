@@ -8,6 +8,7 @@ import PXTabView from '../../../components/PXTabView';
 import HeaderClearButton from '../../../components/HeaderClearButton';
 import * as browsingHistoryIllustsActionCreators from '../../../common/actions/browsingHistoryIllusts';
 import * as browsingHistoryNovelsActionCreators from '../../../common/actions/browsingHistoryNovels';
+import config from '../../../common/config';
 
 class BrowsingHistory extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -103,7 +104,7 @@ class BrowsingHistory extends Component {
         navigationState={this.state}
         renderScene={this.renderScene}
         onIndexChange={this.handleChangeTab}
-        includeStatusBarPadding
+        includeStatusBarPadding={config.navigation.tab}
       />
     );
   }

@@ -5,6 +5,7 @@ import PXTabView from '../../components/PXTabView';
 import TabContentWrapper from '../../components/TabContentWrapper';
 import { connectLocalization } from '../../components/Localization';
 import { RANKING_FOR_UI } from '../../common/constants';
+import config from '../../common/config';
 
 class NovelRanking extends Component {
   constructor(props) {
@@ -97,7 +98,7 @@ class NovelRanking extends Component {
         tabBarProps={{
           scrollEnabled: true,
         }}
-        includeStatusBarPadding
+        includeStatusBarPadding={config.navigation.tab}
       />
     );
   }

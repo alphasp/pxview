@@ -4,6 +4,7 @@ import UserNewWorks from './UserNewWorks';
 import MyPixivNewWorks from './MyPixivNewWorks';
 import { connectLocalization } from '../../components/Localization';
 import PXTabView from '../../components/PXTabView';
+import config from '../../common/config';
 
 class NewWorks extends Component {
   constructor(props) {
@@ -57,7 +58,7 @@ class NewWorks extends Component {
         navigationState={this.state}
         renderScene={this.renderScene}
         onIndexChange={this.handleChangeTab}
-        includeStatusBarPadding
+        includeStatusBarPadding={config.navigation.tab}
       />
     );
   }

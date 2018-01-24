@@ -4,6 +4,7 @@ import RecommendedIllusts from './RecommendedIllusts';
 import RecommendedMangas from './RecommendedMangas';
 import RecommendedNovels from './RecommendedNovels';
 import { connectLocalization } from '../../components/Localization';
+import config from '../../common/config';
 
 class Home extends Component {
   constructor(props) {
@@ -57,7 +58,7 @@ class Home extends Component {
         navigationState={this.state}
         renderScene={this.renderScene}
         onIndexChange={this.handleChangeTab}
-        includeStatusBarPadding
+        includeStatusBarPadding={config.navigation.tab}
       />
     );
   }

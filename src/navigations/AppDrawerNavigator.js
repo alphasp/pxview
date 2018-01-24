@@ -24,9 +24,7 @@ const AppDrawerNavigator = DrawerNavigator(
   },
   {
     navigationOptions: {
-      headerStyle: {
-        backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
-      },
+      headerStyle: globalStyles.header,
       headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
     },
     cardStyle: globalStyles.card,
