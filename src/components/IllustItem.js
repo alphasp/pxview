@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ViewPropTypes, Image } from 'react-native';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
@@ -19,6 +20,26 @@ const styles = StyleSheet.create({
 });
 
 class IllustItem extends Component {
+  static propTypes = {
+    item: PropTypes.object.isRequired,
+    index: PropTypes.number.isRequired,
+    numColumns: PropTypes.number.isRequired,
+    onPressItem: PropTypes.func.isRequired,
+    parentContainerMargin: PropTypes.number,
+    containerStyle: ViewPropTypes.style,
+    imageStyle: Image.propTypes.style,
+    isHighlight: PropTypes.bool,
+    isMute: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    parentContainerMargin: 0,
+    containerStyle: {},
+    imageStyle: {},
+    isHighlight: false,
+    isMute: false,
+  };
+
   shouldComponentUpdate(nextProps) {
     const {
       item: prevItem,
@@ -41,6 +62,7 @@ class IllustItem extends Component {
       index,
       numColumns,
       onPressItem,
+      parentContainerMargin,
       containerStyle,
       imageStyle,
       isHighlight,
@@ -54,8 +76,14 @@ class IllustItem extends Component {
             marginRight: index % numColumns < numColumns - 1 ? 1 : 0,
             marginBottom: 1,
             backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
-            width: globalStyleVariables.WINDOW_WIDTH / numColumns - 1,
-            height: globalStyleVariables.WINDOW_WIDTH / numColumns - 1,
+            width:
+              (globalStyleVariables.WINDOW_WIDTH - parentContainerMargin * 2) /
+                numColumns -
+              1,
+            height:
+              (globalStyleVariables.WINDOW_WIDTH - parentContainerMargin * 2) /
+                numColumns -
+              1,
           },
           containerStyle,
           isHighlight && styles.highlight,
@@ -72,10 +100,14 @@ class IllustItem extends Component {
                   {
                     resizeMode: 'cover',
                     width:
-                      globalStyleVariables.WINDOW_WIDTH / numColumns -
+                      (globalStyleVariables.WINDOW_WIDTH -
+                        parentContainerMargin * 2) /
+                        numColumns -
                       imageWidthOffset,
                     height:
-                      globalStyleVariables.WINDOW_WIDTH / numColumns -
+                      (globalStyleVariables.WINDOW_WIDTH -
+                        parentContainerMargin * 2) /
+                        numColumns -
                       imageWidthOffset,
                   },
                   imageStyle,
