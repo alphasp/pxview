@@ -89,7 +89,12 @@ class ImagesViewer extends Component {
     const selectedImages = [images[index]];
     return (
       <View style={styles.container}>
-        <StatusBar hidden={hideHeader} barStyle="light-content" translucent />
+        <StatusBar
+          hidden={hideHeader}
+          barStyle="light-content"
+          translucent
+          animated
+        />
         {!hideHeader &&
           <PXHeader
             darkTheme

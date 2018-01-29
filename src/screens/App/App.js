@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, DeviceEventEmitter } from 'react-native';
+import { View, StyleSheet, DeviceEventEmitter, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
@@ -63,6 +63,12 @@ class App extends Component {
     }
     return (
       <View style={styles.container}>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="rgba(0, 0, 0, 0.3)"
+          translucent
+          animated
+        />
         {renderComponent}
         <MessageBar ref={ref => (this.messageBarAlert = ref)} />
         <Toast ref={ref => (this.toast = ref)} opacity={0.7} />

@@ -1,6 +1,6 @@
 /* eslint react/prefer-stateless-function:0 */
 import React, { Component } from 'react';
-import { AppRegistry, Platform, StatusBar } from 'react-native';
+import { AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
 import App from './App';
 import { LocalizationProvider } from '../../components/Localization';
@@ -43,16 +43,6 @@ if (process.env.NODE_ENV === 'production') {
 // console.disableYellowBox = true;
 
 class Root extends Component {
-  constructor(props) {
-    super(props);
-    if (Platform.OS === 'ios') {
-      StatusBar.setBarStyle('light-content');
-    } else if (Platform.OS === 'android') {
-      StatusBar.setBackgroundColor('rgba(0, 0, 0, 0.3)');
-      StatusBar.setTranslucent(true);
-    }
-  }
-
   render() {
     return (
       <Provider store={store}>
