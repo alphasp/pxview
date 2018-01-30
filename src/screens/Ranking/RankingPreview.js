@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, RefreshControl } from 'react-native';
 import RankingHorizontalList from './RankingHorizontalList';
 import NovelRankingPreview from './NovelRankingPreview';
 import { connectLocalization } from '../../components/Localization';
@@ -13,23 +13,55 @@ const styles = StyleSheet.create({
 });
 
 class RankingPreview extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      refreshing: false,
+    };
+  }
+
+  handleOnRefresh = () => {
+    this.setState({
+      refreshing: true,
+    });
+  };
+
+  handleOnRefreshSuccess = () => {
+    this.setState({
+      refreshing: false,
+    });
+  };
+
   render() {
     const { navigation } = this.props;
+    const { refreshing } = this.state;
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={this.handleOnRefresh}
+          />
+        }
+      >
         <RankingHorizontalList
           rankingMode={RANKING_FOR_UI.DAILY_ILLUST}
           rankingType={RANKING_TYPES.ILLUST}
           navigation={navigation}
+          refreshing={refreshing}
+          onRefreshSuccess={this.handleOnRefreshSuccess}
         />
         <RankingHorizontalList
           rankingMode={RANKING_FOR_UI.DAILY_MANGA}
           rankingType={RANKING_TYPES.MANGA}
           navigation={navigation}
+          refreshing={refreshing}
         />
         <NovelRankingPreview
           rankingMode={RANKING_FOR_UI.DAILY_NOVEL}
           navigation={navigation}
+          refreshing={refreshing}
         />
       </ScrollView>
     );

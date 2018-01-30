@@ -5,8 +5,8 @@ import Carousel from 'react-native-snap-carousel';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IllustItem from '../../components/IllustItem';
 import PXTouchable from '../../components/PXTouchable';
+import Loader from '../../components/Loader';
 import { connectLocalization } from '../../components/Localization';
-
 import * as rankingActionCreators from '../../common/actions/ranking';
 import { makeGetIllustRankingItems } from '../../common/selectors';
 import { SCREENS, RANKING_TYPES } from '../../common/constants';
@@ -51,6 +51,17 @@ class RankingHorizontalList extends Component {
       clearRanking(rankingMode);
       fetchRanking(rankingMode, options);
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { refreshing: prevRefreshing } = this.props;
+    const { refreshing, onRefreshSuccess } = nextProps;
+    if (refreshing && refreshing !== prevRefreshing) {
+      this.handleOnRefresh();
+      if (onRefreshSuccess) {
+        onRefreshSuccess();
+      }
+    }
   }
 
   handleOnRefresh = () => {
@@ -99,7 +110,12 @@ class RankingHorizontalList extends Component {
     </View>;
 
   render() {
-    const { items, rankingType, i18n } = this.props;
+    const {
+      ranking: { loading, loaded },
+      items,
+      rankingType,
+      i18n,
+    } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.titleContainer}>
@@ -116,19 +132,21 @@ class RankingHorizontalList extends Component {
             <Icon name="chevron-right" style={styles.chevronIcon} />
           </PXTouchable>
         </View>
-        <Carousel
-          ref={ref => {
-            this.carousel = ref;
-          }}
-          data={items}
-          renderItem={this.renderItem}
-          sliderWidth={SLIDER_WIDTH}
-          itemWidth={ITEM_WIDTH}
-          activeSlideAlignment="start"
-          enableMomentum
-          decelerationRate={0.9}
-          enableSnap={false}
-        />
+        {loading && <Loader />}
+        {loaded &&
+          <Carousel
+            ref={ref => {
+              this.carousel = ref;
+            }}
+            data={items}
+            renderItem={this.renderItem}
+            sliderWidth={SLIDER_WIDTH}
+            itemWidth={ITEM_WIDTH}
+            activeSlideAlignment="start"
+            enableMomentum
+            decelerationRate={0.9}
+            enableSnap={false}
+          />}
       </View>
     );
   }

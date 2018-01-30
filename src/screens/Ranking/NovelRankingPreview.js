@@ -40,6 +40,17 @@ class NovelRankingPreview extends Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { refreshing: prevRefreshing } = this.props;
+    const { refreshing, onRefreshSuccess } = nextProps;
+    if (refreshing && refreshing !== prevRefreshing) {
+      this.handleOnRefresh();
+      if (onRefreshSuccess) {
+        onRefreshSuccess();
+      }
+    }
+  }
+
   handleOnRefresh = () => {
     const { rankingMode, fetchRanking, clearRanking } = this.props;
     clearRanking(rankingMode);
