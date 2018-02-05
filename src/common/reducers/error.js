@@ -7,8 +7,6 @@ export default function error(state = null, action) {
   const { type, payload, error } = action;
   if (type === ERROR.CLEAR) {
     return null;
-  } else if (type.includes('redux-form')) {
-    return state;
   } else if (error) {
     return payload;
   }
