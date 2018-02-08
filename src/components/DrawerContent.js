@@ -11,6 +11,7 @@ import DrawerNavigatorItem from './DrawerNavigatorItem';
 import * as authActionCreators from '../common/actions/auth';
 import * as browsingHistoryIllustsActionCreators from '../common/actions/browsingHistoryIllusts';
 import * as browsingHistoryNovelsActionCreators from '../common/actions/browsingHistoryNovels';
+import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import { globalStyles } from '../styles';
 import { SCREENS } from '../common/constants';
 
@@ -160,11 +161,13 @@ class DrawerContent extends Component {
     const {
       clearBrowsingHistoryIllusts,
       clearBrowsingHistoryNovels,
+      clearSearchHistory,
       logout,
     } = this.props;
     logout();
     clearBrowsingHistoryIllusts();
     clearBrowsingHistoryNovels();
+    clearSearchHistory();
     // clear cookies set from webview for advance account settings
     CookieManager.clearAll();
   };
@@ -222,6 +225,7 @@ export default connectLocalization(
         ...authActionCreators,
         ...browsingHistoryIllustsActionCreators,
         ...browsingHistoryNovelsActionCreators,
+        ...searchHistoryActionCreators,
       },
     )(DrawerContent),
   ),

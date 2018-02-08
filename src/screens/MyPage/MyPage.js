@@ -8,8 +8,10 @@ import UserCover from '../../components/UserCover';
 import * as authActionCreators from '../../common/actions/auth';
 import * as browsingHistoryIllustsActionCreators from '../../common/actions/browsingHistoryIllusts';
 import * as browsingHistoryNovelsActionCreators from '../../common/actions/browsingHistoryNovels';
+import * as searchHistoryActionCreators from '../../common/actions/searchHistory';
 import { globalStyleVariables } from '../../styles';
 import { SCREENS } from '../../common/constants';
+import searchHistory from '../../common/reducers/searchHistory';
 
 const styles = StyleSheet.create({
   container: {
@@ -140,11 +142,13 @@ class MyPage extends Component {
     const {
       clearBrowsingHistoryIllusts,
       clearBrowsingHistoryNovels,
+      clearSearchHistory,
       logout,
     } = this.props;
     logout();
     clearBrowsingHistoryIllusts();
     clearBrowsingHistoryNovels();
+    clearSearchHistory();
     // clear cookies set from webview for advance account settings
     CookieManager.clearAll();
   };
@@ -223,6 +227,7 @@ export default connectLocalization(
       ...authActionCreators,
       ...browsingHistoryIllustsActionCreators,
       ...browsingHistoryNovelsActionCreators,
+      ...searchHistoryActionCreators,
     },
   )(MyPage),
 );
