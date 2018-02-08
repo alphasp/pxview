@@ -113,6 +113,7 @@ class NovelViewer extends Component {
                   fontSize,
                   lineHeight: fontSize * lineHeight,
                 },
+                selectable: true,
               }}
             />,
           )}

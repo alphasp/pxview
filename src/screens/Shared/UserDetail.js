@@ -442,7 +442,7 @@ class UserDetail extends Component {
               linkStyle={styles.hyperlink}
               onPress={url => this.handleOnLinkPress(url)}
             >
-              <Text>
+              <Text selectable>
                 {detail.user.comment}
               </Text>
             </Hyperlink>

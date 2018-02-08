@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
   },
   seriesTitle: {
     color: globalStyleVariables.PRIMARY_COLOR,
+    fontWeight: 'bold',
     marginBottom: 5,
   },
   footerSpacer: {
@@ -119,15 +120,16 @@ class DetailFooter extends PureComponent {
           <View style={styles.captionContainer}>
             {item.series &&
               item.series.id &&
-              <Text style={styles.seriesTitle}>
+              <Text style={styles.seriesTitle} selectable>
                 {item.series.title}
               </Text>}
-            <Text style={styles.title}>
+            <Text style={styles.title} selectable>
               {item.title}
             </Text>
             <HtmlView
               value={item.caption}
               onLinkPress={this.handleOnPressLink}
+              textComponentProps={{ selectable: true }}
             />
           </View>
           <View style={styles.statContainer}>
