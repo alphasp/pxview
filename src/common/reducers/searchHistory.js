@@ -13,7 +13,7 @@ export default function searchHistory(
       const newItem = action.payload.item;
       if (items && items.length) {
         if (items.indexOf(newItem) === -1) {
-          newItems = [newItem, ...items.slice(0, 9)];
+          newItems = [newItem, ...items.slice(0, 29)];
         } else {
           newItems = [...items];
         }
