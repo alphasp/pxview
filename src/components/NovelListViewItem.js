@@ -39,7 +39,9 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   seriesTitle: {
+    fontWeight: 'bold',
     color: globalStyleVariables.PRIMARY_COLOR,
+    marginBottom: 5,
   },
   title: {
     fontWeight: 'bold',
