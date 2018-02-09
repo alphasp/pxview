@@ -11,7 +11,6 @@ import * as browsingHistoryNovelsActionCreators from '../../common/actions/brows
 import * as searchHistoryActionCreators from '../../common/actions/searchHistory';
 import { globalStyleVariables } from '../../styles';
 import { SCREENS } from '../../common/constants';
-import searchHistory from '../../common/reducers/searchHistory';
 
 const styles = StyleSheet.create({
   container: {
