@@ -70,7 +70,6 @@ const AppTabNavigator = TabNavigator(
     headerMode: 'none',
     swipeEnabled: false,
     animationEnabled: false,
-    lazy: true,
     tabBarPosition: 'bottom',
     tabBarComponent:
       Platform.OS === 'android' ? NavigationComponent : TabBarBottom,
