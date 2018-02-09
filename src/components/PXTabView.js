@@ -29,6 +29,10 @@ class PXTabView extends Component {
             : 0,
           backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
         }}
+        labelStyle={{
+          marginVertical: 8,
+          marginHorizontal: 0,
+        }}
         {...tabBarProps}
         {...props}
       />
