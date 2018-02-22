@@ -35,81 +35,6 @@ class SearchFilterModal extends Component {
     const {
       searchFilter: { target, period, sort, start_date, end_date },
     } = props.navigation.state.params;
-    // let targetSectionOptions;
-    // if (searchType === SEARCH_TYPES.ILLUST) {
-    //   targetSectionOptions = [
-    //     {
-    //       value: 'partial_match_for_tags',
-    //       type: 'target',
-    //     },
-    //     {
-    //       value: 'exact_match_for_tags',
-    //       type: 'target',
-    //     },
-    //     {
-    //       value: 'title_and_caption',
-    //       type: 'target',
-    //     },
-    //   ];
-    // } else {
-    //   targetSectionOptions = [
-    //     {
-    //       value: 'partial_match_for_tags',
-    //       type: 'target',
-    //     },
-    //     {
-    //       value: 'text',
-    //       type: 'target',
-    //     },
-    //     {
-    //       value: 'keyword',
-    //       type: 'target',
-    //     },
-    //   ];
-    // }
-    // this.filterList = [
-    //   {
-    //     key: 'target',
-    //     options: targetSectionOptions,
-    //   },
-    //   {
-    //     key: 'period',
-    //     options: [
-    //       {
-    //         value: SEARCH_PERIOD_TYPES.ALL,
-    //       },
-    //       {
-    //         value: SEARCH_PERIOD_TYPES.LAST_DAY,
-    //       },
-    //       {
-    //         value: SEARCH_PERIOD_TYPES.LAST_WEEK,
-    //       },
-    //       {
-    //         value: SEARCH_PERIOD_TYPES.LAST_MONTH,
-    //       },
-    //       {
-    //         value: SEARCH_PERIOD_TYPES.LAST_HALF_YEAR,
-    //       },
-    //       {
-    //         value: SEARCH_PERIOD_TYPES.LAST_YEAR,
-    //       },
-    //       {
-    //         value: SEARCH_PERIOD_TYPES.DATE,
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     key: 'sort',
-    //     options: [
-    //       {
-    //         value: 'date_desc',
-    //       },
-    //       {
-    //         value: 'date_asc',
-    //       },
-    //     ],
-    //   },
-    // ];
     this.state = {
       target: target || 'partial_match_for_tags',
       period: period || SEARCH_PERIOD_TYPES.ALL,
@@ -171,7 +96,6 @@ class SearchFilterModal extends Component {
       extraPeriodOption.label = `${this.state.startDate} - ${this.state
         .endDate}`;
     }
-    console.log('extraPeriodOption ', extraPeriodOption, this.state);
     let periodOptions = [
       {
         value: SEARCH_PERIOD_TYPES.ALL,
@@ -224,6 +148,10 @@ class SearchFilterModal extends Component {
           {
             value: 'date_asc',
             label: i18n.searchOrderOldest,
+          },
+          {
+            value: 'popularity',
+            label: i18n.searchOrderPopularity,
           },
         ],
       },

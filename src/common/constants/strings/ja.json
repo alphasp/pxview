@@ -133,6 +133,7 @@
   "searchOrder": "表示順",
   "searchOrderNewest": "新着順",
   "searchOrderOldest": "古い順",
+  "searchOrderPopularity": "人気順",
   "searchPeriod": "期間",
   "searchPeriodAll": "すべての期間",
   "searchPeriodEndDate": "終了日",

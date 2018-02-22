@@ -57,14 +57,27 @@ export function* handleFetchSearchNovels(action) {
             prev[key] = options[key];
             return prev;
           }, {});
-        if (!options.start_date && !options.end_date && options.period) {
+        if (
+          !options.start_date &&
+          !options.end_date &&
+          options.period &&
+          options.period !== SEARCH_PERIOD_TYPES.ALL
+        ) {
           finalOptions = {
             ...finalOptions,
             ...mapPeriodToStartAndEndDates(options.period),
           };
         }
       }
-      response = yield apply(pixiv, pixiv.searchNovel, [word, finalOptions]);
+      if (options.sort && options.sort === 'popularity') {
+        delete finalOptions.sort;
+        response = yield apply(pixiv, pixiv.searchNovelPopularPreview, [
+          word,
+          finalOptions,
+        ]);
+      } else {
+        response = yield apply(pixiv, pixiv.searchNovel, [word, finalOptions]);
+      }
       normalized = normalize(
         response.novels.filter(novel => novel.visible && novel.id),
         Schemas.NOVEL_ARRAY,

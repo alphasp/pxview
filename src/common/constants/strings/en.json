@@ -133,6 +133,7 @@
   "searchOrder": "Sort By",
   "searchOrderNewest": "Newest",
   "searchOrderOldest": "Oldest",
+  "searchOrderPopularity": "Popularity",
   "searchPeriod": "Period",
   "searchPeriodAll": "All Periods",
   "searchPeriodEndDate": "End Date",

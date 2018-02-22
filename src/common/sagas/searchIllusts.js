@@ -57,14 +57,28 @@ export function* handleFetchSearchIllusts(action) {
             prev[key] = options[key];
             return prev;
           }, {});
-        if (!options.start_date && !options.end_date && options.period) {
+        if (
+          !options.start_date &&
+          !options.end_date &&
+          options.period &&
+          options.period !== SEARCH_PERIOD_TYPES.ALL
+        ) {
           finalOptions = {
             ...finalOptions,
             ...mapPeriodToStartAndEndDates(options.period),
           };
         }
       }
-      response = yield apply(pixiv, pixiv.searchIllust, [word, finalOptions]);
+      if (options.sort && options.sort === 'popularity') {
+        delete finalOptions.sort;
+        console.log('search popular illust ', finalOptions);
+        response = yield apply(pixiv, pixiv.searchIllustPopularPreview, [
+          word,
+          finalOptions,
+        ]);
+      } else {
+        response = yield apply(pixiv, pixiv.searchIllust, [word, finalOptions]);
+      }
       normalized = normalize(
         response.illusts.filter(illust => illust.visible && illust.id),
         Schemas.ILLUST_ARRAY,
