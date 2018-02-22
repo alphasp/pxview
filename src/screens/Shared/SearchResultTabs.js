@@ -80,13 +80,15 @@ class SearchResultTabs extends Component {
       navigate(SCREENS.SearchFilterModal, {
         searchFilter: searchOptions || {},
         searchType: newSearchType,
-        onPressApplyFilter: (target, duration, sort) => {
+        onPressApplyFilter: (target, period, sort, startDate, endDate) => {
           goBack(null);
           this.setState({
             searchOptions: {
-              duration,
               target,
+              period,
               sort,
+              start_date: startDate,
+              end_date: endDate,
             },
           });
         },

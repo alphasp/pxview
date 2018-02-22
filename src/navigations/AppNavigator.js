@@ -2,7 +2,8 @@ import { StackNavigator } from 'react-navigation';
 import AppTabNavigator from './AppTabNavigator';
 import AppDrawerNavigator from './AppDrawerNavigator';
 import enhanceRouter from './routers/enhanceRouter';
-import SearchFilterModal from '../components/SearchFilterModal';
+import SearchFilterModal from '../screens/Shared/SearchFilterModal';
+import SearchFilterPeriodDateModal from '../screens/Shared/SearchFilterPeriodDateModal';
 import AddIllustComment from '../screens/Shared/AddIllustComment';
 import AccountSettings from '../screens/MyPage/AccountSettings/AccountSettings';
 import Encyclopedia from '../screens/Shared/Encyclopedia';
@@ -23,6 +24,12 @@ const appRouteConfig = {
     screen: SearchFilterModal,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.searchDisplayOptions,
+    }),
+  },
+  [SCREENS.SearchFilterPeriodDateModal]: {
+    screen: SearchFilterPeriodDateModal,
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.searchPeriodSpecifyDate,
     }),
   },
   [SCREENS.AddIllustComment]: {

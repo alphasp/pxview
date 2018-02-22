@@ -122,11 +122,23 @@ export const SEARCH_TYPES = {
   NOVEL: 'NOVEL',
 };
 
+export const SEARCH_PERIOD_TYPES = {
+  ALL: 'ALL',
+  LAST_DAY: 'LAST_DAY',
+  LAST_HALF_YEAR: 'LAST_HALF_YEAR',
+  LAST_MONTH: 'LAST_MONTH',
+  LAST_WEEK: 'LAST_WEEK',
+  LAST_YEAR: 'LAST_YEAR',
+  DATE: 'DATE',
+  CUSTOM_DATE: 'CUSTOM_DATE',
+};
+
 export const SCREENS = {
   Main: 'Main',
   Login: 'Login',
   SignUp: 'SignUp',
   SearchFilterModal: 'SearchFilterModal',
+  SearchFilterPeriodDateModal: 'SearchFilterPeriodDateModal',
   AccountSettingsModal: 'AccountSettingsModal',
   ImagesViewer: 'ImagesViewer',
   NovelReader: 'NovelReader',
