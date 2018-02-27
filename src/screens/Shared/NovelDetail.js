@@ -375,10 +375,6 @@ class NovelDetail extends Component {
       isOpenMenuBottomSheet,
       selectedImageIndex,
     } = this.state;
-    console.log(
-      'item ',
-      item ? `${item.id}, ${item.page_count}, ${item.text_length}` : null,
-    );
     return (
       <View style={globalStyles.container} ref={ref => (this.detailView = ref)}>
         {this.renderMainContent()}

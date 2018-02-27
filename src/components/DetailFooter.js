@@ -33,6 +33,9 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontWeight: 'bold',
   },
+  sectionSeriesTitle: {
+    color: globalStyleVariables.PRIMARY_COLOR,
+  },
   thumnailNameContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -192,12 +195,16 @@ class DetailFooter extends PureComponent {
           item.text_length > 0 &&
           <View style={styles.sectionContainer}>
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>
+              <Text
+                style={[styles.sectionTitle, styles.sectionSeriesTitle]}
+                selectable
+              >
                 {item.series.title}
               </Text>
             </View>
             <NovelSeries
               seriesId={item.series.id}
+              seriesTitle={item.series.title}
               isFeatureInDetailPage
               maxItems={6}
               navigation={navigation}

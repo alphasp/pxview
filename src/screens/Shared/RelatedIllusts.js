@@ -97,12 +97,15 @@ export default connectLocalization(
     const getRelatedIllustsItems = makeGetRelatedIllustsItems();
     return (state, props) => {
       const { relatedIllusts } = state;
+      const { isFeatureInDetailPage } = props;
       const illustId = props.illustId || props.navigation.state.params.illustId;
       return {
         relatedIllusts: relatedIllusts[illustId],
         items: getRelatedIllustsItems(state, props),
         illustId,
-        listKey: `${props.navigation.state.key}-${illustId}`,
+        listKey: !isFeatureInDetailPage
+          ? `${props.navigation.state.key}-${illustId}`
+          : null,
       };
     };
   }, relatedIllustsActionCreators)(RelatedIllusts),

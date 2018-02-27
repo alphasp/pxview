@@ -17,6 +17,13 @@ const styles = StyleSheet.create({
 });
 
 class NovelSeries extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { seriesTitle } = navigation.state.params || {};
+    return {
+      title: seriesTitle,
+    };
+  };
+
   componentDidMount() {
     const {
       novelSeries,
@@ -48,9 +55,10 @@ class NovelSeries extends Component {
   };
 
   handleOnPressViewMoreNovelSeries = () => {
-    const { seriesId, navigation: { navigate } } = this.props;
+    const { seriesId, seriesTitle, navigation: { navigate } } = this.props;
     navigate(SCREENS.NovelSeries, {
       seriesId,
+      seriesTitle,
     });
   };
 
@@ -60,7 +68,6 @@ class NovelSeries extends Component {
       items,
       isFeatureInDetailPage,
       maxItems,
-      i18n,
       listKey,
     } = this.props;
     return (
@@ -92,12 +99,15 @@ export default connectLocalization(
     const getNovelSeriesItems = makeGetNovelSeriesItems();
     return (state, props) => {
       const { novelSeries } = state;
+      const { isFeatureInDetailPage } = props;
       const seriesId = props.seriesId || props.navigation.state.params.seriesId;
       return {
         novelSeries: novelSeries[seriesId],
         items: getNovelSeriesItems(state, props),
         seriesId,
-        listKey: `${props.navigation.state.key}-${seriesId}-NovelSeries`,
+        listKey: !isFeatureInDetailPage
+          ? `${props.navigation.state.key}-${seriesId}-NovelSeries`
+          : null,
       };
     };
   }, novelSeriesActionCreators)(NovelSeries),
