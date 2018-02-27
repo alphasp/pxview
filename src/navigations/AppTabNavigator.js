@@ -68,6 +68,7 @@ const AppTabNavigator = TabNavigator(
   },
   {
     headerMode: 'none',
+    lazy: true,
     swipeEnabled: false,
     animationEnabled: false,
     tabBarPosition: 'bottom',
