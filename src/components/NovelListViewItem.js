@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { connectLocalization } from './Localization';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
 import OverlayBookmarkNovelButton from './OverlayBookmarkNovelButton';
@@ -30,18 +31,15 @@ const styles = StyleSheet.create({
     borderColor: globalStyleVariables.HIGHLIGHT_COLOR,
   },
   subRightContainer: {
-    margin: 10,
-    flexDirection: 'column',
     flex: 1,
-    flexWrap: 'wrap',
+    margin: 10,
   },
   text: {
-    color: '#000',
+    marginBottom: 5,
   },
   seriesTitle: {
     fontWeight: 'bold',
     color: globalStyleVariables.PRIMARY_COLOR,
-    marginBottom: 5,
   },
   title: {
     fontWeight: 'bold',
@@ -52,11 +50,12 @@ const styles = StyleSheet.create({
   },
   info: {},
   tagsContainer: {
-    flexDirection: 'row',
     flex: 1,
+    flexDirection: 'row',
     flexWrap: 'wrap',
   },
   tag: {
+    color: '#000',
     fontSize: 12,
   },
 });
@@ -64,16 +63,14 @@ const styles = StyleSheet.create({
 class NovelListViewItem extends Component {
   renderTags = tags =>
     <View style={styles.tagsContainer}>
-      {tags.map((tag, index) =>
-        <Text key={tag.name} style={[styles.text, styles.tag]}>
-          {tag.name}
-          {index < tags.length - 1 && ' ・ '}
-        </Text>,
-      )}
+      <Text style={styles.tag}>
+        {tags.map(tag => tag.name).join('・')}
+      </Text>
     </View>;
 
   render() {
     const {
+      i18n,
       item,
       onPressItem,
       containerStyle,
@@ -130,9 +127,9 @@ class NovelListViewItem extends Component {
                   by {item.user.name}
                 </Text>
                 <Text style={[styles.text, styles.info]}>
-                  {item.text_length}words
+                  {`${item.text_length}${i18n.novelWords}`}
                 </Text>
-                {this.renderTags(item.tags)}
+                {item.tags && item.tags.length && this.renderTags(item.tags)}
               </View>
             </View>}
       </PXTouchable>
@@ -140,4 +137,4 @@ class NovelListViewItem extends Component {
   }
 }
 
-export default NovelListViewItem;
+export default connectLocalization(NovelListViewItem);
