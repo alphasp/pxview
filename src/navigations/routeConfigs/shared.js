@@ -33,7 +33,7 @@ const config = {
   },
   [SCREENS.UserDetail]: {
     screen: UserDetail,
-    path: '(member.php|user)/:uid?',
+    path: '(member.php|users)/:uid?',
     navigationOptions: {
       header: null,
     },

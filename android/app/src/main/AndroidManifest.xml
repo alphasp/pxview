@@ -51,7 +51,7 @@
             <data android:scheme="pixiv" />
             <data android:host="illusts" />
             <data android:host="novels" />
-            <data android:host="user" />
+            <data android:host="users" />
             <!-- <data android:pathPrefix="/illusts" />
             <data android:pathPrefix="/user" /> -->
         </intent-filter>
