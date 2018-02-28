@@ -9,6 +9,7 @@ import trendingIllustTags from './trendingIllustTags';
 import trendingNovelTags from './trendingNovelTags';
 import recommendedUsers from './recommendedUsers';
 import illustDetail from './illustDetail';
+import novelDetail from './novelDetail';
 import illustComments from './illustComments';
 import novelComments from './novelComments';
 import novelSeries from './novelSeries';
@@ -73,6 +74,7 @@ const rootReducer = combineReducers({
   trendingNovelTags,
   recommendedUsers,
   illustDetail,
+  novelDetail,
   illustComments,
   novelComments,
   novelSeries,

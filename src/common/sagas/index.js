@@ -12,6 +12,7 @@ import { watchFetchRecommendedMangas } from './recommendedMangas';
 import { watchFetchRecommendedNovels } from './recommendedNovels';
 import { watchFetchRelatedIllusts } from './relatedIllusts';
 import { watchFetchIllustDetail } from './illustDetail';
+import { watchFetchNovelDetail } from './novelDetail';
 import { watchFetchIllustComments } from './illustComments';
 import { watchFetchNovelComments } from './novelComments';
 import { watchFetchNovelSeries } from './novelSeries';
@@ -70,6 +71,7 @@ export default function* rootSaga() {
     watchFetchRecommendedNovels(),
     watchFetchRelatedIllusts(),
     watchFetchIllustDetail(),
+    watchFetchNovelDetail(),
     watchFetchIllustComments(),
     watchFetchNovelComments(),
     watchFetchNovelSeries(),

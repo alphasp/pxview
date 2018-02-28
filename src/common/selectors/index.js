@@ -619,8 +619,8 @@ export const makeGetUserDetailPageItems = () => {
 export const makeGetDetailItem = () =>
   createIllustItemSelector([selectEntities, getProps], (entities, props) => {
     const {
-      illust_id: illustIdFromQS, // from deep link params
-      illustId, // from deep link querystring
+      illust_id: illustIdFromQS, // from deep link query string
+      illustId, // from deep link params
       items,
       index,
     } = props.navigation.state.params;
@@ -638,13 +638,15 @@ export const makeGetDetailItem = () =>
 export const makeGetDetailNovelItem = () =>
   createNovelItemSelector([selectEntities, getProps], (entities, props) => {
     const {
-      // illust_id: illustIdFromQS, // from deep link params
-      novelId, // from deep link querystring
+      id: novelIdFromQS, // from deep link query string
+      novelId, // from deep link params
       items,
       index,
     } = props.navigation.state.params;
     let id;
-    if (novelId) {
+    if (novelIdFromQS) {
+      id = parseInt(novelIdFromQS, 10);
+    } else if (novelId) {
       id = parseInt(novelId, 10);
     } else {
       id = items[index].id;

@@ -30,7 +30,7 @@ import HeaderSaveImageButton from '../../components/HeaderSaveImageButton';
 import HeaderMenuButton from '../../components/HeaderMenuButton';
 import * as browsingHistoryNovelsActionCreators from '../../common/actions/browsingHistoryNovels';
 import * as muteUsersActionCreators from '../../common/actions/muteUsers';
-// import * as novelDetailActionCreators from '../../common/actions/novelDetail';
+import * as novelDetailActionCreators from '../../common/actions/novelDetail';
 import { makeGetDetailNovelItem } from '../../common/selectors';
 import { SCREENS } from '../../common/constants';
 import { globalStyles, globalStyleVariables } from '../../styles';
@@ -94,15 +94,14 @@ class NovelDetail extends Component {
       item,
       isFromDeepLink,
       addBrowsingHistoryNovels,
-      // fetchNovelDetail,
+      fetchNovelDetail,
     } = this.props;
     InteractionManager.runAfterInteractions(() => {
       if (this.detailView) {
         this.setState({ mounting: false });
       }
       if (isFromDeepLink) {
-        // todo
-        // fetchNovelDetail(novelId);
+        fetchNovelDetail(novelId);
       } else {
         this.masterListUpdateListener = DeviceEventEmitter.addListener(
           'masterListUpdate',
@@ -400,7 +399,7 @@ export default connect(
         ? state.muteUsers.items.some(m => m === item.user.id)
         : false;
       const {
-        novel_id: novelIdFromQS,
+        id: novelIdFromQS,
         novelId,
         items,
         index,
@@ -410,7 +409,7 @@ export default connect(
       const id = parseInt(novelIdFromQS || novelId, 0);
       return {
         novelId: id || item.id,
-        // novelDetail: state.novelDetail[id], // get novelDetail from api if load from deep link
+        novelDetail: state.novelDetail[id], // get novelDetail from api if load from deep link
         item,
         isMuteUser,
         isFromDeepLink: !!id,
@@ -425,5 +424,6 @@ export default connect(
   {
     ...browsingHistoryNovelsActionCreators,
     ...muteUsersActionCreators,
+    ...novelDetailActionCreators,
   },
 )(NovelDetail);

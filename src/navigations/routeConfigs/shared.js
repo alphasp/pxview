@@ -26,7 +26,7 @@ const config = {
   },
   [SCREENS.NovelDetail]: {
     screen: NovelDetail,
-    // path: '(member_illust.php|illusts)/:illustId?',
+    path: '(novel/show.php|novels)/:novelId?',
     navigationOptions: {
       header: null,
     },

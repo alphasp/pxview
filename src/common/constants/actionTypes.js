@@ -96,6 +96,12 @@ export const ILLUST_DETAIL = defineAction(
   appNamespace,
 );
 
+export const NOVEL_DETAIL = defineAction(
+  'NOVEL_DETAIL',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
 export const RELATED_ILLUSTS = defineAction(
   'RELATED_ILLUSTS',
   [REQUEST, SUCCESS, FAILURE, CLEAR],

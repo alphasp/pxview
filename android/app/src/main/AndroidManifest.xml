@@ -42,6 +42,7 @@
             <data android:host="touch.pixiv.net"/>
             <data android:pathPrefix="/member_illust"/>
             <data android:pathPrefix="/member"/>
+            <data android:pathPrefix="/novel"/>
         </intent-filter>
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
@@ -49,6 +50,7 @@
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="pixiv" />
             <data android:host="illusts" />
+            <data android:host="novels" />
             <data android:host="user" />
             <!-- <data android:pathPrefix="/illusts" />
             <data android:pathPrefix="/user" /> -->
