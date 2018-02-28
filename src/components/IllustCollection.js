@@ -71,19 +71,19 @@ const IllustCollection = props => {
         </PXTouchable>
       </View>
       <View style={styles.imagePreviews}>
-        {illusts &&
-          illusts.length &&
-          illusts.map((item, index) =>
-            <IllustItem
-              key={item.id}
-              illustId={item.id}
-              index={index}
-              numColumns={ILLUST_COLUMNS}
-              onPressItem={() =>
-                navigate(SCREENS.Detail, { items: illusts, index })}
-              parentContainerMargin={CONTAINER_MARGIN}
-            />,
-          )}
+        {illusts && illusts.length
+          ? illusts.map((item, index) =>
+              <IllustItem
+                key={item.id}
+                illustId={item.id}
+                index={index}
+                numColumns={ILLUST_COLUMNS}
+                onPressItem={() =>
+                  navigate(SCREENS.Detail, { items: illusts, index })}
+                parentContainerMargin={CONTAINER_MARGIN}
+              />,
+            )
+          : null}
       </View>
     </View>
   );

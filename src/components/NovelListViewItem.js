@@ -129,7 +129,9 @@ class NovelListViewItem extends Component {
                 <Text style={[styles.text, styles.info]}>
                   {`${item.text_length}${i18n.novelWords}`}
                 </Text>
-                {item.tags && item.tags.length && this.renderTags(item.tags)}
+                {item.tags && item.tags.length
+                  ? this.renderTags(item.tags)
+                  : null}
               </View>
             </View>}
       </PXTouchable>
