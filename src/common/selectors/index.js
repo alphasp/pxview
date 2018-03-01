@@ -532,9 +532,9 @@ export const makeGetParsedNovelText = () =>
           } else if (p.name === 'jumpuri') {
             text += `<a href='${p.uri}'>`;
             p.title.forEach(pp => {
-              if (pp.name === 'text') {
+              if (pp.type === 'text') {
                 text += pp.val;
-              } else if (pp.name === 'rb') {
+              } else if (pp.type === 'rb') {
                 text += `${pp.rubyBase}(${pp.rubyText})`;
               }
             });
