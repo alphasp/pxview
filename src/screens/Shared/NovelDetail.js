@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
   InteractionManager,
   Platform,
   LayoutAnimation,
@@ -13,8 +12,7 @@ import {
 import { connect } from 'react-redux';
 import Share from 'react-native-share';
 import ActionButton from 'react-native-action-button';
-import { connectLocalization } from '../../components/Localization';
-import PXCacheImageTouchable from '../../components/PXCacheImageTouchable';
+import enhanceSaveImage from '../../components/HOC/enhanceSaveImage';
 import NovelDetailContent from '../../components/NovelDetailContent';
 import PXHeader from '../../components/PXHeader';
 import PXViewPager from '../../components/PXViewPager';
@@ -22,7 +20,6 @@ import PXBottomSheet from '../../components/PXBottomSheet';
 import PXBottomSheetButton from '../../components/PXBottomSheetButton';
 import PXBottomSheetCancelButton from '../../components/PXBottomSheetCancelButton';
 import BookmarkNovelButton from '../../components/BookmarkNovelButton';
-import OverlayNovelPages from '../../components/OverlayNovelPages';
 import Loader from '../../components/Loader';
 import PXTouchable from '../../components/PXTouchable';
 import PXThumbnail from '../../components/PXThumbnail';
@@ -78,7 +75,6 @@ class NovelDetail extends Component {
       mounting: true,
       isActionButtonVisible: true,
       isOpenMenuBottomSheet: false,
-      selectedImageIndex: null,
     };
     this.listViewOffset = 0;
     if (Platform.OS === 'android') {
@@ -181,8 +177,8 @@ class NovelDetail extends Component {
     });
   };
 
-  handleOnLongPressImage = index => {
-    this.handleOnPressOpenMenuBottomSheet(index);
+  handleOnLongPressImage = () => {
+    this.handleOnPressOpenMenuBottomSheet();
   };
 
   handleOnViewPagerPageSelected = index => {
@@ -217,20 +213,13 @@ class NovelDetail extends Component {
     goBack();
   };
 
-  handleOnPressOpenMenuBottomSheet = selectedImageIndex => {
-    const newState = {
-      isOpenMenuBottomSheet: true,
-    };
-    if (selectedImageIndex !== null) {
-      newState.selectedImageIndex = selectedImageIndex;
-    }
-    this.setState(newState);
+  handleOnPressOpenMenuBottomSheet = () => {
+    this.setState({ isOpenMenuBottomSheet: true });
   };
 
   handleOnCancelMenuBottomSheet = () => {
     this.setState({
       isOpenMenuBottomSheet: false,
-      selectedImageIndex: null,
     });
   };
 
@@ -244,11 +233,11 @@ class NovelDetail extends Component {
     this.handleOnCancelMenuBottomSheet();
   };
 
-  handleOnPressShareIllust = () => {
+  handleOnPressShareNovel = () => {
     const { item } = this.props;
     const shareOptions = {
       message: `${item.title} | ${item.user.name} #pxview`,
-      url: `http://www.pixiv.net/member_illust.php?illust_id=${item.id}&mode=medium`,
+      url: `https://www.pixiv.net/novel/show.php?id=${item.id}`,
     };
     Share.open(shareOptions)
       .then(this.handleOnCancelMenuBottomSheet)
@@ -257,12 +246,7 @@ class NovelDetail extends Component {
 
   handleOnPressSaveImage = () => {
     const { saveImage, item } = this.props;
-    const { selectedImageIndex } = this.state;
-    const images =
-      item.page_count > 1
-        ? item.meta_pages.map(page => page.image_urls.original)
-        : [item.meta_single_page.original_image_url];
-    saveImage([images[selectedImageIndex]]);
+    saveImage([item.image_urls.large]);
     this.handleOnCancelMenuBottomSheet();
   };
 
@@ -308,10 +292,8 @@ class NovelDetail extends Component {
 
   renderHeaderRight = item =>
     <View style={styles.headerRightContainer}>
-      {/* <HeaderSaveImageButton imageUrls={images} saveAll /> */}
-      <HeaderMenuButton
-        onPress={() => this.handleOnPressOpenMenuBottomSheet(null)}
-      />
+      <HeaderSaveImageButton imageUrls={[item.image_urls.large]} />
+      <HeaderMenuButton onPress={this.handleOnPressOpenMenuBottomSheet} />
     </View>;
 
   renderContent = ({ item }) => {
@@ -329,6 +311,7 @@ class NovelDetail extends Component {
           item={item}
           navigation={navigation}
           authUser={authUser}
+          onLongPressImage={this.handleOnLongPressImage}
         />
       </View>
     );
@@ -368,12 +351,8 @@ class NovelDetail extends Component {
   }
 
   render() {
-    const { item, isMuteUser } = this.props;
-    const {
-      isActionButtonVisible,
-      isOpenMenuBottomSheet,
-      selectedImageIndex,
-    } = this.state;
+    const { item, isMuteUser, i18n } = this.props;
+    const { isActionButtonVisible, isOpenMenuBottomSheet } = this.state;
     return (
       <View style={globalStyles.container} ref={ref => (this.detailView = ref)}>
         {this.renderMainContent()}
@@ -385,45 +364,80 @@ class NovelDetail extends Component {
             icon={<BookmarkNovelButton item={item} />}
             fixNativeFeedbackRadius
           />}
+        <PXBottomSheet
+          visible={isOpenMenuBottomSheet}
+          onCancel={this.handleOnCancelMenuBottomSheet}
+        >
+          <PXBottomSheetButton
+            onPress={this.handleOnPressSaveImage}
+            iconName="content-save"
+            iconType="material-community"
+            text={i18n.saveImage}
+          />
+          <PXBottomSheetButton
+            onPress={this.handleOnPressShareNovel}
+            iconName="share"
+            iconType="entypo"
+            text={i18n.share}
+          />
+          <PXBottomSheetButton
+            onPress={this.handleOnPressToggleMuteUser}
+            iconName="user-times"
+            iconType="font-awesome"
+            textStyle={{
+              marginLeft: 28,
+            }}
+            text={isMuteUser ? i18n.userMuteRemove : i18n.userMuteAdd}
+          />
+          <PXBottomSheetCancelButton
+            onPress={this.handleOnCancelMenuBottomSheet}
+            textStyle={{
+              marginLeft: 38,
+            }}
+            text={i18n.cancel}
+          />
+        </PXBottomSheet>
       </View>
     );
   }
 }
 
-export default connect(
-  () => {
-    const getDetailItem = makeGetDetailNovelItem();
-    return (state, props) => {
-      const item = getDetailItem(state, props);
-      const isMuteUser = item
-        ? state.muteUsers.items.some(m => m === item.user.id)
-        : false;
-      const {
-        id: novelIdFromQS,
-        novelId,
-        items,
-        index,
-        onListEndReached,
-        parentListKey,
-      } = props.navigation.state.params;
-      const id = parseInt(novelIdFromQS || novelId, 0);
-      return {
-        novelId: id || item.id,
-        novelDetail: state.novelDetail[id], // get novelDetail from api if load from deep link
-        item,
-        isMuteUser,
-        isFromDeepLink: !!id,
-        items,
-        index,
-        onListEndReached,
-        parentListKey,
-        authUser: state.auth.user,
+export default enhanceSaveImage(
+  connect(
+    () => {
+      const getDetailItem = makeGetDetailNovelItem();
+      return (state, props) => {
+        const item = getDetailItem(state, props);
+        const isMuteUser = item
+          ? state.muteUsers.items.some(m => m === item.user.id)
+          : false;
+        const {
+          id: novelIdFromQS,
+          novelId,
+          items,
+          index,
+          onListEndReached,
+          parentListKey,
+        } = props.navigation.state.params;
+        const id = parseInt(novelIdFromQS || novelId, 0);
+        return {
+          novelId: id || item.id,
+          novelDetail: state.novelDetail[id], // get novelDetail from api if load from deep link
+          item,
+          isMuteUser,
+          isFromDeepLink: !!id,
+          items,
+          index,
+          onListEndReached,
+          parentListKey,
+          authUser: state.auth.user,
+        };
       };
-    };
-  },
-  {
-    ...browsingHistoryNovelsActionCreators,
-    ...muteUsersActionCreators,
-    ...novelDetailActionCreators,
-  },
-)(NovelDetail);
+    },
+    {
+      ...browsingHistoryNovelsActionCreators,
+      ...muteUsersActionCreators,
+      ...novelDetailActionCreators,
+    },
+  )(NovelDetail),
+);

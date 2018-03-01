@@ -83,6 +83,7 @@ class NovelDetailContent extends Component {
       muteTags,
       tags,
       isMuteUser,
+      onLongPressImage,
     } = this.props;
     const { isOpenTagBottomSheet, selectedTag } = this.state;
     const isMute = tags.some(t => t.isMute) || isMuteUser;
@@ -101,6 +102,7 @@ class NovelDetailContent extends Component {
                   initHeight={200}
                   imageStyle={styles.image}
                   onPress={this.handleOnPressNovelImage}
+                  onLongPress={onLongPressImage}
                 />
                 {item.page_count > 1
                   ? <OverlayNovelPages total={item.page_count} />
