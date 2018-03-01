@@ -42,7 +42,7 @@
             <data android:host="touch.pixiv.net"/>
             <data android:pathPrefix="/member_illust"/>
             <data android:pathPrefix="/member"/>
-            <data android:pathPrefix="/novel"/>
+            <data android:pathPrefix="/novel/show"/>
         </intent-filter>
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
