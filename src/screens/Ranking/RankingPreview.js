@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { View, ScrollView, StyleSheet, RefreshControl } from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  RefreshControl,
+} from 'react-native';
 import RankingHorizontalList from './RankingHorizontalList';
 import NovelRankingPreview from './NovelRankingPreview';
 import { connectLocalization } from '../../components/Localization';
@@ -82,7 +87,7 @@ class RankingPreview extends Component {
     const { navigation } = this.props;
     const { refreshing } = this.state;
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <ScrollView
           refreshControl={
             <RefreshControl
@@ -110,7 +115,7 @@ class RankingPreview extends Component {
             refreshing={refreshing}
           />
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   }
 }

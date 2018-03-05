@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  SafeAreaView,
   ScrollView,
   Linking,
   RefreshControl,
@@ -542,7 +543,7 @@ class UserDetail extends Component {
       userBookmarkNovelsItems,
     } = this.props;
     return (
-      <View>
+      <SafeAreaView>
         {this.renderProfile(detail)}
         {userIllusts &&
         !userIllusts.loading &&
@@ -574,7 +575,7 @@ class UserDetail extends Component {
         userBookmarkNovels.items.length
           ? this.renderBookmarkNovels(userBookmarkNovelsItems)
           : null}
-      </View>
+      </SafeAreaView>
     );
   };
 

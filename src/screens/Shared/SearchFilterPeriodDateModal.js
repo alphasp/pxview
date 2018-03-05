@@ -1,22 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { List, ListItem } from 'react-native-elements';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connectLocalization } from '../../components/Localization';
 import PXTouchable from '../../components/PXTouchable';
-import {
-  SEARCH_TYPES,
-  SEARCH_PERIOD_TYPES,
-  SCREENS,
-} from '../../common/constants';
 import { globalStyles, globalStyleVariables } from '../../styles';
 
 const styles = StyleSheet.create({
-  listContainer: {
-    // flex: 1,
-  },
   infoContainer: {
     flex: 1,
     margin: 20,
@@ -107,7 +99,7 @@ class SearchFilterPeriodDateModal extends Component {
       isEndDatePickerVisible,
     } = this.state;
     return (
-      <View style={globalStyles.container}>
+      <SafeAreaView style={globalStyles.container}>
         <List>
           <ListItem
             title={i18n.searchPeriodStartDate}
@@ -154,7 +146,7 @@ class SearchFilterPeriodDateModal extends Component {
           minimumDate={moment(startDate).toDate()}
           maximumDate={moment().toDate()}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 }

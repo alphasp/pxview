@@ -1,5 +1,12 @@
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet, Platform, Linking } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+  Linking,
+  SafeAreaView,
+} from 'react-native';
 import moment from 'moment';
 import HtmlView from 'react-native-htmlview';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -100,117 +107,119 @@ class DetailFooter extends PureComponent {
       tags,
     } = this.props;
     return (
-      <View style={styles.container} onLayout={onLayoutView}>
-        <View style={styles.infoContainer}>
-          <View style={styles.profileContainer}>
-            <PXTouchable
-              style={styles.thumnailNameContainer}
-              onPress={this.handleOnPressAvatar}
-            >
-              <PXThumbnail uri={item.user.profile_image_urls.medium} />
-              <View style={styles.nameContainer}>
-                <Text>
-                  {item.user.name}
-                </Text>
-                <Text>
-                  {item.user.account}
+      <SafeAreaView>
+        <View style={styles.container} onLayout={onLayoutView}>
+          <View style={styles.infoContainer}>
+            <View style={styles.profileContainer}>
+              <PXTouchable
+                style={styles.thumnailNameContainer}
+                onPress={this.handleOnPressAvatar}
+              >
+                <PXThumbnail uri={item.user.profile_image_urls.medium} />
+                <View style={styles.nameContainer}>
+                  <Text>
+                    {item.user.name}
+                  </Text>
+                  <Text>
+                    {item.user.account}
+                  </Text>
+                </View>
+              </PXTouchable>
+              {((authUser && authUser.id !== item.user.id) || !authUser) &&
+                <FollowButtonContainer userId={item.user.id} />}
+            </View>
+            <View style={styles.captionContainer}>
+              {item.series &&
+                item.series.id &&
+                <Text style={styles.seriesTitle} selectable>
+                  {item.series.title}
+                </Text>}
+              <Text style={styles.title} selectable>
+                {item.title}
+              </Text>
+              <HtmlView
+                value={item.caption}
+                onLinkPress={this.handleOnPressLink}
+                textComponentProps={{ selectable: true }}
+              />
+            </View>
+            <View style={styles.statContainer}>
+              <Text>
+                {moment(item.create_date).format('YYYY-MM-DD')}
+              </Text>
+              <Icon name="eye" style={{ marginLeft: 10 }} />
+              <Text style={{ marginLeft: 5 }}>
+                {item.total_view}
+              </Text>
+              <Icon name="heart" style={{ marginLeft: 10 }} />
+              <Text style={{ marginLeft: 5 }}>
+                {item.total_bookmarks}
+              </Text>
+            </View>
+            {
+              <Tags
+                tags={tags}
+                onPressTag={onPressTag}
+                onLongPressTag={onLongPressTag}
+              />
+            }
+          </View>
+          <View style={styles.sectionContainer}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>
+                {i18n.comments}
+              </Text>
+            </View>
+            {item.text_length
+              ? <NovelComments
+                  novelId={item.id}
+                  isFeatureInDetailPage
+                  maxItems={6}
+                  navigation={navigation}
+                />
+              : <IllustComments
+                  illustId={item.id}
+                  isFeatureInDetailPage
+                  maxItems={6}
+                  navigation={navigation}
+                />}
+          </View>
+          {!item.text_length &&
+            <View style={styles.sectionContainer}>
+              <View style={styles.sectionHeader}>
+                <Text style={styles.sectionTitle}>
+                  {i18n.relatedWorks}
                 </Text>
               </View>
-            </PXTouchable>
-            {((authUser && authUser.id !== item.user.id) || !authUser) &&
-              <FollowButtonContainer userId={item.user.id} />}
-          </View>
-          <View style={styles.captionContainer}>
-            {item.series &&
-              item.series.id &&
-              <Text style={styles.seriesTitle} selectable>
-                {item.series.title}
-              </Text>}
-            <Text style={styles.title} selectable>
-              {item.title}
-            </Text>
-            <HtmlView
-              value={item.caption}
-              onLinkPress={this.handleOnPressLink}
-              textComponentProps={{ selectable: true }}
-            />
-          </View>
-          <View style={styles.statContainer}>
-            <Text>
-              {moment(item.create_date).format('YYYY-MM-DD')}
-            </Text>
-            <Icon name="eye" style={{ marginLeft: 10 }} />
-            <Text style={{ marginLeft: 5 }}>
-              {item.total_view}
-            </Text>
-            <Icon name="heart" style={{ marginLeft: 10 }} />
-            <Text style={{ marginLeft: 5 }}>
-              {item.total_bookmarks}
-            </Text>
-          </View>
-          {
-            <Tags
-              tags={tags}
-              onPressTag={onPressTag}
-              onLongPressTag={onLongPressTag}
-            />
-          }
-        </View>
-        <View style={styles.sectionContainer}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>
-              {i18n.comments}
-            </Text>
-          </View>
-          {item.text_length
-            ? <NovelComments
-                novelId={item.id}
-                isFeatureInDetailPage
-                maxItems={6}
-                navigation={navigation}
-              />
-            : <IllustComments
+              <RelatedIllusts
                 illustId={item.id}
                 isFeatureInDetailPage
                 maxItems={6}
                 navigation={navigation}
-              />}
+              />
+            </View>}
+          {item.series &&
+            item.series.id &&
+            item.text_length > 0 &&
+            <View style={styles.sectionContainer}>
+              <View style={styles.sectionHeader}>
+                <Text
+                  style={[styles.sectionTitle, styles.sectionSeriesTitle]}
+                  selectable
+                >
+                  {item.series.title}
+                </Text>
+              </View>
+              <NovelSeries
+                seriesId={item.series.id}
+                seriesTitle={item.series.title}
+                isFeatureInDetailPage
+                maxItems={6}
+                navigation={navigation}
+              />
+            </View>}
         </View>
-        {!item.text_length &&
-          <View style={styles.sectionContainer}>
-            <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>
-                {i18n.relatedWorks}
-              </Text>
-            </View>
-            <RelatedIllusts
-              illustId={item.id}
-              isFeatureInDetailPage
-              maxItems={6}
-              navigation={navigation}
-            />
-          </View>}
-        {item.series &&
-          item.series.id &&
-          item.text_length > 0 &&
-          <View style={styles.sectionContainer}>
-            <View style={styles.sectionHeader}>
-              <Text
-                style={[styles.sectionTitle, styles.sectionSeriesTitle]}
-                selectable
-              >
-                {item.series.title}
-              </Text>
-            </View>
-            <NovelSeries
-              seriesId={item.series.id}
-              seriesTitle={item.series.title}
-              isFeatureInDetailPage
-              maxItems={6}
-              navigation={navigation}
-            />
-          </View>}
-      </View>
+      </SafeAreaView>
     );
   }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import { SinglePickerMaterialDialog } from 'react-native-material-dialog';
 import { connectLocalization } from '../../components/Localization';
@@ -244,7 +244,7 @@ class SearchFilterModal extends Component {
     const { i18n } = this.props;
     const { selectedFilterType, selectedPickerItem, filterList } = this.state;
     return (
-      <View style={globalStyles.container}>
+      <SafeAreaView style={globalStyles.container}>
         <List containerStyle={styles.listContainer}>
           {filterList.map(list =>
             <ListItem
@@ -283,7 +283,7 @@ class SearchFilterModal extends Component {
             onCancel={this.handleOnCancelPickerDialog}
             onOk={this.handleOnOkPickerDialog}
           />}
-      </View>
+      </SafeAreaView>
     );
   }
 }

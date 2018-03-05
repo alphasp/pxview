@@ -1,21 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { StyleSheet, View, Platform } from 'react-native';
+import { StyleSheet, View, Platform, SafeAreaView } from 'react-native';
 import { HeaderBackButton, withNavigation } from 'react-navigation';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: globalStyleVariables.STATUSBAR_HEIGHT,
-    ...Platform.select({
-      android: {
-        height:
-          globalStyleVariables.STATUSBAR_HEIGHT +
-          globalStyleVariables.APPBAR_HEIGHT,
-      },
-    }),
-  },
   containerShadow: {
     ...Platform.select({
       ios: {
@@ -50,6 +40,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, .3)',
   },
   subContainer: {
+    ...Platform.select({
+      ios: {
+        paddingTop:
+          parseInt(Platform.Version, 10) < 11
+            ? globalStyleVariables.STATUSBAR_HEIGHT
+            : 0,
+      },
+      android: {
+        paddingTop: globalStyleVariables.STATUSBAR_HEIGHT,
+        height:
+          globalStyleVariables.STATUSBAR_HEIGHT +
+          globalStyleVariables.APPBAR_HEIGHT,
+      },
+    }),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -102,9 +106,8 @@ class PXHeader extends Component {
       withShadow,
     } = this.props;
     return (
-      <View
+      <SafeAreaView
         style={[
-          styles.container,
           darkTheme && styles.containerDark,
           absolutePosition && styles.absolutePosition,
           withShadow && styles.containerShadow,
@@ -124,7 +127,7 @@ class PXHeader extends Component {
           {headerTitle}
           {headerRight}
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }

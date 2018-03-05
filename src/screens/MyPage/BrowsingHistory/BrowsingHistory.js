@@ -104,7 +104,6 @@ class BrowsingHistory extends Component {
         navigationState={this.state}
         renderScene={this.renderScene}
         onIndexChange={this.handleChangeTab}
-        includeStatusBarPadding={config.navigation.tab}
       />
     );
   }

@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, InteractionManager, Alert } from 'react-native';
+import {
+  View,
+  SafeAreaView,
+  StyleSheet,
+  InteractionManager,
+  Alert,
+} from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ActionButton from 'react-native-action-button';
@@ -124,7 +130,7 @@ class IllustComments extends Component {
       maxItems,
     } = this.props;
     return (
-      <View style={globalStyles.container}>
+      <SafeAreaView style={globalStyles.container}>
         <CommentList
           data={{ ...illustComments, items }}
           loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
@@ -145,7 +151,7 @@ class IllustComments extends Component {
             onPress={this.handleOnPressCommentButton}
           />}
         <OverlaySpinner visible={verificationEmail.loading} />
-      </View>
+      </SafeAreaView>
     );
   }
 }

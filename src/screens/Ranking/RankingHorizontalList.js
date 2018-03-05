@@ -35,6 +35,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  title: {
+    fontWeight: 'bold',
+  },
   viewMoreContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -119,7 +122,7 @@ class RankingHorizontalList extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.titleContainer}>
-          <Text>
+          <Text style={styles.title}>
             {this.mapRankingTypeString(rankingType)}
           </Text>
           <PXTouchable
