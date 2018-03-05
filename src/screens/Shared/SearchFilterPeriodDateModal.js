@@ -38,11 +38,12 @@ const styles = StyleSheet.create({
 class SearchFilterPeriodDateModal extends Component {
   constructor(props) {
     super(props);
+    const { startDate, endDate } = props.navigation.state.params;
     this.state = {
       isStartDatePickerVisible: false,
       isEndDatePickerVisible: false,
-      startDate: moment().subtract(7, 'day').format('YYYY-MM-DD'),
-      endDate: moment().format('YYYY-MM-DD'),
+      startDate: startDate || moment().subtract(7, 'day').format('YYYY-MM-DD'),
+      endDate: endDate || moment().format('YYYY-MM-DD'),
     };
   }
 
@@ -59,17 +60,31 @@ class SearchFilterPeriodDateModal extends Component {
   };
 
   handleOnConfirmStartDatePicker = date => {
-    this.setState({
-      startDate: moment(date).format('YYYY-MM-DD'),
+    const { endDate } = this.state;
+    const sd = moment(date);
+    const ed = moment(endDate);
+    const newState = {
+      startDate: sd.format('YYYY-MM-DD'),
       isStartDatePickerVisible: false,
-    });
+    };
+    if (ed.diff(sd, 'years', true) > 1) {
+      newState.endDate = sd.clone().add(1, 'years').format('YYYY-MM-DD');
+    }
+    this.setState(newState);
   };
 
   handleOnConfirmEndDatePicker = date => {
-    this.setState({
-      endDate: moment(date).format('YYYY-MM-DD'),
+    const { startDate } = this.state;
+    const ed = moment(date);
+    const sd = moment(startDate);
+    const newState = {
+      endDate: ed.format('YYYY-MM-DD'),
       isEndDatePickerVisible: false,
-    });
+    };
+    if (ed.diff(sd, 'years', true) > 1) {
+      newState.startDate = ed.clone().subtract(1, 'years').format('YYYY-MM-DD');
+    }
+    this.setState(newState);
   };
 
   handleOnCancelStartDatePicker = () => {

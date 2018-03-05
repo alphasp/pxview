@@ -184,12 +184,14 @@ class SearchFilterModal extends Component {
   };
 
   handleOnOkPickerDialog = result => {
-    const { selectedFilterType } = this.state;
+    const { selectedFilterType, startDate, endDate } = this.state;
     if (selectedFilterType === 'period') {
       if (result.selectedItem.value === SEARCH_PERIOD_TYPES.DATE) {
         const { navigate } = this.props.navigation;
         navigate(SCREENS.SearchFilterPeriodDateModal, {
           onConfirmPeriodDate: this.handleOnConfirmPeriodDate,
+          startDate,
+          endDate,
         });
         this.setState({
           selectedFilterType: null,
