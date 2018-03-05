@@ -111,6 +111,18 @@ export default function entities(
             is_followed: true,
           },
         },
+        userProfiles: state.userProfiles[action.payload.userId]
+          ? {
+              ...state.userProfiles,
+              [action.payload.userId]: {
+                ...state.userProfiles[action.payload.userId],
+                user: {
+                  ...state.userProfiles[action.payload.userId].user,
+                  is_followed: true,
+                },
+              },
+            }
+          : state.userProfiles,
       };
     case UNFOLLOW_USER.REQUEST:
       if (!state.users[action.payload.userId]) {
@@ -125,6 +137,18 @@ export default function entities(
             is_followed: false,
           },
         },
+        userProfiles: state.userProfiles[action.payload.userId]
+          ? {
+              ...state.userProfiles,
+              [action.payload.userId]: {
+                ...state.userProfiles[action.payload.userId],
+                user: {
+                  ...state.userProfiles[action.payload.userId].user,
+                  is_followed: false,
+                },
+              },
+            }
+          : state.userProfiles,
       };
     case AUTH_LOGOUT.SUCCESS:
       return {
