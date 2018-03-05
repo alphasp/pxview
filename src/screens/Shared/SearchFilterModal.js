@@ -185,24 +185,29 @@ class SearchFilterModal extends Component {
 
   handleOnOkPickerDialog = result => {
     const { selectedFilterType } = this.state;
-    if (
-      selectedFilterType === 'period' &&
-      result.selectedItem.value === SEARCH_PERIOD_TYPES.DATE
-    ) {
-      const { navigate } = this.props.navigation;
-      navigate(SCREENS.SearchFilterPeriodDateModal, {
-        onConfirmPeriodDate: this.handleOnConfirmPeriodDate,
-      });
-      this.setState({
-        selectedFilterType: null,
-      });
+    if (selectedFilterType === 'period') {
+      if (result.selectedItem.value === SEARCH_PERIOD_TYPES.DATE) {
+        const { navigate } = this.props.navigation;
+        navigate(SCREENS.SearchFilterPeriodDateModal, {
+          onConfirmPeriodDate: this.handleOnConfirmPeriodDate,
+        });
+        this.setState({
+          selectedFilterType: null,
+        });
+      } else {
+        this.setState({
+          [selectedFilterType]: result.selectedItem.value,
+          selectedPickerItem: result.selectedItem,
+          selectedFilterType: null,
+          startDate: null,
+          endDate: null,
+        });
+      }
     } else {
       this.setState({
         [selectedFilterType]: result.selectedItem.value,
         selectedPickerItem: result.selectedItem,
         selectedFilterType: null,
-        startDate: null,
-        endDate: null,
       });
     }
   };
