@@ -41,6 +41,7 @@
   "emailVerificationSent": "An email has been sent to your registered e-mail address.",
   "encyclopedia": "pixiv Encyclopedia",
   "feedback": "Feedback",
+  "feedbackEmailOptional": "Email (Optional)",
   "feedbackError": "Failed to send your feedback, please try again",
   "feedbackPlaceholder": "Please write your feedback",
   "feedbackSuccess": "Your feedback was sent. Thank you.",

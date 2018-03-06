@@ -41,6 +41,7 @@
   "emailVerificationSent": "登録したメールアドレスに確認のメールを送信しました。",
   "encyclopedia": "ピクシブ百科事典",
   "feedback": "フィードバック",
+  "feedbackEmailOptional": "メールアドレス (任意)",
   "feedbackError": "送信に失敗しました。もう一度送信をお願いします。",
   "feedbackPlaceholder": "フィードバックをご記入ください",
   "feedbackSuccess": "送信されました。ご協力ありがとうございます",

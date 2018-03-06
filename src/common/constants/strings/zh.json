@@ -41,6 +41,7 @@
   "emailVerificationSent": "我们已经向你的注册邮箱发送了确认邮件。",
   "encyclopedia": "pixiv百科全书",
   "feedback": "意见反馈",
+  "feedbackEmailOptional": "邮箱地址 (可选)",
   "feedbackError": "发送失败。请重新发送。",
   "feedbackPlaceholder": "请输入您的意见或建议。",
   "feedbackSuccess": "发送成功。",
