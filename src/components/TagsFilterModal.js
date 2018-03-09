@@ -68,17 +68,16 @@ class TagsFilterModal extends Component {
     return (
       <PXTouchable key={item.name} onPress={() => onSelectTag(item.value)}>
         <View style={[styles.row, isSelected && styles.selectedTagContainer]}>
-          {
-            <View style={styles.selectedTag}>
-              <Text style={isSelected && styles.selectedTagText}>
-                {tagName}
-              </Text>
-            </View>
-          }
-          {item.count &&
+          <View style={styles.selectedTag}>
             <Text style={isSelected && styles.selectedTagText}>
-              {item.count}
-            </Text>}
+              {tagName}
+            </Text>
+          </View>
+          {item.count
+            ? <Text style={isSelected && styles.selectedTagText}>
+                {item.count}
+              </Text>
+            : null}
         </View>
       </PXTouchable>
     );
