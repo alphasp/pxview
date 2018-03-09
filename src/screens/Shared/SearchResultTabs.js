@@ -70,7 +70,8 @@ class SearchResultTabs extends Component {
   };
 
   handleOnPressShowFilterModal = () => {
-    const { navigate, goBack } = this.props.navigation;
+    const { word, navigation } = this.props;
+    const { navigate, goBack } = navigation;
     const { searchOptions, newSearchType } = this.state;
     Keyboard.dismiss();
     this.setState({
@@ -78,9 +79,18 @@ class SearchResultTabs extends Component {
     });
     setTimeout(() => {
       navigate(SCREENS.SearchFilterModal, {
+        word,
         searchFilter: searchOptions || {},
         searchType: newSearchType,
-        onPressApplyFilter: (target, period, sort, startDate, endDate) => {
+        onPressApplyFilter: (
+          target,
+          period,
+          sort,
+          startDate,
+          endDate,
+          bookmarkNumMin,
+          bookmarkNumMax,
+        ) => {
           goBack(null);
           this.setState({
             searchOptions: {
@@ -89,6 +99,8 @@ class SearchResultTabs extends Component {
               sort,
               start_date: startDate,
               end_date: endDate,
+              bookmark_num_min: bookmarkNumMin,
+              bookmark_num_max: bookmarkNumMax,
             },
           });
         },

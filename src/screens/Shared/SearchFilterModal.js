@@ -1,8 +1,14 @@
+/* eslint-disable camelcase */
+
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { connect } from 'react-redux';
+import qs from 'qs';
 import { List, ListItem } from 'react-native-elements';
 import { SinglePickerMaterialDialog } from 'react-native-material-dialog';
 import { connectLocalization } from '../../components/Localization';
+import SearchIllustsBookmarkRangesPickerDialog from '../../components/SearchIllustsBookmarkRangesPickerDialog';
+import SearchNovelsBookmarkRangesPickerDialog from '../../components/SearchNovelsBookmarkRangesPickerDialog';
 import PXTouchable from '../../components/PXTouchable';
 import {
   SEARCH_TYPES,
@@ -33,7 +39,15 @@ class SearchFilterModal extends Component {
   constructor(props) {
     super(props);
     const {
-      searchFilter: { target, period, sort, start_date, end_date },
+      searchFilter: {
+        target,
+        period,
+        sort,
+        start_date,
+        end_date,
+        bookmark_num_min,
+        bookmark_num_max,
+      },
     } = props.navigation.state.params;
     this.state = {
       target: target || 'partial_match_for_tags',
@@ -41,6 +55,12 @@ class SearchFilterModal extends Component {
       sort: sort || 'date_desc',
       startDate: start_date,
       endDate: end_date,
+      likes: this.getSelectedLikesFilterValue(
+        bookmark_num_min,
+        bookmark_num_max,
+      ),
+      bookmarkNumMin: bookmark_num_min,
+      bookmarkNumMax: bookmark_num_max,
       selectedFilterType: null,
       selectedPickerItem: null,
       filterList: this.getFilterList(true),
@@ -48,7 +68,7 @@ class SearchFilterModal extends Component {
   }
 
   getFilterList = init => {
-    const { i18n, navigation } = this.props;
+    const { i18n, navigation, user } = this.props;
     const {
       searchFilter: { start_date, end_date },
       searchType,
@@ -129,7 +149,7 @@ class SearchFilterModal extends Component {
     if (extraPeriodOption.value) {
       periodOptions = [extraPeriodOption, ...periodOptions];
     }
-    return [
+    const filterOptions = [
       {
         key: 'target',
         options: targetOptions,
@@ -156,6 +176,18 @@ class SearchFilterModal extends Component {
         ],
       },
     ];
+    if (user.is_premium) {
+      filterOptions.push({
+        key: 'likes',
+        options: [
+          {
+            value: null,
+            label: i18n.searchLikesAll,
+          },
+        ],
+      });
+    }
+    return filterOptions;
   };
 
   getSearchTypeName = type => {
@@ -167,9 +199,35 @@ class SearchFilterModal extends Component {
         return i18n.searchPeriod;
       case 'sort':
         return i18n.searchOrder;
+      case 'likes':
+        return i18n.searchLikes;
       default:
         return '';
     }
+  };
+
+  getSelectedFilterName = (key, options) => {
+    if (key !== 'likes') {
+      return options.find(o => o.value === this.state[key]).label;
+    }
+    const { bookmarkNumMin, bookmarkNumMax } = this.state;
+    if (!bookmarkNumMin && !bookmarkNumMax) {
+      const { i18n } = this.props;
+      return i18n.searchLikesAll;
+    }
+    if (!bookmarkNumMax) {
+      return `${bookmarkNumMin}+`;
+    }
+    return `${bookmarkNumMin} - ${bookmarkNumMax}`;
+  };
+
+  getSelectedLikesFilterValue = (bookmarkNumMin, bookmarkNumMax) => {
+    if (!bookmarkNumMin && !bookmarkNumMax) {
+      return '';
+    } else if (!bookmarkNumMax) {
+      return `bookmarkNumMin=${bookmarkNumMin}`;
+    }
+    return `bookmarkNumMin=${bookmarkNumMin}&bookmarkNumMax=${bookmarkNumMax}`;
   };
 
   handleOnPressFilterOption = filterType => {
@@ -206,11 +264,24 @@ class SearchFilterModal extends Component {
         });
       }
     } else {
-      this.setState({
+      const newState = {
         [selectedFilterType]: result.selectedItem.value,
         selectedPickerItem: result.selectedItem,
         selectedFilterType: null,
-      });
+      };
+      if (selectedFilterType === 'likes') {
+        if (result.selectedItem.value) {
+          const { bookmarkNumMin, bookmarkNumMax } = qs.parse(
+            result.selectedItem.value,
+          );
+          newState.bookmarkNumMin = bookmarkNumMin;
+          newState.bookmarkNumMax = bookmarkNumMax;
+        } else {
+          newState.bookmarkNumMin = null;
+          newState.bookmarkNumMax = null;
+        }
+      }
+      this.setState(newState);
     }
   };
 
@@ -243,13 +314,38 @@ class SearchFilterModal extends Component {
 
   handleOnPressApplyFilter = () => {
     const { onPressApplyFilter } = this.props.navigation.state.params;
-    const { target, period, sort, startDate, endDate } = this.state;
-    onPressApplyFilter(target, period, sort, startDate, endDate);
+    const {
+      target,
+      period,
+      sort,
+      startDate,
+      endDate,
+      bookmarkNumMin,
+      bookmarkNumMax,
+    } = this.state;
+    onPressApplyFilter(
+      target,
+      period,
+      sort,
+      startDate,
+      endDate,
+      bookmarkNumMin,
+      bookmarkNumMax,
+    );
   };
 
   render() {
-    const { i18n } = this.props;
-    const { selectedFilterType, selectedPickerItem, filterList } = this.state;
+    const { i18n, navigationStateKey, navigation } = this.props;
+    const { word, searchType } = navigation.state.params;
+    const {
+      selectedFilterType,
+      selectedPickerItem,
+      filterList,
+      target,
+      period,
+      startDate,
+      endDate,
+    } = this.state;
     return (
       <SafeAreaView style={globalStyles.container}>
         <List containerStyle={styles.listContainer}>
@@ -257,9 +353,7 @@ class SearchFilterModal extends Component {
             <ListItem
               key={list.key}
               title={this.getSearchTypeName(list.key)}
-              subtitle={
-                list.options.find(o => o.value === this.state[list.key]).label
-              }
+              subtitle={this.getSelectedFilterName(list.key, list.options)}
               onPress={() => this.handleOnPressFilterOption(list.key)}
               hideChevron
             />,
@@ -276,6 +370,7 @@ class SearchFilterModal extends Component {
           </PXTouchable>
         </View>
         {selectedFilterType &&
+          selectedFilterType !== 'likes' &&
           <SinglePickerMaterialDialog
             title={this.getSearchTypeName(selectedFilterType)}
             items={filterList
@@ -290,9 +385,44 @@ class SearchFilterModal extends Component {
             onCancel={this.handleOnCancelPickerDialog}
             onOk={this.handleOnOkPickerDialog}
           />}
+        {selectedFilterType === 'likes' &&
+          searchType === SEARCH_TYPES.ILLUST &&
+          <SearchIllustsBookmarkRangesPickerDialog
+            navigationStateKey={navigationStateKey}
+            word={word}
+            searchOptions={{
+              target,
+              period,
+              start_date: startDate,
+              end_date: endDate,
+            }}
+            selectedItem={selectedPickerItem}
+            onCancel={this.handleOnCancelPickerDialog}
+            onOk={this.handleOnOkPickerDialog}
+          />}
+        {selectedFilterType === 'likes' &&
+          searchType === SEARCH_TYPES.NOVEL &&
+          <SearchNovelsBookmarkRangesPickerDialog
+            navigationStateKey={navigationStateKey}
+            word={word}
+            searchOptions={{
+              target,
+              period,
+              start_date: startDate,
+              end_date: endDate,
+            }}
+            selectedItem={selectedPickerItem}
+            onCancel={this.handleOnCancelPickerDialog}
+            onOk={this.handleOnOkPickerDialog}
+          />}
       </SafeAreaView>
     );
   }
 }
 
-export default connectLocalization(SearchFilterModal);
+export default connectLocalization(
+  connect((state, props) => ({
+    user: state.auth.user,
+    navigationStateKey: props.navigation.state.key,
+  }))(SearchFilterModal),
+);

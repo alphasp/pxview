@@ -1,6 +1,5 @@
 import { normalize } from 'normalizr';
-import moment from 'moment';
-import { takeEvery, apply, put } from 'redux-saga/effects';
+import { takeEvery, apply, put, select } from 'redux-saga/effects';
 import {
   fetchSearchNovelsSuccess,
   fetchSearchNovelsFailure,
@@ -10,32 +9,8 @@ import pixiv from '../helpers/apiClient';
 import { SEARCH_NOVELS } from '../constants/actionTypes';
 import { SEARCH_PERIOD_TYPES } from '../constants';
 import Schemas from '../constants/schemas';
-
-const mapPeriodToStartAndEndDates = period => {
-  const startDate = moment().subtract(1, 'day');
-  const endDate = startDate.clone();
-  switch (period) {
-    case SEARCH_PERIOD_TYPES.LAST_WEEK:
-      startDate.subtract(1, 'week');
-      break;
-    case SEARCH_PERIOD_TYPES.LAST_MONTH:
-      startDate.subtract(1, 'month');
-      break;
-    case SEARCH_PERIOD_TYPES.LAST_HALF_YEAR:
-      startDate.subtract(6, 'month');
-      break;
-    case SEARCH_PERIOD_TYPES.LAST_YEAR:
-      startDate.subtract(1, 'year');
-      break;
-    case SEARCH_PERIOD_TYPES.LAST_DAY:
-    default:
-      break;
-  }
-  return {
-    start_date: startDate.format('YYYY-MM-DD'),
-    end_date: endDate.format('YYYY-MM-DD'),
-  };
-};
+import { getAuthUser } from '../selectors';
+import mapSearchPeriodToStartAndEndDates from '../helpers/searchPeriod';
 
 export function* handleFetchSearchNovels(action) {
   const { navigationStateKey, word, options, nextUrl } = action.payload;
@@ -65,16 +40,25 @@ export function* handleFetchSearchNovels(action) {
         ) {
           finalOptions = {
             ...finalOptions,
-            ...mapPeriodToStartAndEndDates(options.period),
+            ...mapSearchPeriodToStartAndEndDates(options.period),
           };
         }
       }
+      const user = yield select(getAuthUser);
       if (options.sort && options.sort === 'popularity') {
-        delete finalOptions.sort;
-        response = yield apply(pixiv, pixiv.searchNovelPopularPreview, [
-          word,
-          finalOptions,
-        ]);
+        if (user.is_premium) {
+          finalOptions.sort = 'popular_desc';
+          response = yield apply(pixiv, pixiv.searchNovel, [
+            word,
+            finalOptions,
+          ]);
+        } else {
+          delete finalOptions.sort;
+          response = yield apply(pixiv, pixiv.searchNovelPopularPreview, [
+            word,
+            finalOptions,
+          ]);
+        }
       } else {
         response = yield apply(pixiv, pixiv.searchNovel, [word, finalOptions]);
       }

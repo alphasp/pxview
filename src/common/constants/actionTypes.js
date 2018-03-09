@@ -300,6 +300,18 @@ export const SEARCH_USERS_AUTOCOMPLETE = defineAction(
   appNamespace,
 );
 
+export const SEARCH_ILLUSTS_BOOKMARK_RANGES = defineAction(
+  'SEARCH_ILLUSTS_BOOKMARK_RANGES',
+  [REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL],
+  appNamespace,
+);
+
+export const SEARCH_NOVELS_BOOKMARK_RANGES = defineAction(
+  'SEARCH_NOVELS_BOOKMARK_RANGES',
+  [REQUEST, SUCCESS, FAILURE, CLEAR, CLEAR_ALL],
+  appNamespace,
+);
+
 export const BOOKMARK_ILLUST_TAGS = defineAction(
   'BOOKMARK_ILLUST_TAGS',
   [REQUEST, SUCCESS, FAILURE, CLEAR],

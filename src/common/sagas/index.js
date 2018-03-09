@@ -44,6 +44,8 @@ import { watchFetchSearchNovels } from './searchNovels';
 import { watchFetchSearchUsers } from './searchUsers';
 import { watchFetchSearchAutoComplete } from './searchAutoComplete';
 import { watchFetchSearchUsersAutoComplete } from './searchUsersAutoComplete';
+import { watchFetchSearchIllustsBookmarkRanges } from './searchIllustsBookmarkRanges';
+import { watchFetchSearchNovelsBookmarkRanges } from './searchNovelsBookmarkRanges';
 import { watchFetchBookmarkIllustTags } from './bookmarkIllustTags';
 import { watchFetchBookmarkNovelTags } from './bookmarkNovelTags';
 import { watchFetchIllustBookmarkDetail } from './illustBookmarkDetail';
@@ -103,6 +105,8 @@ export default function* rootSaga() {
     watchFetchSearchUsers(),
     watchFetchSearchAutoComplete(),
     watchFetchSearchUsersAutoComplete(),
+    watchFetchSearchIllustsBookmarkRanges(),
+    watchFetchSearchNovelsBookmarkRanges(),
     watchFetchBookmarkIllustTags(),
     watchFetchBookmarkNovelTags(),
     watchFetchIllustBookmarkDetail(),
