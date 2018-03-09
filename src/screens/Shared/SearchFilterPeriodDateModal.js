@@ -149,6 +149,9 @@ class SearchFilterPeriodDateModal extends Component {
         </View>
         <DateTimePicker
           isVisible={isStartDatePickerVisible}
+          cancelTextIOS={i18n.cancel}
+          confirmTextIOS={i18n.ok}
+          customTitleContainerIOS={<View />}
           onConfirm={this.handleOnConfirmStartDatePicker}
           onCancel={this.handleOnCancelStartDatePicker}
           minimumDate={new Date('2007-09-13')}
