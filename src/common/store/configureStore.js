@@ -85,7 +85,10 @@ export default function configureStore() {
           return {
             ...inboundState,
             items: browsingHistoryIllusts.items.filter(
-              id => entities.illusts[id],
+              id =>
+                entities.illusts[id] &&
+                entities.illusts[id].user &&
+                entities.users[entities.illusts[id].user],
             ),
           };
         }
@@ -94,7 +97,10 @@ export default function configureStore() {
           return {
             ...inboundState,
             items: browsingHistoryNovels.items.filter(
-              id => entities.novels[id],
+              id =>
+                entities.novels[id] &&
+                entities.novels[id].user &&
+                entities.users[entities.novels[id].user],
             ),
           };
         }
