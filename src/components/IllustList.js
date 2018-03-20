@@ -27,7 +27,7 @@ class IllustList extends Component {
   componentDidUpdate(prevProps) {
     const { data: { items: prevItems } } = prevProps;
     const { data: { items }, listKey, maxItems } = this.props;
-    if (listKey && items !== prevItems) {
+    if (listKey && (items && items.length) && items !== prevItems) {
       DeviceEventEmitter.emit('masterListUpdate', {
         listKey,
         items: maxItems ? items.slice(0, maxItems) : items,
