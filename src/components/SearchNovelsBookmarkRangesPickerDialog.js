@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import {
   SinglePickerMaterialDialog,
@@ -7,6 +8,12 @@ import {
 import { connectLocalization } from './Localization';
 import Loader from './Loader';
 import * as searchNovelsBookmarkRangesActionCreators from '../common/actions/searchNovelsBookmarkRanges';
+
+const styles = StyleSheet.create({
+  loader: {
+    margin: 10,
+  },
+});
 
 class SearchNovelsBookmarkRangesPickerDialog extends Component {
   componentDidMount() {
@@ -60,7 +67,7 @@ class SearchNovelsBookmarkRangesPickerDialog extends Component {
     ) {
       return (
         <MaterialDialog visible onCancel={onCancel}>
-          <Loader />
+          <Loader style={styles.loader} />
         </MaterialDialog>
       );
     }
