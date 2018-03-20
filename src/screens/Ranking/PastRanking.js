@@ -141,7 +141,6 @@ class PastRanking extends Component {
     const { date, mode, isOpenRankingModeBottomSheet } = this.state;
     const selectedRankingMode =
       rankingType === RANKING_TYPES.MANGA ? mode.replace('_manga', '') : mode;
-    console.log('pr ', this.props);
     return (
       <View style={globalStyles.container}>
         <View style={styles.filterContainer}>
