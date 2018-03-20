@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import UserIllusts from '../Shared/UserIllusts';
 import UserMangas from '../Shared/UserMangas';
+import UserNovels from '../Shared/UserNovels';
 import { connectLocalization } from '../../components/Localization';
 import PXTabView from '../../components/PXTabView';
 
@@ -13,6 +14,7 @@ class MyWorks extends Component {
       routes: [
         { key: '1', title: i18n.illustration },
         { key: '2', title: i18n.manga },
+        { key: '3', title: i18n.novel },
       ],
     };
   }
@@ -25,6 +27,7 @@ class MyWorks extends Component {
         routes: [
           { key: '1', title: i18n.illustration },
           { key: '2', title: i18n.manga },
+          { key: '3', title: i18n.novel },
         ],
       });
     }
@@ -42,6 +45,8 @@ class MyWorks extends Component {
         return <UserIllusts userId={userId} navigation={navigation} />;
       case '2':
         return <UserMangas userId={userId} navigation={navigation} />;
+      case '3':
+        return <UserNovels userId={userId} navigation={navigation} />;
       default:
         return null;
     }
