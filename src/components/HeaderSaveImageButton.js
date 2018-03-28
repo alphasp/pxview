@@ -13,8 +13,25 @@ const styles = StyleSheet.create({
 
 class HeaderSaveImageButton extends PureComponent {
   handleOnPressSaveImage = () => {
-    const { saveImage, imageUrls } = this.props;
-    saveImage(imageUrls);
+    const {
+      saveImage,
+      imageUrls,
+      imageIndex,
+      workId,
+      workTitle,
+      workType,
+      userId,
+      userName,
+    } = this.props;
+    saveImage({
+      imageUrls,
+      imageIndex,
+      workId,
+      workTitle,
+      workType,
+      userId,
+      userName,
+    });
   };
 
   render() {

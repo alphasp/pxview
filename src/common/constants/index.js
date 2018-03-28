@@ -13,6 +13,7 @@ export const MODAL_TYPES = {
   BOOKMARK_ILLUST: 'BOOKMARK_ILLUST',
   BOOKMARK_NOVEL: 'BOOKMARK_NOVEL',
   NOVEL_SETTINGS: 'NOVEL_SETTINGS',
+  SAVE_IMAGE_FILE_NAME_FORMAT: 'SAVE_IMAGE_FILE_NAME_FORMAT',
   SIGNUP: 'SIGNUP',
 };
 
@@ -133,6 +134,18 @@ export const SEARCH_PERIOD_TYPES = {
   CUSTOM_DATE: 'CUSTOM_DATE',
 };
 
+export const SAVE_FILE_NAME_USER_FOLDER_FORMAT = {
+  USER_ID: 'USER_ID',
+  USER_NAME: 'USER_NAME',
+  USER_ID_USER_NAME: 'USER_ID_USER_NAME',
+};
+
+export const SAVE_FILE_NAME_FORMAT = {
+  WORK_ID: 'WORK_ID',
+  WORK_TITLE: 'WORK_TITLE',
+  WORK_ID_WORK_TITLE: 'WORK_ID_WORK_TITLE',
+};
+
 export const SCREENS = {
   Main: 'Main',
   Login: 'Login',
@@ -175,6 +188,7 @@ export const SCREENS = {
   Settings: 'Settings',
   AccountSettings: 'AccountSettings',
   AdvanceAccountSettings: 'AdvanceAccountSettings',
+  SaveImageSettings: 'SaveImageSettings',
   HighlightTagsSettings: 'HighlightTagsSettings',
   MuteTagsSettings: 'MuteTagsSettings',
   MuteUsersSettings: 'MuteUsersSettings',

@@ -84,7 +84,7 @@ class ImagesViewer extends Component {
   };
 
   render() {
-    const { images } = this.props.navigation.state.params;
+    const { images, item } = this.props.navigation.state.params;
     const { index, hideHeader } = this.state;
     const selectedImages = [images[index]];
     return (
@@ -106,7 +106,17 @@ class ImagesViewer extends Component {
                 {images.length > 1 ? `${index + 1}/${images.length}` : null}
               </HeaderTextTitle>
             }
-            headerRight={<HeaderSaveImageButton imageUrls={selectedImages} />}
+            headerRight={
+              <HeaderSaveImageButton
+                imageUrls={selectedImages}
+                imageIndex={index}
+                workId={item.id}
+                workTitle={item.title}
+                workType={item.type}
+                userId={item.user.id}
+                userName={item.user.name}
+              />
+            }
           />}
         <TabViewAnimated
           style={globalStyles.container}

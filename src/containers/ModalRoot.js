@@ -4,6 +4,7 @@ import FollowModal from './FollowModal';
 import BookmarkIllustModal from './BookmarkIllustModal';
 import BookmarkNovelModal from './BookmarkNovelModal';
 import NovelSettingsModal from './NovelSettingsModal';
+import SaveImageFileNameModal from './SaveImageFileNameModal';
 import SignUpModal from './SignUpModal';
 
 const MODAL_COMPONENTS = {
@@ -11,6 +12,7 @@ const MODAL_COMPONENTS = {
   BOOKMARK_ILLUST: BookmarkIllustModal,
   BOOKMARK_NOVEL: BookmarkNovelModal,
   NOVEL_SETTINGS: NovelSettingsModal,
+  SAVE_IMAGE_FILE_NAME_FORMAT: SaveImageFileNameModal,
   SIGNUP: SignUpModal,
 };
 

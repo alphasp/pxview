@@ -25,6 +25,10 @@ const settingsList = [
     title: 'accountSettings',
   },
   {
+    id: 'saveImageSettings',
+    title: 'saveImageSettings',
+  },
+  {
     id: 'tagHighlightSettings',
     title: 'tagHighlightSettings',
   },
@@ -60,6 +64,10 @@ class Settings extends Component {
     switch (item.id) {
       case 'accountSettings': {
         navigate(SCREENS.AccountSettings);
+        break;
+      }
+      case 'saveImageSettings': {
+        navigate(SCREENS.SaveImageSettings);
         break;
       }
       case 'tagHighlightSettings': {

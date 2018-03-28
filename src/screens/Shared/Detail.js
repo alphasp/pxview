@@ -171,6 +171,7 @@ class Detail extends Component {
         : [item.meta_single_page.original_image_url];
     navigation.navigate(SCREENS.ImagesViewer, {
       images,
+      item,
       viewerIndex: index,
     });
   };
@@ -256,7 +257,15 @@ class Detail extends Component {
       item.page_count > 1
         ? item.meta_pages.map(page => page.image_urls.original)
         : [item.meta_single_page.original_image_url];
-    saveImage([images[selectedImageIndex]]);
+    saveImage({
+      imageUrls: [images[selectedImageIndex]],
+      imageIndex: selectedImageIndex,
+      workId: item.id,
+      workTitle: item.title,
+      workType: item.type,
+      userId: item.user.id,
+      userName: item.user.name,
+    });
     this.handleOnCancelMenuBottomSheet();
   };
 
@@ -300,7 +309,15 @@ class Detail extends Component {
         : [item.meta_single_page.original_image_url];
     return (
       <View style={styles.headerRightContainer}>
-        <HeaderSaveImageButton imageUrls={images} saveAll />
+        <HeaderSaveImageButton
+          imageUrls={images}
+          workId={item.id}
+          workTitle={item.title}
+          workType={item.type}
+          userId={item.user.id}
+          userName={item.user.name}
+          saveAll
+        />
         <HeaderMenuButton
           onPress={() => this.handleOnPressOpenMenuBottomSheet(null)}
         />

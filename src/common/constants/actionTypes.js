@@ -424,4 +424,11 @@ export const NOVEL_SETTINGS = defineAction(
   [SET],
   appNamespace,
 );
+
+export const SAVE_IMAGE_SETTINGS = defineAction(
+  'SAVE_IMAGE_SETTINGS',
+  [SET],
+  appNamespace,
+);
+
 export const MODAL = defineAction('MODAL', [OPEN, CLOSE], appNamespace);

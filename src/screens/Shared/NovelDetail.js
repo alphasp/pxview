@@ -246,7 +246,15 @@ class NovelDetail extends Component {
 
   handleOnPressSaveImage = () => {
     const { saveImage, item } = this.props;
-    saveImage([item.image_urls.large]);
+    saveImage({
+      imageUrls: [item.image_urls.large],
+      imageIndex: 0,
+      workId: item.id,
+      workTitle: item.title,
+      workType: item.type,
+      userId: item.user.id,
+      userName: item.user.name,
+    });
     this.handleOnCancelMenuBottomSheet();
   };
 
@@ -292,7 +300,15 @@ class NovelDetail extends Component {
 
   renderHeaderRight = item =>
     <View style={styles.headerRightContainer}>
-      <HeaderSaveImageButton imageUrls={[item.image_urls.large]} />
+      <HeaderSaveImageButton
+        imageUrls={[item.image_urls.large]}
+        imageIndex={0}
+        workId={item.id}
+        workTitle={item.title}
+        workType={item.type}
+        userId={item.user.id}
+        userName={item.user.name}
+      />
       <HeaderMenuButton onPress={this.handleOnPressOpenMenuBottomSheet} />
     </View>;
 

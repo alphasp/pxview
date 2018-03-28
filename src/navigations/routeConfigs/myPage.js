@@ -5,6 +5,7 @@ import BrowsingHistory from '../../screens/MyPage/BrowsingHistory/BrowsingHistor
 import Settings from '../../screens/MyPage/Settings';
 import AccountSettings from '../../screens/MyPage/AccountSettings/AccountSettings';
 import AdvanceAccountSettings from '../../screens/MyPage/AccountSettings/AdvanceAccountSettings';
+import SaveImageSettings from '../../screens/MyPage/SaveImageSettings';
 import HighlightTagsSettings from '../../screens/MyPage/HighlightTagsSettings';
 import MuteTagsSettings from '../../screens/MyPage/MuteTagsSettings';
 import MuteUsersSettings from '../../screens/MyPage/MuteUsersSettings';
@@ -59,6 +60,12 @@ const config = {
     screen: AdvanceAccountSettings,
     navigationOptions: () => ({
       title: null,
+    }),
+  },
+  [SCREENS.SaveImageSettings]: {
+    screen: SaveImageSettings,
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.saveImageSettings,
     }),
   },
   [SCREENS.HighlightTagsSettings]: {

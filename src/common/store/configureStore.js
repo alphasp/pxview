@@ -127,6 +127,8 @@ export default function configureStore() {
       'highlightTags',
       'muteTags',
       'muteUsers',
+      'saveImageSettings',
+      'novelSettings',
       'entities',
       'auth',
       'i18n',
