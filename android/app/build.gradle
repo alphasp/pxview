@@ -203,3 +203,15 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+allprojects {
+    repositories {
+        configurations.all {
+            // https://github.com/facebook/react-native/issues/18479
+            resolutionStrategy {
+                // react-native-device-info
+                force "com.google.android.gms:play-services-gcm:11.4.2"
+            }
+        }
+    }
+}
