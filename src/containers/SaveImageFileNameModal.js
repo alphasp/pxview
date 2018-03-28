@@ -33,9 +33,14 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   formContainer: {
-    // paddingTop: 10,
-    // paddingHorizontal: 10,
     padding: 10,
+  },
+  dropDownContainer: {
+    flex: 1,
+  },
+  slashContainer: {
+    marginTop: 15,
+    marginRight: 5,
   },
   row: {
     flexDirection: 'row',
@@ -174,51 +179,49 @@ class SaveImageFileNameModal extends Component {
                   </Text>
                 </View>
                 <View style={styles.formContainer}>
-                  <View>
-                    <View style={styles.row}>
-                      <Text>
-                        {i18n.saveImageCreateFolderForUser}
-                      </Text>
-                      <Switch
-                        value={isCreateFolderForUser}
-                        onValueChange={this.handleOnChangeIsCreateFolderForUser}
+                  <View style={styles.row}>
+                    <Text>
+                      {i18n.saveImageCreateFolderForUser}
+                    </Text>
+                    <Switch
+                      value={isCreateFolderForUser}
+                      onValueChange={this.handleOnChangeIsCreateFolderForUser}
+                    />
+                  </View>
+                  <View style={styles.form}>
+                    {isCreateFolderForUser &&
+                      <View style={styles.dropDownContainer}>
+                        <Dropdown
+                          label={i18n.saveImageUserFolderName}
+                          data={this.getUserFolderNameFormatList()}
+                          value={selectedFileNameUserFolder}
+                          onChangeText={this.handleOnChangeUserFolderName}
+                        />
+                      </View>}
+                    {isCreateFolderForUser &&
+                      <View style={styles.slashContainer}>
+                        <Text>/</Text>
+                      </View>}
+                    <View style={styles.dropDownContainer}>
+                      <Dropdown
+                        label={i18n.saveImageFileName}
+                        data={this.getFileNameFormatList()}
+                        value={selectedFileNameWork}
+                        onChangeText={this.handleOnChangeFileName}
                       />
                     </View>
-                    <View style={styles.form}>
-                      {isCreateFolderForUser &&
-                        <View style={{ flex: 1 }}>
-                          <Dropdown
-                            label={i18n.saveImageUserFolderName}
-                            data={this.getUserFolderNameFormatList()}
-                            value={selectedFileNameUserFolder}
-                            onChangeText={this.handleOnChangeUserFolderName}
-                          />
-                        </View>}
-                      {isCreateFolderForUser &&
-                        <View style={{ marginTop: 15, marginRight: 5 }}>
-                          <Text>/</Text>
-                        </View>}
-                      <View style={{ flex: 1 }}>
-                        <Dropdown
-                          label={i18n.saveImageFileName}
-                          data={this.getFileNameFormatList()}
-                          value={selectedFileNameWork}
-                          onChangeText={this.handleOnChangeFileName}
-                        />
-                      </View>
-                    </View>
-                    <View style={styles.actionContainer}>
-                      <PXTouchable onPress={this.handleOnModalClose}>
-                        <Text>
-                          {i18n.cancel}
-                        </Text>
-                      </PXTouchable>
-                      <PXTouchable onPress={this.handleOnPressOkButton}>
-                        <Text>
-                          {i18n.ok}
-                        </Text>
-                      </PXTouchable>
-                    </View>
+                  </View>
+                  <View style={styles.actionContainer}>
+                    <PXTouchable onPress={this.handleOnModalClose}>
+                      <Text>
+                        {i18n.cancel}
+                      </Text>
+                    </PXTouchable>
+                    <PXTouchable onPress={this.handleOnPressOkButton}>
+                      <Text>
+                        {i18n.ok}
+                      </Text>
+                    </PXTouchable>
                   </View>
                 </View>
               </View>
