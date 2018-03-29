@@ -8,9 +8,9 @@ import {
   Switch,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { MaterialDialog } from 'react-native-material-dialog';
 import { Dropdown } from 'react-native-material-dropdown';
 import { connectLocalization } from '../components/Localization';
-import PXTouchable from '../components/PXTouchable';
 import {
   SAVE_FILE_NAME_USER_FOLDER_FORMAT,
   SAVE_FILE_NAME_FORMAT,
@@ -20,20 +20,7 @@ import * as saveImageSettingsActionCreators from '../common/actions/saveImageSet
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  innerContainer: {
-    backgroundColor: '#fff',
-  },
-  titleContainer: {
-    backgroundColor: '#E9EBEE',
-    padding: 10,
-  },
-  formContainer: {
-    padding: 10,
+    paddingHorizontal: 20,
   },
   dropDownContainer: {
     flex: 1,
@@ -51,16 +38,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  actionContainer: {
-    marginTop: 20,
-    padding: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  actionWithoutRemoveButtonContainer: {
-    marginTop: 20,
-    padding: 10,
   },
 });
 
@@ -163,72 +140,49 @@ class SaveImageFileNameModal extends Component {
       isCreateFolderForUser,
     } = this.state;
     return (
-      <Modal
-        animationType="fade"
-        transparent
-        visible
-        onRequestClose={this.handleOnModalClose}
+      <MaterialDialog
+        title={i18n.saveImageFileName}
+        addPadding={false}
+        okLabel={i18n.ok}
+        cancelLabel={i18n.cancel}
+        onOk={this.handleOnPressOkButton}
+        onCancel={this.handleOnModalClose}
       >
-        <TouchableWithoutFeedback onPress={this.handleOnModalClose}>
-          <View style={styles.container}>
-            <TouchableWithoutFeedback>
-              <View style={styles.innerContainer}>
-                <View style={styles.titleContainer}>
-                  <Text style={styles.title}>
-                    {i18n.saveImageFileName}
-                  </Text>
-                </View>
-                <View style={styles.formContainer}>
-                  <View style={styles.row}>
-                    <Text>
-                      {i18n.saveImageCreateFolderForUser}
-                    </Text>
-                    <Switch
-                      value={isCreateFolderForUser}
-                      onValueChange={this.handleOnChangeIsCreateFolderForUser}
-                    />
-                  </View>
-                  <View style={styles.form}>
-                    {isCreateFolderForUser &&
-                      <View style={styles.dropDownContainer}>
-                        <Dropdown
-                          label={i18n.saveImageUserFolderName}
-                          data={this.getUserFolderNameFormatList()}
-                          value={selectedFileNameUserFolder}
-                          onChangeText={this.handleOnChangeUserFolderName}
-                        />
-                      </View>}
-                    {isCreateFolderForUser &&
-                      <View style={styles.slashContainer}>
-                        <Text>/</Text>
-                      </View>}
-                    <View style={styles.dropDownContainer}>
-                      <Dropdown
-                        label={i18n.saveImageFileName}
-                        data={this.getFileNameFormatList()}
-                        value={selectedFileNameWork}
-                        onChangeText={this.handleOnChangeFileName}
-                      />
-                    </View>
-                  </View>
-                  <View style={styles.actionContainer}>
-                    <PXTouchable onPress={this.handleOnModalClose}>
-                      <Text>
-                        {i18n.cancel}
-                      </Text>
-                    </PXTouchable>
-                    <PXTouchable onPress={this.handleOnPressOkButton}>
-                      <Text>
-                        {i18n.ok}
-                      </Text>
-                    </PXTouchable>
-                  </View>
-                </View>
-              </View>
-            </TouchableWithoutFeedback>
+        <View style={styles.container}>
+          <View style={styles.row}>
+            <Text>
+              {i18n.saveImageCreateFolderForUser}
+            </Text>
+            <Switch
+              value={isCreateFolderForUser}
+              onValueChange={this.handleOnChangeIsCreateFolderForUser}
+            />
           </View>
-        </TouchableWithoutFeedback>
-      </Modal>
+          <View style={styles.form}>
+            {isCreateFolderForUser &&
+              <View style={styles.dropDownContainer}>
+                <Dropdown
+                  label={i18n.saveImageUserFolderName}
+                  data={this.getUserFolderNameFormatList()}
+                  value={selectedFileNameUserFolder}
+                  onChangeText={this.handleOnChangeUserFolderName}
+                />
+              </View>}
+            {isCreateFolderForUser &&
+              <View style={styles.slashContainer}>
+                <Text>/</Text>
+              </View>}
+            <View style={styles.dropDownContainer}>
+              <Dropdown
+                label={i18n.saveImageFileName}
+                data={this.getFileNameFormatList()}
+                value={selectedFileNameWork}
+                onChangeText={this.handleOnChangeFileName}
+              />
+            </View>
+          </View>
+        </View>
+      </MaterialDialog>
     );
   }
 }
