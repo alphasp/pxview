@@ -91,7 +91,7 @@ class SearchUsersAutoCompleteList extends PureComponent {
         {items && items.length
           ? <FlatList
               data={items}
-              keyExtractor={item => item.user.id}
+              keyExtractor={item => item.user.id.toString()}
               renderItem={this.renderItem}
               ItemSeparatorComponent={Separator}
               keyboardShouldPersistTaps="always"

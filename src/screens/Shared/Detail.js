@@ -361,7 +361,7 @@ class Detail extends Component {
       return (
         <PXViewPager
           items={[item]}
-          keyExtractor={vpItem => vpItem.id}
+          keyExtractor={vpItem => vpItem.id.toString()}
           index={0}
           renderContent={this.renderContent}
           onPageSelected={this.handleOnViewPagerPageSelected}
@@ -372,7 +372,7 @@ class Detail extends Component {
     return (
       <PXViewPager
         items={items}
-        keyExtractor={vpItem => vpItem.id}
+        keyExtractor={vpItem => vpItem.id.toString()}
         index={index}
         renderContent={this.renderContent}
         onPageSelected={this.handleOnViewPagerPageSelected}

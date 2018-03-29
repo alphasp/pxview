@@ -104,7 +104,7 @@ class NovelList extends Component {
                   ? items.slice(0, maxItems)
                   : items
               }
-              keyExtractor={item => item.id}
+              keyExtractor={item => item.id.toString()}
               renderItem={this.renderItem}
               removeClippedSubviews={Platform.OS === 'android'}
               initialNumToRender={5}

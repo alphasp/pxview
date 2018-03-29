@@ -92,7 +92,7 @@ class CommentList extends Component {
         {loaded
           ? <FlatList
               data={maxItems ? items.slice(0, maxItems) : items}
-              keyExtractor={item => item.id}
+              keyExtractor={item => item.id.toString()}
               renderItem={this.renderRow}
               onEndReachedThreshold={0.1}
               onEndReached={loadMoreItems}
