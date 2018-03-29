@@ -66,7 +66,12 @@ class SearchIllustsBookmarkRangesPickerDialog extends Component {
       (searchIllustsBookmarkRanges && searchIllustsBookmarkRanges.loading)
     ) {
       return (
-        <MaterialDialog visible onCancel={onCancel}>
+        <MaterialDialog
+          visible
+          okLabel={i18n.ok}
+          cancelLabel={i18n.cancel}
+          onCancel={onCancel}
+        >
           <Loader style={styles.loader} />
         </MaterialDialog>
       );
@@ -78,6 +83,8 @@ class SearchIllustsBookmarkRangesPickerDialog extends Component {
         visible
         scrolled
         selectedItem={selectedItem}
+        okLabel={i18n.ok}
+        cancelLabel={i18n.cancel}
         onCancel={onCancel}
         onOk={onOk}
       />

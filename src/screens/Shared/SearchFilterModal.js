@@ -382,6 +382,8 @@ class SearchFilterModal extends Component {
             visible
             scrolled
             selectedItem={selectedPickerItem}
+            okLabel={i18n.ok}
+            cancelLabel={i18n.cancel}
             onCancel={this.handleOnCancelPickerDialog}
             onOk={this.handleOnOkPickerDialog}
           />}
