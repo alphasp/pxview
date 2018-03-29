@@ -37,7 +37,6 @@ class PXViewPager extends Component {
         return renderContent({ item, index: i });
       }
       const key = keyExtractor(item, i);
-      console.log('key ', key);
       return (
         <View key={key}>
           <Loader />

@@ -141,6 +141,7 @@ class SaveImageFileNameModal extends Component {
     } = this.state;
     return (
       <MaterialDialog
+        visible
         title={i18n.saveImageFileName}
         addPadding={false}
         okLabel={i18n.ok}
