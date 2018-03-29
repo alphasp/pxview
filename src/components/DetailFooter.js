@@ -193,6 +193,7 @@ class DetailFooter extends PureComponent {
               </View>
               <RelatedIllusts
                 illustId={item.id}
+                listKey={`relatedIllusts-${navigation.state.key}-${item.id}`}
                 isFeatureInDetailPage
                 maxItems={6}
                 navigation={navigation}
