@@ -159,7 +159,6 @@ repositories {
 dependencies {
     compile project(':react-native-zip-archive')
     compile project(':react-native-linear-gradient')
-    compile project(':react-native-blur')
     compile project(':react-native-splash-screen')
     compile project(':react-native-open-settings')
     compile project(':react-native-device-info')

@@ -8,7 +8,6 @@ import {
   Linking,
   RefreshControl,
   Platform,
-  findNodeHandle,
   InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -16,7 +15,6 @@ import Hyperlink from 'react-native-hyperlink';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import truncate from 'lodash.truncate';
 import * as Animatable from 'react-native-animatable';
-import { BlurView } from 'react-native-blur';
 import Share from 'react-native-share';
 import FollowButtonContainer from '../../containers/FollowButtonContainer';
 import { connectLocalization } from '../../components/Localization';
@@ -112,13 +110,6 @@ const styles = StyleSheet.create({
   headerText: {
     color: '#fff',
   },
-  blurView: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-  },
   followButton: {
     borderColor: '#fff',
   },
@@ -139,7 +130,6 @@ class UserDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      viewRef: 0,
       isScrolled: false,
       isShowTitle: false,
       isOpenMenuBottomSheet: false,
@@ -231,10 +221,6 @@ class UserDetail extends Component {
         this.setState(newState);
       }
     }
-  };
-
-  handleOnProfileImageLoaded = () => {
-    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   };
 
   handleOnPressOpenMenuBottomSheet = () => {
@@ -342,7 +328,6 @@ class UserDetail extends Component {
 
   renderProfile = detail => {
     const { i18n } = this.props;
-    const { viewRef } = this.state;
     return (
       <View>
         <View style={styles.coverOuterContainer}>
@@ -355,15 +340,7 @@ class UserDetail extends Component {
                 height: 100,
                 backgroundColor: 'transparent',
               }}
-              ref={ref => (this.backgroundImage = ref)}
-              onLoadEnd={this.handleOnProfileImageLoaded}
-            />
-            <BlurView
-              blurType="light"
-              blurAmount={20}
-              overlayColor={'rgba(255, 255, 255, 0.3)'}
-              viewRef={viewRef}
-              style={styles.blurView}
+              blurRadius={Platform.OS === 'android' ? 1 : 5}
             />
             <View style={styles.avatarContainer}>
               <PXThumbnail
