@@ -6,6 +6,6 @@
 受取人のメールアドレスをgmerudotcom@gmail.comとして送りください
 
 ### ビットコイン
-![btc(./btc.png)
+![btc](./btc.png)
 
 34nfe2Jm8Tg8f8YfE4Vk12JGeXDqC4b5pU

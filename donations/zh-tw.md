@@ -6,6 +6,6 @@
 發至gmerudotcom@gmail.com
 
 ### 比特币
-![btc(./btc.png)
+![btc](./btc.png)
 
 34nfe2Jm8Tg8f8YfE4Vk12JGeXDqC4b5pU

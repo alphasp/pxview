@@ -6,6 +6,6 @@ If you like this application and think it is useful, you may consider making a d
 Send to gmerudotcom@gmail.com via email delivery option
 
 ### Bitcoin
-![btc(./btc.png)
+![btc](./btc.png)
 
 34nfe2Jm8Tg8f8YfE4Vk12JGeXDqC4b5pU
