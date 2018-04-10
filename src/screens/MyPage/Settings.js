@@ -5,6 +5,7 @@ import {
   ScrollView,
   Alert,
   DeviceEventEmitter,
+  Linking,
 } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import RNFetchBlob from 'react-native-fetch-blob';
@@ -53,12 +54,30 @@ const settingsList = [
 
 const otherList = [
   {
+    id: 'donations',
+    title: 'donations',
+  },
+  {
     id: 'about',
     title: 'about',
   },
 ];
 
 class Settings extends Component {
+  getLanguage = lang => {
+    console.log('ll ', lang);
+    const zhIds = ['zh', 'zh-CN', 'zh-SG'];
+    const zhHantIds = ['zh-TW', 'zh-HK', 'zh-MO'];
+    if (zhIds.includes(lang)) {
+      return 'zh';
+    } else if (zhHantIds.includes(lang)) {
+      return 'zh-TW';
+    } else if (lang === 'ja') {
+      return 'ja';
+    }
+    return 'en';
+  };
+
   handleOnPressListItem = item => {
     const { navigation: { navigate }, i18n } = this.props;
     switch (item.id) {
@@ -88,6 +107,14 @@ class Settings extends Component {
       }
       case 'about': {
         navigate(SCREENS.About);
+        break;
+      }
+      case 'donations': {
+        Linking.openURL(
+          `https://github.com/alphasp/pxview/blob/master/donations/${this.getLanguage(
+            i18n.language,
+          )}.md`,
+        );
         break;
       }
       case 'cacheClear': {
