@@ -173,12 +173,14 @@ class DetailFooter extends PureComponent {
             {item.text_length
               ? <NovelComments
                   novelId={item.id}
+                  authorId={item.user.id}
                   isFeatureInDetailPage
                   maxItems={6}
                   navigation={navigation}
                 />
               : <IllustComments
                   illustId={item.id}
+                  authorId={item.user.id}
                   isFeatureInDetailPage
                   maxItems={6}
                   navigation={navigation}

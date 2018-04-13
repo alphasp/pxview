@@ -6,7 +6,8 @@ import NoResult from '../components/NoResult';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
-import { globalStyles } from '../styles';
+import PXThumbnail from '../components/PXThumbnail';
+import { globalStyles, globalStyleVariables } from '../styles';
 import { SCREENS } from '../common/constants';
 
 const styles = StyleSheet.create({
@@ -23,12 +24,34 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  name: {
+    fontWeight: 'bold',
+  },
+  authorBadge: {
+    backgroundColor: globalStyleVariables.PRIMARY_COLOR,
+    marginLeft: 5,
+    paddingVertical: 2,
+    paddingHorizontal: 5,
+    borderRadius: 5,
+  },
+  authorBadgeText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  replyToContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  replyToUserName: {
+    marginLeft: 5,
+  },
   date: {
-    marginLeft: 10,
-    fontSize: 10,
+    marginTop: 10,
+    color: '#696969',
   },
   comment: {
-    marginTop: 5,
+    marginTop: 10,
   },
   nullResultContainer: {
     flex: 1,
@@ -39,30 +62,72 @@ const styles = StyleSheet.create({
   },
 });
 class CommentList extends Component {
-  renderRow = ({ item }) =>
-    <View key={item.id} style={styles.commentContainer}>
-      <PXThumbnailTouchable
-        uri={item.user.profile_image_urls.medium}
-        onPress={() => this.handleOnPressUser(item.user.id)}
-      />
-      <View style={styles.nameCommentContainer}>
-        <View style={styles.nameContainer}>
-          <PXTouchable onPress={() => this.handleOnPressUser(item.user.id)}>
+  handleOnPressExpandReplyTo = item => {
+    const { authorId, navigation: { navigate } } = this.props;
+    navigate(SCREENS.ReplyToCommentList, {
+      data: {
+        items: [item.parent_comment, item],
+        loading: false,
+        loaded: true,
+        refreshing: false,
+      },
+      authorId,
+    });
+  };
+
+  renderRow = ({ item }) => {
+    const { authorId, i18n } = this.props;
+    return (
+      <View key={item.id} style={styles.commentContainer}>
+        <PXThumbnailTouchable
+          uri={item.user.profile_image_urls.medium}
+          onPress={() => this.handleOnPressUser(item.user.id)}
+        />
+        <View style={styles.nameCommentContainer}>
+          <View style={styles.nameContainer}>
+            <PXTouchable onPress={() => this.handleOnPressUser(item.user.id)}>
+              <Text style={styles.name}>
+                {item.user.name}
+              </Text>
+            </PXTouchable>
+            {item.user.id === authorId &&
+              <View style={styles.authorBadge}>
+                <Text style={styles.authorBadgeText}>
+                  {i18n.commentWorkAuthor}
+                </Text>
+              </View>}
+          </View>
+          {item.parent_comment &&
+            item.parent_comment.user &&
+            item.parent_comment.user.id &&
+            <PXTouchable
+              style={styles.replyToContainer}
+              onPress={() => this.handleOnPressExpandReplyTo(item)}
+            >
+              <PXThumbnail
+                uri={item.parent_comment.user.profile_image_urls.medium}
+                size={16}
+              />
+              <Text style={styles.replyToUserName}>
+                {i18n.formatString(
+                  i18n.commentInReplyTo,
+                  item.parent_comment.user.name,
+                )}
+              </Text>
+            </PXTouchable>}
+
+          <View style={styles.comment}>
             <Text>
-              {item.user.name}
+              {item.comment}
             </Text>
-          </PXTouchable>
+          </View>
           <Text style={styles.date}>
             {moment(item.date).format('YYYY-MM-DD HH:mm')}
           </Text>
         </View>
-        <View style={styles.comment}>
-          <Text>
-            {item.comment}
-          </Text>
-        </View>
       </View>
-    </View>;
+    );
+  };
 
   renderFooter = () => {
     const { data: { nextUrl, loading } } = this.props;

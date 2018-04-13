@@ -59,9 +59,10 @@ class IllustComments extends Component {
   };
 
   handleOnPressViewMoreComments = () => {
-    const { illustId, navigation: { navigate } } = this.props;
+    const { illustId, authorId, navigation: { navigate } } = this.props;
     navigate(SCREENS.IllustComments, {
       illustId,
+      authorId,
     });
   };
 
@@ -121,6 +122,7 @@ class IllustComments extends Component {
 
   render() {
     const {
+      authorId,
       illustComments,
       items,
       verificationEmail,
@@ -132,6 +134,7 @@ class IllustComments extends Component {
     return (
       <SafeAreaView style={globalStyles.container}>
         <CommentList
+          authorId={authorId}
           data={{ ...illustComments, items }}
           loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
           onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
@@ -164,11 +167,14 @@ export default connectLocalization(
         const { illustComments, auth } = state;
         const illustId =
           props.illustId || props.navigation.state.params.illustId;
+        const authorId =
+          props.authorId || props.navigation.state.params.authorId;
         return {
           illustComments: illustComments[illustId],
           items: getIllustCommentsItems(state, props),
           verificationEmail: state.verificationEmail,
           illustId,
+          authorId,
           user: auth.user,
         };
       };

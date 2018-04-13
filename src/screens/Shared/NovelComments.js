@@ -59,9 +59,10 @@ class NovelComments extends Component {
   };
 
   handleOnPressViewMoreComments = () => {
-    const { novelId, navigation: { navigate } } = this.props;
+    const { novelId, authorId, navigation: { navigate } } = this.props;
     navigate(SCREENS.NovelComments, {
       novelId,
+      authorId,
     });
   };
 
@@ -121,6 +122,7 @@ class NovelComments extends Component {
 
   render() {
     const {
+      authorId,
       novelComments,
       items,
       verificationEmail,
@@ -132,6 +134,7 @@ class NovelComments extends Component {
     return (
       <SafeAreaView style={globalStyles.container}>
         <CommentList
+          authorId={authorId}
           data={{ ...novelComments, items }}
           loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
           onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
@@ -163,11 +166,14 @@ export default connectLocalization(
       return (state, props) => {
         const { novelComments, auth } = state;
         const novelId = props.novelId || props.navigation.state.params.novelId;
+        const authorId =
+          props.authorId || props.navigation.state.params.authorId;
         return {
           novelComments: novelComments[novelId],
           items: getNovelCommentsItems(state, props),
           verificationEmail: state.verificationEmail,
           novelId,
+          authorId,
           user: auth.user,
         };
       };

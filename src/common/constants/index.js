@@ -172,6 +172,7 @@ export const SCREENS = {
   UserDetail: 'UserDetail',
   IllustComments: 'IllustComments',
   NovelComments: 'NovelComments',
+  ReplyToCommentList: 'ReplyToCommentList',
   NovelSeries: 'NovelSeries',
   RelatedIllusts: 'RelatedIllusts',
   UserIllusts: 'UserIllusts',
