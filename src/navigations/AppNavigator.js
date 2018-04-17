@@ -5,6 +5,7 @@ import enhanceRouter from './routers/enhanceRouter';
 import SearchFilterModal from '../screens/Shared/SearchFilterModal';
 import SearchFilterPeriodDateModal from '../screens/Shared/SearchFilterPeriodDateModal';
 import AddIllustComment from '../screens/Shared/AddIllustComment';
+import AddNovelComment from '../screens/Shared/AddNovelComment';
 import AccountSettings from '../screens/MyPage/AccountSettings/AccountSettings';
 import Encyclopedia from '../screens/Shared/Encyclopedia';
 import myPageRouteConfig from './routeConfigs/myPage';
@@ -34,6 +35,12 @@ const appRouteConfig = {
   },
   [SCREENS.AddIllustComment]: {
     screen: AddIllustComment,
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.commentAdd,
+    }),
+  },
+  [SCREENS.AddNovelComment]: {
+    screen: AddNovelComment,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.commentAdd,
     }),

@@ -120,6 +120,12 @@ export const ADD_ILLUST_COMMENT = defineAction(
   appNamespace,
 );
 
+export const ADD_NOVEL_COMMENT = defineAction(
+  'ADD_NOVEL_COMMENT',
+  [ADD, ADD_SUCCESS, ADD_FAILURE],
+  appNamespace,
+);
+
 export const NOVEL_COMMENTS = defineAction(
   'NOVEL_COMMENTS',
   [REQUEST, SUCCESS, FAILURE, CLEAR],

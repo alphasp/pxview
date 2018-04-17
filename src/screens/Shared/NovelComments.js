@@ -95,7 +95,7 @@ class NovelComments extends Component {
         { cancelable: false },
       );
     } else {
-      navigate(SCREENS.AddIllustComment, {
+      navigate(SCREENS.AddNovelComment, {
         novelId,
         onSubmitComment: this.handleOnSubmitComment,
       });

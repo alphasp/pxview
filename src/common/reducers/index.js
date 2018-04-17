@@ -49,6 +49,7 @@ import bookmarkNovel from './bookmarkNovel';
 import novelBookmarkDetail from './novelBookmarkDetail';
 import userFollowDetail from './userFollowDetail';
 import addIllustComment from './addIllustComment';
+import addNovelComment from './addNovelComment';
 import ugoiraMeta from './ugoiraMeta';
 import browsingHistoryIllusts from './browsingHistoryIllusts';
 import browsingHistoryNovels from './browsingHistoryNovels';
@@ -117,6 +118,7 @@ const rootReducer = combineReducers({
   bookmarkNovel,
   novelBookmarkDetail,
   addIllustComment,
+  addNovelComment,
   ugoiraMeta,
   browsingHistoryIllusts,
   browsingHistoryNovels,
