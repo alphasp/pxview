@@ -157,6 +157,8 @@ export const SCREENS = {
   NovelReader: 'NovelReader',
   AddIllustComment: 'AddIllustComment',
   AddNovelComment: 'AddNovelComment',
+  ReplyIllustComment: 'ReplyIllustComment',
+  ReplyNovelComment: 'ReplyNovelComment',
   HomeTab: 'HomeTab',
   RankingTab: 'RankingTab',
   TrendingTab: 'TrendingTab',

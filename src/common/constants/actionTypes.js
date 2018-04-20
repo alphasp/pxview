@@ -132,6 +132,12 @@ export const NOVEL_COMMENTS = defineAction(
   appNamespace,
 );
 
+export const NOVEL_COMMENT_REPLIES = defineAction(
+  'NOVEL_COMMENT_REPLIES',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
 export const NOVEL_SERIES = defineAction(
   'NOVEL_SERIES',
   [REQUEST, SUCCESS, FAILURE, CLEAR],

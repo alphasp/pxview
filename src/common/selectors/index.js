@@ -74,6 +74,7 @@ const selectUserDetail = state => state.userDetail;
 
 const selectIllustComments = state => state.illustComments;
 const selectNovelComments = state => state.novelComments;
+const selectNovelCommentReplies = state => state.novelCommentReplies;
 
 const selectNovelSeries = state => state.novelSeries;
 const selectNovelText = state => state.novelText;
@@ -478,6 +479,21 @@ export const makeGetNovelCommentsItems = () =>
       return novelComments[novelId]
         ? denormalize(
             novelComments[novelId].items,
+            Schemas.NOVEL_COMMENT_ARRAY,
+            entities,
+          )
+        : defaultArray;
+    },
+  );
+
+export const makeGetNovelCommentRepliesItems = () =>
+  createUserItemsSelector(
+    [selectNovelCommentReplies, selectEntities, getProps],
+    (novelCommentReplies, entities, props) => {
+      const { commentId } = props;
+      return novelCommentReplies[commentId]
+        ? denormalize(
+            novelCommentReplies[commentId].items,
             Schemas.NOVEL_COMMENT_ARRAY,
             entities,
           )

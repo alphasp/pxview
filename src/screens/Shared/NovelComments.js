@@ -4,17 +4,16 @@ import {
   SafeAreaView,
   StyleSheet,
   InteractionManager,
-  Alert,
 } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ActionButton from 'react-native-action-button';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
-import { connectLocalization } from '../../components/Localization';
+import NovelCommentReplies from '../../containers/NovelCommentReplies';
+import enhancePostComment from '../../components/HOC/enhancePostComment';
 import CommentList from '../../components/CommentList';
 import ViewMoreButton from '../../components/ViewMoreButton';
 import * as novelCommentsActionCreators from '../../common/actions/novelComments';
-import * as verificationEmailActionCreators from '../../common/actions/verificationEmail';
 import { makeGetNovelCommentsItems } from '../../common/selectors';
 import { globalStyles } from '../../styles';
 import { SCREENS } from '../../common/constants';
@@ -67,34 +66,10 @@ class NovelComments extends Component {
   };
 
   handleOnPressCommentButton = () => {
-    const { novelId, user, navigation: { navigate }, i18n } = this.props;
-    if (!user.mail_address) {
-      Alert.alert(
-        i18n.commentAdd,
-        i18n.commentRequireAccountRegistration,
-        [
-          { text: i18n.cancel },
-          {
-            text: i18n.commentRequireAccountRegistrationAction,
-            onPress: this.handleOnPressRegisterAccount,
-          },
-        ],
-        { cancelable: false },
-      );
-    } else if (user.mail_address && !user.is_mail_authorized) {
-      Alert.alert(
-        i18n.emailVerificationPostComment,
-        null,
-        [
-          { text: i18n.cancel },
-          {
-            text: i18n.emailVerificationSend,
-            onPress: this.handleOnPressSendVerificationEmail,
-          },
-        ],
-        { cancelable: false },
-      );
-    } else {
+    const { checkIfUserEligibleToPostComment } = this.props;
+    const isEligible = checkIfUserEligibleToPostComment();
+    if (isEligible) {
+      const { novelId, navigation: { navigate } } = this.props;
       navigate(SCREENS.AddNovelComment, {
         novelId,
         onSubmitComment: this.handleOnSubmitComment,
@@ -102,22 +77,28 @@ class NovelComments extends Component {
     }
   };
 
-  handleOnPressSendVerificationEmail = () => {
-    const { sendVerificationEmail } = this.props;
-    sendVerificationEmail();
-  };
-
-  handleOnPressRegisterAccount = () => {
-    const { navigate } = this.props.navigation;
-    navigate(SCREENS.AccountSettingsModal, {
-      hideAdvanceSettings: true,
-    });
+  handleOnPressReplyCommentButton = replyToCommentId => {
+    const { checkIfUserEligibleToPostComment } = this.props;
+    const isEligible = checkIfUserEligibleToPostComment();
+    if (isEligible) {
+      const { novelId, navigation: { navigate } } = this.props;
+      navigate(SCREENS.ReplyNovelComment, {
+        novelId,
+        replyToCommentId,
+        onSubmitComment: this.handleOnSubmitComment, // todo
+      });
+    }
   };
 
   handleOnSubmitComment = () => {
     const { novelId, fetchNovelComments, clearNovelComments } = this.props;
     clearNovelComments(novelId);
     fetchNovelComments(novelId);
+  };
+
+  renderCommentReplies = commentId => {
+    const { authorId } = this.props;
+    return <NovelCommentReplies commentId={commentId} authorId={authorId} />;
   };
 
   render() {
@@ -141,6 +122,8 @@ class NovelComments extends Component {
           maxItems={isFeatureInDetailPage && maxItems}
           navigation={navigation}
           user={user}
+          renderCommentReplies={this.renderCommentReplies}
+          onPressReplyCommentButton={this.handleOnPressReplyCommentButton}
         />
         {isFeatureInDetailPage &&
           <View style={styles.viewMoreButtonContainer}>
@@ -159,25 +142,19 @@ class NovelComments extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(
-    () => {
-      const getNovelCommentsItems = makeGetNovelCommentsItems();
-      return (state, props) => {
-        const { novelComments, auth } = state;
-        const novelId = props.novelId || props.navigation.state.params.novelId;
-        const authorId =
-          props.authorId || props.navigation.state.params.authorId;
-        return {
-          novelComments: novelComments[novelId],
-          items: getNovelCommentsItems(state, props),
-          verificationEmail: state.verificationEmail,
-          novelId,
-          authorId,
-          user: auth.user,
-        };
+export default enhancePostComment(
+  connect(() => {
+    const getNovelCommentsItems = makeGetNovelCommentsItems();
+    return (state, props) => {
+      const { novelComments } = state;
+      const novelId = props.novelId || props.navigation.state.params.novelId;
+      const authorId = props.authorId || props.navigation.state.params.authorId;
+      return {
+        novelComments: novelComments[novelId],
+        items: getNovelCommentsItems(state, props),
+        novelId,
+        authorId,
       };
-    },
-    { ...novelCommentsActionCreators, ...verificationEmailActionCreators },
-  )(NovelComments),
+    };
+  }, novelCommentsActionCreators)(NovelComments),
 );

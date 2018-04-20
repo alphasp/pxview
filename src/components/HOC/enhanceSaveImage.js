@@ -1,6 +1,6 @@
 /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
 
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Platform,
   Alert,
@@ -21,7 +21,7 @@ import {
 } from '../../common/constants';
 
 const enhanceSaveImage = WrappedComponent => {
-  class Hoc extends React.Component {
+  class Hoc extends Component {
     requestWriteExternalStoragePermission = async () => {
       try {
         const granted = await PermissionsAndroid.request(

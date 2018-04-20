@@ -12,6 +12,7 @@ import illustDetail from './illustDetail';
 import novelDetail from './novelDetail';
 import illustComments from './illustComments';
 import novelComments from './novelComments';
+import novelCommentReplies from './novelCommentReplies';
 import novelSeries from './novelSeries';
 import novelText from './novelText';
 import searchAutoComplete from './searchAutoComplete';
@@ -81,6 +82,7 @@ const rootReducer = combineReducers({
   novelDetail,
   illustComments,
   novelComments,
+  novelCommentReplies,
   novelSeries,
   novelText,
   ranking,

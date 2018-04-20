@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { StyleSheet, Text, View, RefreshControl, FlatList } from 'react-native';
 import moment from 'moment';
 import { connectLocalization } from '../components/Localization';
@@ -6,7 +6,6 @@ import NoResult from '../components/NoResult';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
-import PXThumbnail from '../components/PXThumbnail';
 import { globalStyles, globalStyleVariables } from '../styles';
 import { SCREENS } from '../common/constants';
 
@@ -46,9 +45,16 @@ const styles = StyleSheet.create({
   replyToUserName: {
     marginLeft: 5,
   },
-  date: {
+  dateAndReply: {
     marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  date: {
     color: '#696969',
+  },
+  replyButtonText: {
+    color: globalStyleVariables.PRIMARY_COLOR,
   },
   comment: {
     marginTop: 10,
@@ -76,7 +82,12 @@ class CommentList extends Component {
   };
 
   renderRow = ({ item }) => {
-    const { authorId, i18n } = this.props;
+    const {
+      authorId,
+      i18n,
+      onPressReplyCommentButton,
+      renderCommentReplies,
+    } = this.props;
     return (
       <View key={item.id} style={styles.commentContainer}>
         <PXThumbnailTouchable
@@ -97,33 +108,26 @@ class CommentList extends Component {
                 </Text>
               </View>}
           </View>
-          {item.parent_comment &&
-            item.parent_comment.user &&
-            item.parent_comment.user.id &&
-            <PXTouchable
-              style={styles.replyToContainer}
-              onPress={() => this.handleOnPressExpandReplyTo(item)}
-            >
-              <PXThumbnail
-                uri={item.parent_comment.user.profile_image_urls.medium}
-                size={16}
-              />
-              <Text style={styles.replyToUserName}>
-                {i18n.formatString(
-                  i18n.commentInReplyTo,
-                  item.parent_comment.user.name,
-                )}
-              </Text>
-            </PXTouchable>}
-
           <View style={styles.comment}>
             <Text>
               {item.comment}
             </Text>
           </View>
-          <Text style={styles.date}>
-            {moment(item.date).format('YYYY-MM-DD HH:mm')}
-          </Text>
+          <View style={styles.dateAndReply}>
+            <Text style={styles.date}>
+              {moment(item.date).format('YYYY-MM-DD HH:mm')}
+            </Text>
+            {onPressReplyCommentButton &&
+              <Fragment>
+                <Text> ・ </Text>
+                <PXTouchable onPress={() => onPressReplyCommentButton(item.id)}>
+                  <Text style={styles.replyButtonText}>Reply</Text>
+                </PXTouchable>
+              </Fragment>}
+          </View>
+          {item.has_replies &&
+            renderCommentReplies &&
+            renderCommentReplies(item.id)}
         </View>
       </View>
     );
