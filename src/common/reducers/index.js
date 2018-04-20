@@ -12,6 +12,7 @@ import illustDetail from './illustDetail';
 import novelDetail from './novelDetail';
 import illustComments from './illustComments';
 import novelComments from './novelComments';
+import illustCommentReplies from './illustCommentReplies';
 import novelCommentReplies from './novelCommentReplies';
 import novelSeries from './novelSeries';
 import novelText from './novelText';
@@ -82,6 +83,7 @@ const rootReducer = combineReducers({
   novelDetail,
   illustComments,
   novelComments,
+  illustCommentReplies,
   novelCommentReplies,
   novelSeries,
   novelText,

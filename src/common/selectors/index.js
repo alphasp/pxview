@@ -74,6 +74,7 @@ const selectUserDetail = state => state.userDetail;
 
 const selectIllustComments = state => state.illustComments;
 const selectNovelComments = state => state.novelComments;
+const selectIllustCommentReplies = state => state.illustCommentReplies;
 const selectNovelCommentReplies = state => state.novelCommentReplies;
 
 const selectNovelSeries = state => state.novelSeries;
@@ -450,6 +451,21 @@ export const makeGetNovelRankingItems = () =>
         Schemas.NOVEL_ARRAY,
         entities,
       ),
+  );
+
+export const makeGetIllustCommentRepliesItems = () =>
+  createUserItemsSelector(
+    [selectIllustCommentReplies, selectEntities, getProps],
+    (illustCommentReplies, entities, props) => {
+      const { commentId } = props;
+      return illustCommentReplies[commentId]
+        ? denormalize(
+            illustCommentReplies[commentId].items,
+            Schemas.ILLUST_COMMENT_ARRAY,
+            entities,
+          )
+        : defaultArray;
+    },
   );
 
 export const makeGetUserBookmarkNovelsItems = () =>

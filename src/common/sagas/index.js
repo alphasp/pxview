@@ -15,6 +15,7 @@ import { watchFetchIllustDetail } from './illustDetail';
 import { watchFetchNovelDetail } from './novelDetail';
 import { watchFetchIllustComments } from './illustComments';
 import { watchFetchNovelComments } from './novelComments';
+import { watchFetchIllustCommentReplies } from './illustCommentReplies';
 import { watchFetchNovelCommentReplies } from './novelCommentReplies';
 import { watchFetchNovelSeries } from './novelSeries';
 import { watchFetchNovelText } from './novelText';
@@ -78,6 +79,7 @@ export default function* rootSaga() {
     watchFetchNovelDetail(),
     watchFetchIllustComments(),
     watchFetchNovelComments(),
+    watchFetchIllustCommentReplies(),
     watchFetchNovelCommentReplies(),
     watchFetchNovelSeries(),
     watchFetchNovelText(),

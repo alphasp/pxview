@@ -114,6 +114,12 @@ export const ILLUST_COMMENTS = defineAction(
   appNamespace,
 );
 
+export const ILLUST_COMMENT_REPLIES = defineAction(
+  'ILLUST_COMMENT_REPLIES',
+  [REQUEST, SUCCESS, FAILURE, CLEAR],
+  appNamespace,
+);
+
 export const ADD_ILLUST_COMMENT = defineAction(
   'ADD_ILLUST_COMMENT',
   [ADD, ADD_SUCCESS, ADD_FAILURE],
