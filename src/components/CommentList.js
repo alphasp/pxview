@@ -68,19 +68,6 @@ const styles = StyleSheet.create({
   },
 });
 class CommentList extends Component {
-  handleOnPressExpandReplyTo = item => {
-    const { authorId, navigation: { navigate } } = this.props;
-    navigate(SCREENS.ReplyToCommentList, {
-      data: {
-        items: [item.parent_comment, item],
-        loading: false,
-        loaded: true,
-        refreshing: false,
-      },
-      authorId,
-    });
-  };
-
   renderRow = ({ item }) => {
     const {
       authorId,

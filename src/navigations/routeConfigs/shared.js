@@ -3,7 +3,6 @@ import NovelDetail from '../../screens/Shared/NovelDetail';
 import UserDetail from '../../screens/Shared/UserDetail';
 import IllustComments from '../../screens/Shared/IllustComments';
 import NovelComments from '../../screens/Shared/NovelComments';
-import ReplyToCommentList from '../../screens/Shared/ReplyToCommentList';
 import NovelSeries from '../../screens/Shared/NovelSeries';
 import NovelReader from '../../screens/Shared/NovelReader';
 import UserIllusts from '../../screens/Shared/UserIllusts';
@@ -61,12 +60,6 @@ const config = {
     screen: NovelComments,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.comments,
-    }),
-  },
-  [SCREENS.ReplyToCommentList]: {
-    screen: ReplyToCommentList,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
-      title: i18n.commentReplyTo,
     }),
   },
   [SCREENS.NovelSeries]: {
