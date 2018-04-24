@@ -98,12 +98,6 @@ class IllustComments extends Component {
     fetchIllustComments(illustId);
   };
 
-  handleOnSubmitReplyComment = replyToCommentId => {
-    const { fetchIllustCommentReplies, clearIllustCommentReplies } = this.props;
-    clearIllustCommentReplies(replyToCommentId);
-    fetchIllustCommentReplies(replyToCommentId);
-  };
-
   renderCommentReplies = commentId => {
     const { authorId, navigation } = this.props;
     return (
@@ -157,23 +151,18 @@ class IllustComments extends Component {
 }
 
 export default enhancePostComment(
-  connect(
-    () => {
-      const getIllustCommentsItems = makeGetIllustCommentsItems();
-      return (state, props) => {
-        const { illustComments } = state;
-        const illustId =
-          props.illustId || props.navigation.state.params.illustId;
-        const authorId =
-          props.authorId || props.navigation.state.params.authorId;
-        return {
-          illustComments: illustComments[illustId],
-          items: getIllustCommentsItems(state, props),
-          illustId,
-          authorId,
-        };
+  connect(() => {
+    const getIllustCommentsItems = makeGetIllustCommentsItems();
+    return (state, props) => {
+      const { illustComments } = state;
+      const illustId = props.illustId || props.navigation.state.params.illustId;
+      const authorId = props.authorId || props.navigation.state.params.authorId;
+      return {
+        illustComments: illustComments[illustId],
+        items: getIllustCommentsItems(state, props),
+        illustId,
+        authorId,
       };
-    },
-    { ...illustCommentsActionCreators, ...illustCommentRepliesActionCreators },
-  )(IllustComments),
+    };
+  }, illustCommentsActionCreators)(IllustComments),
 );

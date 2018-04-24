@@ -7,6 +7,7 @@ import SearchFilterPeriodDateModal from '../screens/Shared/SearchFilterPeriodDat
 import AddIllustComment from '../screens/Shared/AddIllustComment';
 import AddNovelComment from '../screens/Shared/AddNovelComment';
 import ReplyIllustComment from '../screens/Shared/ReplyIllustComment';
+import ReplyNovelComment from '../screens/Shared/ReplyNovelComment';
 import AccountSettings from '../screens/MyPage/AccountSettings/AccountSettings';
 import Encyclopedia from '../screens/Shared/Encyclopedia';
 import myPageRouteConfig from './routeConfigs/myPage';
@@ -48,6 +49,12 @@ const appRouteConfig = {
   },
   [SCREENS.ReplyIllustComment]: {
     screen: ReplyIllustComment,
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.commentAdd,
+    }),
+  },
+  [SCREENS.ReplyNovelComment]: {
+    screen: ReplyNovelComment,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.commentAdd,
     }),

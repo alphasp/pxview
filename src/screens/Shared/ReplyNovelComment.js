@@ -1,15 +1,49 @@
 import React, { Component } from 'react';
-import { View, TextInput, StyleSheet, Keyboard } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../../components/Localization';
+import PXThumbnail from '../../components/PXThumbnail';
 import PXTouchable from '../../components/PXTouchable';
 import * as addNovelCommentActionCreators from '../../common/actions/addNovelComment';
+import { globalStyles, globalStyleVariables } from '../../styles';
 
 const styles = StyleSheet.create({
-  container: {
+  replyToContainer: {
+    flexDirection: 'row',
+    margin: 10,
+    padding: 10,
+    borderLeftWidth: 8,
+    borderLeftColor: globalStyleVariables.PRIMARY_COLOR,
+    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
+    borderRadius: 5,
+  },
+  nameCommentContainer: {
     flex: 1,
+    flexDirection: 'column',
+    marginLeft: 10,
+  },
+  nameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  name: {
+    fontWeight: 'bold',
+  },
+  authorBadge: {
+    backgroundColor: globalStyleVariables.PRIMARY_COLOR,
+    marginLeft: 5,
+    paddingVertical: 2,
+    paddingHorizontal: 5,
+    borderRadius: 5,
+  },
+  authorBadgeText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  comment: {
+    marginTop: 10,
   },
   textInput: {
     flex: 1,
@@ -18,7 +52,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class AddNovelComment extends Component {
+class ReplyNovelComment extends Component {
   static navigationOptions = ({ navigation }) => {
     const { state } = navigation;
     const { submit, comment, novelId } = state.params;
@@ -74,17 +108,46 @@ class AddNovelComment extends Component {
 
   handleOnSubmitComment = () => {
     const { addNovelComment, navigation } = this.props;
-    const { novelId } = navigation.state.params;
+    const { novelId, commentItem } = navigation.state.params;
     const { comment } = this.state;
     Keyboard.dismiss();
-    addNovelComment(novelId, comment);
+    addNovelComment(novelId, comment, commentItem.id);
+  };
+
+  renderReplyToComment = () => {
+    const { i18n, navigation } = this.props;
+    const { commentItem, authorId } = navigation.state.params;
+    return (
+      <View style={styles.replyToContainer}>
+        <PXThumbnail uri={commentItem.user.profile_image_urls.medium} />
+        <View style={styles.nameCommentContainer}>
+          <View style={styles.nameContainer}>
+            <Text style={styles.name}>
+              {commentItem.user.name}
+            </Text>
+            {commentItem.user.id === authorId &&
+              <View style={styles.authorBadge}>
+                <Text style={styles.authorBadgeText}>
+                  {i18n.commentWorkAuthor}
+                </Text>
+              </View>}
+          </View>
+          <View style={styles.comment}>
+            <Text>
+              {commentItem.comment}
+            </Text>
+          </View>
+        </View>
+      </View>
+    );
   };
 
   render() {
     const { i18n, result: { loading } } = this.props;
     const { comment } = this.state;
     return (
-      <View style={styles.container}>
+      <View style={globalStyles.container}>
+        {this.renderReplyToComment()}
         <TextInput
           multiline
           autoFocus
@@ -108,5 +171,5 @@ export default connectLocalization(
       result: state.addNovelComment,
     }),
     addNovelCommentActionCreators,
-  )(AddNovelComment),
+  )(ReplyNovelComment),
 );

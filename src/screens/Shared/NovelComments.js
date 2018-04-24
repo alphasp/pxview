@@ -77,14 +77,15 @@ class NovelComments extends Component {
     }
   };
 
-  handleOnPressReplyCommentButton = replyToCommentId => {
+  handleOnPressReplyCommentButton = commentItem => {
     const { checkIfUserEligibleToPostComment } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
-      const { novelId, navigation: { navigate } } = this.props;
+      const { novelId, authorId, navigation: { navigate } } = this.props;
       navigate(SCREENS.ReplyNovelComment, {
         novelId,
-        replyToCommentId,
+        authorId,
+        commentItem,
         onSubmitComment: this.handleOnSubmitComment, // todo
       });
     }
@@ -97,8 +98,14 @@ class NovelComments extends Component {
   };
 
   renderCommentReplies = commentId => {
-    const { authorId } = this.props;
-    return <NovelCommentReplies commentId={commentId} authorId={authorId} />;
+    const { authorId, navigation } = this.props;
+    return (
+      <NovelCommentReplies
+        commentId={commentId}
+        authorId={authorId}
+        navigation={navigation}
+      />
+    );
   };
 
   render() {

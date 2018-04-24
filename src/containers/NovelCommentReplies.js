@@ -57,14 +57,15 @@ class NovelCommentReplies extends Component {
     });
   };
 
-  handleOnPressReplyCommentButton = replyToCommentId => {
+  handleOnPressReplyCommentButton = commentItem => {
     const { checkIfUserEligibleToPostComment } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
-      const { commentId, navigation: { navigate } } = this.props;
-      navigate(SCREENS.ReplyNovelComment, {
-        commentId,
-        replyToCommentId,
+      const { novelId, authorId, navigation: { navigate } } = this.props;
+      navigate(SCREENS.ReplyIllustComment, {
+        novelId,
+        authorId,
+        commentItem,
         onSubmitComment: this.handleOnSubmitComment,
       });
     }

@@ -15,9 +15,9 @@ export function* handleAddIllustComment(action) {
       comment,
       replyToCommentId,
     ]);
-    yield put(addIllustCommentSuccess(illustId));
+    yield put(addIllustCommentSuccess(illustId, replyToCommentId));
   } catch (err) {
-    yield put(addIllustCommentFailure(illustId));
+    yield put(addIllustCommentFailure(illustId, replyToCommentId));
     yield put(addError(err));
   }
 }
