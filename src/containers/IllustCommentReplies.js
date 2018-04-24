@@ -57,15 +57,16 @@ class IllustCommentReplies extends Component {
     });
   };
 
-  handleOnPressReplyCommentButton = replyToCommentId => {
+  handleOnPressReplyCommentButton = commentItem => {
     const { checkIfUserEligibleToPostComment } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
-      const { commentId, navigation: { navigate } } = this.props;
-      navigate(SCREENS.ReplyNovelComment, {
-        commentId,
-        replyToCommentId,
-        onSubmitComment: this.handleOnSubmitComment, // todo
+      const { illustId, authorId, navigation: { navigate } } = this.props;
+      navigate(SCREENS.ReplyIllustComment, {
+        illustId,
+        authorId,
+        commentItem,
+        onSubmitComment: this.handleOnSubmitComment,
       });
     }
   };

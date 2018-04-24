@@ -14,6 +14,7 @@ import enhancePostComment from '../../components/HOC/enhancePostComment';
 import CommentList from '../../components/CommentList';
 import ViewMoreButton from '../../components/ViewMoreButton';
 import * as illustCommentsActionCreators from '../../common/actions/illustComments';
+import * as illustCommentRepliesActionCreators from '../../common/actions/illustCommentReplies';
 import { makeGetIllustCommentsItems } from '../../common/selectors';
 import { globalStyles } from '../../styles';
 import { SCREENS } from '../../common/constants';
@@ -77,15 +78,16 @@ class IllustComments extends Component {
     }
   };
 
-  handleOnPressReplyCommentButton = replyToCommentId => {
+  handleOnPressReplyCommentButton = commentItem => {
     const { checkIfUserEligibleToPostComment } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
-      const { illustId, navigation: { navigate } } = this.props;
+      const { illustId, authorId, navigation: { navigate } } = this.props;
       navigate(SCREENS.ReplyIllustComment, {
         illustId,
-        replyToCommentId,
-        onSubmitComment: this.handleOnSubmitComment, // todo
+        authorId,
+        commentItem,
+        onSubmitComment: this.handleOnSubmitComment,
       });
     }
   };
@@ -96,9 +98,21 @@ class IllustComments extends Component {
     fetchIllustComments(illustId);
   };
 
+  handleOnSubmitReplyComment = replyToCommentId => {
+    const { fetchIllustCommentReplies, clearIllustCommentReplies } = this.props;
+    clearIllustCommentReplies(replyToCommentId);
+    fetchIllustCommentReplies(replyToCommentId);
+  };
+
   renderCommentReplies = commentId => {
-    const { authorId } = this.props;
-    return <IllustCommentReplies commentId={commentId} authorId={authorId} />;
+    const { authorId, navigation } = this.props;
+    return (
+      <IllustCommentReplies
+        commentId={commentId}
+        authorId={authorId}
+        navigation={navigation}
+      />
+    );
   };
 
   render() {
@@ -143,18 +157,23 @@ class IllustComments extends Component {
 }
 
 export default enhancePostComment(
-  connect(() => {
-    const getIllustCommentsItems = makeGetIllustCommentsItems();
-    return (state, props) => {
-      const { illustComments } = state;
-      const illustId = props.illustId || props.navigation.state.params.illustId;
-      const authorId = props.authorId || props.navigation.state.params.authorId;
-      return {
-        illustComments: illustComments[illustId],
-        items: getIllustCommentsItems(state, props),
-        illustId,
-        authorId,
+  connect(
+    () => {
+      const getIllustCommentsItems = makeGetIllustCommentsItems();
+      return (state, props) => {
+        const { illustComments } = state;
+        const illustId =
+          props.illustId || props.navigation.state.params.illustId;
+        const authorId =
+          props.authorId || props.navigation.state.params.authorId;
+        return {
+          illustComments: illustComments[illustId],
+          items: getIllustCommentsItems(state, props),
+          illustId,
+          authorId,
+        };
       };
-    };
-  }, illustCommentsActionCreators)(IllustComments),
+    },
+    { ...illustCommentsActionCreators, ...illustCommentRepliesActionCreators },
+  )(IllustComments),
 );

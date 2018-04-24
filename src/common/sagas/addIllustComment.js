@@ -8,9 +8,13 @@ import pixiv from '../helpers/apiClient';
 import { ADD_ILLUST_COMMENT } from '../constants/actionTypes';
 
 export function* handleAddIllustComment(action) {
-  const { illustId, comment } = action.payload;
+  const { illustId, comment, replyToCommentId } = action.payload;
   try {
-    yield apply(pixiv, pixiv.illustAddComment, [illustId, comment]);
+    yield apply(pixiv, pixiv.illustAddComment, [
+      illustId,
+      comment,
+      replyToCommentId,
+    ]);
     yield put(addIllustCommentSuccess(illustId));
   } catch (err) {
     yield put(addIllustCommentFailure(illustId));

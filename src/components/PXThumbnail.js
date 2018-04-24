@@ -11,6 +11,8 @@ const PXThumbnail = props => {
         backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
         borderRadius: size / 2,
         overflow: 'hidden',
+        width: size,
+        height: size,
       }}
     >
       <PXImage

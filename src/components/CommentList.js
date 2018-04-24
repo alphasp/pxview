@@ -68,6 +68,11 @@ const styles = StyleSheet.create({
   },
 });
 class CommentList extends Component {
+  handleOnPressUser = userId => {
+    const { navigate } = this.props.navigation;
+    navigate(SCREENS.UserDetail, { userId });
+  };
+
   renderRow = ({ item }) => {
     const {
       authorId,
@@ -107,8 +112,10 @@ class CommentList extends Component {
             {onPressReplyCommentButton &&
               <Fragment>
                 <Text> ・ </Text>
-                <PXTouchable onPress={() => onPressReplyCommentButton(item.id)}>
-                  <Text style={styles.replyButtonText}>Reply</Text>
+                <PXTouchable onPress={() => onPressReplyCommentButton(item)}>
+                  <Text style={styles.replyButtonText}>
+                    {i18n.commentReply}
+                  </Text>
                 </PXTouchable>
               </Fragment>}
           </View>
