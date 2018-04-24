@@ -543,7 +543,10 @@ export const makeGetParsedNovelText = () =>
 export const makeGetUserItem = () =>
   createUserItemSelector([selectEntities, getProps], (entities, props) => {
     const userId = props.userId || props.navigation.state.params.userId;
-    return denormalize(userId, Schemas.USER, entities);
+    return (
+      denormalize(userId, Schemas.USER, entities) ||
+      denormalize(userId, Schemas.USER_PROFILE, entities)
+    );
   });
 
 const makeGetUserDetailItem = () =>
