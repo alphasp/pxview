@@ -30,6 +30,10 @@ const settingsList = [
     title: 'saveImageSettings',
   },
   {
+    id: 'initialScreenSettings',
+    title: 'initialScreenSettings',
+  },
+  {
     id: 'tagHighlightSettings',
     title: 'tagHighlightSettings',
   },
@@ -65,7 +69,6 @@ const otherList = [
 
 class Settings extends Component {
   getLanguage = lang => {
-    console.log('ll ', lang);
     const zhIds = ['zh', 'zh-CN', 'zh-SG'];
     const zhHantIds = ['zh-TW', 'zh-HK', 'zh-MO'];
     if (zhIds.includes(lang)) {
@@ -87,6 +90,10 @@ class Settings extends Component {
       }
       case 'saveImageSettings': {
         navigate(SCREENS.SaveImageSettings);
+        break;
+      }
+      case 'initialScreenSettings': {
+        navigate(SCREENS.InitialScreenSettings);
         break;
       }
       case 'tagHighlightSettings': {

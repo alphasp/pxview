@@ -449,4 +449,10 @@ export const SAVE_IMAGE_SETTINGS = defineAction(
   appNamespace,
 );
 
+export const INITIAL_SCREEN_SETTINGS = defineAction(
+  'INITIAL_SCREEN_SETTINGS',
+  [SET],
+  appNamespace,
+);
+
 export const MODAL = defineAction('MODAL', [OPEN, CLOSE], appNamespace);

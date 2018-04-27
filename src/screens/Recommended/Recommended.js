@@ -6,7 +6,7 @@ import RecommendedNovels from './RecommendedNovels';
 import { connectLocalization } from '../../components/Localization';
 import config from '../../common/config';
 
-class Home extends Component {
+class Recommended extends Component {
   constructor(props) {
     super(props);
     const { i18n } = props;
@@ -64,4 +64,4 @@ class Home extends Component {
   }
 }
 
-export default connectLocalization(Home);
+export default connectLocalization(Recommended);

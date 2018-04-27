@@ -6,6 +6,7 @@ import Settings from '../../screens/MyPage/Settings';
 import AccountSettings from '../../screens/MyPage/AccountSettings/AccountSettings';
 import AdvanceAccountSettings from '../../screens/MyPage/AccountSettings/AdvanceAccountSettings';
 import SaveImageSettings from '../../screens/MyPage/SaveImageSettings';
+import InitialScreenSettings from '../../screens/MyPage/InitialScreenSettings';
 import HighlightTagsSettings from '../../screens/MyPage/HighlightTagsSettings';
 import MuteTagsSettings from '../../screens/MyPage/MuteTagsSettings';
 import MuteUsersSettings from '../../screens/MyPage/MuteUsersSettings';
@@ -66,6 +67,12 @@ const config = {
     screen: SaveImageSettings,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.saveImageSettings,
+    }),
+  },
+  [SCREENS.InitialScreenSettings]: {
+    screen: InitialScreenSettings,
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.initialScreenSettings,
     }),
   },
   [SCREENS.HighlightTagsSettings]: {

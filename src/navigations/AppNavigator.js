@@ -1,6 +1,6 @@
 import { StackNavigator } from 'react-navigation';
-import AppTabNavigator from './AppTabNavigator';
-import AppDrawerNavigator from './AppDrawerNavigator';
+import createAppTabNavigator from './AppTabNavigator';
+import createAppDrawerNavigator from './AppDrawerNavigator';
 import enhanceRouter from './routers/enhanceRouter';
 import SearchFilterModal from '../screens/Shared/SearchFilterModal';
 import SearchFilterPeriodDateModal from '../screens/Shared/SearchFilterPeriodDateModal';
@@ -16,62 +16,6 @@ import { globalStyles, globalStyleVariables } from '../styles';
 import config from '../common/config';
 import { SCREENS } from '../common/constants';
 
-const appRouteConfig = {
-  [SCREENS.Main]: {
-    screen: config.navigation.tab ? AppTabNavigator : AppDrawerNavigator,
-    navigationOptions: {
-      header: null,
-    },
-  },
-  [SCREENS.SearchFilterModal]: {
-    screen: SearchFilterModal,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
-      title: i18n.searchDisplayOptions,
-    }),
-  },
-  [SCREENS.SearchFilterPeriodDateModal]: {
-    screen: SearchFilterPeriodDateModal,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
-      title: i18n.searchPeriodSpecifyDate,
-    }),
-  },
-  [SCREENS.AddIllustComment]: {
-    screen: AddIllustComment,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
-      title: i18n.commentAdd,
-    }),
-  },
-  [SCREENS.AddNovelComment]: {
-    screen: AddNovelComment,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
-      title: i18n.commentAdd,
-    }),
-  },
-  [SCREENS.ReplyIllustComment]: {
-    screen: ReplyIllustComment,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
-      title: i18n.commentAdd,
-    }),
-  },
-  [SCREENS.ReplyNovelComment]: {
-    screen: ReplyNovelComment,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
-      title: i18n.commentAdd,
-    }),
-  },
-  [SCREENS.AccountSettingsModal]: {
-    screen: AccountSettings,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
-      title: i18n.accountSettings,
-    }),
-  },
-  [SCREENS.Encyclopedia]: {
-    screen: Encyclopedia,
-  },
-  ...myPageRouteConfig,
-  ...sharedRouteConfig,
-};
-
 const stackConfig = {
   navigationOptions: {
     headerStyle: globalStyles.header,
@@ -82,6 +26,69 @@ const stackConfig = {
   headerMode: 'screen',
 };
 
-const AppNavigator = StackNavigator(appRouteConfig, stackConfig);
+const createAppNavigator = ({ initialRouteName }) => {
+  const AppNavigator = StackNavigator(
+    {
+      [SCREENS.Main]: {
+        screen: config.navigation.tab
+          ? createAppTabNavigator({ initialRouteName })
+          : createAppDrawerNavigator({ initialRouteName }),
+        navigationOptions: {
+          header: null,
+        },
+      },
+      [SCREENS.SearchFilterModal]: {
+        screen: SearchFilterModal,
+        navigationOptions: ({ screenProps: { i18n } }) => ({
+          title: i18n.searchDisplayOptions,
+        }),
+      },
+      [SCREENS.SearchFilterPeriodDateModal]: {
+        screen: SearchFilterPeriodDateModal,
+        navigationOptions: ({ screenProps: { i18n } }) => ({
+          title: i18n.searchPeriodSpecifyDate,
+        }),
+      },
+      [SCREENS.AddIllustComment]: {
+        screen: AddIllustComment,
+        navigationOptions: ({ screenProps: { i18n } }) => ({
+          title: i18n.commentAdd,
+        }),
+      },
+      [SCREENS.AddNovelComment]: {
+        screen: AddNovelComment,
+        navigationOptions: ({ screenProps: { i18n } }) => ({
+          title: i18n.commentAdd,
+        }),
+      },
+      [SCREENS.ReplyIllustComment]: {
+        screen: ReplyIllustComment,
+        navigationOptions: ({ screenProps: { i18n } }) => ({
+          title: i18n.commentAdd,
+        }),
+      },
+      [SCREENS.ReplyNovelComment]: {
+        screen: ReplyNovelComment,
+        navigationOptions: ({ screenProps: { i18n } }) => ({
+          title: i18n.commentAdd,
+        }),
+      },
+      [SCREENS.AccountSettingsModal]: {
+        screen: AccountSettings,
+        navigationOptions: ({ screenProps: { i18n } }) => ({
+          title: i18n.accountSettings,
+        }),
+      },
+      [SCREENS.Encyclopedia]: {
+        screen: Encyclopedia,
+      },
+      ...myPageRouteConfig,
+      ...sharedRouteConfig,
+    },
+    stackConfig,
+  );
+  const Navigator = enhanceRouter(AppNavigator);
+  return Navigator;
+};
 
-export default enhanceRouter(AppNavigator);
+export default createAppNavigator;

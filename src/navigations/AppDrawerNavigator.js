@@ -1,5 +1,5 @@
 import { DrawerNavigator } from 'react-navigation';
-import HomeNavigator from './HomeNavigator';
+import RecommendedNavigator from './RecommendedNavigator';
 import RankingNavigator from './RankingNavigator';
 import TrendingNavigator from './TrendingNavigator';
 import NewWorksNavigator from './NewWorksNavigator';
@@ -7,29 +7,31 @@ import DrawerContent from '../components/DrawerContent';
 import { globalStyles, globalStyleVariables } from '../styles';
 import { SCREENS } from '../common/constants';
 
-const AppDrawerNavigator = DrawerNavigator(
-  {
-    [SCREENS.Home]: {
-      screen: HomeNavigator,
+const createAppDrawerNavigator = ({ initialRouteName }) =>
+  DrawerNavigator(
+    {
+      [SCREENS.Recommended]: {
+        screen: RecommendedNavigator,
+      },
+      [SCREENS.Ranking]: {
+        screen: RankingNavigator,
+      },
+      [SCREENS.Trending]: {
+        screen: TrendingNavigator,
+      },
+      [SCREENS.NewWorks]: {
+        screen: NewWorksNavigator,
+      },
     },
-    [SCREENS.Ranking]: {
-      screen: RankingNavigator,
+    {
+      navigationOptions: {
+        headerStyle: globalStyles.header,
+        headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
+      },
+      initialRouteName,
+      cardStyle: globalStyles.card,
+      contentComponent: DrawerContent,
     },
-    [SCREENS.Trending]: {
-      screen: TrendingNavigator,
-    },
-    [SCREENS.NewWorks]: {
-      screen: NewWorksNavigator,
-    },
-  },
-  {
-    navigationOptions: {
-      headerStyle: globalStyles.header,
-      headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
-    },
-    cardStyle: globalStyles.card,
-    contentComponent: DrawerContent,
-  },
-);
+  );
 
-export default AppDrawerNavigator;
+export default createAppDrawerNavigator;

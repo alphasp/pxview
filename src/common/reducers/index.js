@@ -64,6 +64,7 @@ import editAccount from './editAccount';
 import verificationEmail from './verificationEmail';
 import modal from './modal';
 import saveImageSettings from './saveImageSettings';
+import initialScreenSettings from './initialScreenSettings';
 import novelSettings from './novelSettings';
 import i18n from './i18n';
 import error from './error';
@@ -135,6 +136,7 @@ const rootReducer = combineReducers({
   verificationEmail,
   modal,
   saveImageSettings,
+  initialScreenSettings,
   novelSettings,
   i18n,
 });

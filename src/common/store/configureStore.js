@@ -153,6 +153,7 @@ export default function configureStore() {
       'muteTags',
       'muteUsers',
       'saveImageSettings',
+      'initialScreenSettings',
       'novelSettings',
       'entities',
       'auth',
