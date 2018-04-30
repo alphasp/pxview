@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, InteractionManager, Text } from 'react-native';
+import { View, StyleSheet, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import { connectLocalization } from '../../components/Localization';
 import NovelList from '../../components/NovelList';
-import NoResult from '../../components/NoResult';
 import ViewMoreButton from '../../components/ViewMoreButton';
 import * as novelSeriesActionCreators from '../../common/actions/novelSeries';
 import { makeGetNovelSeriesItems } from '../../common/selectors';

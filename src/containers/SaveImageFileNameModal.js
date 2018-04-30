@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  Modal,
-  Switch,
-} from 'react-native';
+import { View, StyleSheet, Text, Switch } from 'react-native';
 import { connect } from 'react-redux';
 import { MaterialDialog } from 'react-native-material-dialog';
 import { Dropdown } from 'react-native-material-dropdown';

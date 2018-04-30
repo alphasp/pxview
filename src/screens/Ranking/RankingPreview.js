@@ -8,7 +8,6 @@ import {
 import RankingHorizontalList from './RankingHorizontalList';
 import NovelRankingPreview from './NovelRankingPreview';
 import { connectLocalization } from '../../components/Localization';
-import Loader from '../../components/Loader';
 import { RANKING_TYPES, RANKING_FOR_UI } from '../../common/constants';
 
 const styles = StyleSheet.create({
@@ -23,53 +22,8 @@ class RankingPreview extends Component {
     super(props);
     this.state = {
       refreshing: false,
-      // didFocus: false,
     };
   }
-
-  // componentDidMount() {
-  //   // this.willFocusListener = this.props.navigation.addListener(
-  //   //   'willFocus',
-  //   //   this.onWillFocus,
-  //   // );
-  //   this.didFocusListener = this.props.navigation.addListener(
-  //     'didFocus',
-  //     this.onDidFocus,
-  //   );
-  //   // this.willBlurListener = this.props.navigation.addListener(
-  //   //   'willBlur',
-  //   //   this.onWillBlur,
-  //   // );
-  //   // this.didBlurListerner = this.props.navigation.addListener(
-  //   //   'didBlur',
-  //   //   this.onDidBlur,
-  //   // );
-  // }
-
-  // componentWillUnmount() {
-  //   // this.willFocusListener.remove();
-  //   this.didFocusListener.remove();
-  //   // this.willBlurListener.remove();
-  //   // this.didBlurListerner.remove();
-  // }
-
-  // // onWillFocus = a => {
-  // //   console.log('willFocus ', a);
-  // // };
-
-  // onDidFocus = a => {
-  //   console.log('didFocus ', a);
-  //   this.setState({
-  //     didFocus: true,
-  //   });
-  // };
-
-  // // onWillBlur = a => {
-  // //   console.log('willBlur ', a);
-  // // };
-  // // onDidBlur = a => {
-  // //   console.log('didBlur ', a);
-  // // };
 
   handleOnRefresh = () => {
     this.setState({

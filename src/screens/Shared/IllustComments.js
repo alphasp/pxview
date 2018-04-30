@@ -14,7 +14,6 @@ import enhancePostComment from '../../components/HOC/enhancePostComment';
 import CommentList from '../../components/CommentList';
 import ViewMoreButton from '../../components/ViewMoreButton';
 import * as illustCommentsActionCreators from '../../common/actions/illustComments';
-import * as illustCommentRepliesActionCreators from '../../common/actions/illustCommentReplies';
 import { makeGetIllustCommentsItems } from '../../common/selectors';
 import { globalStyles } from '../../styles';
 import { SCREENS } from '../../common/constants';

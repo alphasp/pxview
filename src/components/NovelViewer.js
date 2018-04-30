@@ -80,6 +80,8 @@ class NovelViewer extends Component {
         </Text>
       );
     }
+    // other nodes render by default renderer
+    return undefined;
   };
 
   handleOnPressOpenSettings = () => {
@@ -99,13 +101,12 @@ class NovelViewer extends Component {
     const { novelId, fontSize, lineHeight, items } = this.props;
     const item = items[index];
     // render text by chunks to prevent over text limit https://github.com/facebook/react-native/issues/15663
-    // key={`${novelId}-${index}-${fontSize}-${lineHeight}`}
     return (
       <View style={styles.container}>
         <ScrollView>
           {item.match(/(.|[\r\n]){1,3000}/g).map((t, i) =>
             <HtmlView
-              key={`${novelId}-${index}-${i}`}
+              key={`${novelId}-${index}-${i}`} // eslint-disable-line react/no-array-index-key
               value={t}
               renderNode={this.handleRenderNode}
               textComponentProps={{
