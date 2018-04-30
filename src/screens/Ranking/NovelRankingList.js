@@ -20,8 +20,8 @@ class NovelRankingList extends Component {
       clearRanking,
     } = this.props;
     if (!ranking || !ranking.items || reload) {
+      clearRanking(rankingMode);
       InteractionManager.runAfterInteractions(() => {
-        clearRanking(rankingMode);
         fetchRanking(rankingMode, options);
       });
     }
