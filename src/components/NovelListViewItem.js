@@ -11,8 +11,12 @@ import { globalStyleVariables } from '../styles';
 const HIGHLIGHT_BORDER_WIDTH = 3;
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 10,
-    marginBottom: 10,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: '#000',
+  },
+  innerContainer: {
+    padding: 10,
     backgroundColor: '#fff',
   },
   contentContainer: {
@@ -32,7 +36,8 @@ const styles = StyleSheet.create({
   },
   subRightContainer: {
     flex: 1,
-    margin: 10,
+    marginHorizontal: 10,
+    marginBottom: 10,
   },
   text: {
     marginBottom: 5,
@@ -79,62 +84,64 @@ class NovelListViewItem extends Component {
       isMute,
     } = this.props;
     return (
-      <PXTouchable
-        style={[
-          styles.container,
-          containerStyle,
-          isHighlight && styles.highlight,
-        ]}
-        onPress={onPressItem}
-        disabled={isMute}
-      >
-        {isMute
-          ? <View style={styles.muteContainer}>
-              <OverlayMutedIndicator />
-            </View>
-          : <View style={styles.contentContainer}>
-              <View style={styles.imageContainer}>
-                <PXImage
-                  uri={item.image_urls.square_medium}
-                  style={[
-                    {
-                      resizeMode: 'cover',
-                      flex: 1,
-                    },
-                    imageStyle,
-                  ]}
-                />
-                {
-                  <OverlayBookmarkNovelButton
-                    item={item}
-                    total={item.total_bookmarks}
+      <View style={styles.container}>
+        <PXTouchable
+          style={[
+            styles.innerContainer,
+            containerStyle,
+            isHighlight && styles.highlight,
+          ]}
+          onPress={onPressItem}
+          disabled={isMute}
+        >
+          {isMute
+            ? <View style={styles.muteContainer}>
+                <OverlayMutedIndicator />
+              </View>
+            : <View style={styles.contentContainer}>
+                <View style={styles.imageContainer}>
+                  <PXImage
+                    uri={item.image_urls.square_medium}
+                    style={[
+                      {
+                        resizeMode: 'cover',
+                        flex: 1,
+                      },
+                      imageStyle,
+                    ]}
                   />
-                }
-                {item.page_count > 1
-                  ? <OverlayNovelPages total={item.page_count} />
-                  : null}
-              </View>
-              <View style={styles.subRightContainer}>
-                {item.series &&
-                  item.series.id &&
-                  <Text style={[styles.text, styles.seriesTitle]}>
-                    {item.series.title}
-                  </Text>}
-                <Text style={[styles.text, styles.title]} ellipsisMode="tail">
-                  {item.title}
-                </Text>
-                <Text style={[styles.text, styles.user]}>
-                  by {item.user.name}
-                </Text>
-                <Text style={[styles.text, styles.info]}>
-                  {`${item.text_length}${i18n.novelWords}`}
-                </Text>
-                {item.tags && item.tags.length
-                  ? this.renderTags(item.tags)
-                  : null}
-              </View>
-            </View>}
-      </PXTouchable>
+                  {
+                    <OverlayBookmarkNovelButton
+                      item={item}
+                      total={item.total_bookmarks}
+                    />
+                  }
+                  {item.page_count > 1
+                    ? <OverlayNovelPages total={item.page_count} />
+                    : null}
+                </View>
+                <View style={styles.subRightContainer}>
+                  {item.series &&
+                    item.series.id &&
+                    <Text style={[styles.text, styles.seriesTitle]}>
+                      {item.series.title}
+                    </Text>}
+                  <Text style={[styles.text, styles.title]} ellipsisMode="tail">
+                    {item.title}
+                  </Text>
+                  <Text style={[styles.text, styles.user]}>
+                    by {item.user.name}
+                  </Text>
+                  <Text style={[styles.text, styles.info]}>
+                    {`${item.text_length}${i18n.novelWords}`}
+                  </Text>
+                  {item.tags && item.tags.length
+                    ? this.renderTags(item.tags)
+                    : null}
+                </View>
+              </View>}
+        </PXTouchable>
+      </View>
     );
   }
 }

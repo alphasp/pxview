@@ -19,11 +19,6 @@ const styles = StyleSheet.create({
   footer: {
     marginBottom: 20,
   },
-  separator: {
-    backgroundColor: '#000',
-    // width: '100%',
-    height: StyleSheet.hairlineWidth,
-  },
 });
 
 class NovelList extends Component {
@@ -45,8 +40,6 @@ class NovelList extends Component {
       index={index}
       onPressItem={() => this.handleOnPressItem(item, index)}
     />;
-
-  renderSeparator = () => <View style={styles.separator} />;
 
   renderFooter = () => {
     const { data: { nextUrl, loading } } = this.props;
@@ -110,7 +103,6 @@ class NovelList extends Component {
               initialNumToRender={5}
               onEndReachedThreshold={0.1}
               onEndReached={loadMoreItems}
-              ItemSeparatorComponent={this.renderSeparator}
               ListEmptyComponent={renderEmpty}
               ListHeaderComponent={renderHeader}
               ListFooterComponent={this.renderFooter}
