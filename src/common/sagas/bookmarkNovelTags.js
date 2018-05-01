@@ -18,7 +18,7 @@ export function* handleFetchBookmarkNovelTags(action) {
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
     } else {
-      response = yield apply(pixiv, pixiv.userBookmarksNovelTags, [options]);
+      response = yield apply(pixiv, pixiv.userBookmarkNovelTags, [options]);
     }
     const items = response.bookmark_tags.map(tag => ({
       name: tag.name,
