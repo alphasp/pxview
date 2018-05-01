@@ -24,7 +24,7 @@
     "lodash.truncate": "^4.4.2",
     "moment": "^2.21.0",
     "normalizr": "^3.2.3",
-    "pixiv-api-client": "^0.17.0",
+    "pixiv-api-client": "^0.17.1",
     "pixiv-novel-parser": "github:alphasp/pixiv-novel-parser",
     "prop-types": "^15.5.10",
     "qs": "^6.5.0",
