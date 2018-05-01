@@ -7,15 +7,15 @@
 Unofficial Pixiv app client for Android and iOS, built in React Native.
 
 ## Gif
-![gif](./screenshots/demo.gif)
+![gif](./screenshots/demoV2.gif)
 
 ## Screenshots
-![android_home](./screenshots/android/en/1.png)
+![android_recommended](./screenshots/android/en/1.png)
 ![android_search](./screenshots/android/en/2.png)
 ![android_detail](./screenshots/android/en/3.png)
-![ios_detail](./screenshots/ios/en/3.png)
-![ios_connection](./screenshots/ios/en/4.png)
-![ios_ranking](./screenshots/ios/en/5.png)
+![ios_recommended](./screenshots/ios/ja/1.png)
+![ios_illust_ranking](./screenshots/ios/ja/2.png)
+![ios_newworks](./screenshots/ios/ja/3.png)
 
 ## Features
 - Tab navigation on iOS, drawer navigation on Android
@@ -30,7 +30,7 @@ Unofficial Pixiv app client for Android and iOS, built in React Native.
 - Search
 	- Search for your favourite works with keyword.
  	- Search for popular titles or characters.
- 	- Search illustrations by tags or titles.
+ 	- Search illustrations/novels by tags, titles or id.
  	- Search for users.
  	- View the latest trends on pixiv with "Featured Tags"
 - One tap button to save multiple images
