@@ -9,7 +9,7 @@ import pixiv from '../helpers/apiClient';
 import { ILLUST_DETAIL } from '../constants/actionTypes';
 import Schemas from '../constants/schemas';
 
-export function* handleFetchIllustBookmarkDetail(action) {
+export function* handleFetchIllustDetail(action) {
   const { illustId } = action.payload;
   try {
     const response = yield apply(pixiv, pixiv.illustDetail, [illustId]);
@@ -28,5 +28,5 @@ export function* handleFetchIllustBookmarkDetail(action) {
 }
 
 export function* watchFetchIllustDetail() {
-  yield takeEvery(ILLUST_DETAIL.REQUEST, handleFetchIllustBookmarkDetail);
+  yield takeEvery(ILLUST_DETAIL.REQUEST, handleFetchIllustDetail);
 }

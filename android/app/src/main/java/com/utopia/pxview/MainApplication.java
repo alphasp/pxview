@@ -6,7 +6,6 @@ import com.squareup.leakcanary.LeakCanary;
 import com.facebook.react.ReactApplication;
 import com.rnziparchive.RNZipArchivePackage;
 import com.BV.LinearGradient.LinearGradientPackage;
-import com.cmcewen.blurview.BlurViewPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.opensettings.OpenSettingsPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -46,7 +45,6 @@ public class MainApplication extends Application implements ReactApplication {
             new UgoiraViewPackage(),
             new RNZipArchivePackage(),
             new LinearGradientPackage(),
-            new BlurViewPackage(),
             new SplashScreenReactPackage(),
             new OpenSettingsPackage(),
             new RNDeviceInfo(),
@@ -60,6 +58,11 @@ public class MainApplication extends Application implements ReactApplication {
             new RNSpinkitPackage(),
             new RNFetchBlobPackage()
       );
+    }
+
+    @Override
+    protected String getJSMainModuleName() {
+      return "index";
     }
   };
 

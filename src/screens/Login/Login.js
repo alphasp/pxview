@@ -7,7 +7,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
+import { withFormik, Field } from 'formik';
 import { Button } from 'react-native-elements';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../../components/Localization';
@@ -69,45 +69,33 @@ const validate = (values, props) => {
   return errors;
 };
 
+const handleOnSubmit = (values, { props }) => {
+  const { login } = props;
+  const { email, password } = values;
+  if (email && password) {
+    Keyboard.dismiss();
+    login(email, password);
+  }
+};
+
 class Login extends Component {
-  // componentWillReceiveProps(nextProps) {
-  //   const { auth: { user: prevUser } } = this.props;
-  //   const {
-  //     auth: { user },
-  //     navigation: { goBack },
-  //     onLoginSuccess,
-  //   } = nextProps;
-  //   if (user !== prevUser) {
-  //     goBack();
-  //     if (onLoginSuccess) {
-  //       setTimeout(() => onLoginSuccess(user), 0);
-  //     }
-  //   }
-  // }
-
-  submit = data => {
-    const { login } = this.props;
-    const { email, password } = data;
-    if (email && password) {
-      Keyboard.dismiss();
-      login(email, password);
-    }
-  };
-
   handleOnPressSignUp = () => {
     const { openModal } = this.props;
     openModal(MODAL_TYPES.SIGNUP);
   };
 
   render() {
-    const { auth: { loading }, modal, i18n, handleSubmit } = this.props;
+    const {
+      auth: { loading },
+      modal,
+      i18n,
+      handleSubmit,
+      setFieldValue,
+      setFieldTouched,
+    } = this.props;
     return (
       <View style={styles.container}>
-        <View
-          ref={ref => (this.list = ref)}
-          style={{ flex: 1 }}
-          onLayout={this.handleOnLayout}
-        >
+        <View style={{ flex: 1 }}>
           <WalkthroughIllustList />
         </View>
         {modal.modalType !== MODAL_TYPES.SIGNUP &&
@@ -130,19 +118,23 @@ class Login extends Component {
                   component={PXFormInput}
                   label={i18n.loginEmailOrPixivId}
                   autoCapitalize="none"
+                  onChangeText={setFieldValue}
+                  onBlur={setFieldTouched}
                 />
                 <Field
                   name="password"
                   component={PXFormInput}
                   label={i18n.password}
                   secureTextEntry
+                  onChangeText={setFieldValue}
+                  onBlur={setFieldTouched}
                 />
                 <Button
                   title={i18n.login}
                   containerViewStyle={styles.buttonContainer}
                   backgroundColor={globalStyleVariables.PRIMARY_COLOR}
                   raised
-                  onPress={handleSubmit(this.submit)}
+                  onPress={handleSubmit}
                 />
                 <Button
                   title={i18n.loginNoAccount}
@@ -163,41 +155,14 @@ class Login extends Component {
   }
 }
 
-const LoginForm = reduxForm({
-  form: 'login',
-  // destroyOnUnmount: false,
+const LoginForm = withFormik({
+  mapPropsToValues: () => ({
+    email: '',
+    password: '',
+  }),
   validate,
+  handleSubmit: handleOnSubmit,
 })(Login);
-
-// export default connectLocalization(
-//   connect(
-//     () => {
-//       const getRankingItems = makeGetRankingItems();
-//       return (state, props) => {
-//         const { ranking } = state;
-//         const rankingItems = getRankingItems(state, {
-//           ...props,
-//           rankingMode: RANKING_FOR_UI.DAILY,
-//         });
-//         const backgroundImage =
-//           rankingItems && rankingItems.length
-//             ? rankingItems[0].image_urls.medium
-//             : '';
-//         return {
-//           auth: state.auth,
-//           backgroundImage,
-//           loaded: ranking[RANKING_FOR_UI.DAILY].loaded,
-//           onLoginSuccess:
-//             props.onLoginSuccess ||
-//             (props.navigation.state &&
-//               props.navigation.state.params &&
-//               props.navigation.state.params.onLoginSuccess),
-//         };
-//       };
-//     },
-//     { ...authActionCreators, ...rankingActionCreators },
-//   )(LoginForm),
-// );
 
 export default connectLocalization(
   connect(

@@ -3,8 +3,6 @@ import { takeEvery, apply, put } from 'redux-saga/effects';
 import {
   fetchIllustCommentsSuccess,
   fetchIllustCommentsFailure,
-  addIllustCommentSuccess,
-  addIllustCommentFailure,
 } from '../actions/illustComments';
 import { addError } from '../actions/error';
 import pixiv from '../helpers/apiClient';
@@ -18,7 +16,10 @@ export function* handleFetchIllustComments(action) {
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
     } else {
-      response = yield apply(pixiv, pixiv.illustComments, [illustId, options]);
+      response = yield apply(pixiv, pixiv.illustCommentsV2, [
+        illustId,
+        options,
+      ]);
     }
     //
     const normalized = normalize(
@@ -39,21 +40,6 @@ export function* handleFetchIllustComments(action) {
   }
 }
 
-export function* handleAddIllustComment(action) {
-  const { illustId, comment } = action.payload;
-  try {
-    yield apply(pixiv, pixiv.addIllustComment, [illustId, comment]);
-    yield put(addIllustCommentSuccess(illustId));
-  } catch (err) {
-    yield put(addIllustCommentFailure(illustId));
-    yield put(addError(err));
-  }
-}
-
 export function* watchFetchIllustComments() {
   yield takeEvery(ILLUST_COMMENTS.REQUEST, handleFetchIllustComments);
-}
-
-export function* watchAddIllustComment() {
-  yield takeEvery(ILLUST_COMMENTS.ADD, handleAddIllustComment);
 }

@@ -3,15 +3,28 @@ import { InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../../components/IllustList';
 import * as rankingActionCreators from '../../common/actions/ranking';
-import { makeGetRankingItems } from '../../common/selectors';
+import { makeGetIllustRankingItems } from '../../common/selectors';
 
 class RankingList extends Component {
+  static defaultProps = {
+    reload: true,
+  };
+
   componentDidMount() {
-    const { rankingMode, options, fetchRanking, clearRanking } = this.props;
-    InteractionManager.runAfterInteractions(() => {
+    const {
+      ranking,
+      rankingMode,
+      reload,
+      options,
+      fetchRanking,
+      clearRanking,
+    } = this.props;
+    if (!ranking || !ranking.items || reload) {
       clearRanking(rankingMode);
-      fetchRanking(rankingMode, options);
-    });
+      InteractionManager.runAfterInteractions(() => {
+        fetchRanking(rankingMode, options);
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -60,7 +73,7 @@ class RankingList extends Component {
 }
 
 export default connect(() => {
-  const getRankingItems = makeGetRankingItems();
+  const getRankingItems = makeGetIllustRankingItems();
   return (state, props) => {
     const { ranking } = state;
     return {

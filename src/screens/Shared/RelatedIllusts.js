@@ -97,12 +97,13 @@ export default connectLocalization(
     const getRelatedIllustsItems = makeGetRelatedIllustsItems();
     return (state, props) => {
       const { relatedIllusts } = state;
+      const { listKey } = props;
       const illustId = props.illustId || props.navigation.state.params.illustId;
       return {
         relatedIllusts: relatedIllusts[illustId],
         items: getRelatedIllustsItems(state, props),
         illustId,
-        listKey: `${props.navigation.state.key}-${illustId}`,
+        listKey: listKey || `${props.navigation.state.key}-${illustId}`,
       };
     };
   }, relatedIllustsActionCreators)(RelatedIllusts),

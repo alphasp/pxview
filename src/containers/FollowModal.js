@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
 import FollowButton from '../components/FollowButton';
+import Loader from '../components/Loader';
 import * as userFollowDetailActionCreators from '../common/actions/userFollowDetail';
 import * as followUserActionCreators from '../common/actions/followUser';
 import * as modalActionCreators from '../common/actions/modal';
@@ -29,13 +30,20 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     backgroundColor: '#fff',
   },
+  loaderContainer: {
+    paddingTop: 10,
+    paddingBottom: 20,
+  },
   titleContainer: {
     backgroundColor: '#E9EBEE',
     padding: 10,
   },
+  formContainer: {
+    // paddingTop: 10,
+    // paddingHorizontal: 10,
+    padding: 10,
+  },
   form: {
-    paddingTop: 10,
-    paddingHorizontal: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -127,7 +135,11 @@ class FollowModal extends Component {
   };
 
   render() {
-    const { isFollow, i18n } = this.props;
+    const {
+      userFollowDetail: { loading, loaded },
+      isFollow,
+      i18n,
+    } = this.props;
     const { isPrivate } = this.state;
     return (
       <Modal
@@ -145,34 +157,49 @@ class FollowModal extends Component {
                     {isFollow ? i18n.followEdit : i18n.follow}
                   </Text>
                 </View>
-                <View style={styles.form}>
-                  <Text>
-                    {i18n.private}
-                  </Text>
-                  <Switch
-                    onValueChange={this.handleOnChangeIsPrivate}
-                    value={isPrivate}
-                  />
-                </View>
-                {isFollow
-                  ? <View style={styles.actionContainer}>
-                      <PXTouchable onPress={this.handleOnPressRemoveButton}>
-                        <Text>
-                          {i18n.followRemove}
-                        </Text>
-                      </PXTouchable>
-                      <PXTouchable onPress={this.handleOnPressFollowButton}>
-                        <Text>
-                          {i18n.follow}
-                        </Text>
-                      </PXTouchable>
-                    </View>
-                  : <View style={styles.actionWithoutRemoveButtonContainer}>
-                      <FollowButton
-                        isFollow={isFollow}
-                        onPress={this.handleOnPressFollowButton}
-                      />
+                <View style={styles.formContainer}>
+                  {loading &&
+                    <View style={styles.loaderContainer}>
+                      <Loader />
                     </View>}
+                  {loaded &&
+                    <View>
+                      <View style={styles.form}>
+                        <Text>
+                          {i18n.private}
+                        </Text>
+                        <Switch
+                          onValueChange={this.handleOnChangeIsPrivate}
+                          value={isPrivate}
+                        />
+                      </View>
+                      {isFollow
+                        ? <View style={styles.actionContainer}>
+                            <PXTouchable
+                              onPress={this.handleOnPressRemoveButton}
+                            >
+                              <Text>
+                                {i18n.followRemove}
+                              </Text>
+                            </PXTouchable>
+                            <PXTouchable
+                              onPress={this.handleOnPressFollowButton}
+                            >
+                              <Text>
+                                {i18n.follow}
+                              </Text>
+                            </PXTouchable>
+                          </View>
+                        : <View
+                            style={styles.actionWithoutRemoveButtonContainer}
+                          >
+                            <FollowButton
+                              isFollow={isFollow}
+                              onPress={this.handleOnPressFollowButton}
+                            />
+                          </View>}
+                    </View>}
+                </View>
               </View>
             </TouchableWithoutFeedback>
           </View>

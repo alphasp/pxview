@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, DeviceEventEmitter } from 'react-native';
+import { View, StyleSheet, DeviceEventEmitter, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import Toast, { DURATION } from 'react-native-easy-toast';
-import AppNavigator from '../../navigations/AppNavigator';
+import createAppNavigator from '../../navigations/AppNavigator';
 import LoginNavigator from '../../navigations/LoginNavigator';
 import { connectLocalization } from '../../components/Localization';
 import Loader from '../../components/Loader';
@@ -41,19 +41,32 @@ class App extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps) {
+    const { initialRouteName: prevInitialRouteName } = this.props;
+    const { initialRouteName } = nextProps;
+    // do not rerender when initialRouteName changed,
+    if (initialRouteName !== prevInitialRouteName) {
+      return false;
+    }
+    return true;
+  }
+
   componentWillUnmount() {
     MessageBarManager.unregisterMessageBar();
     this.showToastListener.remove();
   }
 
   render() {
-    const { rehydrated, user, i18n } = this.props;
+    const { rehydrated, user, i18n, initialRouteName } = this.props;
     let renderComponent;
     if (!rehydrated) {
       renderComponent = <Loader />;
     } else if (user) {
+      const Navigator = createAppNavigator({
+        initialRouteName,
+      });
       renderComponent = (
-        <AppNavigator
+        <Navigator
           screenProps={{ i18n }}
           uriPrefix={/^(?:https?:\/\/)?(?:www|touch)\.pixiv\.net\/|^pixiv:\/\//}
         />
@@ -63,6 +76,12 @@ class App extends Component {
     }
     return (
       <View style={styles.container}>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="rgba(0, 0, 0, 0.3)"
+          translucent
+          animated
+        />
         {renderComponent}
         <MessageBar ref={ref => (this.messageBarAlert = ref)} />
         <Toast ref={ref => (this.toast = ref)} opacity={0.7} />
@@ -78,6 +97,7 @@ export default connectLocalization(
       error: state.error,
       rehydrated: state.auth.rehydrated,
       user: state.auth.user,
+      initialRouteName: state.initialScreenSettings.routeName,
     }),
     routeActionCreators,
   )(App),

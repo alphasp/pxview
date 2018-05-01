@@ -6,7 +6,9 @@ import CookieManager from 'react-native-cookies';
 import { connectLocalization } from '../../components/Localization';
 import UserCover from '../../components/UserCover';
 import * as authActionCreators from '../../common/actions/auth';
-import * as browsingHistoryActionCreators from '../../common/actions/browsingHistory';
+import * as browsingHistoryIllustsActionCreators from '../../common/actions/browsingHistoryIllusts';
+import * as browsingHistoryNovelsActionCreators from '../../common/actions/browsingHistoryNovels';
+import * as searchHistoryActionCreators from '../../common/actions/searchHistory';
 import { globalStyleVariables } from '../../styles';
 import { SCREENS } from '../../common/constants';
 
@@ -136,9 +138,16 @@ class MyPage extends Component {
   };
 
   handleOnPressConfirmLogout = () => {
-    const { clearBrowsingHistory, logout } = this.props;
+    const {
+      clearBrowsingHistoryIllusts,
+      clearBrowsingHistoryNovels,
+      clearSearchHistory,
+      logout,
+    } = this.props;
     logout();
-    clearBrowsingHistory();
+    clearBrowsingHistoryIllusts();
+    clearBrowsingHistoryNovels();
+    clearSearchHistory();
     // clear cookies set from webview for advance account settings
     CookieManager.clearAll();
   };
@@ -215,7 +224,9 @@ export default connectLocalization(
     }),
     {
       ...authActionCreators,
-      ...browsingHistoryActionCreators,
+      ...browsingHistoryIllustsActionCreators,
+      ...browsingHistoryNovelsActionCreators,
+      ...searchHistoryActionCreators,
     },
   )(MyPage),
 );

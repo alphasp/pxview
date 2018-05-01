@@ -9,23 +9,19 @@ export function editAccountSuccess() {
   };
 }
 
-export function editAccountFailure() {
+export function editAccountFailure(validationErrors) {
   return {
     type: EDIT_ACCOUNT.FAILURE,
+    payload: {
+      validationErrors,
+    },
   };
 }
 
-export function editAccount({
-  formId,
-  currentPassword,
-  newPassword,
-  pixivId,
-  email,
-}) {
+export function editAccount({ currentPassword, newPassword, pixivId, email }) {
   return {
     type: EDIT_ACCOUNT.REQUEST,
     payload: {
-      formId,
       currentPassword,
       newPassword,
       pixivId,

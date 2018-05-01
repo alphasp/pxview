@@ -1,14 +1,16 @@
 /* eslint react/prefer-stateless-function:0 */
 import React, { Component } from 'react';
-import { AppRegistry, Platform, StatusBar } from 'react-native';
+import { AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
 import { LocalizationProvider } from '../../components/Localization';
+import Loader from '../../components/Loader';
 import i18n from '../../common/helpers/i18n';
 import configureStore from '../../common/store/configureStore';
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
-const store = configureStore();
+const { store, persistor } = configureStore();
 
 if (process.env.NODE_ENV === 'production') {
   // eslint-disable-line no-undef
@@ -43,19 +45,13 @@ if (process.env.NODE_ENV === 'production') {
 // console.disableYellowBox = true;
 
 class Root extends Component {
-  constructor(props) {
-    super(props);
-    if (Platform.OS === 'ios') {
-      // StatusBar.setBarStyle('light-content', true)
-      StatusBar.setBarStyle('default');
-    }
-  }
-
   render() {
     return (
       <Provider store={store}>
         <LocalizationProvider i18n={i18n}>
-          <App />
+          <PersistGate loading={<Loader />} persistor={persistor}>
+            <App />
+          </PersistGate>
         </LocalizationProvider>
       </Provider>
     );

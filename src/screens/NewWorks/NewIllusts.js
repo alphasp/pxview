@@ -25,13 +25,14 @@ class NewIllusts extends Component {
   };
 
   render() {
-    const { newIllusts, items, listKey } = this.props;
+    const { newIllusts, items, listKey, renderHeader } = this.props;
     return (
       <IllustList
         data={{ ...newIllusts, items }}
         listKey={listKey}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
+        renderHeader={renderHeader}
       />
     );
   }

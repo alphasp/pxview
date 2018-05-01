@@ -93,6 +93,16 @@ $ npm test
 5. `npm test` to run test, make sure all tests are passed.
 6. Commit and push your codes, then create a pull request.
 
+## Donations
+If you like this application and think it is useful, you may consider making a donation
+
+### Amazon eGift Card (Amazon US or Amazon Japan)
+Send to gmerudotcom@gmail.com via email delivery option
+
+### Bitcoin
+![btc](./donations/btc.png)
+
+34nfe2Jm8Tg8f8YfE4Vk12JGeXDqC4b5pU
 
 ## License
 

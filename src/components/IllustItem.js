@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ViewPropTypes, Image } from 'react-native';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
 import OverlayImagePages from './OverlayImagePages';
 import OverlayUgoiraIndicator from './OverlayUgoiraIndicator';
-import OverlayBookmarkButton from '../components/OverlayBookmarkButton';
+import OverlayBookmarkIllustButton from '../components/OverlayBookmarkIllustButton';
 import OverlayMutedIndicator from '../components/OverlayMutedIndicator';
+import { makeGetIllustItem } from '../common/selectors';
 import { globalStyleVariables } from '../styles';
 
 const HIGHLIGHT_BORDER_WIDTH = 3;
@@ -18,6 +20,26 @@ const styles = StyleSheet.create({
 });
 
 class IllustItem extends Component {
+  static propTypes = {
+    item: PropTypes.object.isRequired,
+    index: PropTypes.number.isRequired,
+    numColumns: PropTypes.number.isRequired,
+    onPressItem: PropTypes.func.isRequired,
+    parentContainerMargin: PropTypes.number,
+    containerStyle: ViewPropTypes.style,
+    imageStyle: Image.propTypes.style,
+    isHighlight: PropTypes.bool,
+    isMute: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    parentContainerMargin: 0,
+    containerStyle: {},
+    imageStyle: {},
+    isHighlight: false,
+    isMute: false,
+  };
+
   shouldComponentUpdate(nextProps) {
     const {
       item: prevItem,
@@ -40,6 +62,7 @@ class IllustItem extends Component {
       index,
       numColumns,
       onPressItem,
+      parentContainerMargin,
       containerStyle,
       imageStyle,
       isHighlight,
@@ -53,8 +76,14 @@ class IllustItem extends Component {
             marginRight: index % numColumns < numColumns - 1 ? 1 : 0,
             marginBottom: 1,
             backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
-            width: globalStyleVariables.WINDOW_WIDTH / numColumns - 1,
-            height: globalStyleVariables.WINDOW_WIDTH / numColumns - 1,
+            width:
+              (globalStyleVariables.WINDOW_WIDTH - parentContainerMargin * 2) /
+                numColumns -
+              1,
+            height:
+              (globalStyleVariables.WINDOW_WIDTH - parentContainerMargin * 2) /
+                numColumns -
+              1,
           },
           containerStyle,
           isHighlight && styles.highlight,
@@ -71,16 +100,20 @@ class IllustItem extends Component {
                   {
                     resizeMode: 'cover',
                     width:
-                      globalStyleVariables.WINDOW_WIDTH / numColumns -
+                      (globalStyleVariables.WINDOW_WIDTH -
+                        parentContainerMargin * 2) /
+                        numColumns -
                       imageWidthOffset,
                     height:
-                      globalStyleVariables.WINDOW_WIDTH / numColumns -
+                      (globalStyleVariables.WINDOW_WIDTH -
+                        parentContainerMargin * 2) /
+                        numColumns -
                       imageWidthOffset,
                   },
                   imageStyle,
                 ]}
               />
-              <OverlayBookmarkButton item={item} />
+              <OverlayBookmarkIllustButton item={item} />
             </View>}
         {item.meta_pages && item.meta_pages.length
           ? <OverlayImagePages total={item.meta_pages.length} />
@@ -91,13 +124,18 @@ class IllustItem extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { highlightTags, muteTags, muteUsers } = state;
-  const { tags, user } = props.item;
-  return {
-    isHighlight: tags.some(t => highlightTags.items.includes(t.name)),
-    isMute:
-      tags.some(t => muteTags.items.includes(t.name)) ||
-      muteUsers.items.some(m => m === user.id),
+export default connect(() => {
+  const getIllustItem = makeGetIllustItem();
+  return (state, props) => {
+    const { highlightTags, muteTags, muteUsers } = state;
+    const item = getIllustItem(state, props);
+    const { tags, user } = item;
+    return {
+      item,
+      isHighlight: tags.some(t => highlightTags.items.includes(t.name)),
+      isMute:
+        tags.some(t => muteTags.items.includes(t.name)) ||
+        muteUsers.items.some(m => m === user.id),
+    };
   };
 })(IllustItem);

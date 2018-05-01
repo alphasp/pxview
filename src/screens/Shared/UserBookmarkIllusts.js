@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import IllustList from '../../components/IllustList';
-import * as userBookmarkIllustActionCreators from '../../common/actions/userBookmarkIllusts';
+import * as userBookmarkIllustsActionCreators from '../../common/actions/userBookmarkIllusts';
 import { makeGetUserBookmarkIllustsItems } from '../../common/selectors';
 
 class UserBookmarkIllusts extends Component {
@@ -89,4 +89,4 @@ export default connect(() => {
       listKey: `${props.navigation.state.key}-userbookmarkIllusts`,
     };
   };
-}, userBookmarkIllustActionCreators)(UserBookmarkIllusts);
+}, userBookmarkIllustsActionCreators)(UserBookmarkIllusts);

@@ -4,131 +4,135 @@ import PastRanking from './PastRanking';
 import PXTabView from '../../components/PXTabView';
 import TabContentWrapper from '../../components/TabContentWrapper';
 import { connectLocalization } from '../../components/Localization';
-import { RANKING_FOR_UI } from '../../common/constants';
+import { RANKING_TYPES, RANKING_FOR_UI } from '../../common/constants';
+import config from '../../common/config';
 
 class Ranking extends Component {
   constructor(props) {
     super(props);
-    const { i18n } = this.props;
     this.state = {
       index: 0,
-      routes: [
-        { key: '1', title: i18n.rankingDay },
-        { key: '2', title: i18n.rankingDayMale },
-        { key: '3', title: i18n.rankingDayFemale },
-        { key: '4', title: i18n.rankingWeekOriginal },
-        { key: '5', title: i18n.rankingWeekRookie },
-        { key: '6', title: i18n.rankingWeek },
-        { key: '7', title: i18n.rankingMonth },
-        { key: '8', title: i18n.rankingPast },
-      ],
+      routes: this.getRoutes(),
     };
   }
 
   componentWillReceiveProps(nextProps) {
     const { lang: prevLang } = this.props;
-    const { lang, i18n } = nextProps;
+    const { lang } = nextProps;
     if (lang !== prevLang) {
       this.setState({
-        routes: [
-          { key: '1', title: i18n.rankingDay },
-          { key: '2', title: i18n.rankingDayMale },
-          { key: '3', title: i18n.rankingDayFemale },
-          { key: '4', title: i18n.rankingWeekOriginal },
-          { key: '5', title: i18n.rankingWeekRookie },
-          { key: '6', title: i18n.rankingWeek },
-          { key: '7', title: i18n.rankingMonth },
-          { key: '8', title: i18n.rankingPast },
-        ],
+        routes: this.getRoutes(),
       });
     }
   }
+
+  getRoutes = () => {
+    const { i18n, navigation } = this.props;
+    const { rankingType } = navigation.state.params;
+    // always return new array so that localized title will be updated on switch language
+    switch (rankingType) {
+      case RANKING_TYPES.ILLUST:
+        return [
+          {
+            key: '1',
+            title: i18n.rankingDay,
+            rankingMode: RANKING_FOR_UI.DAILY_ILLUST,
+            reload: false,
+          },
+          {
+            key: '2',
+            title: i18n.rankingDayMale,
+            rankingMode: RANKING_FOR_UI.DAILY_MALE_ILLUST,
+          },
+          {
+            key: '3',
+            title: i18n.rankingDayFemale,
+            rankingMode: RANKING_FOR_UI.DAILY_FEMALE_ILLUST,
+          },
+          {
+            key: '4',
+            title: i18n.rankingWeekOriginal,
+            rankingMode: RANKING_FOR_UI.WEEKLY_ORIGINAL_ILLUST,
+          },
+          {
+            key: '5',
+            title: i18n.rankingWeekRookie,
+            rankingMode: RANKING_FOR_UI.WEEKLY_ROOKIE_ILLUST,
+          },
+          {
+            key: '6',
+            title: i18n.rankingWeek,
+            rankingMode: RANKING_FOR_UI.WEEKLY_ILLUST,
+          },
+          {
+            key: '7',
+            title: i18n.rankingMonth,
+            rankingMode: RANKING_FOR_UI.MONTHLY_ILLUST,
+          },
+          {
+            key: '8',
+            title: i18n.rankingPast,
+            rankingMode: RANKING_FOR_UI.PAST_ILLUST,
+          },
+        ];
+      case RANKING_TYPES.MANGA:
+        return [
+          {
+            key: '1',
+            title: i18n.rankingDay,
+            rankingMode: RANKING_FOR_UI.DAILY_MANGA,
+            reload: false,
+          },
+          {
+            key: '2',
+            title: i18n.rankingWeekRookie,
+            rankingMode: RANKING_FOR_UI.WEEKLY_ROOKIE_MANGA,
+          },
+          {
+            key: '3',
+            title: i18n.rankingWeek,
+            rankingMode: RANKING_FOR_UI.WEEKLY_MANGA,
+          },
+          {
+            key: '4',
+            title: i18n.rankingMonth,
+            rankingMode: RANKING_FOR_UI.MONTHLY_MANGA,
+          },
+          {
+            key: '5',
+            title: i18n.rankingPast,
+            rankingMode: RANKING_FOR_UI.PAST_MANGA,
+          },
+        ];
+      default:
+        return [];
+    }
+  };
 
   handleChangeTab = index => {
     this.setState({ index });
   };
 
-  renderScene = ({ route, index }) => {
-    // if (Math.abs(this.state.index - this.state.routes.indexOf(route)) > 2) {
-    //   return null;
-    // }
+  renderScene = ({ index }) => {
     const { navigation } = this.props;
-    switch (route.key) {
-      case '1':
-        return (
-          <TabContentWrapper active={index === this.state.index}>
-            <RankingList
-              rankingMode={RANKING_FOR_UI.DAILY}
+    const { rankingType } = navigation.state.params;
+    const { rankingMode, reload } = this.state.routes[index];
+    return (
+      <TabContentWrapper active={index === this.state.index}>
+        {rankingMode === RANKING_FOR_UI.PAST_ILLUST ||
+        rankingMode === RANKING_FOR_UI.PAST_MANGA
+          ? <PastRanking
+              rankingType={rankingType}
+              rankingMode={rankingMode}
               navigation={navigation}
             />
-          </TabContentWrapper>
-        );
-      case '2':
-        return (
-          <TabContentWrapper active={index === this.state.index}>
-            <RankingList
-              rankingMode={RANKING_FOR_UI.DAILY_MALE}
+          : <RankingList
+              rankingMode={rankingMode}
               navigation={navigation}
-            />
-          </TabContentWrapper>
-        );
-      case '3':
-        return (
-          <TabContentWrapper active={index === this.state.index}>
-            <RankingList
-              rankingMode={RANKING_FOR_UI.DAILY_FEMALE}
-              navigation={navigation}
-            />
-          </TabContentWrapper>
-        );
-      case '4':
-        return (
-          <TabContentWrapper active={index === this.state.index}>
-            <RankingList
-              rankingMode={RANKING_FOR_UI.WEEKLY_ORIGINAL}
-              navigation={navigation}
-            />
-          </TabContentWrapper>
-        );
-      case '5':
-        return (
-          <TabContentWrapper active={index === this.state.index}>
-            <RankingList
-              rankingMode={RANKING_FOR_UI.WEEKLY_ROOKIE}
-              navigation={navigation}
-            />
-          </TabContentWrapper>
-        );
-      case '6':
-        return (
-          <TabContentWrapper active={index === this.state.index}>
-            <RankingList
-              rankingMode={RANKING_FOR_UI.WEEKLY}
-              navigation={navigation}
-            />
-          </TabContentWrapper>
-        );
-      case '7':
-        return (
-          <TabContentWrapper active={index === this.state.index}>
-            <RankingList
-              rankingMode={RANKING_FOR_UI.MONTHLY}
-              navigation={navigation}
-            />
-          </TabContentWrapper>
-        );
-      case '8':
-        return (
-          <TabContentWrapper active={index === this.state.index}>
-            <PastRanking
-              rankingMode={RANKING_FOR_UI.PAST}
-              navigation={navigation}
-            />
-          </TabContentWrapper>
-        );
-      default:
-        return null;
-    }
+              reload={reload}
+            />}
+      </TabContentWrapper>
+    );
   };
 
   render() {
@@ -140,7 +144,7 @@ class Ranking extends Component {
         tabBarProps={{
           scrollEnabled: true,
         }}
-        includeStatusBarPadding
+        includeStatusBarPadding={config.navigation.tab}
       />
     );
   }

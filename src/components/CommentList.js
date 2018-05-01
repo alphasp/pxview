@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { StyleSheet, Text, View, RefreshControl, FlatList } from 'react-native';
 import moment from 'moment';
 import { connectLocalization } from '../components/Localization';
@@ -6,7 +6,7 @@ import NoResult from '../components/NoResult';
 import Loader from '../components/Loader';
 import PXTouchable from '../components/PXTouchable';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
-import { globalStyles } from '../styles';
+import { globalStyles, globalStyleVariables } from '../styles';
 import { SCREENS } from '../common/constants';
 
 const styles = StyleSheet.create({
@@ -23,12 +23,41 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  name: {
+    fontWeight: 'bold',
+  },
+  authorBadge: {
+    backgroundColor: globalStyleVariables.PRIMARY_COLOR,
+    marginLeft: 5,
+    paddingVertical: 2,
+    paddingHorizontal: 5,
+    borderRadius: 5,
+  },
+  authorBadgeText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  replyToContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  replyToUserName: {
+    marginLeft: 5,
+  },
+  dateAndReply: {
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   date: {
-    marginLeft: 10,
-    fontSize: 10,
+    color: '#696969',
+  },
+  replyButtonText: {
+    color: globalStyleVariables.PRIMARY_COLOR,
   },
   comment: {
-    marginTop: 5,
+    marginTop: 10,
   },
   nullResultContainer: {
     flex: 1,
@@ -39,30 +68,64 @@ const styles = StyleSheet.create({
   },
 });
 class CommentList extends Component {
-  renderRow = ({ item }) =>
-    <View key={item.id} style={styles.commentContainer}>
-      <PXThumbnailTouchable
-        uri={item.user.profile_image_urls.medium}
-        onPress={() => this.handleOnPressUser(item.user.id)}
-      />
-      <View style={styles.nameCommentContainer}>
-        <View style={styles.nameContainer}>
-          <PXTouchable onPress={() => this.handleOnPressUser(item.user.id)}>
+  handleOnPressUser = userId => {
+    const { navigate } = this.props.navigation;
+    navigate(SCREENS.UserDetail, { userId });
+  };
+
+  renderRow = ({ item }) => {
+    const {
+      authorId,
+      i18n,
+      onPressReplyCommentButton,
+      renderCommentReplies,
+    } = this.props;
+    return (
+      <View key={item.id} style={styles.commentContainer}>
+        <PXThumbnailTouchable
+          uri={item.user.profile_image_urls.medium}
+          onPress={() => this.handleOnPressUser(item.user.id)}
+        />
+        <View style={styles.nameCommentContainer}>
+          <View style={styles.nameContainer}>
+            <PXTouchable onPress={() => this.handleOnPressUser(item.user.id)}>
+              <Text style={styles.name}>
+                {item.user.name}
+              </Text>
+            </PXTouchable>
+            {item.user.id === authorId &&
+              <View style={styles.authorBadge}>
+                <Text style={styles.authorBadgeText}>
+                  {i18n.commentWorkAuthor}
+                </Text>
+              </View>}
+          </View>
+          <View style={styles.comment}>
             <Text>
-              {item.user.name}
+              {item.comment}
             </Text>
-          </PXTouchable>
-          <Text style={styles.date}>
-            {moment(item.date).format('YYYY-MM-DD HH:mm')}
-          </Text>
-        </View>
-        <View style={styles.comment}>
-          <Text>
-            {item.comment}
-          </Text>
+          </View>
+          <View style={styles.dateAndReply}>
+            <Text style={styles.date}>
+              {moment(item.date).format('YYYY-MM-DD HH:mm')}
+            </Text>
+            {onPressReplyCommentButton &&
+              <Fragment>
+                <Text> ・ </Text>
+                <PXTouchable onPress={() => onPressReplyCommentButton(item)}>
+                  <Text style={styles.replyButtonText}>
+                    {i18n.commentReply}
+                  </Text>
+                </PXTouchable>
+              </Fragment>}
+          </View>
+          {item.has_replies &&
+            renderCommentReplies &&
+            renderCommentReplies(item.id)}
         </View>
       </View>
-    </View>;
+    );
+  };
 
   renderFooter = () => {
     const { data: { nextUrl, loading } } = this.props;
@@ -92,7 +155,7 @@ class CommentList extends Component {
         {loaded
           ? <FlatList
               data={maxItems ? items.slice(0, maxItems) : items}
-              keyExtractor={item => item.id}
+              keyExtractor={item => item.id.toString()}
               renderItem={this.renderRow}
               onEndReachedThreshold={0.1}
               onEndReached={loadMoreItems}

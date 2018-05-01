@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
+import { FormLabel, FormInput } from 'react-native-elements';
 import { connectLocalization } from '../../components/Localization';
 import PXTouchable from '../../components/PXTouchable';
 import * as errorActionCreators from '../../common/actions/error';
@@ -20,7 +21,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  textInput: {
+  emailLabel: {
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  emailInput: {
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  feedbackInput: {
     flex: 1,
     margin: 10,
     textAlignVertical: 'top',
@@ -47,8 +56,10 @@ class Feedback extends Component {
 
   constructor(props) {
     super(props);
+    const { user } = props;
     this.state = {
       feedback: '',
+      email: user.mail_address || '',
       loading: false,
     };
   }
@@ -66,7 +77,7 @@ class Feedback extends Component {
     this.ref.off();
   }
 
-  handleOnChangeText = text => {
+  handleOnChangeFeedback = text => {
     const { setParams } = this.props.navigation;
     this.setState({
       feedback: text,
@@ -76,9 +87,15 @@ class Feedback extends Component {
     });
   };
 
+  handleOnChangeEmail = text => {
+    this.setState({
+      email: text,
+    });
+  };
+
   handleOnSubmitFeedback = () => {
     const { i18n, addError, navigation: { goBack } } = this.props;
-    const { feedback } = this.state;
+    const { feedback, email } = this.state;
     Keyboard.dismiss();
     this.setState({ loading: true });
     this.ref
@@ -94,6 +111,7 @@ class Feedback extends Component {
         locale: DeviceInfo.getDeviceLocale(),
         createdAt: firebase.database.ServerValue.TIMESTAMP,
         feedback,
+        email,
       })
       .then(() => {
         this.setState({ loading: false });
@@ -110,17 +128,27 @@ class Feedback extends Component {
 
   render() {
     const { i18n } = this.props;
-    const { feedback, loading } = this.state;
+    const { feedback, email, loading } = this.state;
     return (
       <View style={styles.container}>
+        <FormLabel labelStyle={styles.emailLabel}>
+          {i18n.feedbackEmailOptional}
+        </FormLabel>
+        <FormInput
+          placeholder={i18n.accountSettingsEmail}
+          onChangeText={this.handleOnChangeEmail}
+          value={email}
+          keyboardType="email-address"
+          containerStyle={styles.emailInput}
+        />
         <TextInput
           multiline
           autoFocus
           placeholder={i18n.feedbackPlaceholder}
           placeholderTextColor="#86939e"
           underlineColorAndroid="transparent"
-          style={styles.textInput}
-          onChangeText={this.handleOnChangeText}
+          style={styles.feedbackInput}
+          onChangeText={this.handleOnChangeFeedback}
           value={feedback}
         />
         <OverlaySpinner visible={loading} />
@@ -130,5 +158,10 @@ class Feedback extends Component {
 }
 
 export default connectLocalization(
-  connect(null, errorActionCreators)(Feedback),
+  connect(
+    state => ({
+      user: state.auth.user,
+    }),
+    errorActionCreators,
+  )(Feedback),
 );

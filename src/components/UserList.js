@@ -5,11 +5,12 @@ import PXTouchable from '../components/PXTouchable';
 import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
 import FollowButtonContainer from '../containers/FollowButtonContainer';
 import IllustItem from './IllustItem';
+import NovelItem from './NovelItem';
 import { globalStyleVariables } from '../styles';
 import { SCREENS } from '../common/constants';
 
 const AVATAR_SIZE = 50;
-const ILLUST_PREVIEW_COLUMNS = 3;
+const PREVIEW_COLUMNS = 3;
 
 const styles = StyleSheet.create({
   container: {
@@ -50,44 +51,53 @@ const styles = StyleSheet.create({
 });
 
 class UserList extends Component {
-  renderItem = ({ item }) => {
-    const { navigation } = this.props;
-    return (
-      <View key={item.user.id} style={styles.itemContainer}>
-        <View style={styles.imagePreviews}>
-          {item.illusts &&
-            item.illusts.map((illust, index) =>
-              <IllustItem
-                key={illust.id}
-                item={illust}
-                index={index}
-                numColumns={ILLUST_PREVIEW_COLUMNS}
-                onPressItem={() =>
-                  this.handleOnPressImagePreview(item.illusts, index)}
-              />,
-            )}
-        </View>
-        <View style={styles.userInfoContainer}>
-          <PXTouchable
-            style={styles.userInfo}
-            onPress={() => this.handleOnPressAvatar(item.user.id)}
-          >
-            <Text>
-              {item.user.name}
-            </Text>
-          </PXTouchable>
-          <FollowButtonContainer user={item.user} navigation={navigation} />
-        </View>
-        <View style={styles.avatarContainer}>
-          <PXThumbnailTouchable
-            uri={item.user.profile_image_urls.medium}
-            size={AVATAR_SIZE}
-            onPress={() => this.handleOnPressAvatar(item.user.id)}
-          />
-        </View>
+  renderItem = ({ item }) =>
+    <View key={item.user.id} style={styles.itemContainer}>
+      <View style={styles.imagePreviews}>
+        {item.illusts &&
+          item.illusts.map((illust, index) =>
+            <IllustItem
+              key={`userIllust-${illust.id}`}
+              illustId={illust.id}
+              index={index}
+              numColumns={PREVIEW_COLUMNS}
+              onPressItem={() =>
+                this.handleOnPressIllustPreview(item.illusts, index)}
+            />,
+          )}
+        {(!item.illusts || !item.illusts.length) &&
+          item.novels &&
+          item.novels.map((novel, index) =>
+            <NovelItem
+              key={`userNovel-${novel.id}`}
+              gridView
+              novelId={novel.id}
+              index={index}
+              numColumns={PREVIEW_COLUMNS}
+              onPressItem={() =>
+                this.handleOnPressNovelPreview(item.novels, index)}
+            />,
+          )}
       </View>
-    );
-  };
+      <View style={styles.userInfoContainer}>
+        <PXTouchable
+          style={styles.userInfo}
+          onPress={() => this.handleOnPressAvatar(item.user.id)}
+        >
+          <Text>
+            {item.user.name}
+          </Text>
+        </PXTouchable>
+        <FollowButtonContainer userId={item.user.id} />
+      </View>
+      <View style={styles.avatarContainer}>
+        <PXThumbnailTouchable
+          uri={item.user.profile_image_urls.medium}
+          size={AVATAR_SIZE}
+          onPress={() => this.handleOnPressAvatar(item.user.id)}
+        />
+      </View>
+    </View>;
 
   renderFooter = () => {
     const { userList: { nextUrl } } = this.props;
@@ -98,9 +108,14 @@ class UserList extends Component {
       : null;
   };
 
-  handleOnPressImagePreview = (illusts, index) => {
+  handleOnPressIllustPreview = (illusts, index) => {
     const { navigate } = this.props.navigation;
     navigate(SCREENS.Detail, { items: illusts, index });
+  };
+
+  handleOnPressNovelPreview = (novels, index) => {
+    const { navigate } = this.props.navigation;
+    navigate(SCREENS.NovelDetail, { items: novels, index });
   };
 
   handleOnPressAvatar = userId => {
@@ -120,7 +135,7 @@ class UserList extends Component {
         {items && items.length
           ? <FlatList
               data={items}
-              keyExtractor={item => item.user.id}
+              keyExtractor={item => item.user.id.toString()}
               renderItem={this.renderItem}
               onEndReachedThreshold={0.1}
               onEndReached={loadMoreItems}

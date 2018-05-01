@@ -10,7 +10,7 @@ import {
   fork,
 } from 'redux-saga/effects';
 import { cloneableGenerator, createMockTask } from 'redux-saga/utils';
-import { REHYDRATE } from 'redux-persist/constants';
+import { REHYDRATE } from 'redux-persist';
 import {
   login,
   loginSuccess,

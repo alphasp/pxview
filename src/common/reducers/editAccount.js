@@ -4,6 +4,7 @@ const initState = {
   loading: false,
   loaded: false,
   success: false,
+  validationErrors: null,
 };
 
 export default function editAccount(state = initState, action) {
@@ -15,6 +16,7 @@ export default function editAccount(state = initState, action) {
         ...state,
         loading: true,
         success: false,
+        validationErrors: null,
       };
     case EDIT_ACCOUNT.SUCCESS:
       return {
@@ -29,6 +31,8 @@ export default function editAccount(state = initState, action) {
         ...state,
         loading: false,
         loaded: true,
+        success: false,
+        validationErrors: action.payload.validationErrors,
       };
     default:
       return state;

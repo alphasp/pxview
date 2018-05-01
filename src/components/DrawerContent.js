@@ -9,7 +9,9 @@ import UserCover from './UserCover';
 import Separator from './Separator';
 import DrawerNavigatorItem from './DrawerNavigatorItem';
 import * as authActionCreators from '../common/actions/auth';
-import * as browsingHistoryActionCreators from '../common/actions/browsingHistory';
+import * as browsingHistoryIllustsActionCreators from '../common/actions/browsingHistoryIllusts';
+import * as browsingHistoryNovelsActionCreators from '../common/actions/browsingHistoryNovels';
+import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import { globalStyles } from '../styles';
 import { SCREENS } from '../common/constants';
 
@@ -156,9 +158,16 @@ class DrawerContent extends Component {
   };
 
   handleOnPressConfirmLogout = () => {
-    const { clearBrowsingHistory, logout } = this.props;
+    const {
+      clearBrowsingHistoryIllusts,
+      clearBrowsingHistoryNovels,
+      clearSearchHistory,
+      logout,
+    } = this.props;
     logout();
-    clearBrowsingHistory();
+    clearBrowsingHistoryIllusts();
+    clearBrowsingHistoryNovels();
+    clearSearchHistory();
     // clear cookies set from webview for advance account settings
     CookieManager.clearAll();
   };
@@ -214,7 +223,9 @@ export default connectLocalization(
       }),
       {
         ...authActionCreators,
-        ...browsingHistoryActionCreators,
+        ...browsingHistoryIllustsActionCreators,
+        ...browsingHistoryNovelsActionCreators,
+        ...searchHistoryActionCreators,
       },
     )(DrawerContent),
   ),

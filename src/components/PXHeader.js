@@ -1,14 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { StyleSheet, View, Platform, StatusBar } from 'react-native';
+import { StyleSheet, View, Platform, SafeAreaView } from 'react-native';
 import { HeaderBackButton, withNavigation } from 'react-navigation';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: globalStyleVariables.STATUSBAR_HEIGHT,
-  },
   containerShadow: {
     ...Platform.select({
       ios: {
@@ -31,7 +28,8 @@ const styles = StyleSheet.create({
   },
   absolutePosition: {
     position: 'absolute',
-    top: StatusBar.currentHeight || 0, // android only for use with translucent status bar
+    // top: StatusBar.currentHeight || 0, // android only for use with translucent status bar
+    top: 0,
     left: 0,
     right: 0,
     bottom: 0,
@@ -42,6 +40,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, .3)',
   },
   subContainer: {
+    ...Platform.select({
+      ios: {
+        paddingTop:
+          parseInt(Platform.Version, 10) < 11
+            ? globalStyleVariables.STATUSBAR_HEIGHT
+            : 0,
+      },
+      android: {
+        paddingTop: globalStyleVariables.STATUSBAR_HEIGHT,
+        height:
+          globalStyleVariables.STATUSBAR_HEIGHT +
+          globalStyleVariables.APPBAR_HEIGHT,
+      },
+    }),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -56,6 +68,7 @@ class PXHeader extends Component {
     headerTitle: PropTypes.element,
     headerRight: PropTypes.element,
     darkTheme: PropTypes.bool,
+    withShadow: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -65,6 +78,7 @@ class PXHeader extends Component {
     headerTitle: null,
     headerRight: null,
     darkTheme: false,
+    withShadow: true,
   };
 
   handleOnPressDrawerMenuButton = () => {
@@ -89,13 +103,14 @@ class PXHeader extends Component {
       headerRight,
       darkTheme,
       absolutePosition,
+      withShadow,
     } = this.props;
     return (
-      <View
+      <SafeAreaView
         style={[
-          styles.container,
           darkTheme && styles.containerDark,
-          absolutePosition ? styles.absolutePosition : styles.containerShadow,
+          absolutePosition && styles.absolutePosition,
+          withShadow && styles.containerShadow,
         ]}
       >
         <View style={styles.subContainer}>
@@ -112,7 +127,7 @@ class PXHeader extends Component {
           {headerTitle}
           {headerRight}
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }

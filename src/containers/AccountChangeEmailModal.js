@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { View, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
+import { withFormik, Field } from 'formik';
 import { connectLocalization } from '../components/Localization';
 import ModalForm from '../components/ModalForm';
 import PXFormInput from '../components/PXFormInput';
-import * as authActionCreators from '../common/actions/auth';
 import * as modalActionCreators from '../common/actions/modal';
 import * as editAccountActionCreators from '../common/actions/editAccount';
-
-const FORM_ID = 'ChangeEmail';
 
 const validate = (values, props) => {
   const { currentPassword, newPassword, email } = values;
@@ -28,44 +25,52 @@ const validate = (values, props) => {
   return errors;
 };
 
-class AccountChangeEmail extends Component {
+const handleOnSubmit = (values, { props }) => {
+  const { editAccount, user } = props;
+  const { currentPassword, newPassword, email } = values;
+  let password;
+  if (user.isProvisionalAccount && user.password) {
+    password = user.password;
+  } else {
+    password = currentPassword;
+  }
+  if (
+    password &&
+    (!user.isProvisionalAccount ||
+      (user.isProvisionalAccount && newPassword)) &&
+    email
+  ) {
+    Keyboard.dismiss();
+    editAccount({
+      email,
+      currentPassword: password,
+      newPassword,
+    });
+  }
+};
+
+class AccountChangeEmailModal extends Component {
   componentWillReceiveProps(nextProps) {
     const { editAccountState: { prevSuccess } } = this.props;
     const {
-      editAccountState: { success },
+      editAccountState: { success, validationErrors },
       onClose,
-      editAccountClear,
+      isSubmitting,
+      setErrors,
+      setSubmitting,
     } = nextProps;
     if (success && success !== prevSuccess) {
       onClose();
-      editAccountClear();
+    } else if (validationErrors && isSubmitting) {
+      setSubmitting(false);
+      setErrors(validationErrors);
     }
   }
 
-  submit = data => {
-    const { editAccount, user } = this.props;
-    const { currentPassword, newPassword, email } = data;
-    let password;
-    if (user.isProvisionalAccount && user.password) {
-      password = user.password;
-    } else {
-      password = currentPassword;
-    }
-    if (
-      password &&
-      (!user.isProvisionalAccount ||
-        (user.isProvisionalAccount && newPassword)) &&
-      email
-    ) {
-      Keyboard.dismiss();
-      editAccount({
-        formId: FORM_ID,
-        email,
-        currentPassword: password,
-        newPassword,
-      });
-    }
-  };
+  componentWillUnmount() {
+    const { editAccountClear } = this.props;
+    editAccountClear();
+  }
 
   render() {
     const {
@@ -74,6 +79,8 @@ class AccountChangeEmail extends Component {
       onClose,
       i18n,
       handleSubmit,
+      setFieldValue,
+      setFieldTouched,
     } = this.props;
     return (
       <ModalForm
@@ -81,7 +88,7 @@ class AccountChangeEmail extends Component {
           i18n.accountSettingsChange,
           i18n.accountSettingsEmail,
         )}
-        onSubmit={handleSubmit(this.submit)}
+        onSubmit={handleSubmit}
         onClose={onClose}
         loading={loading}
       >
@@ -92,6 +99,8 @@ class AccountChangeEmail extends Component {
               component={PXFormInput}
               label={i18n.password}
               secureTextEntry
+              onChangeText={setFieldValue}
+              onBlur={setFieldTouched}
             />}
           {user.isProvisionalAccount &&
             <Field
@@ -99,12 +108,16 @@ class AccountChangeEmail extends Component {
               component={PXFormInput}
               label={i18n.accountSettingsPasswordNew}
               secureTextEntry
+              onChangeText={setFieldValue}
+              onBlur={setFieldTouched}
             />}
           <Field
             name="email"
             component={PXFormInput}
             label={i18n.accountSettingsEmail}
             autoCapitalize="none"
+            onChangeText={setFieldValue}
+            onBlur={setFieldTouched}
           />
         </View>
       </ModalForm>
@@ -112,21 +125,24 @@ class AccountChangeEmail extends Component {
   }
 }
 
-const AccountChangeEmailForm = reduxForm({
-  form: FORM_ID,
+const AccountChangeEmailModalForm = withFormik({
+  mapPropsToValues: () => ({
+    currentPassword: '',
+    newPassword: '',
+    email: '',
+  }),
   validate,
-})(AccountChangeEmail);
+  handleSubmit: handleOnSubmit,
+})(AccountChangeEmailModal);
 
 export default connectLocalization(
   connect(
     state => ({
-      auth: state.auth,
       editAccountState: state.editAccount,
     }),
     {
-      ...authActionCreators,
       ...modalActionCreators,
       ...editAccountActionCreators,
     },
-  )(AccountChangeEmailForm),
+  )(AccountChangeEmailModalForm),
 );

@@ -71,38 +71,19 @@ const IllustCollection = props => {
         </PXTouchable>
       </View>
       <View style={styles.imagePreviews}>
-        {illusts &&
-          illusts.length &&
-          illusts.map((item, index) =>
-            <IllustItem
-              key={item.id}
-              item={item}
-              index={index}
-              numColumns={ILLUST_COLUMNS}
-              onPressItem={() =>
-                navigate(SCREENS.Detail, { items: illusts, index })}
-              containerStyle={{
-                width:
-                  (globalStyleVariables.WINDOW_WIDTH - CONTAINER_MARGIN * 2) /
-                    ILLUST_COLUMNS -
-                  1,
-                height:
-                  (globalStyleVariables.WINDOW_WIDTH - CONTAINER_MARGIN * 2) /
-                    ILLUST_COLUMNS -
-                  1,
-              }}
-              imageStyle={{
-                width:
-                  (globalStyleVariables.WINDOW_WIDTH - CONTAINER_MARGIN * 2) /
-                    ILLUST_COLUMNS -
-                  1,
-                height:
-                  (globalStyleVariables.WINDOW_WIDTH - CONTAINER_MARGIN * 2) /
-                    ILLUST_COLUMNS -
-                  1,
-              }}
-            />,
-          )}
+        {illusts && illusts.length
+          ? illusts.map((item, index) =>
+              <IllustItem
+                key={item.id}
+                illustId={item.id}
+                index={index}
+                numColumns={ILLUST_COLUMNS}
+                onPressItem={() =>
+                  navigate(SCREENS.Detail, { items: illusts, index })}
+                parentContainerMargin={CONTAINER_MARGIN}
+              />,
+            )
+          : null}
       </View>
     </View>
   );

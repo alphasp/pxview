@@ -5,6 +5,7 @@ const initState = {
   loaded: false,
   refreshing: false,
   items: [],
+  word: null,
   offset: 0,
   nextUrl: null,
 };
@@ -18,6 +19,7 @@ export default function searchUsersAutoComplete(state = initState, action) {
         ...state,
         loading: true,
         refreshing: action.payload.refreshing,
+        word: action.payload.word,
       };
     case SEARCH_USERS_AUTOCOMPLETE.SUCCESS:
       return {

@@ -1,38 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { Button } from 'react-native-elements';
 import { connectLocalization } from '../../components/Localization';
 import IllustList from '../../components/IllustList';
-import EmptyStateView from '../../components/EmptyStateView';
 import * as followingUserIllustsActionCreators from '../../common/actions/followingUserIllusts';
 import { getFollowingUserIllustsItems } from '../../common/selectors';
 import { SCREENS } from '../../common/constants';
-import { globalStyleVariables } from '../../styles';
 
 class FollowingUserIllusts extends Component {
   componentDidMount() {
     const {
-      user,
       fetchFollowingUserIllusts,
       clearFollowingUserIllusts,
+      options,
     } = this.props;
     clearFollowingUserIllusts();
-    if (user) {
-      fetchFollowingUserIllusts();
-    }
+    fetchFollowingUserIllusts(options);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { user: prevUser } = this.props;
+    const { options: prevOptions } = this.props;
     const {
-      user,
+      options,
       fetchFollowingUserIllusts,
       clearFollowingUserIllusts,
     } = nextProps;
-    if (user && user !== prevUser) {
+    if (options !== prevOptions) {
       clearFollowingUserIllusts();
-      fetchFollowingUserIllusts();
+      fetchFollowingUserIllusts(options);
     }
   }
 
@@ -42,14 +37,18 @@ class FollowingUserIllusts extends Component {
       followingUserIllusts: { loading, nextUrl },
     } = this.props;
     if (!loading && nextUrl) {
-      fetchFollowingUserIllusts(nextUrl);
+      fetchFollowingUserIllusts(null, nextUrl);
     }
   };
 
   handleOnRefresh = () => {
-    const { fetchFollowingUserIllusts, clearFollowingUserIllusts } = this.props;
+    const {
+      fetchFollowingUserIllusts,
+      clearFollowingUserIllusts,
+      options,
+    } = this.props;
     clearFollowingUserIllusts();
-    fetchFollowingUserIllusts(null, true);
+    fetchFollowingUserIllusts(options, null, true);
   };
 
   handleOnPressFindRecommendedUsers = () => {
@@ -58,31 +57,21 @@ class FollowingUserIllusts extends Component {
   };
 
   render() {
-    const { followingUserIllusts, items, user, i18n, listKey } = this.props;
-    if (!user) {
-      return (
-        <EmptyStateView
-          iconName="users"
-          iconType="font-awesome"
-          title={i18n.noFollowUser}
-          description={i18n.noNewWorkFollowSuggestion}
-          actionButton={
-            <Button
-              title={i18n.recommendedUsersFind}
-              backgroundColor={globalStyleVariables.PRIMARY_COLOR}
-              onPress={this.handleOnPressFindRecommendedUsers}
-              raised
-            />
-          }
-        />
-      );
-    }
+    const {
+      followingUserIllusts,
+      items,
+      listKey,
+      renderEmpty,
+      renderHeader,
+    } = this.props;
     return (
       <IllustList
         data={{ ...followingUserIllusts, items }}
         listKey={listKey}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
+        renderEmpty={renderEmpty}
+        renderHeader={renderHeader}
       />
     );
   }
@@ -91,11 +80,10 @@ class FollowingUserIllusts extends Component {
 export default connectLocalization(
   withNavigation(
     connect((state, props) => {
-      const { followingUserIllusts, auth: { user } } = state;
+      const { followingUserIllusts } = state;
       return {
         followingUserIllusts,
         items: getFollowingUserIllustsItems(state),
-        user,
         listKey: `${props.navigation.state.key}-followingUserIllusts`,
       };
     }, followingUserIllustsActionCreators)(FollowingUserIllusts),

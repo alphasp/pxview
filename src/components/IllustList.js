@@ -27,7 +27,7 @@ class IllustList extends Component {
   componentDidUpdate(prevProps) {
     const { data: { items: prevItems } } = prevProps;
     const { data: { items }, listKey, maxItems } = this.props;
-    if (listKey && items !== prevItems) {
+    if (listKey && (items && items.length) && items !== prevItems) {
       DeviceEventEmitter.emit('masterListUpdate', {
         listKey,
         items: maxItems ? items.slice(0, maxItems) : items,
@@ -38,7 +38,7 @@ class IllustList extends Component {
   renderItem = ({ item, index }) =>
     <IllustItem
       key={item.id}
-      item={item}
+      illustId={item.id}
       index={index}
       numColumns={ILLUST_COLUMNS}
       onPressItem={() => this.handleOnPressItem(item, index)}
@@ -79,7 +79,10 @@ class IllustList extends Component {
   render() {
     const {
       data: { items, loading, loaded, refreshing },
+      listKey,
       onRefresh,
+      renderEmpty,
+      renderHeader,
       loadMoreItems,
       onScroll,
       showsVerticalScrollIndicator,
@@ -87,6 +90,7 @@ class IllustList extends Component {
     } = this.props;
     return (
       <View style={globalStyles.container}>
+        {!loaded && renderHeader && renderHeader()}
         {(!items || (!loaded && loading)) && <Loader />}
         {loaded
           ? <FlatList
@@ -98,7 +102,8 @@ class IllustList extends Component {
                   : items
               }
               numColumns={ILLUST_COLUMNS}
-              keyExtractor={item => item.id}
+              keyExtractor={item => item.id.toString()}
+              listKey={listKey}
               renderItem={this.renderItem}
               getItemLayout={(data, index) => ({
                 length: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS,
@@ -110,6 +115,8 @@ class IllustList extends Component {
               initialNumToRender={5}
               onEndReachedThreshold={0.1}
               onEndReached={loadMoreItems}
+              ListEmptyComponent={renderEmpty}
+              ListHeaderComponent={renderHeader}
               ListFooterComponent={this.renderFooter}
               onScroll={onScroll}
               refreshControl={

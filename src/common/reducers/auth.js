@@ -1,4 +1,4 @@
-import { REHYDRATE } from 'redux-persist/constants';
+import { REHYDRATE } from 'redux-persist';
 import {
   AUTH_LOGIN,
   AUTH_SIGNUP,
@@ -50,7 +50,7 @@ export default function auth(
     case REHYDRATE:
       return {
         ...state,
-        ...action.payload.auth,
+        ...(action.payload && action.payload.auth),
         rehydrated: false,
       };
     case AUTH_REHYDRATE.SUCCESS:

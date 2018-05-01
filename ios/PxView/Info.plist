@@ -91,5 +91,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+    <string>pixiv</string>
+	</array>
 </dict>
 </plist>

@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { View, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
+import { withFormik, Field } from 'formik';
 import { connectLocalization } from '../components/Localization';
 import ModalForm from '../components/ModalForm';
 import PXFormInput from '../components/PXFormInput';
-import * as authActionCreators from '../common/actions/auth';
 import * as modalActionCreators from '../common/actions/modal';
 import * as editAccountActionCreators from '../common/actions/editAccount';
-
-const FORM_ID = 'changePassword';
 
 const validate = (values, props) => {
   const { currentPassword, newPassword } = values;
@@ -24,40 +21,52 @@ const validate = (values, props) => {
   return errors;
 };
 
+const handleOnSubmit = (values, { props }) => {
+  const { editAccount } = props;
+  const { currentPassword, newPassword } = values;
+  if (currentPassword && newPassword) {
+    Keyboard.dismiss();
+    editAccount({ currentPassword, newPassword });
+  }
+};
+
 class AccountChangePasswordModal extends Component {
   componentWillReceiveProps(nextProps) {
     const { editAccountState: { prevSuccess } } = this.props;
     const {
-      editAccountState: { success },
+      editAccountState: { success, validationErrors },
       onClose,
-      editAccountClear,
+      isSubmitting,
+      setErrors,
+      setSubmitting,
     } = nextProps;
     if (success && success !== prevSuccess) {
+      setSubmitting(false);
       onClose();
-      editAccountClear();
+    } else if (validationErrors && isSubmitting) {
+      setSubmitting(false);
+      setErrors(validationErrors);
     }
   }
 
-  submit = data => {
-    const { editAccount } = this.props;
-    const { currentPassword, newPassword } = data;
-    if (currentPassword && newPassword) {
-      Keyboard.dismiss();
-      editAccount({ formId: FORM_ID, currentPassword, newPassword });
-    }
-  };
+  componentWillUnmount() {
+    const { editAccountClear } = this.props;
+    editAccountClear();
+  }
 
   render() {
     const {
       editAccountState: { loading },
       onClose,
-      i18n,
       handleSubmit,
+      setFieldValue,
+      setFieldTouched,
+      i18n,
     } = this.props;
     return (
       <ModalForm
         title={i18n.formatString(i18n.accountSettingsChange, i18n.password)}
-        onSubmit={handleSubmit(this.submit)}
+        onSubmit={handleSubmit}
         onClose={onClose}
         loading={loading}
       >
@@ -67,12 +76,16 @@ class AccountChangePasswordModal extends Component {
             component={PXFormInput}
             label={i18n.accountSettingsPasswordCurrent}
             secureTextEntry
+            onChangeText={setFieldValue}
+            onBlur={setFieldTouched}
           />
           <Field
             name="newPassword"
             component={PXFormInput}
             label={i18n.accountSettingsPasswordNew}
             secureTextEntry
+            onChangeText={setFieldValue}
+            onBlur={setFieldTouched}
           />
         </View>
       </ModalForm>
@@ -80,19 +93,21 @@ class AccountChangePasswordModal extends Component {
   }
 }
 
-const AccountChangePasswordModalForm = reduxForm({
-  form: FORM_ID,
+const AccountChangePasswordModalForm = withFormik({
+  mapPropsToValues: () => ({
+    currentPassword: '',
+    newPassword: '',
+  }),
   validate,
+  handleSubmit: handleOnSubmit,
 })(AccountChangePasswordModal);
 
 export default connectLocalization(
   connect(
     state => ({
-      auth: state.auth,
       editAccountState: state.editAccount,
     }),
     {
-      ...authActionCreators,
       ...modalActionCreators,
       ...editAccountActionCreators,
     },

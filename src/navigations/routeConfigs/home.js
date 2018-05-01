@@ -1,9 +1,9 @@
-import Home from '../../screens/Home/Home';
+import Recommended from '../../screens/Recommended/Recommended';
 import { SCREENS } from '../../common/constants';
 
 const config = {
-  [SCREENS.Home]: {
-    screen: Home,
+  [SCREENS.Recommended]: {
+    screen: Recommended,
     navigationOptions: {
       header: null,
     },

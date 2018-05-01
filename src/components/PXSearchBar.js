@@ -7,7 +7,7 @@ import { connectLocalization } from './Localization';
 import PXHeader from './PXHeader';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import { SEARCH_TYPES } from '../common/constants';
-import { globalStyles } from '../styles';
+import { globalStyles, globalStyleVariables } from '../styles';
 
 class PXSearchBar extends Component {
   static defaultProps = {
@@ -39,9 +39,12 @@ class PXSearchBar extends Component {
       <View style={globalStyles.container}>
         <SearchBar
           containerStyle={{
-            backgroundColor: '#fff',
+            backgroundColor: globalStyleVariables.PRIMARY_COLOR,
             borderTopWidth: 0,
             borderBottomWidth: 0,
+          }}
+          inputStyle={{
+            backgroundColor: '#fff',
           }}
           lightTheme
           selectionColor="#90CAF9"
@@ -57,7 +60,6 @@ class PXSearchBar extends Component {
           returnKeyType="search"
           defaultValue={word}
           autoCorrect={false}
-          textInputRef="searchBar"
           clearIcon={word && isFocus ? true : false} // eslint-disable-line no-unneeded-ternary
         />
       </View>
@@ -71,6 +73,7 @@ class PXSearchBar extends Component {
       showMenuButton,
       headerRight,
       onPressBackButton,
+      withShadow,
     } = this.props;
     return (
       <PXHeader
@@ -80,6 +83,8 @@ class PXSearchBar extends Component {
         showBackButton={showBackButton}
         showMenuButton={showMenuButton}
         onPressBackButton={onPressBackButton}
+        withShadow={withShadow}
+        darkTheme
       />
     );
   }

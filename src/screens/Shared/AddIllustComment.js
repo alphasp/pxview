@@ -89,7 +89,7 @@ class AddIllustComment extends Component {
           multiline
           autoFocus
           maxLength={140}
-          placeholder={i18n.commentAdd}
+          placeholder={i18n.commentInput}
           placeholderTextColor="#86939e"
           underlineColorAndroid="transparent"
           style={styles.textInput}

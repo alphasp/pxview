@@ -25,13 +25,14 @@ class NewMangas extends Component {
   };
 
   render() {
-    const { newMangas, items, listKey } = this.props;
+    const { newMangas, items, listKey, renderHeader } = this.props;
     return (
       <IllustList
         data={{ ...newMangas, items }}
         listKey={listKey}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
+        renderHeader={renderHeader}
       />
     );
   }

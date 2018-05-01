@@ -9,7 +9,7 @@ import {
   Keyboard,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
+import { withFormik, Field } from 'formik';
 import { Button } from 'react-native-elements';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../components/Localization';
@@ -49,6 +49,15 @@ const validate = (values, props) => {
   return errors;
 };
 
+const handleOnSubmit = (values, { props }) => {
+  const { signUp } = props;
+  const { nickname } = values;
+  if (nickname) {
+    Keyboard.dismiss();
+    signUp(nickname);
+  }
+};
+
 class SignUpModal extends Component {
   componentWillReceiveProps(nextProps) {
     const { auth: { user: prevUser }, closeModal } = this.props;
@@ -63,17 +72,14 @@ class SignUpModal extends Component {
     closeModal();
   };
 
-  submit = data => {
-    const { signUp } = this.props;
-    const { nickname } = data;
-    if (nickname) {
-      Keyboard.dismiss();
-      signUp(nickname);
-    }
-  };
-
   render() {
-    const { auth: { loading }, i18n, handleSubmit } = this.props;
+    const {
+      auth: { loading },
+      i18n,
+      handleSubmit,
+      setFieldValue,
+      setFieldTouched,
+    } = this.props;
     return (
       <Modal
         animationType="fade"
@@ -92,13 +98,15 @@ class SignUpModal extends Component {
                       component={PXFormInput}
                       label={i18n.signUpNickname}
                       autoCapitalize="none"
+                      onChangeText={setFieldValue}
+                      onBlur={setFieldTouched}
                     />
                     <Button
                       title={i18n.signUpStart}
                       containerViewStyle={styles.buttonContainer}
                       backgroundColor={globalStyleVariables.PRIMARY_COLOR}
                       raised
-                      onPress={handleSubmit(this.submit)}
+                      onPress={handleSubmit}
                     />
                   </View>
                 </KeyboardAvoidingView>
@@ -115,10 +123,12 @@ class SignUpModal extends Component {
   }
 }
 
-const SignUpModalForm = reduxForm({
-  form: 'signUp',
-  destroyOnUnmount: true,
+const SignUpModalForm = withFormik({
+  mapPropsToValues: () => ({
+    nickname: '',
+  }),
   validate,
+  handleSubmit: handleOnSubmit,
 })(SignUpModal);
 
 export default connectLocalization(

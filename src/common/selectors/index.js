@@ -4,6 +4,7 @@
 import { createSelector, createSelectorCreator } from 'reselect';
 import equals from 'shallow-equals';
 import { denormalize } from 'normalizr';
+import parseNovelText from '../helpers/novelTextParser';
 import Schemas from '../constants/schemas';
 
 function defaultEqualityCheck(currentVal, previousVal) {
@@ -41,17 +42,26 @@ const selectRanking = state => state.ranking;
 const selectWalkthroughIllusts = state => state.walkthroughIllusts;
 const selectRecommendedIllusts = state => state.recommendedIllusts;
 const selectRecommendedMangas = state => state.recommendedMangas;
+const selectRecommendedNovels = state => state.recommendedNovels;
 const selectTrendingIllustTags = state => state.trendingIllustTags;
-const selectSearch = state => state.search;
+const selectTrendingNovelTags = state => state.trendingNovelTags;
+const selectSearchIllusts = state => state.searchIllusts;
+const selectSearchNovels = state => state.searchNovels;
 const selectRelatedIllusts = state => state.relatedIllusts;
 const selectFollowingUserIllusts = state => state.followingUserIllusts;
+const selectFollowingUserNovels = state => state.followingUserNovels;
 const selectNewIllusts = state => state.newIllusts;
 const selectNewMangas = state => state.newMangas;
-const selectMyPixiv = state => state.myPixiv;
+const selectNewNovels = state => state.newNovels;
+const selectMyPixivIllusts = state => state.myPixivIllusts;
+const selectMyPixivNovels = state => state.myPixivNovels;
 const selectUserBookmarkIllusts = state => state.userBookmarkIllusts;
 const selectMyPrivateBookmarkIllusts = state => state.myPrivateBookmarkIllusts;
+const selectUserBookmarkNovels = state => state.userBookmarkNovels;
+const selectMyPrivateBookmarkNovels = state => state.myPrivateBookmarkNovels;
 const selectUserIllusts = state => state.userIllusts;
 const selectUserMangas = state => state.userMangas;
+const selectUserNovels = state => state.userNovels;
 
 const selectRecommendedUsers = state => state.recommendedUsers;
 const selectSearchUsersAutoComplete = state => state.searchUsersAutoComplete;
@@ -63,8 +73,15 @@ const selectSearchUsers = state => state.searchUsers;
 const selectUserDetail = state => state.userDetail;
 
 const selectIllustComments = state => state.illustComments;
+const selectNovelComments = state => state.novelComments;
+const selectIllustCommentReplies = state => state.illustCommentReplies;
+const selectNovelCommentReplies = state => state.novelCommentReplies;
 
-const selectBrowsingHistory = state => state.browsingHistory;
+const selectNovelSeries = state => state.novelSeries;
+const selectNovelText = state => state.novelText;
+
+const selectBrowsingHistoryIllusts = state => state.browsingHistoryIllusts;
+const selectBrowsingHistoryNovels = state => state.browsingHistoryNovels;
 
 const selectHighlightTags = state => state.highlightTags.items;
 const selectMuteTags = state => state.muteTags.items;
@@ -110,7 +127,53 @@ const createIllustItemSelector = createSelectorCreator(
   },
 );
 
+const createNovelItemsSelector = createSelectorCreator(
+  specialMemoize,
+  (prev, next) => {
+    if (!prev && !next) {
+      return false;
+    }
+    return equals(
+      prev,
+      next,
+      (p, n) =>
+        p.id === n.id &&
+        p.is_bookmarked === n.is_bookmarked &&
+        p.user.is_followed === n.user.is_followed,
+    );
+  },
+);
+
+const createNovelItemSelector = createSelectorCreator(
+  specialMemoize,
+  (prev, next) => {
+    if (!prev || !next) {
+      return false;
+    }
+    return (
+      prev.id === next.id &&
+      prev.is_bookmarked === next.is_bookmarked &&
+      (prev.user && prev.user.is_followed) ===
+        (next.user && next.user.is_followed)
+    );
+  },
+);
+
 const createUserItemsSelector = createSelectorCreator(
+  specialMemoize,
+  (prev, next) => {
+    if (!prev && !next) {
+      return false;
+    }
+    return equals(
+      prev,
+      next,
+      (p, n) => p.id === n.id && p.is_followed === n.is_followed,
+    );
+  },
+);
+
+const createUserPreviewItemsSelector = createSelectorCreator(
   specialMemoize,
   (prev, next) => {
     if (!prev && !next) {
@@ -125,6 +188,16 @@ const createUserItemsSelector = createSelectorCreator(
 );
 
 const createUserItemSelector = createSelectorCreator(
+  specialMemoize,
+  (prev, next) => {
+    if (!prev || !next) {
+      return false;
+    }
+    return prev.id === next.id && prev.is_followed === next.is_followed;
+  },
+);
+
+const createUserDetailItemSelector = createSelectorCreator(
   specialMemoize,
   (prev, next) => {
     if (!prev || !next) {
@@ -179,7 +252,7 @@ const createTagsWithStatusSelector = createSelectorCreator(
   },
 );
 
-export const makeGetRankingItems = () =>
+export const makeGetIllustRankingItems = () =>
   createIllustItemsSelector(
     [selectRanking, selectEntities, getProps],
     (ranking, entities, props) =>
@@ -190,14 +263,27 @@ export const makeGetRankingItems = () =>
       ),
   );
 
-export const makeGetSearchItems = () =>
+export const makeGetSearchIllustsItems = () =>
   createIllustItemsSelector(
-    [selectSearch, selectEntities, getProps],
-    (search, entities, props) =>
-      search[props.navigationStateKey]
+    [selectSearchIllusts, selectEntities, getProps],
+    (searchIllusts, entities, props) =>
+      searchIllusts[props.navigationStateKey]
         ? denormalize(
-            search[props.navigationStateKey].items,
+            searchIllusts[props.navigationStateKey].items,
             Schemas.ILLUST_ARRAY,
+            entities,
+          )
+        : defaultArray,
+  );
+
+export const makeGetSearchNovelsItems = () =>
+  createNovelItemsSelector(
+    [selectSearchNovels, selectEntities, getProps],
+    (searchNovels, entities, props) =>
+      searchNovels[props.navigationStateKey]
+        ? denormalize(
+            searchNovels[props.navigationStateKey].items,
+            Schemas.NOVEL_ARRAY,
             entities,
           )
         : defaultArray,
@@ -267,8 +353,23 @@ export const makeGetUserMangasItems = () =>
     },
   );
 
+export const makeGetUserNovelsItems = () =>
+  createNovelItemsSelector(
+    [selectUserNovels, selectEntities, getProps],
+    (userNovels, entities, props) => {
+      const userId =
+        props.userId ||
+        props.navigation.state.params.userId ||
+        parseInt(props.navigation.state.params.id, 10) ||
+        parseInt(props.navigation.state.params.uid, 10);
+      return userNovels[userId]
+        ? denormalize(userNovels[userId].items, Schemas.NOVEL_ARRAY, entities)
+        : defaultArray;
+    },
+  );
+
 export const makeGetUserFollowingItems = () =>
-  createUserItemsSelector(
+  createUserPreviewItemsSelector(
     [selectUserFollowing, selectEntities, getProps],
     (userFollowing, entities, props) => {
       const userId = props.userId || props.navigation.state.params.userId;
@@ -284,7 +385,7 @@ export const makeGetUserFollowingItems = () =>
   );
 
 export const makeGetUserFollowersItems = () =>
-  createUserItemsSelector(
+  createUserPreviewItemsSelector(
     [selectUserFollowers, selectEntities, getProps],
     (userFollowers, entities, props) => {
       const userId = props.userId || props.navigation.state.params.userId;
@@ -299,7 +400,7 @@ export const makeGetUserFollowersItems = () =>
   );
 
 export const makeGetUserMyPixivItems = () =>
-  createUserItemsSelector(
+  createUserPreviewItemsSelector(
     [selectUserMyPixiv, selectEntities, getProps],
     (userMyPixiv, entities, props) => {
       const userId = props.userId || props.navigation.state.params.userId;
@@ -314,7 +415,7 @@ export const makeGetUserMyPixivItems = () =>
   );
 
 export const makeGetSearchUsersItems = () =>
-  createUserItemsSelector(
+  createUserPreviewItemsSelector(
     [selectSearchUsers, selectEntities, getProps],
     (searchUsers, entities, props) =>
       searchUsers[props.navigationStateKey]
@@ -341,8 +442,115 @@ export const makeGetIllustCommentsItems = () =>
     },
   );
 
+export const makeGetNovelRankingItems = () =>
+  createNovelItemsSelector(
+    [selectRanking, selectEntities, getProps],
+    (ranking, entities, props) =>
+      denormalize(
+        ranking[props.rankingMode].items,
+        Schemas.NOVEL_ARRAY,
+        entities,
+      ),
+  );
+
+export const makeGetIllustCommentRepliesItems = () =>
+  createUserItemsSelector(
+    [selectIllustCommentReplies, selectEntities, getProps],
+    (illustCommentReplies, entities, props) => {
+      const { commentId } = props;
+      return illustCommentReplies[commentId]
+        ? denormalize(
+            illustCommentReplies[commentId].items,
+            Schemas.ILLUST_COMMENT_ARRAY,
+            entities,
+          )
+        : defaultArray;
+    },
+  );
+
+export const makeGetUserBookmarkNovelsItems = () =>
+  createNovelItemsSelector(
+    [selectUserBookmarkNovels, selectEntities, getProps],
+    (userBookmarkNovels, entities, props) => {
+      const userId =
+        props.userId ||
+        props.navigation.state.params.userId ||
+        parseInt(props.navigation.state.params.id, 10) ||
+        parseInt(props.navigation.state.params.uid, 10);
+      return userBookmarkNovels[userId]
+        ? denormalize(
+            userBookmarkNovels[userId].items,
+            Schemas.NOVEL_ARRAY,
+            entities,
+          )
+        : defaultArray;
+    },
+  );
+
+export const makeGetNovelCommentsItems = () =>
+  createUserItemsSelector(
+    [selectNovelComments, selectEntities, getProps],
+    (novelComments, entities, props) => {
+      const novelId = props.novelId || props.navigation.state.params.novelId;
+      return novelComments[novelId]
+        ? denormalize(
+            novelComments[novelId].items,
+            Schemas.NOVEL_COMMENT_ARRAY,
+            entities,
+          )
+        : defaultArray;
+    },
+  );
+
+export const makeGetNovelCommentRepliesItems = () =>
+  createUserItemsSelector(
+    [selectNovelCommentReplies, selectEntities, getProps],
+    (novelCommentReplies, entities, props) => {
+      const { commentId } = props;
+      return novelCommentReplies[commentId]
+        ? denormalize(
+            novelCommentReplies[commentId].items,
+            Schemas.NOVEL_COMMENT_ARRAY,
+            entities,
+          )
+        : defaultArray;
+    },
+  );
+
+export const makeGetNovelSeriesItems = () =>
+  createNovelItemsSelector(
+    [selectNovelSeries, selectEntities, getProps],
+    (novelSeries, entities, props) => {
+      const seriesId = props.seriesId || props.navigation.state.params.seriesId;
+      return novelSeries[seriesId]
+        ? denormalize(
+            novelSeries[seriesId].items,
+            Schemas.NOVEL_ARRAY,
+            entities,
+          )
+        : defaultArray;
+    },
+  );
+
+export const makeGetParsedNovelText = () =>
+  createSelector([selectNovelText, getProps], (novelText, props) => {
+    const novelId = props.novelId || props.navigation.state.params.novelId;
+    return novelText[novelId] && novelText[novelId].text
+      ? parseNovelText(novelText[novelId].text)
+      : null;
+  });
+
+export const makeGetUserItem = () =>
+  createUserItemSelector([selectEntities, getProps], (entities, props) => {
+    const userId = props.userId || props.navigation.state.params.userId;
+    return (
+      denormalize(userId, Schemas.USER, entities) ||
+      denormalize(userId, Schemas.USER_PROFILE, entities)
+    );
+  });
+
 const makeGetUserDetailItem = () =>
-  createUserItemSelector(
+  createUserDetailItemSelector(
     [selectUserDetail, selectEntities, getProps],
     (userDetail, entities, props) => {
       const userId =
@@ -358,28 +566,36 @@ const makeGetUserDetailItem = () =>
 
 export const makeGetUserDetailPageItems = () => {
   const getUserDetailItem = makeGetUserDetailItem();
-  const getUserIllustItems = makeGetUserIllustsItems();
-  const getUserMangaItems = makeGetUserMangasItems();
-  const getUserBookmarkIllustItems = makeGetUserBookmarkIllustsItems();
+  const getUserIllustsItems = makeGetUserIllustsItems();
+  const getUserMangasItems = makeGetUserMangasItems();
+  const getUserNovelsItems = makeGetUserNovelsItems();
+  const getUserBookmarkIllustsItems = makeGetUserBookmarkIllustsItems();
+  const getUserBookmarkNovelsItems = makeGetUserBookmarkNovelsItems();
 
   return createSelector(
     [
       getUserDetailItem,
-      getUserIllustItems,
-      getUserMangaItems,
-      getUserBookmarkIllustItems,
+      getUserIllustsItems,
+      getUserMangasItems,
+      getUserNovelsItems,
+      getUserBookmarkIllustsItems,
+      getUserBookmarkNovelsItems,
       getProps,
     ],
     (
       userDetailItem,
       userIllustsItems,
       userMangasItems,
+      userNovelsItems,
       userBookmarkIllustsItems,
+      userBookmarkNovelsItems,
     ) => ({
       userDetailItem,
       userIllustsItems,
       userMangasItems,
+      userNovelsItems,
       userBookmarkIllustsItems,
+      userBookmarkNovelsItems,
     }),
   );
 };
@@ -387,8 +603,8 @@ export const makeGetUserDetailPageItems = () => {
 export const makeGetDetailItem = () =>
   createIllustItemSelector([selectEntities, getProps], (entities, props) => {
     const {
-      illust_id: illustIdFromQS, // from deep link params
-      illustId, // from deep link querystring
+      illust_id: illustIdFromQS, // from deep link query string
+      illustId, // from deep link params
       items,
       index,
     } = props.navigation.state.params;
@@ -401,6 +617,37 @@ export const makeGetDetailItem = () =>
       id = items[index].id;
     }
     return denormalize(id, Schemas.ILLUST, entities);
+  });
+
+export const makeGetDetailNovelItem = () =>
+  createNovelItemSelector([selectEntities, getProps], (entities, props) => {
+    const {
+      id: novelIdFromQS, // from deep link query string
+      novelId, // from deep link params
+      items,
+      index,
+    } = props.navigation.state.params;
+    let id;
+    if (novelIdFromQS) {
+      id = parseInt(novelIdFromQS, 10);
+    } else if (novelId) {
+      id = parseInt(novelId, 10);
+    } else {
+      id = items[index].id;
+    }
+    return denormalize(id, Schemas.NOVEL, entities);
+  });
+
+export const makeGetIllustItem = () =>
+  createIllustItemSelector([selectEntities, getProps], (entities, props) => {
+    const { illustId } = props;
+    return denormalize(illustId, Schemas.ILLUST, entities);
+  });
+
+export const makeGetNovelItem = () =>
+  createNovelItemSelector([selectEntities, getProps], (entities, props) => {
+    const { novelId } = props;
+    return denormalize(novelId, Schemas.NOVEL, entities);
   });
 
 export const makeGetTagsWithStatus = () =>
@@ -432,10 +679,22 @@ export const getRecommendedMangasItems = createIllustItemsSelector(
     denormalize(recommendedMangas.items, Schemas.ILLUST_ARRAY, entities),
 );
 
+export const getRecommendedNovelsItems = createIllustItemsSelector(
+  [selectRecommendedNovels, selectEntities],
+  (recommendedNovels, entities) =>
+    denormalize(recommendedNovels.items, Schemas.NOVEL_ARRAY, entities),
+);
+
 export const getFollowingUserIllustsItems = createIllustItemsSelector(
   [selectFollowingUserIllusts, selectEntities],
   (followingUserIllusts, entities) =>
     denormalize(followingUserIllusts.items, Schemas.ILLUST_ARRAY, entities),
+);
+
+export const getFollowingUserNovelsItems = createIllustItemsSelector(
+  [selectFollowingUserNovels, selectEntities],
+  (followingUserNovels, entities) =>
+    denormalize(followingUserNovels.items, Schemas.NOVEL_ARRAY, entities),
 );
 
 export const getNewIllustsItems = createIllustItemsSelector(
@@ -450,10 +709,22 @@ export const getNewMangasItems = createIllustItemsSelector(
     denormalize(newMangas.items, Schemas.ILLUST_ARRAY, entities),
 );
 
-export const getMyPixivItems = createIllustItemsSelector(
-  [selectMyPixiv, selectEntities],
-  (myPixiv, entities) =>
-    denormalize(myPixiv.items, Schemas.ILLUST_ARRAY, entities),
+export const getNewNovelsItems = createIllustItemsSelector(
+  [selectNewNovels, selectEntities],
+  (newNovels, entities) =>
+    denormalize(newNovels.items, Schemas.NOVEL_ARRAY, entities),
+);
+
+export const getMyPixivIllustsItems = createIllustItemsSelector(
+  [selectMyPixivIllusts, selectEntities],
+  (myPixivIllusts, entities) =>
+    denormalize(myPixivIllusts.items, Schemas.ILLUST_ARRAY, entities),
+);
+
+export const getMyPixivNovelsItems = createIllustItemsSelector(
+  [selectMyPixivNovels, selectEntities],
+  (myPixivNovels, entities) =>
+    denormalize(myPixivNovels.items, Schemas.NOVEL_ARRAY, entities),
 );
 
 export const getMyPrivateBookmarkIllustsItems = createIllustItemsSelector(
@@ -462,19 +733,31 @@ export const getMyPrivateBookmarkIllustsItems = createIllustItemsSelector(
     denormalize(myPrivateBookmarkIllusts.items, Schemas.ILLUST_ARRAY, entities),
 );
 
+export const getMyPrivateBookmarkNovelsItems = createIllustItemsSelector(
+  [selectMyPrivateBookmarkNovels, selectEntities],
+  (myPrivateBookmarkNovels, entities) =>
+    denormalize(myPrivateBookmarkNovels.items, Schemas.NOVEL_ARRAY, entities),
+);
+
 export const getTrendingIllustTagsItems = createTagItemsSelector(
   [selectTrendingIllustTags, selectEntities],
   (trendingIllustTags, entities) =>
     denormalize(trendingIllustTags.items, Schemas.ILLUST_TAG_ARRAY, entities),
 );
 
-export const getRecommendedUsersItems = createUserItemsSelector(
+export const getTrendingNovelTagsItems = createTagItemsSelector(
+  [selectTrendingNovelTags, selectEntities],
+  (trendingNovelTags, entities) =>
+    denormalize(trendingNovelTags.items, Schemas.ILLUST_TAG_ARRAY, entities),
+);
+
+export const getRecommendedUsersItems = createUserPreviewItemsSelector(
   [selectRecommendedUsers, selectEntities],
   (recommendedUsers, entities) =>
     denormalize(recommendedUsers.items, Schemas.USER_PREVIEW_ARRAY, entities),
 );
 
-export const getSearchUsersAutoCompleteItems = createUserItemsSelector(
+export const getSearchUsersAutoCompleteItems = createUserPreviewItemsSelector(
   [selectSearchUsersAutoComplete, selectEntities],
   (searchUsersAutoComplete, entities) =>
     denormalize(
@@ -484,10 +767,16 @@ export const getSearchUsersAutoCompleteItems = createUserItemsSelector(
     ),
 );
 
-export const getBrowsingHistoryItems = createIllustItemsSelector(
-  [selectBrowsingHistory, selectEntities],
-  (browsingHistory, entities) =>
-    denormalize(browsingHistory.items, Schemas.ILLUST_ARRAY, entities),
+export const getBrowsingHistoryIllustsItems = createIllustItemsSelector(
+  [selectBrowsingHistoryIllusts, selectEntities],
+  (browsingHistoryIllusts, entities) =>
+    denormalize(browsingHistoryIllusts.items, Schemas.ILLUST_ARRAY, entities),
+);
+
+export const getBrowsingHistoryNovelsItems = createNovelItemsSelector(
+  [selectBrowsingHistoryNovels, selectEntities],
+  (browsingHistoryNovels, entities) =>
+    denormalize(browsingHistoryNovels.items, Schemas.NOVEL_ARRAY, entities),
 );
 
 export const getMuteUsersItems = createMuteUserItemsSelector(

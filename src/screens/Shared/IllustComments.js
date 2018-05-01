@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, InteractionManager, Alert } from 'react-native';
+import {
+  View,
+  SafeAreaView,
+  StyleSheet,
+  InteractionManager,
+} from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ActionButton from 'react-native-action-button';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
-import { connectLocalization } from '../../components/Localization';
+import IllustCommentReplies from '../../containers/IllustCommentReplies';
+import enhancePostComment from '../../components/HOC/enhancePostComment';
 import CommentList from '../../components/CommentList';
 import ViewMoreButton from '../../components/ViewMoreButton';
 import * as illustCommentsActionCreators from '../../common/actions/illustComments';
-import * as verificationEmailActionCreators from '../../common/actions/verificationEmail';
 import { makeGetIllustCommentsItems } from '../../common/selectors';
 import { globalStyles } from '../../styles';
 import { SCREENS } from '../../common/constants';
@@ -53,41 +58,18 @@ class IllustComments extends Component {
   };
 
   handleOnPressViewMoreComments = () => {
-    const { illustId, navigation: { navigate } } = this.props;
+    const { illustId, authorId, navigation: { navigate } } = this.props;
     navigate(SCREENS.IllustComments, {
       illustId,
+      authorId,
     });
   };
 
   handleOnPressCommentButton = () => {
-    const { illustId, user, navigation: { navigate }, i18n } = this.props;
-    if (!user.mail_address) {
-      Alert.alert(
-        i18n.commentAdd,
-        i18n.commentRequireAccountRegistration,
-        [
-          { text: i18n.cancel },
-          {
-            text: i18n.commentRequireAccountRegistrationAction,
-            onPress: this.handleOnPressRegisterAccount,
-          },
-        ],
-        { cancelable: false },
-      );
-    } else if (user.mail_address && !user.is_mail_authorized) {
-      Alert.alert(
-        i18n.emailVerificationPostComment,
-        null,
-        [
-          { text: i18n.cancel },
-          {
-            text: i18n.emailVerificationSend,
-            onPress: this.handleOnPressSendVerificationEmail,
-          },
-        ],
-        { cancelable: false },
-      );
-    } else {
+    const { checkIfUserEligibleToPostComment } = this.props;
+    const isEligible = checkIfUserEligibleToPostComment();
+    if (isEligible) {
+      const { illustId, navigation: { navigate } } = this.props;
       navigate(SCREENS.AddIllustComment, {
         illustId,
         onSubmitComment: this.handleOnSubmitComment,
@@ -95,16 +77,18 @@ class IllustComments extends Component {
     }
   };
 
-  handleOnPressSendVerificationEmail = () => {
-    const { sendVerificationEmail } = this.props;
-    sendVerificationEmail();
-  };
-
-  handleOnPressRegisterAccount = () => {
-    const { navigate } = this.props.navigation;
-    navigate(SCREENS.AccountSettingsModal, {
-      hideAdvanceSettings: true,
-    });
+  handleOnPressReplyCommentButton = commentItem => {
+    const { checkIfUserEligibleToPostComment } = this.props;
+    const isEligible = checkIfUserEligibleToPostComment();
+    if (isEligible) {
+      const { illustId, authorId, navigation: { navigate } } = this.props;
+      navigate(SCREENS.ReplyIllustComment, {
+        illustId,
+        authorId,
+        commentItem,
+        onSubmitComment: this.handleOnSubmitComment,
+      });
+    }
   };
 
   handleOnSubmitComment = () => {
@@ -113,8 +97,20 @@ class IllustComments extends Component {
     fetchIllustComments(illustId);
   };
 
+  renderCommentReplies = commentId => {
+    const { authorId, navigation } = this.props;
+    return (
+      <IllustCommentReplies
+        commentId={commentId}
+        authorId={authorId}
+        navigation={navigation}
+      />
+    );
+  };
+
   render() {
     const {
+      authorId,
       illustComments,
       items,
       verificationEmail,
@@ -124,14 +120,17 @@ class IllustComments extends Component {
       maxItems,
     } = this.props;
     return (
-      <View style={globalStyles.container}>
+      <SafeAreaView style={globalStyles.container}>
         <CommentList
+          authorId={authorId}
           data={{ ...illustComments, items }}
           loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
           onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
           maxItems={isFeatureInDetailPage && maxItems}
           navigation={navigation}
           user={user}
+          renderCommentReplies={this.renderCommentReplies}
+          onPressReplyCommentButton={this.handleOnPressReplyCommentButton}
         />
         {isFeatureInDetailPage &&
           <View style={styles.viewMoreButtonContainer}>
@@ -141,31 +140,28 @@ class IllustComments extends Component {
           <ActionButton
             buttonColor="#fff"
             icon={<Icon name="pencil" size={24} color="#737373" />}
+            fixNativeFeedbackRadius
             onPress={this.handleOnPressCommentButton}
           />}
         <OverlaySpinner visible={verificationEmail.loading} />
-      </View>
+      </SafeAreaView>
     );
   }
 }
 
-export default connectLocalization(
-  connect(
-    () => {
-      const getIllustCommentsItems = makeGetIllustCommentsItems();
-      return (state, props) => {
-        const { illustComments, auth } = state;
-        const illustId =
-          props.illustId || props.navigation.state.params.illustId;
-        return {
-          illustComments: illustComments[illustId],
-          items: getIllustCommentsItems(state, props),
-          verificationEmail: state.verificationEmail,
-          illustId,
-          user: auth.user,
-        };
+export default enhancePostComment(
+  connect(() => {
+    const getIllustCommentsItems = makeGetIllustCommentsItems();
+    return (state, props) => {
+      const { illustComments } = state;
+      const illustId = props.illustId || props.navigation.state.params.illustId;
+      const authorId = props.authorId || props.navigation.state.params.authorId;
+      return {
+        illustComments: illustComments[illustId],
+        items: getIllustCommentsItems(state, props),
+        illustId,
+        authorId,
       };
-    },
-    { ...illustCommentsActionCreators, ...verificationEmailActionCreators },
-  )(IllustComments),
+    };
+  }, illustCommentsActionCreators)(IllustComments),
 );

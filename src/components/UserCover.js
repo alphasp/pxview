@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import PXThumbnailTouchable from './PXThumbnailTouchable';
 import PXTouchable from './PXTouchable';
+import PremiumBadge from './PremiumBadge';
 import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
@@ -13,6 +14,7 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
   },
   usernameContainer: {
+    flexDirection: 'row',
     marginTop: 10,
   },
   authActionContainer: {
@@ -20,6 +22,10 @@ const styles = StyleSheet.create({
   },
   username: {
     color: '#fff',
+    fontSize: 16,
+  },
+  premiumBadge: {
+    marginLeft: 5,
   },
 });
 
@@ -38,6 +44,7 @@ const UserCover = ({ user, avatarSize, onPressAvatar }) =>
           {user.name}
         </Text>
       </PXTouchable>
+      {user.is_premium && <PremiumBadge containerStyle={styles.premiumBadge} />}
     </View>
   </View>;
 

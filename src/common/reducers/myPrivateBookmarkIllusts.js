@@ -9,7 +9,7 @@ const initState = {
   nextUrl: null,
 };
 
-export default function userIllust(state = initState, action) {
+export default function myPrivateBookmarkIllusts(state = initState, action) {
   switch (action.type) {
     case MY_PRIVATE_BOOKMARK_ILLUSTS.CLEAR:
       return initState;

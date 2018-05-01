@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import * as globalStyleVariables from './variables';
 
 const globalStyles = StyleSheet.create({
@@ -10,6 +10,14 @@ const globalStyles = StyleSheet.create({
   },
   header: {
     backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
+    ...Platform.select({
+      android: {
+        paddingTop: globalStyleVariables.STATUSBAR_HEIGHT,
+        height:
+          globalStyleVariables.STATUSBAR_HEIGHT +
+          globalStyleVariables.APPBAR_HEIGHT,
+      },
+    }),
   },
   headerWithoutShadow: {
     shadowOpacity: 0,
@@ -18,6 +26,14 @@ const globalStyles = StyleSheet.create({
     },
     elevation: 0,
     backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
+    ...Platform.select({
+      android: {
+        paddingTop: globalStyleVariables.STATUSBAR_HEIGHT,
+        height:
+          globalStyleVariables.STATUSBAR_HEIGHT +
+          globalStyleVariables.APPBAR_HEIGHT,
+      },
+    }),
   },
 });
 

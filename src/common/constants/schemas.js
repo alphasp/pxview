@@ -9,6 +9,8 @@ const illustTagSchema = new schema.Entity(
     idAttribute: 'tag',
   },
 );
+const novelSchema = new schema.Entity('novels');
+const novelCommentSchema = new schema.Entity('novelComments');
 const userSchema = new schema.Entity('users');
 const userPreviewSchema = new schema.Entity('userPreviews');
 const userProfileSchema = new schema.Entity('userProfiles');
@@ -25,13 +27,23 @@ illustTagSchema.define({
   illust: illustSchema,
 });
 
+novelSchema.define({
+  user: userSchema,
+});
+
+novelCommentSchema.define({
+  user: userSchema,
+});
+
 userSchema.define({
   illusts: [illustSchema],
+  novels: [novelSchema],
 });
 
 userPreviewSchema.define({
   user: userSchema,
   illusts: [illustSchema],
+  novels: [novelSchema],
 });
 
 // userProfileSchema.define({
@@ -40,9 +52,12 @@ userPreviewSchema.define({
 
 const Schemas = {
   ILLUST: illustSchema,
-  ILLUST_ARRAY: [illustSchema], // schema.Array(illustSchema)
+  ILLUST_ARRAY: [illustSchema],
   ILLUST_COMMENT_ARRAY: [illustCommentSchema],
   ILLUST_TAG_ARRAY: [illustTagSchema],
+  NOVEL: novelSchema,
+  NOVEL_ARRAY: [novelSchema],
+  NOVEL_COMMENT_ARRAY: [novelCommentSchema],
   USER: userSchema,
   USER_ARRAY: [userSchema],
   USER_PREVIEW_ARRAY: [userPreviewSchema],

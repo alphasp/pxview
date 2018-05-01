@@ -13,30 +13,31 @@ import { connect } from 'react-redux';
 import Share from 'react-native-share';
 import ActionButton from 'react-native-action-button';
 import enhanceSaveImage from '../../components/HOC/enhanceSaveImage';
-import DetailImageList from '../../components/DetailImageList';
+import IllustDetailContent from '../../components/IllustDetailContent';
 import PXHeader from '../../components/PXHeader';
 import PXViewPager from '../../components/PXViewPager';
 import PXBottomSheet from '../../components/PXBottomSheet';
 import PXBottomSheetButton from '../../components/PXBottomSheetButton';
 import PXBottomSheetCancelButton from '../../components/PXBottomSheetCancelButton';
-import BookmarkButton from '../../components/BookmarkButton';
+import BookmarkIllustButton from '../../components/BookmarkIllustButton';
 import Loader from '../../components/Loader';
 import PXTouchable from '../../components/PXTouchable';
 import PXThumbnail from '../../components/PXThumbnail';
 import HeaderSaveImageButton from '../../components/HeaderSaveImageButton';
 import HeaderMenuButton from '../../components/HeaderMenuButton';
-import * as browsingHistoryActionCreators from '../../common/actions/browsingHistory';
+import * as browsingHistoryIllustsActionCreators from '../../common/actions/browsingHistoryIllusts';
 import * as muteUsersActionCreators from '../../common/actions/muteUsers';
 import * as illustDetailActionCreators from '../../common/actions/illustDetail';
 import { makeGetDetailItem } from '../../common/selectors';
 import { SCREENS } from '../../common/constants';
-import { globalStyleVariables } from '../../styles';
+import { globalStyleVariables, globalStyles } from '../../styles';
 
 const THUMBNAIL_SIZE = 30;
 
 const styles = StyleSheet.create({
-  container: {
+  content: {
     flex: 1,
+    width: globalStyleVariables.WINDOW_WIDTH,
   },
   headerTitleContainer: {
     flex: 1,
@@ -86,7 +87,7 @@ class Detail extends Component {
       illustId,
       item,
       isFromDeepLink,
-      addBrowsingHistory,
+      addBrowsingHistoryIllusts,
       fetchIllustDetail,
     } = this.props;
     InteractionManager.runAfterInteractions(() => {
@@ -100,7 +101,7 @@ class Detail extends Component {
           'masterListUpdate',
           this.handleOnMasterListUpdate,
         );
-        addBrowsingHistory(item.id);
+        addBrowsingHistoryIllusts(item.id);
       }
     });
   }
@@ -111,7 +112,7 @@ class Detail extends Component {
       illustId,
       isFromDeepLink,
       illustDetail,
-      addBrowsingHistory,
+      addBrowsingHistoryIllusts,
     } = nextProps;
     if (
       illustId &&
@@ -122,7 +123,7 @@ class Detail extends Component {
       illustDetail.item
     ) {
       // only add browsing history if item is loaded for illust that open from deep link
-      addBrowsingHistory(illustId);
+      addBrowsingHistoryIllusts(illustId);
     }
   }
 
@@ -170,6 +171,7 @@ class Detail extends Component {
         : [item.meta_single_page.original_image_url];
     navigation.navigate(SCREENS.ImagesViewer, {
       images,
+      item,
       viewerIndex: index,
     });
   };
@@ -179,14 +181,14 @@ class Detail extends Component {
   };
 
   handleOnViewPagerPageSelected = index => {
-    const { items, addBrowsingHistory, navigation } = this.props;
+    const { items, addBrowsingHistoryIllusts, navigation } = this.props;
     if (this.props.index !== undefined && this.props.index !== index) {
       const { setParams } = navigation;
       setParams({
         index,
       });
       InteractionManager.runAfterInteractions(() => {
-        addBrowsingHistory(items[index].id);
+        addBrowsingHistoryIllusts(items[index].id);
       });
     }
   };
@@ -255,7 +257,15 @@ class Detail extends Component {
       item.page_count > 1
         ? item.meta_pages.map(page => page.image_urls.original)
         : [item.meta_single_page.original_image_url];
-    saveImage([images[selectedImageIndex]]);
+    saveImage({
+      imageUrls: [images[selectedImageIndex]],
+      imageIndex: selectedImageIndex,
+      workId: item.id,
+      workTitle: item.title,
+      workType: item.type,
+      userId: item.user.id,
+      userName: item.user.name,
+    });
     this.handleOnCancelMenuBottomSheet();
   };
 
@@ -299,7 +309,15 @@ class Detail extends Component {
         : [item.meta_single_page.original_image_url];
     return (
       <View style={styles.headerRightContainer}>
-        <HeaderSaveImageButton imageUrls={images} saveAll />
+        <HeaderSaveImageButton
+          imageUrls={images}
+          workId={item.id}
+          workTitle={item.title}
+          workType={item.type}
+          userId={item.user.id}
+          userName={item.user.name}
+          saveAll
+        />
         <HeaderMenuButton
           onPress={() => this.handleOnPressOpenMenuBottomSheet(null)}
         />
@@ -308,9 +326,9 @@ class Detail extends Component {
   };
 
   renderContent = ({ item }) => {
-    const { navigation, i18n, authUser } = this.props;
+    const { navigation, authUser } = this.props;
     return (
-      <View key={item.id}>
+      <View style={styles.content} key={item.id}>
         <PXHeader
           headerTitle={this.renderHeaderTitle(item)}
           headerRight={this.renderHeaderRight(item)}
@@ -318,10 +336,9 @@ class Detail extends Component {
           showBackButton
           onPressBackButton={this.handleOnPressHeaderBackButton}
         />
-        <DetailImageList
+        <IllustDetailContent
           item={item}
           navigation={navigation}
-          i18n={i18n}
           authUser={authUser}
           onPressImage={this.handleOnPressImage}
           onLongPressImage={this.handleOnLongPressImage}
@@ -344,6 +361,7 @@ class Detail extends Component {
       return (
         <PXViewPager
           items={[item]}
+          keyExtractor={vpItem => vpItem.id.toString()}
           index={0}
           renderContent={this.renderContent}
           onPageSelected={this.handleOnViewPagerPageSelected}
@@ -354,6 +372,7 @@ class Detail extends Component {
     return (
       <PXViewPager
         items={items}
+        keyExtractor={vpItem => vpItem.id.toString()}
         index={index}
         renderContent={this.renderContent}
         onPageSelected={this.handleOnViewPagerPageSelected}
@@ -370,14 +389,15 @@ class Detail extends Component {
       selectedImageIndex,
     } = this.state;
     return (
-      <View style={styles.container} ref={ref => (this.detailView = ref)}>
+      <View style={globalStyles.container} ref={ref => (this.detailView = ref)}>
         {this.renderMainContent()}
         {isActionButtonVisible &&
           item &&
           <ActionButton
             buttonColor="rgba(255,255,255,1)"
             bgColor="red"
-            icon={<BookmarkButton item={item} />}
+            icon={<BookmarkIllustButton item={item} />}
+            fixNativeFeedbackRadius
           />}
         <PXBottomSheet
           visible={isOpenMenuBottomSheet}
@@ -451,7 +471,7 @@ export default enhanceSaveImage(
       };
     },
     {
-      ...browsingHistoryActionCreators,
+      ...browsingHistoryIllustsActionCreators,
       ...muteUsersActionCreators,
       ...illustDetailActionCreators,
     },

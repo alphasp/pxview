@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import MyPrivateBookmarkIllusts from './MyPrivateBookmarkIllusts';
 import UserBookmarkIllusts from '../../Shared/UserBookmarkIllusts';
-import TagsFilterModal from '../../../containers/TagsFilterModal';
+import MyPrivateBookmarkIllusts from './MyPrivateBookmarkIllusts';
+import UserBookmarkNovels from '../../Shared/UserBookmarkNovels';
+import MyPrivateBookmarkNovels from './MyPrivateBookmarkNovels';
+import IllustTagsFilterModal from '../../../containers/IllustTagsFilterModal';
+import NovelTagsFilterModal from '../../../containers/NovelTagsFilterModal';
 import { connectLocalization } from '../../../components/Localization';
 import PXTabView from '../../../components/PXTabView';
 import HeaderFilterButton from '../../../components/HeaderFilterButton';
@@ -34,9 +37,13 @@ class MyCollection extends Component {
       routes: [
         { key: '1', title: i18n.illustrationPublic },
         { key: '2', title: i18n.illustrationPrivate },
+        { key: '3', title: i18n.novelPublic },
+        { key: '4', title: i18n.novelPrivate },
       ],
-      selectedPublicTag: '',
-      selectedPrivateTag: '',
+      selectedPublicIllustTag: '',
+      selectedPrivateIllustTag: '',
+      selectedPublicNovelTag: '',
+      selectedPrivateNovelTag: '',
     };
   }
 
@@ -48,6 +55,8 @@ class MyCollection extends Component {
         routes: [
           { key: '1', title: i18n.illustrationPublic },
           { key: '2', title: i18n.illustrationPrivate },
+          { key: '3', title: i18n.novelPublic },
+          { key: '4', title: i18n.novelPrivate },
         ],
       });
     }
@@ -60,13 +69,18 @@ class MyCollection extends Component {
   renderScene = ({ route }) => {
     const { navigation } = this.props;
     const { userId } = navigation.state.params;
-    const { selectedPublicTag, selectedPrivateTag } = this.state;
+    const {
+      selectedPublicIllustTag,
+      selectedPrivateIllustTag,
+      selectedPublicNovelTag,
+      selectedPrivateNovelTag,
+    } = this.state;
     switch (route.key) {
       case '1':
         return (
           <UserBookmarkIllusts
             userId={userId}
-            tag={selectedPublicTag}
+            tag={selectedPublicIllustTag}
             reload
             navigation={navigation}
           />
@@ -75,7 +89,24 @@ class MyCollection extends Component {
         return (
           <MyPrivateBookmarkIllusts
             userId={userId}
-            tag={selectedPrivateTag}
+            tag={selectedPrivateIllustTag}
+            navigation={navigation}
+          />
+        );
+      case '3':
+        return (
+          <UserBookmarkNovels
+            userId={userId}
+            tag={selectedPublicNovelTag}
+            reload
+            navigation={navigation}
+          />
+        );
+      case '4':
+        return (
+          <MyPrivateBookmarkNovels
+            userId={userId}
+            tag={selectedPrivateNovelTag}
             navigation={navigation}
           />
         );
@@ -95,10 +126,21 @@ class MyCollection extends Component {
     const { navigation: { setParams } } = this.props;
     const { index } = this.state;
     const newState = {};
-    if (index === 0) {
-      newState.selectedPublicTag = tag;
-    } else {
-      newState.selectedPrivateTag = tag;
+    switch (index) {
+      case 0:
+        newState.selectedPublicIllustTag = tag;
+        break;
+      case 1:
+        newState.selectedPrivateIllustTag = tag;
+        break;
+      case 2:
+        newState.selectedPublicNovelTag = tag;
+        break;
+      case 3:
+        newState.selectedPrivateNovelTag = tag;
+        break;
+      default:
+        break;
     }
     setParams({
       isOpenFilterModal: false,
@@ -107,30 +149,56 @@ class MyCollection extends Component {
   };
 
   render() {
-    const { isOpenFilterModal } = this.props.navigation.state.params;
-    const { index, selectedPublicTag, selectedPrivateTag } = this.state;
+    const isOpenFilterModal =
+      this.props.navigation.state.params.isOpenFilterModal || false;
+    const {
+      index,
+      selectedPublicIllustTag,
+      selectedPrivateIllustTag,
+      selectedPublicNovelTag,
+      selectedPrivateNovelTag,
+    } = this.state;
     return (
       <View style={styles.container}>
         <PXTabView
           navigationState={this.state}
           renderScene={this.renderScene}
           onIndexChange={this.handleChangeTab}
+          tabBarProps={{
+            scrollEnabled: true,
+          }}
         />
         {index === 0 &&
-          <TagsFilterModal
+          <IllustTagsFilterModal
             tagType={TAG_TYPES.PUBLIC}
-            isOpen={isOpenFilterModal || false}
+            isOpen={isOpenFilterModal}
             onPressCloseButton={this.handleOnPressCloseFilterButton}
             onSelectTag={this.handleOnSelectTag}
-            tag={selectedPublicTag}
+            tag={selectedPublicIllustTag}
           />}
         {index === 1 &&
-          <TagsFilterModal
+          <IllustTagsFilterModal
             tagType={TAG_TYPES.PRIVATE}
-            isOpen={isOpenFilterModal || false}
+            isOpen={isOpenFilterModal}
             onPressCloseButton={this.handleOnPressCloseFilterButton}
             onSelectTag={this.handleOnSelectTag}
-            tag={selectedPrivateTag}
+            tag={selectedPrivateIllustTag}
+          />}
+        {index === 2 &&
+          <NovelTagsFilterModal
+            tagType={TAG_TYPES.PUBLIC}
+            isOpen={isOpenFilterModal}
+            onPressCloseButton={this.handleOnPressCloseFilterButton}
+            onSelectTag={this.handleOnSelectTag}
+            tag={selectedPublicNovelTag}
+          />}
+        {index === 3 &&
+          <NovelTagsFilterModal
+            tagType={TAG_TYPES.PRIVATE}
+            isOpen={isOpenFilterModal}
+            onPressCloseButton={this.handleOnPressCloseFilterButton}
+            onSelectTag={this.handleOnSelectTag}
+            tag={selectedPrivateNovelTag}
           />}
       </View>
     );

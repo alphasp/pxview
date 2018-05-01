@@ -54,7 +54,7 @@ class MuteUsersSettings extends Component {
           ? <List>
               <FlatList
                 data={items}
-                keyExtractor={item => item.id}
+                keyExtractor={item => item.id.toString()}
                 renderItem={this.renderItem}
               />
             </List>

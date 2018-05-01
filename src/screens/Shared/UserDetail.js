@@ -3,11 +3,11 @@ import {
   StyleSheet,
   Text,
   View,
+  SafeAreaView,
   ScrollView,
   Linking,
   RefreshControl,
   Platform,
-  findNodeHandle,
   InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -15,12 +15,13 @@ import Hyperlink from 'react-native-hyperlink';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import truncate from 'lodash.truncate';
 import * as Animatable from 'react-native-animatable';
-import { BlurView } from 'react-native-blur';
 import Share from 'react-native-share';
 import FollowButtonContainer from '../../containers/FollowButtonContainer';
 import { connectLocalization } from '../../components/Localization';
+import PremiumBadge from '../../components/PremiumBadge';
 import PXHeader from '../../components/PXHeader';
 import IllustCollection from '../../components/IllustCollection';
+import NovelCollection from '../../components/NovelCollection';
 import PXThumbnail from '../../components/PXThumbnail';
 import PXThumbnailTouchable from '../../components/PXThumbnailTouchable';
 import PXImage from '../../components/PXImage';
@@ -32,7 +33,9 @@ import Loader from '../../components/Loader';
 import * as userDetailActionCreators from '../../common/actions/userDetail';
 import * as userIllustsActionCreators from '../../common/actions/userIllusts';
 import * as userMangasActionCreators from '../../common/actions/userMangas';
-import * as userBookmarkIllustlActionCreators from '../../common/actions/userBookmarkIllusts';
+import * as userNovelsActionCreators from '../../common/actions/userNovels';
+import * as userBookmarkIllustsActionCreators from '../../common/actions/userBookmarkIllusts';
+import * as userBookmarkNovelsActionCreators from '../../common/actions/userBookmarkNovels';
 import * as muteUsersActionCreators from '../../common/actions/muteUsers';
 import { makeGetUserDetailPageItems } from '../../common/selectors';
 import { SCREENS } from '../../common/constants';
@@ -58,8 +61,16 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+  userNameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   userName: {
     fontSize: 20,
+  },
+  premiumBadge: {
+    marginLeft: 5,
   },
   statType: {
     color: '#90949c',
@@ -108,13 +119,6 @@ const styles = StyleSheet.create({
   headerText: {
     color: '#fff',
   },
-  blurView: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-  },
   followButton: {
     borderColor: '#fff',
   },
@@ -128,13 +132,13 @@ class UserDetail extends Component {
     userDetail: { refreshing: false },
     userIllusts: {},
     userMangas: {},
+    userNovels: {},
     userBookmarkIllusts: {},
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      viewRef: 0,
       isScrolled: false,
       isShowTitle: false,
       isOpenMenuBottomSheet: false,
@@ -142,31 +146,43 @@ class UserDetail extends Component {
   }
 
   componentDidMount() {
+    const { userDetail } = this.props;
+    InteractionManager.runAfterInteractions(() => {
+      if (!userDetail || !userDetail.item) {
+        this.fetchUserInfos();
+      }
+    });
+  }
+
+  fetchUserInfos = () => {
     const {
       userId,
-      userDetail,
       fetchUserDetail,
       clearUserDetail,
       fetchUserIllusts,
       clearUserIllusts,
       fetchUserMangas,
       clearUserMangas,
+      fetchUserNovels,
+      clearUserNovels,
       fetchUserBookmarkIllusts,
       clearUserBookmarkIllusts,
+      fetchUserBookmarkNovels,
+      clearUserBookmarkNovels,
     } = this.props;
-    InteractionManager.runAfterInteractions(() => {
-      if (!userDetail || !userDetail.item) {
-        clearUserDetail(userId);
-        clearUserIllusts(userId);
-        clearUserMangas(userId);
-        clearUserBookmarkIllusts(userId);
-        fetchUserDetail(userId);
-        fetchUserIllusts(userId);
-        fetchUserMangas(userId);
-        fetchUserBookmarkIllusts(userId);
-      }
-    });
-  }
+    clearUserDetail(userId);
+    clearUserIllusts(userId);
+    clearUserMangas(userId);
+    clearUserNovels(userId);
+    clearUserBookmarkIllusts(userId);
+    clearUserBookmarkNovels(userId);
+    fetchUserDetail(userId);
+    fetchUserIllusts(userId);
+    fetchUserMangas(userId);
+    fetchUserNovels(userId);
+    fetchUserBookmarkIllusts(userId);
+    fetchUserBookmarkNovels(userId);
+  };
 
   handleOnLinkPress = url => {
     Linking.canOpenURL(url)
@@ -180,25 +196,7 @@ class UserDetail extends Component {
   };
 
   handleOnRefresh = () => {
-    const {
-      userId,
-      fetchUserDetail,
-      clearUserDetail,
-      fetchUserIllusts,
-      clearUserIllusts,
-      fetchUserMangas,
-      clearUserMangas,
-      fetchUserBookmarkIllusts,
-      clearUserBookmarkIllusts,
-    } = this.props;
-    clearUserDetail(userId);
-    clearUserIllusts(userId);
-    clearUserMangas(userId);
-    clearUserBookmarkIllusts(userId);
-    fetchUserDetail(userId);
-    fetchUserIllusts(userId);
-    fetchUserMangas(userId);
-    fetchUserBookmarkIllusts(userId);
+    this.fetchUserInfos();
   };
 
   handleOnScroll = ({ nativeEvent }) => {
@@ -232,10 +230,6 @@ class UserDetail extends Component {
         this.setState(newState);
       }
     }
-  };
-
-  handleOnProfileImageLoaded = () => {
-    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   };
 
   handleOnPressOpenMenuBottomSheet = () => {
@@ -314,7 +308,7 @@ class UserDetail extends Component {
   };
 
   renderHeaderRight = () => {
-    const { userDetailItem, authUser, navigation } = this.props;
+    const { userDetailItem, authUser } = this.props;
     if (!userDetailItem || !userDetailItem.user) {
       return null;
     }
@@ -329,10 +323,9 @@ class UserDetail extends Component {
         {user &&
           ((authUser && user.id !== authUser.id) || !authUser) &&
           <FollowButtonContainer
-            user={user}
+            userId={user.id}
             buttonStyle={styles.followButton}
             textStyle={styles.followButtonText}
-            navigation={navigation}
           />}
         <HeaderMenuButton
           onPress={this.handleOnPressOpenMenuBottomSheet}
@@ -344,7 +337,6 @@ class UserDetail extends Component {
 
   renderProfile = detail => {
     const { i18n } = this.props;
-    const { viewRef } = this.state;
     return (
       <View>
         <View style={styles.coverOuterContainer}>
@@ -357,15 +349,7 @@ class UserDetail extends Component {
                 height: 100,
                 backgroundColor: 'transparent',
               }}
-              ref={ref => (this.backgroundImage = ref)}
-              onLoadEnd={this.handleOnProfileImageLoaded}
-            />
-            <BlurView
-              blurType="light"
-              blurAmount={20}
-              overlayColor={'rgba(255, 255, 255, 0.3)'}
-              viewRef={viewRef}
-              style={styles.blurView}
+              blurRadius={Platform.OS === 'android' ? 1 : 5}
             />
             <View style={styles.avatarContainer}>
               <PXThumbnail
@@ -376,10 +360,14 @@ class UserDetail extends Component {
           </View>
         </View>
         <View style={styles.profileContainer}>
-          <Text style={styles.userName}>
-            {detail.user.name}
-          </Text>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={styles.userNameContainer}>
+            <Text style={styles.userName}>
+              {detail.user.name}
+            </Text>
+            {detail.profile.is_premium &&
+              <PremiumBadge containerStyle={styles.premiumBadge} />}
+          </View>
+          <View style={styles.row}>
             {detail.profile.webpage
               ? <View style={styles.row}>
                   <Icon name="home" style={styles.icon} />
@@ -445,7 +433,7 @@ class UserDetail extends Component {
               linkStyle={styles.hyperlink}
               onPress={url => this.handleOnLinkPress(url)}
             >
-              <Text>
+              <Text selectable>
                 {detail.user.comment}
               </Text>
             </Hyperlink>
@@ -487,7 +475,22 @@ class UserDetail extends Component {
     );
   };
 
-  renderBookmarks = items => {
+  renderNovelCollection = (items, profile) => {
+    const { userId, navigation, i18n } = this.props;
+    return (
+      <NovelCollection
+        title={i18n.userNovels}
+        total={profile.total_novels}
+        viewMoreTitle={i18n.worksCount}
+        items={items}
+        maxItems={3}
+        onPressViewMore={() =>
+          navigation.navigate(SCREENS.UserNovels, { userId })}
+      />
+    );
+  };
+
+  renderBookmarkIllusts = items => {
     const { userId, navigation, i18n } = this.props;
     return (
       <IllustCollection
@@ -502,17 +505,35 @@ class UserDetail extends Component {
     );
   };
 
+  renderBookmarkNovels = items => {
+    const { userId, navigation, i18n } = this.props;
+    return (
+      <NovelCollection
+        title={i18n.novelCollection}
+        viewMoreTitle={i18n.list}
+        items={items}
+        maxItems={3}
+        onPressViewMore={() =>
+          navigation.navigate(SCREENS.UserBookmarkNovels, { userId })}
+      />
+    );
+  };
+
   renderContent = detail => {
     const {
       userIllusts,
       userMangas,
+      userNovels,
       userBookmarkIllusts,
+      userBookmarkNovels,
       userIllustsItems,
       userMangasItems,
+      userNovelsItems,
       userBookmarkIllustsItems,
+      userBookmarkNovelsItems,
     } = this.props;
     return (
-      <View>
+      <SafeAreaView>
         {this.renderProfile(detail)}
         {userIllusts &&
         !userIllusts.loading &&
@@ -526,13 +547,25 @@ class UserDetail extends Component {
         userMangas.items.length
           ? this.renderMangaCollection(userMangasItems, detail.profile)
           : null}
+        {userNovels &&
+        !userNovels.loading &&
+        userNovels.items &&
+        userNovels.items.length
+          ? this.renderNovelCollection(userNovelsItems, detail.profile)
+          : null}
         {userBookmarkIllusts &&
         !userBookmarkIllusts.loading &&
         userBookmarkIllusts.items &&
         userBookmarkIllusts.items.length
-          ? this.renderBookmarks(userBookmarkIllustsItems)
+          ? this.renderBookmarkIllusts(userBookmarkIllustsItems)
           : null}
-      </View>
+        {userBookmarkNovels &&
+        !userBookmarkNovels.loading &&
+        userBookmarkNovels.items &&
+        userBookmarkNovels.items.length
+          ? this.renderBookmarkNovels(userBookmarkNovelsItems)
+          : null}
+      </SafeAreaView>
     );
   };
 
@@ -613,7 +646,9 @@ export default connectLocalization(
           userDetail,
           userIllusts,
           userMangas,
+          userNovels,
           userBookmarkIllusts,
+          userBookmarkNovels,
           muteUsers,
         } = state;
         const userId =
@@ -628,7 +663,9 @@ export default connectLocalization(
           userDetailItem,
           userIllustsItems,
           userMangasItems,
+          userNovelsItems,
           userBookmarkIllustsItems,
+          userBookmarkNovelsItems,
         } = getUserDetailPageItem(state, props);
         const isMuteUser = muteUsers.items.some(m => m === userId);
         return {
@@ -636,11 +673,15 @@ export default connectLocalization(
           userDetail: userDetail[userId],
           userIllusts: userIllusts[userId],
           userMangas: userMangas[userId],
+          userNovels: userNovels[userId],
           userBookmarkIllusts: userBookmarkIllusts[userId],
+          userBookmarkNovels: userBookmarkNovels[userId],
           userDetailItem,
           userIllustsItems,
           userMangasItems,
+          userNovelsItems,
           userBookmarkIllustsItems,
+          userBookmarkNovelsItems,
           userId,
           isMuteUser,
         };
@@ -650,7 +691,9 @@ export default connectLocalization(
       ...userDetailActionCreators,
       ...userIllustsActionCreators,
       ...userMangasActionCreators,
-      ...userBookmarkIllustlActionCreators,
+      ...userNovelsActionCreators,
+      ...userBookmarkIllustsActionCreators,
+      ...userBookmarkNovelsActionCreators,
       ...muteUsersActionCreators,
     },
   )(UserDetail),

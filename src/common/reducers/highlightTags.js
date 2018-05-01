@@ -1,6 +1,6 @@
 import { HIGHLIGHT_TAGS } from '../constants/actionTypes';
 
-export default function browsingHistory(
+export default function highlightTags(
   state = {
     items: [],
   },

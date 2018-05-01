@@ -1,12 +1,14 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
+import RankingPreview from '../screens/Ranking/RankingPreview';
 import Ranking from '../screens/Ranking/Ranking';
+import NovelRanking from '../screens/Ranking/NovelRanking';
 import enhanceRouter from './routers/enhanceRouter';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import DrawerIcon from '../components/DrawerIcon';
 import { globalStyles, globalStyleVariables } from '../styles';
 import config from '../common/config';
-import { SCREENS } from '../common/constants';
+import { SCREENS, RANKING_TYPES } from '../common/constants';
 
 const navigationOptionsForTab = {
   header: null,
@@ -21,12 +23,43 @@ const navigationOptionsForDrawer = ({ navigation, screenProps: { i18n } }) => ({
   ),
 });
 
+const mapRankingTypeString = (rankingType, i18n) => {
+  switch (rankingType) {
+    case RANKING_TYPES.ILLUST:
+      return i18n.illustration;
+    case RANKING_TYPES.MANGA:
+      return i18n.manga;
+    case RANKING_TYPES.NOVEL:
+      return i18n.novel;
+    default:
+      return '';
+  }
+};
+
 const routeConfig = {
-  [SCREENS.Ranking]: {
-    screen: Ranking,
+  [SCREENS.RankingPreview]: {
+    screen: RankingPreview,
     navigationOptions: config.navigation.tab
       ? navigationOptionsForTab
       : navigationOptionsForDrawer,
+  },
+  [SCREENS.Ranking]: {
+    screen: Ranking,
+    navigationOptions: ({ screenProps: { i18n }, navigation }) => ({
+      title: `${mapRankingTypeString(
+        navigation.state.params.rankingType,
+        i18n,
+      )} ${i18n.ranking}`,
+    }),
+  },
+  [SCREENS.NovelRanking]: {
+    screen: NovelRanking,
+    navigationOptions: ({ screenProps: { i18n }, navigation }) => ({
+      title: `${mapRankingTypeString(
+        navigation.state.params.rankingType,
+        i18n,
+      )} ${i18n.ranking}`,
+    }),
   },
 };
 

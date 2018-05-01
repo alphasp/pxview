@@ -7,10 +7,11 @@ import {
   BackHandler,
 } from 'react-native';
 import TrendingIllustTags from './TrendingIllustTags';
+import TrendingNovelTags from './TrendingNovelTags';
 import RecommendedUsers from '../Shared/RecommendedUsers';
 import Search from '../../containers/Search';
 import PXSearchBar from '../../components/PXSearchBar';
-import PXTabView from '../../components/PXTabView';
+import Pills from '../../components/Pills';
 import { connectLocalization } from '../../components/Localization';
 import { SEARCH_TYPES, SCREENS } from '../../common/constants';
 import config from '../../common/config';
@@ -22,18 +23,31 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
+  pills: {
+    padding: 10,
+    ...Platform.select({
+      ios: {
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: 'rgba(0, 0, 0, .3)',
+      },
+      android: {
+        shadowColor: 'black',
+        shadowOpacity: 0.1,
+        shadowRadius: StyleSheet.hairlineWidth,
+        shadowOffset: {
+          height: StyleSheet.hairlineWidth,
+        },
+        elevation: 4,
+      },
+    }),
+  },
 });
 
 class Trending extends Component {
   constructor(props) {
     super(props);
-    const { i18n } = props;
     this.state = {
       index: 0,
-      routes: [
-        { key: '1', title: i18n.illustManga },
-        { key: '2', title: i18n.user },
-      ],
       isFocusSearchBar: false,
       word: null,
       searchType: SEARCH_TYPES.ILLUST,
@@ -49,19 +63,6 @@ class Trending extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { lang: prevLang } = this.props;
-    const { lang, i18n } = nextProps;
-    if (lang !== prevLang) {
-      this.setState({
-        routes: [
-          { key: '1', title: i18n.illustManga },
-          { key: '2', title: i18n.user },
-        ],
-      });
-    }
-  }
-
   componentWillUnmount() {
     if (this.backHandlerListener) {
       BackHandler.removeEventListener(
@@ -70,18 +71,6 @@ class Trending extends Component {
       );
     }
   }
-
-  handleChangeTab = index => {
-    const newState = {
-      index,
-    };
-    if (index === 1) {
-      newState.searchType = SEARCH_TYPES.USER;
-    } else {
-      newState.searchType = SEARCH_TYPES.ILLUST;
-    }
-    this.setState(newState);
-  };
 
   handleOnFocusSearchBar = () => {
     this.setState({ isFocusSearchBar: true });
@@ -111,24 +100,66 @@ class Trending extends Component {
     navigate(SCREENS.SearchResult, { word, searchType });
   };
 
-  handleOnChangeSearchTab = index => {
+  handleOnChangePill = index => {
     const newState = {
       index,
     };
-    if (index === 1) {
-      newState.searchType = SEARCH_TYPES.USER;
-    } else {
+    if (index === 0) {
       newState.searchType = SEARCH_TYPES.ILLUST;
+    } else if (index === 1) {
+      newState.searchType = SEARCH_TYPES.NOVEL;
+    } else {
+      newState.searchType = SEARCH_TYPES.USER;
     }
     this.setState(newState);
   };
 
-  renderScene = ({ route }) => {
+  handleOnPressPill = index => {
+    const newState = {
+      index,
+    };
+    if (index === 0) {
+      newState.searchType = SEARCH_TYPES.ILLUST;
+    } else if (index === 1) {
+      newState.searchType = SEARCH_TYPES.NOVEL;
+    } else {
+      newState.searchType = SEARCH_TYPES.USER;
+    }
+    this.setState(newState);
+  };
+
+  renderHeader = () => {
+    const { i18n } = this.props;
+    const { index } = this.state;
+    return (
+      <Pills
+        items={[
+          {
+            title: i18n.illustManga,
+          },
+          {
+            title: i18n.novel,
+          },
+          {
+            title: i18n.user,
+          },
+        ]}
+        onPressItem={this.handleOnPressPill}
+        selectedIndex={index}
+        style={styles.pills}
+      />
+    );
+  };
+
+  renderContent = () => {
     const { navigation } = this.props;
-    switch (route.key) {
-      case '1':
+    const { index } = this.state;
+    switch (index) {
+      case 0:
         return <TrendingIllustTags navigation={navigation} />;
-      case '2':
+      case 1:
+        return <TrendingNovelTags navigation={navigation} />;
+      case 2:
         return <RecommendedUsers navigation={navigation} />;
       default:
         return null;
@@ -151,20 +182,18 @@ class Trending extends Component {
           onPressBackButton={this.handleOnPressBackButton}
           onSubmitSearch={this.handleOnSubmitSearch}
           isFocus={isFocusSearchBar}
+          withShadow={false}
         />
         <View style={styles.content}>
-          <PXTabView
-            navigationState={this.state}
-            renderScene={this.renderScene}
-            onIndexChange={this.handleChangeTab}
-          />
+          {this.renderHeader()}
+          {this.renderContent()}
           {isFocusSearchBar &&
             <Search
               word={word}
               navigation={navigation}
               searchType={searchType}
               onSubmitSearch={this.handleOnSubmitSearch}
-              onChangeTab={this.handleOnChangeSearchTab}
+              onChangePill={this.handleOnChangePill}
             />}
         </View>
       </View>

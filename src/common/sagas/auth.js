@@ -10,7 +10,7 @@ import {
   cancel,
 } from 'redux-saga/effects';
 import moment from 'moment';
-import { REHYDRATE } from 'redux-persist/constants';
+import { REHYDRATE } from 'redux-persist';
 import { FOREGROUND, BACKGROUND } from 'redux-enhancer-react-native-appstate';
 import {
   login,
