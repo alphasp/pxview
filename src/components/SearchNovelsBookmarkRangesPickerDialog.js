@@ -1,19 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import {
-  SinglePickerMaterialDialog,
-  MaterialDialog,
-} from 'react-native-material-dialog';
+import { SinglePickerMaterialDialog } from 'react-native-material-dialog';
+import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from './Localization';
-import Loader from './Loader';
 import * as searchNovelsBookmarkRangesActionCreators from '../common/actions/searchNovelsBookmarkRanges';
-
-const styles = StyleSheet.create({
-  loader: {
-    margin: 10,
-  },
-});
 
 class SearchNovelsBookmarkRangesPickerDialog extends Component {
   componentDidMount() {
@@ -65,16 +55,7 @@ class SearchNovelsBookmarkRangesPickerDialog extends Component {
       !searchNovelsBookmarkRanges ||
       (searchNovelsBookmarkRanges && searchNovelsBookmarkRanges.loading)
     ) {
-      return (
-        <MaterialDialog
-          visible
-          okLabel={i18n.ok}
-          cancelLabel={i18n.cancel}
-          onCancel={onCancel}
-        >
-          <Loader style={styles.loader} />
-        </MaterialDialog>
-      );
+      return <OverlaySpinner visible />;
     }
     return (
       <SinglePickerMaterialDialog
