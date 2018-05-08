@@ -157,6 +157,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-photo-view')
     compile project(':react-native-zip-archive')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-splash-screen')
@@ -172,7 +173,6 @@ dependencies {
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 
     compile project(':react-native-fabric')
-    compile project(':react-native-photo-view')
     compile project(':react-native-spinkit')
     compile project(':react-native-fetch-blob')
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {

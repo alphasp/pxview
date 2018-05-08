@@ -74,6 +74,7 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 		<string>MaterialCommunityIcons.ttf</string>
+		<string>Feather.ttf</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>

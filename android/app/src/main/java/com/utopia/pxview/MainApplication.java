@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
 import com.facebook.react.ReactApplication;
+import com.reactnative.photoview.PhotoViewPackage;
 import com.rnziparchive.RNZipArchivePackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
@@ -17,7 +18,6 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 import com.smixx.fabric.FabricPackage;
-import com.reactnative.photoview.PhotoViewPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactNativeHost;
@@ -42,6 +42,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new RNSpinkitPackage(),
            new MainReactPackage(),
+            new PhotoViewPackage(),
             new UgoiraViewPackage(),
             new RNZipArchivePackage(),
             new LinearGradientPackage(),
@@ -54,7 +55,6 @@ public class MainApplication extends Application implements ReactApplication {
             new ReactMaterialKitPackage(),
             new VectorIconsPackage(),
             new FabricPackage(),
-            new PhotoViewPackage(),
             new RNSpinkitPackage(),
             new RNFetchBlobPackage()
       );
