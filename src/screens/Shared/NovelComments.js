@@ -58,8 +58,8 @@ class NovelComments extends Component {
   };
 
   handleOnPressViewMoreComments = () => {
-    const { novelId, authorId, navigation: { navigate } } = this.props;
-    navigate(SCREENS.NovelComments, {
+    const { novelId, authorId, navigation: { push } } = this.props;
+    push(SCREENS.NovelComments, {
       novelId,
       authorId,
     });

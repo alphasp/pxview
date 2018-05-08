@@ -165,18 +165,6 @@ class NovelDetail extends Component {
     this.listViewOffset = currentOffset;
   };
 
-  handleOnPressImage = index => {
-    const { navigation, item } = this.props;
-    const images =
-      item.page_count > 1
-        ? item.meta_pages.map(page => page.image_urls.original)
-        : [item.meta_single_page.original_image_url];
-    navigation.navigate(SCREENS.ImagesViewer, {
-      images,
-      viewerIndex: index,
-    });
-  };
-
   handleOnLongPressImage = () => {
     this.handleOnPressOpenMenuBottomSheet();
   };
@@ -259,8 +247,8 @@ class NovelDetail extends Component {
   };
 
   handleOnPressNovelImage = () => {
-    const { item, navigation: { navigate } } = this.props;
-    navigate(SCREENS.NovelReader, {
+    const { item, navigation: { push } } = this.props;
+    push(SCREENS.NovelReader, {
       novelId: item.id,
     });
   };

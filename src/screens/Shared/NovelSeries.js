@@ -54,8 +54,8 @@ class NovelSeries extends Component {
   };
 
   handleOnPressViewMoreNovelSeries = () => {
-    const { seriesId, seriesTitle, navigation: { navigate } } = this.props;
-    navigate(SCREENS.NovelSeries, {
+    const { seriesId, seriesTitle, navigation: { push } } = this.props;
+    push(SCREENS.NovelSeries, {
       seriesId,
       seriesTitle,
     });

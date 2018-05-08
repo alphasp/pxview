@@ -48,8 +48,8 @@ class RelatedIllusts extends Component {
   };
 
   handleOnPressViewMoreRelatedIllusts = () => {
-    const { illustId, navigation: { navigate } } = this.props;
-    navigate(SCREENS.RelatedIllusts, {
+    const { illustId, navigation: { push } } = this.props;
+    push(SCREENS.RelatedIllusts, {
       illustId,
     });
   };

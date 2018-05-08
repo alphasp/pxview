@@ -76,11 +76,6 @@ class DrawerContent extends Component {
     );
   };
 
-  navigateWithDebounce = (routeName, options) => {
-    const { navigation: { navigate } } = this.props;
-    setTimeout(() => navigate(routeName, options, 0));
-  };
-
   handleOnDrawerItemPress = (item, focused) => {
     const { user, navigation: { navigate, dispatch } } = this.props;
     // navigation.closeDrawer();

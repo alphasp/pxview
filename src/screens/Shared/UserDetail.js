@@ -452,8 +452,7 @@ class UserDetail extends Component {
         viewMoreTitle={i18n.worksCount}
         items={items}
         maxItems={6}
-        onPressViewMore={() =>
-          navigation.navigate(SCREENS.UserIllusts, { userId })}
+        onPressViewMore={() => navigation.push(SCREENS.UserIllusts, { userId })}
         navigation={navigation}
       />
     );
@@ -468,8 +467,7 @@ class UserDetail extends Component {
         viewMoreTitle={i18n.worksCount}
         items={items}
         maxItems={6}
-        onPressViewMore={() =>
-          navigation.navigate(SCREENS.UserMangas, { userId })}
+        onPressViewMore={() => navigation.push(SCREENS.UserMangas, { userId })}
         navigation={navigation}
       />
     );
@@ -484,8 +482,7 @@ class UserDetail extends Component {
         viewMoreTitle={i18n.worksCount}
         items={items}
         maxItems={3}
-        onPressViewMore={() =>
-          navigation.navigate(SCREENS.UserNovels, { userId })}
+        onPressViewMore={() => navigation.push(SCREENS.UserNovels, { userId })}
       />
     );
   };
@@ -499,7 +496,7 @@ class UserDetail extends Component {
         items={items}
         maxItems={6}
         onPressViewMore={() =>
-          navigation.navigate(SCREENS.UserBookmarkIllusts, { userId })}
+          navigation.push(SCREENS.UserBookmarkIllusts, { userId })}
         navigation={navigation}
       />
     );
@@ -514,7 +511,7 @@ class UserDetail extends Component {
         items={items}
         maxItems={3}
         onPressViewMore={() =>
-          navigation.navigate(SCREENS.UserBookmarkNovels, { userId })}
+          navigation.push(SCREENS.UserBookmarkNovels, { userId })}
       />
     );
   };

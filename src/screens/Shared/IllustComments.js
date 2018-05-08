@@ -58,8 +58,8 @@ class IllustComments extends Component {
   };
 
   handleOnPressViewMoreComments = () => {
-    const { illustId, authorId, navigation: { navigate } } = this.props;
-    navigate(SCREENS.IllustComments, {
+    const { illustId, authorId, navigation: { push } } = this.props;
+    push(SCREENS.IllustComments, {
       illustId,
       authorId,
     });

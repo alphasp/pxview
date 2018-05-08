@@ -59,8 +59,8 @@ class FollowingUserNewWorks extends Component {
   };
 
   handleOnPressFindRecommendedUsers = () => {
-    const { navigate } = this.props.navigation;
-    navigate(SCREENS.RecommendedUsers);
+    const { push } = this.props.navigation;
+    push(SCREENS.RecommendedUsers);
   };
 
   renderPillFilterButton = () =>
