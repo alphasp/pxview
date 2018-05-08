@@ -72,8 +72,7 @@ class NovelSettingsModal extends Component {
   };
 
   render() {
-    // const { i18n } = this.props;
-    const { novelSettings: { fontSize, lineHeight } } = this.props;
+    const { novelSettings: { fontSize, lineHeight }, i18n } = this.props;
     return (
       <Modal
         animationType="fade"
@@ -86,7 +85,9 @@ class NovelSettingsModal extends Component {
             <TouchableWithoutFeedback>
               <View style={styles.innerContainer}>
                 <View style={styles.titleContainer}>
-                  <Text style={styles.title}>Novel Settings</Text>
+                  <Text style={styles.title}>
+                    {i18n.novelSettings}
+                  </Text>
                 </View>
                 <View style={styles.form}>
                   <Icon name="font" size={14} />
