@@ -3,7 +3,6 @@ import { createStackNavigator } from 'react-navigation';
 import RankingPreview from '../screens/Ranking/RankingPreview';
 import Ranking from '../screens/Ranking/Ranking';
 import NovelRanking from '../screens/Ranking/NovelRanking';
-import enhanceRouter from './routers/enhanceRouter';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import DrawerIcon from '../components/DrawerIcon';
 import { globalStyles, globalStyleVariables } from '../styles';
@@ -77,4 +76,4 @@ if (!config.navigation.tab) {
   });
 }
 
-export default enhanceRouter(RankingNavigator);
+export default RankingNavigator;

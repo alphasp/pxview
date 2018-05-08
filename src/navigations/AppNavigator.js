@@ -1,7 +1,6 @@
 import { createStackNavigator } from 'react-navigation';
 import createAppTabNavigator from './AppTabNavigator';
 import createAppDrawerNavigator from './AppDrawerNavigator';
-import enhanceRouter from './routers/enhanceRouter';
 import SearchFilterModal from '../screens/Shared/SearchFilterModal';
 import SearchFilterPeriodDateModal from '../screens/Shared/SearchFilterPeriodDateModal';
 import AddIllustComment from '../screens/Shared/AddIllustComment';
@@ -87,8 +86,7 @@ const createAppNavigator = ({ initialRouteName }) => {
     },
     stackConfig,
   );
-  const Navigator = enhanceRouter(AppNavigator);
-  return Navigator;
+  return AppNavigator;
 };
 
 export default createAppNavigator;

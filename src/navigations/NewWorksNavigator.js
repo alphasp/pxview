@@ -1,7 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import NewWorks from '../screens/NewWorks/NewWorks';
-import enhanceRouter from './routers/enhanceRouter';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import DrawerIcon from '../components/DrawerIcon';
 import { globalStyles, globalStyleVariables } from '../styles';
@@ -44,4 +43,4 @@ if (!config.navigation.tab) {
   });
 }
 
-export default enhanceRouter(NewWorksNavigator);
+export default NewWorksNavigator;

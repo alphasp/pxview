@@ -1,6 +1,5 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
-import enhanceRouter from './routers/enhanceRouter';
 import Recommended from '../screens/Recommended/Recommended';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import DrawerIcon from '../components/DrawerIcon';
@@ -44,4 +43,4 @@ if (!config.navigation.tab) {
   });
 }
 
-export default enhanceRouter(RecommendedNavigator);
+export default RecommendedNavigator;

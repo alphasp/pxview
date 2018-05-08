@@ -1,5 +1,4 @@
 import { createStackNavigator } from 'react-navigation';
-import enhanceRouter from './routers/enhanceRouter';
 import MyPage from '../screens/MyPage/MyPage';
 import { globalStyles, globalStyleVariables } from '../styles';
 import config from '../common/config';
@@ -26,4 +25,4 @@ const stackConfig = {
 
 const MyPageNavigator = createStackNavigator(routeConfig, stackConfig);
 
-export default enhanceRouter(MyPageNavigator);
+export default MyPageNavigator;

@@ -17,7 +17,6 @@ import HeaderFilterButton from '../../components/HeaderFilterButton';
 import HeaderEncyclopediaButton from '../../components/HeaderEncyclopediaButton';
 import * as searchAutoCompleteActionCreators from '../../common/actions/searchAutoComplete';
 import * as searchUsersAutoCompleteActionCreators from '../../common/actions/searchUsersAutoComplete';
-import { navReplace } from '../../common/actions/nav';
 import { SEARCH_TYPES, SCREENS } from '../../common/constants';
 
 const styles = StyleSheet.create({
@@ -146,7 +145,7 @@ class SearchResultTabs extends Component {
   };
 
   handleOnSubmitSearch = word => {
-    const { dispatch, state } = this.props.navigation;
+    const { replace } = this.props.navigation;
     const { searchType, newSearchType } = this.state;
     Keyboard.dismiss();
     const nextState = {
@@ -158,11 +157,7 @@ class SearchResultTabs extends Component {
       nextState.searchOptions = {};
     }
     this.setState(nextState);
-    dispatch(
-      navReplace('SearchResult', state.key, {
-        word,
-      }),
-    );
+    replace(SCREENS.SearchResult, { word });
     return true;
   };
 
