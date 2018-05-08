@@ -1,5 +1,5 @@
 import React from 'react';
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import NewWorks from '../screens/NewWorks/NewWorks';
 import enhanceRouter from './routers/enhanceRouter';
 import DrawerMenuButton from '../components/DrawerMenuButton';
@@ -8,26 +8,17 @@ import { globalStyles, globalStyleVariables } from '../styles';
 import config from '../common/config';
 import { SCREENS } from '../common/constants';
 
-const navigationOptionsForTab = {
-  header: null,
-};
-
-const navigationOptionsForDrawer = ({ navigation, screenProps: { i18n } }) => ({
-  title: i18n.newest,
-  drawerLabel: i18n.newest,
-  drawerIcon: ({ tintColor }) =>
-    <DrawerIcon name="fiber-new" type="material" color={tintColor} />,
-  headerLeft: (
-    <DrawerMenuButton onPress={() => navigation.navigate('DrawerOpen')} />
-  ),
-});
-
 const routeConfig = {
   [SCREENS.NewWorks]: {
     screen: NewWorks,
     navigationOptions: config.navigation.tab
-      ? navigationOptionsForTab
-      : navigationOptionsForDrawer,
+      ? { header: null }
+      : ({ navigation, screenProps: { i18n } }) => ({
+          title: i18n.newest,
+          headerLeft: (
+            <DrawerMenuButton onPress={() => navigation.openDrawer()} />
+          ),
+        }),
   },
 };
 
@@ -43,6 +34,14 @@ const stackConfig = {
   headerMode: 'screen',
 };
 
-const NewWorksNavigator = StackNavigator(routeConfig, stackConfig);
+const NewWorksNavigator = createStackNavigator(routeConfig, stackConfig);
+
+if (!config.navigation.tab) {
+  NewWorksNavigator.navigationOptions = ({ screenProps: { i18n } }) => ({
+    drawerLabel: i18n.newest,
+    drawerIcon: ({ tintColor }) =>
+      <DrawerIcon name="fiber-new" type="material" color={tintColor} />,
+  });
+}
 
 export default enhanceRouter(NewWorksNavigator);

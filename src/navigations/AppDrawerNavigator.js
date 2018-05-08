@@ -1,4 +1,4 @@
-import { DrawerNavigator } from 'react-navigation';
+import { createDrawerNavigator } from 'react-navigation';
 import RecommendedNavigator from './RecommendedNavigator';
 import RankingNavigator from './RankingNavigator';
 import TrendingNavigator from './TrendingNavigator';
@@ -8,7 +8,7 @@ import { globalStyles, globalStyleVariables } from '../styles';
 import { SCREENS } from '../common/constants';
 
 const createAppDrawerNavigator = ({ initialRouteName }) =>
-  DrawerNavigator(
+  createDrawerNavigator(
     {
       [SCREENS.Recommended]: {
         screen: RecommendedNavigator,

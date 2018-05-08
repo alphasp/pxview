@@ -270,12 +270,12 @@ class Detail extends Component {
   };
 
   renderHeaderTitle = item => {
-    const { navigation: { navigate } } = this.props;
+    const { navigation: { push } } = this.props;
     return (
       <View style={styles.headerTitleContainer}>
         <PXTouchable
           style={styles.headerThumnailNameContainer}
-          onPress={() => navigate(SCREENS.UserDetail, { userId: item.user.id })}
+          onPress={() => push(SCREENS.UserDetail, { userId: item.user.id })}
         >
           <PXThumbnail
             uri={item.user.profile_image_urls.medium}

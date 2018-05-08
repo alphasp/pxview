@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
 });
 class CommentList extends Component {
   handleOnPressUser = userId => {
-    const { navigate } = this.props.navigation;
-    navigate(SCREENS.UserDetail, { userId });
+    const { push } = this.props.navigation;
+    push(SCREENS.UserDetail, { userId });
   };
 
   renderRow = ({ item }) => {
@@ -137,8 +137,8 @@ class CommentList extends Component {
   };
 
   handleOnPressUser = userId => {
-    const { navigate } = this.props.navigation;
-    navigate(SCREENS.UserDetail, { userId });
+    const { push } = this.props.navigation;
+    push(SCREENS.UserDetail, { userId });
   };
 
   render() {

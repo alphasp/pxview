@@ -106,13 +106,9 @@ class IllustTagList extends Component {
   };
 
   handleOnPressItem = item => {
-    const {
-      addSearchHistory,
-      searchType,
-      navigation: { navigate },
-    } = this.props;
+    const { addSearchHistory, searchType, navigation: { push } } = this.props;
     addSearchHistory(item.tag);
-    navigate(SCREENS.SearchResult, {
+    push(SCREENS.SearchResult, {
       word: item.tag,
       searchType,
     });

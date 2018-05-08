@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { DrawerItems, withNavigation } from 'react-navigation';
+import { DrawerItems, DrawerActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import CookieManager from 'react-native-cookies';
 import { connectLocalization } from './Localization';
@@ -82,32 +82,33 @@ class DrawerContent extends Component {
   };
 
   handleOnDrawerItemPress = (item, focused) => {
-    const { user, navigation: { navigate } } = this.props;
-    navigate('DrawerClose');
+    const { user, navigation: { navigate, dispatch } } = this.props;
+    // navigation.closeDrawer();
+    dispatch(DrawerActions.closeDrawer());
     if (!focused) {
       switch (item.id) {
         case 'works':
-          this.navigateWithDebounce(SCREENS.MyWorks, { userId: user.id });
+          navigate(SCREENS.MyWorks, { userId: user.id });
           break;
         case 'collection':
-          this.navigateWithDebounce(SCREENS.MyCollection, {
+          navigate(SCREENS.MyCollection, {
             userId: user.id,
           });
           break;
         case 'connection':
-          this.navigateWithDebounce(SCREENS.MyConnection, {
+          navigate(SCREENS.MyConnection, {
             userId: user.id,
           });
           break;
         case 'browsingHistory':
-          this.navigateWithDebounce(SCREENS.BrowsingHistory);
+          navigate(SCREENS.BrowsingHistory);
           break;
         case 'settings': {
-          this.navigateWithDebounce(SCREENS.Settings);
+          navigate(SCREENS.Settings);
           break;
         }
         case 'feedback': {
-          this.navigateWithDebounce(SCREENS.Feedback);
+          navigate(SCREENS.Feedback);
           break;
         }
         case 'logout': {
@@ -173,9 +174,10 @@ class DrawerContent extends Component {
   };
 
   handleOnPressAvatar = () => {
-    const { user, navigation: { navigate } } = this.props;
-    navigate('DrawerClose');
-    this.navigateWithDebounce(SCREENS.UserDetail, {
+    const { user, navigation: { navigate, dispatch } } = this.props;
+    // navigation.closeDrawer();
+    dispatch(DrawerActions.closeDrawer());
+    navigate(SCREENS.UserDetail, {
       userId: user.id,
     });
   };
@@ -216,17 +218,15 @@ class DrawerContent extends Component {
 }
 
 export default connectLocalization(
-  withNavigation(
-    connect(
-      state => ({
-        user: state.auth.user,
-      }),
-      {
-        ...authActionCreators,
-        ...browsingHistoryIllustsActionCreators,
-        ...browsingHistoryNovelsActionCreators,
-        ...searchHistoryActionCreators,
-      },
-    )(DrawerContent),
-  ),
+  connect(
+    state => ({
+      user: state.auth.user,
+    }),
+    {
+      ...authActionCreators,
+      ...browsingHistoryIllustsActionCreators,
+      ...browsingHistoryNovelsActionCreators,
+      ...searchHistoryActionCreators,
+    },
+  )(DrawerContent),
 );

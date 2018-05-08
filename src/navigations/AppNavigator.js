@@ -1,4 +1,4 @@
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import createAppTabNavigator from './AppTabNavigator';
 import createAppDrawerNavigator from './AppDrawerNavigator';
 import enhanceRouter from './routers/enhanceRouter';
@@ -27,7 +27,7 @@ const stackConfig = {
 };
 
 const createAppNavigator = ({ initialRouteName }) => {
-  const AppNavigator = StackNavigator(
+  const AppNavigator = createStackNavigator(
     {
       [SCREENS.Main]: {
         screen: config.navigation.tab

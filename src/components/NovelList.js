@@ -53,12 +53,12 @@ class NovelList extends Component {
   handleOnPressItem = (item, index) => {
     const {
       data: { items },
-      navigation: { navigate },
+      navigation: { push },
       loadMoreItems,
       listKey,
       maxItems,
     } = this.props;
-    navigate(SCREENS.NovelDetail, {
+    push(SCREENS.NovelDetail, {
       items: maxItems ? items.slice(0, maxItems) : items,
       index,
       onListEndReached: loadMoreItems,

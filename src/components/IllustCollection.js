@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 
 const IllustCollection = props => {
   const {
-    navigation: { navigate },
+    navigation: { push },
     items,
     title,
     total,
@@ -79,7 +79,7 @@ const IllustCollection = props => {
                 index={index}
                 numColumns={ILLUST_COLUMNS}
                 onPressItem={() =>
-                  navigate(SCREENS.Detail, { items: illusts, index })}
+                  push(SCREENS.Detail, { items: illusts, index })}
                 parentContainerMargin={CONTAINER_MARGIN}
               />,
             )

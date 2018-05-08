@@ -94,10 +94,10 @@ class Trending extends Component {
   };
 
   handleOnSubmitSearch = word => {
-    const { navigate } = this.props.navigation;
+    const { push } = this.props.navigation;
     const { searchType } = this.state;
     this.handleOnPressBackButton();
-    navigate(SCREENS.SearchResult, { word, searchType });
+    push(SCREENS.SearchResult, { word, searchType });
   };
 
   handleOnChangePill = index => {

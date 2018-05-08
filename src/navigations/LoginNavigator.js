@@ -1,9 +1,9 @@
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import Login from '../screens/Login/Login';
 import { globalStyles, globalStyleVariables } from '../styles';
 import { SCREENS } from '../common/constants';
 
-const LoginNavigator = StackNavigator(
+const LoginNavigator = createStackNavigator(
   {
     [SCREENS.Login]: {
       screen: Login,

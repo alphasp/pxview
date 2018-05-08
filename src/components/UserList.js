@@ -109,18 +109,18 @@ class UserList extends Component {
   };
 
   handleOnPressIllustPreview = (illusts, index) => {
-    const { navigate } = this.props.navigation;
-    navigate(SCREENS.Detail, { items: illusts, index });
+    const { push } = this.props.navigation;
+    push(SCREENS.Detail, { items: illusts, index });
   };
 
   handleOnPressNovelPreview = (novels, index) => {
-    const { navigate } = this.props.navigation;
-    navigate(SCREENS.NovelDetail, { items: novels, index });
+    const { push } = this.props.navigation;
+    push(SCREENS.NovelDetail, { items: novels, index });
   };
 
   handleOnPressAvatar = userId => {
-    const { navigate } = this.props.navigation;
-    navigate(SCREENS.UserDetail, { userId });
+    const { push } = this.props.navigation;
+    push(SCREENS.UserDetail, { userId });
   };
 
   render() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import Trending from '../screens/Trending/Trending';
 import enhanceRouter from './routers/enhanceRouter';
 import DrawerMenuButton from '../components/DrawerMenuButton';
@@ -8,25 +8,17 @@ import { globalStyles, globalStyleVariables } from '../styles';
 import config from '../common/config';
 import { SCREENS } from '../common/constants';
 
-const navigationOptionsForTab = {
-  header: null,
-};
-
-const navigationOptionsForDrawer = ({ navigation, screenProps: { i18n } }) => ({
-  header: null,
-  drawerLabel: i18n.search,
-  drawerIcon: ({ tintColor }) => <DrawerIcon name="search" color={tintColor} />,
-  headerLeft: (
-    <DrawerMenuButton onPress={() => navigation.navigate('DrawerOpen')} />
-  ),
-});
-
 const routeConfig = {
   [SCREENS.Trending]: {
     screen: Trending,
     navigationOptions: config.navigation.tab
-      ? navigationOptionsForTab
-      : navigationOptionsForDrawer,
+      ? { header: null }
+      : ({ navigation }) => ({
+          header: null,
+          headerLeft: (
+            <DrawerMenuButton onPress={() => navigation.openDrawer()} />
+          ),
+        }),
   },
 };
 
@@ -42,6 +34,14 @@ const stackConfig = {
   headerMode: 'screen',
 };
 
-const TrendingNavigator = StackNavigator(routeConfig, stackConfig);
+const TrendingNavigator = createStackNavigator(routeConfig, stackConfig);
+
+if (!config.navigation.tab) {
+  TrendingNavigator.navigationOptions = ({ screenProps: { i18n } }) => ({
+    drawerLabel: i18n.search,
+    drawerIcon: ({ tintColor }) =>
+      <DrawerIcon name="search" color={tintColor} />,
+  });
+}
 
 export default enhanceRouter(TrendingNavigator);

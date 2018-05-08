@@ -85,8 +85,8 @@ class Search extends Component {
 
   handleOnPressUser = userId => {
     const { navigation } = this.props;
-    const { navigate } = navigation;
-    navigate(SCREENS.UserDetail, { userId });
+    const { push } = navigation;
+    push(SCREENS.UserDetail, { userId });
   };
 
   handleOnPressRemoveSearchHistoryItem = item => {

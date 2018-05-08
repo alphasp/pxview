@@ -82,9 +82,9 @@ class RankingHorizontalList extends Component {
   };
 
   handleOnPressItem = item => {
-    const { items, navigation: { navigate } } = this.props;
+    const { items, navigation: { push } } = this.props;
     const index = items.findIndex(i => i.id === item.id);
-    navigate(SCREENS.Detail, {
+    push(SCREENS.Detail, {
       items,
       index,
     });

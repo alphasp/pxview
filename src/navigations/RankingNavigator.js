@@ -1,5 +1,5 @@
 import React from 'react';
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import RankingPreview from '../screens/Ranking/RankingPreview';
 import Ranking from '../screens/Ranking/Ranking';
 import NovelRanking from '../screens/Ranking/NovelRanking';
@@ -9,19 +9,6 @@ import DrawerIcon from '../components/DrawerIcon';
 import { globalStyles, globalStyleVariables } from '../styles';
 import config from '../common/config';
 import { SCREENS, RANKING_TYPES } from '../common/constants';
-
-const navigationOptionsForTab = {
-  header: null,
-};
-
-const navigationOptionsForDrawer = ({ navigation, screenProps: { i18n } }) => ({
-  title: i18n.ranking,
-  drawerLabel: i18n.ranking,
-  drawerIcon: ({ tintColor }) => <DrawerIcon name="trophy" color={tintColor} />,
-  headerLeft: (
-    <DrawerMenuButton onPress={() => navigation.navigate('DrawerOpen')} />
-  ),
-});
 
 const mapRankingTypeString = (rankingType, i18n) => {
   switch (rankingType) {
@@ -40,8 +27,13 @@ const routeConfig = {
   [SCREENS.RankingPreview]: {
     screen: RankingPreview,
     navigationOptions: config.navigation.tab
-      ? navigationOptionsForTab
-      : navigationOptionsForDrawer,
+      ? { header: null }
+      : ({ navigation, screenProps: { i18n } }) => ({
+          title: i18n.ranking,
+          headerLeft: (
+            <DrawerMenuButton onPress={() => navigation.openDrawer()} />
+          ),
+        }),
   },
   [SCREENS.Ranking]: {
     screen: Ranking,
@@ -75,6 +67,14 @@ const stackConfig = {
   headerMode: 'screen',
 };
 
-const RankingNavigator = StackNavigator(routeConfig, stackConfig);
+const RankingNavigator = createStackNavigator(routeConfig, stackConfig);
+
+if (!config.navigation.tab) {
+  RankingNavigator.navigationOptions = ({ screenProps: { i18n } }) => ({
+    drawerLabel: i18n.ranking,
+    drawerIcon: ({ tintColor }) =>
+      <DrawerIcon name="trophy" color={tintColor} />,
+  });
+}
 
 export default enhanceRouter(RankingNavigator);

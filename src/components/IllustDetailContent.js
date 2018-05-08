@@ -103,9 +103,9 @@ class IllustDetailContent extends Component {
   }
 
   handleOnPressTag = tag => {
-    const { addSearchHistory, navigation: { navigate } } = this.props;
+    const { addSearchHistory, navigation: { push } } = this.props;
     addSearchHistory(tag);
-    navigate(SCREENS.SearchResult, {
+    push(SCREENS.SearchResult, {
       word: tag,
       searchType: SEARCH_TYPES.ILLUST,
     });
@@ -125,8 +125,8 @@ class IllustDetailContent extends Component {
   };
 
   handleOnPressAvatar = userId => {
-    const { navigate } = this.props.navigation;
-    navigate(SCREENS.UserDetail, { userId });
+    const { push } = this.props.navigation;
+    push(SCREENS.UserDetail, { userId });
   };
 
   handleOnScrollMultiImagesList = () => {

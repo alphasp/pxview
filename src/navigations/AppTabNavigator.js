@@ -1,8 +1,7 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { TabNavigator, TabBarBottom } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
-import { NavigationComponent } from 'react-native-material-bottom-navigation';
 import RecommendedNavigator from './RecommendedNavigator';
 import RankingNavigator from './RankingNavigator';
 import TrendingNavigator from './TrendingNavigator';
@@ -24,7 +23,7 @@ const renderTabBarIcon = (tintColor, focused, name, iconType) =>
   />;
 
 const createAppTabNavigator = ({ initialRouteName }) =>
-  TabNavigator(
+  createBottomTabNavigator(
     {
       [SCREENS.RecommendedTab]: {
         screen: Platform.OS === 'android' ? Recommended : RecommendedNavigator,
@@ -73,38 +72,11 @@ const createAppTabNavigator = ({ initialRouteName }) =>
       lazy: true,
       swipeEnabled: false,
       animationEnabled: false,
-      tabBarPosition: 'bottom',
-      tabBarComponent:
-        Platform.OS === 'android' ? NavigationComponent : TabBarBottom,
       tabBarOptions: {
         activeTintColor: 'rgb(59,89,152)',
         inactiveTintColor: 'rgb(204,204,204)',
         showIcon: true,
         showLabel: true,
-        bottomNavigationOptions: {
-          style: {
-            borderTopWidth: 0,
-            elevation: 8,
-          },
-          labelColor: 'rgb(59,89,152)',
-          tabs: {
-            RecommendedTab: {},
-            Rankingtab: {
-              // barBackgroundColor: '#EEEEEE',
-            },
-            TrendingTab: {
-              // barBackgroundColor: '#EEEEEE',
-              // barBackgroundColor: '#EEEEEE',
-              // labelColor: '#434343',
-            },
-            NewWorksTab: {
-              // barBackgroundColor: '#EEEEEE',
-            },
-            MyPageTab: {
-              // barBackgroundColor: '#EEEEEE',
-            },
-          },
-        },
       },
     },
   );

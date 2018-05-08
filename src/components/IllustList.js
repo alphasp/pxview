@@ -56,12 +56,12 @@ class IllustList extends Component {
   handleOnPressItem = (item, index) => {
     const {
       data: { items },
-      navigation: { navigate },
+      navigation: { push },
       loadMoreItems,
       listKey,
       maxItems,
     } = this.props;
-    navigate(SCREENS.Detail, {
+    push(SCREENS.Detail, {
       items: maxItems ? items.slice(0, maxItems) : items,
       index,
       onListEndReached: loadMoreItems,

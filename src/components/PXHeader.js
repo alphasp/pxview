@@ -83,7 +83,7 @@ class PXHeader extends Component {
 
   handleOnPressDrawerMenuButton = () => {
     const { navigation } = this.props;
-    navigation.navigate('DrawerOpen');
+    navigation.openDrawer();
   };
 
   handleOnPressBackButton = () => {
