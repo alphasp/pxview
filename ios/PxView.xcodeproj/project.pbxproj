@@ -59,6 +59,9 @@
 		D5E5A830C3DC4F51B3392710 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B812EF683CA4853B43DCA9A /* Entypo.ttf */; };
 		DA438169BE3D4E17A624A091 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC732969F28648BA95D98558 /* Octicons.ttf */; };
 		DE1CD01420A195AC001A9635 /* libRNPhotoView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE1CD00B20A1959D001A9635 /* libRNPhotoView.a */; };
+		DE71252920BC0CFF00B5203E /* WebPDemux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE7124F020BC0CFE00B5203E /* WebPDemux.framework */; };
+		DE71252A20BC0CFF00B5203E /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE71252820BC0CFE00B5203E /* WebP.framework */; };
+		DE71253120BC0E3A00B5203E /* libReactNativeWebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE71253020BC0DF800B5203E /* libReactNativeWebp.a */; };
 		DE8A8A5FAED6451AAA77322D /* libReactNativeLocalization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B6CE49E9066A49E8BEE6F007 /* libReactNativeLocalization.a */; };
 		DEB52BCC1F0CC73D003F7E27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DEB52BCE1F0CC73D003F7E27 /* InfoPlist.strings */; };
 		DEECBB181E696A76004B96BC /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEECBAF91E696A3F004B96BC /* libRCTCameraRoll.a */; };
@@ -391,6 +394,13 @@
 			remoteGlobalIDString = 190C8BAA1BEAADCC00CD505E;
 			remoteInfo = "React Native Open Settings";
 		};
+		DE71252F20BC0DF800B5203E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DE71252B20BC0DF800B5203E /* ReactNativeWebp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = ReactNativeWebp;
+		};
 		DEA861931EF2C4690006EA06 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CC655E64C3F44EB495E2B274 /* RNDeviceInfo.xcodeproj */;
@@ -538,6 +548,9 @@
 		DE1100751F1505F100D3527B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		DE1100761F1505F700D3527B /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		DE1CCFD820A1959D001A9635 /* RNPhotoView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNPhotoView.xcodeproj; path = "../node_modules/react-native-photo-view/ios/RNPhotoView.xcodeproj"; sourceTree = "<group>"; };
+		DE7124F020BC0CFE00B5203E /* WebPDemux.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebPDemux.framework; path = "../node_modules/react-native-webp-support/WebPDemux.framework"; sourceTree = "<group>"; };
+		DE71252820BC0CFE00B5203E /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = "../node_modules/react-native-webp-support/WebP.framework"; sourceTree = "<group>"; };
+		DE71252B20BC0DF800B5203E /* ReactNativeWebp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeWebp.xcodeproj; path = "../node_modules/react-native-webp-support/ReactNativeWebp.xcodeproj"; sourceTree = "<group>"; };
 		DEB52BCD1F0CC73D003F7E27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DEB52BCF1F0CC748003F7E27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DEB52BD01F0CC7C8003F7E27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -560,6 +573,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE71253120BC0E3A00B5203E /* libReactNativeWebp.a in Frameworks */,
 				DE1CD01420A195AC001A9635 /* libRNPhotoView.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
@@ -572,6 +586,7 @@
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
+				DE71252920BC0CFF00B5203E /* WebPDemux.framework in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				DEECBB181E696A76004B96BC /* libRCTCameraRoll.a in Frameworks */,
@@ -583,6 +598,7 @@
 				F5B009993B3E44CC8914D8ED /* libRNShare.a in Frameworks */,
 				DE8A8A5FAED6451AAA77322D /* libReactNativeLocalization.a in Frameworks */,
 				E0377AF2688D4883B949C603 /* libRNCookieManagerIOS.a in Frameworks */,
+				DE71252A20BC0CFF00B5203E /* WebP.framework in Frameworks */,
 				B9F7B3EE5C4E4EBAB1104FD6 /* libRNDeviceInfo.a in Frameworks */,
 				E5C00C73EB30458ABD30ABC0 /* libReact Native Open Settings.a in Frameworks */,
 				C268605C5EFB48F5814BE45D /* libSplashScreen.a in Frameworks */,
@@ -773,6 +789,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				DE71252B20BC0DF800B5203E /* ReactNativeWebp.xcodeproj */,
 				DE1CCFD820A1959D001A9635 /* RNPhotoView.xcodeproj */,
 				DEECBAF11E696A3E004B96BC /* RCTCameraRoll.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -816,6 +833,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				DE71252820BC0CFE00B5203E /* WebP.framework */,
+				DE7124F020BC0CFE00B5203E /* WebPDemux.framework */,
 				13B07FAE1A68108700A75B9A /* PxView */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* PxViewTests */,
@@ -917,6 +936,14 @@
 			isa = PBXGroup;
 			children = (
 				DE6956521EF404FD00618B6E /* libReact Native Open Settings.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DE71252C20BC0DF800B5203E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DE71253020BC0DF800B5203E /* libReactNativeWebp.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1212,6 +1239,10 @@
 				{
 					ProductGroup = DEC2FA121E9382C8006C5406 /* Products */;
 					ProjectRef = 242EFF9E103A451C9E75074A /* ReactNativeLocalization.xcodeproj */;
+				},
+				{
+					ProductGroup = DE71252C20BC0DF800B5203E /* Products */;
+					ProjectRef = DE71252B20BC0DF800B5203E /* ReactNativeWebp.xcodeproj */;
 				},
 				{
 					ProductGroup = DED58BC91FA8604A00E1DB96 /* Products */;
@@ -1573,6 +1604,13 @@
 			remoteRef = DE6956511EF404FD00618B6E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		DE71253020BC0DF800B5203E /* libReactNativeWebp.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeWebp.a;
+			remoteRef = DE71252F20BC0DF800B5203E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		DEA861941EF2C4690006EA06 /* libRNDeviceInfo.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1897,6 +1935,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = S75J7D267F;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Crashlytics/iOS\"",
+					"\"${PODS_ROOT}/Fabric/iOS\"",
+					"\"$(SRCROOT)/../node_modules/react-native-webp-support\"",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-share/ios",
@@ -1909,6 +1953,7 @@
 					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS",
 					"$(SRCROOT)/../node_modules/react-native-zip-archive/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-cookies/ios/RNCookieManagerIOS",
+					"$(SRCROOT)/../node_modules/react-native-webp-support",
 				);
 				INFOPLIST_FILE = PxView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1932,6 +1977,12 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = S75J7D267F;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Crashlytics/iOS\"",
+					"\"${PODS_ROOT}/Fabric/iOS\"",
+					"\"$(SRCROOT)/../node_modules/react-native-webp-support\"",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-share/ios",
@@ -1944,6 +1995,7 @@
 					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS",
 					"$(SRCROOT)/../node_modules/react-native-zip-archive/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-cookies/ios/RNCookieManagerIOS",
+					"$(SRCROOT)/../node_modules/react-native-webp-support",
 				);
 				INFOPLIST_FILE = PxView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
