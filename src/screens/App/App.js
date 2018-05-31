@@ -18,6 +18,14 @@ const styles = StyleSheet.create({
 });
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    const { initialRouteName } = props;
+    this.appNavigator = createAppNavigator({
+      initialRouteName,
+    });
+  }
+
   componentDidMount() {
     MessageBarManager.registerMessageBar(this.messageBarAlert);
     this.showToastListener = DeviceEventEmitter.addListener(
@@ -41,30 +49,18 @@ class App extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
-    const { initialRouteName: prevInitialRouteName } = this.props;
-    const { initialRouteName } = nextProps;
-    // do not rerender when initialRouteName changed,
-    if (initialRouteName !== prevInitialRouteName) {
-      return false;
-    }
-    return true;
-  }
-
   componentWillUnmount() {
     MessageBarManager.unregisterMessageBar();
     this.showToastListener.remove();
   }
 
   render() {
-    const { rehydrated, user, i18n, initialRouteName } = this.props;
+    const { rehydrated, user, i18n } = this.props;
     let renderComponent;
     if (!rehydrated) {
       renderComponent = <Loader />;
     } else if (user) {
-      const Navigator = createAppNavigator({
-        initialRouteName,
-      });
+      const Navigator = this.appNavigator;
       renderComponent = (
         <Navigator
           screenProps={{ i18n }}
