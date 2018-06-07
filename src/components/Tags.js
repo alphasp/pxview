@@ -65,20 +65,5 @@ const Tags = ({ tags, onPressTag, onLongPressTag }) =>
       </PXTouchable>,
     )}
   </View>;
-// <View style={styles.container}>
-//   {tags.map(tag =>
-//     <LinearGradient
-//     key={tag.name}
-//     start={{ x: 0, y: 1 }}
-//     end={{ x: 1, y: 1 }}
-//     colors={['green', 'red']}
-//     style={styles.tagContainer}
-//   >
-//     <Text style={styles.tagLabel}>
-//       {tag.name}
-//     </Text>
-//   </LinearGradient>
-//   )}
-// </View>;
 
 export default Tags;

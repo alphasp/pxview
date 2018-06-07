@@ -10,12 +10,14 @@ import {
   DeviceEventEmitter,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { AndroidBackHandler } from 'react-navigation-backhandler';
 import Share from 'react-native-share';
 import ActionButton from 'react-native-action-button';
 import enhanceSaveImage from '../../components/HOC/enhanceSaveImage';
 import IllustDetailContent from '../../components/IllustDetailContent';
 import PXHeader from '../../components/PXHeader';
 import PXViewPager from '../../components/PXViewPager';
+import DetailInfoModal from '../../components/DetailInfoModal';
 import PXBottomSheet from '../../components/PXBottomSheet';
 import PXBottomSheetButton from '../../components/PXBottomSheetButton';
 import PXBottomSheetCancelButton from '../../components/PXBottomSheetCancelButton';
@@ -23,6 +25,7 @@ import BookmarkIllustButton from '../../components/BookmarkIllustButton';
 import Loader from '../../components/Loader';
 import PXTouchable from '../../components/PXTouchable';
 import PXThumbnail from '../../components/PXThumbnail';
+import HeaderInfoButton from '../../components/HeaderInfoButton';
 import HeaderSaveImageButton from '../../components/HeaderSaveImageButton';
 import HeaderMenuButton from '../../components/HeaderMenuButton';
 import * as browsingHistoryIllustsActionCreators from '../../common/actions/browsingHistoryIllusts';
@@ -72,6 +75,7 @@ class Detail extends Component {
       mounting: true,
       isActionButtonVisible: true,
       isOpenMenuBottomSheet: false,
+      isOpenDetailInfoModal: false,
       selectedImageIndex: null,
     };
     this.listViewOffset = 0;
@@ -269,6 +273,29 @@ class Detail extends Component {
     this.handleOnCancelMenuBottomSheet();
   };
 
+  handleOnPressOpenDetailInfoModal = () => {
+    this.setState({
+      isOpenDetailInfoModal: true,
+    });
+  };
+
+  handleOnCancelDetailInfoModal = () => {
+    this.setState({
+      isOpenDetailInfoModal: false,
+    });
+  };
+
+  handleOnPressHardwareBackButton = () => {
+    const { isOpenDetailInfoModal } = this.state;
+    if (isOpenDetailInfoModal) {
+      this.setState({
+        isOpenDetailInfoModal: false,
+      });
+      return true;
+    }
+    return false;
+  };
+
   renderHeaderTitle = item => {
     const { navigation: { push } } = this.props;
     return (
@@ -309,6 +336,7 @@ class Detail extends Component {
         : [item.meta_single_page.original_image_url];
     return (
       <View style={styles.headerRightContainer}>
+        <HeaderInfoButton onPress={this.handleOnPressOpenDetailInfoModal} />
         <HeaderSaveImageButton
           imageUrls={images}
           workId={item.id}
@@ -382,58 +410,70 @@ class Detail extends Component {
   }
 
   render() {
-    const { item, isMuteUser, i18n } = this.props;
+    const { item, isMuteUser, i18n, navigation } = this.props;
     const {
       isActionButtonVisible,
+      isOpenDetailInfoModal,
       isOpenMenuBottomSheet,
       selectedImageIndex,
     } = this.state;
     return (
-      <View style={globalStyles.container} ref={ref => (this.detailView = ref)}>
-        {this.renderMainContent()}
-        {isActionButtonVisible &&
-          item &&
-          <ActionButton
-            buttonColor="rgba(255,255,255,1)"
-            bgColor="red"
-            icon={<BookmarkIllustButton item={item} />}
-            fixNativeFeedbackRadius
-          />}
-        <PXBottomSheet
-          visible={isOpenMenuBottomSheet}
-          onCancel={this.handleOnCancelMenuBottomSheet}
+      <AndroidBackHandler onBackPress={this.handleOnPressHardwareBackButton}>
+        <View
+          style={globalStyles.container}
+          ref={ref => (this.detailView = ref)}
         >
-          {selectedImageIndex !== null &&
-            <PXBottomSheetButton
-              onPress={this.handleOnPressSaveImage}
-              iconName="content-save"
-              iconType="material-community"
-              text={i18n.saveImage}
+          {this.renderMainContent()}
+          {isActionButtonVisible &&
+            item &&
+            <ActionButton
+              buttonColor="rgba(255,255,255,1)"
+              bgColor="red"
+              icon={<BookmarkIllustButton item={item} />}
+              fixNativeFeedbackRadius
             />}
-          <PXBottomSheetButton
-            onPress={this.handleOnPressShareIllust}
-            iconName="share"
-            iconType="entypo"
-            text={i18n.share}
+          <DetailInfoModal
+            item={item}
+            navigation={navigation}
+            visible={isOpenDetailInfoModal}
+            onCancel={this.handleOnCancelDetailInfoModal}
           />
-          <PXBottomSheetButton
-            onPress={this.handleOnPressToggleMuteUser}
-            iconName="user-times"
-            iconType="font-awesome"
-            textStyle={{
-              marginLeft: 28,
-            }}
-            text={isMuteUser ? i18n.userMuteRemove : i18n.userMuteAdd}
-          />
-          <PXBottomSheetCancelButton
-            onPress={this.handleOnCancelMenuBottomSheet}
-            textStyle={{
-              marginLeft: 38,
-            }}
-            text={i18n.cancel}
-          />
-        </PXBottomSheet>
-      </View>
+          <PXBottomSheet
+            visible={isOpenMenuBottomSheet}
+            onCancel={this.handleOnCancelMenuBottomSheet}
+          >
+            {selectedImageIndex !== null &&
+              <PXBottomSheetButton
+                onPress={this.handleOnPressSaveImage}
+                iconName="content-save"
+                iconType="material-community"
+                text={i18n.saveImage}
+              />}
+            <PXBottomSheetButton
+              onPress={this.handleOnPressShareIllust}
+              iconName="share"
+              iconType="entypo"
+              text={i18n.share}
+            />
+            <PXBottomSheetButton
+              onPress={this.handleOnPressToggleMuteUser}
+              iconName="user-times"
+              iconType="font-awesome"
+              textStyle={{
+                marginLeft: 28,
+              }}
+              text={isMuteUser ? i18n.userMuteRemove : i18n.userMuteAdd}
+            />
+            <PXBottomSheetCancelButton
+              onPress={this.handleOnCancelMenuBottomSheet}
+              textStyle={{
+                marginLeft: 38,
+              }}
+              text={i18n.cancel}
+            />
+          </PXBottomSheet>
+        </View>
+      </AndroidBackHandler>
     );
   }
 }

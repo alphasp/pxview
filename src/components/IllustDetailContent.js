@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import DetailFooter from './DetailFooter';
 import PXCacheImageTouchable from './PXCacheImageTouchable';
 import UgoiraViewTouchable from './UgoiraViewTouchable';
+import ViewMoreImagesButton from './ViewMoreImagesButton';
 import TagBottomSheet from './TagBottomSheet';
 import OverlayMutedIndicator from './OverlayMutedIndicator';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
@@ -54,6 +55,7 @@ class IllustDetailContent extends Component {
     this.state = {
       isInitState: true,
       isScrolling: false,
+      isViewAllImages: false,
       imagePageNumber: null,
       isOpenTagBottomSheet: false,
       selectedTag: null,
@@ -186,6 +188,12 @@ class IllustDetailContent extends Component {
     this.footerViewHeight = e.nativeEvent.layout.height;
   };
 
+  handleOnPressViewMoreImages = () => {
+    this.setState({
+      isViewAllImages: true,
+    });
+  };
+
   renderItem = ({ item, index }) => {
     const { onPressImage, onLongPressImage } = this.props;
     return (
@@ -237,17 +245,23 @@ class IllustDetailContent extends Component {
 
   renderFooter = () => {
     const { item, navigation, authUser, tags } = this.props;
+    const { isViewAllImages } = this.state;
     return (
-      <DetailFooter
-        onLayoutView={this.handleOnLayoutFooter}
-        item={item}
-        tags={tags}
-        navigation={navigation}
-        authUser={authUser}
-        onPressAvatar={this.handleOnPressAvatar}
-        onPressTag={this.handleOnPressTag}
-        onLongPressTag={this.handleOnLongPressTag}
-      />
+      <View>
+        {item.page_count > 1 &&
+          !isViewAllImages &&
+          <ViewMoreImagesButton onPress={this.handleOnPressViewMoreImages} />}
+        <DetailFooter
+          onLayoutView={this.handleOnLayoutFooter}
+          item={item}
+          tags={tags}
+          navigation={navigation}
+          authUser={authUser}
+          onPressAvatar={this.handleOnPressAvatar}
+          onPressTag={this.handleOnPressTag}
+          onLongPressTag={this.handleOnLongPressTag}
+        />
+      </View>
     );
   };
 
@@ -265,6 +279,7 @@ class IllustDetailContent extends Component {
       imagePageNumber,
       isScrolling,
       isInitState,
+      isViewAllImages,
       isOpenTagBottomSheet,
       selectedTag,
     } = this.state;
@@ -274,7 +289,7 @@ class IllustDetailContent extends Component {
         {!isMute && item.page_count > 1
           ? <View>
               <FlatList
-                data={item.meta_pages}
+                data={isViewAllImages ? item.meta_pages : [item.meta_pages[0]]}
                 keyExtractor={page => page.image_urls.large}
                 renderItem={this.renderItem}
                 removeClippedSubviews={false}

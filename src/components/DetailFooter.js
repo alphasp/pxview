@@ -1,12 +1,5 @@
 import React, { PureComponent } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Platform,
-  Linking,
-  SafeAreaView,
-} from 'react-native';
+import { View, Text, StyleSheet, Linking, SafeAreaView } from 'react-native';
 import moment from 'moment';
 import HtmlView from 'react-native-htmlview';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -72,9 +65,6 @@ const styles = StyleSheet.create({
     color: globalStyleVariables.PRIMARY_COLOR,
     fontWeight: 'bold',
     marginBottom: 5,
-  },
-  footerSpacer: {
-    marginBottom: Platform.OS === 'ios' ? 120 : 60,
   },
 });
 
@@ -156,13 +146,11 @@ class DetailFooter extends PureComponent {
                 {item.total_bookmarks}
               </Text>
             </View>
-            {
-              <Tags
-                tags={tags}
-                onPressTag={onPressTag}
-                onLongPressTag={onLongPressTag}
-              />
-            }
+            <Tags
+              tags={tags}
+              onPressTag={onPressTag}
+              onLongPressTag={onLongPressTag}
+            />
           </View>
           <View style={styles.sectionContainer}>
             <View style={styles.sectionHeader}>
