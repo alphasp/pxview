@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { View, FlatList, DeviceEventEmitter } from 'react-native';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { connectLocalization } from '../../components/Localization';
+import PXTouchable from '../../components/PXTouchable';
 import EmptyStateView from '../../components/EmptyStateView';
 import * as muteUsersActionCreators from '../../common/actions/muteUsers';
 import { getMuteUsersItems } from '../../common/selectors';
@@ -41,9 +43,15 @@ class MuteUsersSettings extends Component {
           referer: 'http://www.pixiv.net',
         },
       }}
-      rightIcon={{ name: 'times', type: 'font-awesome' }}
+      rightIcon={
+        <PXTouchable
+          hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
+          onPress={() => this.handleOnPressRemoveMuteUser(item.id)}
+        >
+          <Icon name="times" size={28} color="#bdc6cf" />
+        </PXTouchable>
+      }
       onPress={() => this.handleOnPressUser(item.id)}
-      onPressRightIcon={() => this.handleOnPressRemoveMuteUser(item.id)}
     />;
 
   render() {

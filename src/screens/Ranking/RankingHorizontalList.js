@@ -127,6 +127,7 @@ class RankingHorizontalList extends Component {
             {this.mapRankingTypeString(rankingType)}
           </Text>
           <PXTouchable
+            hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
             style={styles.viewMoreContainer}
             onPress={this.handleOnPressViewMore}
           >

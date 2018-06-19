@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as Animatable from 'react-native-animatable';
+import PXTouchable from './PXTouchable';
 
 const AnimatableIcon = Animatable.createAnimatableComponent(Icon);
 
@@ -78,20 +79,24 @@ class BookmarkButton extends Component {
       outputRange: [1, 0.8, 1],
     });
     return (
-      <AnimatableIcon
-        name="favorite"
-        style={{
-          color,
-          transform: [
-            {
-              scale,
-            },
-          ],
-        }}
-        size={size || 24}
+      <PXTouchable
+        hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
         onPress={this.handleOnPress}
         onLongPress={onLongPress}
-      />
+      >
+        <AnimatableIcon
+          name="favorite"
+          style={{
+            color,
+            transform: [
+              {
+                scale,
+              },
+            ],
+          }}
+          size={size || 24}
+        />
+      </PXTouchable>
     );
   }
 }

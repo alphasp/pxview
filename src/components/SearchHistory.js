@@ -31,6 +31,7 @@ class SearchHistory extends Component {
     return (
       <View style={styles.listItemContainer} key={item}>
         <PXTouchable
+          hitSlop={{ top: 20, left: 20, bottom: 20, right: 0 }}
           onPress={() => onPressItem(item)}
           style={styles.searchHistoryText}
         >
@@ -38,12 +39,12 @@ class SearchHistory extends Component {
             {item}
           </Text>
         </PXTouchable>
-        <Icon
-          name="times"
-          size={16}
-          color="#A9A9A9"
+        <PXTouchable
+          hitSlop={{ top: 0, left: 20, bottom: 20, right: 20 }}
           onPress={() => onPressRemoveSearchHistoryItem(item)}
-        />
+        >
+          <Icon name="times" size={16} color="#A9A9A9" />
+        </PXTouchable>
       </View>
     );
   };
@@ -56,7 +57,10 @@ class SearchHistory extends Component {
           <Text style={styles.searchHistoryTitle}>
             {i18n.searchHistory}
           </Text>
-          <PXTouchable onPress={onPressClearSearchHistory}>
+          <PXTouchable
+            hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
+            onPress={onPressClearSearchHistory}
+          >
             <Text style={styles.searchHistoryTitle}>
               {i18n.searchHistoryClear}
             </Text>

@@ -271,7 +271,10 @@ class BookmarkModal extends Component {
                     autoCorrect={false}
                     onChangeText={text => this.setState({ newTag: text })}
                   />
-                  <PXTouchable onPress={this.handleOnPressAddTag}>
+                  <PXTouchable
+                    onPress={this.handleOnPressAddTag}
+                    hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
+                  >
                     <Icon name="plus" size={20} />
                   </PXTouchable>
                 </View>
@@ -301,7 +304,10 @@ class BookmarkModal extends Component {
                   ]}
                 >
                   {isBookmark &&
-                    <PXTouchable onPress={this.handleOnPressRemoveButton}>
+                    <PXTouchable
+                      hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
+                      onPress={this.handleOnPressRemoveButton}
+                    >
                       <Text>
                         {i18n.likeRemove}
                       </Text>
@@ -313,6 +319,7 @@ class BookmarkModal extends Component {
                         alignItems: 'center',
                       }
                     }
+                    hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
                     onPress={this.handleOnPressBookmarkButton}
                   >
                     {!isBookmark &&

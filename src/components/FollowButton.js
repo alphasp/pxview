@@ -26,12 +26,14 @@ const FollowButton = props => {
     i18n,
     buttonStyle,
     textStyle,
+    ...restProps,
   } = props;
   return (
     <PXTouchable
       style={[styles.button, buttonStyle]}
       onPress={onPress}
       onLongPress={onLongPress}
+      {...restProps}
     >
       <Text style={[styles.buttonText, textStyle]}>
         {isFollow ? i18n.following : i18n.follow}

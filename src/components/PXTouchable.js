@@ -23,7 +23,6 @@ const PXTouchable = props => {
       </TouchableNativeFeedback>
     );
   }
-
   return <TouchableOpacity {...props} />;
 };
 

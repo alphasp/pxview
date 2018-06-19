@@ -112,7 +112,10 @@ class CommentList extends Component {
             {onPressReplyCommentButton &&
               <Fragment>
                 <Text> ・ </Text>
-                <PXTouchable onPress={() => onPressReplyCommentButton(item)}>
+                <PXTouchable
+                  onPress={() => onPressReplyCommentButton(item)}
+                  hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
+                >
                   <Text style={styles.replyButtonText}>
                     {i18n.commentReply}
                   </Text>

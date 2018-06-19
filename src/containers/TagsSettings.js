@@ -67,8 +67,14 @@ class TagSettings extends Component {
   renderItem = ({ item }) =>
     <ListItem
       title={item}
-      rightIcon={{ name: 'times', type: 'font-awesome' }}
-      onPressRightIcon={() => this.handleOnPressRemoveTag(item)}
+      rightIcon={
+        <PXTouchable
+          hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
+          onPress={() => this.handleOnPressRemoveTag(item)}
+        >
+          <Icon name="times" size={28} color="#bdc6cf" />
+        </PXTouchable>
+      }
     />;
 
   render() {
@@ -83,7 +89,10 @@ class TagSettings extends Component {
             containerStyle={styles.formInputContainer}
             onChangeText={this.handleOnChangeFormInputText}
           />
-          <PXTouchable onPress={this.handleOnPressAddTag}>
+          <PXTouchable
+            hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
+            onPress={this.handleOnPressAddTag}
+          >
             <Icon
               name="plus"
               size={24}

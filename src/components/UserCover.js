@@ -39,7 +39,10 @@ const UserCover = ({ user, avatarSize, onPressAvatar }) =>
       onPress={onPressAvatar}
     />
     <View style={styles.usernameContainer}>
-      <PXTouchable onPress={onPressAvatar}>
+      <PXTouchable
+        onPress={onPressAvatar}
+        hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
+      >
         <Text style={styles.username}>
           {user.name}
         </Text>

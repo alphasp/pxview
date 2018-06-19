@@ -20,7 +20,10 @@ const styles = StyleSheet.create({
 
 const ViewRepliesButton = ({ i18n, onPress }) =>
   <View style={styles.container}>
-    <PXTouchable onPress={onPress}>
+    <PXTouchable
+      hitSlop={{ top: 0, left: 20, bottom: 20, right: 20 }}
+      onPress={onPress}
+    >
       <View style={styles.viewRepliesContainer}>
         <Text>
           {i18n.commentViewReplies}

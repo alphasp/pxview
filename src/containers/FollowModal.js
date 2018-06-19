@@ -176,6 +176,12 @@ class FollowModal extends Component {
                       {isFollow
                         ? <View style={styles.actionContainer}>
                             <PXTouchable
+                              hitSlop={{
+                                top: 20,
+                                left: 20,
+                                bottom: 20,
+                                right: 20,
+                              }}
                               onPress={this.handleOnPressRemoveButton}
                             >
                               <Text>
@@ -183,6 +189,12 @@ class FollowModal extends Component {
                               </Text>
                             </PXTouchable>
                             <PXTouchable
+                              hitSlop={{
+                                top: 20,
+                                left: 20,
+                                bottom: 20,
+                                right: 20,
+                              }}
                               onPress={this.handleOnPressFollowButton}
                             >
                               <Text>
@@ -194,6 +206,12 @@ class FollowModal extends Component {
                             style={styles.actionWithoutRemoveButtonContainer}
                           >
                             <FollowButton
+                              hitSlop={{
+                                top: 10,
+                                left: 10,
+                                bottom: 10,
+                                right: 10,
+                              }}
                               isFollow={isFollow}
                               onPress={this.handleOnPressFollowButton}
                             />
