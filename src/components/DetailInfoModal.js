@@ -91,11 +91,12 @@ const styles = StyleSheet.create({
 class DetailInfoModal extends Component {
   static defaultProps = {
     duration: 300,
-    height:
-      globalStyleVariables.WINDOW_HEIGHT -
-      globalStyleVariables.APPBAR_HEIGHT -
-      globalStyleVariables.STATUSBAR_HEIGHT -
-      200,
+    height: Math.floor(
+      (globalStyleVariables.WINDOW_HEIGHT -
+        globalStyleVariables.APPBAR_HEIGHT -
+        globalStyleVariables.STATUSBAR_HEIGHT) *
+        0.6,
+    ),
   };
 
   constructor(props) {
