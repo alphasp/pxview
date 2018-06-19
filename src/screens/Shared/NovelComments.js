@@ -86,7 +86,7 @@ class NovelComments extends Component {
         novelId,
         authorId,
         commentItem,
-        onSubmitComment: this.handleOnSubmitComment, // todo
+        onSubmitComment: this.handleOnSubmitComment,
       });
     }
   };
