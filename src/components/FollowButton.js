@@ -26,7 +26,7 @@ const FollowButton = props => {
     i18n,
     buttonStyle,
     textStyle,
-    ...restProps,
+    ...restProps
   } = props;
   return (
     <PXTouchable
