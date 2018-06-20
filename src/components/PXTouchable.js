@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 const PXTouchable = props => {
-  if (Platform.OS === 'android') {
+  if (Platform.OS === 'android' && Platform.Version >= 21) {
     const { style, children, ...otherProps } = props;
     return (
       <TouchableNativeFeedback
