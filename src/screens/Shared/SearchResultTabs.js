@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View,
-  Keyboard,
-  Platform,
-  BackHandler,
-} from 'react-native';
+import { StyleSheet, View, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
+import { AndroidBackHandler } from 'react-navigation-backhandler';
 import Search from '../../containers/Search';
 import SearchIllustsResult from '../../containers/SearchIllustsResult';
 import SearchNovelsResult from '../../containers/SearchNovelsResult';
@@ -40,24 +35,6 @@ class SearchResultTabs extends Component {
       newWord: word,
       searchOptions: {},
     };
-  }
-
-  componentDidMount() {
-    if (Platform.OS === 'android') {
-      this.backHandlerListener = BackHandler.addEventListener(
-        'hardwareBackPress',
-        this.handleOnPressHardwareBackButton,
-      );
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.backHandlerListener) {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        this.backHandlerListener,
-      );
-    }
   }
 
   handleOnFocusSearchBar = () => {
@@ -145,7 +122,7 @@ class SearchResultTabs extends Component {
   };
 
   handleOnSubmitSearch = word => {
-    const { replace } = this.props.navigation;
+    const { setParams } = this.props.navigation;
     const { searchType, newSearchType } = this.state;
     Keyboard.dismiss();
     const nextState = {
@@ -157,7 +134,9 @@ class SearchResultTabs extends Component {
       nextState.searchOptions = {};
     }
     this.setState(nextState);
-    replace(SCREENS.SearchResult, { word });
+    setParams({
+      word,
+    });
     return true;
   };
 
@@ -212,41 +191,43 @@ class SearchResultTabs extends Component {
     const { navigation } = this.props;
     const { newWord, isFocusSearchBar, searchType } = this.state;
     return (
-      <View style={styles.container}>
-        <PXSearchBar
-          showBackButton
-          word={newWord}
-          searchType={searchType}
-          onFocus={this.handleOnFocusSearchBar}
-          onChangeText={this.handleOnChangeSearchText}
-          onPressBackButton={this.handleOnPressBackButton}
-          onSubmitSearch={this.handleOnSubmitSearch}
-          headerRight={
-            !isFocusSearchBar && searchType !== SEARCH_TYPES.USER
-              ? <View style={{ flexDirection: 'row' }}>
-                  <HeaderEncyclopediaButton
-                    onPress={this.handleOnPressViewEncyclopedia}
-                  />
-                  <HeaderFilterButton
-                    onPress={this.handleOnPressShowFilterModal}
-                  />
-                </View>
-              : null
-          }
-          isFocus={isFocusSearchBar}
-        />
-        <View style={styles.content}>
-          {this.renderContent()}
-          {isFocusSearchBar &&
-            <Search
-              word={newWord}
-              navigation={navigation}
-              searchType={searchType}
-              onSubmitSearch={this.handleOnSubmitSearch}
-              onChangePill={this.handleOnChangePill}
-            />}
+      <AndroidBackHandler onBackPress={this.handleOnPressHardwareBackButton}>
+        <View style={styles.container}>
+          <PXSearchBar
+            showBackButton
+            word={newWord}
+            searchType={searchType}
+            onFocus={this.handleOnFocusSearchBar}
+            onChangeText={this.handleOnChangeSearchText}
+            onPressBackButton={this.handleOnPressBackButton}
+            onSubmitSearch={this.handleOnSubmitSearch}
+            headerRight={
+              !isFocusSearchBar && searchType !== SEARCH_TYPES.USER
+                ? <View style={{ flexDirection: 'row' }}>
+                    <HeaderEncyclopediaButton
+                      onPress={this.handleOnPressViewEncyclopedia}
+                    />
+                    <HeaderFilterButton
+                      onPress={this.handleOnPressShowFilterModal}
+                    />
+                  </View>
+                : null
+            }
+            isFocus={isFocusSearchBar}
+          />
+          <View style={styles.content}>
+            {this.renderContent()}
+            {isFocusSearchBar &&
+              <Search
+                word={newWord}
+                navigation={navigation}
+                searchType={searchType}
+                onSubmitSearch={this.handleOnSubmitSearch}
+                onChangePill={this.handleOnChangePill}
+              />}
+          </View>
         </View>
-      </View>
+      </AndroidBackHandler>
     );
   }
 }

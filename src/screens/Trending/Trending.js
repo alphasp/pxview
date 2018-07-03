@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View,
-  Keyboard,
-  Platform,
-  BackHandler,
-} from 'react-native';
+import { StyleSheet, View, Keyboard, Platform } from 'react-native';
+import { AndroidBackHandler } from 'react-navigation-backhandler';
 import TrendingIllustTags from './TrendingIllustTags';
 import TrendingNovelTags from './TrendingNovelTags';
 import RecommendedUsers from '../Shared/RecommendedUsers';
@@ -52,24 +47,6 @@ class Trending extends Component {
       word: null,
       searchType: SEARCH_TYPES.ILLUST,
     };
-  }
-
-  componentDidMount() {
-    if (Platform.OS === 'android') {
-      this.backHandlerListener = BackHandler.addEventListener(
-        'hardwareBackPress',
-        this.handleOnPressBackButton,
-      );
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.backHandlerListener) {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        this.backHandlerListener,
-      );
-    }
   }
 
   handleOnFocusSearchBar = () => {
@@ -170,33 +147,35 @@ class Trending extends Component {
     const { navigation } = this.props;
     const { word, isFocusSearchBar, searchType } = this.state;
     return (
-      <View style={styles.container}>
-        <PXSearchBar
-          showSearchBar
-          word={word}
-          showBackButton={isFocusSearchBar}
-          showMenuButton={!config.navigation.tab && !isFocusSearchBar}
-          searchType={searchType}
-          onFocus={this.handleOnFocusSearchBar}
-          onChangeText={this.handleOnChangeSearchText}
-          onPressBackButton={this.handleOnPressBackButton}
-          onSubmitSearch={this.handleOnSubmitSearch}
-          isFocus={isFocusSearchBar}
-          withShadow={false}
-        />
-        <View style={styles.content}>
-          {this.renderHeader()}
-          {this.renderContent()}
-          {isFocusSearchBar &&
-            <Search
-              word={word}
-              navigation={navigation}
-              searchType={searchType}
-              onSubmitSearch={this.handleOnSubmitSearch}
-              onChangePill={this.handleOnChangePill}
-            />}
+      <AndroidBackHandler onBackPress={this.handleOnPressBackButton}>
+        <View style={styles.container}>
+          <PXSearchBar
+            showSearchBar
+            word={word}
+            showBackButton={isFocusSearchBar}
+            showMenuButton={!config.navigation.tab && !isFocusSearchBar}
+            searchType={searchType}
+            onFocus={this.handleOnFocusSearchBar}
+            onChangeText={this.handleOnChangeSearchText}
+            onPressBackButton={this.handleOnPressBackButton}
+            onSubmitSearch={this.handleOnSubmitSearch}
+            isFocus={isFocusSearchBar}
+            withShadow={false}
+          />
+          <View style={styles.content}>
+            {this.renderHeader()}
+            {this.renderContent()}
+            {isFocusSearchBar &&
+              <Search
+                word={word}
+                navigation={navigation}
+                searchType={searchType}
+                onSubmitSearch={this.handleOnSubmitSearch}
+                onChangePill={this.handleOnChangePill}
+              />}
+          </View>
         </View>
-      </View>
+      </AndroidBackHandler>
     );
   }
 }
