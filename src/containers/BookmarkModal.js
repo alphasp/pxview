@@ -108,11 +108,15 @@ class BookmarkModal extends Component {
     const { item: prevItem } = this.props;
     const { item } = nextProps;
     if (item && item !== prevItem) {
-      const selectedTagsCount = this.countSelectedTags(item.tags);
-      const tags = item.tags.map(tag => ({
-        ...tag,
-        editable: !!(tag.is_registered || selectedTagsCount < MAX_TAGS_COUNT),
-      }));
+      let tags = [];
+      let selectedTagsCount = 0;
+      if (item.tags && item.tags.length) {
+        selectedTagsCount = this.countSelectedTags(item.tags);
+        tags = item.tags.map(tag => ({
+          ...tag,
+          editable: !!(tag.is_registered || selectedTagsCount < MAX_TAGS_COUNT),
+        }));
+      }
       this.setState({
         tags,
         isPrivate: item.restrict === 'private',

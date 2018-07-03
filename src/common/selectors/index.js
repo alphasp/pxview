@@ -653,12 +653,16 @@ export const makeGetNovelItem = () =>
 export const makeGetTagsWithStatus = () =>
   createTagsWithStatusSelector(
     [selectHighlightTags, selectMuteTags, getProps],
-    (highlightTags, muteTags, { item }) =>
-      item.tags.map(tag => ({
-        ...tag,
-        isHighlight: highlightTags.includes(tag.name),
-        isMute: muteTags.includes(tag.name),
-      })),
+    (highlightTags, muteTags, { item }) => {
+      if (item && item.tags && item.tags.length) {
+        return item.tags.map(tag => ({
+          ...tag,
+          isHighlight: highlightTags.includes(tag.name),
+          isMute: muteTags.includes(tag.name),
+        }));
+      }
+      return defaultArray;
+    },
   );
 
 export const getWalkthroughIllustsItems = createIllustItemsSelector(
