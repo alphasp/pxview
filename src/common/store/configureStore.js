@@ -5,9 +5,11 @@ import { persistStore, persistReducer, createTransform } from 'redux-persist';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4';
 import applyAppStateListener from 'redux-enhancer-react-native-appstate';
+import FileSystemStorage from 'redux-persist-filesystem-storage';
 import { AsyncStorage } from 'react-native';
 import rootReducer from '../reducers';
 import rootSaga from '../sagas';
+import getStoredStateMigrateToFileSystemStorage from './getStoredStateMigrateToFileSystemStorage';
 
 const myTransform = createTransform(
   (inboundState, key, state) => {
@@ -95,12 +97,19 @@ const myTransform = createTransform(
 const clearV4PersistedContents = () =>
   AsyncStorage.getAllKeys((err, keys) => {
     if (!err && keys && keys.length) {
-      const keyPrefix = 'reduxPersist:';
-      const v4PersistKeys = keys.filter(key => key.indexOf(keyPrefix) === 0);
-      if (v4PersistKeys.length) {
-        AsyncStorage.multiRemove(v4PersistKeys, () => Promise.resolve());
+      const keyPrefix = 'persist:root';
+      const v5PersistKeys = keys.filter(key => key.indexOf(keyPrefix) === 0);
+      if (v5PersistKeys.length) {
+        AsyncStorage.multiRemove(v5PersistKeys, () => Promise.resolve());
+      } else {
+        const v4KeyPrefix = 'reduxPersist:';
+        const v4PersistKeys = keys.filter(
+          key => key.indexOf(v4KeyPrefix) === 0,
+        );
+        if (v4PersistKeys.length) {
+          AsyncStorage.multiRemove(v4PersistKeys, () => Promise.resolve());
+        }
       }
-      return Promise.resolve();
     }
     return Promise.resolve();
   });
@@ -142,6 +151,28 @@ export default function configureStore() {
     transforms: [myTransform],
   };
 
+  const v5Config = {
+    key: 'root',
+    stateReconciler: autoMergeLevel2,
+    whitelist: [
+      'searchHistory',
+      'browsingHistoryIllusts',
+      'browsingHistoryNovels',
+      'highlightTags',
+      'muteTags',
+      'muteUsers',
+      'saveImageSettings',
+      'initialScreenSettings',
+      'novelSettings',
+      'entities',
+      'auth',
+      'i18n',
+    ],
+    storage: AsyncStorage,
+    transforms: [myTransform],
+    getStoredState: getStoredStateMigrateV4(v4Config),
+  };
+
   const persistConfig = {
     key: 'root',
     stateReconciler: autoMergeLevel2,
@@ -158,11 +189,13 @@ export default function configureStore() {
       'entities',
       'auth',
       'i18n',
-      'temptest',
     ],
-    storage: AsyncStorage,
+    storage: FileSystemStorage,
     transforms: [myTransform],
-    getStoredState: getStoredStateMigrateV4(v4Config),
+    getStoredState: getStoredStateMigrateToFileSystemStorage(
+      v5Config,
+      v4Config,
+    ),
     debug: process.env.NODE_ENV !== 'production',
   };
   const persistedReducer = persistReducer(persistConfig, rootReducer);
