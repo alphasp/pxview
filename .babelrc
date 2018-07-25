@@ -1,7 +1,7 @@
 {
   "presets": [
     "react-native",
-    "flow"
+    "@babel/preset-flow"
   ],
   "plugins": [],
   "sourceMaps": true // must be true react-native/packager/transformer using with node-module-debug
