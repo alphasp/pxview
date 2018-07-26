@@ -105,7 +105,7 @@ const mockError = {
   },
 };
 
-Date.now = jest.genMockFunction().mockReturnValue(0);
+Date.now = jest.fn();
 
 test('authorize', () => {
   const generator = authorize(email, password, isProvisionalAccount);

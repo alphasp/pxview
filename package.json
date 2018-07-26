@@ -79,14 +79,17 @@
     "preset": "react-native",
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|redux-enhancer-react-native-appstate|)"
-    ]
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
+    }
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.0.0-beta.54",
     "@babel/preset-flow": "^7.0.0-beta.54",
     "@babel/register": "^7.0.0-beta.54",
     "babel-eslint": "^7.2.3",
-    "babel-jest": "^20.0.3",
+    "babel-jest": "^23.4.0",
     "babel-preset-react-native": "^5.0.2",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
@@ -98,7 +101,7 @@
     "eslint-plugin-prettier": "^2.1.2",
     "eslint-plugin-react": "^7.1.0",
     "eslint-plugin-react-native": "^2.3.2",
-    "jest": "^20.0.4",
+    "jest": "^23.4.1",
     "prettier": "^1.5.2",
     "prettier-eslint": "^6.4.1",
     "react-test-renderer": "15.6.1",
