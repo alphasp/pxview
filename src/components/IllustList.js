@@ -85,6 +85,7 @@ class IllustList extends Component {
       renderHeader,
       loadMoreItems,
       onScroll,
+      onEndReachedThreshold,
       showsVerticalScrollIndicator,
       maxItems,
     } = this.props;
@@ -113,7 +114,7 @@ class IllustList extends Component {
               })}
               removeClippedSubviews={Platform.OS === 'android'}
               initialNumToRender={5}
-              onEndReachedThreshold={0.1}
+              onEndReachedThreshold={onEndReachedThreshold || 0.1}
               onEndReached={loadMoreItems}
               ListEmptyComponent={renderEmpty}
               ListHeaderComponent={renderHeader}

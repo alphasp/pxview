@@ -81,6 +81,7 @@ class NovelList extends Component {
       renderHeader,
       loadMoreItems,
       onScroll,
+      onEndReachedThreshold,
       showsVerticalScrollIndicator,
       maxItems,
     } = this.props;
@@ -101,7 +102,7 @@ class NovelList extends Component {
               renderItem={this.renderItem}
               removeClippedSubviews={Platform.OS === 'android'}
               initialNumToRender={5}
-              onEndReachedThreshold={0.1}
+              onEndReachedThreshold={onEndReachedThreshold || 0.1}
               onEndReached={loadMoreItems}
               ListEmptyComponent={renderEmpty}
               ListHeaderComponent={renderHeader}

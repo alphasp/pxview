@@ -33,6 +33,7 @@ class NewMangas extends Component {
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}
         renderHeader={renderHeader}
+        onEndReachedThreshold={0.3}
       />
     );
   }

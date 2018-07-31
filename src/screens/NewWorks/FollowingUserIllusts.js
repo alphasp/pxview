@@ -72,6 +72,7 @@ class FollowingUserIllusts extends Component {
         onRefresh={this.handleOnRefresh}
         renderEmpty={renderEmpty}
         renderHeader={renderHeader}
+        onEndReachedThreshold={0.3}
       />
     );
   }
