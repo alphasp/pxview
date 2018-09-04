@@ -10,6 +10,8 @@ import UserMangas from '../../screens/Shared/UserMangas';
 import UserNovels from '../../screens/Shared/UserNovels';
 import UserBookmarkIllusts from '../../screens/Shared/UserBookmarkIllusts';
 import UserBookmarkNovels from '../../screens/Shared/UserBookmarkNovels';
+import UserFollowing from '../../screens/MyPage/MyConnection/UserFollowing';
+import UserMyPixiv from '../../screens/MyPage/MyConnection/UserMyPixiv';
 import RelatedIllusts from '../../screens/Shared/RelatedIllusts';
 import SearchResultTabs from '../../screens/Shared/SearchResultTabs';
 import RecommendedUsers from '../../screens/Shared/RecommendedUsers';
@@ -102,6 +104,18 @@ const config = {
     screen: UserBookmarkNovels,
     navigationOptions: ({ screenProps: { i18n } }) => ({
       title: i18n.collection,
+    }),
+  },
+  [SCREENS.UserFollowing]: {
+    screen: UserFollowing,
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.following,
+    }),
+  },
+  [SCREENS.UserMyPixiv]: {
+    screen: UserMyPixiv,
+    navigationOptions: ({ screenProps: { i18n } }) => ({
+      title: i18n.myPixiv,
     }),
   },
   [SCREENS.SearchResult]: {

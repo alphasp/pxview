@@ -84,11 +84,13 @@ export default connectLocalization(
     return (state, props) => {
       const { userFollowing } = state;
       const userId = props.userId || props.navigation.state.params.userId;
-      const { followingType } = props;
+      const followingType =
+        props.followingType || props.navigation.state.params.followingType;
       return {
         userFollowing: userFollowing[followingType][userId],
         items: getUserFollowingItems(state, props),
         userId,
+        followingType,
       };
     };
   }, userFollowingActionCreators)(UserFollowing),

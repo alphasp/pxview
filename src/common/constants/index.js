@@ -181,6 +181,8 @@ export const SCREENS = {
   UserNovels: 'UserNovels',
   UserBookmarkIllusts: 'UserBookmarkIllusts',
   UserBookmarkNovels: 'UserBookmarkNovels',
+  UserFollowing: 'UserFollowing',
+  UserMyPixiv: 'UserMyPixiv',
   SearchResult: 'SearchResult',
   RecommendedUsers: 'RecommendedUsers',
   MyConnection: 'MyConnection',

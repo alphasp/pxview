@@ -373,7 +373,8 @@ export const makeGetUserFollowingItems = () =>
     [selectUserFollowing, selectEntities, getProps],
     (userFollowing, entities, props) => {
       const userId = props.userId || props.navigation.state.params.userId;
-      const { followingType } = props;
+      const followingType =
+        props.followingType || props.navigation.state.params.followingType;
       return userFollowing[followingType][userId]
         ? denormalize(
             userFollowing[followingType][userId].items,

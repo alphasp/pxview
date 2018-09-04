@@ -22,6 +22,7 @@ import PremiumBadge from '../../components/PremiumBadge';
 import PXHeader from '../../components/PXHeader';
 import IllustCollection from '../../components/IllustCollection';
 import NovelCollection from '../../components/NovelCollection';
+import PXTouchable from '../../components/PXTouchable';
 import PXThumbnail from '../../components/PXThumbnail';
 import PXThumbnailTouchable from '../../components/PXThumbnailTouchable';
 import PXImage from '../../components/PXImage';
@@ -38,7 +39,7 @@ import * as userBookmarkIllustsActionCreators from '../../common/actions/userBoo
 import * as userBookmarkNovelsActionCreators from '../../common/actions/userBookmarkNovels';
 import * as muteUsersActionCreators from '../../common/actions/muteUsers';
 import { makeGetUserDetailPageItems } from '../../common/selectors';
-import { SCREENS } from '../../common/constants';
+import { SCREENS, FOLLOWING_TYPES } from '../../common/constants';
 import { globalStyleVariables } from '../../styles';
 
 const avatarSize = 70;
@@ -265,6 +266,21 @@ class UserDetail extends Component {
     this.handleOnCancelMenuBottomSheet();
   };
 
+  handleOnPressViewUserFollowing = () => {
+    const { userId, navigation: { navigate } } = this.props;
+    navigate(SCREENS.UserFollowing, {
+      userId,
+      followingType: FOLLOWING_TYPES.PUBLIC,
+    });
+  };
+
+  handleOnPressViewUserMyPixiv = () => {
+    const { userId, navigation: { navigate } } = this.props;
+    navigate(SCREENS.UserMyPixiv, {
+      userId,
+    });
+  };
+
   renderHeaderTitle = () => {
     const { userDetailItem } = this.props;
     const { isShowTitle, isScrolled } = this.state;
@@ -401,14 +417,16 @@ class UserDetail extends Component {
               : null}
           </View>
           <View style={styles.row}>
-            <View style={styles.row}>
-              <Text>
-                {detail.profile.total_follow_users}
-              </Text>
-              <Text style={styles.statType}>
-                {' '}{i18n.following}{' '}
-              </Text>
-            </View>
+            <PXTouchable onPress={this.handleOnPressViewUserFollowing}>
+              <View style={styles.row}>
+                <Text>
+                  {detail.profile.total_follow_users}
+                </Text>
+                <Text style={styles.statType}>
+                  {' '}{i18n.following}{' '}
+                </Text>
+              </View>
+            </PXTouchable>
             <View style={styles.row}>
               <Text>
                 {detail.profile.total_follower}
@@ -417,14 +435,16 @@ class UserDetail extends Component {
                 {' '}{i18n.followers}{' '}
               </Text>
             </View>
-            <View style={styles.row}>
-              <Text>
-                {detail.profile.total_mypixiv_users}
-              </Text>
-              <Text style={styles.statType}>
-                {' '}{i18n.myPixiv}{' '}
-              </Text>
-            </View>
+            <PXTouchable onPress={this.handleOnPressViewUserMyPixiv}>
+              <View style={styles.row}>
+                <Text>
+                  {detail.profile.total_mypixiv_users}
+                </Text>
+                <Text style={styles.statType}>
+                  {' '}{i18n.myPixiv}{' '}
+                </Text>
+              </View>
+            </PXTouchable>
           </View>
         </View>
         <View style={styles.infoContainer}>
