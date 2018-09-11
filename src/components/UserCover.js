@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import PXThumbnailTouchable from './PXThumbnailTouchable';
 import PXTouchable from './PXTouchable';
 import PremiumBadge from './PremiumBadge';
+import { THEME_TYPES } from '../common/constants';
 import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
@@ -27,9 +29,24 @@ const styles = StyleSheet.create({
   premiumBadge: {
     marginLeft: 5,
   },
+  themeContainer: {
+    bottom: 0,
+    right: 0,
+    position: 'absolute',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+  },
 });
 
-const UserCover = ({ user, avatarSize, onPressAvatar }) =>
+const UserCover = ({
+  user,
+  avatarSize,
+  onPressAvatar,
+  onPressChangeTheme,
+  theme,
+}) =>
   <View style={styles.avatarContainer}>
     <PXThumbnailTouchable
       key={user.profile_image_urls.px_170x170}
@@ -48,6 +65,15 @@ const UserCover = ({ user, avatarSize, onPressAvatar }) =>
         </Text>
       </PXTouchable>
       {user.is_premium && <PremiumBadge containerStyle={styles.premiumBadge} />}
+    </View>
+    <View style={styles.themeContainer}>
+      <PXTouchable onPress={onPressChangeTheme}>
+        <Icon
+          name={theme === THEME_TYPES.DARK ? 'md-sunny' : 'md-moon'}
+          size={24}
+          color="#fff"
+        />
+      </PXTouchable>
     </View>
   </View>;
 

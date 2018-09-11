@@ -67,6 +67,7 @@ import saveImageSettings from './saveImageSettings';
 import initialScreenSettings from './initialScreenSettings';
 import novelSettings from './novelSettings';
 import i18n from './i18n';
+import theme from './theme';
 import error from './error';
 
 const rootReducer = combineReducers({
@@ -139,6 +140,7 @@ const rootReducer = combineReducers({
   initialScreenSettings,
   novelSettings,
   i18n,
+  theme,
 });
 
 export default rootReducer;

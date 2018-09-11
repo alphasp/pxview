@@ -9,8 +9,9 @@ import * as authActionCreators from '../../common/actions/auth';
 import * as browsingHistoryIllustsActionCreators from '../../common/actions/browsingHistoryIllusts';
 import * as browsingHistoryNovelsActionCreators from '../../common/actions/browsingHistoryNovels';
 import * as searchHistoryActionCreators from '../../common/actions/searchHistory';
+import * as themeActionCreators from '../../common/actions/theme';
 import { globalStyleVariables } from '../../styles';
-import { SCREENS } from '../../common/constants';
+import { SCREENS, THEME_TYPES } from '../../common/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -168,13 +169,24 @@ class MyPage extends Component {
     }
   };
 
+  handleOnPressChangeTheme = () => {
+    const { theme, setTheme } = this.props;
+    if (theme === THEME_TYPES.DARK) {
+      setTheme(THEME_TYPES.LIGHT);
+    } else {
+      setTheme(THEME_TYPES.DARK);
+    }
+  };
+
   renderCover = () => {
-    const { user, i18n } = this.props;
+    const { user, i18n, theme } = this.props;
     return (
       <UserCover
         user={user}
         i18n={i18n}
+        theme={theme}
         onPressAvatar={this.handleOnPressAvatar}
+        onPressChangeTheme={this.handleOnPressChangeTheme}
       />
     );
   };
@@ -221,12 +233,14 @@ export default connectLocalization(
   connect(
     state => ({
       user: state.auth.user,
+      theme: state.theme.name,
     }),
     {
       ...authActionCreators,
       ...browsingHistoryIllustsActionCreators,
       ...browsingHistoryNovelsActionCreators,
       ...searchHistoryActionCreators,
+      ...themeActionCreators,
     },
   )(MyPage),
 );

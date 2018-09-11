@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, DeviceEventEmitter, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
+import {
+  DefaultTheme,
+  DarkTheme,
+  Provider as PaperProvider,
+} from 'react-native-paper';
 import SplashScreen from 'react-native-splash-screen';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import Toast, { DURATION } from 'react-native-easy-toast';
@@ -10,6 +15,7 @@ import { connectLocalization } from '../../components/Localization';
 import Loader from '../../components/Loader';
 import ModalRoot from '../../containers/ModalRoot';
 import * as routeActionCreators from '../../common/actions/route';
+import { THEME_TYPES } from '../../common/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -55,7 +61,7 @@ class App extends Component {
   }
 
   render() {
-    const { rehydrated, user, i18n } = this.props;
+    const { rehydrated, user, i18n, themeName } = this.props;
     let renderComponent;
     if (!rehydrated) {
       renderComponent = <Loader />;
@@ -70,19 +76,22 @@ class App extends Component {
     } else {
       renderComponent = <LoginNavigator screenProps={{ i18n }} />;
     }
+    const theme = themeName === THEME_TYPES.DARK ? DarkTheme : DefaultTheme;
     return (
-      <View style={styles.container}>
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor="rgba(0, 0, 0, 0.3)"
-          translucent
-          animated
-        />
-        {renderComponent}
-        <MessageBar ref={ref => (this.messageBarAlert = ref)} />
-        <Toast ref={ref => (this.toast = ref)} opacity={0.7} />
-        <ModalRoot />
-      </View>
+      <PaperProvider theme={theme}>
+        <View style={styles.container}>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor="rgba(0, 0, 0, 0.3)"
+            translucent
+            animated
+          />
+          {renderComponent}
+          <MessageBar ref={ref => (this.messageBarAlert = ref)} />
+          <Toast ref={ref => (this.toast = ref)} opacity={0.7} />
+          <ModalRoot />
+        </View>
+      </PaperProvider>
     );
   }
 }
@@ -94,6 +103,7 @@ export default connectLocalization(
       rehydrated: state.auth.rehydrated,
       user: state.auth.user,
       initialRouteName: state.initialScreenSettings.routeName,
+      themeName: state.theme.name,
     }),
     routeActionCreators,
   )(App),

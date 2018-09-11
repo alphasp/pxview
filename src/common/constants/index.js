@@ -1,3 +1,8 @@
+export const THEME_TYPES = {
+  LIGHT: 'LIGHT',
+  DARK: 'DARK',
+};
+
 export const BOOKMARK_TYPES = {
   PUBLIC: 'PUBLIC',
   PRIVATE: 'PRIVATE',
@@ -199,6 +204,7 @@ export const SCREENS = {
   MuteUsersSettings: 'MuteUsersSettings',
   Encyclopedia: 'Encyclopedia',
   Language: 'Language',
+  Theme: 'Theme',
   Feedback: 'Feedback',
   About: 'About',
 };

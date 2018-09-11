@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { DrawerItems, DrawerActions } from 'react-navigation';
+import { DrawerItems, DrawerActions, withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import CookieManager from 'react-native-cookies';
 import { connectLocalization } from './Localization';
@@ -12,8 +12,9 @@ import * as authActionCreators from '../common/actions/auth';
 import * as browsingHistoryIllustsActionCreators from '../common/actions/browsingHistoryIllusts';
 import * as browsingHistoryNovelsActionCreators from '../common/actions/browsingHistoryNovels';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
+import * as themeActionCreators from '../common/actions/theme';
 import { globalStyles } from '../styles';
-import { SCREENS } from '../common/constants';
+import { SCREENS, THEME_TYPES } from '../common/constants';
 
 const menuList = [
   {
@@ -66,12 +67,14 @@ const menuList2 = [
 
 class DrawerContent extends Component {
   renderCover = () => {
-    const { user, i18n } = this.props;
+    const { user, i18n, theme } = this.props;
     return (
       <UserCover
         user={user}
         i18n={i18n}
+        theme={theme}
         onPressAvatar={this.handleOnPressAvatar}
+        onPressChangeTheme={this.handleOnPressChangeTheme}
       />
     );
   };
@@ -177,6 +180,16 @@ class DrawerContent extends Component {
     });
   };
 
+  handleOnPressChangeTheme = () => {
+    const { theme, setTheme, navigation: { navigate } } = this.props;
+    if (theme === THEME_TYPES.DARK) {
+      setTheme(THEME_TYPES.LIGHT);
+    } else {
+      setTheme(THEME_TYPES.DARK);
+    }
+    navigate('DrawerClose');
+  };
+
   renderList = list => {
     const { user, i18n } = this.props;
     if (!user && list.some(l => l.id === 'logout')) {
@@ -213,15 +226,19 @@ class DrawerContent extends Component {
 }
 
 export default connectLocalization(
-  connect(
-    state => ({
-      user: state.auth.user,
-    }),
-    {
-      ...authActionCreators,
-      ...browsingHistoryIllustsActionCreators,
-      ...browsingHistoryNovelsActionCreators,
-      ...searchHistoryActionCreators,
-    },
-  )(DrawerContent),
+  withNavigation(
+    connect(
+      state => ({
+        user: state.auth.user,
+        theme: state.theme.name,
+      }),
+      {
+        ...authActionCreators,
+        ...browsingHistoryIllustsActionCreators,
+        ...browsingHistoryNovelsActionCreators,
+        ...searchHistoryActionCreators,
+        ...themeActionCreators,
+      },
+    )(DrawerContent),
+  ),
 );
