@@ -10,6 +10,7 @@ import {
   DeviceEventEmitter,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { withTheme } from 'react-native-paper';
 import { AndroidBackHandler } from 'react-navigation-backhandler';
 import Share from 'react-native-share';
 import ActionButton from 'react-native-action-button';
@@ -410,7 +411,7 @@ class Detail extends Component {
   }
 
   render() {
-    const { item, isMuteUser, i18n, navigation } = this.props;
+    const { item, isMuteUser, i18n, navigation, theme } = this.props;
     const {
       isActionButtonVisible,
       isOpenDetailInfoModal,
@@ -420,7 +421,10 @@ class Detail extends Component {
     return (
       <AndroidBackHandler onBackPress={this.handleOnPressHardwareBackButton}>
         <View
-          style={globalStyles.container}
+          style={[
+            globalStyles.container,
+            { backgroundColor: theme.colors.background },
+          ]}
           ref={ref => (this.detailView = ref)}
         >
           {this.renderMainContent()}
@@ -478,42 +482,44 @@ class Detail extends Component {
   }
 }
 
-export default enhanceSaveImage(
-  connect(
-    () => {
-      const getDetailItem = makeGetDetailItem();
-      return (state, props) => {
-        const item = getDetailItem(state, props);
-        const isMuteUser = item
-          ? state.muteUsers.items.some(m => m === item.user.id)
-          : false;
-        const {
-          illust_id: illustIdFromQS,
-          illustId,
-          items,
-          index,
-          onListEndReached,
-          parentListKey,
-        } = props.navigation.state.params;
-        const id = parseInt(illustIdFromQS || illustId, 0);
-        return {
-          illustId: id || item.id,
-          illustDetail: state.illustDetail[id], // get illustDetail from api if load from deep link
-          item,
-          isMuteUser,
-          isFromDeepLink: !!id,
-          items,
-          index,
-          onListEndReached,
-          parentListKey,
-          authUser: state.auth.user,
+export default withTheme(
+  enhanceSaveImage(
+    connect(
+      () => {
+        const getDetailItem = makeGetDetailItem();
+        return (state, props) => {
+          const item = getDetailItem(state, props);
+          const isMuteUser = item
+            ? state.muteUsers.items.some(m => m === item.user.id)
+            : false;
+          const {
+            illust_id: illustIdFromQS,
+            illustId,
+            items,
+            index,
+            onListEndReached,
+            parentListKey,
+          } = props.navigation.state.params;
+          const id = parseInt(illustIdFromQS || illustId, 0);
+          return {
+            illustId: id || item.id,
+            illustDetail: state.illustDetail[id], // get illustDetail from api if load from deep link
+            item,
+            isMuteUser,
+            isFromDeepLink: !!id,
+            items,
+            index,
+            onListEndReached,
+            parentListKey,
+            authUser: state.auth.user,
+          };
         };
-      };
-    },
-    {
-      ...browsingHistoryIllustsActionCreators,
-      ...muteUsersActionCreators,
-      ...illustDetailActionCreators,
-    },
-  )(Detail),
+      },
+      {
+        ...browsingHistoryIllustsActionCreators,
+        ...muteUsersActionCreators,
+        ...illustDetailActionCreators,
+      },
+    )(Detail),
+  ),
 );

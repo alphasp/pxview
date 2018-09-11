@@ -7,6 +7,7 @@ const globalStyles = StyleSheet.create({
   },
   card: {
     backgroundColor: '#fff',
+    // backgroundColor: 'transparent',
   },
   header: {
     backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,

@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { StyleSheet, View, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { List, ListItem } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
+import { List, Divider, withTheme } from 'react-native-paper';
 import CookieManager from 'react-native-cookies';
 import { connectLocalization } from '../../components/Localization';
 import UserCover from '../../components/UserCover';
@@ -10,13 +11,11 @@ import * as browsingHistoryIllustsActionCreators from '../../common/actions/brow
 import * as browsingHistoryNovelsActionCreators from '../../common/actions/browsingHistoryNovels';
 import * as searchHistoryActionCreators from '../../common/actions/searchHistory';
 import * as themeActionCreators from '../../common/actions/theme';
-import { globalStyleVariables } from '../../styles';
 import { SCREENS, THEME_TYPES } from '../../common/constants';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
   },
 });
 
@@ -170,8 +169,8 @@ class MyPage extends Component {
   };
 
   handleOnPressChangeTheme = () => {
-    const { theme, setTheme } = this.props;
-    if (theme === THEME_TYPES.DARK) {
+    const { themeName, setTheme } = this.props;
+    if (themeName === THEME_TYPES.DARK) {
       setTheme(THEME_TYPES.LIGHT);
     } else {
       setTheme(THEME_TYPES.DARK);
@@ -179,12 +178,12 @@ class MyPage extends Component {
   };
 
   renderCover = () => {
-    const { user, i18n, theme } = this.props;
+    const { user, i18n, themeName } = this.props;
     return (
       <UserCover
         user={user}
         i18n={i18n}
-        theme={theme}
+        themeName={themeName}
         onPressAvatar={this.handleOnPressAvatar}
         onPressChangeTheme={this.handleOnPressChangeTheme}
       />
@@ -197,26 +196,32 @@ class MyPage extends Component {
       list = list.filter(l => l.id !== 'logout');
     }
     return (
-      <List>
+      <View>
         {list.map(item =>
-          <ListItem
-            key={item.id}
-            title={i18n[item.title]}
-            leftIcon={{
-              name: item.icon,
-              type: item.type,
-              style: { width: 30, textAlign: 'center' },
-            }}
-            onPress={() => this.handleOnPressListItem(item)}
-          />,
+          <Fragment key={item.id}>
+            <List.Item
+              title={i18n[item.title]}
+              left={props =>
+                <List.Icon
+                  {...props}
+                  icon={() =>
+                    <Icon {...props} name={item.icon} type={item.type} />}
+                />}
+              onPress={() => this.handleOnPressListItem(item)}
+            />
+            <Divider />
+          </Fragment>,
         )}
-      </List>
+      </View>
     );
   };
 
   render() {
+    const { theme } = this.props;
     return (
-      <View style={styles.container}>
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
+      >
         {
           <ScrollView style={styles.container}>
             {this.renderCover()}
@@ -229,18 +234,20 @@ class MyPage extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(
-    state => ({
-      user: state.auth.user,
-      theme: state.theme.name,
-    }),
-    {
-      ...authActionCreators,
-      ...browsingHistoryIllustsActionCreators,
-      ...browsingHistoryNovelsActionCreators,
-      ...searchHistoryActionCreators,
-      ...themeActionCreators,
-    },
-  )(MyPage),
+export default withTheme(
+  connectLocalization(
+    connect(
+      state => ({
+        user: state.auth.user,
+        themeName: state.theme.name,
+      }),
+      {
+        ...authActionCreators,
+        ...browsingHistoryIllustsActionCreators,
+        ...browsingHistoryNovelsActionCreators,
+        ...searchHistoryActionCreators,
+        ...themeActionCreators,
+      },
+    )(MyPage),
+  ),
 );

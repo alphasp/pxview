@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet, Linking, SafeAreaView } from 'react-native';
+import { View, StyleSheet, Linking, SafeAreaView } from 'react-native';
+import { withTheme, Text } from 'react-native-paper';
 import moment from 'moment';
 import HtmlView from 'react-native-htmlview';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -95,10 +96,17 @@ class DetailFooter extends PureComponent {
       onPressTag,
       onLongPressTag,
       tags,
+      theme,
     } = this.props;
     return (
       <SafeAreaView>
-        <View style={styles.container} onLayout={onLayoutView}>
+        <View
+          style={[
+            styles.container,
+            { backgroundColor: theme.colors.background },
+          ]}
+          onLayout={onLayoutView}
+        >
           <View style={styles.infoContainer}>
             <View style={styles.profileContainer}>
               <PXTouchable
@@ -131,6 +139,7 @@ class DetailFooter extends PureComponent {
                 value={item.caption}
                 onLinkPress={this.handleOnPressLink}
                 textComponentProps={{ selectable: true }}
+                TextComponent={Text}
               />
             </View>
             <View style={styles.statContainer}>
@@ -215,4 +224,4 @@ class DetailFooter extends PureComponent {
   }
 }
 
-export default connectLocalization(DetailFooter);
+export default withTheme(connectLocalization(DetailFooter));

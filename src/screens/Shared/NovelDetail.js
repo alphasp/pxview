@@ -10,6 +10,7 @@ import {
   DeviceEventEmitter,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { withTheme } from 'react-native-paper';
 import { AndroidBackHandler } from 'react-navigation-backhandler';
 import Share from 'react-native-share';
 import ActionButton from 'react-native-action-button';
@@ -383,7 +384,7 @@ class NovelDetail extends Component {
   }
 
   render() {
-    const { item, isMuteUser, i18n, navigation } = this.props;
+    const { item, isMuteUser, i18n, navigation, theme } = this.props;
     const {
       isActionButtonVisible,
       isOpenMenuBottomSheet,
@@ -392,7 +393,10 @@ class NovelDetail extends Component {
     return (
       <AndroidBackHandler onBackPress={this.handleOnPressHardwareBackButton}>
         <View
-          style={globalStyles.container}
+          style={[
+            globalStyles.container,
+            { backgroundColor: theme.colors.background },
+          ]}
           ref={ref => (this.detailView = ref)}
         >
           {this.renderMainContent()}
@@ -449,42 +453,44 @@ class NovelDetail extends Component {
   }
 }
 
-export default enhanceSaveImage(
-  connect(
-    () => {
-      const getDetailItem = makeGetDetailNovelItem();
-      return (state, props) => {
-        const item = getDetailItem(state, props);
-        const isMuteUser = item
-          ? state.muteUsers.items.some(m => m === item.user.id)
-          : false;
-        const {
-          id: novelIdFromQS,
-          novelId,
-          items,
-          index,
-          onListEndReached,
-          parentListKey,
-        } = props.navigation.state.params;
-        const id = parseInt(novelIdFromQS || novelId, 0);
-        return {
-          novelId: id || item.id,
-          novelDetail: state.novelDetail[id], // get novelDetail from api if load from deep link
-          item,
-          isMuteUser,
-          isFromDeepLink: !!id,
-          items,
-          index,
-          onListEndReached,
-          parentListKey,
-          authUser: state.auth.user,
+export default withTheme(
+  enhanceSaveImage(
+    connect(
+      () => {
+        const getDetailItem = makeGetDetailNovelItem();
+        return (state, props) => {
+          const item = getDetailItem(state, props);
+          const isMuteUser = item
+            ? state.muteUsers.items.some(m => m === item.user.id)
+            : false;
+          const {
+            id: novelIdFromQS,
+            novelId,
+            items,
+            index,
+            onListEndReached,
+            parentListKey,
+          } = props.navigation.state.params;
+          const id = parseInt(novelIdFromQS || novelId, 0);
+          return {
+            novelId: id || item.id,
+            novelDetail: state.novelDetail[id], // get novelDetail from api if load from deep link
+            item,
+            isMuteUser,
+            isFromDeepLink: !!id,
+            items,
+            index,
+            onListEndReached,
+            parentListKey,
+            authUser: state.auth.user,
+          };
         };
-      };
-    },
-    {
-      ...browsingHistoryNovelsActionCreators,
-      ...muteUsersActionCreators,
-      ...novelDetailActionCreators,
-    },
-  )(NovelDetail),
+      },
+      {
+        ...browsingHistoryNovelsActionCreators,
+        ...muteUsersActionCreators,
+        ...novelDetailActionCreators,
+      },
+    )(NovelDetail),
+  ),
 );

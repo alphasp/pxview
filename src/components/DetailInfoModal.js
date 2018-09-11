@@ -5,10 +5,10 @@ import {
   TouchableWithoutFeedback,
   Animated,
   ScrollView,
-  Text,
   Linking,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { withTheme, Text } from 'react-native-paper';
 import moment from 'moment';
 import HtmlView from 'react-native-htmlview';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -188,6 +188,7 @@ class DetailInfoModal extends Component {
       navigation,
       highlightTags,
       muteTags,
+      theme,
     } = this.props;
     const {
       animatedHeight,
@@ -203,7 +204,12 @@ class DetailInfoModal extends Component {
         <TouchableWithoutFeedback onPress={onCancel}>
           <View style={styles.backdropContainer} />
         </TouchableWithoutFeedback>
-        <View style={styles.container}>
+        <View
+          style={[
+            styles.container,
+            { backgroundColor: theme.colors.background },
+          ]}
+        >
           <Animated.View style={{ maxHeight: animatedHeight }}>
             <ScrollView>
               <View style={styles.infoContainer}>
@@ -238,6 +244,7 @@ class DetailInfoModal extends Component {
                     value={item.caption}
                     onLinkPress={this.handleOnPressLink}
                     textComponentProps={{ selectable: true }}
+                    TextComponent={Text}
                   />
                 </View>
                 <View style={styles.statContainer}>
@@ -333,13 +340,15 @@ class DetailInfoModal extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(() => {
-    const getTagsWithStatus = makeGetTagsWithStatus();
-    return (state, props) => ({
-      highlightTags: state.highlightTags.items,
-      muteTags: state.muteTags.items,
-      tags: getTagsWithStatus(state, props),
-    });
-  }, searchHistoryActionCreators)(DetailInfoModal),
+export default withTheme(
+  connectLocalization(
+    connect(() => {
+      const getTagsWithStatus = makeGetTagsWithStatus();
+      return (state, props) => ({
+        highlightTags: state.highlightTags.items,
+        muteTags: state.muteTags.items,
+        tags: getTagsWithStatus(state, props),
+      });
+    }, searchHistoryActionCreators)(DetailInfoModal),
+  ),
 );

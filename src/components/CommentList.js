@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react';
-import { StyleSheet, Text, View, RefreshControl, FlatList } from 'react-native';
+import { StyleSheet, View, RefreshControl, FlatList } from 'react-native';
+import { withTheme, Text } from 'react-native-paper';
 import moment from 'moment';
-import { connectLocalization } from '../components/Localization';
-import NoResult from '../components/NoResult';
-import Loader from '../components/Loader';
-import PXTouchable from '../components/PXTouchable';
-import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
+import { connectLocalization } from './Localization';
+import NoResult from './NoResult';
+import Loader from './Loader';
+import PXTouchable from './PXTouchable';
+import PXThumbnailTouchable from './PXThumbnailTouchable';
 import { globalStyles, globalStyleVariables } from '../styles';
 import { SCREENS } from '../common/constants';
 
@@ -177,4 +178,4 @@ class CommentList extends Component {
   }
 }
 
-export default connectLocalization(CommentList);
+export default withTheme(connectLocalization(CommentList));

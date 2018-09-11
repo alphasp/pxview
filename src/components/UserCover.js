@@ -45,7 +45,7 @@ const UserCover = ({
   avatarSize,
   onPressAvatar,
   onPressChangeTheme,
-  theme,
+  themeName,
 }) =>
   <View style={styles.avatarContainer}>
     <PXThumbnailTouchable
@@ -69,7 +69,7 @@ const UserCover = ({
     <View style={styles.themeContainer}>
       <PXTouchable onPress={onPressChangeTheme}>
         <Icon
-          name={theme === THEME_TYPES.DARK ? 'md-sunny' : 'md-moon'}
+          name={themeName === THEME_TYPES.DARK ? 'md-sunny' : 'md-moon'}
           size={24}
           color="#fff"
         />

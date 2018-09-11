@@ -78,7 +78,14 @@ class App extends Component {
     }
     const theme = themeName === THEME_TYPES.DARK ? DarkTheme : DefaultTheme;
     return (
-      <PaperProvider theme={theme}>
+      <PaperProvider
+        theme={{
+          ...theme,
+          fonts: {
+            regular: null,
+          },
+        }}
+      >
         <View style={styles.container}>
           <StatusBar
             barStyle="light-content"

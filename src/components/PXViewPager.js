@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Platform, ViewPagerAndroid, FlatList } from 'react-native';
+import { withTheme } from 'react-native-paper';
 import Loader from './Loader';
 import { globalStyles, globalStyleVariables } from '../styles';
 
@@ -29,7 +30,7 @@ class PXViewPager extends Component {
   };
 
   renderContentForAndroid = () => {
-    const { items, keyExtractor, renderContent, index } = this.props;
+    const { items, keyExtractor, renderContent, index, theme } = this.props;
     // console.log('renderContentForAndroid ', items);
     const size = Math.floor(LIST_WINDOW_SIZE / 2);
     return items.map((item, i) => {
@@ -38,7 +39,7 @@ class PXViewPager extends Component {
       }
       const key = keyExtractor(item, i);
       return (
-        <View key={key}>
+        <View key={key} style={{ backgroundColor: theme.colors.background }}>
           <Loader />
         </View>
       );
@@ -53,6 +54,7 @@ class PXViewPager extends Component {
       renderContent,
       onEndReached,
       viewPagerRef,
+      theme,
     } = this.props;
     if (Platform.OS === 'android') {
       return (
@@ -60,7 +62,10 @@ class PXViewPager extends Component {
           ref={viewPagerRef}
           key={`pxViewPager-${items.length}`} // https://github.com/facebook/react-native/issues/4775
           initialPage={index}
-          style={globalStyles.container}
+          style={[
+            globalStyles.container,
+            { backgroundColor: theme.colors.background },
+          ]}
           onPageSelected={this.handleOnAndroidViewPagerPageSelected}
         >
           {this.renderContentForAndroid()}
@@ -94,4 +99,4 @@ class PXViewPager extends Component {
   }
 }
 
-export default PXViewPager;
+export default withTheme(PXViewPager);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Spinner from 'react-native-spinkit';
+import { withTheme } from 'react-native-paper';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Loader = ({ absolutePosition, style, color }) =>
+const Loader = ({ theme, absolutePosition, style, color }) =>
   <View
     style={[
       styles.container,
@@ -25,7 +26,7 @@ const Loader = ({ absolutePosition, style, color }) =>
       style,
     ]}
   >
-    <Spinner type="ThreeBounce" color={color} />
+    <Spinner type="ThreeBounce" color={theme.colors.text || color} />
   </View>;
 
-export default Loader;
+export default withTheme(Loader);
