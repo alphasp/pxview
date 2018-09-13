@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { withTheme, Text } from 'react-native-paper';
 import IonicIcon from 'react-native-vector-icons/Ionicons';
 import PXTouchable from './PXTouchable';
 
@@ -18,13 +19,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const PXBottomSheetCancelButton = ({ onPress, text, textStyle }) =>
+const PXBottomSheetCancelButton = ({ onPress, text, textStyle, theme }) =>
   <PXTouchable onPress={onPress}>
     <View style={styles.bottomSheetListItem}>
       <IonicIcon
         name="md-close"
         size={24}
         style={styles.bottomSheetCancelIcon}
+        color={theme.colors.text}
       />
       <Text style={[styles.bottomSheetCancelText, textStyle]}>
         {text}
@@ -32,4 +34,4 @@ const PXBottomSheetCancelButton = ({ onPress, text, textStyle }) =>
     </View>
   </PXTouchable>;
 
-export default PXBottomSheetCancelButton;
+export default withTheme(PXBottomSheetCancelButton);

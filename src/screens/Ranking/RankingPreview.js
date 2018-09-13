@@ -5,6 +5,7 @@ import {
   StyleSheet,
   RefreshControl,
 } from 'react-native';
+import { withTheme } from 'react-native-paper';
 import RankingHorizontalList from './RankingHorizontalList';
 import NovelRankingPreview from './NovelRankingPreview';
 import { connectLocalization } from '../../components/Localization';
@@ -13,7 +14,7 @@ import { RANKING_TYPES, RANKING_FOR_UI } from '../../common/constants';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 20,
+    paddingTop: 20,
   },
 });
 
@@ -38,10 +39,12 @@ class RankingPreview extends Component {
   };
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, theme } = this.props;
     const { refreshing } = this.state;
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
+      >
         <ScrollView
           refreshControl={
             <RefreshControl
@@ -55,6 +58,7 @@ class RankingPreview extends Component {
             rankingType={RANKING_TYPES.ILLUST}
             navigation={navigation}
             refreshing={refreshing}
+            theme={theme}
             onRefreshSuccess={this.handleOnRefreshSuccess}
           />
           <RankingHorizontalList
@@ -62,11 +66,13 @@ class RankingPreview extends Component {
             rankingType={RANKING_TYPES.MANGA}
             navigation={navigation}
             refreshing={refreshing}
+            theme={theme}
           />
           <NovelRankingPreview
             rankingMode={RANKING_FOR_UI.DAILY_NOVEL}
             navigation={navigation}
             refreshing={refreshing}
+            theme={theme}
           />
         </ScrollView>
       </SafeAreaView>
@@ -74,4 +80,4 @@ class RankingPreview extends Component {
   }
 }
 
-export default connectLocalization(RankingPreview);
+export default withTheme(connectLocalization(RankingPreview));

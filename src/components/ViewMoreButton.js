@@ -31,7 +31,8 @@ const ViewMoreButton = ({ i18n, onPress, theme }) =>
         </Text>
         <Icon
           name="chevron-down"
-          style={[styles.chevronIcon, { color: theme.colors.text }]}
+          style={styles.chevronIcon}
+          color={theme.colors.text}
         />
       </View>
     </PXTouchable>

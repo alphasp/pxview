@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
+import { Divider } from 'react-native-paper';
 import NovelItem from './NovelItem';
 import Loader from './Loader';
 import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
@@ -73,6 +74,8 @@ class NovelList extends Component {
     }
   };
 
+  renderSeparator = () => <Divider />;
+
   render() {
     const {
       data: { items, loading, loaded, refreshing },
@@ -107,6 +110,7 @@ class NovelList extends Component {
               ListEmptyComponent={renderEmpty}
               ListHeaderComponent={renderHeader}
               ListFooterComponent={this.renderFooter}
+              ItemSeparatorComponent={this.renderSeparator}
               onScroll={onScroll}
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

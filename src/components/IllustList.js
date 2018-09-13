@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
+import { withTheme } from 'react-native-paper';
 import IllustItem from './IllustItem';
 import Loader from './Loader';
 import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
@@ -88,9 +89,15 @@ class IllustList extends Component {
       onEndReachedThreshold,
       showsVerticalScrollIndicator,
       maxItems,
+      theme,
     } = this.props;
     return (
-      <View style={globalStyles.container}>
+      <View
+        style={[
+          globalStyles.container,
+          { backgroundColor: theme.colors.background },
+        ]}
+      >
         {!loaded && renderHeader && renderHeader()}
         {(!items || (!loaded && loading)) && <Loader />}
         {loaded
@@ -135,6 +142,6 @@ class IllustList extends Component {
   }
 }
 
-export default withNavigation(
-  connect(null, bookmarkIllustActionCreators)(IllustList),
+export default withTheme(
+  withNavigation(connect(null, bookmarkIllustActionCreators)(IllustList)),
 );

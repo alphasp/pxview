@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, InteractionManager, StyleSheet } from 'react-native';
+import { View, InteractionManager, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
+import { Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connectLocalization } from '../../components/Localization';
 import NovelList from '../../components/NovelList';
@@ -69,7 +70,7 @@ class NovelRankingPreview extends Component {
   };
 
   render() {
-    const { ranking, items, i18n } = this.props;
+    const { ranking, items, i18n, theme } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.titleContainer}>
@@ -84,7 +85,11 @@ class NovelRankingPreview extends Component {
             <Text>
               {i18n.viewMore}
             </Text>
-            <Icon name="chevron-right" style={styles.chevronIcon} />
+            <Icon
+              name="chevron-right"
+              style={styles.chevronIcon}
+              color={theme.colors.text}
+            />
           </PXTouchable>
         </View>
         <NovelList

@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { withTheme, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connectLocalization } from './Localization';
 import PXTouchable from './PXTouchable';
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ViewRepliesButton = ({ i18n, onPress }) =>
+const ViewRepliesButton = ({ i18n, onPress, theme }) =>
   <View style={styles.container}>
     <PXTouchable
       hitSlop={{ top: 0, left: 20, bottom: 20, right: 20 }}
@@ -28,9 +29,13 @@ const ViewRepliesButton = ({ i18n, onPress }) =>
         <Text>
           {i18n.commentViewReplies}
         </Text>
-        <Icon name="chevron-down" style={styles.chevronIcon} />
+        <Icon
+          name="chevron-down"
+          style={styles.chevronIcon}
+          color={theme.colors.text}
+        />
       </View>
     </PXTouchable>
   </View>;
 
-export default connectLocalization(ViewRepliesButton);
+export default withTheme(connectLocalization(ViewRepliesButton));

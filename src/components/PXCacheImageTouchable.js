@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { withTheme } from 'react-native-paper';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXCacheImage from './PXCacheImage';
@@ -66,7 +67,7 @@ class PXCacheImageTouchable extends Component {
   };
 
   render() {
-    const { uri, pageNumber, style, imageStyle } = this.props;
+    const { uri, pageNumber, style, imageStyle, theme } = this.props;
     const { height, loading } = this.state;
     return (
       <PXTouchable
@@ -77,6 +78,7 @@ class PXCacheImageTouchable extends Component {
           {
             width: globalStyleVariables.WINDOW_WIDTH,
             height,
+            backgroundColor: theme.colors.surface,
           },
         ]}
         activeOpacity={1}
@@ -99,4 +101,4 @@ class PXCacheImageTouchable extends Component {
   }
 }
 
-export default PXCacheImageTouchable;
+export default withTheme(PXCacheImageTouchable);

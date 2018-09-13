@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, InteractionManager, StyleSheet } from 'react-native';
+import { View, InteractionManager, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import Carousel from 'react-native-snap-carousel';
+import { withTheme, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IllustItem from '../../components/IllustItem';
 import PXTouchable from '../../components/PXTouchable';
@@ -119,6 +120,7 @@ class RankingHorizontalList extends Component {
       items,
       rankingType,
       i18n,
+      theme,
     } = this.props;
     return (
       <View style={styles.container}>
@@ -134,7 +136,11 @@ class RankingHorizontalList extends Component {
             <Text>
               {i18n.viewMore}
             </Text>
-            <Icon name="chevron-right" style={styles.chevronIcon} />
+            <Icon
+              name="chevron-right"
+              style={styles.chevronIcon}
+              color={theme.colors.text}
+            />
           </PXTouchable>
         </View>
         {loading && <Loader />}
@@ -157,15 +163,17 @@ class RankingHorizontalList extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(() => {
-    const getRankingItems = makeGetIllustRankingItems();
-    return (state, props) => {
-      const { ranking } = state;
-      return {
-        ranking: ranking[props.rankingMode],
-        items: getRankingItems(state, props),
+export default withTheme(
+  connectLocalization(
+    connect(() => {
+      const getRankingItems = makeGetIllustRankingItems();
+      return (state, props) => {
+        const { ranking } = state;
+        return {
+          ranking: ranking[props.rankingMode],
+          items: getRankingItems(state, props),
+        };
       };
-    };
-  }, rankingActionCreators)(RankingHorizontalList),
+    }, rankingActionCreators)(RankingHorizontalList),
+  ),
 );

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, ViewPropTypes, Image } from 'react-native';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
+import { DarkTheme } from 'react-native-paper';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
 import OverlayImagePages from './OverlayImagePages';
@@ -75,7 +76,7 @@ class IllustItem extends Component {
           {
             marginRight: index % numColumns < numColumns - 1 ? 1 : 0,
             marginBottom: 1,
-            backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
+            backgroundColor: DarkTheme.colors.surface,
             width:
               (globalStyleVariables.WINDOW_WIDTH - parentContainerMargin * 2) /
                 numColumns -

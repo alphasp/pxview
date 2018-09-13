@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
+import { withTheme } from 'react-native-paper';
 import DetailFooter from './DetailFooter';
 import PXCacheImageTouchable from './PXCacheImageTouchable';
 import UgoiraViewTouchable from './UgoiraViewTouchable';
@@ -43,7 +44,6 @@ const styles = StyleSheet.create({
   },
   mutedImageContainer: {
     flex: 1,
-    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
     height: 200,
   },
 });
@@ -205,10 +205,15 @@ class IllustDetailContent extends Component {
   };
 
   renderImageOrUgoira = isMute => {
-    const { item, onPressImage, onLongPressImage } = this.props;
+    const { item, onPressImage, onLongPressImage, theme } = this.props;
     if (isMute) {
       return (
-        <View style={styles.mutedImageContainer}>
+        <View
+          style={[
+            styles.mutedImageContainer,
+            { backgroundColor: theme.colors.surface },
+          ]}
+        >
           <OverlayMutedIndicator />
         </View>
       );
@@ -313,12 +318,14 @@ class IllustDetailContent extends Component {
   }
 }
 
-export default connect(() => {
-  const getTagsWithStatus = makeGetTagsWithStatus();
-  return (state, props) => ({
-    highlightTags: state.highlightTags.items,
-    muteTags: state.muteTags.items,
-    isMuteUser: state.muteUsers.items.some(m => m === props.item.user.id),
-    tags: getTagsWithStatus(state, props),
-  });
-}, searchHistoryActionCreators)(IllustDetailContent);
+export default withTheme(
+  connect(() => {
+    const getTagsWithStatus = makeGetTagsWithStatus();
+    return (state, props) => ({
+      highlightTags: state.highlightTags.items,
+      muteTags: state.muteTags.items,
+      isMuteUser: state.muteUsers.items.some(m => m === props.item.user.id),
+      tags: getTagsWithStatus(state, props),
+    });
+  }, searchHistoryActionCreators)(IllustDetailContent),
+);

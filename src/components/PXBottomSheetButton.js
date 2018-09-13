@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { withTheme, Text } from 'react-native-paper';
 import PXTouchable from './PXTouchable';
 
 const styles = StyleSheet.create({
@@ -22,12 +23,18 @@ const PXBottomSheetButton = ({
   iconSize,
   text,
   textStyle,
+  theme,
 }) =>
   <PXTouchable onPress={onPress}>
     <View style={styles.bottomSheetListItem}>
       {iconName &&
         iconType &&
-        <Icon name={iconName} type={iconType} size={iconSize || 24} />}
+        <Icon
+          name={iconName}
+          type={iconType}
+          size={iconSize || 24}
+          color={theme.colors.text}
+        />}
 
       <Text style={[styles.bottomSheetText, textStyle]}>
         {text}
@@ -35,4 +42,4 @@ const PXBottomSheetButton = ({
     </View>
   </PXTouchable>;
 
-export default PXBottomSheetButton;
+export default withTheme(PXBottomSheetButton);

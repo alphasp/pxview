@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   Animated,
 } from 'react-native';
+import { withTheme } from 'react-native-paper';
 import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
@@ -17,7 +18,6 @@ const styles = StyleSheet.create({
   innerContainer: {
     paddingHorizontal: 16,
     paddingVertical: 8,
-    backgroundColor: '#fff',
   },
 });
 
@@ -72,7 +72,7 @@ class PXBottomSheet extends Component {
   };
 
   render() {
-    const { children, onCancel } = this.props;
+    const { children, onCancel, theme } = this.props;
     const { animatedHeight, modalVisible } = this.state;
     return (
       <Modal
@@ -91,7 +91,13 @@ class PXBottomSheet extends Component {
         <TouchableWithoutFeedback onPress={onCancel}>
           <View style={styles.container}>
             <Animated.View
-              style={[styles.innerContainer, { maxHeight: animatedHeight }]}
+              style={[
+                styles.innerContainer,
+                {
+                  maxHeight: animatedHeight,
+                  backgroundColor: theme.colors.background,
+                },
+              ]}
             >
               <TouchableWithoutFeedback>
                 <View>
@@ -106,4 +112,4 @@ class PXBottomSheet extends Component {
   }
 }
 
-export default PXBottomSheet;
+export default withTheme(PXBottomSheet);

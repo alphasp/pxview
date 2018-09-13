@@ -63,7 +63,7 @@ class PXCacheImage extends Component {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: '#fff',
+            // backgroundColor: '#fff',
           }}
         >
           <Image

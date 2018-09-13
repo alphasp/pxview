@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
+import { withTheme } from 'react-native-paper';
 import TagBottomSheet from './TagBottomSheet';
 import PXCacheImageTouchable from './PXCacheImageTouchable';
 import OverlayNovelPages from './OverlayNovelPages';
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
   },
   mutedImageContainer: {
     flex: 1,
-    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
+    // backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
     height: 200,
   },
 });
@@ -84,6 +85,7 @@ class NovelDetailContent extends Component {
       tags,
       isMuteUser,
       onLongPressImage,
+      theme,
     } = this.props;
     const { isOpenTagBottomSheet, selectedTag } = this.state;
     const isMute = tags.some(t => t.isMute) || isMuteUser;
@@ -91,7 +93,12 @@ class NovelDetailContent extends Component {
       <View style={styles.container}>
         <ScrollView>
           {isMute
-            ? <View style={styles.mutedImageContainer}>
+            ? <View
+                style={[
+                  styles.mutedImageContainer,
+                  { backgroundColor: theme.colors.surface },
+                ]}
+              >
                 <OverlayMutedIndicator />
               </View>
             : <View>
@@ -131,12 +138,14 @@ class NovelDetailContent extends Component {
   }
 }
 
-export default connect(() => {
-  const getTagsWithStatus = makeGetTagsWithStatus();
-  return (state, props) => ({
-    highlightTags: state.highlightTags.items,
-    muteTags: state.muteTags.items,
-    isMuteUser: state.muteUsers.items.some(m => m === props.item.user.id),
-    tags: getTagsWithStatus(state, props),
-  });
-}, searchHistoryActionCreators)(NovelDetailContent);
+export default withTheme(
+  connect(() => {
+    const getTagsWithStatus = makeGetTagsWithStatus();
+    return (state, props) => ({
+      highlightTags: state.highlightTags.items,
+      muteTags: state.muteTags.items,
+      isMuteUser: state.muteUsers.items.some(m => m === props.item.user.id),
+      tags: getTagsWithStatus(state, props),
+    });
+  }, searchHistoryActionCreators)(NovelDetailContent),
+);

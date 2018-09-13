@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { withTheme, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connectLocalization } from './Localization';
 
@@ -19,12 +20,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const OverlayMutedIndicator = ({ i18n }) =>
+const OverlayMutedIndicator = ({ i18n, theme }) =>
   <View style={styles.container}>
-    <Icon name="ban" size={30} />
+    <Icon name="ban" size={30} color={theme.colors.text} />
     <Text style={styles.text}>
       {i18n.tagMuted}
     </Text>
   </View>;
 
-export default connectLocalization(OverlayMutedIndicator);
+export default withTheme(connectLocalization(OverlayMutedIndicator));

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Platform, StyleSheet, ScrollView, Text } from 'react-native';
+import { View, Platform, StyleSheet, ScrollView } from 'react-native';
 import {
   TabViewAnimated,
   TabViewPagerScroll,
   TabViewPagerPan,
 } from 'react-native-tab-view';
 import HtmlView from 'react-native-htmlview';
+import { Text } from 'react-native-paper';
 import { MODAL_TYPES } from '../common/constants';
 import { globalStyles, globalStyleVariables } from '../styles';
 
@@ -116,6 +117,7 @@ class NovelViewer extends Component {
                 },
                 selectable: true,
               }}
+              TextComponent={Text}
             />,
           )}
         </ScrollView>

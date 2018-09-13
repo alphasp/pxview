@@ -152,9 +152,15 @@ class CommentList extends Component {
       loadMoreItems,
       maxItems,
       i18n,
+      theme,
     } = this.props;
     return (
-      <View style={globalStyles.container}>
+      <View
+        style={[
+          globalStyles.container,
+          { backgroundColor: theme.colors.background },
+        ]}
+      >
         {!loaded && loading && <Loader />}
         {loaded
           ? <FlatList

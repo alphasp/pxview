@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
+import { withTheme } from 'react-native-paper';
 import NovelViewer from '../../components/NovelViewer';
 import PXHeader from '../../components/PXHeader';
 import HeaderTextTitle from '../../components/HeaderTextTitle';
@@ -62,11 +63,16 @@ class NovelReader extends Component {
       novelText,
       parsedNovelText,
       novelSettings: { fontSize, lineHeight },
+      theme,
     } = this.props;
     const { index } = this.state;
-    // console.log('novel ', novelId, parsedNovelText, novelText, index);
     return (
-      <View style={globalStyles.container}>
+      <View
+        style={[
+          globalStyles.container,
+          { backgroundColor: theme.colors.background },
+        ]}
+      >
         <PXHeader
           darkTheme
           showBackButton
@@ -89,20 +95,22 @@ class NovelReader extends Component {
   }
 }
 
-export default connect(
-  () => {
-    const getParsedNovelText = makeGetParsedNovelText();
-    return (state, props) => {
-      const { novelText, novelSettings } = state;
-      const parsedNovelText = getParsedNovelText(state, props);
-      const novelId = props.novelId || props.navigation.state.params.novelId;
-      return {
-        novelText: novelText[novelId],
-        novelId,
-        parsedNovelText,
-        novelSettings,
+export default withTheme(
+  connect(
+    () => {
+      const getParsedNovelText = makeGetParsedNovelText();
+      return (state, props) => {
+        const { novelText, novelSettings } = state;
+        const parsedNovelText = getParsedNovelText(state, props);
+        const novelId = props.novelId || props.navigation.state.params.novelId;
+        return {
+          novelText: novelText[novelId],
+          novelId,
+          parsedNovelText,
+          novelSettings,
+        };
       };
-    };
-  },
-  { ...novelTextActionCreators, ...modalActionCreators },
-)(NovelReader);
+    },
+    { ...novelTextActionCreators, ...modalActionCreators },
+  )(NovelReader),
+);

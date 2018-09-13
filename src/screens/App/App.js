@@ -82,7 +82,8 @@ class App extends Component {
         theme={{
           ...theme,
           fonts: {
-            regular: null,
+            ...theme.fonts,
+            regular: null, // use default font
           },
         }}
       >
