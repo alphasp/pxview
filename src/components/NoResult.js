@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { withTheme, Text } from 'react-native-paper';
 
 const styles = StyleSheet.create({
   nullResultContainer: {
@@ -15,4 +16,4 @@ const NoResult = ({ text, style }) =>
     </Text>
   </View>;
 
-export default NoResult;
+export default withTheme(NoResult);

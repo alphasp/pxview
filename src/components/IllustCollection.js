@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { withTheme, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IllustItem from './IllustItem';
 import PXTouchable from './PXTouchable';
-import { globalStyleVariables } from '../styles';
 import { SCREENS } from '../common/constants';
 
 const ILLUST_COLUMNS = 3;
@@ -11,7 +11,6 @@ const CONTAINER_MARGIN = 10;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
     margin: CONTAINER_MARGIN,
   },
   imagePreviews: {
@@ -46,6 +45,7 @@ const IllustCollection = props => {
     viewMoreTitle,
     maxItems,
     onPressViewMore,
+    theme,
   } = props;
   if (!items || !items.length) {
     return null;
@@ -69,7 +69,11 @@ const IllustCollection = props => {
             <Text>
               {viewMoreTitle}
             </Text>
-            <Icon name="chevron-right" style={styles.chevronIcon} />
+            <Icon
+              name="chevron-right"
+              style={styles.chevronIcon}
+              color={theme.colors.text}
+            />
           </View>
         </PXTouchable>
       </View>
@@ -92,4 +96,4 @@ const IllustCollection = props => {
   );
 };
 
-export default IllustCollection;
+export default withTheme(IllustCollection);

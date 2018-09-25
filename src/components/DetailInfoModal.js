@@ -251,11 +251,19 @@ class DetailInfoModal extends Component {
                   <Text>
                     {moment(item.create_date).format('YYYY-MM-DD')}
                   </Text>
-                  <Icon name="eye" style={{ marginLeft: 10 }} />
+                  <Icon
+                    name="eye"
+                    style={{ marginLeft: 10 }}
+                    color={theme.colors.text}
+                  />
                   <Text style={{ marginLeft: 5 }}>
                     {item.total_view}
                   </Text>
-                  <Icon name="heart" style={{ marginLeft: 10 }} />
+                  <Icon
+                    name="heart"
+                    style={{ marginLeft: 10 }}
+                    color={theme.colors.text}
+                  />
                   <Text style={{ marginLeft: 5 }}>
                     {item.total_bookmarks}
                   </Text>

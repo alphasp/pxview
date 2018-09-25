@@ -1,13 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { withTheme, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import NovelList from './NovelList';
 import PXTouchable from './PXTouchable';
-import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
     margin: 10,
   },
   title: {
@@ -36,6 +35,7 @@ const NovelCollection = props => {
     viewMoreTitle,
     maxItems,
     onPressViewMore,
+    theme,
   } = props;
   if (!items || !items.length) {
     return null;
@@ -58,7 +58,11 @@ const NovelCollection = props => {
             <Text>
               {viewMoreTitle}
             </Text>
-            <Icon name="chevron-right" style={styles.chevronIcon} />
+            <Icon
+              name="chevron-right"
+              style={styles.chevronIcon}
+              color={theme.colors.text}
+            />
           </View>
         </PXTouchable>
       </View>
@@ -72,4 +76,4 @@ const NovelCollection = props => {
   );
 };
 
-export default NovelCollection;
+export default withTheme(NovelCollection);

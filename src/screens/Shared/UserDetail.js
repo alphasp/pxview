@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   SafeAreaView,
   ScrollView,
@@ -11,6 +10,7 @@ import {
   InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { withTheme, Text } from 'react-native-paper';
 import Hyperlink from 'react-native-hyperlink';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import truncate from 'lodash.truncate';
@@ -47,7 +47,6 @@ const avatarSize = 70;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E9EBEE',
   },
   coverOuterContainer: {
     height: 150,
@@ -352,7 +351,7 @@ class UserDetail extends Component {
   };
 
   renderProfile = detail => {
-    const { i18n } = this.props;
+    const { i18n, theme } = this.props;
     return (
       <View>
         <View style={styles.coverOuterContainer}>
@@ -427,14 +426,6 @@ class UserDetail extends Component {
                 </Text>
               </View>
             </PXTouchable>
-            <View style={styles.row}>
-              <Text>
-                {detail.profile.total_follower}
-              </Text>
-              <Text style={styles.statType}>
-                {' '}{i18n.followers}{' '}
-              </Text>
-            </View>
             <PXTouchable onPress={this.handleOnPressViewUserMyPixiv}>
               <View style={styles.row}>
                 <Text>
@@ -447,7 +438,12 @@ class UserDetail extends Component {
             </PXTouchable>
           </View>
         </View>
-        <View style={styles.infoContainer}>
+        <View
+          style={[
+            styles.infoContainer,
+            { backgroundColor: theme.colors.surface },
+          ]}
+        >
           <View style={styles.commentContainer}>
             <Hyperlink
               linkStyle={styles.hyperlink}
@@ -594,10 +590,13 @@ class UserDetail extends Component {
       authUser,
       isMuteUser,
       i18n,
+      theme,
     } = this.props;
     const { isOpenMenuBottomSheet } = this.state;
     return (
-      <View style={styles.container}>
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
+      >
         <PXHeader
           headerTitle={this.renderHeaderTitle()}
           headerRight={this.renderHeaderRight()}
@@ -653,65 +652,67 @@ class UserDetail extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(
-    () => {
-      const getUserDetailPageItem = makeGetUserDetailPageItems();
-      return (state, props) => {
-        const {
-          auth,
-          userDetail,
-          userIllusts,
-          userMangas,
-          userNovels,
-          userBookmarkIllusts,
-          userBookmarkNovels,
-          muteUsers,
-        } = state;
-        const userId =
-          props.userId ||
-          props.navigation.state.params.userId ||
-          parseInt(
-            props.navigation.state.params.id ||
-              props.navigation.state.params.uid,
-            10,
-          );
-        const {
-          userDetailItem,
-          userIllustsItems,
-          userMangasItems,
-          userNovelsItems,
-          userBookmarkIllustsItems,
-          userBookmarkNovelsItems,
-        } = getUserDetailPageItem(state, props);
-        const isMuteUser = muteUsers.items.some(m => m === userId);
-        return {
-          authUser: auth.user,
-          userDetail: userDetail[userId],
-          userIllusts: userIllusts[userId],
-          userMangas: userMangas[userId],
-          userNovels: userNovels[userId],
-          userBookmarkIllusts: userBookmarkIllusts[userId],
-          userBookmarkNovels: userBookmarkNovels[userId],
-          userDetailItem,
-          userIllustsItems,
-          userMangasItems,
-          userNovelsItems,
-          userBookmarkIllustsItems,
-          userBookmarkNovelsItems,
-          userId,
-          isMuteUser,
+export default withTheme(
+  connectLocalization(
+    connect(
+      () => {
+        const getUserDetailPageItem = makeGetUserDetailPageItems();
+        return (state, props) => {
+          const {
+            auth,
+            userDetail,
+            userIllusts,
+            userMangas,
+            userNovels,
+            userBookmarkIllusts,
+            userBookmarkNovels,
+            muteUsers,
+          } = state;
+          const userId =
+            props.userId ||
+            props.navigation.state.params.userId ||
+            parseInt(
+              props.navigation.state.params.id ||
+                props.navigation.state.params.uid,
+              10,
+            );
+          const {
+            userDetailItem,
+            userIllustsItems,
+            userMangasItems,
+            userNovelsItems,
+            userBookmarkIllustsItems,
+            userBookmarkNovelsItems,
+          } = getUserDetailPageItem(state, props);
+          const isMuteUser = muteUsers.items.some(m => m === userId);
+          return {
+            authUser: auth.user,
+            userDetail: userDetail[userId],
+            userIllusts: userIllusts[userId],
+            userMangas: userMangas[userId],
+            userNovels: userNovels[userId],
+            userBookmarkIllusts: userBookmarkIllusts[userId],
+            userBookmarkNovels: userBookmarkNovels[userId],
+            userDetailItem,
+            userIllustsItems,
+            userMangasItems,
+            userNovelsItems,
+            userBookmarkIllustsItems,
+            userBookmarkNovelsItems,
+            userId,
+            isMuteUser,
+          };
         };
-      };
-    },
-    {
-      ...userDetailActionCreators,
-      ...userIllustsActionCreators,
-      ...userMangasActionCreators,
-      ...userNovelsActionCreators,
-      ...userBookmarkIllustsActionCreators,
-      ...userBookmarkNovelsActionCreators,
-      ...muteUsersActionCreators,
-    },
-  )(UserDetail),
+      },
+      {
+        ...userDetailActionCreators,
+        ...userIllustsActionCreators,
+        ...userMangasActionCreators,
+        ...userNovelsActionCreators,
+        ...userBookmarkIllustsActionCreators,
+        ...userBookmarkNovelsActionCreators,
+        ...muteUsersActionCreators,
+      },
+    )(UserDetail),
+  ),
 );

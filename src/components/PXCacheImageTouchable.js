@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { withTheme } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native';
+import { withTheme, Text } from 'react-native-paper';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXCacheImage from './PXCacheImage';

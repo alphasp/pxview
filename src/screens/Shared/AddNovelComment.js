@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, TextInput, StyleSheet, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
+import { withTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../../components/Localization';
@@ -81,10 +82,12 @@ class AddNovelComment extends Component {
   };
 
   render() {
-    const { i18n, result: { loading } } = this.props;
+    const { i18n, result: { loading }, theme } = this.props;
     const { comment } = this.state;
     return (
-      <View style={styles.container}>
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.surface }]}
+      >
         <TextInput
           multiline
           autoFocus
@@ -92,7 +95,7 @@ class AddNovelComment extends Component {
           placeholder={i18n.commentInput}
           placeholderTextColor="#86939e"
           underlineColorAndroid="transparent"
-          style={styles.textInput}
+          style={[styles.textInput, { color: theme.colors.text }]}
           onChangeText={this.handleOnChangeComment}
           value={comment}
         />
@@ -102,11 +105,13 @@ class AddNovelComment extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(
-    state => ({
-      result: state.addNovelComment,
-    }),
-    addNovelCommentActionCreators,
-  )(AddNovelComment),
+export default withTheme(
+  connectLocalization(
+    connect(
+      state => ({
+        result: state.addNovelComment,
+      }),
+      addNovelCommentActionCreators,
+    )(AddNovelComment),
+  ),
 );
