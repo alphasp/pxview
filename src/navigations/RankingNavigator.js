@@ -5,7 +5,11 @@ import Ranking from '../screens/Ranking/Ranking';
 import NovelRanking from '../screens/Ranking/NovelRanking';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import DrawerIcon from '../components/DrawerIcon';
-import { globalStyles, globalStyleVariables } from '../styles';
+import {
+  globalStyles,
+  globalStyleVariables,
+  getThemedHeaderStyle,
+} from '../styles';
 import config from '../common/config';
 import { SCREENS, RANKING_TYPES } from '../common/constants';
 
@@ -27,8 +31,9 @@ const routeConfig = {
     screen: RankingPreview,
     navigationOptions: config.navigation.tab
       ? { header: null }
-      : ({ navigation, screenProps: { i18n } }) => ({
+      : ({ navigation, screenProps: { i18n, theme } }) => ({
           title: i18n.ranking,
+          headerStyle: getThemedHeaderStyle(theme),
           headerLeft: (
             <DrawerMenuButton onPress={() => navigation.openDrawer()} />
           ),

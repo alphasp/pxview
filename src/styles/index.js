@@ -38,4 +38,9 @@ const globalStyles = StyleSheet.create({
   },
 });
 
-export { globalStyles, globalStyleVariables };
+const getThemedHeaderStyle = theme => ({
+  ...globalStyles.header,
+  backgroundColor: theme.colors.headerBackground, // todo
+});
+
+export { globalStyles, globalStyleVariables, getThemedHeaderStyle };

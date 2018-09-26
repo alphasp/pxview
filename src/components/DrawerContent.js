@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { DrawerItems, DrawerActions, withNavigation } from 'react-navigation';
+import { withTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import CookieManager from 'react-native-cookies';
 import { connectLocalization } from './Localization';
@@ -67,12 +68,12 @@ const menuList2 = [
 
 class DrawerContent extends Component {
   renderCover = () => {
-    const { user, i18n, theme } = this.props;
+    const { user, i18n, themeName } = this.props;
     return (
       <UserCover
         user={user}
         i18n={i18n}
-        theme={theme}
+        themeName={themeName}
         onPressAvatar={this.handleOnPressAvatar}
         onPressChangeTheme={this.handleOnPressChangeTheme}
       />
@@ -181,8 +182,8 @@ class DrawerContent extends Component {
   };
 
   handleOnPressChangeTheme = () => {
-    const { theme, setTheme, navigation: { navigate } } = this.props;
-    if (theme === THEME_TYPES.DARK) {
+    const { themeName, setTheme, navigation: { navigate } } = this.props;
+    if (themeName === THEME_TYPES.DARK) {
       setTheme(THEME_TYPES.LIGHT);
     } else {
       setTheme(THEME_TYPES.DARK);
@@ -210,11 +211,22 @@ class DrawerContent extends Component {
   };
 
   render() {
+    const { theme } = this.props;
     return (
-      <View style={globalStyles.container}>
+      <View
+        style={[
+          globalStyles.container,
+          { backgroundColor: theme.colors.surface },
+        ]}
+      >
         <ScrollView>
           {this.renderCover()}
-          <DrawerItems {...this.props} />
+          <DrawerItems
+            {...this.props}
+            inactiveTintColor={theme.colors.text}
+            activeBackgroundColor="#D3D3D3"
+            activeTintColor={theme.colors.activeTint}
+          />
           <Separator noPadding />
           {this.renderList(menuList)}
           <Separator noPadding />
@@ -225,20 +237,22 @@ class DrawerContent extends Component {
   }
 }
 
-export default connectLocalization(
-  withNavigation(
-    connect(
-      state => ({
-        user: state.auth.user,
-        theme: state.theme.name,
-      }),
-      {
-        ...authActionCreators,
-        ...browsingHistoryIllustsActionCreators,
-        ...browsingHistoryNovelsActionCreators,
-        ...searchHistoryActionCreators,
-        ...themeActionCreators,
-      },
-    )(DrawerContent),
+export default withTheme(
+  connectLocalization(
+    withNavigation(
+      connect(
+        state => ({
+          user: state.auth.user,
+          themeName: state.theme.name,
+        }),
+        {
+          ...authActionCreators,
+          ...browsingHistoryIllustsActionCreators,
+          ...browsingHistoryNovelsActionCreators,
+          ...searchHistoryActionCreators,
+          ...themeActionCreators,
+        },
+      )(DrawerContent),
+    ),
   ),
 );

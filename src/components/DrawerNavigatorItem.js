@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { withTheme, Text } from 'react-native-paper';
 import PXTouchable from './PXTouchable';
 
 const styles = StyleSheet.create({
@@ -14,23 +15,21 @@ const styles = StyleSheet.create({
     opacity: 0.62,
   },
   icon: {
-    color: 'rgba(0, 0, 0, .87)',
     backgroundColor: 'transparent',
   },
   label: {
     margin: 16,
     fontWeight: 'bold',
-    color: 'rgba(0, 0, 0, .87)',
   },
 });
 
-const DrawerNavigatorItem = ({ label, icon, onPress }) =>
+const DrawerNavigatorItem = ({ label, icon, onPress, theme }) =>
   <PXTouchable onPress={onPress} delayPressIn={0}>
     <View style={styles.item}>
       {icon
         ? <View style={styles.iconContainer}>
             {React.cloneElement(icon, {
-              style: styles.icon,
+              style: [styles.icon, { color: theme.colors.text }],
             })}
           </View>
         : null}
@@ -42,4 +41,4 @@ const DrawerNavigatorItem = ({ label, icon, onPress }) =>
     </View>
   </PXTouchable>;
 
-export default DrawerNavigatorItem;
+export default withTheme(DrawerNavigatorItem);

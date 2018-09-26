@@ -8,6 +8,7 @@ import {
   Keyboard,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { withTheme } from 'react-native-paper';
 import DeviceInfo from 'react-native-device-info';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
@@ -127,10 +128,12 @@ class Feedback extends Component {
   };
 
   render() {
-    const { i18n } = this.props;
+    const { i18n, theme } = this.props;
     const { feedback, email, loading } = this.state;
     return (
-      <View style={styles.container}>
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.surface }]}
+      >
         <FormLabel labelStyle={styles.emailLabel}>
           {i18n.feedbackEmailOptional}
         </FormLabel>
@@ -147,7 +150,7 @@ class Feedback extends Component {
           placeholder={i18n.feedbackPlaceholder}
           placeholderTextColor="#86939e"
           underlineColorAndroid="transparent"
-          style={styles.feedbackInput}
+          style={[styles.feedbackInput, { color: theme.colors.text }]}
           onChangeText={this.handleOnChangeFeedback}
           value={feedback}
         />
@@ -157,11 +160,13 @@ class Feedback extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(
-    state => ({
-      user: state.auth.user,
-    }),
-    errorActionCreators,
-  )(Feedback),
+export default withTheme(
+  connectLocalization(
+    connect(
+      state => ({
+        user: state.auth.user,
+      }),
+      errorActionCreators,
+    )(Feedback),
+  ),
 );

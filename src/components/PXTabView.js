@@ -6,6 +6,7 @@ import {
   TabViewPagerScroll,
   TabViewPagerPan,
 } from 'react-native-tab-view';
+import { withTheme } from 'react-native-paper';
 import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
@@ -20,14 +21,14 @@ class PXTabView extends Component {
   };
 
   renderHeader = props => {
-    const { includeStatusBarPadding, tabBarProps } = this.props;
+    const { includeStatusBarPadding, tabBarProps, theme } = this.props;
     return (
       <TabBar
         style={{
           paddingTop: includeStatusBarPadding
             ? globalStyleVariables.STATUSBAR_HEIGHT
             : 0,
-          backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
+          backgroundColor: theme.colors.headerBackground,
         }}
         labelStyle={{
           marginVertical: 8,
@@ -67,4 +68,4 @@ class PXTabView extends Component {
   }
 }
 
-export default PXTabView;
+export default withTheme(PXTabView);

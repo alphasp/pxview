@@ -16,6 +16,7 @@ import Loader from '../../components/Loader';
 import ModalRoot from '../../containers/ModalRoot';
 import * as routeActionCreators from '../../common/actions/route';
 import { THEME_TYPES } from '../../common/constants';
+import { globalStyleVariables } from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -63,30 +64,39 @@ class App extends Component {
   render() {
     const { rehydrated, user, i18n, themeName } = this.props;
     let renderComponent;
+    const selectedTheme =
+      themeName === THEME_TYPES.DARK ? DarkTheme : DefaultTheme;
+    const theme = {
+      ...selectedTheme,
+      fonts: {
+        ...selectedTheme.fonts,
+        regular: null, // use default font
+      },
+      colors: {
+        ...selectedTheme.colors,
+        activeTint: selectedTheme.dark
+          ? '#000000'
+          : globalStyleVariables.PRIMARY_COLOR,
+        headerBackground: selectedTheme.dark
+          ? selectedTheme.colors.background
+          : globalStyleVariables.PRIMARY_COLOR,
+      },
+    };
     if (!rehydrated) {
       renderComponent = <Loader />;
     } else if (user) {
       const Navigator = this.appNavigator;
       renderComponent = (
         <Navigator
-          screenProps={{ i18n }}
+          screenProps={{ i18n, theme }}
           uriPrefix={/^(?:https?:\/\/)?(?:www|touch)\.pixiv\.net\/|^pixiv:\/\//}
         />
       );
     } else {
-      renderComponent = <LoginNavigator screenProps={{ i18n }} />;
+      renderComponent = <LoginNavigator screenProps={{ i18n, theme }} />;
     }
-    const theme = themeName === THEME_TYPES.DARK ? DarkTheme : DefaultTheme;
     return (
-      <PaperProvider
-        theme={{
-          ...theme,
-          fonts: {
-            ...theme.fonts,
-            regular: null, // use default font
-          },
-        }}
-      >
+      <PaperProvider theme={theme}>
         <View style={styles.container}>
           <StatusBar
             barStyle="light-content"
