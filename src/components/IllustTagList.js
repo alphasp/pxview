@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
+import { withTheme } from 'react-native-paper';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
@@ -40,7 +41,6 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     marginBottom: 1,
-    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
   },
   image: {
     resizeMode: 'cover',
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
 
 class IllustTagList extends Component {
   renderItem = (item, index) => {
+    const { theme } = this.props;
     let imageContainerStyle = {};
     let imageStyle = {};
     let tagContainerStyle = {};
@@ -86,7 +87,11 @@ class IllustTagList extends Component {
     }
     return (
       <PXTouchable
-        style={[styles.imageContainer, imageContainerStyle]}
+        style={[
+          styles.imageContainer,
+          { backgroundColor: theme.colors.surface },
+          imageContainerStyle,
+        ]}
         key={item.tag}
         onPress={() => this.handleOnPressItem(item)}
       >
@@ -118,9 +123,15 @@ class IllustTagList extends Component {
     const {
       data: { items, loading, loaded, refreshing },
       onRefresh,
+      theme,
     } = this.props;
     return (
-      <View style={globalStyles.container}>
+      <View
+        style={[
+          globalStyles.container,
+          { backgroundColor: theme.colors.background },
+        ]}
+      >
         {(!items || (!loaded && loading)) && <Loader />}
         {items && items.length
           ? <ScrollView
@@ -137,6 +148,6 @@ class IllustTagList extends Component {
   }
 }
 
-export default withNavigation(
-  connect(null, searchHistoryActionCreators)(IllustTagList),
+export default withTheme(
+  withNavigation(connect(null, searchHistoryActionCreators)(IllustTagList)),
 );

@@ -16,6 +16,7 @@ import RelatedIllusts from '../../screens/Shared/RelatedIllusts';
 import SearchResultTabs from '../../screens/Shared/SearchResultTabs';
 import RecommendedUsers from '../../screens/Shared/RecommendedUsers';
 import ImagesViewer from '../../screens/Shared/ImagesViewer';
+import { getThemedHeaderStyle } from '../../styles';
 import { SCREENS } from '../../common/constants';
 
 const config = {
@@ -54,68 +55,78 @@ const config = {
   },
   [SCREENS.IllustComments]: {
     screen: IllustComments,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.comments,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.NovelComments]: {
     screen: NovelComments,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.comments,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.NovelSeries]: {
     screen: NovelSeries,
-    // navigationOptions: ({ screenProps: { i18n } }) => ({
+    // navigationOptions: ({ screenProps: { i18n, theme } }) => ({
     //   title: i18n.comments,
     // }),
   },
   [SCREENS.RelatedIllusts]: {
     screen: RelatedIllusts,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.relatedWorks,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.UserIllusts]: {
     screen: UserIllusts,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.userIllusts,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.UserMangas]: {
     screen: UserMangas,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.userMangas,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.UserNovels]: {
     screen: UserNovels,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.userNovels,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.UserBookmarkIllusts]: {
     screen: UserBookmarkIllusts,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.collection,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.UserBookmarkNovels]: {
     screen: UserBookmarkNovels,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.collection,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.UserFollowing]: {
     screen: UserFollowing,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.following,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.UserMyPixiv]: {
     screen: UserMyPixiv,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.myPixiv,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.SearchResult]: {
@@ -126,8 +137,9 @@ const config = {
   },
   [SCREENS.RecommendedUsers]: {
     screen: RecommendedUsers,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.recommendedUsers,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
 };

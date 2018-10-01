@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { withTheme } from 'react-native-paper';
 import { Button } from 'react-native-elements';
 import FollowingUserIllusts from './FollowingUserIllusts';
 import FollowingUserNovels from './FollowingUserNovels';
@@ -63,13 +64,17 @@ class FollowingUserNewWorks extends Component {
     push(SCREENS.RecommendedUsers);
   };
 
-  renderPillFilterButton = () =>
-    <View style={styles.pillFilterButton}>
-      <HeaderFilterButton
-        color={globalStyleVariables.PRIMARY_COLOR}
-        onPress={this.handleOnPressFilterButton}
-      />
-    </View>;
+  renderPillFilterButton = () => {
+    const { theme } = this.props;
+    return (
+      <View style={styles.pillFilterButton}>
+        <HeaderFilterButton
+          color={theme.dark ? '#fff' : globalStyleVariables.PRIMARY_COLOR}
+          onPress={this.handleOnPressFilterButton}
+        />
+      </View>
+    );
+  };
 
   renderHeader = () => {
     const { i18n } = this.props;
@@ -141,4 +146,4 @@ class FollowingUserNewWorks extends Component {
   }
 }
 
-export default connectLocalization(FollowingUserNewWorks);
+export default withTheme(connectLocalization(FollowingUserNewWorks));

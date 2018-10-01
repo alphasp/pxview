@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
+import { withTheme } from 'react-native-paper';
 import { Button } from 'react-native-elements';
 import { globalStyleVariables } from '../styles';
 
@@ -7,7 +8,21 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
+    ...Platform.select({
+      ios: {
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: 'rgba(0, 0, 0, .3)',
+      },
+      android: {
+        shadowColor: 'black',
+        shadowOpacity: 0.1,
+        shadowRadius: StyleSheet.hairlineWidth,
+        shadowOffset: {
+          height: StyleSheet.hairlineWidth,
+        },
+        elevation: 4,
+      },
+    }),
   },
   subContainer: {
     flex: 1,
@@ -21,9 +36,24 @@ const styles = StyleSheet.create({
 });
 
 const Pills = props => {
-  const { items, selectedIndex, style, onPressItem, renderRightButton } = props;
+  const {
+    items,
+    selectedIndex,
+    style,
+    onPressItem,
+    renderRightButton,
+    theme,
+  } = props;
   return (
-    <View style={[styles.container, style]}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: theme.colors.background,
+        },
+        style,
+      ]}
+    >
       <View style={styles.subContainer}>
         {items.map((item, index) =>
           <Button
@@ -35,7 +65,7 @@ const Pills = props => {
             onPress={() => onPressItem(index)}
             backgroundColor={
               index === selectedIndex
-                ? globalStyleVariables.PRIMARY_COLOR
+                ? theme.colors.primary
                 : globalStyleVariables.BACKGROUND_COLOR
             }
             color={index !== selectedIndex ? 'gray' : '#fff'}
@@ -48,4 +78,4 @@ const Pills = props => {
   );
 };
 
-export default Pills;
+export default withTheme(Pills);

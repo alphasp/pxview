@@ -601,6 +601,7 @@ class UserDetail extends Component {
           headerTitle={this.renderHeaderTitle()}
           headerRight={this.renderHeaderRight()}
           darkTheme
+          withShadow
           showBackButton
           onPressBackButton={this.handleOnPressHeaderBackButton}
         />

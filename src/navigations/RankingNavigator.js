@@ -41,20 +41,22 @@ const routeConfig = {
   },
   [SCREENS.Ranking]: {
     screen: Ranking,
-    navigationOptions: ({ screenProps: { i18n }, navigation }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme }, navigation }) => ({
       title: `${mapRankingTypeString(
         navigation.state.params.rankingType,
         i18n,
       )} ${i18n.ranking}`,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.NovelRanking]: {
     screen: NovelRanking,
-    navigationOptions: ({ screenProps: { i18n }, navigation }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme }, navigation }) => ({
       title: `${mapRankingTypeString(
         navigation.state.params.rankingType,
         i18n,
       )} ${i18n.ranking}`,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
 };

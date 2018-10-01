@@ -98,6 +98,7 @@ class ImagesViewer extends Component {
         {!hideHeader &&
           <PXHeader
             darkTheme
+            withShadow
             hideStatusBar
             absolutePosition
             showBackButton

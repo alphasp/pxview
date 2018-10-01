@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { StyleSheet, View, Platform, SafeAreaView } from 'react-native';
 import { HeaderBackButton, withNavigation } from 'react-navigation';
+import { withTheme } from 'react-native-paper';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import { globalStyleVariables } from '../styles';
 
@@ -104,11 +105,13 @@ class PXHeader extends Component {
       darkTheme,
       absolutePosition,
       withShadow,
+      theme,
     } = this.props;
     return (
       <SafeAreaView
         style={[
-          darkTheme && styles.containerDark,
+          { backgroundColor: theme.colors.headerBackground },
+          // darkTheme && styles.containerDark,
           absolutePosition && styles.absolutePosition,
           withShadow && styles.containerShadow,
         ]}
@@ -132,4 +135,4 @@ class PXHeader extends Component {
   }
 }
 
-export default withNavigation(PXHeader);
+export default withTheme(withNavigation(PXHeader));

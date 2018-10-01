@@ -74,11 +74,14 @@ class App extends Component {
       },
       colors: {
         ...selectedTheme.colors,
+        primary: selectedTheme.dark
+          ? '#1a1a1a'
+          : globalStyleVariables.PRIMARY_COLOR,
         activeTint: selectedTheme.dark
           ? '#000000'
           : globalStyleVariables.PRIMARY_COLOR,
         headerBackground: selectedTheme.dark
-          ? selectedTheme.colors.background
+          ? '#1a1a1a'
           : globalStyleVariables.PRIMARY_COLOR,
       },
     };

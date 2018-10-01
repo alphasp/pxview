@@ -75,6 +75,7 @@ class NovelReader extends Component {
       >
         <PXHeader
           darkTheme
+          withShadow
           showBackButton
           headerTitle={parsedNovelText && this.renderHeaderTitle()}
           headerRight={this.renderHeaderRight()}

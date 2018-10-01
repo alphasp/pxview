@@ -26,15 +26,15 @@ const globalStyles = StyleSheet.create({
       height: 0,
     },
     elevation: 0,
-    backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
-    ...Platform.select({
-      android: {
-        paddingTop: globalStyleVariables.STATUSBAR_HEIGHT,
-        height:
-          globalStyleVariables.STATUSBAR_HEIGHT +
-          globalStyleVariables.APPBAR_HEIGHT,
-      },
-    }),
+    // backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
+    // ...Platform.select({
+    //   android: {
+    //     paddingTop: globalStyleVariables.STATUSBAR_HEIGHT,
+    //     height:
+    //       globalStyleVariables.STATUSBAR_HEIGHT +
+    //       globalStyleVariables.APPBAR_HEIGHT,
+    //   },
+    // }),
   },
 });
 

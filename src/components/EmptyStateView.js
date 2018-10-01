@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { withTheme, Text } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
 
 const styles = StyleSheet.create({
@@ -34,14 +35,18 @@ const EmptyState = props => {
     title,
     description,
     actionButton,
+    theme,
   } = props;
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <Icon
         name={iconName}
         type={iconType}
         size={iconSize || 40}
         style={[styles.icon, iconStyle]}
+        color={theme.colors.text}
       />
       <View style={styles.titleContainer}>
         <Text style={styles.title}>
@@ -57,4 +62,4 @@ const EmptyState = props => {
   );
 };
 
-export default EmptyState;
+export default withTheme(EmptyState);

@@ -362,6 +362,7 @@ class Detail extends Component {
           headerTitle={this.renderHeaderTitle(item)}
           headerRight={this.renderHeaderRight(item)}
           darkTheme
+          withShadow
           showBackButton
           onPressBackButton={this.handleOnPressHeaderBackButton}
         />

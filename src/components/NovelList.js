@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { Divider } from 'react-native-paper';
+import { withTheme, Divider } from 'react-native-paper';
 import NovelItem from './NovelItem';
 import Loader from './Loader';
 import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
@@ -87,9 +87,15 @@ class NovelList extends Component {
       onEndReachedThreshold,
       showsVerticalScrollIndicator,
       maxItems,
+      theme,
     } = this.props;
     return (
-      <View style={globalStyles.container}>
+      <View
+        style={[
+          globalStyles.container,
+          { backgroundColor: theme.colors.background },
+        ]}
+      >
         {!loaded && renderHeader && renderHeader()}
         {(!items || (!loaded && loading)) && <Loader />}
         {loaded
@@ -127,6 +133,6 @@ class NovelList extends Component {
   }
 }
 
-export default withNavigation(
-  connect(null, bookmarkIllustActionCreators)(NovelList),
+export default withTheme(
+  withNavigation(connect(null, bookmarkIllustActionCreators)(NovelList)),
 );

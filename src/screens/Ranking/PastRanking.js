@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
+import { withTheme, Text } from 'react-native-paper';
 import moment from 'moment';
 import camelCase from 'lodash.camelcase';
 import DatePicker from 'react-native-datepicker';
@@ -24,7 +25,7 @@ import {
   R18G_RANKING_NOVEL,
   RANKING_TYPES,
 } from '../../common/constants';
-import { globalStyles } from '../../styles';
+import { globalStyles, globalStyleVariables } from '../../styles';
 
 const styles = StyleSheet.create({
   filterContainer: {
@@ -137,7 +138,14 @@ class PastRanking extends Component {
     />;
 
   render() {
-    const { user, i18n, navigation, rankingMode, rankingType } = this.props;
+    const {
+      user,
+      i18n,
+      navigation,
+      rankingMode,
+      rankingType,
+      theme,
+    } = this.props;
     const { date, mode, isOpenRankingModeBottomSheet } = this.state;
     const selectedRankingMode =
       rankingType === RANKING_TYPES.MANGA ? mode.replace('_manga', '') : mode;
@@ -156,6 +164,7 @@ class PastRanking extends Component {
                 name="caret-down"
                 size={24}
                 style={styles.rankingPickerIcon}
+                color={theme.colors.text}
               />
             </View>
           </PXTouchable>
@@ -164,6 +173,17 @@ class PastRanking extends Component {
             customStyles={{
               dateInput: styles.dateInput,
               dateTouchBody: styles.dateTouchBody,
+              dateText: {
+                color: theme.colors.text,
+              },
+              btnTextConfirm: {
+                height: 20,
+                color: globalStyleVariables.PRIMARY_COLOR,
+              },
+              btnTextCancel: {
+                height: 20,
+                color: '#000',
+              },
             }}
             date={date}
             mode="date"
@@ -218,8 +238,10 @@ class PastRanking extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(state => ({
-    user: state.auth.user,
-  }))(PastRanking),
+export default withTheme(
+  connectLocalization(
+    connect(state => ({
+      user: state.auth.user,
+    }))(PastRanking),
+  ),
 );

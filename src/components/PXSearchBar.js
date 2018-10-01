@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
+import { withTheme } from 'react-native-paper';
 import { SearchBar } from 'react-native-elements';
 import { connectLocalization } from './Localization';
 import PXHeader from './PXHeader';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import { SEARCH_TYPES } from '../common/constants';
-import { globalStyles, globalStyleVariables } from '../styles';
+import { globalStyles } from '../styles';
 
 class PXSearchBar extends Component {
   static defaultProps = {
@@ -34,19 +35,20 @@ class PXSearchBar extends Component {
       word,
       i18n,
       isFocus,
+      theme,
     } = this.props;
     return (
       <View style={globalStyles.container}>
         <SearchBar
           containerStyle={{
-            backgroundColor: globalStyleVariables.PRIMARY_COLOR,
+            backgroundColor: theme.colors.headerBackground,
             borderTopWidth: 0,
             borderBottomWidth: 0,
           }}
           inputStyle={{
             backgroundColor: '#fff',
           }}
-          lightTheme
+          lightTheme={!theme.dark}
           selectionColor="#90CAF9"
           placeholder={
             searchType === SEARCH_TYPES.USER
@@ -91,5 +93,7 @@ class PXSearchBar extends Component {
 }
 
 export default connectLocalization(
-  withNavigation(connect(null, searchHistoryActionCreators)(PXSearchBar)),
+  withTheme(
+    withNavigation(connect(null, searchHistoryActionCreators)(PXSearchBar)),
+  ),
 );

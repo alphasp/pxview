@@ -13,102 +13,125 @@ import MuteUsersSettings from '../../screens/MyPage/MuteUsersSettings';
 import Language from '../../screens/MyPage/Language';
 import Feedback from '../../screens/MyPage/Feedback';
 import About from '../../screens/MyPage/About';
-import { globalStyles } from '../../styles';
+import { globalStyles, getThemedHeaderStyle } from '../../styles';
 import { SCREENS } from '../../common/constants';
 
 const config = {
   [SCREENS.MyConnection]: {
     screen: MyConnection,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.connection,
-      headerStyle: globalStyles.headerWithoutShadow,
+      headerStyle: {
+        ...getThemedHeaderStyle(theme),
+        ...globalStyles.headerWithoutShadow,
+      },
     }),
   },
   [SCREENS.MyCollection]: {
     screen: MyCollection,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.collection,
-      headerStyle: globalStyles.headerWithoutShadow,
+      headerStyle: {
+        ...getThemedHeaderStyle(theme),
+        ...globalStyles.headerWithoutShadow,
+      },
     }),
   },
   [SCREENS.MyWorks]: {
     screen: MyWorks,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.myWorks,
-      headerStyle: globalStyles.headerWithoutShadow,
+      headerStyle: {
+        ...getThemedHeaderStyle(theme),
+        ...globalStyles.headerWithoutShadow,
+      },
     }),
   },
   [SCREENS.BrowsingHistory]: {
     screen: BrowsingHistory,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.browsingHistory,
-      headerStyle: globalStyles.headerWithoutShadow,
+      headerStyle: {
+        ...getThemedHeaderStyle(theme),
+        ...globalStyles.headerWithoutShadow,
+      },
     }),
   },
   [SCREENS.Settings]: {
     screen: Settings,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.settings,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.AccountSettings]: {
     screen: AccountSettings,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.accountSettings,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.AdvanceAccountSettings]: {
     screen: AdvanceAccountSettings,
-    navigationOptions: () => ({
+    navigationOptions: ({ screenProps: { theme } }) => ({
       title: null,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.SaveImageSettings]: {
     screen: SaveImageSettings,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.saveImageSettings,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.InitialScreenSettings]: {
     screen: InitialScreenSettings,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.initialScreenSettings,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.HighlightTagsSettings]: {
     screen: HighlightTagsSettings,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.tagHighlightSettings,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.MuteTagsSettings]: {
     screen: MuteTagsSettings,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.tagMuteSettings,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.MuteUsersSettings]: {
     screen: MuteUsersSettings,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.userMuteSettings,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.Language]: {
     screen: Language,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.lang,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.Feedback]: {
     screen: Feedback,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.feedback,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.About]: {
     screen: About,
-    navigationOptions: ({ screenProps: { i18n } }) => ({
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.about,
+      headerStyle: getThemedHeaderStyle(theme),
     }),
   },
 };

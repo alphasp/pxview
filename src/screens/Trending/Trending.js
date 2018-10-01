@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Keyboard, Platform } from 'react-native';
+import { StyleSheet, View, Keyboard } from 'react-native';
 import { AndroidBackHandler } from 'react-navigation-backhandler';
 import TrendingIllustTags from './TrendingIllustTags';
 import TrendingNovelTags from './TrendingNovelTags';
@@ -20,21 +20,6 @@ const styles = StyleSheet.create({
   },
   pills: {
     padding: 10,
-    ...Platform.select({
-      ios: {
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        borderBottomColor: 'rgba(0, 0, 0, .3)',
-      },
-      android: {
-        shadowColor: 'black',
-        shadowOpacity: 0.1,
-        shadowRadius: StyleSheet.hairlineWidth,
-        shadowOffset: {
-          height: StyleSheet.hairlineWidth,
-        },
-        elevation: 4,
-      },
-    }),
   },
 });
 

@@ -51,11 +51,12 @@ class PXTabView extends Component {
       renderScene,
       onIndexChange,
       lazy,
+      theme,
       ...restProps
     } = this.props;
     return (
       <TabViewAnimated
-        style={styles.container}
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
         navigationState={navigationState}
         renderScene={renderScene}
         renderHeader={this.renderHeader}
