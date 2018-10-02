@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Platform, Linking } from 'react-native';
+import { View, StyleSheet, Image, Platform, Linking } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import { List, ListItem } from 'react-native-elements';
+import { withTheme, Text } from 'react-native-paper';
+import { Icon } from 'react-native-elements';
 import { connectLocalization } from '../../components/Localization';
+import PXListItem from '../../components/PXListItem';
 import { globalStyles } from '../../styles';
 
 const appStoreUrl = '';
@@ -25,6 +27,9 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 20,
   },
+  listContainer: {
+    marginHorizontal: 10,
+  },
 });
 
 const list = [
@@ -33,12 +38,14 @@ const list = [
     title: 'contactUs',
     icon: 'envelope',
     type: 'font-awesome',
+    size: 21,
   },
   {
     id: 'rateApp',
     title: 'rateApp',
     icon: 'star',
     type: 'font-awesome',
+    size: 22,
   },
   {
     id: 'sourceCode',
@@ -84,9 +91,14 @@ class About extends Component {
   };
 
   render() {
-    const { i18n } = this.props;
+    const { i18n, theme } = this.props;
     return (
-      <View style={globalStyles.container}>
+      <View
+        style={[
+          globalStyles.container,
+          { backgroundColor: theme.colors.background },
+        ]}
+      >
         <View style={styles.logoContainer}>
           <Image
             source={require('../../images/logo.png')} // eslint-disable-line global-require
@@ -98,28 +110,29 @@ class About extends Component {
             </Text>
           </View>
         </View>
-        <List>
+        <View style={styles.listContainer}>
           {list.map(item =>
-            <ListItem
+            <PXListItem
               key={item.id}
               title={i18n.formatString(
                 i18n[item.title],
                 Platform.OS === 'ios' ? 'App Store' : 'Google Play',
               )}
-              leftIcon={{
-                name: item.icon,
-                type: item.type,
-                style: { width: 30, textAlign: 'center' },
-              }}
+              left={({ color }) =>
+                <Icon
+                  name={item.icon}
+                  type={item.type}
+                  color={color}
+                  size={item.size}
+                />}
               onPress={() => this.handleOnPressListItem(item)}
-              subtitle={item.subtitle}
-              hideChevron
+              description={item.subtitle}
             />,
           )}
-        </List>
+        </View>
       </View>
     );
   }
 }
 
-export default connectLocalization(About);
+export default withTheme(connectLocalization(About));

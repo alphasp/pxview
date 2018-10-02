@@ -7,7 +7,7 @@ import * as muteTagsActionCreators from '../../common/actions/muteTags';
 const MuteTagSettings = ({ muteTags, i18n, addMuteTag, removeMuteTag }) =>
   <TagSettings
     items={muteTags}
-    formInputPlaceholder={i18n.tagMuteAdd}
+    textInputPlaceholder={i18n.tagMuteAdd}
     addTag={addMuteTag}
     removeTag={removeMuteTag}
   />;

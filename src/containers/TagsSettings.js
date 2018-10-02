@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, FlatList, DeviceEventEmitter } from 'react-native';
-import { List, ListItem, FormInput } from 'react-native-elements';
+import { withTheme, TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { DURATION } from 'react-native-easy-toast';
 import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
+import PXListItem from '../components/PXListItem';
+import PXListItemRemoveButton from '../components/PXListItemRemoveButton';
 import { globalStyles, globalStyleVariables } from '../styles';
 
 const MAX_TAGS_COUNT = 200;
@@ -17,8 +19,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingRight: 12,
   },
-  formInputContainer: {
+  textInputContainer: {
     flex: 1,
+    marginHorizontal: 10,
   },
 });
 
@@ -42,12 +45,10 @@ class TagSettings extends Component {
         return;
       }
       addTag(newTag);
-      this.formInput.clearText();
+      this.textInput.clear(); // bug: not working on ios
       this.setState({
         newTag: null,
       });
-    } else {
-      this.formInput.shake();
     }
   };
 
@@ -65,28 +66,32 @@ class TagSettings extends Component {
   };
 
   renderItem = ({ item }) =>
-    <ListItem
+    <PXListItem
       title={item}
-      rightIcon={
-        <PXTouchable
-          hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
+      right={() =>
+        <PXListItemRemoveButton
           onPress={() => this.handleOnPressRemoveTag(item)}
-        >
-          <Icon name="times" size={28} color="#bdc6cf" />
-        </PXTouchable>
-      }
+        />}
     />;
 
   render() {
-    const { items, formInputPlaceholder } = this.props;
+    const { items, textInputPlaceholder, theme } = this.props;
     return (
-      <View style={globalStyles.container}>
+      <View
+        style={[
+          globalStyles.container,
+          { backgroundColor: theme.colors.background },
+        ]}
+      >
         <View style={styles.inputContainer}>
-          <FormInput
-            ref={ref => (this.formInput = ref)}
-            placeholder={formInputPlaceholder}
+          <TextInput
+            ref={ref => (this.textInput = ref)}
+            placeholder={textInputPlaceholder}
             autoCorrect={false}
-            containerStyle={styles.formInputContainer}
+            style={[
+              styles.textInputContainer,
+              { backgroundColor: theme.colors.background },
+            ]}
             onChangeText={this.handleOnChangeFormInputText}
           />
           <PXTouchable
@@ -100,16 +105,14 @@ class TagSettings extends Component {
             />
           </PXTouchable>
         </View>
-        <List>
-          <FlatList
-            data={items}
-            keyExtractor={item => item}
-            renderItem={this.renderItem}
-          />
-        </List>
+        <FlatList
+          data={items}
+          keyExtractor={item => item}
+          renderItem={this.renderItem}
+        />
       </View>
     );
   }
 }
 
-export default connectLocalization(TagSettings);
+export default withTheme(connectLocalization(TagSettings));

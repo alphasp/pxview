@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Switch } from 'react-native';
 import { connect } from 'react-redux';
-import { List, ListItem } from 'react-native-elements';
+import { withTheme } from 'react-native-paper';
 import { connectLocalization } from '../../components/Localization';
+import PXListItem from '../../components/PXListItem';
 import * as modalActionCreators from '../../common/actions/modal';
 import * as saveImageSettingsActionCreators from '../../common/actions/saveImageSettings';
 import {
@@ -30,13 +31,14 @@ class SaveImageSettings extends Component {
     });
   };
 
-  handleOnSwitchIsCreateMangaFolder = isCreate => {
+  handleOnSwitchIsCreateMangaFolder = () => {
     const { setSettings } = this.props;
+    const { isCreateMangaFolder } = this.state;
     this.setState({
-      isCreateMangaFolder: isCreate,
+      isCreateMangaFolder: !isCreateMangaFolder,
     });
     setSettings({
-      isCreateMangaFolder: isCreate,
+      isCreateMangaFolder: !isCreateMangaFolder,
     });
   };
 
@@ -79,44 +81,49 @@ class SaveImageSettings extends Component {
   };
 
   render() {
-    const { i18n } = this.props;
+    const { i18n, theme } = this.props;
     const { isCreateMangaFolder } = this.state;
     return (
-      <View style={globalStyles.container}>
-        <List>
-          <ListItem
-            title={i18n.saveImageFileName}
-            subtitle={this.getFileNameFormat()}
-            hideChevron
-            onPress={this.handleOnPressSaveImageFileName}
-          />
-          <ListItem
-            title={i18n.saveImageCreateFolderForManga}
-            hideChevron
-            switchButton
-            switched={isCreateMangaFolder}
-            onSwitch={this.handleOnSwitchIsCreateMangaFolder}
-          />
-        </List>
+      <View
+        style={[
+          globalStyles.container,
+          { backgroundColor: theme.colors.background },
+        ]}
+      >
+        <PXListItem
+          title={i18n.saveImageFileName}
+          description={this.getFileNameFormat()}
+          onPress={this.handleOnPressSaveImageFileName}
+        />
+        <PXListItem
+          title={i18n.saveImageCreateFolderForManga}
+          right={() =>
+            <Switch
+              value={isCreateMangaFolder}
+              onValueChange={this.handleOnSwitchIsCreateMangaFolder}
+            />}
+        />
       </View>
     );
   }
 }
 
-export default connectLocalization(
-  connect(
-    state => {
-      const {
-        userFolderName,
-        fileName,
-        isCreateMangaFolder,
-      } = state.saveImageSettings;
-      return {
-        userFolderName,
-        fileName,
-        isCreateMangaFolder,
-      };
-    },
-    { ...modalActionCreators, ...saveImageSettingsActionCreators },
-  )(SaveImageSettings),
+export default withTheme(
+  connectLocalization(
+    connect(
+      state => {
+        const {
+          userFolderName,
+          fileName,
+          isCreateMangaFolder,
+        } = state.saveImageSettings;
+        return {
+          userFolderName,
+          fileName,
+          isCreateMangaFolder,
+        };
+      },
+      { ...modalActionCreators, ...saveImageSettingsActionCreators },
+    )(SaveImageSettings),
+  ),
 );

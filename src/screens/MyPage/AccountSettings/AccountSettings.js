@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { List, ListItem } from 'react-native-elements';
+import { withTheme } from 'react-native-paper';
 import AccountChangeEmailModal from '../../../containers/AccountChangeEmailModal';
 import AccountChangePixivIdModal from '../../../containers/AccountChangePixivIdModal';
 import AccountChangePasswordModal from '../../../containers/AccountChangePasswordModal';
 import { connectLocalization } from '../../../components/Localization';
+import PXListItem from '../../../components/PXListItem';
 import Loader from '../../../components/Loader';
 import * as authActionCreators from '../../../common/actions/auth';
 import * as myAccountStateActionCreators from '../../../common/actions/myAccountState';
@@ -109,43 +110,42 @@ class AccountSettings extends Component {
   renderList = () => {
     const { i18n, user, hideAdvanceSettings } = this.props;
     return (
-      <List>
-        <ListItem
+      <View>
+        <PXListItem
           title={i18n.accountSettingsEmail}
+          description={user.mail_address || null}
           onPress={this.handleOnPressChangeEmail}
-          rightTitle={user.mail_address || null}
-          hideChevron
         />
-        <ListItem
+        <PXListItem
           title={i18n.accountSettingsPixivId}
+          description={user.account}
           onPress={this.handleOnPressChangePixivId}
-          rightTitle={user.account}
-          hideChevron
         />
-        <ListItem
+        <PXListItem
           title={i18n.password}
+          description="******"
           onPress={this.handleOnPressChangePassword}
-          rightTitle="******"
-          hideChevron
         />
         {!hideAdvanceSettings &&
-          <ListItem
+          <PXListItem
             title={i18n.accountSettingsAdvancedSettings}
             onPress={this.handleOnPressAdvancedSettings}
           />}
-      </List>
+      </View>
     );
   };
 
   render() {
-    const { myAccountState: { loading }, user } = this.props;
+    const { myAccountState: { loading }, user, theme } = this.props;
     const {
       isOpenChangePasswordModal,
       isOpenChangePixivIdModal,
       isOpenChangeEmailModal,
     } = this.state;
     return (
-      <View style={styles.container}>
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
+      >
         {loading ? <Loader /> : this.renderList()}
         {isOpenChangeEmailModal &&
           <AccountChangeEmailModal
@@ -166,19 +166,21 @@ class AccountSettings extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(
-    (state, props) => ({
-      user: state.auth.user,
-      modal: state.modal,
-      myAccountState: state.myAccountState,
-      hideAdvanceSettings:
-        props.navigation.state.params &&
-        props.navigation.state.params.hideAdvanceSettings,
-    }),
-    {
-      ...authActionCreators,
-      ...myAccountStateActionCreators,
-    },
-  )(AccountSettings),
+export default withTheme(
+  connectLocalization(
+    connect(
+      (state, props) => ({
+        user: state.auth.user,
+        modal: state.modal,
+        myAccountState: state.myAccountState,
+        hideAdvanceSettings:
+          props.navigation.state.params &&
+          props.navigation.state.params.hideAdvanceSettings,
+      }),
+      {
+        ...authActionCreators,
+        ...myAccountStateActionCreators,
+      },
+    )(AccountSettings),
+  ),
 );

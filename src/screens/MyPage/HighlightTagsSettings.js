@@ -12,7 +12,7 @@ const HighlightTagsSettings = ({
 }) =>
   <TagSettings
     items={highlightTags}
-    formInputPlaceholder={i18n.tagHighlightAdd}
+    textInputPlaceholder={i18n.tagHighlightAdd}
     addTag={addHighlightTag}
     removeTag={removeHighlightTag}
   />;

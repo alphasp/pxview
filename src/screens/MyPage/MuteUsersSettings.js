@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { View, FlatList, DeviceEventEmitter } from 'react-native';
 import { connect } from 'react-redux';
-import { List, ListItem } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { withTheme } from 'react-native-paper';
 import { connectLocalization } from '../../components/Localization';
-import PXTouchable from '../../components/PXTouchable';
+import PXListItem from '../../components/PXListItem';
+import PXListItemRemoveButton from '../../components/PXListItemRemoveButton';
+import PXThumbnail from '../../components/PXThumbnail';
 import EmptyStateView from '../../components/EmptyStateView';
 import * as muteUsersActionCreators from '../../common/actions/muteUsers';
 import { getMuteUsersItems } from '../../common/selectors';
@@ -34,38 +35,32 @@ class MuteUsersSettings extends Component {
   };
 
   renderItem = ({ item }) =>
-    <ListItem
+    <PXListItem
       title={item.name}
-      roundAvatar
-      avatar={{
-        uri: item.profile_image_urls.medium,
-        headers: {
-          referer: 'http://www.pixiv.net',
-        },
-      }}
-      rightIcon={
-        <PXTouchable
-          hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
+      left={() =>
+        <PXThumbnail uri={item.profile_image_urls.medium} size={40} />}
+      right={() =>
+        <PXListItemRemoveButton
           onPress={() => this.handleOnPressRemoveMuteUser(item.id)}
-        >
-          <Icon name="times" size={28} color="#bdc6cf" />
-        </PXTouchable>
-      }
+        />}
       onPress={() => this.handleOnPressUser(item.id)}
     />;
 
   render() {
-    const { i18n, items } = this.props;
+    const { i18n, items, theme } = this.props;
     return (
-      <View style={globalStyles.container}>
+      <View
+        style={[
+          globalStyles.container,
+          { backgroundColor: theme.colors.background },
+        ]}
+      >
         {items.length
-          ? <List>
-              <FlatList
-                data={items}
-                keyExtractor={item => item.id.toString()}
-                renderItem={this.renderItem}
-              />
-            </List>
+          ? <FlatList
+              data={items}
+              keyExtractor={item => item.id.toString()}
+              renderItem={this.renderItem}
+            />
           : <EmptyStateView
               iconName="user-times"
               iconType="font-awesome"
@@ -76,11 +71,13 @@ class MuteUsersSettings extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(
-    state => ({
-      items: getMuteUsersItems(state),
-    }),
-    muteUsersActionCreators,
-  )(MuteUsersSettings),
+export default withTheme(
+  connectLocalization(
+    connect(
+      state => ({
+        items: getMuteUsersItems(state),
+      }),
+      muteUsersActionCreators,
+    )(MuteUsersSettings),
+  ),
 );

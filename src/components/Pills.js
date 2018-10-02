@@ -65,7 +65,7 @@ const Pills = props => {
             onPress={() => onPressItem(index)}
             backgroundColor={
               index === selectedIndex
-                ? theme.colors.primary
+                ? theme.colors.headerBackground
                 : globalStyleVariables.BACKGROUND_COLOR
             }
             color={index !== selectedIndex ? 'gray' : '#fff'}

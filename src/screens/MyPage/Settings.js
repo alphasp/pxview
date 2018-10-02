@@ -7,16 +7,15 @@ import {
   DeviceEventEmitter,
   Linking,
 } from 'react-native';
-import { List, ListItem } from 'react-native-elements';
+import { withTheme } from 'react-native-paper';
 import RNFetchBlob from 'react-native-fetch-blob';
 import { connectLocalization } from '../../components/Localization';
-import { globalStyleVariables } from '../../styles';
+import PXListItem from '../../components/PXListItem';
 import { SCREENS } from '../../common/constants';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: globalStyleVariables.BACKGROUND_COLOR,
   },
 });
 
@@ -154,31 +153,29 @@ class Settings extends Component {
   renderList = list => {
     const { i18n } = this.props;
     return (
-      <List>
+      <View>
         {list.map(item =>
-          <ListItem
+          <PXListItem
             key={item.id}
             title={i18n[item.title]}
             onPress={() => this.handleOnPressListItem(item)}
-            hideChevron={item.hideChevron}
           />,
         )}
-      </List>
+      </View>
     );
   };
 
   render() {
+    const { theme } = this.props;
     return (
-      <View style={styles.container}>
-        {
-          <ScrollView style={styles.container}>
-            {this.renderList(settingsList)}
-            {this.renderList(otherList)}
-          </ScrollView>
-        }
-      </View>
+      <ScrollView
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
+      >
+        {this.renderList(settingsList)}
+        {this.renderList(otherList)}
+      </ScrollView>
     );
   }
 }
 
-export default connectLocalization(Settings);
+export default withTheme(connectLocalization(Settings));
