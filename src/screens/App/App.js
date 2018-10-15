@@ -71,6 +71,9 @@ class App extends Component {
       fonts: {
         ...selectedTheme.fonts,
         regular: null, // use default font
+        medium: null,
+        light: null,
+        thin: null,
       },
       colors: {
         ...selectedTheme.colors,

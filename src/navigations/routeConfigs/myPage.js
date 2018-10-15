@@ -6,11 +6,9 @@ import Settings from '../../screens/MyPage/Settings';
 import AccountSettings from '../../screens/MyPage/AccountSettings/AccountSettings';
 import AdvanceAccountSettings from '../../screens/MyPage/AccountSettings/AdvanceAccountSettings';
 import SaveImageSettings from '../../screens/MyPage/SaveImageSettings';
-import InitialScreenSettings from '../../screens/MyPage/InitialScreenSettings';
 import HighlightTagsSettings from '../../screens/MyPage/HighlightTagsSettings';
 import MuteTagsSettings from '../../screens/MyPage/MuteTagsSettings';
 import MuteUsersSettings from '../../screens/MyPage/MuteUsersSettings';
-import Language from '../../screens/MyPage/Language';
 import Feedback from '../../screens/MyPage/Feedback';
 import About from '../../screens/MyPage/About';
 import { globalStyles, getThemedHeaderStyle } from '../../styles';
@@ -85,13 +83,6 @@ const config = {
       headerStyle: getThemedHeaderStyle(theme),
     }),
   },
-  [SCREENS.InitialScreenSettings]: {
-    screen: InitialScreenSettings,
-    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
-      title: i18n.initialScreenSettings,
-      headerStyle: getThemedHeaderStyle(theme),
-    }),
-  },
   [SCREENS.HighlightTagsSettings]: {
     screen: HighlightTagsSettings,
     navigationOptions: ({ screenProps: { i18n, theme } }) => ({
@@ -110,13 +101,6 @@ const config = {
     screen: MuteUsersSettings,
     navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.userMuteSettings,
-      headerStyle: getThemedHeaderStyle(theme),
-    }),
-  },
-  [SCREENS.Language]: {
-    screen: Language,
-    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
-      title: i18n.lang,
       headerStyle: getThemedHeaderStyle(theme),
     }),
   },

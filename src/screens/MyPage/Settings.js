@@ -7,11 +7,13 @@ import {
   DeviceEventEmitter,
   Linking,
 } from 'react-native';
+import { connect } from 'react-redux';
 import { withTheme } from 'react-native-paper';
 import RNFetchBlob from 'react-native-fetch-blob';
 import { connectLocalization } from '../../components/Localization';
 import PXListItem from '../../components/PXListItem';
-import { SCREENS } from '../../common/constants';
+import * as modalActionCreators from '../../common/actions/modal';
+import { SCREENS, MODAL_TYPES } from '../../common/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,7 +53,6 @@ const settingsList = [
   {
     id: 'cacheClear',
     title: 'cacheClear',
-    hideChevron: true,
   },
 ];
 
@@ -80,6 +81,48 @@ class Settings extends Component {
     return 'en';
   };
 
+  mapScreenName = routeId => {
+    const { i18n } = this.props;
+    switch (routeId) {
+      case SCREENS.Recommended:
+        return i18n.recommended;
+      case SCREENS.Ranking:
+        return i18n.ranking;
+      case SCREENS.Trending:
+        return i18n.search;
+      case SCREENS.NewWorks:
+        return i18n.newest;
+      default:
+        return '';
+    }
+  };
+
+  mapLanguageName = lang => {
+    switch (lang) {
+      case 'ja':
+        return '日本語';
+      case 'zh':
+        return '中文(简体)';
+      case 'zh-TW':
+        return '中文(繁體)';
+      default:
+        return 'English';
+    }
+  };
+
+  handleOnPressInitialScreenSettings = () => {
+    const { openModal, initialScreenId } = this.props;
+    openModal(MODAL_TYPES.INITIAL_SCREEN_SETTINGS, {
+      initialScreenId,
+    });
+  };
+
+  handleOnPressLanguageSettings = () => {
+    const { openModal, lang } = this.props;
+    openModal(MODAL_TYPES.LANGUAGE_SETTINGS, {
+      lang,
+    });
+  };
   handleOnPressListItem = item => {
     const { navigation: { navigate }, i18n } = this.props;
     switch (item.id) {
@@ -92,7 +135,7 @@ class Settings extends Component {
         break;
       }
       case 'initialScreenSettings': {
-        navigate(SCREENS.InitialScreenSettings);
+        this.handleOnPressInitialScreenSettings();
         break;
       }
       case 'tagHighlightSettings': {
@@ -108,7 +151,7 @@ class Settings extends Component {
         break;
       }
       case 'lang': {
-        navigate(SCREENS.Language);
+        this.handleOnPressLanguageSettings();
         break;
       }
       case 'about': {
@@ -151,16 +194,25 @@ class Settings extends Component {
   };
 
   renderList = list => {
-    const { i18n } = this.props;
+    const { i18n, initialScreenId, lang } = this.props;
     return (
       <View>
-        {list.map(item =>
-          <PXListItem
-            key={item.id}
-            title={i18n[item.title]}
-            onPress={() => this.handleOnPressListItem(item)}
-          />,
-        )}
+        {list.map(item => {
+          let description;
+          if (item.id === 'initialScreenSettings') {
+            description = this.mapScreenName(initialScreenId);
+          } else if (item.id === 'lang') {
+            description = this.mapLanguageName(lang);
+          }
+          return (
+            <PXListItem
+              key={item.id}
+              title={i18n[item.title]}
+              description={description}
+              onPress={() => this.handleOnPressListItem(item)}
+            />
+          );
+        })}
       </View>
     );
   };
@@ -178,4 +230,14 @@ class Settings extends Component {
   }
 }
 
-export default withTheme(connectLocalization(Settings));
+export default withTheme(
+  connectLocalization(
+    connect(
+      state => ({
+        initialScreenId: state.initialScreenSettings.routeName,
+        lang: state.i18n.lang,
+      }),
+      modalActionCreators,
+    )(Settings),
+  ),
+);
