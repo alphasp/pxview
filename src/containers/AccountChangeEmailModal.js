@@ -56,14 +56,14 @@ class AccountChangeEmailModal extends Component {
       editAccountState: { success, validationErrors },
       onClose,
       isSubmitting,
-      setErrors,
+      setStatus,
       setSubmitting,
     } = nextProps;
     if (success && success !== prevSuccess) {
       onClose();
     } else if (validationErrors && isSubmitting) {
       setSubmitting(false);
-      setErrors(validationErrors);
+      setStatus(validationErrors);
     }
   }
 

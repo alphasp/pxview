@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import {
-  FormLabel,
-  FormInput,
-  FormValidationMessage,
-} from 'react-native-elements';
+import { TextInput, HelperText } from 'react-native-paper';
 
 class PXFormInput extends Component {
   handleOnChangeText = text => {
-    const { onChangeText, field: { name } } = this.props;
+    const {
+      onChangeText,
+      field: { name },
+      form: { status, setStatus },
+    } = this.props;
     onChangeText(name, text);
+    if (status && status[name]) {
+      setStatus({
+        ...status,
+        [name]: null,
+      });
+    }
   };
 
   handleOnBlur = () => {
@@ -21,31 +27,31 @@ class PXFormInput extends Component {
     const {
       label,
       field: { name, value },
-      form: { touched, errors },
-      labelStyle,
+      form: { touched, errors, status },
       inputStyle,
       errorTextStyle,
       input,
       ...restProps
     } = this.props;
+    const error = errors[name] || (status && status[name]);
     return (
       <View>
-        <FormLabel labelStyle={labelStyle}>
-          {label}
-        </FormLabel>
-        <FormInput
-          inputStyle={inputStyle}
+        <TextInput
+          style={inputStyle}
+          label={label}
+          value={value}
+          error={touched[name] && error}
           {...restProps}
           onChangeText={this.handleOnChangeText}
           onBlur={this.handleOnBlur}
-          value={value}
-          underlineColorAndroid="#009688"
         />
-        {touched[name] &&
-          errors[name] &&
-          <FormValidationMessage>
-            {errors[name]}
-          </FormValidationMessage>}
+        <HelperText
+          type="error"
+          visible={touched[name] && error}
+          style={errorTextStyle}
+        >
+          {error}
+        </HelperText>
       </View>
     );
   }

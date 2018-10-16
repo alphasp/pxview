@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withFormik, Field } from 'formik';
-import { Button } from 'react-native-elements';
+import { withTheme, Button } from 'react-native-paper';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../../components/Localization';
 import PXFormInput from '../../components/PXFormInput';
@@ -34,17 +34,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   formContainer: {
-    backgroundColor: '#fff',
     justifyContent: 'center',
     margin: 15,
-    paddingBottom: 20,
+    padding: 20,
   },
   buttonContainer: {
     marginTop: 15,
   },
   outlineButtonContainer: {
     borderColor: globalStyleVariables.PRIMARY_COLOR,
-    borderWidth: 1,
   },
   logoContainer: {
     alignItems: 'center',
@@ -92,10 +90,11 @@ class Login extends Component {
       handleSubmit,
       setFieldValue,
       setFieldTouched,
+      theme,
     } = this.props;
     return (
       <View style={styles.container}>
-        <View style={{ flex: 1 }}>
+        <View style={styles.container}>
           <WalkthroughIllustList />
         </View>
         {modal.modalType !== MODAL_TYPES.SIGNUP &&
@@ -112,11 +111,17 @@ class Login extends Component {
                   style={styles.logo}
                 />
               </View>
-              <View style={styles.formContainer}>
+              <View
+                style={[
+                  styles.formContainer,
+                  { backgroundColor: theme.colors.background },
+                ]}
+              >
                 <Field
                   name="email"
                   component={PXFormInput}
                   label={i18n.loginEmailOrPixivId}
+                  mode="outlined"
                   autoCapitalize="none"
                   onChangeText={setFieldValue}
                   onBlur={setFieldTouched}
@@ -125,27 +130,28 @@ class Login extends Component {
                   name="password"
                   component={PXFormInput}
                   label={i18n.password}
+                  mode="outlined"
                   secureTextEntry
                   onChangeText={setFieldValue}
                   onBlur={setFieldTouched}
                 />
                 <Button
-                  title={i18n.login}
-                  containerViewStyle={styles.buttonContainer}
-                  backgroundColor={globalStyleVariables.PRIMARY_COLOR}
-                  raised
+                  style={styles.buttonContainer}
+                  mode="contained"
                   onPress={handleSubmit}
-                />
+                >
+                  {i18n.login}
+                </Button>
                 <Button
-                  title={i18n.loginNoAccount}
-                  containerViewStyle={[
+                  style={[
                     styles.buttonContainer,
                     styles.outlineButtonContainer,
                   ]}
-                  backgroundColor="transparent"
-                  color={globalStyleVariables.PRIMARY_COLOR}
+                  mode="outlined"
                   onPress={this.handleOnPressSignUp}
-                />
+                >
+                  {i18n.loginNoAccount}
+                </Button>
               </View>
             </KeyboardAvoidingView>
             <OverlaySpinner visible={loading} />
@@ -164,20 +170,22 @@ const LoginForm = withFormik({
   handleSubmit: handleOnSubmit,
 })(Login);
 
-export default connectLocalization(
-  connect(
-    (state, props) => ({
-      auth: state.auth,
-      modal: state.modal,
-      onLoginSuccess:
-        props.onLoginSuccess ||
-        (props.navigation.state &&
-          props.navigation.state.params &&
-          props.navigation.state.params.onLoginSuccess),
-    }),
-    {
-      ...authActionCreators,
-      ...modalActionCreators,
-    },
-  )(LoginForm),
+export default withTheme(
+  connectLocalization(
+    connect(
+      (state, props) => ({
+        auth: state.auth,
+        modal: state.modal,
+        onLoginSuccess:
+          props.onLoginSuccess ||
+          (props.navigation.state &&
+            props.navigation.state.params &&
+            props.navigation.state.params.onLoginSuccess),
+      }),
+      {
+        ...authActionCreators,
+        ...modalActionCreators,
+      },
+    )(LoginForm),
+  ),
 );

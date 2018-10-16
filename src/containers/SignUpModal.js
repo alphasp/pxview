@@ -10,13 +10,12 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withFormik, Field } from 'formik';
-import { Button } from 'react-native-elements';
+import { withTheme, Button } from 'react-native-paper';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../components/Localization';
 import PXFormInput from '../components/PXFormInput';
 import * as authActionCreators from '../common/actions/auth';
 import * as modalActionCreators from '../common/actions/modal';
-import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,10 +24,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   formContainer: {
-    backgroundColor: '#fff',
     justifyContent: 'center',
     margin: 15,
-    paddingBottom: 20,
+    padding: 20,
   },
   buttonContainer: {
     marginTop: 15,
@@ -79,6 +77,7 @@ class SignUpModal extends Component {
       handleSubmit,
       setFieldValue,
       setFieldTouched,
+      theme,
     } = this.props;
     return (
       <Modal
@@ -92,22 +91,28 @@ class SignUpModal extends Component {
             <TouchableWithoutFeedback>
               <View style={styles.innerContainer}>
                 <KeyboardAvoidingView behavior="padding">
-                  <View style={styles.formContainer}>
+                  <View
+                    style={[
+                      styles.formContainer,
+                      { backgroundColor: theme.colors.background },
+                    ]}
+                  >
                     <Field
                       name="nickname"
                       component={PXFormInput}
                       label={i18n.signUpNickname}
                       autoCapitalize="none"
+                      mode="outlined"
                       onChangeText={setFieldValue}
                       onBlur={setFieldTouched}
                     />
                     <Button
-                      title={i18n.signUpStart}
-                      containerViewStyle={styles.buttonContainer}
-                      backgroundColor={globalStyleVariables.PRIMARY_COLOR}
-                      raised
+                      style={styles.buttonContainer}
+                      mode="contained"
                       onPress={handleSubmit}
-                    />
+                    >
+                      {i18n.signUpStart}
+                    </Button>
                   </View>
                 </KeyboardAvoidingView>
                 <Text style={styles.nicknameHelp}>
@@ -131,14 +136,16 @@ const SignUpModalForm = withFormik({
   handleSubmit: handleOnSubmit,
 })(SignUpModal);
 
-export default connectLocalization(
-  connect(
-    state => ({
-      auth: state.auth,
-    }),
-    {
-      ...authActionCreators,
-      ...modalActionCreators,
-    },
-  )(SignUpModalForm),
+export default withTheme(
+  connectLocalization(
+    connect(
+      state => ({
+        auth: state.auth,
+      }),
+      {
+        ...authActionCreators,
+        ...modalActionCreators,
+      },
+    )(SignUpModalForm),
+  ),
 );
