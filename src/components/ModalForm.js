@@ -20,18 +20,18 @@ const ModalForm = ({ children, title, loading, onSubmit, onClose, i18n }) =>
           <KeyboardAvoidingView behavior="padding">
             <View>
               {children}
-              <Dialog.Actions>
-                <Button onPress={onClose}>
-                  {i18n.cancel}
-                </Button>
-                <Button onPress={onSubmit}>
-                  {i18n.ok}
-                </Button>
-              </Dialog.Actions>
             </View>
           </KeyboardAvoidingView>
           <OverlaySpinner visible={loading} />
         </Dialog.Content>
+        <Dialog.Actions>
+          <Button onPress={onClose}>
+            {i18n.cancel}
+          </Button>
+          <Button onPress={onSubmit}>
+            {i18n.ok}
+          </Button>
+        </Dialog.Actions>
       </Dialog>
     </TouchableWithoutFeedback>
   </Modal>;
