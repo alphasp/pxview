@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, Switch } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { MaterialDialog } from 'react-native-material-dialog';
-import { Dropdown } from 'react-native-material-dropdown';
+import { Portal, Dialog, Switch, Button, Text } from 'react-native-paper';
 import { connectLocalization } from '../components/Localization';
+import PXDropdown from '../components/PXDropdown';
 import {
   SAVE_FILE_NAME_USER_FOLDER_FORMAT,
   SAVE_FILE_NAME_FORMAT,
@@ -12,10 +12,7 @@ import * as modalActionCreators from '../common/actions/modal';
 import * as saveImageSettingsActionCreators from '../common/actions/saveImageSettings';
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 20,
-  },
-  dropDownContainer: {
+  dropdownContainer: {
     flex: 1,
   },
   slashContainer: {
@@ -133,50 +130,57 @@ class SaveImageFileNameModal extends Component {
       isCreateFolderForUser,
     } = this.state;
     return (
-      <MaterialDialog
-        visible
-        title={i18n.saveImageFileName}
-        addPadding={false}
-        okLabel={i18n.ok}
-        cancelLabel={i18n.cancel}
-        onOk={this.handleOnPressOkButton}
-        onCancel={this.handleOnModalClose}
-      >
-        <View style={styles.container}>
-          <View style={styles.row}>
-            <Text>
-              {i18n.saveImageCreateFolderForUser}
-            </Text>
-            <Switch
-              value={isCreateFolderForUser}
-              onValueChange={this.handleOnChangeIsCreateFolderForUser}
-            />
-          </View>
-          <View style={styles.form}>
-            {isCreateFolderForUser &&
-              <View style={styles.dropDownContainer}>
-                <Dropdown
-                  label={i18n.saveImageUserFolderName}
-                  data={this.getUserFolderNameFormatList()}
-                  value={selectedFileNameUserFolder}
-                  onChangeText={this.handleOnChangeUserFolderName}
+      <Portal>
+        <Dialog visible onDismiss={this.handleOnModalClose}>
+          <Dialog.Title>
+            {i18n.saveImageCreateFolderForUser}
+          </Dialog.Title>
+          <Dialog.Content>
+            <View>
+              <View style={styles.row}>
+                <Text>
+                  {i18n.saveImageCreateFolderForUser}
+                </Text>
+                <Switch
+                  value={isCreateFolderForUser}
+                  onValueChange={this.handleOnChangeIsCreateFolderForUser}
                 />
-              </View>}
-            {isCreateFolderForUser &&
-              <View style={styles.slashContainer}>
-                <Text>/</Text>
-              </View>}
-            <View style={styles.dropDownContainer}>
-              <Dropdown
-                label={i18n.saveImageFileName}
-                data={this.getFileNameFormatList()}
-                value={selectedFileNameWork}
-                onChangeText={this.handleOnChangeFileName}
-              />
+              </View>
+              <View style={styles.form}>
+                {isCreateFolderForUser &&
+                  <View style={styles.dropdownContainer}>
+                    <PXDropdown
+                      label={i18n.saveImageUserFolderName}
+                      data={this.getUserFolderNameFormatList()}
+                      value={selectedFileNameUserFolder}
+                      onChangeText={this.handleOnChangeUserFolderName}
+                    />
+                  </View>}
+                {isCreateFolderForUser &&
+                  <View style={styles.slashContainer}>
+                    <Text>/</Text>
+                  </View>}
+                <View style={styles.dropdownContainer}>
+                  <PXDropdown
+                    label={i18n.saveImageFileName}
+                    data={this.getFileNameFormatList()}
+                    value={selectedFileNameWork}
+                    onChangeText={this.handleOnChangeFileName}
+                  />
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
-      </MaterialDialog>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={this.handleOnModalClose}>
+              {i18n.cancel}
+            </Button>
+            <Button onPress={this.handleOnPressOkButton}>
+              {i18n.ok}
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
     );
   }
 }
