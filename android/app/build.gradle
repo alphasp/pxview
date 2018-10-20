@@ -92,7 +92,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = true
+def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -157,36 +157,36 @@ repositories {
 }
 
 dependencies {
-    compile project(':react-native-photo-view')
-    compile project(':react-native-zip-archive')
-    compile project(':react-native-linear-gradient')
-    compile project(':react-native-splash-screen')
-    compile project(':react-native-open-settings')
-    compile project(':react-native-device-info')
-    compile project(':react-native-cookies')
-    compile project(':react-native-localization')
-    compile project(':react-native-share')
-    compile project(':react-native-material-kit')
-    compile project(':react-native-vector-icons')
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    implementation project(':react-native-photo-view')
+    implementation project(':react-native-zip-archive')
+    implementation project(':react-native-linear-gradient')
+    implementation project(':react-native-splash-screen')
+    implementation project(':react-native-open-settings')
+    implementation project(':react-native-device-info')
+    implementation project(':react-native-cookies')
+    implementation project(':react-native-localization')
+    implementation project(':react-native-share')
+    implementation project(':react-native-material-kit')
+    implementation project(':react-native-vector-icons')
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 
-    compile project(':react-native-fabric')
-    compile project(':react-native-spinkit')
-    compile project(':react-native-fetch-blob')
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+    implementation project(':react-native-fabric')
+    implementation project(':react-native-spinkit')
+    implementation project(':react-native-fetch-blob')
+    implementation('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
     }
-    compile 'com.github.bumptech.glide:glide:4.2.0'
+    implementation 'com.github.bumptech.glide:glide:4.2.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
-    compile 'io.reactivex.rxjava2:rxjava:2.1.5'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.5'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation fileTree(dir: "libs", include: ["*.jar"])
     // For WebP support, without animations
-    compile 'com.facebook.fresco:webpsupport:1.9.0'
-    compile "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
-    compile "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'com.facebook.fresco:webpsupport:1.9.0'
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    implementation "com.facebook.react:react-native:+"  // From node_modules
 }
 
 buildscript {

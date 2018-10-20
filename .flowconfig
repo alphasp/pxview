@@ -36,6 +36,9 @@ flow-typed
 [options]
 emoji=true
 
+esproposal.optional_chaining=enable
+esproposal.nullish_coalescing=enable
+
 module.system=haste
 module.system.haste.use_name_reducers=true
 # get basename
@@ -71,4 +74,4 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 
 [version]
-^0.75.0
+^0.78.0

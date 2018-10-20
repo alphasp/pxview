@@ -8,16 +8,16 @@
 @rem Set local scope for the variables with windows NT shell
 if "%OS%"=="Windows_NT" setlocal
 
-@rem Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
-set DEFAULT_JVM_OPTS=
-
 set DIRNAME=%~dp0
 if "%DIRNAME%" == "" set DIRNAME=.
 set APP_BASE_NAME=%~n0
 set APP_HOME=%DIRNAME%
 
+@rem Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
+set DEFAULT_JVM_OPTS=
+
 @rem Find java.exe
-if defined JAVA_HOME goto findJavaFromJavaRecommended
+if defined JAVA_HOME goto findJavaFromJavaHome
 
 set JAVA_EXE=java.exe
 %JAVA_EXE% -version >NUL 2>&1
@@ -31,7 +31,7 @@ echo location of your Java installation.
 
 goto fail
 
-:findJavaFromJavaRecommended
+:findJavaFromJavaHome
 set JAVA_HOME=%JAVA_HOME:"=%
 set JAVA_EXE=%JAVA_HOME%/bin/java.exe
 
@@ -46,10 +46,9 @@ echo location of your Java installation.
 goto fail
 
 :init
-@rem Get command-line arguments, handling Windowz variants
+@rem Get command-line arguments, handling Windows variants
 
 if not "%OS%" == "Windows_NT" goto win9xME_args
-if "%@eval[2+2]" == "4" goto 4NT_args
 
 :win9xME_args
 @rem Slurp the command line arguments.
@@ -60,11 +59,6 @@ set _SKIP=2
 if "x%~1" == "x" goto execute
 
 set CMD_LINE_ARGS=%*
-goto execute
-
-:4NT_args
-@rem Get arguments from the 4NT Shell from JP Software
-set CMD_LINE_ARGS=%$
 
 :execute
 @rem Setup the command line
