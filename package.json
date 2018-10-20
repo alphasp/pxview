@@ -65,8 +65,8 @@
     "react-native-vector-icons": "^4.4.2",
     "react-native-webp-support": "github:TGPSKI/react-native-webp-support",
     "react-native-zip-archive": "^2.2.6",
-    "react-navigation": "^2.3.1",
-    "react-navigation-backhandler": "^1.1.1",
+    "react-navigation": "2.3.1",
+    "react-navigation-backhandler": "^1.2.0",
     "react-redux": "^5.0.5",
     "redux": "^3.7.2",
     "redux-define": "^1.1.1",
@@ -108,6 +108,7 @@
     "prettier": "^1.5.2",
     "prettier-eslint": "^6.4.1",
     "react-test-renderer": "15.6.1",
-    "redux-immutable-state-invariant": "^2.0.0"
+    "redux-immutable-state-invariant": "^2.0.0",
+    "schedule": "^0.4.0"
   }
 }
