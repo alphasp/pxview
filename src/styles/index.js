@@ -6,8 +6,9 @@ const globalStyles = StyleSheet.create({
     flex: 1,
   },
   card: {
-    backgroundColor: '#fff',
-    // backgroundColor: 'transparent',
+    // backgroundColor: '#fff',
+    // opacity: 1,
+    backgroundColor: 'transparent',
   },
   header: {
     backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
@@ -26,20 +27,12 @@ const globalStyles = StyleSheet.create({
       height: 0,
     },
     elevation: 0,
-    // backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
-    // ...Platform.select({
-    //   android: {
-    //     paddingTop: globalStyleVariables.STATUSBAR_HEIGHT,
-    //     height:
-    //       globalStyleVariables.STATUSBAR_HEIGHT +
-    //       globalStyleVariables.APPBAR_HEIGHT,
-    //   },
-    // }),
   },
 });
 
-const getThemedHeaderStyle = theme => ({
+const getThemedHeaderStyle = (theme, withShadow = true) => ({
   ...globalStyles.header,
+  ...(withShadow ? {} : globalStyles.headerWithoutShadow),
   backgroundColor: theme.colors.headerBackground, // todo
 });
 

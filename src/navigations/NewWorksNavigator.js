@@ -18,7 +18,7 @@ const routeConfig = {
       ? { header: null }
       : ({ navigation, screenProps: { i18n, theme } }) => ({
           title: i18n.newest,
-          headerStyle: getThemedHeaderStyle(theme),
+          headerStyle: getThemedHeaderStyle(theme, false),
           headerLeft: (
             <DrawerMenuButton onPress={() => navigation.openDrawer()} />
           ),
