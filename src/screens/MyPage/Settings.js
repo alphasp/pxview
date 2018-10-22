@@ -161,7 +161,7 @@ class Settings extends Component {
       case 'donations': {
         Linking.openURL(
           `https://github.com/alphasp/pxview/blob/master/donations/${this.getLanguage(
-            i18n.language,
+            i18n.getLanguage(),
           )}.md`,
         );
         break;
