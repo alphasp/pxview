@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, Switch } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { withTheme } from 'react-native-paper';
+import { withTheme, Switch } from 'react-native-paper';
 import { connectLocalization } from '../../components/Localization';
 import PXListItem from '../../components/PXListItem';
 import * as modalActionCreators from '../../common/actions/modal';
