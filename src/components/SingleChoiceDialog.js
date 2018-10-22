@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { ScrollView, View, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet, Modal } from 'react-native';
 import {
   Subheading,
   Button,
   Dialog,
   RadioButton,
   TouchableRipple,
-  Portal,
 } from 'react-native-paper';
 import { connectLocalization } from './Localization';
 
@@ -86,8 +85,13 @@ class SingleChoiceDialog extends Component {
       i18n,
     } = this.props;
     return (
-      <Portal>
-        <Dialog onDismiss={onPressCancel} visible={visible}>
+      <Modal
+        animationType="fade"
+        transparent
+        visible
+        onRequestClose={onPressCancel}
+      >
+        <Dialog dismissable={false} onDismiss={onPressCancel} visible={visible}>
           <Dialog.Title>
             {title}
           </Dialog.Title>
@@ -109,7 +113,7 @@ class SingleChoiceDialog extends Component {
             </Button>
           </Dialog.Actions>
         </Dialog>
-      </Portal>
+      </Modal>
     );
   }
 }

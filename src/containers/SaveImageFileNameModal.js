@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Modal } from 'react-native';
 import { connect } from 'react-redux';
-import { Portal, Dialog, Switch, Button, Text } from 'react-native-paper';
+import { Dialog, Switch, Button, Text } from 'react-native-paper';
 import { connectLocalization } from '../components/Localization';
 import PXDropdown from '../components/PXDropdown';
 import {
@@ -130,8 +130,13 @@ class SaveImageFileNameModal extends Component {
       isCreateFolderForUser,
     } = this.state;
     return (
-      <Portal>
-        <Dialog visible onDismiss={this.handleOnModalClose}>
+      <Modal
+        animationType="fade"
+        transparent
+        visible
+        onRequestClose={this.handleOnModalClose}
+      >
+        <Dialog dismissable={false} visible onDismiss={this.handleOnModalClose}>
           <Dialog.Title>
             {i18n.saveImageCreateFolderForUser}
           </Dialog.Title>
@@ -180,7 +185,7 @@ class SaveImageFileNameModal extends Component {
             </Button>
           </Dialog.Actions>
         </Dialog>
-      </Portal>
+      </Modal>
     );
   }
 }
