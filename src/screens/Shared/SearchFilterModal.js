@@ -1,15 +1,15 @@
 /* eslint-disable camelcase */
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import qs from 'qs';
-import { List, ListItem } from 'react-native-elements';
-import { SinglePickerMaterialDialog } from 'react-native-material-dialog';
+import { withTheme, Button } from 'react-native-paper';
 import { connectLocalization } from '../../components/Localization';
+import PXListItem from '../../components/PXListItem';
+import SingleChoiceDialog from '../../components/SingleChoiceDialog';
 import SearchIllustsBookmarkRangesPickerDialog from '../../components/SearchIllustsBookmarkRangesPickerDialog';
 import SearchNovelsBookmarkRangesPickerDialog from '../../components/SearchNovelsBookmarkRangesPickerDialog';
-import PXTouchable from '../../components/PXTouchable';
 import {
   SEARCH_TYPES,
   SEARCH_PERIOD_TYPES,
@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
   },
   searchFilterButtonContainer: {
     padding: 10,
-    backgroundColor: '#fff',
   },
   searchFilterButton: {
     backgroundColor: globalStyleVariables.PRIMARY_COLOR,
@@ -62,7 +61,7 @@ class SearchFilterModal extends Component {
       bookmarkNumMin: bookmark_num_min,
       bookmarkNumMax: bookmark_num_max,
       selectedFilterType: null,
-      selectedPickerItem: null,
+      selectedPickerValue: null,
       filterList: this.getFilterList(true),
     };
   }
@@ -234,17 +233,14 @@ class SearchFilterModal extends Component {
     const value = this.state[filterType];
     this.setState({
       selectedFilterType: filterType,
-      selectedPickerItem: {
-        label: '', // not important, only value is use to determine selected picker item
-        value,
-      },
+      selectedPickerValue: value,
     });
   };
 
-  handleOnOkPickerDialog = result => {
+  handleOnOkPickerDialog = value => {
     const { selectedFilterType, startDate, endDate } = this.state;
     if (selectedFilterType === 'period') {
-      if (result.selectedItem.value === SEARCH_PERIOD_TYPES.DATE) {
+      if (value === SEARCH_PERIOD_TYPES.DATE) {
         const { navigate } = this.props.navigation;
         navigate(SCREENS.SearchFilterPeriodDateModal, {
           onConfirmPeriodDate: this.handleOnConfirmPeriodDate,
@@ -256,8 +252,8 @@ class SearchFilterModal extends Component {
         });
       } else {
         this.setState({
-          [selectedFilterType]: result.selectedItem.value,
-          selectedPickerItem: result.selectedItem,
+          [selectedFilterType]: value,
+          selectedPickerValue: value,
           selectedFilterType: null,
           startDate: null,
           endDate: null,
@@ -265,15 +261,13 @@ class SearchFilterModal extends Component {
       }
     } else {
       const newState = {
-        [selectedFilterType]: result.selectedItem.value,
-        selectedPickerItem: result.selectedItem,
+        [selectedFilterType]: value,
+        selectedPickerValue: value,
         selectedFilterType: null,
       };
       if (selectedFilterType === 'likes') {
-        if (result.selectedItem.value) {
-          const { bookmarkNumMin, bookmarkNumMax } = qs.parse(
-            result.selectedItem.value,
-          );
+        if (value) {
+          const { bookmarkNumMin, bookmarkNumMax } = qs.parse(value);
           newState.bookmarkNumMin = bookmarkNumMin;
           newState.bookmarkNumMax = bookmarkNumMax;
         } else {
@@ -303,10 +297,7 @@ class SearchFilterModal extends Component {
         this.setState({
           filterList: this.getFilterList(),
           period: SEARCH_PERIOD_TYPES.CUSTOM_DATE,
-          selectedPickerItem: {
-            value: SEARCH_PERIOD_TYPES.CUSTOM_DATE,
-            label: `${startDate} - ${endDate}`,
-          },
+          selectedPickerValue: SEARCH_PERIOD_TYPES.CUSTOM_DATE,
         });
       },
     );
@@ -335,11 +326,11 @@ class SearchFilterModal extends Component {
   };
 
   render() {
-    const { i18n, navigationStateKey, navigation } = this.props;
+    const { i18n, navigationStateKey, navigation, theme } = this.props;
     const { word, searchType } = navigation.state.params;
     const {
       selectedFilterType,
-      selectedPickerItem,
+      selectedPickerValue,
       filterList,
       target,
       period,
@@ -347,31 +338,30 @@ class SearchFilterModal extends Component {
       endDate,
     } = this.state;
     return (
-      <SafeAreaView style={globalStyles.container}>
-        <List containerStyle={styles.listContainer}>
+      <SafeAreaView
+        style={[
+          globalStyles.container,
+          { backgroundColor: theme.colors.background },
+        ]}
+      >
+        <View style={styles.listContainer}>
           {filterList.map(list =>
-            <ListItem
+            <PXListItem
               key={list.key}
               title={this.getSearchTypeName(list.key)}
-              subtitle={this.getSelectedFilterName(list.key, list.options)}
+              description={this.getSelectedFilterName(list.key, list.options)}
               onPress={() => this.handleOnPressFilterOption(list.key)}
-              hideChevron
             />,
           )}
-        </List>
+        </View>
         <View style={styles.searchFilterButtonContainer}>
-          <PXTouchable
-            onPress={this.handleOnPressApplyFilter}
-            style={styles.searchFilterButton}
-          >
-            <Text style={styles.searchFilterButtonText}>
-              {i18n.searchApplyFilter}
-            </Text>
-          </PXTouchable>
+          <Button mode="contained" onPress={this.handleOnPressApplyFilter}>
+            {i18n.searchApplyFilter}
+          </Button>
         </View>
         {selectedFilterType &&
           selectedFilterType !== 'likes' &&
-          <SinglePickerMaterialDialog
+          <SingleChoiceDialog
             title={this.getSearchTypeName(selectedFilterType)}
             items={filterList
               .find(f => f.key === selectedFilterType)
@@ -380,12 +370,10 @@ class SearchFilterModal extends Component {
                 label: option.label,
               }))}
             visible
-            scrolled
-            selectedItem={selectedPickerItem}
-            okLabel={i18n.ok}
-            cancelLabel={i18n.cancel}
-            onCancel={this.handleOnCancelPickerDialog}
-            onOk={this.handleOnOkPickerDialog}
+            scrollable
+            selectedItemValue={selectedPickerValue}
+            onPressCancel={this.handleOnCancelPickerDialog}
+            onPressOk={this.handleOnOkPickerDialog}
           />}
         {selectedFilterType === 'likes' &&
           searchType === SEARCH_TYPES.ILLUST &&
@@ -398,9 +386,9 @@ class SearchFilterModal extends Component {
               start_date: startDate,
               end_date: endDate,
             }}
-            selectedItem={selectedPickerItem}
-            onCancel={this.handleOnCancelPickerDialog}
-            onOk={this.handleOnOkPickerDialog}
+            selectedItemValue={selectedPickerValue}
+            onPressCancel={this.handleOnCancelPickerDialog}
+            onPressOk={this.handleOnOkPickerDialog}
           />}
         {selectedFilterType === 'likes' &&
           searchType === SEARCH_TYPES.NOVEL &&
@@ -413,18 +401,20 @@ class SearchFilterModal extends Component {
               start_date: startDate,
               end_date: endDate,
             }}
-            selectedItem={selectedPickerItem}
-            onCancel={this.handleOnCancelPickerDialog}
-            onOk={this.handleOnOkPickerDialog}
+            selectedItemValue={selectedPickerValue}
+            onPressCancel={this.handleOnCancelPickerDialog}
+            onPressOk={this.handleOnOkPickerDialog}
           />}
       </SafeAreaView>
     );
   }
 }
 
-export default connectLocalization(
-  connect((state, props) => ({
-    user: state.auth.user,
-    navigationStateKey: props.navigation.state.key,
-  }))(SearchFilterModal),
+export default withTheme(
+  connectLocalization(
+    connect((state, props) => ({
+      user: state.auth.user,
+      navigationStateKey: props.navigation.state.key,
+    }))(SearchFilterModal),
+  ),
 );

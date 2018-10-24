@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SinglePickerMaterialDialog } from 'react-native-material-dialog';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from './Localization';
+import SingleChoiceDialog from './SingleChoiceDialog';
 import * as searchIllustsBookmarkRangesActionCreators from '../common/actions/searchIllustsBookmarkRanges';
 
 class SearchIllustsBookmarkRangesPickerDialog extends Component {
@@ -47,9 +47,9 @@ class SearchIllustsBookmarkRangesPickerDialog extends Component {
     const {
       searchIllustsBookmarkRanges,
       i18n,
-      selectedItem,
-      onOk,
-      onCancel,
+      selectedItemValue,
+      onPressOk,
+      onPressCancel,
     } = this.props;
     if (
       !searchIllustsBookmarkRanges ||
@@ -58,16 +58,14 @@ class SearchIllustsBookmarkRangesPickerDialog extends Component {
       return <OverlaySpinner visible />;
     }
     return (
-      <SinglePickerMaterialDialog
+      <SingleChoiceDialog
         title={i18n.searchLikes}
         items={this.mapItemsOptions(searchIllustsBookmarkRanges.items)}
         visible
-        scrolled
-        selectedItem={selectedItem}
-        okLabel={i18n.ok}
-        cancelLabel={i18n.cancel}
-        onCancel={onCancel}
-        onOk={onOk}
+        scrollable
+        selectedItemValue={selectedItemValue}
+        onPressCancel={onPressCancel}
+        onPressOk={onPressOk}
       />
     );
   }

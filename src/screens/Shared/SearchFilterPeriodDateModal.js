@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { List, ListItem } from 'react-native-elements';
+import { withTheme, Text, Button } from 'react-native-paper';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connectLocalization } from '../../components/Localization';
-import PXTouchable from '../../components/PXTouchable';
+import PXListItem from '../../components/PXListItem';
 import { globalStyles, globalStyleVariables } from '../../styles';
 
 const styles = StyleSheet.create({
@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
   },
   searchFilterButtonContainer: {
     padding: 10,
-    backgroundColor: '#fff',
   },
   searchFilterButton: {
     backgroundColor: globalStyleVariables.PRIMARY_COLOR,
@@ -106,7 +105,7 @@ class SearchFilterPeriodDateModal extends Component {
   };
 
   render() {
-    const { i18n } = this.props;
+    const { i18n, theme } = this.props;
     const {
       startDate,
       endDate,
@@ -114,38 +113,36 @@ class SearchFilterPeriodDateModal extends Component {
       isEndDatePickerVisible,
     } = this.state;
     return (
-      <SafeAreaView style={globalStyles.container}>
-        <List>
-          <ListItem
+      <SafeAreaView
+        style={[
+          globalStyles.container,
+          { backgroundColor: theme.colors.background },
+        ]}
+      >
+        <View>
+          <PXListItem
             title={i18n.searchPeriodStartDate}
-            subtitle={startDate}
+            description={startDate}
             onPress={this.handleOnPressStartDate}
-            hideChevron
           />
-          <ListItem
+          <PXListItem
             title={i18n.searchPeriodEndDate}
-            subtitle={endDate}
+            description={endDate}
             onPress={this.handleOnPressEndDate}
-            hideChevron
           />
-        </List>
+        </View>
         <View style={styles.infoContainer}>
           <View style={styles.infoSubContainer}>
-            <Icon name="info-circle" size={20} color="#000" />
+            <Icon name="info-circle" size={20} color={theme.colors.text} />
             <Text style={styles.info}>
               {i18n.searchPeriodInfo}
             </Text>
           </View>
         </View>
         <View style={styles.searchFilterButtonContainer}>
-          <PXTouchable
-            onPress={this.handleOnPressConfirm}
-            style={styles.searchFilterButton}
-          >
-            <Text style={styles.searchFilterButtonText}>
-              {i18n.ok}
-            </Text>
-          </PXTouchable>
+          <Button mode="contained" onPress={this.handleOnPressConfirm}>
+            {i18n.ok}
+          </Button>
         </View>
         <DateTimePicker
           isVisible={isStartDatePickerVisible}
@@ -169,4 +166,4 @@ class SearchFilterPeriodDateModal extends Component {
   }
 }
 
-export default connectLocalization(SearchFilterPeriodDateModal);
+export default withTheme(connectLocalization(SearchFilterPeriodDateModal));
