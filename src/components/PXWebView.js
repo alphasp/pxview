@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, WebView } from 'react-native';
 import ProgressBar from 'react-native-progress/Bar';
+import { withTheme } from 'react-native-paper';
 import Loader from './Loader';
 import { globalStyles, globalStyleVariables } from '../styles';
 
@@ -33,10 +34,15 @@ class PXWebView extends Component {
   renderLoader = () => <Loader />;
 
   render() {
-    const { source, ...otherProps } = this.props;
+    const { source, theme, ...otherProps } = this.props;
     const { loadedOnce, loading } = this.state;
     return (
-      <View style={globalStyles.container}>
+      <View
+        style={[
+          globalStyles.container,
+          { backgroundColor: theme.colors.background },
+        ]}
+      >
         {loadedOnce &&
           loading &&
           <ProgressBar
@@ -58,4 +64,4 @@ class PXWebView extends Component {
   }
 }
 
-export default PXWebView;
+export default withTheme(PXWebView);
