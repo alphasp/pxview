@@ -1,6 +1,8 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { BottomTabBar } from 'react-navigation-tabs';
 import { Icon } from 'react-native-elements';
 import RecommendedNavigator from './RecommendedNavigator';
 import RankingNavigator from './RankingNavigator';
@@ -21,6 +23,18 @@ const renderTabBarIcon = (tintColor, focused, name, iconType) =>
     size={24}
     color={tintColor}
   />;
+
+const tabBarComponent = props => {
+  const { theme } = props.screenProps;
+  return (
+    <BottomTabBar
+      {...props}
+      activeBackgroundColor={theme.colors.background}
+      inactiveBackgroundColor={theme.colors.background}
+      activeTintColor={theme.colors.primary}
+    />
+  );
+};
 
 const createAppTabNavigator = ({ initialRouteName }) =>
   createBottomTabNavigator(
@@ -67,14 +81,13 @@ const createAppTabNavigator = ({ initialRouteName }) =>
       },
     },
     {
+      tabBarComponent,
       initialRouteName: `${initialRouteName}Tab`,
       headerMode: 'none',
       lazy: true,
       swipeEnabled: false,
       animationEnabled: false,
       tabBarOptions: {
-        activeTintColor: 'rgb(59,89,152)',
-        inactiveTintColor: 'rgb(204,204,204)',
         showIcon: true,
         showLabel: true,
       },
