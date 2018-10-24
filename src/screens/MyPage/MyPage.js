@@ -1,11 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'react-native-elements';
-import { List, Divider, withTheme } from 'react-native-paper';
+import { withTheme } from 'react-native-paper';
 import CookieManager from 'react-native-cookies';
 import { connectLocalization } from '../../components/Localization';
 import UserCover from '../../components/UserCover';
+import PXListItem from '../../components/PXListItem';
 import * as authActionCreators from '../../common/actions/auth';
 import * as browsingHistoryIllustsActionCreators from '../../common/actions/browsingHistoryIllusts';
 import * as browsingHistoryNovelsActionCreators from '../../common/actions/browsingHistoryNovels';
@@ -16,6 +17,9 @@ import { SCREENS, THEME_TYPES } from '../../common/constants';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  listContainer: {
+    marginHorizontal: 10,
   },
 });
 
@@ -196,21 +200,20 @@ class MyPage extends Component {
       list = list.filter(l => l.id !== 'logout');
     }
     return (
-      <View>
+      <View style={styles.listContainer}>
         {list.map(item =>
-          <Fragment key={item.id}>
-            <List.Item
-              title={i18n[item.title]}
-              left={props =>
-                <List.Icon
-                  {...props}
-                  icon={() =>
-                    <Icon {...props} name={item.icon} type={item.type} />}
-                />}
-              onPress={() => this.handleOnPressListItem(item)}
-            />
-            <Divider />
-          </Fragment>,
+          <PXListItem
+            key={item.id}
+            title={i18n[item.title]}
+            left={({ color }) =>
+              <Icon
+                name={item.icon}
+                type={item.type}
+                color={color}
+                size={item.size}
+              />}
+            onPress={() => this.handleOnPressListItem(item)}
+          />,
         )}
       </View>
     );
