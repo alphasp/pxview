@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import {
   View,
-  TextInput,
   StyleSheet,
   DeviceEventEmitter,
   InteractionManager,
   Keyboard,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { withTheme } from 'react-native-paper';
+import { withTheme, TextInput } from 'react-native-paper';
 import DeviceInfo from 'react-native-device-info';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
-import { FormLabel, FormInput } from 'react-native-elements';
 import { connectLocalization } from '../../components/Localization';
 import PXTouchable from '../../components/PXTouchable';
 import * as errorActionCreators from '../../common/actions/error';
@@ -134,22 +132,19 @@ class Feedback extends Component {
       <View
         style={[styles.container, { backgroundColor: theme.colors.surface }]}
       >
-        <FormLabel labelStyle={styles.emailLabel}>
-          {i18n.feedbackEmailOptional}
-        </FormLabel>
-        <FormInput
+        <TextInput
+          label={i18n.feedbackEmailOptional}
           placeholder={i18n.accountSettingsEmail}
-          onChangeText={this.handleOnChangeEmail}
           value={email}
           keyboardType="email-address"
-          containerStyle={styles.emailInput}
+          style={styles.emailInput}
+          onChangeText={this.handleOnChangeEmail}
         />
         <TextInput
+          label={i18n.feedback}
+          placeholder={i18n.feedbackPlaceholder}
           multiline
           autoFocus
-          placeholder={i18n.feedbackPlaceholder}
-          placeholderTextColor="#86939e"
-          underlineColorAndroid="transparent"
           style={[styles.feedbackInput, { color: theme.colors.text }]}
           onChangeText={this.handleOnChangeFeedback}
           value={feedback}
