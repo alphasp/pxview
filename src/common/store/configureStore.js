@@ -176,6 +176,7 @@ export default function configureStore() {
 
   const persistConfig = {
     key: 'root',
+    timeout: 15000, // https://github.com/rt2zz/redux-persist/issues/717
     stateReconciler: autoMergeLevel2,
     whitelist: [
       'searchHistory',
