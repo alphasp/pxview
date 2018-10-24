@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, FlatList, Keyboard } from 'react-native';
+import { View, StyleSheet, FlatList, Keyboard } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { withTheme, Text } from 'react-native-paper';
 import { connectLocalization } from './Localization';
 import PXTouchable from './PXTouchable';
 import Separator from './Separator';
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
 
 class SearchHistory extends Component {
   renderItem = ({ item }) => {
-    const { onPressItem, onPressRemoveSearchHistoryItem } = this.props;
+    const { onPressItem, onPressRemoveSearchHistoryItem, theme } = this.props;
     return (
       <View style={styles.listItemContainer} key={item}>
         <PXTouchable
@@ -43,7 +44,7 @@ class SearchHistory extends Component {
           hitSlop={{ top: 0, left: 20, bottom: 20, right: 20 }}
           onPress={() => onPressRemoveSearchHistoryItem(item)}
         >
-          <Icon name="times" size={16} color="#A9A9A9" />
+          <Icon name="times" size={16} color={theme.colors.text} />
         </PXTouchable>
       </View>
     );
@@ -80,4 +81,4 @@ class SearchHistory extends Component {
   }
 }
 
-export default connectLocalization(SearchHistory);
+export default withTheme(connectLocalization(SearchHistory));

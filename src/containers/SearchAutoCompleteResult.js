@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
+import { withTheme } from 'react-native-paper';
 import SearchHistory from '../components/SearchHistory';
 import SearchAutoCompleteList from '../components/SearchAutoCompleteList';
 import * as searchAutoCompleteActionCreators from '../common/actions/searchAutoComplete';
@@ -51,9 +52,12 @@ class SearchAutoCompleteResult extends Component {
       onPressSearchHistoryItem,
       onPressRemoveSearchHistoryItem,
       onPressClearSearchHistory,
+      theme,
     } = this.props;
     return (
-      <View style={styles.container}>
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
+      >
         {((!loaded && !loading) || !word) &&
           <SearchHistory
             items={searchHistory.items}
@@ -72,10 +76,12 @@ class SearchAutoCompleteResult extends Component {
   }
 }
 
-export default connect(
-  state => ({
-    searchAutoComplete: state.searchAutoComplete,
-    user: state.auth.user,
-  }),
-  searchAutoCompleteActionCreators,
-)(SearchAutoCompleteResult);
+export default withTheme(
+  connect(
+    state => ({
+      searchAutoComplete: state.searchAutoComplete,
+      user: state.auth.user,
+    }),
+    searchAutoCompleteActionCreators,
+  )(SearchAutoCompleteResult),
+);

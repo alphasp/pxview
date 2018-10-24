@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Text, FlatList, Keyboard } from 'react-native';
+import { View, StyleSheet, FlatList, Keyboard } from 'react-native';
+import { Text } from 'react-native-paper';
 import { connectLocalization } from './Localization';
 import PXTouchable from './PXTouchable';
 import Loader from './Loader';

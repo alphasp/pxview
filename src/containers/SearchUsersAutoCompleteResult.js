@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
+import { withTheme } from 'react-native-paper';
 import SearchHistory from '../components/SearchHistory';
 import SearchUsersAutoCompleteList from '../components/SearchUsersAutoCompleteList';
 import * as searchUsersAutoCompleteActionCreators from '../common/actions/searchUsersAutoComplete';
@@ -78,9 +79,12 @@ class SearchUsersAutoCompleteResult extends Component {
       onPressRemoveSearchHistoryItem,
       onPressClearSearchHistory,
       navigation,
+      theme,
     } = this.props;
     return (
-      <View style={styles.container}>
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
+      >
         {((!loaded && !loading) || !word) &&
           <SearchHistory
             items={searchHistory.items}
@@ -102,12 +106,14 @@ class SearchUsersAutoCompleteResult extends Component {
   }
 }
 
-export default withNavigation(
-  connect(
-    (state, props) => ({
-      searchUsersAutoComplete: state.searchUsersAutoComplete,
-      items: getSearchUsersAutoCompleteItems(state, props),
-    }),
-    searchUsersAutoCompleteActionCreators,
-  )(SearchUsersAutoCompleteResult),
+export default withTheme(
+  withNavigation(
+    connect(
+      (state, props) => ({
+        searchUsersAutoComplete: state.searchUsersAutoComplete,
+        items: getSearchUsersAutoCompleteItems(state, props),
+      }),
+      searchUsersAutoCompleteActionCreators,
+    )(SearchUsersAutoCompleteResult),
+  ),
 );
