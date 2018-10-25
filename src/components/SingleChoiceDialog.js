@@ -25,6 +25,10 @@ const styles = StyleSheet.create({
 });
 
 class SingleChoiceDialog extends Component {
+  static defaultProps = {
+    enableOkButton: true,
+  };
+
   constructor(props) {
     super(props);
     const { selectedItemValue } = props;
@@ -34,9 +38,17 @@ class SingleChoiceDialog extends Component {
   }
 
   handleOnSelectItem = value => {
-    this.setState({
-      selectedItemValue: value,
-    });
+    const { enableOkButton, onSelectItem } = this.props;
+    this.setState(
+      {
+        selectedItemValue: value,
+      },
+      () => {
+        if (!enableOkButton && onSelectItem) {
+          onSelectItem(value);
+        }
+      },
+    );
   };
 
   handleOnPressOk = () => {
@@ -83,12 +95,13 @@ class SingleChoiceDialog extends Component {
       onPressCancel,
       scrollable,
       i18n,
+      enableOkButton,
     } = this.props;
     return (
       <Modal
         animationType="fade"
         transparent
-        visible
+        visible={visible}
         onRequestClose={onPressCancel}
       >
         <Dialog dismissable={false} onDismiss={onPressCancel} visible={visible}>
@@ -108,9 +121,10 @@ class SingleChoiceDialog extends Component {
             <Button primary onPress={onPressCancel}>
               {cancelLabel || i18n.cancel}
             </Button>
-            <Button primary onPress={this.handleOnPressOk}>
-              {okLabel || i18n.ok}
-            </Button>
+            {enableOkButton &&
+              <Button primary onPress={this.handleOnPressOk}>
+                {okLabel || i18n.ok}
+              </Button>}
           </Dialog.Actions>
         </Dialog>
       </Modal>
