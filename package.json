@@ -73,7 +73,7 @@
     "redux-enhancer-react-native-appstate": "^0.2.0",
     "redux-persist": "^5.9.1",
     "redux-persist-filesystem-storage": "^1.2.0",
-    "redux-saga": "^0.15.4",
+    "redux-saga": "^0.16.2",
     "reselect": "^3.0.1",
     "sanitize-filename": "^1.6.1",
     "shallow-equals": "^1.0.0"
