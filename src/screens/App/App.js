@@ -84,6 +84,7 @@ class App extends Component {
         headerBackground: selectedTheme.dark
           ? '#1a1a1a'
           : globalStyleVariables.PRIMARY_COLOR,
+        modalTitleBackground: selectedTheme.dark ? '#1a1a1a' : '#E9EBEE',
       },
     };
     if (!rehydrated) {
