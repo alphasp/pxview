@@ -3,12 +3,11 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   Modal,
-  Switch,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { withTheme, Text, Switch } from 'react-native-paper';
 import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
 import FollowButton from '../components/FollowButton';
@@ -25,22 +24,14 @@ const styles = StyleSheet.create({
     padding: 80,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
-  innerContainer: {
-    // borderRadius: 10,
-    // alignItems: 'center',
-    backgroundColor: '#fff',
-  },
   loaderContainer: {
     paddingTop: 10,
     paddingBottom: 20,
   },
   titleContainer: {
-    backgroundColor: '#E9EBEE',
     padding: 10,
   },
   formContainer: {
-    // paddingTop: 10,
-    // paddingHorizontal: 10,
     padding: 10,
   },
   form: {
@@ -139,6 +130,7 @@ class FollowModal extends Component {
       userFollowDetail: { loading, loaded },
       isFollow,
       i18n,
+      theme,
     } = this.props;
     const { isPrivate } = this.state;
     return (
@@ -151,8 +143,13 @@ class FollowModal extends Component {
         <TouchableWithoutFeedback onPress={this.handleOnModalClose}>
           <View style={styles.container}>
             <TouchableWithoutFeedback>
-              <View style={styles.innerContainer}>
-                <View style={styles.titleContainer}>
+              <View style={{ backgroundColor: theme.colors.background }}>
+                <View
+                  style={[
+                    styles.titleContainer,
+                    { backgroundColor: theme.colors.modalTitleBackground },
+                  ]}
+                >
                   <Text style={styles.title}>
                     {isFollow ? i18n.followEdit : i18n.follow}
                   </Text>
@@ -227,15 +224,17 @@ class FollowModal extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(
-    state => ({
-      userFollowDetail: state.userFollowDetail,
-    }),
-    {
-      ...userFollowDetailActionCreators,
-      ...followUserActionCreators,
-      ...modalActionCreators,
-    },
-  )(FollowModal),
+export default withTheme(
+  connectLocalization(
+    connect(
+      state => ({
+        userFollowDetail: state.userFollowDetail,
+      }),
+      {
+        ...userFollowDetailActionCreators,
+        ...followUserActionCreators,
+        ...modalActionCreators,
+      },
+    )(FollowModal),
+  ),
 );

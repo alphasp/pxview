@@ -3,15 +3,19 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  Text,
-  TextInput,
   FlatList,
   TouchableWithoutFeedback,
   Modal,
-  Switch,
   Keyboard,
 } from 'react-native';
-import { MKCheckbox } from 'react-native-material-kit';
+import {
+  withTheme,
+  Checkbox,
+  TouchableRipple,
+  Switch,
+  Text,
+  TextInput,
+} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Toast, { DURATION } from 'react-native-easy-toast';
@@ -30,11 +34,7 @@ const styles = StyleSheet.create({
     padding: 60,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
-  innerContainer: {
-    backgroundColor: '#fff',
-  },
   titleContainer: {
-    backgroundColor: '#E9EBEE',
     padding: 10,
   },
   title: {
@@ -56,9 +56,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tagInput: {
-    height: 40,
-    backgroundColor: '#E9EBEE',
-    padding: 10,
     flex: 1,
     marginRight: 10,
   },
@@ -75,9 +72,6 @@ const styles = StyleSheet.create({
   },
   selectedTagContainer: {
     backgroundColor: globalStyleVariables.PRIMARY_COLOR,
-  },
-  selectedTagText: {
-    color: '#fff',
   },
   tagText: {
     fontSize: 12,
@@ -227,21 +221,21 @@ class BookmarkModal extends Component {
   };
 
   renderItem = ({ item }) =>
-    <PXTouchable onPress={() => this.handleOnCheckTag(item)}>
+    <TouchableRipple onPress={() => this.handleOnCheckTag(item)}>
       <View style={styles.row}>
         <Text style={styles.tagText}>
           {item.name}
         </Text>
-        <MKCheckbox
-          checked={item.is_registered}
-          onCheckedChange={() => this.handleOnCheckTag(item)}
-          editable={item.editable}
+        <Checkbox.Android
+          status={item.is_registered ? 'checked' : 'unchecked'}
+          onPress={() => this.handleOnCheckTag(item)}
+          disabled={!item.editable}
         />
       </View>
-    </PXTouchable>;
+    </TouchableRipple>;
 
   render() {
-    const { isBookmark, i18n, onModalClose } = this.props;
+    const { isBookmark, i18n, onModalClose, theme } = this.props;
     const { tags, selectedTagsCount, isPrivate } = this.state;
     return (
       <Modal
@@ -253,8 +247,13 @@ class BookmarkModal extends Component {
         <TouchableWithoutFeedback onPress={onModalClose}>
           <View style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <View style={styles.innerContainer}>
-                <View style={styles.titleContainer}>
+              <View style={{ backgroundColor: theme.colors.background }}>
+                <View
+                  style={[
+                    styles.titleContainer,
+                    { backgroundColor: theme.colors.modalTitleBackground },
+                  ]}
+                >
                   <Text style={styles.title}>
                     {isBookmark ? i18n.likeEdit : i18n.likeAdd}
                   </Text>
@@ -270,7 +269,10 @@ class BookmarkModal extends Component {
                 <View style={styles.newTagContainer}>
                   <TextInput
                     ref={ref => (this.tagInput = ref)}
-                    style={styles.tagInput}
+                    style={[
+                      styles.tagInput,
+                      { backgroundColor: theme.colors.background },
+                    ]}
                     placeholder={i18n.collectionTagsAdd}
                     autoCorrect={false}
                     onChangeText={text => this.setState({ newTag: text })}
@@ -279,7 +281,7 @@ class BookmarkModal extends Component {
                     onPress={this.handleOnPressAddTag}
                     hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
                   >
-                    <Icon name="plus" size={20} />
+                    <Icon name="plus" size={20} color={theme.colors.text} />
                   </PXTouchable>
                 </View>
                 <View style={styles.tagsContainer}>
@@ -348,4 +350,4 @@ class BookmarkModal extends Component {
   }
 }
 
-export default connectLocalization(BookmarkModal);
+export default withTheme(connectLocalization(BookmarkModal));

@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   Modal,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { withTheme, Text } from 'react-native-paper';
 import Slider from 'react-native-slider';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connectLocalization } from '../components/Localization';
@@ -22,11 +22,7 @@ const styles = StyleSheet.create({
     padding: 80,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
-  innerContainer: {
-    backgroundColor: '#fff',
-  },
   titleContainer: {
-    backgroundColor: '#E9EBEE',
     padding: 10,
   },
   form: {
@@ -72,7 +68,7 @@ class NovelSettingsModal extends Component {
   };
 
   render() {
-    const { novelSettings: { fontSize, lineHeight }, i18n } = this.props;
+    const { novelSettings: { fontSize, lineHeight }, i18n, theme } = this.props;
     return (
       <Modal
         animationType="fade"
@@ -83,14 +79,19 @@ class NovelSettingsModal extends Component {
         <TouchableWithoutFeedback onPress={this.handleOnModalClose}>
           <View style={styles.container}>
             <TouchableWithoutFeedback>
-              <View style={styles.innerContainer}>
-                <View style={styles.titleContainer}>
+              <View style={{ backgroundColor: theme.colors.background }}>
+                <View
+                  style={[
+                    styles.titleContainer,
+                    { backgroundColor: theme.colors.modalTitleBackground },
+                  ]}
+                >
                   <Text style={styles.title}>
                     {i18n.novelSettings}
                   </Text>
                 </View>
                 <View style={styles.form}>
-                  <Icon name="font" size={14} />
+                  <Icon name="font" size={14} color={theme.colors.text} />
                   <Slider
                     style={styles.slider}
                     value={fontSize}
@@ -103,7 +104,7 @@ class NovelSettingsModal extends Component {
                   />
                 </View>
                 <View style={styles.form}>
-                  <Icon name="align-left" size={14} />
+                  <Icon name="align-left" size={14} color={theme.colors.text} />
                   <Slider
                     style={styles.slider}
                     value={lineHeight}
@@ -124,14 +125,16 @@ class NovelSettingsModal extends Component {
   }
 }
 
-export default connectLocalization(
-  connect(
-    state => {
-      const { novelSettings } = state;
-      return {
-        novelSettings,
-      };
-    },
-    { ...modalActionCreators, ...novelSettingsActionCreators },
-  )(NovelSettingsModal),
+export default withTheme(
+  connectLocalization(
+    connect(
+      state => {
+        const { novelSettings } = state;
+        return {
+          novelSettings,
+        };
+      },
+      { ...modalActionCreators, ...novelSettingsActionCreators },
+    )(NovelSettingsModal),
+  ),
 );

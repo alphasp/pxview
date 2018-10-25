@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  Text,
   FlatList,
   TouchableWithoutFeedback,
   Modal,
 } from 'react-native';
+import { withTheme, Text } from 'react-native-paper';
 import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
 import { globalStyleVariables } from '../styles';
@@ -17,15 +17,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 80,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  innerContainer: {
-    // borderRadius: 10,
-    // alignItems: 'center',
-    backgroundColor: '#fff',
-    // padding: 20
-  },
-  sectionHeader: {
-    backgroundColor: '#E9EBEE',
   },
   sectionHeaderTitle: {
     fontWeight: 'bold',
@@ -90,6 +81,7 @@ class TagsFilterModal extends Component {
       onPressCloseButton,
       i18n,
       onEndReached,
+      theme,
     } = this.props;
     return (
       <Modal
@@ -102,12 +94,14 @@ class TagsFilterModal extends Component {
           <View style={styles.container}>
             <TouchableWithoutFeedback>
               <View>
-                <View style={styles.sectionHeader}>
+                <View
+                  style={{ backgroundColor: theme.colors.modalTitleBackground }}
+                >
                   <Text style={styles.sectionHeaderTitle}>
                     {i18n.collectionTags}
                   </Text>
                 </View>
-                <View style={styles.innerContainer}>
+                <View style={{ backgroundColor: theme.colors.background }}>
                   <FlatList
                     data={items}
                     keyExtractor={item => item.name}
@@ -126,4 +120,4 @@ class TagsFilterModal extends Component {
   }
 }
 
-export default connectLocalization(TagsFilterModal);
+export default withTheme(connectLocalization(TagsFilterModal));
