@@ -49,7 +49,6 @@
     "react-native-localization": "^1.0.11",
     "react-native-material-dialog": "^0.7.4",
     "react-native-material-dropdown": "^0.11.1",
-    "react-native-material-kit": "github:alphasp/react-native-material-kit",
     "react-native-message-bar": "github:alphasp/react-native-message-bar#iphonex",
     "react-native-modal-datetime-picker": "^4.13.0",
     "react-native-open-settings": "github:alphasp/react-native-open-settings#rn-047-fix",

@@ -166,7 +166,6 @@ dependencies {
     implementation project(':react-native-cookies')
     implementation project(':react-native-localization')
     implementation project(':react-native-share')
-    implementation project(':react-native-material-kit')
     implementation project(':react-native-vector-icons')
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'

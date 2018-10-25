@@ -13,7 +13,6 @@ import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.psykar.cookiemanager.CookieManagerPackage;
 import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
 import cl.json.RNSharePackage;
-import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
@@ -52,7 +51,6 @@ public class MainApplication extends Application implements ReactApplication {
             new CookieManagerPackage(),
             new ReactNativeLocalizationPackage(),
             new RNSharePackage(),
-            new ReactMaterialKitPackage(),
             new VectorIconsPackage(),
             new FabricPackage(),
             new RNSpinkitPackage(),
