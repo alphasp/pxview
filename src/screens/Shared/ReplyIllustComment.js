@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
-import { withTheme } from 'react-native-paper';
+import { withTheme, TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../../components/Localization';
@@ -159,9 +159,8 @@ class ReplyIllustComment extends Component {
           autoFocus
           maxLength={140}
           placeholder={i18n.commentInput}
-          placeholderTextColor="#86939e"
           underlineColorAndroid="transparent"
-          style={[styles.textInput, { color: theme.colors.text }]}
+          style={styles.textInput}
           onChangeText={this.handleOnChangeComment}
           value={comment}
         />
