@@ -1,6 +1,6 @@
 {
   "name": "PxView",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "Unofficial Pixiv app client for Android and iOS, built in React Native",
   "private": true,
   "scripts": {
