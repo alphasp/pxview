@@ -5,6 +5,9 @@
 ### Amazonギフト券(Eメールタイプ)
 受取人のメールアドレスをgmerudotcom@gmail.comとして送りください
 
+### Paypal
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A7TA6Y8999S72) 
+
 ### ビットコイン
 ![btc](./btc.png)
 

@@ -5,6 +5,9 @@
 ### 亞馬遜電子禮品卡 (日本亞馬遜或美國亞馬遜)
 發至gmerudotcom@gmail.com
 
+### Paypal
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4FEHX7PTHQTQY)
+
 ### 比特币
 ![btc](./btc.png)
 
