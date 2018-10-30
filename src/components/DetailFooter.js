@@ -13,6 +13,7 @@ import { connectLocalization } from './Localization';
 import Tags from './Tags';
 import PXTouchable from './PXTouchable';
 import PXThumbnail from './PXThumbnail';
+import { SCREENS } from '../common/constants';
 import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
@@ -76,14 +77,32 @@ class DetailFooter extends PureComponent {
   };
 
   handleOnPressLink = url => {
-    Linking.canOpenURL(url)
-      .then(supported => {
-        if (!supported) {
-          return null;
-        }
-        return Linking.openURL(url);
-      })
-      .catch(err => err);
+    const { navigation: { push } } = this.props;
+    if (url.indexOf('pixiv://illusts/') !== -1) {
+      const illustId = url.split('/').pop();
+      if (parseInt(illustId, 10)) {
+        push(SCREENS.Detail, { items: [], illustId, index: 0 });
+      }
+    } else if (url.indexOf('pixiv://novels/') !== -1) {
+      const novelId = url.split('/').pop();
+      if (parseInt(novelId, 10)) {
+        push(SCREENS.NovelDetail, { items: [], novelId, index: 0 });
+      }
+    } else if (url.indexOf('pixiv://users/') !== -1) {
+      const uid = url.split('/').pop();
+      if (parseInt(uid, 10)) {
+        push(SCREENS.UserDetail, { uid });
+      }
+    } else {
+      Linking.canOpenURL(url)
+        .then(supported => {
+          if (!supported) {
+            return null;
+          }
+          return Linking.openURL(url);
+        })
+        .catch(err => err);
+    }
   };
 
   render() {

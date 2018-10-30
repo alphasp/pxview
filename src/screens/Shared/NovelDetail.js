@@ -114,7 +114,7 @@ class NovelDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { novelDetail: prevIllustDetail } = this.props;
+    const { novelDetail: prevNovelDetail } = this.props;
     const {
       novelId,
       isFromDeepLink,
@@ -126,7 +126,7 @@ class NovelDetail extends Component {
       isFromDeepLink &&
       novelDetail &&
       novelDetail.loaded &&
-      novelDetail.loaded !== prevIllustDetail.prevLoaded &&
+      novelDetail.loaded !== (prevNovelDetail && prevNovelDetail.prevLoaded) &&
       novelDetail.item
     ) {
       // only add browsing history if item is loaded for novel that open from deep link

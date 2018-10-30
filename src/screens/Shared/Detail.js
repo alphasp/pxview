@@ -124,7 +124,8 @@ class Detail extends Component {
       isFromDeepLink &&
       illustDetail &&
       illustDetail.loaded &&
-      illustDetail.loaded !== prevIllustDetail.prevLoaded &&
+      illustDetail.loaded !==
+        (prevIllustDetail && prevIllustDetail.prevLoaded) &&
       illustDetail.item
     ) {
       // only add browsing history if item is loaded for illust that open from deep link
