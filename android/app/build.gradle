@@ -102,8 +102,8 @@ android {
         applicationId "com.utopia.pxview"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 105
-        versionName "2.5"
+        versionCode 106
+        versionName "2.6"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
