@@ -26,7 +26,7 @@ const Loader = ({ theme, absolutePosition, style, color }) =>
       style,
     ]}
   >
-    <Spinner type="ThreeBounce" color={theme.colors.text || color} />
+    <Spinner type="ThreeBounce" color={color || theme.colors.text} />
   </View>;
 
 export default withTheme(Loader);
