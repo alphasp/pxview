@@ -31,7 +31,7 @@
     "prop-types": "^15.5.10",
     "qs": "^6.5.0",
     "react": "^16.6.0-alpha.8af6728",
-    "react-native": "0.57.1",
+    "react-native": "^0.57.4",
     "react-native-action-button": "^2.8.3",
     "react-native-animatable": "^1.2.4",
     "react-native-cookies": "^3.2.0",
@@ -107,7 +107,6 @@
     "prettier": "^1.5.2",
     "prettier-eslint": "^6.4.1",
     "react-test-renderer": "15.6.1",
-    "redux-immutable-state-invariant": "^2.0.0",
-    "schedule": "^0.4.0"
+    "redux-immutable-state-invariant": "^2.0.0"
   }
 }
