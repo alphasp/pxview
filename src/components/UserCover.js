@@ -67,7 +67,10 @@ const UserCover = ({
       {user.is_premium && <PremiumBadge containerStyle={styles.premiumBadge} />}
     </View>
     <View style={styles.themeContainer}>
-      <PXTouchable onPress={onPressChangeTheme}>
+      <PXTouchable
+        onPress={onPressChangeTheme}
+        hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
+      >
         <Icon
           name={themeName === THEME_TYPES.DARK ? 'md-sunny' : 'md-moon'}
           size={24}
