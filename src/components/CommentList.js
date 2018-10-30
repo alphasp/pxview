@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { StyleSheet, View, RefreshControl, FlatList } from 'react-native';
 import { withTheme, Text } from 'react-native-paper';
+import Color from 'color';
 import moment from 'moment';
 import { connectLocalization } from './Localization';
 import NoResult from './NoResult';
@@ -80,6 +81,7 @@ class CommentList extends Component {
       i18n,
       onPressReplyCommentButton,
       renderCommentReplies,
+      theme,
     } = this.props;
     return (
       <View key={item.id} style={styles.commentContainer}>
@@ -107,7 +109,14 @@ class CommentList extends Component {
             </Text>
           </View>
           <View style={styles.dateAndReply}>
-            <Text style={styles.date}>
+            <Text
+              style={[
+                styles.date,
+                theme.dark && {
+                  color: Color(theme.colors.text).alpha(0.7).string(),
+                },
+              ]}
+            >
               {moment(item.date).format('YYYY-MM-DD HH:mm')}
             </Text>
             {onPressReplyCommentButton &&

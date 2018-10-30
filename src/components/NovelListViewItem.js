@@ -12,11 +12,6 @@ import { globalStyleVariables } from '../styles';
 
 const HIGHLIGHT_BORDER_WIDTH = 3;
 const styles = StyleSheet.create({
-  container: {
-    // borderTopWidth: StyleSheet.hairlineWidth,
-    // borderBottomWidth: StyleSheet.hairlineWidth,
-    // borderColor: '#000',
-  },
   innerContainer: {
     padding: 10,
     backgroundColor: '#fff',
