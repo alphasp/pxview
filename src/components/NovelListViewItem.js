@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { withTheme, Text } from 'react-native-paper';
+import Color from 'color';
 import { connectLocalization } from './Localization';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
@@ -130,7 +131,15 @@ class NovelListViewItem extends Component {
                 <Text style={[styles.text, styles.title]} ellipsisMode="tail">
                   {item.title}
                 </Text>
-                <Text style={[styles.text, styles.user]}>
+                <Text
+                  style={[
+                    styles.text,
+                    styles.user,
+                    theme.dark && {
+                      color: Color(theme.colors.text).alpha(0.7).string(),
+                    },
+                  ]}
+                >
                   by {item.user.name}
                 </Text>
                 <Text style={[styles.text, styles.info]}>
