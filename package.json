@@ -36,7 +36,7 @@
     "react-native-animatable": "^1.2.4",
     "react-native-cookies": "^3.2.0",
     "react-native-datepicker": "^1.6.0",
-    "react-native-device-info": "^0.22.6",
+    "react-native-device-info": "^0.24.3",
     "react-native-easy-toast": "^1.0.9",
     "react-native-elements": "^0.18.2",
     "react-native-fabric": "^0.5.0",
