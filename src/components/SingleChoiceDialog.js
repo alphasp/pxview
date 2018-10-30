@@ -8,10 +8,12 @@ import {
   TouchableRipple,
 } from 'react-native-paper';
 import { connectLocalization } from './Localization';
+import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
   dialogContentContainer: {
     paddingHorizontal: 0,
+    maxHeight: globalStyleVariables.WINDOW_HEIGHT - 200,
   },
   row: {
     flexDirection: 'row',
