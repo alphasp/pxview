@@ -78,8 +78,10 @@ const handleOnSubmit = (values, { props }) => {
 
 class Login extends Component {
   handleOnPressSignUp = () => {
-    const { openModal } = this.props;
-    openModal(MODAL_TYPES.SIGNUP);
+    const { openModal, navigation } = this.props;
+    openModal(MODAL_TYPES.SIGNUP, {
+      navigation,
+    });
   };
 
   render() {

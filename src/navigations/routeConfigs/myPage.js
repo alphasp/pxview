@@ -10,6 +10,7 @@ import HighlightTagsSettings from '../../screens/MyPage/HighlightTagsSettings';
 import MuteTagsSettings from '../../screens/MyPage/MuteTagsSettings';
 import MuteUsersSettings from '../../screens/MyPage/MuteUsersSettings';
 import Feedback from '../../screens/MyPage/Feedback';
+import PrivacyPolicy from '../../screens/MyPage/PrivacyPolicy';
 import About from '../../screens/MyPage/About';
 import { globalStyles, getThemedHeaderStyle } from '../../styles';
 import { SCREENS } from '../../common/constants';
@@ -108,6 +109,13 @@ const config = {
     screen: Feedback,
     navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.feedback,
+      headerStyle: getThemedHeaderStyle(theme),
+    }),
+  },
+  [SCREENS.PrivacyPolicy]: {
+    screen: PrivacyPolicy,
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+      title: i18n.privacyPolicy,
       headerStyle: getThemedHeaderStyle(theme),
     }),
   },

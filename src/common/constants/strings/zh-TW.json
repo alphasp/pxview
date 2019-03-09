@@ -105,6 +105,7 @@
   "permissionPromptMessage": "要啟用此功能，請按下面的應用設置，並在應用所需權限下激活{0}",
   "permissionPromptStorageTitle": "PxView需要您的储存空間權限以保存圖片",
   "permissionStorage": "储存空间",
+  "privacyPolicy": "隱私政策",
   "private": "非公開",
   "public": "公開",
   "ranking": "排行榜",

@@ -208,5 +208,6 @@ export const SCREENS = {
   Language: 'Language',
   Theme: 'Theme',
   Feedback: 'Feedback',
+  PrivacyPolicy: 'PrivacyPolicy',
   About: 'About',
 };

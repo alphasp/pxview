@@ -105,6 +105,7 @@
   "permissionPromptMessage": "To enable this, press App Settings below and activate {0} under the Permissions menu",
   "permissionPromptStorageTitle": "Px View need access to your storage to save images",
   "permissionStorage": "Storage",
+  "privacyPolicy": "Privacy Policy",
   "private": "Private",
   "public": "Public",
   "ranking": "Ranking",

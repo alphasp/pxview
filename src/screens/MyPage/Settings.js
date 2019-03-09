@@ -62,6 +62,10 @@ const otherList = [
     title: 'donations',
   },
   {
+    id: 'privacyPolicy',
+    title: 'privacyPolicy',
+  },
+  {
     id: 'about',
     title: 'about',
   },
@@ -152,6 +156,10 @@ class Settings extends Component {
       }
       case 'lang': {
         this.handleOnPressLanguageSettings();
+        break;
+      }
+      case 'privacyPolicy': {
+        navigate(SCREENS.PrivacyPolicy);
         break;
       }
       case 'about': {
