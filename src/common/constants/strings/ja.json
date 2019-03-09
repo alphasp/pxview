@@ -1,5 +1,5 @@
 {
-  "about": "このアプリついて",
+  "about": "このアプリについて",
   "accountSettings": "アカウント設定",
   "accountSettingsAdvancedSettings": "詳細設定",
   "accountSettingsChange": "{0}の変更",
@@ -105,6 +105,7 @@
   "permissionPromptMessage": "アクセスを許可するには、以下の[アプリ設定]をボタンをタップして、許可メニューで{0}をオンにしてください",
   "permissionPromptStorageTitle": "画像保存には書き込み権限の許可が必要です",
   "permissionStorage": "ストレージ",
+  "privacyPolicy": "プライバシーポリシー",
   "private": "非公開",
   "public": "公開",
   "ranking": "ランキング",

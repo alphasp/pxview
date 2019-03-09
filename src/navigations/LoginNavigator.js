@@ -1,6 +1,11 @@
 import { createStackNavigator } from 'react-navigation';
 import Login from '../screens/Login/Login';
-import { globalStyles, globalStyleVariables } from '../styles';
+import PrivacyPolicy from '../screens/MyPage/PrivacyPolicy';
+import {
+  globalStyles,
+  globalStyleVariables,
+  getThemedHeaderStyle,
+} from '../styles';
 import { SCREENS } from '../common/constants';
 
 const LoginNavigator = createStackNavigator(
@@ -10,6 +15,13 @@ const LoginNavigator = createStackNavigator(
       navigationOptions: {
         header: null,
       },
+    },
+    [SCREENS.PrivacyPolicy]: {
+      screen: PrivacyPolicy,
+      navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+        title: i18n.privacyPolicy,
+        headerStyle: getThemedHeaderStyle(theme),
+      }),
     },
   },
   {
