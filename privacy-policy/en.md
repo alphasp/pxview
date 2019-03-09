@@ -5,7 +5,7 @@ This privacy policy governs your use of the software application PxView ("Applic
 
 ### How is login to Pixiv done?
 
-Login to Pixiv is done with api. The password is sent directly to Pixiv servers for authentication and is never seen by us. Pixv then returns token which is used to access Pixiv on your behalf.  
+Login to Pixiv is done with api. The password is sent directly to Pixiv servers for authentication and is never seen by us. Pixiv then returns token which is used to access Pixiv on your behalf.  
 
 The token is stored locally on your device. 
 
