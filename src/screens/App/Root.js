@@ -1,6 +1,6 @@
 /* eslint react/prefer-stateless-function:0 */
 import React, { Component } from 'react';
-import { AppRegistry } from 'react-native';
+import { AppRegistry, NativeModules } from 'react-native';
 import { useScreens } from 'react-native-screens';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';

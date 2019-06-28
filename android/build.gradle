@@ -36,6 +36,7 @@ allprojects {
 
         google()
         jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 }
 
@@ -49,3 +50,18 @@ subprojects {
         }
     }
 }
+
+/*configurations.all {
+    resolutionStrategy {
+        eachDependency { details ->
+            // Force all primary support libraries to the same version
+            if (details.requested.group == 'com.android.support'
+                    && details.requested.name != 'multidex'
+                    && details.requested.name != 'multidex-instrumentation') {
+                // Force the version that works for you.
+                // Square has tested Reader SDK with 28.0.0
+                details.useVersion '28.0.0'
+            }
+        }
+    }
+}*/

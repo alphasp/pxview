@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.multidex.MultiDex;
 
 import com.squareup.leakcanary.LeakCanary;
+import com.contentsquare.rn.CsSdkPackage;
 import com.rnziparchive.RNZipArchivePackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
@@ -51,22 +52,14 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      // @SuppressWarnings("UnnecessaryLocalVariable")
-      // List<ReactPackage> packages = new PackageList(this).getPackages();
-      // // Packages that cannot be autolinked yet can be added manually here, for example:
-      // // packages.add(new MyReactNativePackage());
-      // packages.add(new RNFetchBlobPackage());
-      // packages.add(new CameraRollPackage());
-      // packages.add(new UgoiraViewPackage());
-      // return packages;
-
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new AsyncStoragePackage(),
-            new RNCViewPagerPackage(),
-            new RNScreensPackage(),
-            new RNGestureHandlerPackage(),
-            new RNCWebViewPackage(),
+          new CsSdkPackage(),
+          new AsyncStoragePackage(),
+          new RNCViewPagerPackage(),
+          new RNScreensPackage(),
+          new RNGestureHandlerPackage(),
+          new RNCWebViewPackage(),
           new PhotoViewPackage(),
           new RNFetchBlobPackage(),
           new CameraRollPackage(),
@@ -101,17 +94,17 @@ public class MainApplication extends Application implements ReactApplication {
      super.attachBaseContext(base);
      MultiDex.install(this);
   }
-  
+
   @Override
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
-    Fabric.with(this, new Crashlytics());
+    /*Fabric.with(this, new Crashlytics());
     if (LeakCanary.isInAnalyzerProcess(this)) {
       // This process is dedicated to LeakCanary for heap analysis.
       // You should not init your app in this process.
       return;
     }
-    LeakCanary.install(this);
+    LeakCanary.install(this);*/
   }
 }

@@ -80,7 +80,8 @@
     "reselect": "^3.0.1",
     "rn-fetch-blob": "^0.10.16",
     "sanitize-filename": "^1.6.1",
-    "shallow-equals": "^1.0.0"
+    "shallow-equals": "^1.0.0",
+    "react-native-cs-sdk": "file:../"
   },
   "jest": {
     "preset": "react-native",

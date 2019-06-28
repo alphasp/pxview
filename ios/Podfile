@@ -55,6 +55,8 @@ target 'PxView' do
 
   # pod 'react-native-photo-view', :path => '../node_modules/react-native-photo-view'
 
+  pod 'CsSdk', :path => '../node_modules/react-native-cs-sdk'
+
 end
 
 target 'PxView-tvOS' do

@@ -5,7 +5,7 @@ import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
-import org.devio.rn.splashscreen.SplashScreen; 
+import org.devio.rn.splashscreen.SplashScreen;
 
 public class MainActivity extends ReactActivity {
 
@@ -23,6 +23,12 @@ public class MainActivity extends ReactActivity {
         super.onCreate(savedInstanceState);
         SplashScreen.show(this);
     }
+
+    /*@Override
+    protected void onPause() {
+        SplashScreen.hide(this);
+        super.onPause();
+    }*/
 
     @Override
     protected ReactActivityDelegate createReactActivityDelegate() {
