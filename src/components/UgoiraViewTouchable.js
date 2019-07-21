@@ -6,7 +6,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 import { unzip } from 'react-native-zip-archive';
 import UgoiraView from './UgoiraView';
 import PXCacheImage from './PXCacheImage';

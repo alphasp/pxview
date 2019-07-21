@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, Platform } from 'react-native';
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 import { globalStyleVariables } from '../styles';
 
 class PXCacheImage extends Component {

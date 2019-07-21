@@ -9,7 +9,7 @@ import {
   DeviceEventEmitter,
 } from 'react-native';
 import { connect } from 'react-redux';
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 import OpenSettings from 'react-native-open-settings';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import Promise from 'bluebird';

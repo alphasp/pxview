@@ -1,9 +1,9 @@
 package com.utopia.pxview;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.squareup.leakcanary.LeakCanary;
-import com.facebook.react.ReactApplication;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.rnziparchive.RNZipArchivePackage;
 import com.BV.LinearGradient.LinearGradientPackage;
@@ -19,6 +19,10 @@ import io.fabric.sdk.android.Fabric;
 import com.smixx.fabric.FabricPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
+import com.facebook.react.PackageList;
+import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
+import com.facebook.react.bridge.JavaScriptExecutorFactory;
+import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -38,23 +42,29 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new RNSpinkitPackage(),
-           new MainReactPackage(),
-            new PhotoViewPackage(),
-            new UgoiraViewPackage(),
-            new RNZipArchivePackage(),
-            new LinearGradientPackage(),
-            new SplashScreenReactPackage(),
-            new OpenSettingsPackage(),
-            new RNDeviceInfo(),
-            new CookieManagerPackage(),
-            new ReactNativeLocalizationPackage(),
-            new RNSharePackage(),
-            new VectorIconsPackage(),
-            new FabricPackage(),
-            new RNSpinkitPackage(),
-            new RNFetchBlobPackage()
+      @SuppressWarnings("UnnecessaryLocalVariable")
+      List<ReactPackage> packages = new PackageList(this).getPackages();
+      // Packages that cannot be autolinked yet can be added manually here, for example:
+      // packages.add(new MyReactNativePackage());
+      return packages;
+
+      // return Arrays.<ReactPackage>asList(
+      //     new RNSpinkitPackage(),
+      //      new MainReactPackage(),
+      //       new PhotoViewPackage(),
+      //       new UgoiraViewPackage(),
+      //       new RNZipArchivePackage(),
+      //       new LinearGradientPackage(),
+      //       new SplashScreenReactPackage(),
+      //       new OpenSettingsPackage(),
+      //       new RNDeviceInfo(),
+      //       new CookieManagerPackage(),
+      //       new ReactNativeLocalizationPackage(),
+      //       new RNSharePackage(),
+      //       new VectorIconsPackage(),
+      //       new FabricPackage(),
+      //       new RNSpinkitPackage(),
+      //       new RNFetchBlobPackage()
       );
     }
 

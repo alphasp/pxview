@@ -3,7 +3,7 @@
 // getStoredStateV4(v4Config) based from https://github.com/rt2zz/redux-persist/blob/master/src/integration/getStoredStateMigrateV4.js
 
 import { getStoredState } from 'redux-persist';
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const KEY_PREFIX = 'reduxPersist:';
 

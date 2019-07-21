@@ -4,7 +4,7 @@
   "description": "Unofficial Pixiv app client for Android and iOS, built in React Native",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "start": "react-native start",
     "lint": "eslint src --fix",
     "test": "jest",
     "test:watch": "jest --watch --coverage",
@@ -30,8 +30,8 @@
     "pixiv-novel-parser": "github:alphasp/pixiv-novel-parser",
     "prop-types": "^15.5.10",
     "qs": "^6.5.0",
-    "react": "16.8.3",
-    "react-native": "0.59.10",
+    "react": "16.8.6",
+    "react-native": "0.60.4",
     "react-native-action-button": "^2.8.3",
     "react-native-animatable": "^1.2.4",
     "react-native-cookies": "^3.2.0",
@@ -40,7 +40,6 @@
     "react-native-easy-toast": "^1.0.9",
     "react-native-elements": "^0.18.2",
     "react-native-fabric": "^0.5.2",
-    "react-native-fetch-blob": "^0.10.8",
     "react-native-htmlview": "github:alphasp/react-native-htmlview#rn56",
     "react-native-hyperlink": "0.0.11",
     "react-native-iphone-x-helper": "^1.0.2",
@@ -74,6 +73,7 @@
     "redux-persist-filesystem-storage": "^1.2.0",
     "redux-saga": "^0.16.2",
     "reselect": "^3.0.1",
+    "rn-fetch-blob": "^0.10.16",
     "sanitize-filename": "^1.6.1",
     "shallow-equals": "^1.0.0"
   },
@@ -87,13 +87,14 @@
     }
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/runtime": "^7.4.5",
+    "@babel/core": "^7.5.0",
+    "@babel/runtime": "^7.5.0",
     "@babel/plugin-transform-runtime": "^7.0.0-beta.54",
     "@babel/preset-flow": "^7.0.0-beta.54",
     "@babel/register": "^7.0.0-beta.54",
+    "@react-native-community/eslint-config": "^0.0.3",
     "babel-eslint": "^7.2.3",
-    "babel-jest": "^24.8.0",
+    "babel-jest": "^24.1.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-config-prettier": "^2.3.0",
@@ -104,11 +105,11 @@
     "eslint-plugin-prettier": "^2.1.2",
     "eslint-plugin-react": "^7.1.0",
     "eslint-plugin-react-native": "^2.3.2",
-    "jest": "^24.8.0",
+    "jest": "^24.1.0",
     "metro-react-native-babel-preset": "^0.54.1",
     "prettier": "^1.5.2",
     "prettier-eslint": "^6.4.1",
-    "react-test-renderer": "16.8.3",
+    "react-test-renderer": "16.8.6",
     "redux-immutable-state-invariant": "^2.0.0"
   }
 }
