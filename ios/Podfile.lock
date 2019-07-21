@@ -62,6 +62,8 @@ PODS:
     - React-cxxreact (= 0.60.4)
     - React-jsi (= 0.60.4)
   - React-jsinspector (0.60.4)
+  - react-native-cameraroll (1.1.1):
+    - React
   - react-native-photo-view (1.5.2):
     - React
   - react-native-spinkit (1.0.2):
@@ -131,6 +133,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - react-native-photo-view (from `../node_modules/react-native-photo-view`)
   - react-native-spinkit (from `../node_modules/react-native-spinkit`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
@@ -184,6 +187,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-cameraroll:
+    :path: "../node_modules/@react-native-community/cameraroll"
   react-native-photo-view:
     :path: "../node_modules/react-native-photo-view"
   react-native-spinkit:
@@ -243,6 +248,7 @@ SPEC CHECKSUMS:
   React-jsi: 21d3153b1153fbf6510a92b6b11e33e725cb7432
   React-jsiexecutor: 7549641e48bafae7bfee3f3ea19bf4901639c5de
   React-jsinspector: 73f24a02fa684ed6a2b828ba116874a2191ded88
+  react-native-cameraroll: c5598e8ae3d9b3cb717bf7c696e20707ff61c6ae
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-spinkit: 9a5d2f95aa975d5660fd3e76b7eac38e7329e46c
   react-native-splash-screen: 03b4972da0957cced974ebea677916b7725218b1
@@ -265,6 +271,6 @@ SPEC CHECKSUMS:
   RNZipArchive: cf189e1d064dc8c0daebd90857de747212ee6d65
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
 
-PODFILE CHECKSUM: 3e18adec8a2b48f0fe2ab8152db6261edf25e2f6
+PODFILE CHECKSUM: 6cb57f5ecf4f3a8409c3e4d7f958442b8b6b1136
 
 COCOAPODS: 1.7.5

@@ -3,7 +3,7 @@ import { StyleSheet, View, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'react-native-elements';
 import { withTheme } from 'react-native-paper';
-import CookieManager from 'react-native-cookies';
+// import CookieManager from 'react-native-cookies';
 import { connectLocalization } from '../../components/Localization';
 import UserCover from '../../components/UserCover';
 import PXListItem from '../../components/PXListItem';
@@ -153,7 +153,7 @@ class MyPage extends Component {
     clearBrowsingHistoryNovels();
     clearSearchHistory();
     // clear cookies set from webview for advance account settings
-    CookieManager.clearAll();
+    // CookieManager.clearAll();
   };
 
   handleOnPressRegisterAccount = () => {

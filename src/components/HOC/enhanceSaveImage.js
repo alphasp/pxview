@@ -5,10 +5,10 @@ import {
   Platform,
   Alert,
   PermissionsAndroid,
-  CameraRoll,
   DeviceEventEmitter,
 } from 'react-native';
 import { connect } from 'react-redux';
+import CameraRoll from '@react-native-community/cameraroll';
 import RNFetchBlob from 'rn-fetch-blob';
 import OpenSettings from 'react-native-open-settings';
 import hoistNonReactStatic from 'hoist-non-react-statics';

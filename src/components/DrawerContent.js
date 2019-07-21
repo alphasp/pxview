@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { DrawerItems, DrawerActions, withNavigation } from 'react-navigation';
 import { withTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import CookieManager from 'react-native-cookies';
+// import CookieManager from 'react-native-cookies';
 import { connectLocalization } from './Localization';
 import UserCover from './UserCover';
 import Separator from './Separator';
@@ -169,7 +169,7 @@ class DrawerContent extends Component {
     clearBrowsingHistoryNovels();
     clearSearchHistory();
     // clear cookies set from webview for advance account settings
-    CookieManager.clearAll();
+    // CookieManager.clearAll();
   };
 
   handleOnPressAvatar = () => {
