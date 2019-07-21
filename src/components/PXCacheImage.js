@@ -1,56 +1,35 @@
 import React, { Component } from 'react';
-import { View, Image, Platform } from 'react-native';
-import RNFetchBlob from 'rn-fetch-blob';
+import { View, Image, InteractionManager } from 'react-native';
 import { globalStyleVariables } from '../styles';
 
 class PXCacheImage extends Component {
   constructor(props) {
     super(props);
+    const { width, height } = props;
     this.state = {
-      imageUri: null,
+      width,
+      height,
     };
   }
 
   componentDidMount() {
     const { uri, onFoundImageSize } = this.props;
-    this.task = RNFetchBlob.config({
-      fileCache: true,
-      appendExt: 'png',
-      key: uri,
-      path: `${RNFetchBlob.fs.dirs.CacheDir}/pxview/${uri.split('/').pop()}`,
-    }).fetch('GET', uri, {
-      referer: 'http://www.pixiv.net',
-      // 'Cache-Control' : 'no-store'
-    });
-    this.task
-      .then(res => {
-        if (!this.unmounting) {
-          // const base64Str = `data:image/png;base64,${res.base64()}`;
-          const filePath =
-            Platform.OS === 'android'
-              ? `file://${res.path()}`
-              : `${res.path()}`;
-          Image.getSize(filePath, (width, height) => {
-            if (!this.unmounting) {
-              this.setState({
-                imageUri: filePath,
-                width,
-                height,
-              });
-              if (onFoundImageSize) {
-                onFoundImageSize(width, height, filePath);
-              }
-            }
+    InteractionManager.runAfterInteractions(() => {
+      Image.getSizeWithHeaders(
+        uri,
+        {
+          referer: 'http://www.pixiv.net',
+        },
+        (width, height) => {
+          this.setState({
+            width,
+            height,
+            uri,
           });
-        }
-      })
-      .catch(() => {});
-  }
-  componentWillUnmount() {
-    this.unmounting = true;
-    if (this.task) {
-      this.task.cancel();
-    }
+          onFoundImageSize(width, height, uri);
+        },
+      );
+    });
   }
 
   render() {
