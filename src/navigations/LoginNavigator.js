@@ -1,4 +1,4 @@
-import { createStackNavigator } from 'react-navigation';
+import { createAppContainer, createStackNavigator } from 'react-navigation';
 import Login from '../screens/Login/Login';
 import PrivacyPolicy from '../screens/MyPage/PrivacyPolicy';
 import {
@@ -37,4 +37,4 @@ const LoginNavigator = createStackNavigator(
   },
 );
 
-export default LoginNavigator;
+export default createAppContainer(LoginNavigator);
