@@ -31,6 +31,8 @@ target 'PxView' do
 
   pod 'RNShare', :path => '../node_modules/react-native-share'
 
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
   target 'PxViewTests' do
     inherit! :search_paths
     # Pods for testing

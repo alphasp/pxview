@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, WebView } from 'react-native';
+import { View } from 'react-native';
+import WebView from 'react-native-webview';
 import ProgressBar from 'react-native-progress/Bar';
 import { withTheme } from 'react-native-paper';
 import Loader from './Loader';

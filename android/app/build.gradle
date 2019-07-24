@@ -139,6 +139,7 @@ android {
         }
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
+        multiDexEnabled true
     }
     signingConfigs {
         release {
@@ -196,6 +197,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(':react-native-webview')
     implementation project(':react-native-photo-view')
     implementation project(':rn-fetch-blob')
     implementation project(':@react-native-community_cameraroll')
