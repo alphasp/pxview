@@ -197,6 +197,8 @@ repositories {
 }
 
 dependencies {
+    implementation project(':react-native-screens')
+    implementation project(':react-native-gesture-handler')
     implementation project(':react-native-webview')
     implementation project(':react-native-photo-view')
     implementation project(':rn-fetch-blob')

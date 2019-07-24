@@ -1,6 +1,7 @@
 /* eslint react/prefer-stateless-function:0 */
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
+import { useScreens } from 'react-native-screens';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
@@ -11,6 +12,8 @@ import configureStore from '../../common/store/configureStore';
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 const { store, persistor } = configureStore();
+
+useScreens();
 
 if (process.env.NODE_ENV === 'production') {
   // eslint-disable-line no-undef

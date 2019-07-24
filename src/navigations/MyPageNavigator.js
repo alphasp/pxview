@@ -13,7 +13,7 @@ const routeConfig = {
 
 const stackConfig = {
   headerMode: 'screen',
-  navigationOptions: {
+  defaultNavigationOptions: {
     headerStyle: config.navigation.tab
       ? globalStyles.header
       : globalStyles.headerWithoutShadow,

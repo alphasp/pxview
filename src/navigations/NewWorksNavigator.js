@@ -27,7 +27,7 @@ const routeConfig = {
 };
 
 const stackConfig = {
-  navigationOptions: {
+  navigatiodefaultNavigationOptionsnOptions: {
     headerStyle: config.navigation.tab
       ? globalStyles.header
       : globalStyles.headerWithoutShadow,

@@ -26,7 +26,7 @@ const LoginNavigator = createStackNavigator(
   },
   {
     headerMode: 'screen',
-    navigationOptions: {
+    defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
       },

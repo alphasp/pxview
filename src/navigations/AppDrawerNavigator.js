@@ -24,10 +24,11 @@ const createAppDrawerNavigator = ({ initialRouteName }) =>
       },
     },
     {
-      navigationOptions: {
+      defaultNavigationOptions: {
         headerStyle: globalStyles.header,
         headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
       },
+      unmountInactiveRoutes: true,
       initialRouteName,
       cardStyle: globalStyles.card,
       contentComponent: DrawerContent,

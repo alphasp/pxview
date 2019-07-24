@@ -1,4 +1,4 @@
-import { createStackNavigator } from 'react-navigation';
+import { createAppContainer, createStackNavigator } from 'react-navigation';
 import createAppTabNavigator from './AppTabNavigator';
 import createAppDrawerNavigator from './AppDrawerNavigator';
 import SearchFilterModal from '../screens/Shared/SearchFilterModal';
@@ -20,7 +20,7 @@ import config from '../common/config';
 import { SCREENS } from '../common/constants';
 
 const stackConfig = {
-  navigationOptions: {
+  defaultNavigationOptions: {
     // headerStyle: globalStyles.header,
     headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
     headerBackTitle: null,
@@ -100,7 +100,7 @@ const createAppNavigator = ({ initialRouteName }) => {
     },
     stackConfig,
   );
-  return AppNavigator;
+  return createAppContainer(AppNavigator);
 };
 
 export default createAppNavigator;
