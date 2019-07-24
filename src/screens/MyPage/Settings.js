@@ -77,9 +77,11 @@ class Settings extends Component {
     const zhHantIds = ['zh-TW', 'zh-HK', 'zh-MO'];
     if (zhIds.includes(lang)) {
       return 'zh';
-    } else if (zhHantIds.includes(lang)) {
+    }
+    if (zhHantIds.includes(lang)) {
       return 'zh-TW';
-    } else if (lang === 'ja') {
+    }
+    if (lang === 'ja') {
       return 'ja';
     }
     return 'en';
@@ -127,6 +129,7 @@ class Settings extends Component {
       lang,
     });
   };
+
   handleOnPressListItem = item => {
     const { navigation: { navigate }, i18n } = this.props;
     switch (item.id) {

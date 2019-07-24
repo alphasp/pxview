@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Platform, SafeAreaView } from 'react-native';
 import { HeaderBackButton, withNavigation } from 'react-navigation';
 import { withTheme } from 'react-native-paper';
-import DrawerMenuButton from '../components/DrawerMenuButton';
+import DrawerMenuButton from './DrawerMenuButton';
 import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({

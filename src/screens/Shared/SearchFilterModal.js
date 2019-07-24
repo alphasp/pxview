@@ -223,7 +223,8 @@ class SearchFilterModal extends Component {
   getSelectedLikesFilterValue = (bookmarkNumMin, bookmarkNumMax) => {
     if (!bookmarkNumMin && !bookmarkNumMax) {
       return '';
-    } else if (!bookmarkNumMax) {
+    }
+    if (!bookmarkNumMax) {
       return `bookmarkNumMin=${bookmarkNumMin}`;
     }
     return `bookmarkNumMin=${bookmarkNumMin}&bookmarkNumMax=${bookmarkNumMax}`;

@@ -162,7 +162,6 @@ class BookmarkModal extends Component {
   };
 
   countSelectedTags = tags =>
-    // eslint-disable-next-line no-plusplus
     tags.reduce((count, tag) => (tag.is_registered ? ++count : count), 0);
 
   handleOnPressBookmarkButton = () => {

@@ -106,7 +106,8 @@ class About extends Component {
           />
           <View style={styles.nameContainer}>
             <Text style={styles.name}>
-              PxView v{DeviceInfo.getVersion()}
+              PxView v
+              {DeviceInfo.getVersion()}
             </Text>
           </View>
         </View>

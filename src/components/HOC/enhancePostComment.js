@@ -24,7 +24,8 @@ const enhancePostComment = WrappedComponent => {
           { cancelable: false },
         );
         return false;
-      } else if (user.mail_address && !user.is_mail_authorized) {
+      }
+      if (user.mail_address && !user.is_mail_authorized) {
         Alert.alert(
           i18n.emailVerificationPostComment,
           null,

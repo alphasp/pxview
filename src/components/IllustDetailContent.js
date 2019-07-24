@@ -217,7 +217,8 @@ class IllustDetailContent extends Component {
           <OverlayMutedIndicator />
         </View>
       );
-    } else if (item.type === 'ugoira') {
+    }
+    if (item.type === 'ugoira') {
       return <UgoiraViewTouchable item={item} />;
     }
     return (

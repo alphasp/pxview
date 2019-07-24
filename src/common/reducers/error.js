@@ -7,7 +7,8 @@ export default function error(state = null, action) {
   const { type, payload, error } = action;
   if (type === ERROR.CLEAR) {
     return null;
-  } else if (error) {
+  }
+  if (error) {
     return payload;
   }
   return state;

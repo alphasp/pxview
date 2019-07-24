@@ -30,11 +30,13 @@ class LanguageSettingsModal extends Component {
   mapSelectedValue = lang => {
     if (['zh', 'zh-CN', 'zh-SG'].includes(lang)) {
       return 'zh';
-    } else if (['zh-TW', 'zh-HK', 'zh-MO'].includes(lang)) {
+    }
+    if (['zh-TW', 'zh-HK', 'zh-MO'].includes(lang)) {
       return 'zh-TW';
     }
     return lang;
   };
+
   handleOnCancelPickerDialog = () => {
     const { closeModal } = this.props;
     closeModal();

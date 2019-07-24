@@ -54,7 +54,8 @@ class MyPixivNewWorks extends Component {
           renderHeader={this.renderHeader}
         />
       );
-    } else if (index === 1) {
+    }
+    if (index === 1) {
       return (
         <MyPixivNovels
           navigation={navigation}

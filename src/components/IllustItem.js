@@ -7,8 +7,8 @@ import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
 import OverlayImagePages from './OverlayImagePages';
 import OverlayUgoiraIndicator from './OverlayUgoiraIndicator';
-import OverlayBookmarkIllustButton from '../components/OverlayBookmarkIllustButton';
-import OverlayMutedIndicator from '../components/OverlayMutedIndicator';
+import OverlayBookmarkIllustButton from './OverlayBookmarkIllustButton';
+import OverlayMutedIndicator from './OverlayMutedIndicator';
 import { makeGetIllustItem } from '../common/selectors';
 import { globalStyleVariables } from '../styles';
 

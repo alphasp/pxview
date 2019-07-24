@@ -3,8 +3,8 @@ import { View, StyleSheet, Text } from 'react-native';
 import PXTouchable from './PXTouchable';
 import PXImage from './PXImage';
 import OverlayNovelPages from './OverlayNovelPages';
-import OverlayBookmarkNovelButton from '../components/OverlayBookmarkNovelButton';
-import OverlayMutedIndicator from '../components/OverlayMutedIndicator';
+import OverlayBookmarkNovelButton from './OverlayBookmarkNovelButton';
+import OverlayMutedIndicator from './OverlayMutedIndicator';
 import { globalStyleVariables } from '../styles';
 
 const HIGHLIGHT_BORDER_WIDTH = 3;

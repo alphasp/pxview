@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import enhanceSaveImage from '../components/HOC/enhanceSaveImage';
-import PXTouchable from '../components/PXTouchable';
+import enhanceSaveImage from './HOC/enhanceSaveImage';
+import PXTouchable from './PXTouchable';
 
 const styles = StyleSheet.create({
   icon: {

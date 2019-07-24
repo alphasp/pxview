@@ -69,7 +69,8 @@ class NovelViewer extends Component {
           {defaultRenderer(node.children, parent)}
         </Text>
       );
-    } else if (node.name === 'jump') {
+    }
+    if (node.name === 'jump') {
       const { page } = node.attribs;
       return (
         <Text

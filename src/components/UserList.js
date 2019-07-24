@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, FlatList, RefreshControl } from 'react-native';
 import { Text } from 'react-native-paper';
-import Loader from '../components/Loader';
-import PXTouchable from '../components/PXTouchable';
-import PXThumbnailTouchable from '../components/PXThumbnailTouchable';
+import Loader from './Loader';
+import PXTouchable from './PXTouchable';
+import PXThumbnailTouchable from './PXThumbnailTouchable';
 import FollowButtonContainer from '../containers/FollowButtonContainer';
 import IllustItem from './IllustItem';
 import NovelItem from './NovelItem';

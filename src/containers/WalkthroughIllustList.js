@@ -11,8 +11,11 @@ const ILLUST_COLUMNS = 3;
 
 class WalkthroughIllustList extends Component {
   scrollOffset = 0;
+
   tmpFps = 0;
+
   fps = 0;
+
   last = 0;
 
   componentDidMount() {

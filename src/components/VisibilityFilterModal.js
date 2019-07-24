@@ -1,6 +1,6 @@
 import React from 'react';
-import { connectLocalization } from '../components/Localization';
-import SingleChoiceDialog from '../components/SingleChoiceDialog';
+import { connectLocalization } from './Localization';
+import SingleChoiceDialog from './SingleChoiceDialog';
 
 const VisibilityFilterModal = ({
   isOpen,

@@ -7,8 +7,8 @@ import {
   Modal,
 } from 'react-native';
 import { withTheme, Text } from 'react-native-paper';
-import { connectLocalization } from '../components/Localization';
-import PXTouchable from '../components/PXTouchable';
+import { connectLocalization } from './Localization';
+import PXTouchable from './PXTouchable';
 import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({

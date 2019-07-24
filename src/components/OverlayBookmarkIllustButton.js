@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import BookmarkIllustButton from '../components/BookmarkIllustButton';
+import BookmarkIllustButton from './BookmarkIllustButton';
 
 const styles = StyleSheet.create({
   container: {
