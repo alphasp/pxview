@@ -37,6 +37,10 @@ target 'PxView' do
 
   pod 'RNScreens', :path => '../node_modules/react-native-screens'
 
+  pod 'RNCViewpager', :path => '../node_modules/@react-native-community/viewpager'
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'PxViewTests' do
     inherit! :search_paths
     # Pods for testing
