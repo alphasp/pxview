@@ -44,10 +44,8 @@ public class UgoiraView extends ImageView {
 
         animationDrawable.setOneShot(false);
         animationDrawable.start();
-
         this.setImageDrawable(animationDrawable);
     }
-
 
     public void setImages(final ReadableArray images) {
         models = new ArrayList<>(images.size());
@@ -55,53 +53,61 @@ public class UgoiraView extends ImageView {
             ReadableMap map = images.getMap(index);
             models.add(index, new UgoiraViewModel(map.getString("uri"), map.getInt("delay"), null));
         }
-        final Context context = this.getContext();
-        Observable.fromIterable(models).flatMap(new Function<UgoiraViewModel, ObservableSource<UgoiraViewModel>>() {
-            @Override
-            public ObservableSource<UgoiraViewModel> apply(@NonNull final UgoiraViewModel model) throws Exception {
-                return Observable.create(new ObservableOnSubscribe<UgoiraViewModel>() {
-                    @Override
-                    public void subscribe(@NonNull final ObservableEmitter<UgoiraViewModel> e) throws Exception {
-                        Glide.with(context).asBitmap()
-                                .load(model.getUri())
-                                .into(new SimpleTarget<Bitmap>(width, height) {
-                                    @Override
-                                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                                        model.setBitmap(resource);
-                                        e.onNext(model);
-                                        e.onComplete();
-                                    }
-                                });
-                    }
-                });
-            }
-        }).subscribe(new Observer<UgoiraViewModel>() {
-            @Override
-            public void onSubscribe(@NonNull Disposable d) {
+        maybeLoadImages();
+    }
 
-            }
+    private void maybeLoadImages() {
+        if (width > 0 && height > 0 && models.size() > 0) {
+            final Context context = this.getContext();
+            Observable.fromIterable(models).flatMap(new Function<UgoiraViewModel, ObservableSource<UgoiraViewModel>>() {
+                @Override
+                public ObservableSource<UgoiraViewModel> apply(@NonNull final UgoiraViewModel model) throws Exception {
+                    return Observable.create(new ObservableOnSubscribe<UgoiraViewModel>() {
+                        @Override
+                        public void subscribe(@NonNull final ObservableEmitter<UgoiraViewModel> e) throws Exception {
+                            Glide.with(context).asBitmap()
+                                    .load(model.getUri())
+                                    .into(new SimpleTarget<Bitmap>(width, height) {
+                                        @Override
+                                        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                                            model.setBitmap(resource);
+                                            e.onNext(model);
+                                            e.onComplete();
+                                        }
+                                    });
+                        }
+                    });
+                }
+            }).subscribe(new Observer<UgoiraViewModel>() {
+                @Override
+                public void onSubscribe(@NonNull Disposable d) {
 
-            @Override
-            public void onNext(@NonNull UgoiraViewModel ugoiraViewModel) {
-            }
+                }
 
-            @Override
-            public void onError(@NonNull Throwable e) {
-            }
+                @Override
+                public void onNext(@NonNull UgoiraViewModel ugoiraViewModel) {
+                }
 
-            @Override
-            public void onComplete() {
-                setupAnimationDrawable();
-            }
-        });
+                @Override
+                public void onError(@NonNull Throwable e) {
+                }
+
+                @Override
+                public void onComplete() {
+                    setupAnimationDrawable();
+                }
+            });
+        }
     }
 
     public void setWidth(int width) {
         this.width = width;
+        maybeLoadImages();
     }
 
     public void setHeight(int height) {
         this.height = height;
+        maybeLoadImages();
     }
 
     public void setImageScaleType(String resizeMode) {

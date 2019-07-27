@@ -31,7 +31,6 @@ class UgoiraViewTouchable extends Component {
     super(props);
     this.state = {
       ugoiraPath: null,
-      zipPath: null,
       isDownloadingZip: false,
       isStartPlaying: false,
     };
