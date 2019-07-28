@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tagContainer: {
+    flexDirection: 'row',
     justifyContent: 'center',
     backgroundColor: globalStyleVariables.PRIMARY_COLOR,
     borderRadius: 15,
@@ -26,6 +27,12 @@ const styles = StyleSheet.create({
   tagLabel: {
     padding: 2,
     color: '#fff',
+    backgroundColor: 'transparent',
+    fontWeight: 'bold',
+  },
+  translatedTagLabel: {
+    padding: 2,
+    color: '#E0E0E0',
     backgroundColor: 'transparent',
   },
 });
@@ -56,12 +63,22 @@ const Tags = ({ tags, onPressTag, onLongPressTag }) =>
               style={styles.tagContainer}
             >
               <Text style={styles.tagLabel}>
+                #
                 {tag.name}
               </Text>
+              {tag.translated_name &&
+                <Text style={styles.translatedTagLabel}>
+                  {tag.translated_name}
+                </Text>}
             </LinearGradient>
-          : <Text style={styles.tagLabel}>
-              {tag.name}
-            </Text>}
+          : <View style={{ flexDirection: 'row' }}>
+              <Text style={styles.tagLabel}>
+                #{tag.name}
+              </Text>
+              <Text style={styles.translatedTagLabel}>
+                {tag.translated_name}
+              </Text>
+            </View>}
       </PXTouchable>,
     )}
   </View>;
