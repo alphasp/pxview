@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2",
+    "@react-native-community/async-storage": "^1.6.1",
     "@react-native-community/cameraroll": "^1.1.1",
     "@react-native-community/viewpager": "^1.1.7",
     "bluebird": "^3.5.0",

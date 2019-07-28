@@ -6,7 +6,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4';
 import applyAppStateListener from 'redux-enhancer-react-native-appstate';
 import FileSystemStorage from 'redux-persist-filesystem-storage';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import rootReducer from '../reducers';
 import rootSaga from '../sagas';
 import getStoredStateMigrateToFileSystemStorage from './getStoredStateMigrateToFileSystemStorage';
