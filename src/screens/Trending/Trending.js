@@ -144,7 +144,6 @@ class Trending extends Component {
             onChangeText={this.handleOnChangeSearchText}
             onPressBackButton={this.handleOnPressBackButton}
             onSubmitSearch={this.handleOnSubmitSearch}
-            isFocus={isFocusSearchBar}
             withShadow={false}
           />
           <View style={styles.content}>

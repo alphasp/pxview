@@ -213,7 +213,6 @@ class SearchResultTabs extends Component {
                   </View>
                 : null
             }
-            isFocus={isFocusSearchBar}
           />
           <View style={styles.content}>
             {this.renderContent()}

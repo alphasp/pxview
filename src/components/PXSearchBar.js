@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { withTheme } from 'react-native-paper';
-import { SearchBar } from 'react-native-elements';
+import { withTheme, Searchbar } from 'react-native-paper';
+// import { SearchBar } from 'react-native-elements';
 import { connectLocalization } from './Localization';
 import PXHeader from './PXHeader';
 import * as searchHistoryActionCreators from '../common/actions/searchHistory';
 import { SEARCH_TYPES } from '../common/constants';
 import { globalStyles } from '../styles';
 
+const styles = StyleSheet.create({
+  searchBar: {
+    marginRight: 5,
+  },
+});
+
 class PXSearchBar extends Component {
   static defaultProps = {
     searchType: SEARCH_TYPES.ILLUST,
+  };
+
+  state = {
+    firstQuery: '',
   };
 
   handleOnSubmitSearch = e => {
@@ -34,21 +44,11 @@ class PXSearchBar extends Component {
       autoFocus,
       word,
       i18n,
-      isFocus,
-      theme,
     } = this.props;
     return (
       <View style={globalStyles.container}>
-        <SearchBar
-          containerStyle={{
-            backgroundColor: theme.colors.headerBackground,
-            borderTopWidth: 0,
-            borderBottomWidth: 0,
-          }}
-          inputStyle={{
-            backgroundColor: '#fff',
-          }}
-          lightTheme={!theme.dark}
+        <Searchbar
+          style={styles.searchBar}
           selectionColor="#90CAF9"
           placeholder={
             searchType === SEARCH_TYPES.USER
@@ -59,10 +59,8 @@ class PXSearchBar extends Component {
           onFocus={onFocus}
           onChangeText={onChangeText}
           onSubmitEditing={this.handleOnSubmitSearch}
-          returnKeyType="search"
-          defaultValue={word}
+          value={word}
           autoCorrect={false}
-          clearIcon={word && isFocus ? true : false} // eslint-disable-line no-unneeded-ternary
         />
       </View>
     );
