@@ -9,14 +9,13 @@ export default function searchHistory(
   switch (action.type) {
     case SEARCH_HISTORY.ADD: {
       let newItems;
-      const items = state.items;
+      const { items } = state;
       const newItem = action.payload.item;
       if (items && items.length) {
-        if (items.indexOf(newItem) === -1) {
-          newItems = [newItem, ...items.slice(0, 29)];
-        } else {
-          newItems = [...items];
-        }
+        newItems = [
+          newItem,
+          ...items.filter(item => item !== newItem).slice(0, 99),
+        ];
       } else {
         newItems = [newItem];
       }
