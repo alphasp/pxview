@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, FlatList, Keyboard } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Text, Caption } from 'react-native-paper';
 import { connectLocalization } from './Localization';
 import PXTouchable from './PXTouchable';
 import Loader from './Loader';
@@ -10,8 +10,7 @@ import { globalStyles } from '../styles';
 const styles = StyleSheet.create({
   row: {
     padding: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
   },
   searchAutoCompleteHeaderContainer: {
     padding: 10,
@@ -26,11 +25,15 @@ class SearchAutoCompleteList extends PureComponent {
     const { onPressItem } = this.props;
     // TODO - to fix on scroll trigger onPress event
     return (
-      <PXTouchable onPress={() => onPressItem(item)}>
+      <PXTouchable onPress={() => onPressItem(item.name)}>
         <View style={styles.row}>
           <Text>
-            {item}
+            {item.name}
           </Text>
+          {item.translated_name &&
+            <Caption>
+              {item.translated_name}
+            </Caption>}
         </View>
       </PXTouchable>
     );
