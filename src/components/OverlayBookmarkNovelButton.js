@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Text } from 'react-native-paper';
+import { View, StyleSheet, Text } from 'react-native';
 import BookmarkNovelButton from './BookmarkNovelButton';
 
 const styles = StyleSheet.create({
@@ -24,6 +23,7 @@ const styles = StyleSheet.create({
   },
   bookmarkCount: {
     marginRight: 5,
+    color: '#fff',
   },
 });
 
