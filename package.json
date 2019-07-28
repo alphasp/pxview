@@ -16,7 +16,6 @@
     "pod-install": "cd ios && pod install"
   },
   "dependencies": {
-    "@babel/runtime": "^7.1.2",
     "@react-native-community/async-storage": "^1.6.1",
     "@react-native-community/cameraroll": "^1.1.1",
     "@react-native-community/viewpager": "^1.1.7",
@@ -29,7 +28,7 @@
     "lodash.truncate": "^4.4.2",
     "moment": "^2.21.0",
     "normalizr": "^3.2.3",
-    "pixiv-api-client": "^0.18.0",
+    "pixiv-api-client": "^0.19.0",
     "pixiv-novel-parser": "github:alphasp/pixiv-novel-parser",
     "prop-types": "^15.5.10",
     "qs": "^6.5.0",
@@ -96,7 +95,7 @@
     "@babel/plugin-transform-runtime": "^7.0.0-beta.54",
     "@babel/preset-flow": "^7.0.0-beta.54",
     "@babel/register": "^7.0.0-beta.54",
-    "@babel/runtime": "^7.5.0",
+    "@babel/runtime": "^7.5.5",
     "@react-native-community/eslint-config": "^0.0.3",
     "babel-eslint": "^10.0.2",
     "babel-jest": "^24.1.0",
