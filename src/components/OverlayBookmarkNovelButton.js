@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Text } from 'react-native-paper';
 import BookmarkNovelButton from './BookmarkNovelButton';
 
 const styles = StyleSheet.create({
@@ -21,10 +22,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.3)',
     left: 0,
   },
-  text: {
-    marginLeft: 3,
-    color: '#fff',
-    fontSize: 12,
+  bookmarkCount: {
+    marginRight: 5,
   },
 });
 
@@ -35,12 +34,12 @@ const OverlayBookmarkNovelButton = ({ total, gridView, ...restProps }) =>
       gridView ? styles.gridViewContainer : styles.listViewContainer,
     ]}
   >
-    <BookmarkNovelButton {...restProps} />
-    {!gridView &&
-      total > 0 &&
-      <Text style={styles.text}>
+    {total > 0 &&
+      <Text style={styles.bookmarkCount}>
         {total}
       </Text>}
+
+    <BookmarkNovelButton {...restProps} />
   </View>;
 
 export default OverlayBookmarkNovelButton;
