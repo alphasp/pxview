@@ -39,6 +39,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
   },
+  translatedTag: {
+    backgroundColor: 'transparent',
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 10,
+  },
   imageContainer: {
     marginBottom: 1,
   },
@@ -102,8 +108,13 @@ class IllustTagList extends Component {
           />
           <View style={[styles.tagContainer, tagContainerStyle]}>
             <Text style={styles.tag}>
+              #
               {item.tag}
             </Text>
+            {item.translated_name &&
+              <Text style={styles.translatedTag}>
+                {item.translated_name}
+              </Text>}
           </View>
         </View>
       </PXTouchable>
