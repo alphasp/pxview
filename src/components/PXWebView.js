@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import WebView from 'react-native-webview';
 import ProgressBar from 'react-native-progress/Bar';
 import { withTheme } from 'react-native-paper';
-import Loader from './Loader';
 import { globalStyles, globalStyleVariables } from '../styles';
 
 class PXWebView extends Component {
@@ -32,8 +31,6 @@ class PXWebView extends Component {
     this.setState(newState);
   };
 
-  renderLoader = () => <Loader />;
-
   render() {
     const { source, theme, ...otherProps } = this.props;
     const { loadedOnce, loading } = this.state;
@@ -54,7 +51,6 @@ class PXWebView extends Component {
           />}
         <WebView
           source={source}
-          renderLoading={this.renderLoader}
           onLoadStart={this.handleOnLoadStart}
           onLoadEnd={this.handleOnLoadEnd}
           startInLoadingState

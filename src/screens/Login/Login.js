@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {
+  View,
   Image,
   StyleSheet,
-  View,
+  Text,
   Keyboard,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withFormik, Field } from 'formik';
@@ -15,7 +17,7 @@ import PXFormInput from '../../components/PXFormInput';
 import WalkthroughIllustList from '../../containers/WalkthroughIllustList';
 import * as authActionCreators from '../../common/actions/auth';
 import * as modalActionCreators from '../../common/actions/modal';
-import { MODAL_TYPES } from '../../common/constants';
+import { MODAL_TYPES, SCREENS } from '../../common/constants';
 import { globalStyleVariables } from '../../styles';
 
 const styles = StyleSheet.create({
@@ -52,6 +54,11 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
   },
+  privacyPolicy: {
+    color: '#fff',
+    textAlign: 'center',
+    marginTop: 15,
+  },
 });
 
 const validate = (values, props) => {
@@ -78,10 +85,13 @@ const handleOnSubmit = (values, { props }) => {
 
 class Login extends Component {
   handleOnPressSignUp = () => {
-    const { openModal, navigation } = this.props;
-    openModal(MODAL_TYPES.SIGNUP, {
-      navigation,
-    });
+    const { navigation: { navigate } } = this.props;
+    navigate(SCREENS.SignUp);
+  };
+
+  handleOnPressPrivacyPolicy = () => {
+    const { navigation: { navigate } } = this.props;
+    navigate(SCREENS.PrivacyPolicy);
   };
 
   render() {
@@ -154,6 +164,11 @@ class Login extends Component {
                 >
                   {i18n.loginNoAccount}
                 </Button>
+                <TouchableOpacity onPress={this.handleOnPressPrivacyPolicy}>
+                  <Text style={styles.privacyPolicy}>
+                    {i18n.privacyPolicy}
+                  </Text>
+                </TouchableOpacity>
               </View>
             </KeyboardAvoidingView>
             <OverlaySpinner visible={loading} />
