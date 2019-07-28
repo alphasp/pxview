@@ -86,6 +86,7 @@ class WalkthroughIllustList extends Component {
         listKey={listKey}
         onListLayout={this.handleOnListLayout}
         showsVerticalScrollIndicator={false}
+        hideBookmarkButton
       />
     );
   }

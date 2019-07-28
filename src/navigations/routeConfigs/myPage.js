@@ -6,6 +6,7 @@ import Settings from '../../screens/MyPage/Settings';
 import AccountSettings from '../../screens/MyPage/AccountSettings/AccountSettings';
 import AdvanceAccountSettings from '../../screens/MyPage/AccountSettings/AdvanceAccountSettings';
 import SaveImageSettings from '../../screens/MyPage/SaveImageSettings';
+import LikeButtonSettings from '../../screens/MyPage/LikeButtonSettings';
 import HighlightTagsSettings from '../../screens/MyPage/HighlightTagsSettings';
 import MuteTagsSettings from '../../screens/MyPage/MuteTagsSettings';
 import MuteUsersSettings from '../../screens/MyPage/MuteUsersSettings';
@@ -81,6 +82,13 @@ const config = {
     screen: SaveImageSettings,
     navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.saveImageSettings,
+      headerStyle: getThemedHeaderStyle(theme),
+    }),
+  },
+  [SCREENS.LikeButtonSettings]: {
+    screen: LikeButtonSettings,
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+      title: i18n.likeButtonSettings,
       headerStyle: getThemedHeaderStyle(theme),
     }),
   },

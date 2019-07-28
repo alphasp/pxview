@@ -4,6 +4,7 @@ import { Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as Animatable from 'react-native-animatable';
 import PXTouchable from './PXTouchable';
+import { LIKE_BUTTON_ACTION_TYPES } from '../common/constants';
 
 const AnimatableIcon = Animatable.createAnimatableComponent(Icon);
 
@@ -12,10 +13,6 @@ class BookmarkButton extends Component {
     item: PropTypes.object.isRequired,
     onPress: PropTypes.func.isRequired,
     onLongPress: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    authUser: null,
   };
 
   constructor(props) {
@@ -35,7 +32,7 @@ class BookmarkButton extends Component {
       item.is_bookmarked !== prevItem.is_bookmarked &&
       item.is_bookmarked !== isBookmark
     ) {
-      if (item.is_bookmarked && !this.state.isBookmark) {
+      if (item.is_bookmarked && !isBookmark) {
         this.animateBookmark();
       }
       this.setState({
@@ -45,13 +42,17 @@ class BookmarkButton extends Component {
   }
 
   handleOnPress = () => {
-    const { onPress } = this.props;
+    const { onPress, actionType } = this.props;
     const { isBookmark } = this.state;
-    this.animateBookmark();
-    this.setState({
-      isBookmark: !isBookmark,
-    });
-    onPress();
+    if (actionType === LIKE_BUTTON_ACTION_TYPES.EDIT_LIKE) {
+      this.handleOnLongPress();
+    } else {
+      this.animateBookmark();
+      this.setState({
+        isBookmark: !isBookmark,
+      });
+      onPress();
+    }
   };
 
   handleOnLongPress = () => {

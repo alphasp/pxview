@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import BookmarkButton from './BookmarkButton';
 import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
 import * as modalActionCreators from '../common/actions/modal';
-import { MODAL_TYPES } from '../common/constants';
+import {
+  MODAL_TYPES,
+  LIKE_BUTTON_ACTION_TYPES,
+  BOOKMARK_TYPES,
+} from '../common/constants';
 
 class BookmarkIllustButton extends Component {
   static propTypes = {
@@ -16,12 +20,24 @@ class BookmarkIllustButton extends Component {
   };
 
   handleOnPress = () => {
-    const { item, loading, bookmarkIllust, unbookmarkIllust } = this.props;
+    const {
+      item,
+      loading,
+      bookmarkIllust,
+      unbookmarkIllust,
+      actionType,
+    } = this.props;
     if (!loading) {
+      let bookmarkType;
+      if (actionType === LIKE_BUTTON_ACTION_TYPES.PUBLIC_LIKE) {
+        bookmarkType = BOOKMARK_TYPES.PUBLIC;
+      } else if (actionType === LIKE_BUTTON_ACTION_TYPES.PRIVATE_LIKE) {
+        bookmarkType = BOOKMARK_TYPES.PRIVATE;
+      }
       if (item.is_bookmarked) {
         unbookmarkIllust(item.id);
       } else {
-        bookmarkIllust(item.id);
+        bookmarkIllust(item.id, bookmarkType);
       }
     }
   };
@@ -37,11 +53,12 @@ class BookmarkIllustButton extends Component {
   };
 
   render() {
-    const { item, size } = this.props;
+    const { item, size, actionType } = this.props;
     return (
       <BookmarkButton
         item={item}
         size={size}
+        actionType={actionType}
         onPress={this.handleOnPress}
         onLongPress={this.handleOnLongPress}
       />
@@ -52,6 +69,7 @@ class BookmarkIllustButton extends Component {
 export default connect(
   state => ({
     loading: state.bookmarkIllust.loading,
+    actionType: state.likeButtonSettings.actionType,
   }),
   { ...bookmarkIllustActionCreators, ...modalActionCreators },
 )(BookmarkIllustButton);

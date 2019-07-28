@@ -36,14 +36,19 @@ class IllustList extends Component {
     }
   }
 
-  renderItem = ({ item, index }) =>
-    <IllustItem
-      key={item.id}
-      illustId={item.id}
-      index={index}
-      numColumns={ILLUST_COLUMNS}
-      onPressItem={() => this.handleOnPressItem(item, index)}
-    />;
+  renderItem = ({ item, index }) => {
+    const { hideBookmarkButton } = this.props;
+    return (
+      <IllustItem
+        key={item.id}
+        illustId={item.id}
+        index={index}
+        numColumns={ILLUST_COLUMNS}
+        hideBookmarkButton={hideBookmarkButton}
+        onPressItem={() => this.handleOnPressItem(item, index)}
+      />
+    );
+  };
 
   renderFooter = () => {
     const { data: { nextUrl, loading } } = this.props;

@@ -35,6 +35,10 @@ const settingsList = [
     title: 'initialScreenSettings',
   },
   {
+    id: 'likeButtonSettings',
+    title: 'likeButtonSettings',
+  },
+  {
     id: 'tagHighlightSettings',
     title: 'tagHighlightSettings',
   },
@@ -143,6 +147,10 @@ class Settings extends Component {
       }
       case 'initialScreenSettings': {
         this.handleOnPressInitialScreenSettings();
+        break;
+      }
+      case 'likeButtonSettings': {
+        navigate(SCREENS.LikeButtonSettings);
         break;
       }
       case 'tagHighlightSettings': {

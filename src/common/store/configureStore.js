@@ -188,6 +188,7 @@ export default function configureStore() {
       'saveImageSettings',
       'initialScreenSettings',
       'novelSettings',
+      'likeButtonSettings',
       'entities',
       'auth',
       'i18n',

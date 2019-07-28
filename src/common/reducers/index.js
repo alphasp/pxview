@@ -66,6 +66,7 @@ import modal from './modal';
 import saveImageSettings from './saveImageSettings';
 import initialScreenSettings from './initialScreenSettings';
 import novelSettings from './novelSettings';
+import likeButtonSettings from './likeButtonSettings';
 import i18n from './i18n';
 import theme from './theme';
 import error from './error';
@@ -139,6 +140,7 @@ const rootReducer = combineReducers({
   saveImageSettings,
   initialScreenSettings,
   novelSettings,
+  likeButtonSettings,
   i18n,
   theme,
 });

@@ -7,6 +7,7 @@ import NovelSettingsModal from './NovelSettingsModal';
 import InitialScreenSettingsModal from './InitialScreenSettingsModal';
 import LanguageSettingsModal from './LanguageSettingsModal';
 import SaveImageFileNameModal from './SaveImageFileNameModal';
+import LikeButtonSettingsModal from './LikeButtonSettingsModal';
 import SignUpModal from './SignUpModal';
 
 const MODAL_COMPONENTS = {
@@ -17,6 +18,7 @@ const MODAL_COMPONENTS = {
   INITIAL_SCREEN_SETTINGS: InitialScreenSettingsModal,
   LANGUAGE_SETTINGS: LanguageSettingsModal,
   SAVE_IMAGE_FILE_NAME_FORMAT: SaveImageFileNameModal,
+  LIKE_BUTTON_SETTINGS: LikeButtonSettingsModal,
   SIGNUP: SignUpModal,
 };
 

@@ -455,6 +455,12 @@ export const INITIAL_SCREEN_SETTINGS = defineAction(
   appNamespace,
 );
 
+export const LIKE_BUTTON_SETTINGS = defineAction(
+  'LIKE_BUTTON_SETTINGS',
+  [SET],
+  appNamespace,
+);
+
 export const THEME = defineAction('THEME', [SET], appNamespace);
 
 export const MODAL = defineAction('MODAL', [OPEN, CLOSE], appNamespace);

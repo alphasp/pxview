@@ -21,6 +21,7 @@ export const MODAL_TYPES = {
   INITIAL_SCREEN_SETTINGS: 'INITIAL_SCREEN_SETTINGS',
   LANGUAGE_SETTINGS: 'LANGUAGE_SETTINGS',
   SAVE_IMAGE_FILE_NAME_FORMAT: 'SAVE_IMAGE_FILE_NAME_FORMAT',
+  LIKE_BUTTON_SETTINGS: 'LIKE_BUTTON_SETTINGS',
   SIGNUP: 'SIGNUP',
 };
 
@@ -153,6 +154,12 @@ export const SAVE_FILE_NAME_FORMAT = {
   WORK_ID_WORK_TITLE: 'WORK_ID_WORK_TITLE',
 };
 
+export const LIKE_BUTTON_ACTION_TYPES = {
+  PUBLIC_LIKE: 'PUBLIC_LIKE',
+  PRIVATE_LIKE: 'PRIVATE_LIKE',
+  EDIT_LIKE: 'EDIT_LIKE',
+};
+
 export const SCREENS = {
   Main: 'Main',
   Login: 'Login',
@@ -201,6 +208,7 @@ export const SCREENS = {
   AdvanceAccountSettings: 'AdvanceAccountSettings',
   SaveImageSettings: 'SaveImageSettings',
   InitialScreenSettings: 'InitialScreenSettings',
+  LikeButtonSettings: 'LikeButtonSettings',
   HighlightTagsSettings: 'HighlightTagsSettings',
   MuteTagsSettings: 'MuteTagsSettings',
   MuteUsersSettings: 'MuteUsersSettings',
