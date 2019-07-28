@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     paddingHorizontal: 12,
     margin: 4,
+    flexWrap: 'wrap',
   },
   highlightTag: {
     backgroundColor: globalStyleVariables.HIGHLIGHT_COLOR,
@@ -71,14 +72,14 @@ const Tags = ({ tags, onPressTag, onLongPressTag }) =>
                   {tag.translated_name}
                 </Text>}
             </LinearGradient>
-          : <View style={{ flexDirection: 'row' }}>
+          : <>
               <Text style={styles.tagLabel}>
                 #{tag.name}
               </Text>
               <Text style={styles.translatedTagLabel}>
                 {tag.translated_name}
               </Text>
-            </View>}
+            </>}
       </PXTouchable>,
     )}
   </View>;
