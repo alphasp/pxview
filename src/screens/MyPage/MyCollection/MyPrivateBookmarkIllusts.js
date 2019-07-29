@@ -66,13 +66,16 @@ class MyPrivateBookmarkIllusts extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { myPrivateBookmarkIllusts } = state;
-  const userId = props.userId || props.navigation.state.params.userId;
-  return {
-    myPrivateBookmarkIllusts,
-    items: getMyPrivateBookmarkIllustsItems(state),
-    userId,
-    listKey: props.navigation.state.key,
-  };
-}, myPrivateBookmarkIllustActionCreators)(MyPrivateBookmarkIllusts);
+export default connect(
+  (state, props) => {
+    const { myPrivateBookmarkIllusts } = state;
+    const userId = props.userId || props.navigation.state.params.userId;
+    return {
+      myPrivateBookmarkIllusts,
+      items: getMyPrivateBookmarkIllustsItems(state),
+      userId,
+      listKey: props.navigation.state.key,
+    };
+  },
+  myPrivateBookmarkIllustActionCreators,
+)(MyPrivateBookmarkIllusts);

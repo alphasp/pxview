@@ -11,9 +11,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const HeaderSettingsButton = ({ onPress, color, style, ...restProps }) =>
+const HeaderSettingsButton = ({ onPress, color, style, ...restProps }) => (
   <PXTouchable onPress={onPress} style={style} {...restProps}>
     <Icon name="cog" size={20} style={styles.icon} color={color || '#fff'} />
-  </PXTouchable>;
+  </PXTouchable>
+);
 
 export default HeaderSettingsButton;

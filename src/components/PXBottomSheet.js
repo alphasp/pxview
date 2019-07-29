@@ -100,9 +100,7 @@ class PXBottomSheet extends Component {
               ]}
             >
               <TouchableWithoutFeedback>
-                <View>
-                  {children}
-                </View>
+                <View>{children}</View>
               </TouchableWithoutFeedback>
             </Animated.View>
           </View>

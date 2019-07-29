@@ -76,14 +76,20 @@ class RankingHorizontalList extends Component {
   };
 
   handleOnPressViewMore = () => {
-    const { navigation: { navigate }, rankingType } = this.props;
+    const {
+      navigation: { navigate },
+      rankingType,
+    } = this.props;
     navigate(SCREENS.Ranking, {
       rankingType,
     });
   };
 
   handleOnPressItem = item => {
-    const { items, navigation: { push } } = this.props;
+    const {
+      items,
+      navigation: { push },
+    } = this.props;
     const index = items.findIndex(i => i.id === item.id);
     push(SCREENS.Detail, {
       items,
@@ -103,7 +109,7 @@ class RankingHorizontalList extends Component {
     }
   };
 
-  renderItem = ({ item, index }) =>
+  renderItem = ({ item, index }) => (
     <View style={styles.sliderContainer}>
       <IllustItem
         key={item.id}
@@ -112,7 +118,8 @@ class RankingHorizontalList extends Component {
         numColumns={3}
         onPressItem={() => this.handleOnPressItem(item)}
       />
-    </View>;
+    </View>
+  );
 
   render() {
     const {
@@ -133,9 +140,7 @@ class RankingHorizontalList extends Component {
             style={styles.viewMoreContainer}
             onPress={this.handleOnPressViewMore}
           >
-            <Text>
-              {i18n.viewMore}
-            </Text>
+            <Text>{i18n.viewMore}</Text>
             <Icon
               name="chevron-right"
               style={styles.chevronIcon}
@@ -144,7 +149,7 @@ class RankingHorizontalList extends Component {
           </PXTouchable>
         </View>
         {loading && <Loader />}
-        {loaded &&
+        {loaded && (
           <Carousel
             ref={ref => {
               this.carousel = ref;
@@ -157,7 +162,8 @@ class RankingHorizontalList extends Component {
             enableMomentum
             decelerationRate={0.9}
             enableSnap={false}
-          />}
+          />
+        )}
       </View>
     );
   }
@@ -165,15 +171,18 @@ class RankingHorizontalList extends Component {
 
 export default withTheme(
   connectLocalization(
-    connect(() => {
-      const getRankingItems = makeGetIllustRankingItems();
-      return (state, props) => {
-        const { ranking } = state;
-        return {
-          ranking: ranking[props.rankingMode],
-          items: getRankingItems(state, props),
+    connect(
+      () => {
+        const getRankingItems = makeGetIllustRankingItems();
+        return (state, props) => {
+          const { ranking } = state;
+          return {
+            ranking: ranking[props.rankingMode],
+            items: getRankingItems(state, props),
+          };
         };
-      };
-    }, rankingActionCreators)(RankingHorizontalList),
+      },
+      rankingActionCreators,
+    )(RankingHorizontalList),
   ),
 );

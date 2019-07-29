@@ -21,12 +21,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const OverlayNovelPages = ({ total }) =>
+const OverlayNovelPages = ({ total }) => (
   <View style={styles.container}>
     <Icon name="book" color="#fff" />
-    <Text style={styles.text}>
-      {total}
-    </Text>
-  </View>;
+    <Text style={styles.text}>{total}</Text>
+  </View>
+);
 
 export default OverlayNovelPages;

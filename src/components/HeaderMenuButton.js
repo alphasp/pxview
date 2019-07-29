@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const HeaderMenuButton = ({ onPress, color, style, ...restProps }) =>
+const HeaderMenuButton = ({ onPress, color, style, ...restProps }) => (
   <PXTouchable onPress={onPress} style={style} {...restProps}>
     <Icon
       name="ellipsis-v"
@@ -19,6 +19,7 @@ const HeaderMenuButton = ({ onPress, color, style, ...restProps }) =>
       style={styles.icon}
       color={color || '#fff'}
     />
-  </PXTouchable>;
+  </PXTouchable>
+);
 
 export default HeaderMenuButton;

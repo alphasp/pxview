@@ -68,7 +68,11 @@ class NovelSettingsModal extends Component {
   };
 
   render() {
-    const { novelSettings: { fontSize, lineHeight }, i18n, theme } = this.props;
+    const {
+      novelSettings: { fontSize, lineHeight },
+      i18n,
+      theme,
+    } = this.props;
     return (
       <Modal
         animationType="fade"
@@ -86,9 +90,7 @@ class NovelSettingsModal extends Component {
                     { backgroundColor: theme.colors.modalTitleBackground },
                   ]}
                 >
-                  <Text style={styles.title}>
-                    {i18n.novelSettings}
-                  </Text>
+                  <Text style={styles.title}>{i18n.novelSettings}</Text>
                 </View>
                 <View style={styles.form}>
                   <Icon name="font" size={14} color={theme.colors.text} />

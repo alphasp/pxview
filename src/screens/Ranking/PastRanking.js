@@ -101,7 +101,9 @@ class PastRanking extends Component {
     }
     this.state = {
       isOpenRankingModeBottomSheet: false,
-      date: moment().subtract(2, 'days').format('YYYY-MM-DD'),
+      date: moment()
+        .subtract(2, 'days')
+        .format('YYYY-MM-DD'),
       mode,
     };
   }
@@ -128,14 +130,15 @@ class PastRanking extends Component {
     return i18n[`ranking${ranking.charAt(0).toUpperCase() + ranking.slice(1)}`];
   };
 
-  renderRankingOptions = (ranking, rankingMode) =>
+  renderRankingOptions = (ranking, rankingMode) => (
     <PXBottomSheetButton
       key={ranking}
       onPress={() => this.handleOnPressRankingMode(rankingMode)}
       iconName="md-funnel"
       iconType="ionicon"
       text={this.mapRankingString(ranking)}
-    />;
+    />
+  );
 
   render() {
     const {
@@ -197,17 +200,19 @@ class PastRanking extends Component {
             onDateChange={this.handleOnDateChange}
           />
         </View>
-        {rankingType === RANKING_TYPES.NOVEL
-          ? <NovelRankingList
-              rankingMode={rankingMode}
-              options={{ date, mode }}
-              navigation={navigation}
-            />
-          : <RankingList
-              rankingMode={rankingMode}
-              options={{ date, mode }}
-              navigation={navigation}
-            />}
+        {rankingType === RANKING_TYPES.NOVEL ? (
+          <NovelRankingList
+            rankingMode={rankingMode}
+            options={{ date, mode }}
+            navigation={navigation}
+          />
+        ) : (
+          <RankingList
+            rankingMode={rankingMode}
+            options={{ date, mode }}
+            navigation={navigation}
+          />
+        )}
 
         <PXBottomSheet
           visible={isOpenRankingModeBottomSheet}

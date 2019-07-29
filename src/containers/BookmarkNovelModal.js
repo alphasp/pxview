@@ -44,7 +44,11 @@ class BookmarkNovelModal extends Component {
   };
 
   render() {
-    const { novelBookmarkDetail: { item }, novelId, isBookmark } = this.props;
+    const {
+      novelBookmarkDetail: { item },
+      novelId,
+      isBookmark,
+    } = this.props;
     return (
       <BookmarkModal
         item={item}

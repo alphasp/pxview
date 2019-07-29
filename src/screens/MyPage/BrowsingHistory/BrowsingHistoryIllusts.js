@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import IllustList from '../../../components/IllustList';
 import { getBrowsingHistoryIllustsItems } from '../../../common/selectors';
 
-const BrowsingHistoryIllusts = ({ browsingHistoryIllusts, items, listKey }) =>
-  <IllustList data={{ ...browsingHistoryIllusts, items }} listKey={listKey} />;
+const BrowsingHistoryIllusts = ({ browsingHistoryIllusts, items, listKey }) => (
+  <IllustList data={{ ...browsingHistoryIllusts, items }} listKey={listKey} />
+);
 
 export default connect((state, props) => {
   const { browsingHistoryIllusts } = state;

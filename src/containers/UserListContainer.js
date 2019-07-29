@@ -8,5 +8,10 @@ import * as followUserActionCreators from '../common/actions/followUser';
 const UserListContainer = props => <UserList {...props} />;
 
 export default withTheme(
-  withNavigation(connect(null, followUserActionCreators)(UserListContainer)),
+  withNavigation(
+    connect(
+      null,
+      followUserActionCreators,
+    )(UserListContainer),
+  ),
 );

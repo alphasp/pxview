@@ -42,9 +42,8 @@ class ImagesViewer extends Component {
 
   handleOnImageLoaded = imageUrl => {
     this.setState(({ images }) => ({
-      images: images.map(
-        image =>
-          image.url === imageUrl ? { ...image, loading: false } : image,
+      images: images.map(image =>
+        image.url === imageUrl ? { ...image, loading: false } : image,
       ),
     }));
   };
@@ -56,9 +55,11 @@ class ImagesViewer extends Component {
   };
 
   renderPager = props =>
-    Platform.OS === 'ios'
-      ? <TabViewPagerScroll {...props} />
-      : <TabViewPagerPan {...props} />;
+    Platform.OS === 'ios' ? (
+      <TabViewPagerScroll {...props} />
+    ) : (
+      <TabViewPagerPan {...props} />
+    );
 
   renderScene = ({ route, index }) => {
     if (Math.abs(this.state.index - this.state.routes.indexOf(route)) > 2) {
@@ -67,8 +68,9 @@ class ImagesViewer extends Component {
     const image = this.state.images[index];
     return (
       <View key={image.url} style={styles.slide}>
-        {image.loading &&
-          <Loader absolutePosition style={styles.loader} color="#fff" />}
+        {image.loading && (
+          <Loader absolutePosition style={styles.loader} color="#fff" />
+        )}
         <PXPhotoView
           uri={image.url}
           onLoad={this.handleOnImageLoaded}
@@ -95,7 +97,7 @@ class ImagesViewer extends Component {
           translucent
           animated
         />
-        {!hideHeader &&
+        {!hideHeader && (
           <PXHeader
             darkTheme
             withShadow
@@ -118,7 +120,8 @@ class ImagesViewer extends Component {
                 userName={item.user.name}
               />
             }
-          />}
+          />
+        )}
         <TabViewAnimated
           style={globalStyles.container}
           navigationState={this.state}

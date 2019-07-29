@@ -61,7 +61,8 @@ class IllustTagList extends Component {
     let tagContainerStyle = {};
     if (index === 0) {
       const width = globalStyleVariables.WINDOW_WIDTH;
-      const height = globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS * 2 - 1;
+      const height =
+        (globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS) * 2 - 1;
       imageContainerStyle = {
         width,
         height,
@@ -107,14 +108,10 @@ class IllustTagList extends Component {
             style={[styles.image, imageStyle]}
           />
           <View style={[styles.tagContainer, tagContainerStyle]}>
-            <Text style={styles.tag}>
-              #
-              {item.tag}
-            </Text>
-            {item.translated_name &&
-              <Text style={styles.translatedTag}>
-                {item.translated_name}
-              </Text>}
+            <Text style={styles.tag}>#{item.tag}</Text>
+            {item.translated_name && (
+              <Text style={styles.translatedTag}>{item.translated_name}</Text>
+            )}
           </View>
         </View>
       </PXTouchable>
@@ -122,7 +119,11 @@ class IllustTagList extends Component {
   };
 
   handleOnPressItem = item => {
-    const { addSearchHistory, searchType, navigation: { push } } = this.props;
+    const {
+      addSearchHistory,
+      searchType,
+      navigation: { push },
+    } = this.props;
     addSearchHistory(item.tag);
     push(SCREENS.SearchResult, {
       word: item.tag,
@@ -144,21 +145,26 @@ class IllustTagList extends Component {
         ]}
       >
         {(!items || (!loaded && loading)) && <Loader />}
-        {items && items.length
-          ? <ScrollView
-              contentContainerStyle={styles.contentContainer}
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
-            >
-              {items.map(this.renderItem)}
-            </ScrollView>
-          : null}
+        {items && items.length ? (
+          <ScrollView
+            contentContainerStyle={styles.contentContainer}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          >
+            {items.map(this.renderItem)}
+          </ScrollView>
+        ) : null}
       </View>
     );
   }
 }
 
 export default withTheme(
-  withNavigation(connect(null, searchHistoryActionCreators)(IllustTagList)),
+  withNavigation(
+    connect(
+      null,
+      searchHistoryActionCreators,
+    )(IllustTagList),
+  ),
 );

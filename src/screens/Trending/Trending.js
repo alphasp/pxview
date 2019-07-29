@@ -149,14 +149,15 @@ class Trending extends Component {
           <View style={styles.content}>
             {this.renderHeader()}
             {this.renderContent()}
-            {isFocusSearchBar &&
+            {isFocusSearchBar && (
               <Search
                 word={word}
                 navigation={navigation}
                 searchType={searchType}
                 onSubmitSearch={this.handleOnSubmitSearch}
                 onChangePill={this.handleOnChangePill}
-              />}
+              />
+            )}
           </View>
         </View>
       </AndroidBackHandler>

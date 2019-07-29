@@ -9,13 +9,14 @@ const HighlightTagsSettings = ({
   i18n,
   addHighlightTag,
   removeHighlightTag,
-}) =>
+}) => (
   <TagSettings
     items={highlightTags}
     textInputPlaceholder={i18n.tagHighlightAdd}
     addTag={addHighlightTag}
     removeTag={removeHighlightTag}
-  />;
+  />
+);
 
 export default connectLocalization(
   connect(

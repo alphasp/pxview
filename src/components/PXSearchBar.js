@@ -92,6 +92,11 @@ class PXSearchBar extends Component {
 
 export default connectLocalization(
   withTheme(
-    withNavigation(connect(null, searchHistoryActionCreators)(PXSearchBar)),
+    withNavigation(
+      connect(
+        null,
+        searchHistoryActionCreators,
+      )(PXSearchBar),
+    ),
   ),
 );

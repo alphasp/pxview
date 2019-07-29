@@ -81,7 +81,10 @@ class DrawerContent extends Component {
   };
 
   handleOnDrawerItemPress = (item, focused) => {
-    const { user, navigation: { navigate, dispatch } } = this.props;
+    const {
+      user,
+      navigation: { navigate, dispatch },
+    } = this.props;
     // navigation.closeDrawer();
     dispatch(DrawerActions.closeDrawer());
     if (!focused) {
@@ -173,7 +176,10 @@ class DrawerContent extends Component {
   };
 
   handleOnPressAvatar = () => {
-    const { user, navigation: { navigate, dispatch } } = this.props;
+    const {
+      user,
+      navigation: { navigate, dispatch },
+    } = this.props;
     // navigation.closeDrawer();
     dispatch(DrawerActions.closeDrawer());
     navigate(SCREENS.UserDetail, {
@@ -182,7 +188,11 @@ class DrawerContent extends Component {
   };
 
   handleOnPressChangeTheme = () => {
-    const { themeName, setTheme, navigation: { navigate } } = this.props;
+    const {
+      themeName,
+      setTheme,
+      navigation: { navigate },
+    } = this.props;
     if (themeName === THEME_TYPES.DARK) {
       setTheme(THEME_TYPES.LIGHT);
     } else {
@@ -198,14 +208,14 @@ class DrawerContent extends Component {
     }
     return (
       <View>
-        {list.map(item =>
+        {list.map(item => (
           <DrawerNavigatorItem
             key={item.id}
             label={i18n[item.title]}
             icon={<Icon name={item.icon} size={item.size || 24} />}
             onPress={() => this.handleOnDrawerItemPress(item)}
-          />,
-        )}
+          />
+        ))}
       </View>
     );
   };

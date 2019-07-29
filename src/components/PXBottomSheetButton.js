@@ -24,22 +24,21 @@ const PXBottomSheetButton = ({
   text,
   textStyle,
   theme,
-}) =>
+}) => (
   <PXTouchable onPress={onPress}>
     <View style={styles.bottomSheetListItem}>
-      {iconName &&
-        iconType &&
+      {iconName && iconType && (
         <Icon
           name={iconName}
           type={iconType}
           size={iconSize || 24}
           color={theme.colors.text}
-        />}
+        />
+      )}
 
-      <Text style={[styles.bottomSheetText, textStyle]}>
-        {text}
-      </Text>
+      <Text style={[styles.bottomSheetText, textStyle]}>{text}</Text>
     </View>
-  </PXTouchable>;
+  </PXTouchable>
+);
 
 export default withTheme(PXBottomSheetButton);

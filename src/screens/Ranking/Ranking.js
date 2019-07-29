@@ -119,17 +119,19 @@ class Ranking extends Component {
     return (
       <TabContentWrapper active={index === this.state.index}>
         {rankingMode === RANKING_FOR_UI.PAST_ILLUST ||
-        rankingMode === RANKING_FOR_UI.PAST_MANGA
-          ? <PastRanking
-              rankingType={rankingType}
-              rankingMode={rankingMode}
-              navigation={navigation}
-            />
-          : <RankingList
-              rankingMode={rankingMode}
-              navigation={navigation}
-              reload={reload}
-            />}
+        rankingMode === RANKING_FOR_UI.PAST_MANGA ? (
+          <PastRanking
+            rankingType={rankingType}
+            rankingMode={rankingMode}
+            navigation={navigation}
+          />
+        ) : (
+          <RankingList
+            rankingMode={rankingMode}
+            navigation={navigation}
+            reload={reload}
+          />
+        )}
       </TabContentWrapper>
     );
   };

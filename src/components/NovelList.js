@@ -24,8 +24,14 @@ const styles = StyleSheet.create({
 
 class NovelList extends Component {
   componentDidUpdate(prevProps) {
-    const { data: { items: prevItems } } = prevProps;
-    const { data: { items }, listKey, maxItems } = this.props;
+    const {
+      data: { items: prevItems },
+    } = prevProps;
+    const {
+      data: { items },
+      listKey,
+      maxItems,
+    } = this.props;
     if (listKey && (items && items.length) && items !== prevItems) {
       DeviceEventEmitter.emit('masterListUpdate', {
         listKey,
@@ -34,21 +40,24 @@ class NovelList extends Component {
     }
   }
 
-  renderItem = ({ item, index }) =>
+  renderItem = ({ item, index }) => (
     <NovelItem
       key={item.id}
       novelId={item.id}
       index={index}
       onPressItem={() => this.handleOnPressItem(item, index)}
-    />;
+    />
+  );
 
   renderFooter = () => {
-    const { data: { nextUrl, loading } } = this.props;
-    return nextUrl && loading
-      ? <View style={styles.footer}>
-          <Loader />
-        </View>
-      : null;
+    const {
+      data: { nextUrl, loading },
+    } = this.props;
+    return nextUrl && loading ? (
+      <View style={styles.footer}>
+        <Loader />
+      </View>
+    ) : null;
   };
 
   handleOnPressItem = (item, index) => {
@@ -98,41 +107,46 @@ class NovelList extends Component {
       >
         {!loaded && renderHeader && renderHeader()}
         {(!items || (!loaded && loading)) && <Loader />}
-        {loaded
-          ? <FlatList
-              onLayout={this.handleOnLayout}
-              ref={ref => (this.novelList = ref)}
-              data={
-                maxItems && (items && items.length)
-                  ? items.slice(0, maxItems)
-                  : items
-              }
-              keyExtractor={item => item.id.toString()}
-              renderItem={this.renderItem}
-              removeClippedSubviews={Platform.OS === 'android'}
-              initialNumToRender={5}
-              onEndReachedThreshold={onEndReachedThreshold || 0.1}
-              onEndReached={loadMoreItems}
-              ListEmptyComponent={renderEmpty}
-              ListHeaderComponent={renderHeader}
-              ListFooterComponent={this.renderFooter}
-              ItemSeparatorComponent={this.renderSeparator}
-              onScroll={onScroll}
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
-              showsVerticalScrollIndicator={
-                showsVerticalScrollIndicator !== null
-                  ? showsVerticalScrollIndicator
-                  : true
-              }
-            />
-          : null}
+        {loaded ? (
+          <FlatList
+            onLayout={this.handleOnLayout}
+            ref={ref => (this.novelList = ref)}
+            data={
+              maxItems && (items && items.length)
+                ? items.slice(0, maxItems)
+                : items
+            }
+            keyExtractor={item => item.id.toString()}
+            renderItem={this.renderItem}
+            removeClippedSubviews={Platform.OS === 'android'}
+            initialNumToRender={5}
+            onEndReachedThreshold={onEndReachedThreshold || 0.1}
+            onEndReached={loadMoreItems}
+            ListEmptyComponent={renderEmpty}
+            ListHeaderComponent={renderHeader}
+            ListFooterComponent={this.renderFooter}
+            ItemSeparatorComponent={this.renderSeparator}
+            onScroll={onScroll}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            showsVerticalScrollIndicator={
+              showsVerticalScrollIndicator !== null
+                ? showsVerticalScrollIndicator
+                : true
+            }
+          />
+        ) : null}
       </View>
     );
   }
 }
 
 export default withTheme(
-  withNavigation(connect(null, bookmarkIllustActionCreators)(NovelList)),
+  withNavigation(
+    connect(
+      null,
+      bookmarkIllustActionCreators,
+    )(NovelList),
+  ),
 );

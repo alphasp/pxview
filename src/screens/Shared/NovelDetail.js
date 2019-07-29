@@ -195,7 +195,10 @@ class NovelDetail extends Component {
   };
 
   handleOnMasterListUpdate = ({ listKey, items }) => {
-    const { parentListKey, navigation: { setParams } } = this.props;
+    const {
+      parentListKey,
+      navigation: { setParams },
+    } = this.props;
     if (parentListKey === listKey) {
       setParams({ items });
     }
@@ -252,7 +255,10 @@ class NovelDetail extends Component {
   };
 
   handleOnPressNovelImage = () => {
-    const { item, navigation: { push } } = this.props;
+    const {
+      item,
+      navigation: { push },
+    } = this.props;
     push(SCREENS.NovelReader, {
       novelId: item.id,
     });
@@ -282,7 +288,9 @@ class NovelDetail extends Component {
   };
 
   renderHeaderTitle = item => {
-    const { navigation: { push } } = this.props;
+    const {
+      navigation: { push },
+    } = this.props;
     return (
       <View style={styles.headerTitleContainer}>
         <PXTouchable
@@ -314,7 +322,7 @@ class NovelDetail extends Component {
     );
   };
 
-  renderHeaderRight = item =>
+  renderHeaderRight = item => (
     <View style={styles.headerRightContainer}>
       <HeaderInfoButton onPress={this.handleOnPressOpenDetailInfoModal} />
       <HeaderSaveImageButton
@@ -327,7 +335,8 @@ class NovelDetail extends Component {
         userName={item.user.name}
       />
       <HeaderMenuButton onPress={this.handleOnPressOpenMenuBottomSheet} />
-    </View>;
+    </View>
+  );
 
   renderContent = ({ item }) => {
     const { navigation, authUser } = this.props;
@@ -401,14 +410,14 @@ class NovelDetail extends Component {
           ref={ref => (this.detailView = ref)}
         >
           {this.renderMainContent()}
-          {isActionButtonVisible &&
-            item &&
+          {isActionButtonVisible && item && (
             <ActionButton
               buttonColor="rgba(255,255,255,1)"
               bgColor="red"
               icon={<BookmarkNovelButton item={item} />}
               fixNativeFeedbackRadius
-            />}
+            />
+          )}
           <DetailInfoModal
             item={item}
             navigation={navigation}

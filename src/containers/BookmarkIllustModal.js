@@ -44,7 +44,11 @@ class BookmarkIllustModal extends Component {
   };
 
   render() {
-    const { illustBookmarkDetail: { item }, illustId, isBookmark } = this.props;
+    const {
+      illustBookmarkDetail: { item },
+      illustId,
+      isBookmark,
+    } = this.props;
     return (
       <BookmarkModal
         item={item}

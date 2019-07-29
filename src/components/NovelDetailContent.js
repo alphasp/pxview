@@ -42,7 +42,10 @@ class NovelDetailContent extends Component {
   };
 
   handleOnPressNovelImage = () => {
-    const { item, navigation: { navigate } } = this.props;
+    const {
+      item,
+      navigation: { navigate },
+    } = this.props;
     navigate(SCREENS.NovelReader, {
       novelId: item.id,
     });
@@ -54,7 +57,10 @@ class NovelDetailContent extends Component {
   };
 
   handleOnPressTag = tag => {
-    const { addSearchHistory, navigation: { push } } = this.props;
+    const {
+      addSearchHistory,
+      navigation: { push },
+    } = this.props;
     addSearchHistory(tag);
     push(SCREENS.SearchResult, {
       word: tag,
@@ -92,29 +98,31 @@ class NovelDetailContent extends Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          {isMute
-            ? <View
-                style={[
-                  styles.mutedImageContainer,
-                  { backgroundColor: theme.colors.surface },
-                ]}
-              >
-                <OverlayMutedIndicator />
-              </View>
-            : <View>
-                <PXCacheImageTouchable
-                  key={item.image_urls.medium}
-                  uri={item.image_urls.medium}
-                  initWidth={globalStyleVariables.WINDOW_HEIGHT}
-                  initHeight={200}
-                  imageStyle={styles.image}
-                  onPress={this.handleOnPressNovelImage}
-                  onLongPress={onLongPressImage}
-                />
-                {item.page_count > 1
-                  ? <OverlayNovelPages total={item.page_count} />
-                  : null}
-              </View>}
+          {isMute ? (
+            <View
+              style={[
+                styles.mutedImageContainer,
+                { backgroundColor: theme.colors.surface },
+              ]}
+            >
+              <OverlayMutedIndicator />
+            </View>
+          ) : (
+            <View>
+              <PXCacheImageTouchable
+                key={item.image_urls.medium}
+                uri={item.image_urls.medium}
+                initWidth={globalStyleVariables.WINDOW_HEIGHT}
+                initHeight={200}
+                imageStyle={styles.image}
+                onPress={this.handleOnPressNovelImage}
+                onLongPress={onLongPressImage}
+              />
+              {item.page_count > 1 ? (
+                <OverlayNovelPages total={item.page_count} />
+              ) : null}
+            </View>
+          )}
           <DetailFooter
             item={item}
             tags={tags}
@@ -139,13 +147,16 @@ class NovelDetailContent extends Component {
 }
 
 export default withTheme(
-  connect(() => {
-    const getTagsWithStatus = makeGetTagsWithStatus();
-    return (state, props) => ({
-      highlightTags: state.highlightTags.items,
-      muteTags: state.muteTags.items,
-      isMuteUser: state.muteUsers.items.some(m => m === props.item.user.id),
-      tags: getTagsWithStatus(state, props),
-    });
-  }, searchHistoryActionCreators)(NovelDetailContent),
+  connect(
+    () => {
+      const getTagsWithStatus = makeGetTagsWithStatus();
+      return (state, props) => ({
+        highlightTags: state.highlightTags.items,
+        muteTags: state.muteTags.items,
+        isMuteUser: state.muteUsers.items.some(m => m === props.item.user.id),
+        tags: getTagsWithStatus(state, props),
+      });
+    },
+    searchHistoryActionCreators,
+  )(NovelDetailContent),
 );

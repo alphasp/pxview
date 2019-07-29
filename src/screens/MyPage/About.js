@@ -105,31 +105,29 @@ class About extends Component {
             style={styles.logo}
           />
           <View style={styles.nameContainer}>
-            <Text style={styles.name}>
-              PxView v
-              {DeviceInfo.getVersion()}
-            </Text>
+            <Text style={styles.name}>PxView v{DeviceInfo.getVersion()}</Text>
           </View>
         </View>
         <View style={styles.listContainer}>
-          {list.map(item =>
+          {list.map(item => (
             <PXListItem
               key={item.id}
               title={i18n.formatString(
                 i18n[item.title],
                 Platform.OS === 'ios' ? 'App Store' : 'Google Play',
               )}
-              left={({ color }) =>
+              left={({ color }) => (
                 <Icon
                   name={item.icon}
                   type={item.type}
                   color={color}
                   size={item.size}
-                />}
+                />
+              )}
               onPress={() => this.handleOnPressListItem(item)}
               description={item.subtitle}
-            />,
-          )}
+            />
+          ))}
         </View>
       </View>
     );

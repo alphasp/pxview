@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const HeaderFilterButton = ({ onPress, color, ...restProps }) =>
+const HeaderFilterButton = ({ onPress, color, ...restProps }) => (
   <PXTouchable onPress={onPress} {...restProps}>
     <Icon
       name="sliders"
@@ -17,6 +17,7 @@ const HeaderFilterButton = ({ onPress, color, ...restProps }) =>
       style={styles.icon}
       color={color || '#fff'}
     />
-  </PXTouchable>;
+  </PXTouchable>
+);
 
 export default HeaderFilterButton;

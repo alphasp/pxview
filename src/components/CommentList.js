@@ -92,34 +92,33 @@ class CommentList extends Component {
         <View style={styles.nameCommentContainer}>
           <View style={styles.nameContainer}>
             <PXTouchable onPress={() => this.handleOnPressUser(item.user.id)}>
-              <Text style={styles.name}>
-                {item.user.name}
-              </Text>
+              <Text style={styles.name}>{item.user.name}</Text>
             </PXTouchable>
-            {item.user.id === authorId &&
+            {item.user.id === authorId && (
               <View style={styles.authorBadge}>
                 <Text style={styles.authorBadgeText}>
                   {i18n.commentWorkAuthor}
                 </Text>
-              </View>}
+              </View>
+            )}
           </View>
           <View style={styles.comment}>
-            <Text>
-              {item.comment}
-            </Text>
+            <Text>{item.comment}</Text>
           </View>
           <View style={styles.dateAndReply}>
             <Text
               style={[
                 styles.date,
                 theme.dark && {
-                  color: Color(theme.colors.text).alpha(0.7).string(),
+                  color: Color(theme.colors.text)
+                    .alpha(0.7)
+                    .string(),
                 },
               ]}
             >
               {moment(item.date).format('YYYY-MM-DD HH:mm')}
             </Text>
-            {onPressReplyCommentButton &&
+            {onPressReplyCommentButton && (
               <Fragment>
                 <Text> ・ </Text>
                 <PXTouchable
@@ -130,7 +129,8 @@ class CommentList extends Component {
                     {i18n.commentReply}
                   </Text>
                 </PXTouchable>
-              </Fragment>}
+              </Fragment>
+            )}
           </View>
           {item.has_replies &&
             renderCommentReplies &&
@@ -141,12 +141,14 @@ class CommentList extends Component {
   };
 
   renderFooter = () => {
-    const { data: { nextUrl, loading } } = this.props;
-    return nextUrl && loading
-      ? <View style={styles.footer}>
-          <Loader />
-        </View>
-      : null;
+    const {
+      data: { nextUrl, loading },
+    } = this.props;
+    return nextUrl && loading ? (
+      <View style={styles.footer}>
+        <Loader />
+      </View>
+    ) : null;
   };
 
   handleOnPressUser = userId => {
@@ -171,23 +173,23 @@ class CommentList extends Component {
         ]}
       >
         {!loaded && loading && <Loader />}
-        {loaded
-          ? <FlatList
-              data={maxItems ? items.slice(0, maxItems) : items}
-              keyExtractor={item => item.id.toString()}
-              renderItem={this.renderRow}
-              onEndReachedThreshold={0.1}
-              onEndReached={loadMoreItems}
-              removeClippedSubviews={false}
-              ListFooterComponent={this.renderFooter}
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
-            />
-          : null}
-        {loaded &&
-          (!items || !items.length) &&
-          <NoResult text={i18n.noComments} />}
+        {loaded ? (
+          <FlatList
+            data={maxItems ? items.slice(0, maxItems) : items}
+            keyExtractor={item => item.id.toString()}
+            renderItem={this.renderRow}
+            onEndReachedThreshold={0.1}
+            onEndReached={loadMoreItems}
+            removeClippedSubviews={false}
+            ListFooterComponent={this.renderFooter}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          />
+        ) : null}
+        {loaded && (!items || !items.length) && (
+          <NoResult text={i18n.noComments} />
+        )}
       </View>
     );
   }

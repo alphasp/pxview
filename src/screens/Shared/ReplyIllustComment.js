@@ -58,9 +58,7 @@ class ReplyIllustComment extends Component {
     const { state } = navigation;
     const { submit, comment, illustId } = state.params;
     return {
-      headerRight:
-        submit &&
-        illustId &&
+      headerRight: submit && illustId && (
         <PXTouchable onPress={submit} disabled={!comment}>
           <Icon
             name="pencil"
@@ -68,7 +66,8 @@ class ReplyIllustComment extends Component {
             size={20}
             color={comment ? '#fff' : 'gray'}
           />
-        </PXTouchable>,
+        </PXTouchable>
+      ),
     };
   };
 
@@ -80,7 +79,9 @@ class ReplyIllustComment extends Component {
   }
 
   componentDidMount() {
-    const { navigation: { setParams } } = this.props;
+    const {
+      navigation: { setParams },
+    } = this.props;
     setParams({
       submit: this.handleOnSubmitComment,
       comment: '',
@@ -89,7 +90,10 @@ class ReplyIllustComment extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { result: prevResult } = this.props;
-    const { result, navigation: { goBack, state } } = nextProps;
+    const {
+      result,
+      navigation: { goBack, state },
+    } = nextProps;
     if (result !== prevResult && result.success) {
       const { onSubmitComment } = state.params;
       goBack();
@@ -123,20 +127,17 @@ class ReplyIllustComment extends Component {
         <PXThumbnail uri={commentItem.user.profile_image_urls.medium} />
         <View style={styles.nameCommentContainer}>
           <View style={styles.nameContainer}>
-            <Text style={styles.name}>
-              {commentItem.user.name}
-            </Text>
-            {commentItem.user.id === authorId &&
+            <Text style={styles.name}>{commentItem.user.name}</Text>
+            {commentItem.user.id === authorId && (
               <View style={styles.authorBadge}>
                 <Text style={styles.authorBadgeText}>
                   {i18n.commentWorkAuthor}
                 </Text>
-              </View>}
+              </View>
+            )}
           </View>
           <View style={styles.comment}>
-            <Text>
-              {commentItem.comment}
-            </Text>
+            <Text>{commentItem.comment}</Text>
           </View>
         </View>
       </View>
@@ -144,7 +145,11 @@ class ReplyIllustComment extends Component {
   };
 
   render() {
-    const { i18n, result: { loading }, theme } = this.props;
+    const {
+      i18n,
+      result: { loading },
+      theme,
+    } = this.props;
     const { comment } = this.state;
     return (
       <View

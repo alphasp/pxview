@@ -19,16 +19,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const ViewRepliesButton = ({ i18n, onPress, theme }) =>
+const ViewRepliesButton = ({ i18n, onPress, theme }) => (
   <View style={styles.container}>
     <PXTouchable
       hitSlop={{ top: 0, left: 20, bottom: 20, right: 20 }}
       onPress={onPress}
     >
       <View style={styles.viewRepliesContainer}>
-        <Text>
-          {i18n.commentViewReplies}
-        </Text>
+        <Text>{i18n.commentViewReplies}</Text>
         <Icon
           name="chevron-down"
           style={styles.chevronIcon}
@@ -36,6 +34,7 @@ const ViewRepliesButton = ({ i18n, onPress, theme }) =>
         />
       </View>
     </PXTouchable>
-  </View>;
+  </View>
+);
 
 export default withTheme(connectLocalization(ViewRepliesButton));

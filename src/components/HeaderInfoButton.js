@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const HeaderInfoButton = ({ onPress, color, style, ...restProps }) =>
+const HeaderInfoButton = ({ onPress, color, style, ...restProps }) => (
   <PXTouchable onPress={onPress} style={style} {...restProps}>
     <Icon
       name="info-circle"
@@ -17,6 +17,7 @@ const HeaderInfoButton = ({ onPress, color, style, ...restProps }) =>
       style={styles.icon}
       color={color || '#fff'}
     />
-  </PXTouchable>;
+  </PXTouchable>
+);
 
 export default HeaderInfoButton;

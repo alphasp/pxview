@@ -34,17 +34,20 @@ class MuteUsersSettings extends Component {
     DeviceEventEmitter.emit('showToast', message);
   };
 
-  renderItem = ({ item }) =>
+  renderItem = ({ item }) => (
     <PXListItem
       title={item.name}
-      left={() =>
-        <PXThumbnail uri={item.profile_image_urls.medium} size={40} />}
-      right={() =>
+      left={() => (
+        <PXThumbnail uri={item.profile_image_urls.medium} size={40} />
+      )}
+      right={() => (
         <PXListItemRemoveButton
           onPress={() => this.handleOnPressRemoveMuteUser(item.id)}
-        />}
+        />
+      )}
       onPress={() => this.handleOnPressUser(item.id)}
-    />;
+    />
+  );
 
   render() {
     const { i18n, items, theme } = this.props;
@@ -55,17 +58,19 @@ class MuteUsersSettings extends Component {
           { backgroundColor: theme.colors.background },
         ]}
       >
-        {items.length
-          ? <FlatList
-              data={items}
-              keyExtractor={item => item.id.toString()}
-              renderItem={this.renderItem}
-            />
-          : <EmptyStateView
-              iconName="user-times"
-              iconType="font-awesome"
-              title={i18n.noMuteUser}
-            />}
+        {items.length ? (
+          <FlatList
+            data={items}
+            keyExtractor={item => item.id.toString()}
+            renderItem={this.renderItem}
+          />
+        ) : (
+          <EmptyStateView
+            iconName="user-times"
+            iconType="font-awesome"
+            title={i18n.noMuteUser}
+          />
+        )}
       </View>
     );
   }

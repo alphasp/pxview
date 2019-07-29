@@ -43,21 +43,14 @@ const NovelCollection = props => {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Text>
-          {title}
-        </Text>
+        <Text>{title}</Text>
         <PXTouchable
           onPress={onPressViewMore}
           hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
         >
           <View style={styles.viewAllContainer}>
-            {total &&
-              <Text style={styles.total}>
-                {total}
-              </Text>}
-            <Text>
-              {viewMoreTitle}
-            </Text>
+            {total && <Text style={styles.total}>{total}</Text>}
+            <Text>{viewMoreTitle}</Text>
             <Icon
               name="chevron-right"
               style={styles.chevronIcon}

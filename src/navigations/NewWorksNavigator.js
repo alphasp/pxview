@@ -43,8 +43,9 @@ const NewWorksNavigator = createStackNavigator(routeConfig, stackConfig);
 if (!config.navigation.tab) {
   NewWorksNavigator.navigationOptions = ({ screenProps: { i18n } }) => ({
     drawerLabel: i18n.newest,
-    drawerIcon: ({ tintColor }) =>
-      <DrawerIcon name="fiber-new" type="material" color={tintColor} />,
+    drawerIcon: ({ tintColor }) => (
+      <DrawerIcon name="fiber-new" type="material" color={tintColor} />
+    ),
   });
 }
 

@@ -16,13 +16,14 @@ import NewWorks from '../screens/NewWorks/NewWorks';
 import MyPage from '../screens/MyPage/MyPage';
 import { SCREENS } from '../common/constants';
 
-const renderTabBarIcon = (tintColor, focused, name, iconType) =>
+const renderTabBarIcon = (tintColor, focused, name, iconType) => (
   <Icon
     name={name}
     type={iconType || 'font-awesome'}
     size={24}
     color={tintColor}
-  />;
+  />
+);
 
 const tabBarComponent = props => {
   const { theme } = props.screenProps;

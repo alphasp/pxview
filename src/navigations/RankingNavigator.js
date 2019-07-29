@@ -78,8 +78,9 @@ const RankingNavigator = createStackNavigator(routeConfig, stackConfig);
 if (!config.navigation.tab) {
   RankingNavigator.navigationOptions = ({ screenProps: { i18n } }) => ({
     drawerLabel: i18n.ranking,
-    drawerIcon: ({ tintColor }) =>
-      <DrawerIcon name="trophy" color={tintColor} />,
+    drawerIcon: ({ tintColor }) => (
+      <DrawerIcon name="trophy" color={tintColor} />
+    ),
   });
 }
 

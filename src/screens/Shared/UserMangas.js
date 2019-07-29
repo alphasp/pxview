@@ -42,16 +42,19 @@ class UserMangas extends Component {
   }
 }
 
-export default connect(() => {
-  const getUserMangasItems = makeGetUserMangasItems();
-  return (state, props) => {
-    const { userMangas } = state;
-    const userId = props.userId || props.navigation.state.params.userId;
-    return {
-      userMangas: userMangas[userId],
-      items: getUserMangasItems(state, props),
-      userId,
-      listKey: props.navigation.state.key,
+export default connect(
+  () => {
+    const getUserMangasItems = makeGetUserMangasItems();
+    return (state, props) => {
+      const { userMangas } = state;
+      const userId = props.userId || props.navigation.state.params.userId;
+      return {
+        userMangas: userMangas[userId],
+        items: getUserMangasItems(state, props),
+        userId,
+        listKey: props.navigation.state.key,
+      };
     };
-  };
-}, userMangasActionCreators)(UserMangas);
+  },
+  userMangasActionCreators,
+)(UserMangas);

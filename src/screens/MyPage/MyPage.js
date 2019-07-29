@@ -73,7 +73,10 @@ const menuList2 = [
 
 class MyPage extends Component {
   handleOnPressListItem = item => {
-    const { user, navigation: { navigate } } = this.props;
+    const {
+      user,
+      navigation: { navigate },
+    } = this.props;
     switch (item.id) {
       case 'works':
         navigate(SCREENS.MyWorks, { userId: user.id });
@@ -164,7 +167,10 @@ class MyPage extends Component {
   };
 
   handleOnPressAvatar = () => {
-    const { user, navigation: { navigate } } = this.props;
+    const {
+      user,
+      navigation: { navigate },
+    } = this.props;
     if (user) {
       navigate(SCREENS.UserDetail, {
         userId: user.id,
@@ -201,20 +207,21 @@ class MyPage extends Component {
     }
     return (
       <View style={styles.listContainer}>
-        {list.map(item =>
+        {list.map(item => (
           <PXListItem
             key={item.id}
             title={i18n[item.title]}
-            left={({ color }) =>
+            left={({ color }) => (
               <Icon
                 name={item.icon}
                 type={item.type}
                 color={color}
                 size={item.size}
-              />}
+              />
+            )}
             onPress={() => this.handleOnPressListItem(item)}
-          />,
-        )}
+          />
+        ))}
       </View>
     );
   };

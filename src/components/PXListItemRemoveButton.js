@@ -14,7 +14,7 @@ const PXListItemRemoveButton = ({
   color = '#bdc6cf',
   onPress,
   ...restProps
-}) =>
+}) => (
   <PXTouchable
     hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
     style={styles.container}
@@ -22,6 +22,7 @@ const PXListItemRemoveButton = ({
     {...restProps}
   >
     <Icon name="times" size={size} color={color} />
-  </PXTouchable>;
+  </PXTouchable>
+);
 
 export default PXListItemRemoveButton;

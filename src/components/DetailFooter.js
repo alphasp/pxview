@@ -77,7 +77,9 @@ class DetailFooter extends PureComponent {
   };
 
   handleOnPressLink = url => {
-    const { navigation: { push } } = this.props;
+    const {
+      navigation: { push },
+    } = this.props;
     if (url.indexOf('pixiv://illusts/') !== -1) {
       const illustId = url.split('/').pop();
       if (parseInt(illustId, 10)) {
@@ -134,23 +136,20 @@ class DetailFooter extends PureComponent {
               >
                 <PXThumbnail uri={item.user.profile_image_urls.medium} />
                 <View style={styles.nameContainer}>
-                  <Text>
-                    {item.user.name}
-                  </Text>
-                  <Text>
-                    {item.user.account}
-                  </Text>
+                  <Text>{item.user.name}</Text>
+                  <Text>{item.user.account}</Text>
                 </View>
               </PXTouchable>
-              {((authUser && authUser.id !== item.user.id) || !authUser) &&
-                <FollowButtonContainer userId={item.user.id} />}
+              {((authUser && authUser.id !== item.user.id) || !authUser) && (
+                <FollowButtonContainer userId={item.user.id} />
+              )}
             </View>
             <View style={styles.captionContainer}>
-              {item.series &&
-                item.series.id &&
+              {item.series && item.series.id && (
                 <Text style={styles.seriesTitle} selectable>
                   {item.series.title}
-                </Text>}
+                </Text>
+              )}
               <Text style={styles.title} selectable>
                 {item.title}
               </Text>
@@ -162,25 +161,19 @@ class DetailFooter extends PureComponent {
               />
             </View>
             <View style={styles.statContainer}>
-              <Text>
-                {moment(item.create_date).format('YYYY-MM-DD')}
-              </Text>
+              <Text>{moment(item.create_date).format('YYYY-MM-DD')}</Text>
               <Icon
                 name="eye"
                 style={{ marginLeft: 10 }}
                 color={theme.colors.text}
               />
-              <Text style={{ marginLeft: 5 }}>
-                {item.total_view}
-              </Text>
+              <Text style={{ marginLeft: 5 }}>{item.total_view}</Text>
               <Icon
                 name="heart"
                 style={{ marginLeft: 10 }}
                 color={theme.colors.text}
               />
-              <Text style={{ marginLeft: 5 }}>
-                {item.total_bookmarks}
-              </Text>
+              <Text style={{ marginLeft: 5 }}>{item.total_bookmarks}</Text>
             </View>
             <Tags
               tags={tags}
@@ -190,32 +183,30 @@ class DetailFooter extends PureComponent {
           </View>
           <View style={styles.sectionContainer}>
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>
-                {i18n.comments}
-              </Text>
+              <Text style={styles.sectionTitle}>{i18n.comments}</Text>
             </View>
-            {item.text_length
-              ? <NovelComments
-                  novelId={item.id}
-                  authorId={item.user.id}
-                  isFeatureInDetailPage
-                  maxItems={6}
-                  navigation={navigation}
-                />
-              : <IllustComments
-                  illustId={item.id}
-                  authorId={item.user.id}
-                  isFeatureInDetailPage
-                  maxItems={6}
-                  navigation={navigation}
-                />}
+            {item.text_length ? (
+              <NovelComments
+                novelId={item.id}
+                authorId={item.user.id}
+                isFeatureInDetailPage
+                maxItems={6}
+                navigation={navigation}
+              />
+            ) : (
+              <IllustComments
+                illustId={item.id}
+                authorId={item.user.id}
+                isFeatureInDetailPage
+                maxItems={6}
+                navigation={navigation}
+              />
+            )}
           </View>
-          {!item.text_length &&
+          {!item.text_length && (
             <View style={styles.sectionContainer}>
               <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>
-                  {i18n.relatedWorks}
-                </Text>
+                <Text style={styles.sectionTitle}>{i18n.relatedWorks}</Text>
               </View>
               <RelatedIllusts
                 illustId={item.id}
@@ -224,10 +215,9 @@ class DetailFooter extends PureComponent {
                 maxItems={6}
                 navigation={navigation}
               />
-            </View>}
-          {item.series &&
-            item.series.id &&
-            item.text_length > 0 &&
+            </View>
+          )}
+          {item.series && item.series.id && item.text_length > 0 && (
             <View style={styles.sectionContainer}>
               <View style={styles.sectionHeader}>
                 <Text
@@ -244,7 +234,8 @@ class DetailFooter extends PureComponent {
                 maxItems={6}
                 navigation={navigation}
               />
-            </View>}
+            </View>
+          )}
         </View>
       </SafeAreaView>
     );

@@ -75,7 +75,10 @@ class SignUpModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { auth: { user }, isFocused } = nextProps;
+    const {
+      auth: { user },
+      isFocused,
+    } = nextProps;
     const {
       auth: { user: prevUser },
       closeModal,
@@ -154,9 +157,7 @@ class SignUpModal extends Component {
                   {i18n.signUpNicknameHelp}
                 </Text>
                 <TouchableOpacity onPress={this.handleOnPressPrivacyPolicy}>
-                  <Text style={styles.privacyPolicy}>
-                    {i18n.privacyPolicy}
-                  </Text>
+                  <Text style={styles.privacyPolicy}>{i18n.privacyPolicy}</Text>
                 </TouchableOpacity>
                 <OverlaySpinner visible={loading} />
               </View>

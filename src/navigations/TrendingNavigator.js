@@ -38,8 +38,9 @@ const TrendingNavigator = createStackNavigator(routeConfig, stackConfig);
 if (!config.navigation.tab) {
   TrendingNavigator.navigationOptions = ({ screenProps: { i18n } }) => ({
     drawerLabel: i18n.search,
-    drawerIcon: ({ tintColor }) =>
-      <DrawerIcon name="search" color={tintColor} />,
+    drawerIcon: ({ tintColor }) => (
+      <DrawerIcon name="search" color={tintColor} />
+    ),
   });
 }
 

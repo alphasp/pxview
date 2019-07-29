@@ -41,9 +41,11 @@ class PXTabView extends Component {
   };
 
   renderPager = props =>
-    Platform.OS === 'ios'
-      ? <TabViewPagerScroll {...props} />
-      : <TabViewPagerPan {...props} />;
+    Platform.OS === 'ios' ? (
+      <TabViewPagerScroll {...props} />
+    ) : (
+      <TabViewPagerPan {...props} />
+    );
 
   render() {
     const {

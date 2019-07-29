@@ -54,7 +54,11 @@ class NovelSeries extends Component {
   };
 
   handleOnPressViewMoreNovelSeries = () => {
-    const { seriesId, seriesTitle, navigation: { push } } = this.props;
+    const {
+      seriesId,
+      seriesTitle,
+      navigation: { push },
+    } = this.props;
     push(SCREENS.NovelSeries, {
       seriesId,
       seriesTitle,
@@ -83,31 +87,35 @@ class NovelSeries extends Component {
         novelSeries.loaded &&
         items &&
         items.length &&
-        items.length > maxItems
-          ? <View style={styles.viewMoreButtonContainer}>
-              <ViewMoreButton onPress={this.handleOnPressViewMoreNovelSeries} />
-            </View>
-          : null}
+        items.length > maxItems ? (
+          <View style={styles.viewMoreButtonContainer}>
+            <ViewMoreButton onPress={this.handleOnPressViewMoreNovelSeries} />
+          </View>
+        ) : null}
       </View>
     );
   }
 }
 
 export default connectLocalization(
-  connect(() => {
-    const getNovelSeriesItems = makeGetNovelSeriesItems();
-    return (state, props) => {
-      const { novelSeries } = state;
-      const { isFeatureInDetailPage } = props;
-      const seriesId = props.seriesId || props.navigation.state.params.seriesId;
-      return {
-        novelSeries: novelSeries[seriesId],
-        items: getNovelSeriesItems(state, props),
-        seriesId,
-        listKey: !isFeatureInDetailPage
-          ? `${props.navigation.state.key}-${seriesId}-NovelSeries`
-          : null,
+  connect(
+    () => {
+      const getNovelSeriesItems = makeGetNovelSeriesItems();
+      return (state, props) => {
+        const { novelSeries } = state;
+        const { isFeatureInDetailPage } = props;
+        const seriesId =
+          props.seriesId || props.navigation.state.params.seriesId;
+        return {
+          novelSeries: novelSeries[seriesId],
+          items: getNovelSeriesItems(state, props),
+          seriesId,
+          listKey: !isFeatureInDetailPage
+            ? `${props.navigation.state.key}-${seriesId}-NovelSeries`
+            : null,
+        };
       };
-    };
-  }, novelSeriesActionCreators)(NovelSeries),
+    },
+    novelSeriesActionCreators,
+  )(NovelSeries),
 );

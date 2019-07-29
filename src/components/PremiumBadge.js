@@ -10,11 +10,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const PremiumBadge = ({ containerStyle, ...restProps }) =>
+const PremiumBadge = ({ containerStyle, ...restProps }) => (
   <Badge
     value="P"
     containerStyle={[styles.badge, containerStyle]}
     {...restProps}
-  />;
+  />
+);
 
 export default PremiumBadge;

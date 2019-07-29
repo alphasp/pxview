@@ -61,7 +61,11 @@ class NovelCommentReplies extends Component {
     const { checkIfUserEligibleToPostComment } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
-      const { novelId, authorId, navigation: { navigate } } = this.props;
+      const {
+        novelId,
+        authorId,
+        navigation: { navigate },
+      } = this.props;
       navigate(SCREENS.ReplyIllustComment, {
         novelId,
         authorId,
@@ -92,31 +96,36 @@ class NovelCommentReplies extends Component {
     const { isShowReplies } = this.state;
     return (
       <View style={globalStyles.container}>
-        {!isShowReplies
-          ? <ViewRepliesButton onPress={this.handleOnPressViewReplies} />
-          : <CommentList
-              authorId={authorId}
-              data={{ ...novelCommentReplies, items, refreshing: false }}
-              loadMoreItems={this.loadMoreItems}
-              navigation={navigation}
-              user={user}
-              onPressReplyCommentButton={this.handleOnPressReplyCommentButton}
-            />}
+        {!isShowReplies ? (
+          <ViewRepliesButton onPress={this.handleOnPressViewReplies} />
+        ) : (
+          <CommentList
+            authorId={authorId}
+            data={{ ...novelCommentReplies, items, refreshing: false }}
+            loadMoreItems={this.loadMoreItems}
+            navigation={navigation}
+            user={user}
+            onPressReplyCommentButton={this.handleOnPressReplyCommentButton}
+          />
+        )}
       </View>
     );
   }
 }
 
 export default enhancePostComment(
-  connect(() => {
-    const getNovelCommentRepliesItems = makeGetNovelCommentRepliesItems();
-    return (state, props) => {
-      const { novelCommentReplies } = state;
-      const { commentId } = props;
-      return {
-        novelCommentReplies: novelCommentReplies[commentId],
-        items: getNovelCommentRepliesItems(state, props),
+  connect(
+    () => {
+      const getNovelCommentRepliesItems = makeGetNovelCommentRepliesItems();
+      return (state, props) => {
+        const { novelCommentReplies } = state;
+        const { commentId } = props;
+        return {
+          novelCommentReplies: novelCommentReplies[commentId],
+          items: getNovelCommentRepliesItems(state, props),
+        };
       };
-    };
-  }, novelCommentRepliesActionCreators)(NovelCommentReplies),
+    },
+    novelCommentRepliesActionCreators,
+  )(NovelCommentReplies),
 );

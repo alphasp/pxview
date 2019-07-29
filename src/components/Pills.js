@@ -55,7 +55,7 @@ const Pills = props => {
       ]}
     >
       <View style={styles.subContainer}>
-        {items.map((item, index) =>
+        {items.map((item, index) => (
           <Button
             key={item.title}
             title={item.title}
@@ -70,8 +70,8 @@ const Pills = props => {
             }
             color={index !== selectedIndex ? 'gray' : '#fff'}
             transparent={index !== selectedIndex}
-          />,
-        )}
+          />
+        ))}
       </View>
       {renderRightButton && renderRightButton()}
     </View>

@@ -80,13 +80,16 @@ class FollowingUserNovels extends Component {
 
 export default connectLocalization(
   withNavigation(
-    connect((state, props) => {
-      const { followingUserNovels } = state;
-      return {
-        followingUserNovels,
-        items: getFollowingUserNovelsItems(state),
-        listKey: `${props.navigation.state.key}-followingUserNovels`,
-      };
-    }, followingUserNovelsActionCreators)(FollowingUserNovels),
+    connect(
+      (state, props) => {
+        const { followingUserNovels } = state;
+        return {
+          followingUserNovels,
+          items: getFollowingUserNovelsItems(state),
+          listKey: `${props.navigation.state.key}-followingUserNovels`,
+        };
+      },
+      followingUserNovelsActionCreators,
+    )(FollowingUserNovels),
   ),
 );

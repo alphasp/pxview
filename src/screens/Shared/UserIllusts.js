@@ -47,16 +47,19 @@ class UserIllusts extends Component {
   }
 }
 
-export default connect(() => {
-  const getUserIllustsItems = makeGetUserIllustsItems();
-  return (state, props) => {
-    const { userIllusts } = state;
-    const userId = props.userId || props.navigation.state.params.userId;
-    return {
-      userIllusts: userIllusts[userId],
-      items: getUserIllustsItems(state, props),
-      userId,
-      listKey: props.navigation.state.key,
+export default connect(
+  () => {
+    const getUserIllustsItems = makeGetUserIllustsItems();
+    return (state, props) => {
+      const { userIllusts } = state;
+      const userId = props.userId || props.navigation.state.params.userId;
+      return {
+        userIllusts: userIllusts[userId],
+        items: getUserIllustsItems(state, props),
+        userId,
+        listKey: props.navigation.state.key,
+      };
     };
-  };
-}, userIllustsActionCreators)(UserIllusts);
+  },
+  userIllustsActionCreators,
+)(UserIllusts);

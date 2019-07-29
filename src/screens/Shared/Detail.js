@@ -207,7 +207,10 @@ class Detail extends Component {
   };
 
   handleOnMasterListUpdate = ({ listKey, items }) => {
-    const { parentListKey, navigation: { setParams } } = this.props;
+    const {
+      parentListKey,
+      navigation: { setParams },
+    } = this.props;
     if (parentListKey === listKey) {
       setParams({ items });
     }
@@ -299,7 +302,9 @@ class Detail extends Component {
   };
 
   renderHeaderTitle = item => {
-    const { navigation: { push } } = this.props;
+    const {
+      navigation: { push },
+    } = this.props;
     return (
       <View style={styles.headerTitleContainer}>
         <PXTouchable
@@ -430,14 +435,14 @@ class Detail extends Component {
           ref={ref => (this.detailView = ref)}
         >
           {this.renderMainContent()}
-          {isActionButtonVisible &&
-            item &&
+          {isActionButtonVisible && item && (
             <ActionButton
               buttonColor="rgba(255,255,255,1)"
               bgColor="red"
               icon={<BookmarkIllustButton item={item} />}
               fixNativeFeedbackRadius
-            />}
+            />
+          )}
           <DetailInfoModal
             item={item}
             navigation={navigation}
@@ -448,13 +453,14 @@ class Detail extends Component {
             visible={isOpenMenuBottomSheet}
             onCancel={this.handleOnCancelMenuBottomSheet}
           >
-            {selectedImageIndex !== null &&
+            {selectedImageIndex !== null && (
               <PXBottomSheetButton
                 onPress={this.handleOnPressSaveImage}
                 iconName="content-save"
                 iconType="material-community"
                 text={i18n.saveImage}
-              />}
+              />
+            )}
             <PXBottomSheetButton
               onPress={this.handleOnPressShareIllust}
               iconName="share"

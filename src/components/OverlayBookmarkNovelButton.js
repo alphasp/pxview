@@ -27,19 +27,17 @@ const styles = StyleSheet.create({
   },
 });
 
-const OverlayBookmarkNovelButton = ({ total, gridView, ...restProps }) =>
+const OverlayBookmarkNovelButton = ({ total, gridView, ...restProps }) => (
   <View
     style={[
       styles.container,
       gridView ? styles.gridViewContainer : styles.listViewContainer,
     ]}
   >
-    {total > 0 &&
-      <Text style={styles.bookmarkCount}>
-        {total}
-      </Text>}
+    {total > 0 && <Text style={styles.bookmarkCount}>{total}</Text>}
 
     <BookmarkNovelButton {...restProps} />
-  </View>;
+  </View>
+);
 
 export default OverlayBookmarkNovelButton;

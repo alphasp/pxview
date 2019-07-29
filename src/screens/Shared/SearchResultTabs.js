@@ -85,14 +85,20 @@ class SearchResultTabs extends Component {
   };
 
   handleOnPressViewEncyclopedia = () => {
-    const { word, navigation: { navigate } } = this.props;
+    const {
+      word,
+      navigation: { navigate },
+    } = this.props;
     navigate(SCREENS.Encyclopedia, {
       word,
     });
   };
 
   handleOnPressBackButton = () => {
-    const { word, navigation: { goBack } } = this.props;
+    const {
+      word,
+      navigation: { goBack },
+    } = this.props;
     const { isFocusSearchBar, searchType } = this.state;
     if (isFocusSearchBar) {
       Keyboard.dismiss();
@@ -202,28 +208,29 @@ class SearchResultTabs extends Component {
             onPressBackButton={this.handleOnPressBackButton}
             onSubmitSearch={this.handleOnSubmitSearch}
             headerRight={
-              !isFocusSearchBar && searchType !== SEARCH_TYPES.USER
-                ? <View style={{ flexDirection: 'row' }}>
-                    <HeaderEncyclopediaButton
-                      onPress={this.handleOnPressViewEncyclopedia}
-                    />
-                    <HeaderFilterButton
-                      onPress={this.handleOnPressShowFilterModal}
-                    />
-                  </View>
-                : null
+              !isFocusSearchBar && searchType !== SEARCH_TYPES.USER ? (
+                <View style={{ flexDirection: 'row' }}>
+                  <HeaderEncyclopediaButton
+                    onPress={this.handleOnPressViewEncyclopedia}
+                  />
+                  <HeaderFilterButton
+                    onPress={this.handleOnPressShowFilterModal}
+                  />
+                </View>
+              ) : null
             }
           />
           <View style={styles.content}>
             {this.renderContent()}
-            {isFocusSearchBar &&
+            {isFocusSearchBar && (
               <Search
                 word={newWord}
                 navigation={navigation}
                 searchType={searchType}
                 onSubmitSearch={this.handleOnSubmitSearch}
                 onChangePill={this.handleOnChangePill}
-              />}
+              />
+            )}
           </View>
         </View>
       </AndroidBackHandler>

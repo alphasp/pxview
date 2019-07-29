@@ -12,7 +12,10 @@ class NewMangas extends Component {
   }
 
   loadMoreItems = () => {
-    const { fetchNewMangas, newMangas: { loading, nextUrl } } = this.props;
+    const {
+      fetchNewMangas,
+      newMangas: { loading, nextUrl },
+    } = this.props;
     if (!loading && nextUrl) {
       fetchNewMangas(nextUrl);
     }
@@ -39,11 +42,14 @@ class NewMangas extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { newMangas } = state;
-  return {
-    newMangas,
-    items: getNewMangasItems(state),
-    listKey: `${props.navigation.state.key}-newMangas`,
-  };
-}, newMangasActionCreators)(NewMangas);
+export default connect(
+  (state, props) => {
+    const { newMangas } = state;
+    return {
+      newMangas,
+      items: getNewMangasItems(state),
+      listKey: `${props.navigation.state.key}-newMangas`,
+    };
+  },
+  newMangasActionCreators,
+)(NewMangas);

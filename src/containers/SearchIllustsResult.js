@@ -32,7 +32,11 @@ class SearchIllustsResult extends Component {
   }
 
   loadMoreItems = () => {
-    const { searchIllusts: { nextUrl, loading }, word, options } = this.props;
+    const {
+      searchIllusts: { nextUrl, loading },
+      word,
+      options,
+    } = this.props;
     if (!loading && nextUrl) {
       this.search(word, options, nextUrl);
     }
@@ -64,26 +68,28 @@ class SearchIllustsResult extends Component {
           loadMoreItems={this.loadMoreItems}
           onRefresh={this.handleOnRefresh}
         />
-        {searchIllusts &&
-          searchIllusts.loaded &&
-          (!items || !items.length) &&
-          <NoResult text={i18n.noSearchResult} />}
+        {searchIllusts && searchIllusts.loaded && (!items || !items.length) && (
+          <NoResult text={i18n.noSearchResult} />
+        )}
       </View>
     );
   }
 }
 
 export default connectLocalization(
-  connect(() => {
-    const getSearchIllustsItems = makeGetSearchIllustsItems();
-    return (state, props) => {
-      const { searchIllusts } = state;
-      const { navigationStateKey } = props;
-      return {
-        searchIllusts: searchIllusts[navigationStateKey],
-        items: getSearchIllustsItems(state, props),
-        listKey: navigationStateKey,
+  connect(
+    () => {
+      const getSearchIllustsItems = makeGetSearchIllustsItems();
+      return (state, props) => {
+        const { searchIllusts } = state;
+        const { navigationStateKey } = props;
+        return {
+          searchIllusts: searchIllusts[navigationStateKey],
+          items: getSearchIllustsItems(state, props),
+          listKey: navigationStateKey,
+        };
       };
-    };
-  }, searchIllustsActionCreators)(SearchIllustsResult),
+    },
+    searchIllustsActionCreators,
+  )(SearchIllustsResult),
 );

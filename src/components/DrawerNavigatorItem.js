@@ -23,22 +23,23 @@ const styles = StyleSheet.create({
   },
 });
 
-const DrawerNavigatorItem = ({ label, icon, onPress, theme }) =>
+const DrawerNavigatorItem = ({ label, icon, onPress, theme }) => (
   <PXTouchable onPress={onPress} delayPressIn={0}>
     <View style={styles.item}>
-      {icon
-        ? <View style={styles.iconContainer}>
-            {React.cloneElement(icon, {
-              style: [styles.icon, { color: theme.colors.text }],
-            })}
-          </View>
-        : null}
-      {typeof label === 'string'
-        ? <Text style={styles.label}>
-            {label}
-          </Text>
-        : label}
+      {icon ? (
+        <View style={styles.iconContainer}>
+          {React.cloneElement(icon, {
+            style: [styles.icon, { color: theme.colors.text }],
+          })}
+        </View>
+      ) : null}
+      {typeof label === 'string' ? (
+        <Text style={styles.label}>{label}</Text>
+      ) : (
+        label
+      )}
     </View>
-  </PXTouchable>;
+  </PXTouchable>
+);
 
 export default withTheme(DrawerNavigatorItem);

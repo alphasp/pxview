@@ -19,7 +19,10 @@ class PXFormInput extends Component {
   };
 
   handleOnBlur = () => {
-    const { onBlur, field: { name } } = this.props;
+    const {
+      onBlur,
+      field: { name },
+    } = this.props;
     onBlur(name);
   };
 

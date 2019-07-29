@@ -112,8 +112,7 @@ class SearchFilterModal extends Component {
       }
     } else if (this.state.startDate && this.state.endDate) {
       extraPeriodOption.value = SEARCH_PERIOD_TYPES.CUSTOM_DATE;
-      extraPeriodOption.label = `${this.state.startDate} - ${this.state
-        .endDate}`;
+      extraPeriodOption.label = `${this.state.startDate} - ${this.state.endDate}`;
     }
     let periodOptions = [
       {
@@ -346,22 +345,21 @@ class SearchFilterModal extends Component {
         ]}
       >
         <View style={styles.listContainer}>
-          {filterList.map(list =>
+          {filterList.map(list => (
             <PXListItem
               key={list.key}
               title={this.getSearchTypeName(list.key)}
               description={this.getSelectedFilterName(list.key, list.options)}
               onPress={() => this.handleOnPressFilterOption(list.key)}
-            />,
-          )}
+            />
+          ))}
         </View>
         <View style={styles.searchFilterButtonContainer}>
           <Button mode="contained" onPress={this.handleOnPressApplyFilter}>
             {i18n.searchApplyFilter}
           </Button>
         </View>
-        {selectedFilterType &&
-          selectedFilterType !== 'likes' &&
+        {selectedFilterType && selectedFilterType !== 'likes' && (
           <SingleChoiceDialog
             title={this.getSearchTypeName(selectedFilterType)}
             items={filterList
@@ -375,9 +373,9 @@ class SearchFilterModal extends Component {
             selectedItemValue={selectedPickerValue}
             onPressCancel={this.handleOnCancelPickerDialog}
             onPressOk={this.handleOnOkPickerDialog}
-          />}
-        {selectedFilterType === 'likes' &&
-          searchType === SEARCH_TYPES.ILLUST &&
+          />
+        )}
+        {selectedFilterType === 'likes' && searchType === SEARCH_TYPES.ILLUST && (
           <SearchIllustsBookmarkRangesPickerDialog
             navigationStateKey={navigationStateKey}
             word={word}
@@ -390,9 +388,9 @@ class SearchFilterModal extends Component {
             selectedItemValue={selectedPickerValue}
             onPressCancel={this.handleOnCancelPickerDialog}
             onPressOk={this.handleOnOkPickerDialog}
-          />}
-        {selectedFilterType === 'likes' &&
-          searchType === SEARCH_TYPES.NOVEL &&
+          />
+        )}
+        {selectedFilterType === 'likes' && searchType === SEARCH_TYPES.NOVEL && (
           <SearchNovelsBookmarkRangesPickerDialog
             navigationStateKey={navigationStateKey}
             word={word}
@@ -405,7 +403,8 @@ class SearchFilterModal extends Component {
             selectedItemValue={selectedPickerValue}
             onPressCancel={this.handleOnCancelPickerDialog}
             onPressOk={this.handleOnOkPickerDialog}
-          />}
+          />
+        )}
       </SafeAreaView>
     );
   }

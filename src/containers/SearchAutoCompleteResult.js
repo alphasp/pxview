@@ -58,19 +58,20 @@ class SearchAutoCompleteResult extends Component {
       <View
         style={[styles.container, { backgroundColor: theme.colors.background }]}
       >
-        {((!loaded && !loading) || !word) &&
+        {((!loaded && !loading) || !word) && (
           <SearchHistory
             items={searchHistory.items}
             onPressItem={onPressSearchHistoryItem}
             onPressRemoveSearchHistoryItem={onPressRemoveSearchHistoryItem}
             onPressClearSearchHistory={onPressClearSearchHistory}
-          />}
-        {user && word && word.length > 1
-          ? <SearchAutoCompleteList
-              data={searchAutoComplete}
-              onPressItem={onPressItem}
-            />
-          : null}
+          />
+        )}
+        {user && word && word.length > 1 ? (
+          <SearchAutoCompleteList
+            data={searchAutoComplete}
+            onPressItem={onPressItem}
+          />
+        ) : null}
       </View>
     );
   }

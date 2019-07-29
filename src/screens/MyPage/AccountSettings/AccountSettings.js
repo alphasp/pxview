@@ -46,7 +46,10 @@ class AccountSettings extends Component {
   }
 
   handleOnPressChangePixivId = () => {
-    const { myAccountState: { item }, i18n } = this.props;
+    const {
+      myAccountState: { item },
+      i18n,
+    } = this.props;
     if (item.can_change_pixiv_id && !item.has_changed_pixiv_id) {
       Alert.alert(
         i18n.formatString(
@@ -126,17 +129,22 @@ class AccountSettings extends Component {
           description="******"
           onPress={this.handleOnPressChangePassword}
         />
-        {!hideAdvanceSettings &&
+        {!hideAdvanceSettings && (
           <PXListItem
             title={i18n.accountSettingsAdvancedSettings}
             onPress={this.handleOnPressAdvancedSettings}
-          />}
+          />
+        )}
       </View>
     );
   };
 
   render() {
-    const { myAccountState: { loading }, user, theme } = this.props;
+    const {
+      myAccountState: { loading },
+      user,
+      theme,
+    } = this.props;
     const {
       isOpenChangePasswordModal,
       isOpenChangePixivIdModal,
@@ -147,20 +155,23 @@ class AccountSettings extends Component {
         style={[styles.container, { backgroundColor: theme.colors.background }]}
       >
         {loading ? <Loader /> : this.renderList()}
-        {isOpenChangeEmailModal &&
+        {isOpenChangeEmailModal && (
           <AccountChangeEmailModal
             onClose={this.handleOnCloseChangeEmailModal}
             user={user}
-          />}
-        {isOpenChangePixivIdModal &&
+          />
+        )}
+        {isOpenChangePixivIdModal && (
           <AccountChangePixivIdModal
             onClose={this.handleOnCloseChangePixivIdModal}
             user={user}
-          />}
-        {isOpenChangePasswordModal &&
+          />
+        )}
+        {isOpenChangePasswordModal && (
           <AccountChangePasswordModal
             onClose={this.handleOnCloseChangePasswordModal}
-          />}
+          />
+        )}
       </View>
     );
   }

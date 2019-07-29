@@ -266,7 +266,10 @@ class UserDetail extends Component {
   };
 
   handleOnPressViewUserFollowing = () => {
-    const { userId, navigation: { navigate } } = this.props;
+    const {
+      userId,
+      navigation: { navigate },
+    } = this.props;
     navigate(SCREENS.UserFollowing, {
       userId,
       followingType: FOLLOWING_TYPES.PUBLIC,
@@ -274,7 +277,10 @@ class UserDetail extends Component {
   };
 
   handleOnPressViewUserMyPixiv = () => {
-    const { userId, navigation: { navigate } } = this.props;
+    const {
+      userId,
+      navigation: { navigate },
+    } = this.props;
     navigate(SCREENS.UserMyPixiv, {
       userId,
     });
@@ -335,13 +341,13 @@ class UserDetail extends Component {
           alignItems: 'center',
         }}
       >
-        {user &&
-          ((authUser && user.id !== authUser.id) || !authUser) &&
+        {user && ((authUser && user.id !== authUser.id) || !authUser) && (
           <FollowButtonContainer
             userId={user.id}
             buttonStyle={styles.followButton}
             textStyle={styles.followButtonText}
-          />}
+          />
+        )}
         <HeaderMenuButton
           onPress={this.handleOnPressOpenMenuBottomSheet}
           style={{ marginLeft: 10 }}
@@ -376,64 +382,51 @@ class UserDetail extends Component {
         </View>
         <View style={styles.profileContainer}>
           <View style={styles.userNameContainer}>
-            <Text style={styles.userName}>
-              {detail.user.name}
-            </Text>
-            {detail.profile.is_premium &&
-              <PremiumBadge containerStyle={styles.premiumBadge} />}
+            <Text style={styles.userName}>{detail.user.name}</Text>
+            {detail.profile.is_premium && (
+              <PremiumBadge containerStyle={styles.premiumBadge} />
+            )}
           </View>
           <View style={styles.row}>
-            {detail.profile.webpage
-              ? <View style={styles.row}>
-                  <Icon name="home" style={styles.icon} />
-                  <Hyperlink
-                    linkStyle={styles.externalLink}
-                    linkText={truncate(
-                      detail.profile.webpage.replace(/https?:\/\//i, ''),
-                      { length: 15 },
-                    )}
-                    onPress={url => this.handleOnLinkPress(url)}
-                  >
-                    <Text style={styles.stat}>
-                      {detail.profile.webpage}
-                    </Text>
-                  </Hyperlink>
-                </View>
-              : null}
-            {detail.profile.twitter_account
-              ? <View style={styles.row}>
-                  <Icon name="twitter" style={styles.icon} />
-                  <Hyperlink
-                    linkStyle={styles.externalLink}
-                    linkText={detail.profile.twitter_account}
-                    onPress={url => this.handleOnLinkPress(url)}
-                  >
-                    <Text style={styles.stat}>
-                      {detail.profile.twitter_url}
-                    </Text>
-                  </Hyperlink>
-                </View>
-              : null}
+            {detail.profile.webpage ? (
+              <View style={styles.row}>
+                <Icon name="home" style={styles.icon} />
+                <Hyperlink
+                  linkStyle={styles.externalLink}
+                  linkText={truncate(
+                    detail.profile.webpage.replace(/https?:\/\//i, ''),
+                    { length: 15 },
+                  )}
+                  onPress={url => this.handleOnLinkPress(url)}
+                >
+                  <Text style={styles.stat}>{detail.profile.webpage}</Text>
+                </Hyperlink>
+              </View>
+            ) : null}
+            {detail.profile.twitter_account ? (
+              <View style={styles.row}>
+                <Icon name="twitter" style={styles.icon} />
+                <Hyperlink
+                  linkStyle={styles.externalLink}
+                  linkText={detail.profile.twitter_account}
+                  onPress={url => this.handleOnLinkPress(url)}
+                >
+                  <Text style={styles.stat}>{detail.profile.twitter_url}</Text>
+                </Hyperlink>
+              </View>
+            ) : null}
           </View>
           <View style={styles.row}>
             <PXTouchable onPress={this.handleOnPressViewUserFollowing}>
               <View style={styles.row}>
-                <Text>
-                  {detail.profile.total_follow_users}
-                </Text>
-                <Text style={styles.statType}>
-                  {' '}{i18n.following}{' '}
-                </Text>
+                <Text>{detail.profile.total_follow_users}</Text>
+                <Text style={styles.statType}> {i18n.following} </Text>
               </View>
             </PXTouchable>
             <PXTouchable onPress={this.handleOnPressViewUserMyPixiv}>
               <View style={styles.row}>
-                <Text>
-                  {detail.profile.total_mypixiv_users}
-                </Text>
-                <Text style={styles.statType}>
-                  {' '}{i18n.myPixiv}{' '}
-                </Text>
+                <Text>{detail.profile.total_mypixiv_users}</Text>
+                <Text style={styles.statType}> {i18n.myPixiv} </Text>
               </View>
             </PXTouchable>
           </View>
@@ -449,9 +442,7 @@ class UserDetail extends Component {
               linkStyle={styles.hyperlink}
               onPress={url => this.handleOnLinkPress(url)}
             >
-              <Text selectable>
-                {detail.user.comment}
-              </Text>
+              <Text selectable>{detail.user.comment}</Text>
             </Hyperlink>
           </View>
         </View>
@@ -512,7 +503,8 @@ class UserDetail extends Component {
         items={items}
         maxItems={6}
         onPressViewMore={() =>
-          navigation.push(SCREENS.UserBookmarkIllusts, { userId })}
+          navigation.push(SCREENS.UserBookmarkIllusts, { userId })
+        }
         navigation={navigation}
       />
     );
@@ -527,7 +519,8 @@ class UserDetail extends Component {
         items={items}
         maxItems={3}
         onPressViewMore={() =>
-          navigation.push(SCREENS.UserBookmarkNovels, { userId })}
+          navigation.push(SCREENS.UserBookmarkNovels, { userId })
+        }
       />
     );
   };
@@ -606,20 +599,20 @@ class UserDetail extends Component {
           onPressBackButton={this.handleOnPressHeaderBackButton}
         />
         {(!item || (!loaded && loading)) && <Loader />}
-        {item
-          ? <ScrollView
-              onScroll={this.handleOnScroll}
-              scrollEventThrottle={16}
-              refreshControl={
-                <RefreshControl
-                  refreshing={refreshing}
-                  onRefresh={this.handleOnRefresh}
-                />
-              }
-            >
-              {this.renderContent(userDetailItem)}
-            </ScrollView>
-          : null}
+        {item ? (
+          <ScrollView
+            onScroll={this.handleOnScroll}
+            scrollEventThrottle={16}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={this.handleOnRefresh}
+              />
+            }
+          >
+            {this.renderContent(userDetailItem)}
+          </ScrollView>
+        ) : null}
         <PXBottomSheet
           visible={isOpenMenuBottomSheet}
           onCancel={this.handleOnCancelMenuBottomSheet}
@@ -630,7 +623,7 @@ class UserDetail extends Component {
             iconType="entypo"
             text={i18n.share}
           />
-          {((authUser && userId !== authUser.id) || !authUser) &&
+          {((authUser && userId !== authUser.id) || !authUser) && (
             <PXBottomSheetButton
               onPress={this.handleOnPressToggleMuteUser}
               iconName="user-times"
@@ -639,7 +632,8 @@ class UserDetail extends Component {
                 marginLeft: 28,
               }}
               text={isMuteUser ? i18n.userMuteRemove : i18n.userMuteAdd}
-            />}
+            />
+          )}
           <PXBottomSheetCancelButton
             onPress={this.handleOnCancelMenuBottomSheet}
             textStyle={{

@@ -116,14 +116,18 @@ class MyCollection extends Component {
   };
 
   handleOnPressCloseFilterButton = () => {
-    const { navigation: { setParams } } = this.props;
+    const {
+      navigation: { setParams },
+    } = this.props;
     setParams({
       isOpenFilterModal: false,
     });
   };
 
   handleOnSelectTag = tag => {
-    const { navigation: { setParams } } = this.props;
+    const {
+      navigation: { setParams },
+    } = this.props;
     const { index } = this.state;
     const newState = {};
     switch (index) {
@@ -168,38 +172,42 @@ class MyCollection extends Component {
             scrollEnabled: true,
           }}
         />
-        {index === 0 &&
+        {index === 0 && (
           <IllustTagsFilterModal
             tagType={TAG_TYPES.PUBLIC}
             isOpen={isOpenFilterModal}
             onPressCloseButton={this.handleOnPressCloseFilterButton}
             onSelectTag={this.handleOnSelectTag}
             tag={selectedPublicIllustTag}
-          />}
-        {index === 1 &&
+          />
+        )}
+        {index === 1 && (
           <IllustTagsFilterModal
             tagType={TAG_TYPES.PRIVATE}
             isOpen={isOpenFilterModal}
             onPressCloseButton={this.handleOnPressCloseFilterButton}
             onSelectTag={this.handleOnSelectTag}
             tag={selectedPrivateIllustTag}
-          />}
-        {index === 2 &&
+          />
+        )}
+        {index === 2 && (
           <NovelTagsFilterModal
             tagType={TAG_TYPES.PUBLIC}
             isOpen={isOpenFilterModal}
             onPressCloseButton={this.handleOnPressCloseFilterButton}
             onSelectTag={this.handleOnSelectTag}
             tag={selectedPublicNovelTag}
-          />}
-        {index === 3 &&
+          />
+        )}
+        {index === 3 && (
           <NovelTagsFilterModal
             tagType={TAG_TYPES.PRIVATE}
             isOpen={isOpenFilterModal}
             onPressCloseButton={this.handleOnPressCloseFilterButton}
             onSelectTag={this.handleOnSelectTag}
             tag={selectedPrivateNovelTag}
-          />}
+          />
+        )}
       </View>
     );
   }

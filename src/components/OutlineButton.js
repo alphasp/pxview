@@ -24,9 +24,7 @@ const OutlineButton = props => {
       onPress={onPress}
       onLongPress={onLongPress}
     >
-      <Text style={[styles.buttonText, textStyle]}>
-        {text}
-      </Text>
+      <Text style={[styles.buttonText, textStyle]}>{text}</Text>
     </PXTouchable>
   );
 };

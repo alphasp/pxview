@@ -9,7 +9,7 @@ import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
   avatarContainer: {
-    height: globalStyleVariables.DRAWER_WIDTH * 9 / 16,
+    height: (globalStyleVariables.DRAWER_WIDTH * 9) / 16,
     backgroundColor: globalStyleVariables.PRIMARY_COLOR,
     justifyContent: 'center',
     alignItems: 'center',
@@ -46,7 +46,7 @@ const UserCover = ({
   onPressAvatar,
   onPressChangeTheme,
   themeName,
-}) =>
+}) => (
   <View style={styles.avatarContainer}>
     <PXThumbnailTouchable
       key={user.profile_image_urls.px_170x170}
@@ -60,9 +60,7 @@ const UserCover = ({
         onPress={onPressAvatar}
         hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
       >
-        <Text style={styles.username}>
-          {user.name}
-        </Text>
+        <Text style={styles.username}>{user.name}</Text>
       </PXTouchable>
       {user.is_premium && <PremiumBadge containerStyle={styles.premiumBadge} />}
     </View>
@@ -78,6 +76,7 @@ const UserCover = ({
         />
       </PXTouchable>
     </View>
-  </View>;
+  </View>
+);
 
 export default UserCover;

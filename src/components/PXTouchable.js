@@ -15,11 +15,7 @@ const PXTouchable = props => {
         style={style}
         {...otherProps}
       >
-        {children
-          ? <View style={style}>
-              {children}
-            </View>
-          : null}
+        {children ? <View style={style}>{children}</View> : null}
       </TouchableNativeFeedback>
     );
   }

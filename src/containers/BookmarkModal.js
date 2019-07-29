@@ -219,19 +219,18 @@ class BookmarkModal extends Component {
     this.tagInput.setNativeProps({ text: '' });
   };
 
-  renderItem = ({ item }) =>
+  renderItem = ({ item }) => (
     <TouchableRipple onPress={() => this.handleOnCheckTag(item)}>
       <View style={styles.row}>
-        <Text style={styles.tagText}>
-          {item.name}
-        </Text>
+        <Text style={styles.tagText}>{item.name}</Text>
         <Checkbox.Android
           status={item.is_registered ? 'checked' : 'unchecked'}
           onPress={() => this.handleOnCheckTag(item)}
           disabled={!item.editable}
         />
       </View>
-    </TouchableRipple>;
+    </TouchableRipple>
+  );
 
   render() {
     const { isBookmark, i18n, onModalClose, theme } = this.props;
@@ -258,12 +257,8 @@ class BookmarkModal extends Component {
                   </Text>
                 </View>
                 <View style={styles.subTitleContainer}>
-                  <Text>
-                    {i18n.collectionTags}
-                  </Text>
-                  <Text>
-                    {selectedTagsCount} / 10
-                  </Text>
+                  <Text>{i18n.collectionTags}</Text>
+                  <Text>{selectedTagsCount} / 10</Text>
                 </View>
                 <View style={styles.newTagContainer}>
                   <TextInput
@@ -293,9 +288,7 @@ class BookmarkModal extends Component {
                 </View>
                 <Separator />
                 <View style={styles.row}>
-                  <Text>
-                    {i18n.private}
-                  </Text>
+                  <Text>{i18n.private}</Text>
                   <Switch
                     value={isPrivate}
                     onValueChange={this.handleOnChangeIsPrivate}
@@ -308,15 +301,14 @@ class BookmarkModal extends Component {
                     !isBookmark && { justifyContent: 'center' },
                   ]}
                 >
-                  {isBookmark &&
+                  {isBookmark && (
                     <PXTouchable
                       hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
                       onPress={this.handleOnPressRemoveButton}
                     >
-                      <Text>
-                        {i18n.likeRemove}
-                      </Text>
-                    </PXTouchable>}
+                      <Text>{i18n.likeRemove}</Text>
+                    </PXTouchable>
+                  )}
                   <PXTouchable
                     style={
                       !isBookmark && {
@@ -327,16 +319,15 @@ class BookmarkModal extends Component {
                     hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
                     onPress={this.handleOnPressBookmarkButton}
                   >
-                    {!isBookmark &&
+                    {!isBookmark && (
                       <MaterialIcon
                         name="favorite"
                         color="rgb(210, 212, 216)"
                         size={20}
-                      />}
+                      />
+                    )}
 
-                    <Text>
-                      {isBookmark ? i18n.save : i18n.likeAdd}
-                    </Text>
+                    <Text>{isBookmark ? i18n.save : i18n.likeAdd}</Text>
                   </PXTouchable>
                 </View>
               </View>

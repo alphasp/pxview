@@ -15,11 +15,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const HeaderTextTitle = ({ children }) =>
+const HeaderTextTitle = ({ children }) => (
   <View style={styles.container}>
-    <Text style={styles.text}>
-      {children}
-    </Text>
-  </View>;
+    <Text style={styles.text}>{children}</Text>
+  </View>
+);
 
 export default HeaderTextTitle;

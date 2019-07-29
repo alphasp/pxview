@@ -64,8 +64,11 @@ class LanguageSettingsModal extends Component {
 }
 
 export default connectLocalization(
-  connect(null, {
-    ...modalActionCreators,
-    ...i18nActionCreators,
-  })(LanguageSettingsModal),
+  connect(
+    null,
+    {
+      ...modalActionCreators,
+      ...i18nActionCreators,
+    },
+  )(LanguageSettingsModal),
 );

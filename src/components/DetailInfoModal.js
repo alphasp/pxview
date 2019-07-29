@@ -157,7 +157,10 @@ class DetailInfoModal extends Component {
   };
 
   handleOnPressTag = tag => {
-    const { addSearchHistory, navigation: { push } } = this.props;
+    const {
+      addSearchHistory,
+      navigation: { push },
+    } = this.props;
     addSearchHistory(tag);
     push(SCREENS.SearchResult, {
       word: tag,
@@ -220,23 +223,21 @@ class DetailInfoModal extends Component {
                   >
                     <PXThumbnail uri={item.user.profile_image_urls.medium} />
                     <View style={styles.nameContainer}>
-                      <Text>
-                        {item.user.name}
-                      </Text>
-                      <Text>
-                        {item.user.account}
-                      </Text>
+                      <Text>{item.user.name}</Text>
+                      <Text>{item.user.account}</Text>
                     </View>
                   </PXTouchable>
-                  {((authUser && authUser.id !== item.user.id) || !authUser) &&
-                    <FollowButtonContainer userId={item.user.id} />}
+                  {((authUser && authUser.id !== item.user.id) ||
+                    !authUser) && (
+                    <FollowButtonContainer userId={item.user.id} />
+                  )}
                 </View>
                 <View style={styles.captionContainer}>
-                  {item.series &&
-                    item.series.id &&
+                  {item.series && item.series.id && (
                     <Text style={styles.seriesTitle} selectable>
                       {item.series.title}
-                    </Text>}
+                    </Text>
+                  )}
                   <Text style={styles.title} selectable>
                     {item.title}
                   </Text>
@@ -248,25 +249,19 @@ class DetailInfoModal extends Component {
                   />
                 </View>
                 <View style={styles.statContainer}>
-                  <Text>
-                    {moment(item.create_date).format('YYYY-MM-DD')}
-                  </Text>
+                  <Text>{moment(item.create_date).format('YYYY-MM-DD')}</Text>
                   <Icon
                     name="eye"
                     style={{ marginLeft: 10 }}
                     color={theme.colors.text}
                   />
-                  <Text style={{ marginLeft: 5 }}>
-                    {item.total_view}
-                  </Text>
+                  <Text style={{ marginLeft: 5 }}>{item.total_view}</Text>
                   <Icon
                     name="heart"
                     style={{ marginLeft: 10 }}
                     color={theme.colors.text}
                   />
-                  <Text style={{ marginLeft: 5 }}>
-                    {item.total_bookmarks}
-                  </Text>
+                  <Text style={{ marginLeft: 5 }}>{item.total_bookmarks}</Text>
                 </View>
                 <Tags
                   tags={tags}
@@ -276,45 +271,41 @@ class DetailInfoModal extends Component {
               </View>
               <View style={styles.sectionContainer}>
                 <View style={styles.sectionHeader}>
-                  <Text style={styles.sectionTitle}>
-                    {i18n.comments}
-                  </Text>
+                  <Text style={styles.sectionTitle}>{i18n.comments}</Text>
                 </View>
-                {item.text_length
-                  ? <NovelComments
-                      novelId={item.id}
-                      authorId={item.user.id}
-                      isFeatureInDetailPage
-                      maxItems={6}
-                      navigation={navigation}
-                    />
-                  : <IllustComments
-                      illustId={item.id}
-                      authorId={item.user.id}
-                      isFeatureInDetailPage
-                      maxItems={6}
-                      navigation={navigation}
-                    />}
-              </View>
-              {!item.text_length &&
-                <View style={styles.sectionContainer}>
-                  <View style={styles.sectionHeader}>
-                    <Text style={styles.sectionTitle}>
-                      {i18n.relatedWorks}
-                    </Text>
-                  </View>
-                  <RelatedIllusts
-                    illustId={item.id}
-                    listKey={`relatedIllusts-${navigation.state
-                      .key}-${item.id}`}
+                {item.text_length ? (
+                  <NovelComments
+                    novelId={item.id}
+                    authorId={item.user.id}
                     isFeatureInDetailPage
                     maxItems={6}
                     navigation={navigation}
                   />
-                </View>}
-              {item.series &&
-                item.series.id &&
-                item.text_length > 0 &&
+                ) : (
+                  <IllustComments
+                    illustId={item.id}
+                    authorId={item.user.id}
+                    isFeatureInDetailPage
+                    maxItems={6}
+                    navigation={navigation}
+                  />
+                )}
+              </View>
+              {!item.text_length && (
+                <View style={styles.sectionContainer}>
+                  <View style={styles.sectionHeader}>
+                    <Text style={styles.sectionTitle}>{i18n.relatedWorks}</Text>
+                  </View>
+                  <RelatedIllusts
+                    illustId={item.id}
+                    listKey={`relatedIllusts-${navigation.state.key}-${item.id}`}
+                    isFeatureInDetailPage
+                    maxItems={6}
+                    navigation={navigation}
+                  />
+                </View>
+              )}
+              {item.series && item.series.id && item.text_length > 0 && (
                 <View style={styles.sectionContainer}>
                   <View style={styles.sectionHeader}>
                     <Text
@@ -331,7 +322,8 @@ class DetailInfoModal extends Component {
                     maxItems={6}
                     navigation={navigation}
                   />
-                </View>}
+                </View>
+              )}
             </ScrollView>
           </Animated.View>
         </View>
@@ -350,13 +342,16 @@ class DetailInfoModal extends Component {
 
 export default withTheme(
   connectLocalization(
-    connect(() => {
-      const getTagsWithStatus = makeGetTagsWithStatus();
-      return (state, props) => ({
-        highlightTags: state.highlightTags.items,
-        muteTags: state.muteTags.items,
-        tags: getTagsWithStatus(state, props),
-      });
-    }, searchHistoryActionCreators)(DetailInfoModal),
+    connect(
+      () => {
+        const getTagsWithStatus = makeGetTagsWithStatus();
+        return (state, props) => ({
+          highlightTags: state.highlightTags.items,
+          muteTags: state.muteTags.items,
+          tags: getTagsWithStatus(state, props),
+        });
+      },
+      searchHistoryActionCreators,
+    )(DetailInfoModal),
   ),
 );

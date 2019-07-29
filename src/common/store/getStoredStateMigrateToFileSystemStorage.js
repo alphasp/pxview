@@ -167,8 +167,7 @@ export default function getStoredStateMigrateToFileSystemStorage(
   v4Config,
 ) {
   return async currentConfig => {
-    const filePersistStorePath = `${RNFetchBlob.fs.dirs
-      .DocumentDir}/persistStore`;
+    const filePersistStorePath = `${RNFetchBlob.fs.dirs.DocumentDir}/persistStore`;
     const isFilePersistStoreExists = await RNFetchBlob.fs.exists(
       filePersistStorePath,
     );

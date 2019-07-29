@@ -74,27 +74,29 @@ class SearchUsersResult extends Component {
           loadMoreItems={this.loadMoreItems}
           onRefresh={this.handleOnRefresh}
         />
-        {searchUsers &&
-          searchUsers.loaded &&
-          (!items || !items.length) &&
-          <NoResult text={i18n.noSearchResult} style={styles.nullResult} />}
+        {searchUsers && searchUsers.loaded && (!items || !items.length) && (
+          <NoResult text={i18n.noSearchResult} style={styles.nullResult} />
+        )}
       </View>
     );
   }
 }
 
 export default connectLocalization(
-  connect(() => {
-    const getSearchUsersItems = makeGetSearchUsersItems();
-    return (state, props) => {
-      const { searchUsers } = state;
-      const { navigationStateKey } = props;
-      const word = props.word || props.navigation.state.params.word;
-      return {
-        searchUsers: searchUsers[navigationStateKey],
-        items: getSearchUsersItems(state, props),
-        word,
+  connect(
+    () => {
+      const getSearchUsersItems = makeGetSearchUsersItems();
+      return (state, props) => {
+        const { searchUsers } = state;
+        const { navigationStateKey } = props;
+        const word = props.word || props.navigation.state.params.word;
+        return {
+          searchUsers: searchUsers[navigationStateKey],
+          items: getSearchUsersItems(state, props),
+          word,
+        };
       };
-    };
-  }, searchUsersActionCreators)(SearchUsersResult),
+    },
+    searchUsersActionCreators,
+  )(SearchUsersResult),
 );

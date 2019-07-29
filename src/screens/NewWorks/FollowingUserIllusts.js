@@ -80,13 +80,16 @@ class FollowingUserIllusts extends Component {
 
 export default connectLocalization(
   withNavigation(
-    connect((state, props) => {
-      const { followingUserIllusts } = state;
-      return {
-        followingUserIllusts,
-        items: getFollowingUserIllustsItems(state),
-        listKey: `${props.navigation.state.key}-followingUserIllusts`,
-      };
-    }, followingUserIllustsActionCreators)(FollowingUserIllusts),
+    connect(
+      (state, props) => {
+        const { followingUserIllusts } = state;
+        return {
+          followingUserIllusts,
+          items: getFollowingUserIllustsItems(state),
+          listKey: `${props.navigation.state.key}-followingUserIllusts`,
+        };
+      },
+      followingUserIllustsActionCreators,
+    )(FollowingUserIllusts),
   ),
 );

@@ -38,9 +38,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const Tags = ({ tags, onPressTag, onLongPressTag }) =>
+const Tags = ({ tags, onPressTag, onLongPressTag }) => (
   <View style={styles.container}>
-    {tags.map(tag =>
+    {tags.map(tag => (
       <PXTouchable
         key={tag.name}
         style={
@@ -53,35 +53,32 @@ const Tags = ({ tags, onPressTag, onLongPressTag }) =>
         onPress={() => onPressTag(tag.name)}
         onLongPress={() => onLongPressTag(tag.name)}
       >
-        {tag.isHighlight && tag.isMute
-          ? <LinearGradient
-              start={{ x: 0, y: 1 }}
-              end={{ x: 1, y: 1 }}
-              colors={[
-                globalStyleVariables.HIGHLIGHT_COLOR,
-                globalStyleVariables.MUTE_COLOR,
-              ]}
-              style={styles.tagContainer}
-            >
-              <Text style={styles.tagLabel}>
-                #
-                {tag.name}
-              </Text>
-              {tag.translated_name &&
-                <Text style={styles.translatedTagLabel}>
-                  {tag.translated_name}
-                </Text>}
-            </LinearGradient>
-          : <>
-              <Text style={styles.tagLabel}>
-                #{tag.name}
-              </Text>
+        {tag.isHighlight && tag.isMute ? (
+          <LinearGradient
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1, y: 1 }}
+            colors={[
+              globalStyleVariables.HIGHLIGHT_COLOR,
+              globalStyleVariables.MUTE_COLOR,
+            ]}
+            style={styles.tagContainer}
+          >
+            <Text style={styles.tagLabel}>#{tag.name}</Text>
+            {tag.translated_name && (
               <Text style={styles.translatedTagLabel}>
                 {tag.translated_name}
               </Text>
-            </>}
-      </PXTouchable>,
-    )}
-  </View>;
+            )}
+          </LinearGradient>
+        ) : (
+          <>
+            <Text style={styles.tagLabel}>#{tag.name}</Text>
+            <Text style={styles.translatedTagLabel}>{tag.translated_name}</Text>
+          </>
+        )}
+      </PXTouchable>
+    ))}
+  </View>
+);
 
 export default Tags;

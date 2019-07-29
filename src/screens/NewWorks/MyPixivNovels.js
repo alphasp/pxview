@@ -42,12 +42,15 @@ class MyPixivNovels extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { myPixivNovels, user } = state;
-  return {
-    myPixivNovels,
-    items: getMyPixivNovelsItems(state, props),
-    user,
-    listKey: `${props.navigation.state.key}-myPixivNovels`,
-  };
-}, myPixivNovelsActionCreators)(MyPixivNovels);
+export default connect(
+  (state, props) => {
+    const { myPixivNovels, user } = state;
+    return {
+      myPixivNovels,
+      items: getMyPixivNovelsItems(state, props),
+      user,
+      listKey: `${props.navigation.state.key}-myPixivNovels`,
+    };
+  },
+  myPixivNovelsActionCreators,
+)(MyPixivNovels);

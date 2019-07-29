@@ -59,34 +59,34 @@ const NovelGridViewItem = ({
       onPress={onPressItem}
       disabled={isMute}
     >
-      {isMute
-        ? <OverlayMutedIndicator />
-        : <View>
-            <PXImage
-              uri={item.image_urls.square_medium}
-              style={[
-                {
-                  resizeMode: 'cover',
-                  width:
-                    globalStyleVariables.WINDOW_WIDTH / numColumns -
-                    imageWidthOffset,
-                  height:
-                    globalStyleVariables.WINDOW_WIDTH / numColumns -
-                    imageWidthOffset,
-                },
-                imageStyle,
-              ]}
-            />
-            <View style={styles.overlayTitleContainer}>
-              <Text style={styles.text}>
-                {item.title}
-              </Text>
-            </View>
-            <OverlayBookmarkNovelButton item={item} gridView />
-          </View>}
-      {item.page_count > 1
-        ? <OverlayNovelPages total={item.page_count} />
-        : null}
+      {isMute ? (
+        <OverlayMutedIndicator />
+      ) : (
+        <View>
+          <PXImage
+            uri={item.image_urls.square_medium}
+            style={[
+              {
+                resizeMode: 'cover',
+                width:
+                  globalStyleVariables.WINDOW_WIDTH / numColumns -
+                  imageWidthOffset,
+                height:
+                  globalStyleVariables.WINDOW_WIDTH / numColumns -
+                  imageWidthOffset,
+              },
+              imageStyle,
+            ]}
+          />
+          <View style={styles.overlayTitleContainer}>
+            <Text style={styles.text}>{item.title}</Text>
+          </View>
+          <OverlayBookmarkNovelButton item={item} gridView />
+        </View>
+      )}
+      {item.page_count > 1 ? (
+        <OverlayNovelPages total={item.page_count} />
+      ) : null}
     </PXTouchable>
   );
 };

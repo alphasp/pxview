@@ -26,10 +26,9 @@ const OverlayBookmarkIllustButton = props => {
   const { item } = props;
   return (
     <View style={styles.container}>
-      {item.total_bookmarks > 0 &&
-        <Text style={styles.bookmarkCount}>
-          {item.total_bookmarks}
-        </Text>}
+      {item.total_bookmarks > 0 && (
+        <Text style={styles.bookmarkCount}>{item.total_bookmarks}</Text>
+      )}
       <BookmarkIllustButton {...props} />
     </View>
   );

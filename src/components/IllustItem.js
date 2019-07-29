@@ -93,34 +93,35 @@ class IllustItem extends Component {
         onPress={onPressItem}
         disabled={isMute}
       >
-        {isMute
-          ? <OverlayMutedIndicator />
-          : <View>
-              <PXImage
-                uri={item.image_urls.square_medium}
-                style={[
-                  {
-                    resizeMode: 'cover',
-                    width:
-                      (globalStyleVariables.WINDOW_WIDTH -
-                        parentContainerMargin * 2) /
-                        numColumns -
-                      imageWidthOffset,
-                    height:
-                      (globalStyleVariables.WINDOW_WIDTH -
-                        parentContainerMargin * 2) /
-                        numColumns -
-                      imageWidthOffset,
-                  },
-                  imageStyle,
-                ]}
-              />
-              {!hideBookmarkButton &&
-                <OverlayBookmarkIllustButton item={item} />}
-            </View>}
-        {item.meta_pages && item.meta_pages.length
-          ? <OverlayImagePages total={item.meta_pages.length} />
-          : null}
+        {isMute ? (
+          <OverlayMutedIndicator />
+        ) : (
+          <View>
+            <PXImage
+              uri={item.image_urls.square_medium}
+              style={[
+                {
+                  resizeMode: 'cover',
+                  width:
+                    (globalStyleVariables.WINDOW_WIDTH -
+                      parentContainerMargin * 2) /
+                      numColumns -
+                    imageWidthOffset,
+                  height:
+                    (globalStyleVariables.WINDOW_WIDTH -
+                      parentContainerMargin * 2) /
+                      numColumns -
+                    imageWidthOffset,
+                },
+                imageStyle,
+              ]}
+            />
+            {!hideBookmarkButton && <OverlayBookmarkIllustButton item={item} />}
+          </View>
+        )}
+        {item.meta_pages && item.meta_pages.length ? (
+          <OverlayImagePages total={item.meta_pages.length} />
+        ) : null}
         {item.type === 'ugoira' && <OverlayUgoiraIndicator />}
       </PXTouchable>
     );

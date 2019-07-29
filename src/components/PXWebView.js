@@ -41,14 +41,14 @@ class PXWebView extends Component {
           { backgroundColor: theme.colors.background },
         ]}
       >
-        {loadedOnce &&
-          loading &&
+        {loadedOnce && loading && (
           <ProgressBar
             indeterminate
             borderRadius={0}
             width={globalStyleVariables.WINDOW_WIDTH}
             height={3}
-          />}
+          />
+        )}
         <WebView
           source={source}
           onLoadStart={this.handleOnLoadStart}

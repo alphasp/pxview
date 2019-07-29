@@ -10,9 +10,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const HeaderShareButton = ({ onPress, ...restProps }) =>
+const HeaderShareButton = ({ onPress, ...restProps }) => (
   <PXTouchable onPress={onPress} {...restProps}>
     <Icon name="share" size={20} style={styles.icon} />
-  </PXTouchable>;
+  </PXTouchable>
+);
 
 export default HeaderShareButton;

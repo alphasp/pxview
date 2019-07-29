@@ -36,9 +36,7 @@ class SearchHistory extends Component {
           onPress={() => onPressItem(item)}
           style={styles.searchHistoryText}
         >
-          <Text>
-            {item}
-          </Text>
+          <Text>{item}</Text>
         </PXTouchable>
         <PXTouchable
           hitSlop={{ top: 0, left: 20, bottom: 20, right: 20 }}
@@ -55,9 +53,7 @@ class SearchHistory extends Component {
     return (
       <View style={globalStyles.container}>
         <View style={styles.searchHistoryContainer}>
-          <Text style={styles.searchHistoryTitle}>
-            {i18n.searchHistory}
-          </Text>
+          <Text style={styles.searchHistoryTitle}>{i18n.searchHistory}</Text>
           <PXTouchable
             hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
             onPress={onPressClearSearchHistory}

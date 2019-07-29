@@ -50,12 +50,15 @@ class RecommendedNovels extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { recommendedNovels, user } = state;
-  return {
-    recommendedNovels,
-    items: getRecommendedNovelsItems(state, props),
-    user,
-    listKey: `${props.navigation.state.key}-recommendedNovels`,
-  };
-}, recommendedNovelsActionCreators)(RecommendedNovels);
+export default connect(
+  (state, props) => {
+    const { recommendedNovels, user } = state;
+    return {
+      recommendedNovels,
+      items: getRecommendedNovelsItems(state, props),
+      user,
+      listKey: `${props.navigation.state.key}-recommendedNovels`,
+    };
+  },
+  recommendedNovelsActionCreators,
+)(RecommendedNovels);

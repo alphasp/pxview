@@ -92,9 +92,11 @@ class NovelViewer extends Component {
   };
 
   renderPager = props =>
-    Platform.OS === 'ios'
-      ? <TabViewPagerScroll {...props} />
-      : <TabViewPagerPan {...props} />;
+    Platform.OS === 'ios' ? (
+      <TabViewPagerScroll {...props} />
+    ) : (
+      <TabViewPagerPan {...props} />
+    );
 
   renderScene = ({ route, index }) => {
     if (Math.abs(this.state.index - this.state.routes.indexOf(route)) > 3) {
@@ -106,7 +108,7 @@ class NovelViewer extends Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          {item.match(/(.|[\r\n]){1,3000}/g).map((t, i) =>
+          {item.match(/(.|[\r\n]){1,3000}/g).map((t, i) => (
             <HtmlView
               key={`${novelId}-${index}-${i}`} // eslint-disable-line react/no-array-index-key
               value={t}
@@ -119,8 +121,8 @@ class NovelViewer extends Component {
                 selectable: true,
               }}
               TextComponent={Text}
-            />,
-          )}
+            />
+          ))}
         </ScrollView>
       </View>
     );

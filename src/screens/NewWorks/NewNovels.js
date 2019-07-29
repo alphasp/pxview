@@ -12,7 +12,10 @@ class NewNovels extends Component {
   }
 
   loadMoreItems = () => {
-    const { newNovels: { nextUrl, loading }, fetchNewNovels } = this.props;
+    const {
+      newNovels: { nextUrl, loading },
+      fetchNewNovels,
+    } = this.props;
     if (!loading && nextUrl) {
       fetchNewNovels(nextUrl);
     }
@@ -39,12 +42,15 @@ class NewNovels extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { newNovels, user } = state;
-  return {
-    newNovels,
-    items: getNewNovelsItems(state, props),
-    user,
-    listKey: `${props.navigation.state.key}-newNovels`,
-  };
-}, newNovelsActionCreators)(NewNovels);
+export default connect(
+  (state, props) => {
+    const { newNovels, user } = state;
+    return {
+      newNovels,
+      items: getNewNovelsItems(state, props),
+      user,
+      listKey: `${props.navigation.state.key}-newNovels`,
+    };
+  },
+  newNovelsActionCreators,
+)(NewNovels);

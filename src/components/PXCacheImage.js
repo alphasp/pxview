@@ -35,37 +35,37 @@ class PXCacheImage extends Component {
   render() {
     const { uri, style, ...otherProps } = this.props;
     const { width, height } = this.state;
-    return width && height
-      ? <View
-          style={{
-            width: globalStyleVariables.WINDOW_WIDTH,
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            // backgroundColor: '#fff',
+    return width && height ? (
+      <View
+        style={{
+          width: globalStyleVariables.WINDOW_WIDTH,
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          // backgroundColor: '#fff',
+        }}
+      >
+        <Image
+          source={{
+            uri,
+            headers: {
+              referer: 'http://www.pixiv.net',
+            },
           }}
-        >
-          <Image
-            source={{
-              uri,
-              headers: {
-                referer: 'http://www.pixiv.net',
-              },
-            }}
-            style={[
-              {
-                width:
-                  width > globalStyleVariables.WINDOW_WIDTH
-                    ? globalStyleVariables.WINDOW_WIDTH
-                    : width,
-                height: globalStyleVariables.WINDOW_WIDTH * height / width,
-              },
-              style,
-            ]}
-            {...otherProps}
-          />
-        </View>
-      : null;
+          style={[
+            {
+              width:
+                width > globalStyleVariables.WINDOW_WIDTH
+                  ? globalStyleVariables.WINDOW_WIDTH
+                  : width,
+              height: (globalStyleVariables.WINDOW_WIDTH * height) / width,
+            },
+            style,
+          ]}
+          {...otherProps}
+        />
+      </View>
+    ) : null;
   }
 }
 

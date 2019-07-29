@@ -62,7 +62,7 @@ class WalkthroughIllustList extends Component {
           const offset = Date.now() - this.last;
           this.tmpFps += 1;
           if (offset >= 1000) {
-            this.fps = this.tmpFps / offset * 1000;
+            this.fps = (this.tmpFps / offset) * 1000;
             this.last = Date.now();
             this.tmpFps = 0;
           }
@@ -92,11 +92,14 @@ class WalkthroughIllustList extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { walkthroughIllusts } = state;
-  return {
-    walkthroughIllusts,
-    items: getWalkthroughIllustsItems(state, props),
-    listKey: 'walkthroughIllustList',
-  };
-}, walkthroughIllustsActionCreators)(WalkthroughIllustList);
+export default connect(
+  (state, props) => {
+    const { walkthroughIllusts } = state;
+    return {
+      walkthroughIllusts,
+      items: getWalkthroughIllustsItems(state, props),
+      listKey: 'walkthroughIllustList',
+    };
+  },
+  walkthroughIllustsActionCreators,
+)(WalkthroughIllustList);

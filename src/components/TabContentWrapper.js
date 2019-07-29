@@ -18,11 +18,9 @@ class TabContentWrapper extends Component {
 
   render() {
     const { active, children } = this.props;
-    return active || this.state.loaded
-      ? <View style={globalStyles.container}>
-          {children}
-        </View>
-      : null;
+    return active || this.state.loaded ? (
+      <View style={globalStyles.container}>{children}</View>
+    ) : null;
   }
 }
 

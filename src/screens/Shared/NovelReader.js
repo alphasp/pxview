@@ -54,8 +54,9 @@ class NovelReader extends Component {
     );
   };
 
-  renderHeaderRight = () =>
-    <HeaderSettingsButton onPress={this.handleOnPressOpenSettings} />;
+  renderHeaderRight = () => (
+    <HeaderSettingsButton onPress={this.handleOnPressOpenSettings} />
+  );
 
   render() {
     const {
@@ -81,7 +82,7 @@ class NovelReader extends Component {
           headerRight={this.renderHeaderRight()}
         />
         {(!novelText || (!novelText.loaded || novelText.loading)) && <Loader />}
-        {parsedNovelText &&
+        {parsedNovelText && (
           <NovelViewer
             novelId={novelId}
             items={parsedNovelText}
@@ -90,7 +91,8 @@ class NovelReader extends Component {
             lineHeight={lineHeight}
             onIndexChange={this.handleOnIndexChange}
             onPressPageLink={this.handleOnPressPageLink}
-          />}
+          />
+        )}
       </View>
     );
   }

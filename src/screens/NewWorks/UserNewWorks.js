@@ -73,11 +73,7 @@ class UserNewWorks extends Component {
   };
 
   render() {
-    return (
-      <View style={globalStyles.container}>
-        {this.renderContent()}
-      </View>
-    );
+    return <View style={globalStyles.container}>{this.renderContent()}</View>;
   }
 }
 

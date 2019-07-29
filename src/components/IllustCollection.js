@@ -54,21 +54,14 @@ const IllustCollection = props => {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Text>
-          {title}
-        </Text>
+        <Text>{title}</Text>
         <PXTouchable
           onPress={onPressViewMore}
           hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
         >
           <View style={styles.viewAllContainer}>
-            {total &&
-              <Text style={styles.total}>
-                {total}
-              </Text>}
-            <Text>
-              {viewMoreTitle}
-            </Text>
+            {total && <Text style={styles.total}>{total}</Text>}
+            <Text>{viewMoreTitle}</Text>
             <Icon
               name="chevron-right"
               style={styles.chevronIcon}
@@ -79,17 +72,18 @@ const IllustCollection = props => {
       </View>
       <View style={styles.imagePreviews}>
         {illusts && illusts.length
-          ? illusts.map((item, index) =>
+          ? illusts.map((item, index) => (
               <IllustItem
                 key={item.id}
                 illustId={item.id}
                 index={index}
                 numColumns={ILLUST_COLUMNS}
                 onPressItem={() =>
-                  push(SCREENS.Detail, { items: illusts, index })}
+                  push(SCREENS.Detail, { items: illusts, index })
+                }
                 parentContainerMargin={CONTAINER_MARGIN}
-              />,
-            )
+              />
+            ))
           : null}
       </View>
     </View>

@@ -48,16 +48,19 @@ class UserFollowers extends Component {
 }
 
 export default connectLocalization(
-  connect(() => {
-    const getUserFollowersItems = makeGetUserFollowersItems();
-    return (state, props) => {
-      const { userFollowers } = state;
-      const userId = props.userId || props.navigation.state.params.userId;
-      return {
-        userFollowers: userFollowers[userId],
-        items: getUserFollowersItems(state, props),
-        userId,
+  connect(
+    () => {
+      const getUserFollowersItems = makeGetUserFollowersItems();
+      return (state, props) => {
+        const { userFollowers } = state;
+        const userId = props.userId || props.navigation.state.params.userId;
+        return {
+          userFollowers: userFollowers[userId],
+          items: getUserFollowersItems(state, props),
+          userId,
+        };
       };
-    };
-  }, userFollowersActionCreators)(UserFollowers),
+    },
+    userFollowersActionCreators,
+  )(UserFollowers),
 );

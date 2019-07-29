@@ -48,7 +48,10 @@ class RelatedIllusts extends Component {
   };
 
   handleOnPressViewMoreRelatedIllusts = () => {
-    const { illustId, navigation: { push } } = this.props;
+    const {
+      illustId,
+      navigation: { push },
+    } = this.props;
     push(SCREENS.RelatedIllusts, {
       illustId,
     });
@@ -74,37 +77,40 @@ class RelatedIllusts extends Component {
         />
         {relatedIllusts &&
           relatedIllusts.loaded &&
-          (!items || !items.length) &&
-          <NoResult text={i18n.noRelatedWorks} />}
+          (!items || !items.length) && <NoResult text={i18n.noRelatedWorks} />}
         {isFeatureInDetailPage &&
         relatedIllusts &&
         relatedIllusts.loaded &&
         items &&
-        items.length
-          ? <View style={styles.viewMoreButtonContainer}>
-              <ViewMoreButton
-                onPress={this.handleOnPressViewMoreRelatedIllusts}
-              />
-            </View>
-          : null}
+        items.length ? (
+          <View style={styles.viewMoreButtonContainer}>
+            <ViewMoreButton
+              onPress={this.handleOnPressViewMoreRelatedIllusts}
+            />
+          </View>
+        ) : null}
       </View>
     );
   }
 }
 
 export default connectLocalization(
-  connect(() => {
-    const getRelatedIllustsItems = makeGetRelatedIllustsItems();
-    return (state, props) => {
-      const { relatedIllusts } = state;
-      const { listKey } = props;
-      const illustId = props.illustId || props.navigation.state.params.illustId;
-      return {
-        relatedIllusts: relatedIllusts[illustId],
-        items: getRelatedIllustsItems(state, props),
-        illustId,
-        listKey: listKey || `${props.navigation.state.key}-${illustId}`,
+  connect(
+    () => {
+      const getRelatedIllustsItems = makeGetRelatedIllustsItems();
+      return (state, props) => {
+        const { relatedIllusts } = state;
+        const { listKey } = props;
+        const illustId =
+          props.illustId || props.navigation.state.params.illustId;
+        return {
+          relatedIllusts: relatedIllusts[illustId],
+          items: getRelatedIllustsItems(state, props),
+          illustId,
+          listKey: listKey || `${props.navigation.state.key}-${illustId}`,
+        };
       };
-    };
-  }, relatedIllustsActionCreators)(RelatedIllusts),
+    },
+    relatedIllustsActionCreators,
+  )(RelatedIllusts),
 );

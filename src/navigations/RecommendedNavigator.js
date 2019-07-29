@@ -43,8 +43,9 @@ const RecommendedNavigator = createStackNavigator(routeConfig, stackConfig);
 if (!config.navigation.tab) {
   RecommendedNavigator.navigationOptions = ({ screenProps: { i18n } }) => ({
     drawerLabel: i18n.recommended,
-    drawerIcon: ({ tintColor }) =>
-      <DrawerIcon name="thumbs-up" size={24} color={tintColor} />,
+    drawerIcon: ({ tintColor }) => (
+      <DrawerIcon name="thumbs-up" size={24} color={tintColor} />
+    ),
   });
 }
 

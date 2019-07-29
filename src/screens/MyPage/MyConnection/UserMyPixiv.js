@@ -36,15 +36,18 @@ class UserMyPixiv extends Component {
   }
 }
 
-export default connect(() => {
-  const getUserMyPixivItems = makeGetUserMyPixivItems();
-  return (state, props) => {
-    const { userMyPixiv } = state;
-    const userId = props.userId || props.navigation.state.params.userId;
-    return {
-      userMyPixiv: userMyPixiv[userId],
-      items: getUserMyPixivItems(state, props),
-      userId,
+export default connect(
+  () => {
+    const getUserMyPixivItems = makeGetUserMyPixivItems();
+    return (state, props) => {
+      const { userMyPixiv } = state;
+      const userId = props.userId || props.navigation.state.params.userId;
+      return {
+        userMyPixiv: userMyPixiv[userId],
+        items: getUserMyPixivItems(state, props),
+        userId,
+      };
     };
-  };
-}, userMyPixivActionCreators)(UserMyPixiv);
+  },
+  userMyPixivActionCreators,
+)(UserMyPixiv);

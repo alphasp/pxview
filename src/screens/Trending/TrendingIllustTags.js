@@ -37,10 +37,13 @@ class TrendingIllustTags extends Component {
   }
 }
 
-export default connect(state => {
-  const { trendingIllustTags } = state;
-  return {
-    trendingIllustTags,
-    items: getTrendingIllustTagsItems(state),
-  };
-}, trendingIllustTagsActionCreators)(TrendingIllustTags);
+export default connect(
+  state => {
+    const { trendingIllustTags } = state;
+    return {
+      trendingIllustTags,
+      items: getTrendingIllustTagsItems(state),
+    };
+  },
+  trendingIllustTagsActionCreators,
+)(TrendingIllustTags);

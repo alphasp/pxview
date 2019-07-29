@@ -42,11 +42,14 @@ class MyPixivIllusts extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { myPixivIllusts } = state;
-  return {
-    myPixivIllusts,
-    items: getMyPixivIllustsItems(state),
-    listKey: `${props.navigation.state.key}-myPixivIllusts`,
-  };
-}, myPixivIllustsActionCreators)(MyPixivIllusts);
+export default connect(
+  (state, props) => {
+    const { myPixivIllusts } = state;
+    return {
+      myPixivIllusts,
+      items: getMyPixivIllustsItems(state),
+      listKey: `${props.navigation.state.key}-myPixivIllusts`,
+    };
+  },
+  myPixivIllustsActionCreators,
+)(MyPixivIllusts);

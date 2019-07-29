@@ -122,19 +122,21 @@ class FollowingUserNewWorks extends Component {
     const { index, isOpenFilterModal, options } = this.state;
     return (
       <View style={globalStyles.container}>
-        {index === 0
-          ? <FollowingUserIllusts
-              navigation={navigation}
-              renderEmpty={this.renderEmpty}
-              renderHeader={this.renderHeader}
-              options={options}
-            />
-          : <FollowingUserNovels
-              navigation={navigation}
-              renderEmpty={this.renderEmpty}
-              renderHeader={this.renderHeader}
-              options={options}
-            />}
+        {index === 0 ? (
+          <FollowingUserIllusts
+            navigation={navigation}
+            renderEmpty={this.renderEmpty}
+            renderHeader={this.renderHeader}
+            options={options}
+          />
+        ) : (
+          <FollowingUserNovels
+            navigation={navigation}
+            renderEmpty={this.renderEmpty}
+            renderHeader={this.renderHeader}
+            options={options}
+          />
+        )}
         <VisibilityFilterModal
           isOpen={isOpenFilterModal}
           onPressCloseButton={this.handleOnPressCloseFilterButton}

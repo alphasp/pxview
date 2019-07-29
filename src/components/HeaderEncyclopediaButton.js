@@ -9,9 +9,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const HeaderEncyclopediaButton = ({ onPress, color, ...restProps }) =>
+const HeaderEncyclopediaButton = ({ onPress, color, ...restProps }) => (
   <PXTouchable onPress={onPress} {...restProps}>
     <Icon name="book" size={20} style={styles.icon} color={color || '#fff'} />
-  </PXTouchable>;
+  </PXTouchable>
+);
 
 export default HeaderEncyclopediaButton;

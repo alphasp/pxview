@@ -65,14 +65,16 @@ class TagSettings extends Component {
     DeviceEventEmitter.emit('showToast', message);
   };
 
-  renderItem = ({ item }) =>
+  renderItem = ({ item }) => (
     <PXListItem
       title={item}
-      right={() =>
+      right={() => (
         <PXListItemRemoveButton
           onPress={() => this.handleOnPressRemoveTag(item)}
-        />}
-    />;
+        />
+      )}
+    />
+  );
 
   render() {
     const { items, textInputPlaceholder, theme } = this.props;

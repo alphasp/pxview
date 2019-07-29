@@ -54,7 +54,10 @@ class UgoiraViewTouchable extends Component {
   }
 
   downloadZip = async () => {
-    const { item: { id }, ugoiraMeta } = this.props;
+    const {
+      item: { id },
+      ugoiraMeta,
+    } = this.props;
     const { zipUrl } = ugoiraMeta.item;
     try {
       const ugoiraPath = `${RNFetchBlob.fs.dirs.CacheDir}/pxview/ugoira/${id}`;
@@ -66,8 +69,9 @@ class UgoiraViewTouchable extends Component {
           });
         }
       } else {
-        const downloadPath = `${RNFetchBlob.fs.dirs
-          .CacheDir}/pxview/ugoira_zip/${zipUrl.split('/').pop()}`;
+        const downloadPath = `${
+          RNFetchBlob.fs.dirs.CacheDir
+        }/pxview/ugoira_zip/${zipUrl.split('/').pop()}`;
         this.task = RNFetchBlob.config({
           fileCache: true,
           appendExt: 'zip',
@@ -147,7 +151,7 @@ class UgoiraViewTouchable extends Component {
         ? globalStyleVariables.WINDOW_WIDTH
         : item.width;
     const height = Math.floor(
-      globalStyleVariables.WINDOW_WIDTH * item.height / item.width,
+      (globalStyleVariables.WINDOW_WIDTH * item.height) / item.width,
     );
     return (
       <TouchableWithoutFeedback
@@ -163,28 +167,31 @@ class UgoiraViewTouchable extends Component {
             },
           ]}
         >
-          {ugoiraPath
-            ? <UgoiraView
-                images={ugoiraMeta.item.frames.map(frame => ({
-                  uri:
-                    Platform.OS === 'android'
-                      ? `file://${ugoiraPath}/${frame.file}`
-                      : `${ugoiraPath}/${frame.file}`,
-                  delay: frame.delay,
-                }))}
-                paused={paused}
-                width={width}
-                height={height}
-                resizeMode="contain"
-              />
-            : <PXCacheImage
-                uri={item.image_urls.medium}
-                width={width}
-                height={height}
-                style={styles.image}
-              />}
-          {((ugoiraMeta && ugoiraMeta.loading) || isDownloadingZip) &&
-            <Loader absolutePosition />}
+          {ugoiraPath ? (
+            <UgoiraView
+              images={ugoiraMeta.item.frames.map(frame => ({
+                uri:
+                  Platform.OS === 'android'
+                    ? `file://${ugoiraPath}/${frame.file}`
+                    : `${ugoiraPath}/${frame.file}`,
+                delay: frame.delay,
+              }))}
+              paused={paused}
+              width={width}
+              height={height}
+              resizeMode="contain"
+            />
+          ) : (
+            <PXCacheImage
+              uri={item.image_urls.medium}
+              width={width}
+              height={height}
+              style={styles.image}
+            />
+          )}
+          {((ugoiraMeta && ugoiraMeta.loading) || isDownloadingZip) && (
+            <Loader absolutePosition />
+          )}
           {!isStartPlaying && <OverlayPlayIcon />}
         </View>
       </TouchableWithoutFeedback>
@@ -192,10 +199,13 @@ class UgoiraViewTouchable extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { ugoiraMeta } = state;
-  const { item } = props;
-  return {
-    ugoiraMeta: ugoiraMeta[item.id],
-  };
-}, ugoiraMetaActionCreators)(UgoiraViewTouchable);
+export default connect(
+  (state, props) => {
+    const { ugoiraMeta } = state;
+    const { item } = props;
+    return {
+      ugoiraMeta: ugoiraMeta[item.id],
+    };
+  },
+  ugoiraMetaActionCreators,
+)(UgoiraViewTouchable);

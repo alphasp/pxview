@@ -64,7 +64,7 @@ class SingleChoiceDialog extends Component {
     const { selectedItemValue } = this.state;
     return (
       <View>
-        {items.map(item =>
+        {items.map(item => (
           <TouchableRipple
             key={item.value}
             onPress={() => this.handleOnSelectItem(item.value)}
@@ -78,12 +78,10 @@ class SingleChoiceDialog extends Component {
                   }
                 />
               </View>
-              <Subheading style={styles.text}>
-                {item.label}
-              </Subheading>
+              <Subheading style={styles.text}>{item.label}</Subheading>
             </View>
-          </TouchableRipple>,
-        )}
+          </TouchableRipple>
+        ))}
       </View>
     );
   };
@@ -107,26 +105,25 @@ class SingleChoiceDialog extends Component {
         onRequestClose={onPressCancel}
       >
         <Dialog dismissable={false} onDismiss={onPressCancel} visible={visible}>
-          <Dialog.Title>
-            {title}
-          </Dialog.Title>
-          {scrollable
-            ? <Dialog.ScrollArea style={styles.dialogContentContainer}>
-                <ScrollView>
-                  {this.renderItems()}
-                </ScrollView>
-              </Dialog.ScrollArea>
-            : <Dialog.Content style={styles.dialogContentContainer}>
-                {this.renderItems()}
-              </Dialog.Content>}
+          <Dialog.Title>{title}</Dialog.Title>
+          {scrollable ? (
+            <Dialog.ScrollArea style={styles.dialogContentContainer}>
+              <ScrollView>{this.renderItems()}</ScrollView>
+            </Dialog.ScrollArea>
+          ) : (
+            <Dialog.Content style={styles.dialogContentContainer}>
+              {this.renderItems()}
+            </Dialog.Content>
+          )}
           <Dialog.Actions>
             <Button primary onPress={onPressCancel}>
               {cancelLabel || i18n.cancel}
             </Button>
-            {enableOkButton &&
+            {enableOkButton && (
               <Button primary onPress={this.handleOnPressOk}>
                 {okLabel || i18n.ok}
-              </Button>}
+              </Button>
+            )}
           </Dialog.Actions>
         </Dialog>
       </Modal>

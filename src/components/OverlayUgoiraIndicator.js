@@ -21,9 +21,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const OverlayUgoiraIndicator = () =>
+const OverlayUgoiraIndicator = () => (
   <View style={styles.container}>
     <Icon name="play" color="#fff" />
-  </View>;
+  </View>
+);
 
 export default OverlayUgoiraIndicator;

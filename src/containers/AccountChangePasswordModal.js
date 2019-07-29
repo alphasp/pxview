@@ -32,7 +32,9 @@ const handleOnSubmit = (values, { props }) => {
 
 class AccountChangePasswordModal extends Component {
   componentWillReceiveProps(nextProps) {
-    const { editAccountState: { prevSuccess } } = this.props;
+    const {
+      editAccountState: { prevSuccess },
+    } = this.props;
     const {
       editAccountState: { success, validationErrors },
       onClose,

@@ -41,7 +41,11 @@ class SearchFilterPeriodDateModal extends Component {
     this.state = {
       isStartDatePickerVisible: false,
       isEndDatePickerVisible: false,
-      startDate: startDate || moment().subtract(7, 'day').format('YYYY-MM-DD'),
+      startDate:
+        startDate ||
+        moment()
+          .subtract(7, 'day')
+          .format('YYYY-MM-DD'),
       endDate: endDate || moment().format('YYYY-MM-DD'),
     };
   }
@@ -67,7 +71,10 @@ class SearchFilterPeriodDateModal extends Component {
       isStartDatePickerVisible: false,
     };
     if (ed.diff(sd, 'years', true) > 1) {
-      newState.endDate = sd.clone().add(1, 'years').format('YYYY-MM-DD');
+      newState.endDate = sd
+        .clone()
+        .add(1, 'years')
+        .format('YYYY-MM-DD');
     }
     this.setState(newState);
   };
@@ -81,7 +88,10 @@ class SearchFilterPeriodDateModal extends Component {
       isEndDatePickerVisible: false,
     };
     if (ed.diff(sd, 'years', true) > 1) {
-      newState.startDate = ed.clone().subtract(1, 'years').format('YYYY-MM-DD');
+      newState.startDate = ed
+        .clone()
+        .subtract(1, 'years')
+        .format('YYYY-MM-DD');
     }
     this.setState(newState);
   };
@@ -134,9 +144,7 @@ class SearchFilterPeriodDateModal extends Component {
         <View style={styles.infoContainer}>
           <View style={styles.infoSubContainer}>
             <Icon name="info-circle" size={20} color={theme.colors.text} />
-            <Text style={styles.info}>
-              {i18n.searchPeriodInfo}
-            </Text>
+            <Text style={styles.info}>{i18n.searchPeriodInfo}</Text>
           </View>
         </View>
         <View style={styles.searchFilterButtonContainer}>

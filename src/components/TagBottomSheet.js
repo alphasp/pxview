@@ -10,7 +10,11 @@ import { SCREENS } from '../common/constants';
 
 class TagBottomSheet extends Component {
   handleOnPressOpenEncyclopedia = () => {
-    const { onCancel, navigation: { navigate }, selectedTag } = this.props;
+    const {
+      onCancel,
+      navigation: { navigate },
+      selectedTag,
+    } = this.props;
     if (selectedTag) {
       onCancel();
       navigate(SCREENS.Encyclopedia, {
@@ -80,8 +84,11 @@ class TagBottomSheet extends Component {
 }
 
 export default connectLocalization(
-  connect(null, {
-    ...highlightTagsActionCreators,
-    ...muteTagsActionCreators,
-  })(TagBottomSheet),
+  connect(
+    null,
+    {
+      ...highlightTagsActionCreators,
+      ...muteTagsActionCreators,
+    },
+  )(TagBottomSheet),
 );

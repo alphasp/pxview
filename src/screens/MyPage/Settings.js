@@ -135,7 +135,10 @@ class Settings extends Component {
   };
 
   handleOnPressListItem = item => {
-    const { navigation: { navigate }, i18n } = this.props;
+    const {
+      navigation: { navigate },
+      i18n,
+    } = this.props;
     switch (item.id) {
       case 'accountSettings': {
         navigate(SCREENS.AccountSettings);

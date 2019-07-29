@@ -36,10 +36,10 @@ class PXCacheImageTouchable extends Component {
           ? globalStyleVariables.WINDOW_WIDTH
           : width;
       const newHeight =
-        (width > globalStyleVariables.WINDOW_WIDTH
+        ((width > globalStyleVariables.WINDOW_WIDTH
           ? globalStyleVariables.WINDOW_WIDTH
           : width) *
-        height /
+          height) /
         width;
       this.setState({
         width: newWidth,
@@ -83,13 +83,11 @@ class PXCacheImageTouchable extends Component {
         ]}
         activeOpacity={1}
       >
-        {loading &&
-          pageNumber &&
+        {loading && pageNumber && (
           <View style={styles.pageNumberContainer}>
-            <Text style={styles.pageNumberText}>
-              {pageNumber}
-            </Text>
-          </View>}
+            <Text style={styles.pageNumberText}>{pageNumber}</Text>
+          </View>
+        )}
         {loading && !pageNumber && <Loader />}
         <PXCacheImage
           uri={uri}

@@ -13,10 +13,9 @@ class BrowsingHistory extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     return {
-      headerRight:
-        params &&
-        params.onPressClearBrowsingHistory &&
-        <HeaderClearButton onPress={params.onPressClearBrowsingHistory} />,
+      headerRight: params && params.onPressClearBrowsingHistory && (
+        <HeaderClearButton onPress={params.onPressClearBrowsingHistory} />
+      ),
     };
   };
 
@@ -109,8 +108,11 @@ class BrowsingHistory extends Component {
 }
 
 export default connectLocalization(
-  connect(null, {
-    ...browsingHistoryIllustsActionCreators,
-    ...browsingHistoryNovelsActionCreators,
-  })(BrowsingHistory),
+  connect(
+    null,
+    {
+      ...browsingHistoryIllustsActionCreators,
+      ...browsingHistoryNovelsActionCreators,
+    },
+  )(BrowsingHistory),
 );

@@ -97,11 +97,12 @@ class SaveImageSettings extends Component {
         />
         <PXListItem
           title={i18n.saveImageCreateFolderForManga}
-          right={() =>
+          right={() => (
             <Switch
               value={isCreateMangaFolder}
               onValueChange={this.handleOnSwitchIsCreateMangaFolder}
-            />}
+            />
+          )}
         />
       </View>
     );

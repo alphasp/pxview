@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Platform, FlatList } from 'react-native';
 import { withTheme } from 'react-native-paper';
-import ViewPager from "@react-native-community/viewpager";
+import ViewPager from '@react-native-community/viewpager';
 import Loader from './Loader';
 import { globalStyles, globalStyleVariables } from '../styles';
 

@@ -74,17 +74,19 @@ class NovelRanking extends Component {
     const { rankingMode, reload } = this.state.routes[index];
     return (
       <TabContentWrapper active={index === this.state.index}>
-        {rankingMode === RANKING_FOR_UI.PAST_NOVEL
-          ? <PastRanking
-              rankingType={rankingType}
-              rankingMode={rankingMode}
-              navigation={navigation}
-            />
-          : <NovelRankingList
-              rankingMode={rankingMode}
-              navigation={navigation}
-              reload={reload}
-            />}
+        {rankingMode === RANKING_FOR_UI.PAST_NOVEL ? (
+          <PastRanking
+            rankingType={rankingType}
+            rankingMode={rankingMode}
+            navigation={navigation}
+          />
+        ) : (
+          <NovelRankingList
+            rankingMode={rankingMode}
+            navigation={navigation}
+            reload={reload}
+          />
+        )}
       </TabContentWrapper>
     );
   };

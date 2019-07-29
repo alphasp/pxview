@@ -77,16 +77,19 @@ class UserBookmarkNovels extends Component {
   }
 }
 
-export default connect(() => {
-  const getUserBookmarkNovelsItems = makeGetUserBookmarkNovelsItems();
-  return (state, props) => {
-    const { userBookmarkNovels } = state;
-    const userId = props.userId || props.navigation.state.params.userId;
-    return {
-      userBookmarkNovels: userBookmarkNovels[userId],
-      items: getUserBookmarkNovelsItems(state, props),
-      userId,
-      listKey: `${props.navigation.state.key}-userbookmarkNovels`,
+export default connect(
+  () => {
+    const getUserBookmarkNovelsItems = makeGetUserBookmarkNovelsItems();
+    return (state, props) => {
+      const { userBookmarkNovels } = state;
+      const userId = props.userId || props.navigation.state.params.userId;
+      return {
+        userBookmarkNovels: userBookmarkNovels[userId],
+        items: getUserBookmarkNovelsItems(state, props),
+        userId,
+        listKey: `${props.navigation.state.key}-userbookmarkNovels`,
+      };
     };
-  };
-}, userBookmarkNovelsActionCreators)(UserBookmarkNovels);
+  },
+  userBookmarkNovelsActionCreators,
+)(UserBookmarkNovels);

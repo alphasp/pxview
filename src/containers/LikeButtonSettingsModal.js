@@ -64,8 +64,11 @@ class LikeButtonSettingsModal extends Component {
 }
 
 export default connectLocalization(
-  connect(null, {
-    ...modalActionCreators,
-    ...likeButtonSettingsActionCreators,
-  })(LikeButtonSettingsModal),
+  connect(
+    null,
+    {
+      ...modalActionCreators,
+      ...likeButtonSettingsActionCreators,
+    },
+  )(LikeButtonSettingsModal),
 );

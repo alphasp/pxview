@@ -58,7 +58,11 @@ class IllustComments extends Component {
   };
 
   handleOnPressViewMoreComments = () => {
-    const { illustId, authorId, navigation: { push } } = this.props;
+    const {
+      illustId,
+      authorId,
+      navigation: { push },
+    } = this.props;
     push(SCREENS.IllustComments, {
       illustId,
       authorId,
@@ -69,7 +73,10 @@ class IllustComments extends Component {
     const { checkIfUserEligibleToPostComment } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
-      const { illustId, navigation: { navigate } } = this.props;
+      const {
+        illustId,
+        navigation: { navigate },
+      } = this.props;
       navigate(SCREENS.AddIllustComment, {
         illustId,
         onSubmitComment: this.handleOnSubmitComment,
@@ -81,7 +88,11 @@ class IllustComments extends Component {
     const { checkIfUserEligibleToPostComment } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
-      const { illustId, authorId, navigation: { navigate } } = this.props;
+      const {
+        illustId,
+        authorId,
+        navigation: { navigate },
+      } = this.props;
       navigate(SCREENS.ReplyIllustComment, {
         illustId,
         authorId,
@@ -132,17 +143,19 @@ class IllustComments extends Component {
           renderCommentReplies={this.renderCommentReplies}
           onPressReplyCommentButton={this.handleOnPressReplyCommentButton}
         />
-        {isFeatureInDetailPage &&
+        {isFeatureInDetailPage && (
           <View style={styles.viewMoreButtonContainer}>
             <ViewMoreButton onPress={this.handleOnPressViewMoreComments} />
-          </View>}
-        {!isFeatureInDetailPage &&
+          </View>
+        )}
+        {!isFeatureInDetailPage && (
           <ActionButton
             buttonColor="#fff"
             icon={<Icon name="pencil" size={24} color="#737373" />}
             fixNativeFeedbackRadius
             onPress={this.handleOnPressCommentButton}
-          />}
+          />
+        )}
         <OverlaySpinner visible={verificationEmail.loading} />
       </SafeAreaView>
     );
@@ -150,18 +163,23 @@ class IllustComments extends Component {
 }
 
 export default enhancePostComment(
-  connect(() => {
-    const getIllustCommentsItems = makeGetIllustCommentsItems();
-    return (state, props) => {
-      const { illustComments } = state;
-      const illustId = props.illustId || props.navigation.state.params.illustId;
-      const authorId = props.authorId || props.navigation.state.params.authorId;
-      return {
-        illustComments: illustComments[illustId],
-        items: getIllustCommentsItems(state, props),
-        illustId,
-        authorId,
+  connect(
+    () => {
+      const getIllustCommentsItems = makeGetIllustCommentsItems();
+      return (state, props) => {
+        const { illustComments } = state;
+        const illustId =
+          props.illustId || props.navigation.state.params.illustId;
+        const authorId =
+          props.authorId || props.navigation.state.params.authorId;
+        return {
+          illustComments: illustComments[illustId],
+          items: getIllustCommentsItems(state, props),
+          illustId,
+          authorId,
+        };
       };
-    };
-  }, illustCommentsActionCreators)(IllustComments),
+    },
+    illustCommentsActionCreators,
+  )(IllustComments),
 );

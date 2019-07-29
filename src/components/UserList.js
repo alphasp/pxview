@@ -61,19 +61,20 @@ class UserList extends Component {
       >
         <View style={styles.imagePreviews}>
           {item.illusts &&
-            item.illusts.map((illust, index) =>
+            item.illusts.map((illust, index) => (
               <IllustItem
                 key={`userIllust-${illust.id}`}
                 illustId={illust.id}
                 index={index}
                 numColumns={PREVIEW_COLUMNS}
                 onPressItem={() =>
-                  this.handleOnPressIllustPreview(item.illusts, index)}
-              />,
-            )}
+                  this.handleOnPressIllustPreview(item.illusts, index)
+                }
+              />
+            ))}
           {(!item.illusts || !item.illusts.length) &&
             item.novels &&
-            item.novels.map((novel, index) =>
+            item.novels.map((novel, index) => (
               <NovelItem
                 key={`userNovel-${novel.id}`}
                 gridView
@@ -81,18 +82,17 @@ class UserList extends Component {
                 index={index}
                 numColumns={PREVIEW_COLUMNS}
                 onPressItem={() =>
-                  this.handleOnPressNovelPreview(item.novels, index)}
-              />,
-            )}
+                  this.handleOnPressNovelPreview(item.novels, index)
+                }
+              />
+            ))}
         </View>
         <View style={styles.userInfoContainer}>
           <PXTouchable
             style={styles.userInfo}
             onPress={() => this.handleOnPressAvatar(item.user.id)}
           >
-            <Text>
-              {item.user.name}
-            </Text>
+            <Text>{item.user.name}</Text>
           </PXTouchable>
           <FollowButtonContainer userId={item.user.id} />
         </View>
@@ -108,12 +108,14 @@ class UserList extends Component {
   };
 
   renderFooter = () => {
-    const { userList: { nextUrl } } = this.props;
-    return nextUrl
-      ? <View style={styles.footer}>
-          <Loader />
-        </View>
-      : null;
+    const {
+      userList: { nextUrl },
+    } = this.props;
+    return nextUrl ? (
+      <View style={styles.footer}>
+        <Loader />
+      </View>
+    ) : null;
   };
 
   handleOnPressIllustPreview = (illusts, index) => {
@@ -143,19 +145,19 @@ class UserList extends Component {
         style={[styles.container, { backgroundColor: theme.colors.background }]}
       >
         {!loaded && loading && <Loader />}
-        {items && items.length
-          ? <FlatList
-              data={items}
-              keyExtractor={item => item.user.id.toString()}
-              renderItem={this.renderItem}
-              onEndReachedThreshold={0.1}
-              onEndReached={loadMoreItems}
-              ListFooterComponent={this.renderFooter}
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
-            />
-          : null}
+        {items && items.length ? (
+          <FlatList
+            data={items}
+            keyExtractor={item => item.user.id.toString()}
+            renderItem={this.renderItem}
+            onEndReachedThreshold={0.1}
+            onEndReached={loadMoreItems}
+            ListFooterComponent={this.renderFooter}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          />
+        ) : null}
       </View>
     );
   }

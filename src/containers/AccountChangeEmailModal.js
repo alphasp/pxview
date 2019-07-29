@@ -51,7 +51,9 @@ const handleOnSubmit = (values, { props }) => {
 
 class AccountChangeEmailModal extends Component {
   componentWillReceiveProps(nextProps) {
-    const { editAccountState: { prevSuccess } } = this.props;
+    const {
+      editAccountState: { prevSuccess },
+    } = this.props;
     const {
       editAccountState: { success, validationErrors },
       onClose,
@@ -93,7 +95,7 @@ class AccountChangeEmailModal extends Component {
         loading={loading}
       >
         <View>
-          {(!user.isProvisionalAccount || !user.password) &&
+          {(!user.isProvisionalAccount || !user.password) && (
             <Field
               name="currentPassword"
               component={PXFormInput}
@@ -101,8 +103,9 @@ class AccountChangeEmailModal extends Component {
               secureTextEntry
               onChangeText={setFieldValue}
               onBlur={setFieldTouched}
-            />}
-          {user.isProvisionalAccount &&
+            />
+          )}
+          {user.isProvisionalAccount && (
             <Field
               name="newPassword"
               component={PXFormInput}
@@ -110,7 +113,8 @@ class AccountChangeEmailModal extends Component {
               secureTextEntry
               onChangeText={setFieldValue}
               onBlur={setFieldTouched}
-            />}
+            />
+          )}
           <Field
             name="email"
             component={PXFormInput}

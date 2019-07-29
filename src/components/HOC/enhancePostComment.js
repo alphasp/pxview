@@ -70,13 +70,16 @@ const enhancePostComment = WrappedComponent => {
   hoistNonReactStatic(Hoc, WrappedComponent);
 
   return connectLocalization(
-    connect(state => {
-      const { user } = state.auth;
-      return {
-        user,
-        verificationEmail: state.verificationEmail,
-      };
-    }, verificationEmailActionCreators)(Hoc),
+    connect(
+      state => {
+        const { user } = state.auth;
+        return {
+          user,
+          verificationEmail: state.verificationEmail,
+        };
+      },
+      verificationEmailActionCreators,
+    )(Hoc),
   );
 };
 

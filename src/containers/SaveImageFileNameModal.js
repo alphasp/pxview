@@ -137,22 +137,18 @@ class SaveImageFileNameModal extends Component {
         onRequestClose={this.handleOnModalClose}
       >
         <Dialog dismissable={false} visible onDismiss={this.handleOnModalClose}>
-          <Dialog.Title>
-            {i18n.saveImageCreateFolderForUser}
-          </Dialog.Title>
+          <Dialog.Title>{i18n.saveImageCreateFolderForUser}</Dialog.Title>
           <Dialog.Content>
             <View>
               <View style={styles.row}>
-                <Text>
-                  {i18n.saveImageCreateFolderForUser}
-                </Text>
+                <Text>{i18n.saveImageCreateFolderForUser}</Text>
                 <Switch
                   value={isCreateFolderForUser}
                   onValueChange={this.handleOnChangeIsCreateFolderForUser}
                 />
               </View>
               <View style={styles.form}>
-                {isCreateFolderForUser &&
+                {isCreateFolderForUser && (
                   <View style={styles.dropdownContainer}>
                     <PXDropdown
                       label={i18n.saveImageUserFolderName}
@@ -160,11 +156,13 @@ class SaveImageFileNameModal extends Component {
                       value={selectedFileNameUserFolder}
                       onChangeText={this.handleOnChangeUserFolderName}
                     />
-                  </View>}
-                {isCreateFolderForUser &&
+                  </View>
+                )}
+                {isCreateFolderForUser && (
                   <View style={styles.slashContainer}>
                     <Text>/</Text>
-                  </View>}
+                  </View>
+                )}
                 <View style={styles.dropdownContainer}>
                   <PXDropdown
                     label={i18n.saveImageFileName}
@@ -177,12 +175,8 @@ class SaveImageFileNameModal extends Component {
             </View>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={this.handleOnModalClose}>
-              {i18n.cancel}
-            </Button>
-            <Button onPress={this.handleOnPressOkButton}>
-              {i18n.ok}
-            </Button>
+            <Button onPress={this.handleOnModalClose}>{i18n.cancel}</Button>
+            <Button onPress={this.handleOnPressOkButton}>{i18n.ok}</Button>
           </Dialog.Actions>
         </Dialog>
       </Modal>
@@ -191,8 +185,11 @@ class SaveImageFileNameModal extends Component {
 }
 
 export default connectLocalization(
-  connect(null, {
-    ...modalActionCreators,
-    ...saveImageSettingsActionCreators,
-  })(SaveImageFileNameModal),
+  connect(
+    null,
+    {
+      ...modalActionCreators,
+      ...saveImageSettingsActionCreators,
+    },
+  )(SaveImageFileNameModal),
 );

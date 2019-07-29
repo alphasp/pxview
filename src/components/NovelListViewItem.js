@@ -62,12 +62,11 @@ const styles = StyleSheet.create({
 });
 
 class NovelListViewItem extends Component {
-  renderTags = tags =>
+  renderTags = tags => (
     <View style={styles.tagsContainer}>
-      <Text style={styles.tag}>
-        {tags.map(tag => tag.name).join('・')}
-      </Text>
-    </View>;
+      <Text style={styles.tag}>{tags.map(tag => tag.name).join('・')}</Text>
+    </View>
+  );
 
   render() {
     const {
@@ -91,60 +90,64 @@ class NovelListViewItem extends Component {
         onPress={onPressItem}
         disabled={isMute}
       >
-        {isMute
-          ? <View style={styles.muteContainer}>
-              <OverlayMutedIndicator />
-            </View>
-          : <View style={styles.contentContainer}>
-              <View style={styles.imageContainer}>
-                <PXImage
-                  uri={item.image_urls.square_medium}
-                  style={[
-                    {
-                      resizeMode: 'cover',
-                      flex: 1,
-                    },
-                    imageStyle,
-                  ]}
+        {isMute ? (
+          <View style={styles.muteContainer}>
+            <OverlayMutedIndicator />
+          </View>
+        ) : (
+          <View style={styles.contentContainer}>
+            <View style={styles.imageContainer}>
+              <PXImage
+                uri={item.image_urls.square_medium}
+                style={[
+                  {
+                    resizeMode: 'cover',
+                    flex: 1,
+                  },
+                  imageStyle,
+                ]}
+              />
+              {
+                <OverlayBookmarkNovelButton
+                  item={item}
+                  total={item.total_bookmarks}
                 />
-                {
-                  <OverlayBookmarkNovelButton
-                    item={item}
-                    total={item.total_bookmarks}
-                  />
-                }
-                {item.page_count > 1
-                  ? <OverlayNovelPages total={item.page_count} />
-                  : null}
-              </View>
-              <View style={styles.subRightContainer}>
-                {item.series &&
-                  item.series.id &&
-                  <Text style={[styles.text, styles.seriesTitle]}>
-                    {item.series.title}
-                  </Text>}
-                <Text style={[styles.text, styles.title]} ellipsisMode="tail">
-                  {item.title}
+              }
+              {item.page_count > 1 ? (
+                <OverlayNovelPages total={item.page_count} />
+              ) : null}
+            </View>
+            <View style={styles.subRightContainer}>
+              {item.series && item.series.id && (
+                <Text style={[styles.text, styles.seriesTitle]}>
+                  {item.series.title}
                 </Text>
-                <Text
-                  style={[
-                    styles.text,
-                    styles.user,
-                    theme.dark && {
-                      color: Color(theme.colors.text).alpha(0.7).string(),
-                    },
-                  ]}
-                >
-                  by {item.user.name}
-                </Text>
-                <Text style={[styles.text, styles.info]}>
-                  {`${item.text_length}${i18n.novelWords}`}
-                </Text>
-                {item.tags && item.tags.length
-                  ? this.renderTags(item.tags)
-                  : null}
-              </View>
-            </View>}
+              )}
+              <Text style={[styles.text, styles.title]} ellipsisMode="tail">
+                {item.title}
+              </Text>
+              <Text
+                style={[
+                  styles.text,
+                  styles.user,
+                  theme.dark && {
+                    color: Color(theme.colors.text)
+                      .alpha(0.7)
+                      .string(),
+                  },
+                ]}
+              >
+                by {item.user.name}
+              </Text>
+              <Text style={[styles.text, styles.info]}>
+                {`${item.text_length}${i18n.novelWords}`}
+              </Text>
+              {item.tags && item.tags.length
+                ? this.renderTags(item.tags)
+                : null}
+            </View>
+          </View>
+        )}
       </PXTouchable>
     );
   }

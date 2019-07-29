@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PXBottomSheetCancelButton = ({ onPress, text, textStyle, theme }) =>
+const PXBottomSheetCancelButton = ({ onPress, text, textStyle, theme }) => (
   <PXTouchable onPress={onPress}>
     <View style={styles.bottomSheetListItem}>
       <IonicIcon
@@ -28,10 +28,9 @@ const PXBottomSheetCancelButton = ({ onPress, text, textStyle, theme }) =>
         style={styles.bottomSheetCancelIcon}
         color={theme.colors.text}
       />
-      <Text style={[styles.bottomSheetCancelText, textStyle]}>
-        {text}
-      </Text>
+      <Text style={[styles.bottomSheetCancelText, textStyle]}>{text}</Text>
     </View>
-  </PXTouchable>;
+  </PXTouchable>
+);
 
 export default withTheme(PXBottomSheetCancelButton);

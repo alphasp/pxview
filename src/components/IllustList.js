@@ -26,8 +26,14 @@ const styles = StyleSheet.create({
 
 class IllustList extends Component {
   componentDidUpdate(prevProps) {
-    const { data: { items: prevItems } } = prevProps;
-    const { data: { items }, listKey, maxItems } = this.props;
+    const {
+      data: { items: prevItems },
+    } = prevProps;
+    const {
+      data: { items },
+      listKey,
+      maxItems,
+    } = this.props;
     if (listKey && (items && items.length) && items !== prevItems) {
       DeviceEventEmitter.emit('masterListUpdate', {
         listKey,
@@ -51,12 +57,14 @@ class IllustList extends Component {
   };
 
   renderFooter = () => {
-    const { data: { nextUrl, loading } } = this.props;
-    return nextUrl && loading
-      ? <View style={styles.footer}>
-          <Loader />
-        </View>
-      : null;
+    const {
+      data: { nextUrl, loading },
+    } = this.props;
+    return nextUrl && loading ? (
+      <View style={styles.footer}>
+        <Loader />
+      </View>
+    ) : null;
   };
 
   handleOnPressItem = (item, index) => {
@@ -105,48 +113,53 @@ class IllustList extends Component {
       >
         {!loaded && renderHeader && renderHeader()}
         {(!items || (!loaded && loading)) && <Loader />}
-        {loaded
-          ? <FlatList
-              onLayout={this.handleOnLayout}
-              ref={ref => (this.illustList = ref)}
-              data={
-                maxItems && (items && items.length)
-                  ? items.slice(0, maxItems)
-                  : items
-              }
-              numColumns={ILLUST_COLUMNS}
-              keyExtractor={item => item.id.toString()}
-              listKey={listKey}
-              renderItem={this.renderItem}
-              getItemLayout={(data, index) => ({
-                length: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS,
-                offset:
-                  globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS * index,
-                index,
-              })}
-              removeClippedSubviews={Platform.OS === 'android'}
-              initialNumToRender={5}
-              onEndReachedThreshold={onEndReachedThreshold || 0.1}
-              onEndReached={loadMoreItems}
-              ListEmptyComponent={renderEmpty}
-              ListHeaderComponent={renderHeader}
-              ListFooterComponent={this.renderFooter}
-              onScroll={onScroll}
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
-              showsVerticalScrollIndicator={
-                showsVerticalScrollIndicator !== null
-                  ? showsVerticalScrollIndicator
-                  : true
-              }
-            />
-          : null}
+        {loaded ? (
+          <FlatList
+            onLayout={this.handleOnLayout}
+            ref={ref => (this.illustList = ref)}
+            data={
+              maxItems && (items && items.length)
+                ? items.slice(0, maxItems)
+                : items
+            }
+            numColumns={ILLUST_COLUMNS}
+            keyExtractor={item => item.id.toString()}
+            listKey={listKey}
+            renderItem={this.renderItem}
+            getItemLayout={(data, index) => ({
+              length: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS,
+              offset:
+                (globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS) * index,
+              index,
+            })}
+            removeClippedSubviews={Platform.OS === 'android'}
+            initialNumToRender={5}
+            onEndReachedThreshold={onEndReachedThreshold || 0.1}
+            onEndReached={loadMoreItems}
+            ListEmptyComponent={renderEmpty}
+            ListHeaderComponent={renderHeader}
+            ListFooterComponent={this.renderFooter}
+            onScroll={onScroll}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            showsVerticalScrollIndicator={
+              showsVerticalScrollIndicator !== null
+                ? showsVerticalScrollIndicator
+                : true
+            }
+          />
+        ) : null}
       </View>
     );
   }
 }
 
 export default withTheme(
-  withNavigation(connect(null, bookmarkIllustActionCreators)(IllustList)),
+  withNavigation(
+    connect(
+      null,
+      bookmarkIllustActionCreators,
+    )(IllustList),
+  ),
 );

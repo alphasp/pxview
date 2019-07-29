@@ -68,8 +68,11 @@ class InitialScreenSettingsModal extends Component {
 }
 
 export default connectLocalization(
-  connect(null, {
-    ...modalActionCreators,
-    ...initialScreenSettingsActionCreators,
-  })(InitialScreenSettingsModal),
+  connect(
+    null,
+    {
+      ...modalActionCreators,
+      ...initialScreenSettingsActionCreators,
+    },
+  )(InitialScreenSettingsModal),
 );

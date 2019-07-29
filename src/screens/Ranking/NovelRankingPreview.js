@@ -63,7 +63,9 @@ class NovelRankingPreview extends Component {
   };
 
   handleOnPressViewMore = () => {
-    const { navigation: { navigate } } = this.props;
+    const {
+      navigation: { navigate },
+    } = this.props;
     navigate(SCREENS.NovelRanking, {
       rankingType: RANKING_TYPES.NOVEL,
     });
@@ -74,17 +76,13 @@ class NovelRankingPreview extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>
-            {i18n.novel}
-          </Text>
+          <Text style={styles.title}>{i18n.novel}</Text>
           <PXTouchable
             hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
             style={styles.viewMoreContainer}
             onPress={this.handleOnPressViewMore}
           >
-            <Text>
-              {i18n.viewMore}
-            </Text>
+            <Text>{i18n.viewMore}</Text>
             <Icon
               name="chevron-right"
               style={styles.chevronIcon}
@@ -106,14 +104,17 @@ class NovelRankingPreview extends Component {
 }
 
 export default connectLocalization(
-  connect(() => {
-    const getRankingItems = makeGetNovelRankingItems();
-    return (state, props) => {
-      const { ranking } = state;
-      return {
-        ranking: ranking[props.rankingMode],
-        items: getRankingItems(state, props),
+  connect(
+    () => {
+      const getRankingItems = makeGetNovelRankingItems();
+      return (state, props) => {
+        const { ranking } = state;
+        return {
+          ranking: ranking[props.rankingMode],
+          items: getRankingItems(state, props),
+        };
       };
-    };
-  }, rankingActionCreators)(NovelRankingPreview),
+    },
+    rankingActionCreators,
+  )(NovelRankingPreview),
 );

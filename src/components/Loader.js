@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Loader = ({ theme, absolutePosition, style, color }) =>
+const Loader = ({ theme, absolutePosition, style, color }) => (
   <View
     style={[
       styles.container,
@@ -27,6 +27,7 @@ const Loader = ({ theme, absolutePosition, style, color }) =>
     ]}
   >
     <Spinner type="ThreeBounce" color={color || theme.colors.text} />
-  </View>;
+  </View>
+);
 
 export default withTheme(Loader);

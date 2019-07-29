@@ -61,7 +61,11 @@ class IllustCommentReplies extends Component {
     const { checkIfUserEligibleToPostComment } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
-      const { illustId, authorId, navigation: { navigate } } = this.props;
+      const {
+        illustId,
+        authorId,
+        navigation: { navigate },
+      } = this.props;
       navigate(SCREENS.ReplyIllustComment, {
         illustId,
         authorId,
@@ -92,31 +96,36 @@ class IllustCommentReplies extends Component {
     const { isShowReplies } = this.state;
     return (
       <View style={globalStyles.container}>
-        {!isShowReplies
-          ? <ViewRepliesButton onPress={this.handleOnPressViewReplies} />
-          : <CommentList
-              authorId={authorId}
-              data={{ ...illustCommentReplies, items, refreshing: false }}
-              loadMoreItems={this.loadMoreItems}
-              navigation={navigation}
-              user={user}
-              onPressReplyCommentButton={this.handleOnPressReplyCommentButton}
-            />}
+        {!isShowReplies ? (
+          <ViewRepliesButton onPress={this.handleOnPressViewReplies} />
+        ) : (
+          <CommentList
+            authorId={authorId}
+            data={{ ...illustCommentReplies, items, refreshing: false }}
+            loadMoreItems={this.loadMoreItems}
+            navigation={navigation}
+            user={user}
+            onPressReplyCommentButton={this.handleOnPressReplyCommentButton}
+          />
+        )}
       </View>
     );
   }
 }
 
 export default enhancePostComment(
-  connect(() => {
-    const getIllustCommentRepliesItems = makeGetIllustCommentRepliesItems();
-    return (state, props) => {
-      const { illustCommentReplies } = state;
-      const { commentId } = props;
-      return {
-        illustCommentReplies: illustCommentReplies[commentId],
-        items: getIllustCommentRepliesItems(state, props),
+  connect(
+    () => {
+      const getIllustCommentRepliesItems = makeGetIllustCommentRepliesItems();
+      return (state, props) => {
+        const { illustCommentReplies } = state;
+        const { commentId } = props;
+        return {
+          illustCommentReplies: illustCommentReplies[commentId],
+          items: getIllustCommentRepliesItems(state, props),
+        };
       };
-    };
-  }, illustCommentRepliesActionCreators)(IllustCommentReplies),
+    },
+    illustCommentRepliesActionCreators,
+  )(IllustCommentReplies),
 );

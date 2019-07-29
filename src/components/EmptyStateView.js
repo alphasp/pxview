@@ -49,13 +49,8 @@ const EmptyState = props => {
         color={theme.colors.text}
       />
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>
-          {title}
-        </Text>
-        {description &&
-          <Text style={styles.description}>
-            {description}
-          </Text>}
+        <Text style={styles.title}>{title}</Text>
+        {description && <Text style={styles.description}>{description}</Text>}
       </View>
       {actionButton}
     </View>

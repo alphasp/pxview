@@ -27,7 +27,11 @@ class SearchNovelsResult extends Component {
   }
 
   loadMoreItems = () => {
-    const { searchNovels: { nextUrl, loading }, word, options } = this.props;
+    const {
+      searchNovels: { nextUrl, loading },
+      word,
+      options,
+    } = this.props;
     if (!loading && nextUrl) {
       this.search(word, options, nextUrl);
     }
@@ -54,26 +58,28 @@ class SearchNovelsResult extends Component {
           loadMoreItems={this.loadMoreItems}
           onRefresh={this.handleOnRefresh}
         />
-        {searchNovels &&
-          searchNovels.loaded &&
-          (!items || !items.length) &&
-          <NoResult text={i18n.noSearchResult} />}
+        {searchNovels && searchNovels.loaded && (!items || !items.length) && (
+          <NoResult text={i18n.noSearchResult} />
+        )}
       </View>
     );
   }
 }
 
 export default connectLocalization(
-  connect(() => {
-    const getSearchNovelsItems = makeGetSearchNovelsItems();
-    return (state, props) => {
-      const { searchNovels } = state;
-      const { navigationStateKey } = props;
-      return {
-        searchNovels: searchNovels[navigationStateKey],
-        items: getSearchNovelsItems(state, props),
-        listKey: navigationStateKey,
+  connect(
+    () => {
+      const getSearchNovelsItems = makeGetSearchNovelsItems();
+      return (state, props) => {
+        const { searchNovels } = state;
+        const { navigationStateKey } = props;
+        return {
+          searchNovels: searchNovels[navigationStateKey],
+          items: getSearchNovelsItems(state, props),
+          listKey: navigationStateKey,
+        };
       };
-    };
-  }, searchNovelsActionCreators)(SearchNovelsResult),
+    },
+    searchNovelsActionCreators,
+  )(SearchNovelsResult),
 );

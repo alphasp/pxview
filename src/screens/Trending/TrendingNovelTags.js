@@ -37,10 +37,13 @@ class TrendingNovelTags extends Component {
   }
 }
 
-export default connect(state => {
-  const { trendingNovelTags } = state;
-  return {
-    trendingNovelTags,
-    items: getTrendingNovelTagsItems(state),
-  };
-}, trendingNovelTagsActionCreators)(TrendingNovelTags);
+export default connect(
+  state => {
+    const { trendingNovelTags } = state;
+    return {
+      trendingNovelTags,
+      items: getTrendingNovelTagsItems(state),
+    };
+  },
+  trendingNovelTagsActionCreators,
+)(TrendingNovelTags);

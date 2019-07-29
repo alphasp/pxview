@@ -74,8 +74,12 @@ class FollowModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { userFollowDetail: { item: prevItem } } = this.props;
-    const { userFollowDetail: { item } } = nextProps;
+    const {
+      userFollowDetail: { item: prevItem },
+    } = this.props;
+    const {
+      userFollowDetail: { item },
+    } = nextProps;
     if (item && item !== prevItem) {
       this.setState({
         isPrivate: item.restrict === 'private',
@@ -155,65 +159,61 @@ class FollowModal extends Component {
                   </Text>
                 </View>
                 <View style={styles.formContainer}>
-                  {loading &&
+                  {loading && (
                     <View style={styles.loaderContainer}>
                       <Loader />
-                    </View>}
-                  {loaded &&
+                    </View>
+                  )}
+                  {loaded && (
                     <View>
                       <View style={styles.form}>
-                        <Text>
-                          {i18n.private}
-                        </Text>
+                        <Text>{i18n.private}</Text>
                         <Switch
                           onValueChange={this.handleOnChangeIsPrivate}
                           value={isPrivate}
                         />
                       </View>
-                      {isFollow
-                        ? <View style={styles.actionContainer}>
-                            <PXTouchable
-                              hitSlop={{
-                                top: 20,
-                                left: 20,
-                                bottom: 20,
-                                right: 20,
-                              }}
-                              onPress={this.handleOnPressRemoveButton}
-                            >
-                              <Text>
-                                {i18n.followRemove}
-                              </Text>
-                            </PXTouchable>
-                            <PXTouchable
-                              hitSlop={{
-                                top: 20,
-                                left: 20,
-                                bottom: 20,
-                                right: 20,
-                              }}
-                              onPress={this.handleOnPressFollowButton}
-                            >
-                              <Text>
-                                {i18n.follow}
-                              </Text>
-                            </PXTouchable>
-                          </View>
-                        : <View
-                            style={styles.actionWithoutRemoveButtonContainer}
+                      {isFollow ? (
+                        <View style={styles.actionContainer}>
+                          <PXTouchable
+                            hitSlop={{
+                              top: 20,
+                              left: 20,
+                              bottom: 20,
+                              right: 20,
+                            }}
+                            onPress={this.handleOnPressRemoveButton}
                           >
-                            <FollowButton
-                              hitSlop={{
-                                top: 10,
-                                left: 10,
-                                bottom: 10,
-                                right: 10,
-                              }}
-                              isFollow={isFollow}
-                              onPress={this.handleOnPressFollowButton}
-                            />
-                          </View>}
-                    </View>}
+                            <Text>{i18n.followRemove}</Text>
+                          </PXTouchable>
+                          <PXTouchable
+                            hitSlop={{
+                              top: 20,
+                              left: 20,
+                              bottom: 20,
+                              right: 20,
+                            }}
+                            onPress={this.handleOnPressFollowButton}
+                          >
+                            <Text>{i18n.follow}</Text>
+                          </PXTouchable>
+                        </View>
+                      ) : (
+                        <View style={styles.actionWithoutRemoveButtonContainer}>
+                          <FollowButton
+                            hitSlop={{
+                              top: 10,
+                              left: 10,
+                              bottom: 10,
+                              right: 10,
+                            }}
+                            isFollow={isFollow}
+                            onPress={this.handleOnPressFollowButton}
+                          />
+                        </View>
+                      )}
+                    </View>
+                  )}
                 </View>
               </View>
             </TouchableWithoutFeedback>

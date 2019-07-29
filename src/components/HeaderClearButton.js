@@ -9,9 +9,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const HeaderClearButton = ({ onPress, color, ...restProps }) =>
+const HeaderClearButton = ({ onPress, color, ...restProps }) => (
   <PXTouchable onPress={onPress} {...restProps}>
     <Icon name="trash" size={20} style={styles.icon} color={color || '#fff'} />
-  </PXTouchable>;
+  </PXTouchable>
+);
 
 export default HeaderClearButton;

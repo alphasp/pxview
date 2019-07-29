@@ -58,7 +58,11 @@ class NovelComments extends Component {
   };
 
   handleOnPressViewMoreComments = () => {
-    const { novelId, authorId, navigation: { push } } = this.props;
+    const {
+      novelId,
+      authorId,
+      navigation: { push },
+    } = this.props;
     push(SCREENS.NovelComments, {
       novelId,
       authorId,
@@ -69,7 +73,10 @@ class NovelComments extends Component {
     const { checkIfUserEligibleToPostComment } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
-      const { novelId, navigation: { navigate } } = this.props;
+      const {
+        novelId,
+        navigation: { navigate },
+      } = this.props;
       navigate(SCREENS.AddNovelComment, {
         novelId,
         onSubmitComment: this.handleOnSubmitComment,
@@ -81,7 +88,11 @@ class NovelComments extends Component {
     const { checkIfUserEligibleToPostComment } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
-      const { novelId, authorId, navigation: { navigate } } = this.props;
+      const {
+        novelId,
+        authorId,
+        navigation: { navigate },
+      } = this.props;
       navigate(SCREENS.ReplyNovelComment, {
         novelId,
         authorId,
@@ -132,17 +143,19 @@ class NovelComments extends Component {
           renderCommentReplies={this.renderCommentReplies}
           onPressReplyCommentButton={this.handleOnPressReplyCommentButton}
         />
-        {isFeatureInDetailPage &&
+        {isFeatureInDetailPage && (
           <View style={styles.viewMoreButtonContainer}>
             <ViewMoreButton onPress={this.handleOnPressViewMoreComments} />
-          </View>}
-        {!isFeatureInDetailPage &&
+          </View>
+        )}
+        {!isFeatureInDetailPage && (
           <ActionButton
             buttonColor="#fff"
             icon={<Icon name="pencil" size={24} color="#737373" />}
             onPress={this.handleOnPressCommentButton}
             fixNativeFeedbackRadius
-          />}
+          />
+        )}
         <OverlaySpinner visible={verificationEmail.loading} />
       </SafeAreaView>
     );
@@ -150,18 +163,22 @@ class NovelComments extends Component {
 }
 
 export default enhancePostComment(
-  connect(() => {
-    const getNovelCommentsItems = makeGetNovelCommentsItems();
-    return (state, props) => {
-      const { novelComments } = state;
-      const novelId = props.novelId || props.navigation.state.params.novelId;
-      const authorId = props.authorId || props.navigation.state.params.authorId;
-      return {
-        novelComments: novelComments[novelId],
-        items: getNovelCommentsItems(state, props),
-        novelId,
-        authorId,
+  connect(
+    () => {
+      const getNovelCommentsItems = makeGetNovelCommentsItems();
+      return (state, props) => {
+        const { novelComments } = state;
+        const novelId = props.novelId || props.navigation.state.params.novelId;
+        const authorId =
+          props.authorId || props.navigation.state.params.authorId;
+        return {
+          novelComments: novelComments[novelId],
+          items: getNovelCommentsItems(state, props),
+          novelId,
+          authorId,
+        };
       };
-    };
-  }, novelCommentsActionCreators)(NovelComments),
+    },
+    novelCommentsActionCreators,
+  )(NovelComments),
 );

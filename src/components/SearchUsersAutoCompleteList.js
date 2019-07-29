@@ -51,9 +51,7 @@ class SearchUsersAutoCompleteList extends PureComponent {
               uri={item.user.profile_image_urls.medium}
               onPress={() => onPressItem(item.user.id)}
             />
-            <Text style={styles.username}>
-              {item.user.name}
-            </Text>
+            <Text style={styles.username}>{item.user.name}</Text>
           </View>
           <FollowButtonContainer userId={item.user.id} />
         </View>
@@ -61,16 +59,19 @@ class SearchUsersAutoCompleteList extends PureComponent {
     );
   };
 
-  renderSeparator = (sectionId, rowId) =>
-    <Separator key={`${sectionId}-${rowId}`} />;
+  renderSeparator = (sectionId, rowId) => (
+    <Separator key={`${sectionId}-${rowId}`} />
+  );
 
   renderFooter = () => {
-    const { data: { nextUrl } } = this.props;
-    return nextUrl
-      ? <View style={styles.footer}>
-          <Loader />
-        </View>
-      : null;
+    const {
+      data: { nextUrl },
+    } = this.props;
+    return nextUrl ? (
+      <View style={styles.footer}>
+        <Loader />
+      </View>
+    ) : null;
   };
 
   render() {
@@ -88,23 +89,23 @@ class SearchUsersAutoCompleteList extends PureComponent {
           </Text>
         </View>
         {!loaded && loading && <Loader />}
-        {items && items.length
-          ? <FlatList
-              data={items}
-              keyExtractor={item => item.user.id.toString()}
-              renderItem={this.renderItem}
-              ItemSeparatorComponent={Separator}
-              keyboardShouldPersistTaps="always"
-              onEndReachedThreshold={0.1}
-              onEndReached={loadMoreItems}
-              ListFooterComponent={this.renderFooter}
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
-              removeClippedSubviews={false} // to prevent flatlist hidden after switch language
-              onScroll={Keyboard.dismiss}
-            />
-          : null}
+        {items && items.length ? (
+          <FlatList
+            data={items}
+            keyExtractor={item => item.user.id.toString()}
+            renderItem={this.renderItem}
+            ItemSeparatorComponent={Separator}
+            keyboardShouldPersistTaps="always"
+            onEndReachedThreshold={0.1}
+            onEndReached={loadMoreItems}
+            ListFooterComponent={this.renderFooter}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            removeClippedSubviews={false} // to prevent flatlist hidden after switch language
+            onScroll={Keyboard.dismiss}
+          />
+        ) : null}
       </View>
     );
   }

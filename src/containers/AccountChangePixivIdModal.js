@@ -51,7 +51,9 @@ const handleOnSubmit = (values, { props }) => {
 
 class AccountChangePixivIdModal extends Component {
   componentWillReceiveProps(nextProps) {
-    const { editAccountState: { prevSuccess } } = this.props;
+    const {
+      editAccountState: { prevSuccess },
+    } = this.props;
     const {
       editAccountState: { success, validationErrors },
       onClose,
@@ -117,7 +119,7 @@ class AccountChangePixivIdModal extends Component {
         loading={loading}
       >
         <View>
-          {(!user.isProvisionalAccount || !user.password) &&
+          {(!user.isProvisionalAccount || !user.password) && (
             <Field
               name="currentPassword"
               component={PXFormInput}
@@ -125,8 +127,9 @@ class AccountChangePixivIdModal extends Component {
               secureTextEntry
               onChangeText={setFieldValue}
               onBlur={setFieldTouched}
-            />}
-          {user.isProvisionalAccount &&
+            />
+          )}
+          {user.isProvisionalAccount && (
             <Field
               name="newPassword"
               component={PXFormInput}
@@ -134,7 +137,8 @@ class AccountChangePixivIdModal extends Component {
               secureTextEntry
               onChangeText={setFieldValue}
               onBlur={setFieldTouched}
-            />}
+            />
+          )}
           <Field
             name="pixivId"
             component={PXFormInput}

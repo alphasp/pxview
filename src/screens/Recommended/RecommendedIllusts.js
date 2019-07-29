@@ -50,12 +50,15 @@ class RecommendedIllusts extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { recommendedIllusts, user } = state;
-  return {
-    recommendedIllusts,
-    items: getRecommendedIllustsItems(state, props),
-    user,
-    listKey: `${props.navigation.state.key}-recommendedIllusts`,
-  };
-}, recommendedIllustsActionCreators)(RecommendedIllusts);
+export default connect(
+  (state, props) => {
+    const { recommendedIllusts, user } = state;
+    return {
+      recommendedIllusts,
+      items: getRecommendedIllustsItems(state, props),
+      user,
+      listKey: `${props.navigation.state.key}-recommendedIllusts`,
+    };
+  },
+  recommendedIllustsActionCreators,
+)(RecommendedIllusts);

@@ -534,12 +534,15 @@ export const makeGetNovelSeriesItems = () =>
   );
 
 export const makeGetParsedNovelText = () =>
-  createSelector([selectNovelText, getProps], (novelText, props) => {
-    const novelId = props.novelId || props.navigation.state.params.novelId;
-    return novelText[novelId] && novelText[novelId].text
-      ? parseNovelText(novelText[novelId].text)
-      : null;
-  });
+  createSelector(
+    [selectNovelText, getProps],
+    (novelText, props) => {
+      const novelId = props.novelId || props.navigation.state.params.novelId;
+      return novelText[novelId] && novelText[novelId].text
+        ? parseNovelText(novelText[novelId].text)
+        : null;
+    },
+  );
 
 export const makeGetUserItem = () =>
   createUserItemSelector([selectEntities, getProps], (entities, props) => {

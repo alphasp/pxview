@@ -12,7 +12,10 @@ class NewIllusts extends Component {
   }
 
   loadMoreItems = () => {
-    const { fetchNewIllusts, newIllusts: { nextUrl, loading } } = this.props;
+    const {
+      fetchNewIllusts,
+      newIllusts: { nextUrl, loading },
+    } = this.props;
     if (!loading && nextUrl) {
       fetchNewIllusts(nextUrl);
     }
@@ -39,11 +42,14 @@ class NewIllusts extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { newIllusts } = state;
-  return {
-    newIllusts,
-    items: getNewIllustsItems(state),
-    listKey: `${props.navigation.state.key}-newUserIllusts`,
-  };
-}, newIllustsActionCreators)(NewIllusts);
+export default connect(
+  (state, props) => {
+    const { newIllusts } = state;
+    return {
+      newIllusts,
+      items: getNewIllustsItems(state),
+      listKey: `${props.navigation.state.key}-newUserIllusts`,
+    };
+  },
+  newIllustsActionCreators,
+)(NewIllusts);

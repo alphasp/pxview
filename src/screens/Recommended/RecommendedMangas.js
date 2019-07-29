@@ -40,11 +40,14 @@ class RecommendedMangas extends Component {
   }
 }
 
-export default connect((state, props) => {
-  const { recommendedMangas } = state;
-  return {
-    recommendedMangas,
-    items: getRecommendedMangasItems(state, props),
-    listKey: `${props.navigation.state.key}-recommendedMangas`,
-  };
-}, recommendedMangasActionCreators)(RecommendedMangas);
+export default connect(
+  (state, props) => {
+    const { recommendedMangas } = state;
+    return {
+      recommendedMangas,
+      items: getRecommendedMangasItems(state, props),
+      listKey: `${props.navigation.state.key}-recommendedMangas`,
+    };
+  },
+  recommendedMangasActionCreators,
+)(RecommendedMangas);
