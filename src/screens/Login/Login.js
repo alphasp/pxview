@@ -3,14 +3,13 @@ import {
   View,
   Image,
   StyleSheet,
-  Text,
   Keyboard,
   KeyboardAvoidingView,
   TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withFormik, Field } from 'formik';
-import { withTheme, Button } from 'react-native-paper';
+import { withTheme, Button, Text } from 'react-native-paper';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../../components/Localization';
 import PXFormInput from '../../components/PXFormInput';
@@ -55,7 +54,6 @@ const styles = StyleSheet.create({
     height: 100,
   },
   privacyPolicy: {
-    color: '#fff',
     textAlign: 'center',
     marginTop: 15,
   },
@@ -85,12 +83,16 @@ const handleOnSubmit = (values, { props }) => {
 
 class Login extends Component {
   handleOnPressSignUp = () => {
-    const { navigation: { navigate } } = this.props;
+    const {
+      navigation: { navigate },
+    } = this.props;
     navigate(SCREENS.SignUp);
   };
 
   handleOnPressPrivacyPolicy = () => {
-    const { navigation: { navigate } } = this.props;
+    const {
+      navigation: { navigate },
+    } = this.props;
     navigate(SCREENS.PrivacyPolicy);
   };
 
@@ -109,7 +111,7 @@ class Login extends Component {
         <View style={styles.container}>
           <WalkthroughIllustList />
         </View>
-        {modal.modalType !== MODAL_TYPES.SIGNUP &&
+        {modal.modalType !== MODAL_TYPES.SIGNUP && (
           <View
             style={[
               styles.innerContainer,
@@ -165,14 +167,13 @@ class Login extends Component {
                   {i18n.loginNoAccount}
                 </Button>
                 <TouchableOpacity onPress={this.handleOnPressPrivacyPolicy}>
-                  <Text style={styles.privacyPolicy}>
-                    {i18n.privacyPolicy}
-                  </Text>
+                  <Text style={styles.privacyPolicy}>{i18n.privacyPolicy}</Text>
                 </TouchableOpacity>
               </View>
             </KeyboardAvoidingView>
             <OverlaySpinner visible={loading} />
-          </View>}
+          </View>
+        )}
       </View>
     );
   }
