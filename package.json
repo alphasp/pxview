@@ -66,7 +66,7 @@
     "react-native-vector-icons": "^6.6.0",
     "react-native-webp-support": "github:TGPSKI/react-native-webp-support",
     "react-native-webview": "^6.3.1",
-    "react-native-zip-archive": "^2.2.6",
+    "react-native-zip-archive": "^4.1.1",
     "react-navigation": "^3.11.1",
     "react-navigation-backhandler": "^1.2.0",
     "react-redux": "^7.1.0",

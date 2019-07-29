@@ -43,6 +43,8 @@ target 'PxView' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'RNZipArchive', :path => '../node_modules/react-native-zip-archive'
+
   target 'PxViewTests' do
     inherit! :search_paths
     # Pods for testing
