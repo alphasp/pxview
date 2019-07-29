@@ -27,20 +27,18 @@ class SearchAutoCompleteList extends PureComponent {
     return (
       <PXTouchable onPress={() => onPressItem(item.name)}>
         <View style={styles.row}>
-          <Text>
-            {item.name}
-          </Text>
-          {item.translated_name &&
-            <Caption>
-              {item.translated_name}
-            </Caption>}
+          <Text>{item.name}</Text>
+          {item.translated_name && <Caption>{item.translated_name}</Caption>}
         </View>
       </PXTouchable>
     );
   };
 
   render() {
-    const { data: { items, loading, loaded }, i18n } = this.props;
+    const {
+      data: { items, loading, loaded },
+      i18n,
+    } = this.props;
     return (
       <View style={globalStyles.container}>
         <View style={styles.searchAutoCompleteHeaderContainer}>
@@ -49,17 +47,17 @@ class SearchAutoCompleteList extends PureComponent {
           </Text>
         </View>
         {!loaded && loading && <Loader />}
-        {items && items.length
-          ? <FlatList
-              data={items}
-              keyExtractor={item => item}
-              renderItem={this.renderItem}
-              ItemSeparatorComponent={Separator}
-              keyboardShouldPersistTaps="always"
-              removeClippedSubviews={false} // to prevent flatlist hidden after switch language
-              onScroll={Keyboard.dismiss}
-            />
-          : null}
+        {items && items.length ? (
+          <FlatList
+            data={items}
+            keyExtractor={item => item.name}
+            renderItem={this.renderItem}
+            ItemSeparatorComponent={Separator}
+            keyboardShouldPersistTaps="always"
+            removeClippedSubviews={false} // to prevent flatlist hidden after switch language
+            onScroll={Keyboard.dismiss}
+          />
+        ) : null}
       </View>
     );
   }
