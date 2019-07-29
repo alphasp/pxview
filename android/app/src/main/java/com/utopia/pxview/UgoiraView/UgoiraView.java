@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -57,7 +58,7 @@ public class UgoiraView extends ImageView {
     }
 
     private void maybeLoadImages() {
-        if (width > 0 && height > 0 && models.size() > 0) {
+        if (width > 0 && height > 0 && models != null && models.size() > 0) {
             final Context context = this.getContext();
             Observable.fromIterable(models).flatMap(new Function<UgoiraViewModel, ObservableSource<UgoiraViewModel>>() {
                 @Override
