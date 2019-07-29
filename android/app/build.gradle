@@ -223,6 +223,9 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.5'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    def multidex_version = "2.0.1"
+    implementation 'androidx.multidex:multidex:$multidex_version'
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     // For WebP support, without animations
     implementation 'com.facebook.fresco:webpsupport:1.9.0'
