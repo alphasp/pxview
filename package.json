@@ -9,6 +9,7 @@
     "test": "jest",
     "test:watch": "jest --watch --coverage",
     "android": "react-native run-android",
+    "android-bundle": "cd android && ./gradlew bundleRelease",
     "android-release": "react-native run-android --variant=release",
     "android-clean": "cd android && ./gradlew clean",
     "ios": "react-native run-ios",
