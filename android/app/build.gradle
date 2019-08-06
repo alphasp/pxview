@@ -134,6 +134,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 206
         versionName "3.3"
+        archivesBaseName = "pxview"
         multiDexEnabled true
     }
     signingConfigs {
