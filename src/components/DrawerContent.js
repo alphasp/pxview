@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Alert } from 'react-native';
+import { View, ScrollView, Alert, NativeModules } from 'react-native';
 import { connect } from 'react-redux';
 import { DrawerItems, DrawerActions, withNavigation } from 'react-navigation';
 import { withTheme } from 'react-native-paper';
@@ -194,8 +194,10 @@ class DrawerContent extends Component {
       navigation: { navigate },
     } = this.props;
     if (themeName === THEME_TYPES.DARK) {
+      NativeModules.CsSdk.optIn();
       setTheme(THEME_TYPES.LIGHT);
     } else {
+      NativeModules.CsSdk.optOut();
       setTheme(THEME_TYPES.DARK);
     }
     navigate('DrawerClose');

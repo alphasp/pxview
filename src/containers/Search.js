@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Platform } from 'react-native';
+import { StyleSheet, View, Platform, NativeModules } from 'react-native';
 import { connect } from 'react-redux';
 import SearchAutoCompleteResult from './SearchAutoCompleteResult';
 import SearchUsersAutoCompleteResult from './SearchUsersAutoCompleteResult';
@@ -208,6 +208,7 @@ class Search extends Component {
   };
 
   render() {
+    NativeModules.CsSdk.send('Search results');
     return (
       <View style={styles.container}>
         {this.renderHeader()}

@@ -8,6 +8,7 @@ import {
   Modal,
   Text,
   Keyboard,
+  NativeModules
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigationFocus } from 'react-navigation';
@@ -117,6 +118,7 @@ class SignUpModal extends Component {
       theme,
     } = this.props;
     const { isShowModal } = this.state;
+    NativeModules.CsSdk.send('Signup - Nickname');
     return (
       <Modal
         animationType="fade"

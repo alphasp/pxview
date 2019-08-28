@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
+import { NativeModules } from 'react-native';
 import PXTabView from '../../components/PXTabView';
 import RecommendedIllusts from './RecommendedIllusts';
 import RecommendedMangas from './RecommendedMangas';
 import RecommendedNovels from './RecommendedNovels';
 import { connectLocalization } from '../../components/Localization';
 import config from '../../common/config';
+
+const tags = [
+             'Recommendend - Illust',
+             'Recommendend - Manga',
+             'Recommendend - Novel'
+            ];
 
 class Recommended extends Component {
   constructor(props) {
@@ -53,6 +60,9 @@ class Recommended extends Component {
   };
 
   render() {
+
+  NativeModules.CsSdk.send(tags[this.state.index])
+
     return (
       <PXTabView
         navigationState={this.state}

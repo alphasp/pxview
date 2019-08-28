@@ -6,6 +6,7 @@ import {
   Alert,
   DeviceEventEmitter,
   Linking,
+  NativeModules
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withTheme } from 'react-native-paper';
@@ -76,6 +77,7 @@ const otherList = [
 ];
 
 class Settings extends Component {
+
   getLanguage = lang => {
     const zhIds = ['zh', 'zh-CN', 'zh-SG'];
     const zhHantIds = ['zh-TW', 'zh-HK', 'zh-MO'];
@@ -157,14 +159,17 @@ class Settings extends Component {
         break;
       }
       case 'tagHighlightSettings': {
+        NativeModules.CsSdk.resumeTracking();
         navigate(SCREENS.HighlightTagsSettings);
         break;
       }
       case 'tagMuteSettings': {
+        NativeModules.CsSdk.pauseTracking();
         navigate(SCREENS.MuteTagsSettings);
         break;
       }
       case 'userMuteSettings': {
+        NativeModules.CsSdk.forgetMe();
         navigate(SCREENS.MuteUsersSettings);
         break;
       }
@@ -241,6 +246,7 @@ class Settings extends Component {
 
   render() {
     const { theme } = this.props;
+    NativeModules.CsSdk.send('Settings');
     return (
       <ScrollView
         style={[styles.container, { backgroundColor: theme.colors.background }]}
