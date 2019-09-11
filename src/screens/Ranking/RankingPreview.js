@@ -4,9 +4,9 @@ import {
   ScrollView,
   StyleSheet,
   RefreshControl,
-  NativeModules
 } from 'react-native';
 import { withTheme } from 'react-native-paper';
+import { CsModule } from 'react-native-cs-sdk';
 import RankingHorizontalList from './RankingHorizontalList';
 import NovelRankingPreview from './NovelRankingPreview';
 import { connectLocalization } from '../../components/Localization';
@@ -42,7 +42,7 @@ class RankingPreview extends Component {
   render() {
     const { navigation, theme } = this.props;
     const { refreshing } = this.state;
-    NativeModules.CsSdk.send('Ranking');
+    CsModule.send('Ranking');
     return (
       <SafeAreaView
         style={[styles.container, { backgroundColor: theme.colors.background }]}

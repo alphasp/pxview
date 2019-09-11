@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Platform, NativeModules } from 'react-native';
+import { StyleSheet, View, Platform } from 'react-native';
 import { connect } from 'react-redux';
+import { CsModule } from 'react-native-cs-sdk';
 import SearchAutoCompleteResult from './SearchAutoCompleteResult';
 import SearchUsersAutoCompleteResult from './SearchUsersAutoCompleteResult';
 import { connectLocalization } from '../components/Localization';
@@ -208,7 +209,7 @@ class Search extends Component {
   };
 
   render() {
-    NativeModules.CsSdk.send('Search results');
+    CsModule.send('Search results');
     return (
       <View style={styles.container}>
         {this.renderHeader()}

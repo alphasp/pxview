@@ -6,8 +6,8 @@ import {
   Alert,
   DeviceEventEmitter,
   Linking,
-  NativeModules
 } from 'react-native';
+import { CsModule, currencies } from 'react-native-cs-sdk';
 import { connect } from 'react-redux';
 import { withTheme } from 'react-native-paper';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -77,7 +77,6 @@ const otherList = [
 ];
 
 class Settings extends Component {
-
   getLanguage = lang => {
     const zhIds = ['zh', 'zh-CN', 'zh-SG'];
     const zhHantIds = ['zh-TW', 'zh-HK', 'zh-MO'];
@@ -143,6 +142,9 @@ class Settings extends Component {
     } = this.props;
     switch (item.id) {
       case 'accountSettings': {
+        CsModule.getUserId(string => {
+          return console.log(string);
+        });
         navigate(SCREENS.AccountSettings);
         break;
       }
@@ -159,17 +161,16 @@ class Settings extends Component {
         break;
       }
       case 'tagHighlightSettings': {
-        NativeModules.CsSdk.resumeTracking();
+        CsModule.resumeTracking();
         navigate(SCREENS.HighlightTagsSettings);
         break;
       }
       case 'tagMuteSettings': {
-        NativeModules.CsSdk.pauseTracking();
         navigate(SCREENS.MuteTagsSettings);
         break;
       }
       case 'userMuteSettings': {
-        NativeModules.CsSdk.forgetMe();
+        CsModule.forgetMe();
         navigate(SCREENS.MuteUsersSettings);
         break;
       }
@@ -182,6 +183,7 @@ class Settings extends Component {
         break;
       }
       case 'about': {
+        CsModule.sendTransaction(23.45, currencies.USD);
         navigate(SCREENS.About);
         break;
       }
@@ -194,6 +196,7 @@ class Settings extends Component {
         break;
       }
       case 'cacheClear': {
+        CsModule.stopTracking();
         Alert.alert(
           i18n.cacheClearConfirmation,
           null,
@@ -246,7 +249,7 @@ class Settings extends Component {
 
   render() {
     const { theme } = this.props;
-    NativeModules.CsSdk.send('Settings');
+    CsModule.send('Settings');
     return (
       <ScrollView
         style={[styles.container, { backgroundColor: theme.colors.background }]}

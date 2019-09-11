@@ -14,7 +14,8 @@
     "android-clean": "cd android && ./gradlew clean",
     "ios": "react-native run-ios",
     "ios-release": "react-native run-ios --configuration Release",
-    "pod-install": "cd ios && pod install"
+    "pod-install": "cd ios && pod install",
+    "postinstall": "npx jetify"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.1",
@@ -37,6 +38,7 @@
     "react-native": "0.60.4",
     "react-native-action-button": "^2.8.3",
     "react-native-animatable": "^1.2.4",
+    "react-native-cs-sdk": "file:../",
     "react-native-datepicker": "^1.6.0",
     "react-native-device-info": "^0.24.3",
     "react-native-easy-toast": "^1.0.9",
@@ -80,8 +82,7 @@
     "reselect": "^3.0.1",
     "rn-fetch-blob": "^0.10.16",
     "sanitize-filename": "^1.6.1",
-    "shallow-equals": "^1.0.0",
-    "react-native-cs-sdk": "file:../"
+    "shallow-equals": "^1.0.0"
   },
   "jest": {
     "preset": "react-native",

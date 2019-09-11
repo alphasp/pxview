@@ -79,6 +79,11 @@ import com.android.build.OutputFile
 project.ext.react = [
     entryFile: "index.js",
     enableHermes: false,  // clean and rebuild if changing
+    // whether to bundle JS and assets in debug mode
+    bundleInDebug: true,
+
+     // whether to bundle JS and assets in release mode
+    bundleInRelease: true,
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -159,7 +164,6 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
@@ -187,6 +191,7 @@ android {
 }
 
 repositories {
+    google()
     mavenCentral()
     maven { url 'https://maven.fabric.io/public' }
     maven { url 'https://maven.google.com' }
@@ -226,7 +231,7 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.1.5'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     def multidex_version = "2.0.1"
-    implementation 'androidx.multidex:multidex:$multidex_version'
+    implementation "androidx.multidex:multidex:$multidex_version"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     // For WebP support, without animations

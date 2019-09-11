@@ -8,10 +8,10 @@ import {
   Modal,
   Text,
   Keyboard,
-  NativeModules
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigationFocus } from 'react-navigation';
+import { CsModule } from 'react-native-cs-sdk';
 import { withFormik, Field } from 'formik';
 import { withTheme, Button } from 'react-native-paper';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
@@ -118,7 +118,7 @@ class SignUpModal extends Component {
       theme,
     } = this.props;
     const { isShowModal } = this.state;
-    NativeModules.CsSdk.send('Signup - Nickname');
+    CsModule.send('Signup - Nickname');
     return (
       <Modal
         animationType="fade"

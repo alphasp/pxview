@@ -6,11 +6,11 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   TouchableOpacity,
-  NativeModules,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withFormik, Field } from 'formik';
 import { withTheme, Button, Text } from 'react-native-paper';
+import { CsModule } from 'react-native-cs-sdk';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../../components/Localization';
 import PXFormInput from '../../components/PXFormInput';
@@ -107,7 +107,7 @@ class Login extends Component {
       setFieldTouched,
       theme,
     } = this.props;
-    NativeModules.CsSdk.send("Login")
+    CsModule.send('Login');
     return (
       <View style={styles.container}>
         <View style={styles.container}>

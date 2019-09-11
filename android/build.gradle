@@ -22,8 +22,7 @@ buildscript {
 
 allprojects {
     repositories {
-        // Add jitpack repository (added by react-native-spinkit)
-        maven { url "https://jitpack.io" }
+        google()
         mavenLocal()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
@@ -34,7 +33,6 @@ allprojects {
             url("$rootDir/../node_modules/jsc-android/dist")
         }
 
-        google()
         jcenter()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
@@ -50,18 +48,3 @@ subprojects {
         }
     }
 }
-
-/*configurations.all {
-    resolutionStrategy {
-        eachDependency { details ->
-            // Force all primary support libraries to the same version
-            if (details.requested.group == 'com.android.support'
-                    && details.requested.name != 'multidex'
-                    && details.requested.name != 'multidex-instrumentation') {
-                // Force the version that works for you.
-                // Square has tested Reader SDK with 28.0.0
-                details.useVersion '28.0.0'
-            }
-        }
-    }
-}*/
