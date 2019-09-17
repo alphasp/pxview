@@ -7,7 +7,7 @@ import {
   DeviceEventEmitter,
   Linking,
 } from 'react-native';
-import { CsModule, currencies } from 'react-native-cs-sdk';
+import { CsModule, Currency } from 'react-native-cs-sdk';
 import { connect } from 'react-redux';
 import { withTheme } from 'react-native-paper';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -183,7 +183,7 @@ class Settings extends Component {
         break;
       }
       case 'about': {
-        CsModule.sendTransaction(23.45, currencies.USD);
+        CsModule.sendTransaction(23.45, Currency.USD);
         navigate(SCREENS.About);
         break;
       }
