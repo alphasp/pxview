@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Platform } from 'react-native';
 import { connect } from 'react-redux';
-import { CsModule } from 'react-native-cs-sdk';
+import { CsModule } from '@contentsquare/react-native-sdk';
 import SearchAutoCompleteResult from './SearchAutoCompleteResult';
 import SearchUsersAutoCompleteResult from './SearchUsersAutoCompleteResult';
 import { connectLocalization } from '../components/Localization';

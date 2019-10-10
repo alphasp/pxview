@@ -5,7 +5,7 @@ import { DrawerItems, DrawerActions, withNavigation } from 'react-navigation';
 import { withTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import CookieManager from 'react-native-cookies';
-import { CsModule } from 'react-native-cs-sdk';
+import { CsModule } from '@contentsquare/react-native-sdk';
 import { connectLocalization } from './Localization';
 import UserCover from './UserCover';
 import Separator from './Separator';
