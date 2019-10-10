@@ -58,6 +58,7 @@ flow-typed
 
 # Bundle artifact
 *.jsbundle
+ios/assets/
 
 # CocoaPods
 /ios/Pods/
