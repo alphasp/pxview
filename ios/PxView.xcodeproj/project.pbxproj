@@ -670,8 +670,8 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-PxView/Pods-PxView-frameworks.sh",
-				"${PODS_ROOT}/../../node_modules/@contentsquare/react-native-sdk/ios/Pods/CS_iOS_Swift_5_Xcode_10_2_1/Carthage/Build/iOS/ContentSquare.framework",
-				"${PODS_ROOT}/../../node_modules/@contentsquare/react-native-sdk/ios/Pods/CS_iOS_Swift_5_Xcode_10_2_1/Carthage/Build/iOS/ContentSquare.framework.dSYM",
+				"${PODS_ROOT}/CS_iOS_Swift_5_Xcode_10_2_1/Carthage/Build/iOS/ContentSquare.framework",
+				"${PODS_ROOT}/CS_iOS_Swift_5_Xcode_10_2_1/Carthage/Build/iOS/ContentSquare.framework.dSYM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (

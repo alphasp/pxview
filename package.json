@@ -18,7 +18,7 @@
     "postinstall": "npx jetify"
   },
   "dependencies": {
-    "@contentsquare/react-native-sdk": "0.0.4-minor-changes.0",
+    "@contentsquare/react-native-sdk": "0.1.0-mobile-1835.2",
     "@react-native-community/async-storage": "^1.6.1",
     "@react-native-community/cameraroll": "^1.1.1",
     "@react-native-community/viewpager": "^1.1.7",
