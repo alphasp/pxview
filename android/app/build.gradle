@@ -77,13 +77,13 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    entryFile: "index.js",
-    enableHermes: false,  // clean and rebuild if changing
-    // whether to bundle JS and assets in debug mode
-    bundleInDebug: true,
+        entryFile      : "index.js",
+        enableHermes   : false,  // clean and rebuild if changing
+        // whether to bundle JS and assets in debug mode
+        bundleInDebug  : true,
 
-     // whether to bundle JS and assets in release mode
-    bundleInRelease: true,
+        // whether to bundle JS and assets in release mode
+        bundleInRelease: true,
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -171,7 +171,7 @@ android {
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-            def versionCodes = ["armeabi-v7a":1, "x86":2, "arm64-v8a": 3, "x86_64": 4]
+            def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
@@ -200,7 +200,7 @@ repositories {
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 dependencies {
-    implementation project(':react-native-cs-sdk')
+    implementation project(':@contentsquare_react-native-sdk')
     implementation project(':@react-native-community_async-storage')
     implementation project(':@react-native-community_viewpager')
     implementation project(':react-native-screens')
@@ -240,11 +240,11 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     if (enableHermes) {
-      def hermesPath = "../../node_modules/hermesvm/android/";
-      debugImplementation files(hermesPath + "hermes-debug.aar")
-      releaseImplementation files(hermesPath + "hermes-release.aar")
+        def hermesPath = "../../node_modules/hermesvm/android/";
+        debugImplementation files(hermesPath + "hermes-debug.aar")
+        releaseImplementation files(hermesPath + "hermes-release.aar")
     } else {
-      implementation jscFlavor
+        implementation jscFlavor
     }
 }
 

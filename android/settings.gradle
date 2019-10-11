@@ -1,6 +1,6 @@
 rootProject.name = 'PxView'
-include ':react-native-cs-sdk'
-project(':react-native-cs-sdk').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-cs-sdk/android')
+include ':@contentsquare_react-native-sdk'
+project(':@contentsquare_react-native-sdk').projectDir = new File(rootProject.projectDir, '../node_modules/@contentsquare/react-native-sdk/android')
 include ':@react-native-community_async-storage'
 project(':@react-native-community_async-storage').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/async-storage/android')
 include ':@react-native-community_viewpager'
