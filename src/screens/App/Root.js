@@ -1,4 +1,5 @@
 /* eslint react/prefer-stateless-function:0 */
+import 'react-native-gesture-handler'; // https://github.com/kmagiera/react-native-gesture-handler/issues/320
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
 import { useScreens } from 'react-native-screens';

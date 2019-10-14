@@ -32,6 +32,7 @@ const createAppDrawerNavigator = ({ initialRouteName }) =>
       initialRouteName,
       cardStyle: globalStyles.card,
       contentComponent: DrawerContent,
+      overlayColor: '#00000090',
     },
   );
 
