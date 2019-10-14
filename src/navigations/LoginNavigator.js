@@ -1,4 +1,5 @@
-import { createAppContainer, createStackNavigator } from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import Login from '../screens/Login/Login';
 import SignUp from '../screens/Login/SignUp';
 import PrivacyPolicy from '../screens/MyPage/PrivacyPolicy';

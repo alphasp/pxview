@@ -1,4 +1,5 @@
-import { createAppContainer, createStackNavigator } from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import createAppTabNavigator from './AppTabNavigator';
 import createAppDrawerNavigator from './AppDrawerNavigator';
 import SearchFilterModal from '../screens/Shared/SearchFilterModal';

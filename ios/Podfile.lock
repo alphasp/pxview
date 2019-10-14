@@ -246,7 +246,9 @@ PODS:
     - React
   - RNDeviceInfo (0.21.5):
     - React
-  - RNGestureHandler (1.3.0):
+  - RNGestureHandler (1.4.1):
+    - React
+  - RNReanimated (1.3.0):
     - React
   - RNScreens (1.0.0-alpha.23):
     - React
@@ -307,6 +309,7 @@ DEPENDENCIES:
   - "RNCViewpager (from `../node_modules/@react-native-community/viewpager`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -395,6 +398,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-device-info"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNShare:
@@ -446,7 +451,8 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 621bad7a889b5bf1583a52547f2dcd3a4d1ff15e
   RNCViewpager: eff3ba6712d3aff9ea779ef1c99f78aa7cd36771
   RNDeviceInfo: e7c5fcde13d40e161d8a27f6c5dc69c638936002
-  RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
+  RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
+  RNReanimated: 6abbbae2e5e72609d85aabd92a982a94566885f1
   RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
   RNShare: 48cf88cadf9ca2143cdaa557c1ec7f8808040ffc
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
@@ -454,6 +460,6 @@ SPEC CHECKSUMS:
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
-PODFILE CHECKSUM: fedab8cb903ef5840fa96b5cafa5ea9f9b9cd36b
+PODFILE CHECKSUM: 32a6b9ba86d436e496a1c919c60e9f7de5828e98
 
 COCOAPODS: 1.7.5

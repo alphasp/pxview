@@ -1,4 +1,4 @@
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import MyPage from '../screens/MyPage/MyPage';
 import { globalStyles, globalStyleVariables } from '../styles';
 import config from '../common/config';

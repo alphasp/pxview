@@ -1,8 +1,7 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createBottomTabNavigator } from 'react-navigation';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { BottomTabBar } from 'react-navigation-tabs';
+import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs';
 import { Icon } from 'react-native-elements';
 import RecommendedNavigator from './RecommendedNavigator';
 import RankingNavigator from './RankingNavigator';

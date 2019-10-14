@@ -51,6 +51,8 @@ target 'PxView' do
 
   pod 'RNZipArchive', :path => '../node_modules/react-native-zip-archive'
 
+  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+
   target 'PxViewTests' do
     inherit! :search_paths
     # Pods for testing

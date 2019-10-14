@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { DrawerItems, DrawerActions, withNavigation } from 'react-navigation';
+import { withNavigation } from 'react-navigation';
+import { DrawerNavigatorItems, DrawerActions } from 'react-navigation-drawer';
 import { withTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import CookieManager from 'react-native-cookies';
@@ -231,7 +232,7 @@ class DrawerContent extends Component {
       >
         <ScrollView>
           {this.renderCover()}
-          <DrawerItems
+          <DrawerNavigatorItems
             {...this.props}
             inactiveTintColor={theme.colors.text}
             activeBackgroundColor="#D3D3D3"
