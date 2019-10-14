@@ -22,7 +22,7 @@ import { SCREENS } from '../../common/constants';
 const config = {
   [SCREENS.Detail]: {
     screen: Detail,
-    path: '(member_illust.php|illusts)/:illustId?',
+    path: '(member_illust.php|illusts|artworks|en/artworks)/:illustId?',
     navigationOptions: {
       header: null,
     },

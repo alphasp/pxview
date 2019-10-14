@@ -37,6 +37,8 @@
             <data android:pathPrefix="/member_illust"/>
             <data android:pathPrefix="/member"/>
             <data android:pathPrefix="/novel/show"/>
+            <data android:pathPrefix="/artworks/"/>
+            <data android:pathPrefix="/en/artworks/"/>
         </intent-filter>
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
