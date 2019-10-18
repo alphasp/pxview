@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Keyboard } from 'react-native';
 import { AndroidBackHandler } from 'react-navigation-backhandler';
-import { CsModule } from 'react-native-cs-sdk';
+import { CsModule } from '@contentsquare/react-native-sdk';
 import TrendingIllustTags from './TrendingIllustTags';
 import TrendingNovelTags from './TrendingNovelTags';
 import RecommendedUsers from '../Shared/RecommendedUsers';

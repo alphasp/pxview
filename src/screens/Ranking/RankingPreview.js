@@ -6,7 +6,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import { withTheme } from 'react-native-paper';
-import { CsModule } from 'react-native-cs-sdk';
+import { CsModule } from '@contentsquare/react-native-sdk';
 import RankingHorizontalList from './RankingHorizontalList';
 import NovelRankingPreview from './NovelRankingPreview';
 import { connectLocalization } from '../../components/Localization';
