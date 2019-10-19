@@ -12,7 +12,7 @@ export default function browsingHistoryNovels(
   switch (action.type) {
     case BROWSING_HISTORY_NOVELS.ADD: {
       let newItems;
-      const items = state.items;
+      const { items } = state;
       const newItem = action.payload.item;
       if (items && items.length) {
         if (items.indexOf(newItem) === -1) {

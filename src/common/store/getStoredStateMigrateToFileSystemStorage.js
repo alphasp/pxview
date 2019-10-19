@@ -37,7 +37,7 @@ const noStorage = {
 };
 const createAsyncLocalStorage = () => {
   if (!hasLocalStorage()) return noStorage;
-  const localStorage = window.localStorage;
+  const { localStorage } = window;
   return {
     getAllKeys(cb) {
       try {

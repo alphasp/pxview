@@ -12,7 +12,7 @@ export default function browsingHistoryIllusts(
   switch (action.type) {
     case BROWSING_HISTORY_ILLUSTS.ADD: {
       let newItems;
-      const items = state.items;
+      const { items } = state;
       const newItem = action.payload.item;
       if (items && items.length) {
         if (items.indexOf(newItem) === -1) {

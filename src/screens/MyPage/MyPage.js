@@ -232,13 +232,11 @@ class MyPage extends Component {
       <View
         style={[styles.container, { backgroundColor: theme.colors.background }]}
       >
-        {
-          <ScrollView style={styles.container}>
-            {this.renderCover()}
-            {this.renderList(menuList)}
-            {this.renderList(menuList2)}
-          </ScrollView>
-        }
+        <ScrollView style={styles.container}>
+          {this.renderCover()}
+          {this.renderList(menuList)}
+          {this.renderList(menuList2)}
+        </ScrollView>
       </View>
     );
   }

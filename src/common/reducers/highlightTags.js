@@ -9,7 +9,7 @@ export default function highlightTags(
   switch (action.type) {
     case HIGHLIGHT_TAGS.ADD: {
       let newItems;
-      const items = state.items;
+      const { items } = state;
       const newItem = action.payload.item;
       if (items && items.length) {
         if (items.indexOf(newItem) === -1) {

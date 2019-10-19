@@ -9,7 +9,7 @@ export default function muteTags(
   switch (action.type) {
     case MUTE_TAGS.ADD: {
       let newItems;
-      const items = state.items;
+      const { items } = state;
       const newItem = action.payload.item;
       if (items && items.length) {
         if (items.indexOf(newItem) === -1) {
