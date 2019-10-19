@@ -59,7 +59,7 @@ class SearchResultTabs extends Component {
         searchFilter: searchOptions || {},
         searchType: newSearchType,
         onPressApplyFilter: (
-          target,
+          searchTarget,
           period,
           sort,
           startDate,
@@ -70,7 +70,7 @@ class SearchResultTabs extends Component {
           goBack(null);
           this.setState({
             searchOptions: {
-              target,
+              search_target: searchTarget,
               period,
               sort,
               start_date: startDate,

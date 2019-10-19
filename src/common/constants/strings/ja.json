@@ -178,7 +178,7 @@
   "searchTarget": "検索対象",
   "searchTargetKeyword": "キーワード",
   "searchTargetTagPartial": "タグ部分一致",
-  "searchTargetTagTotal": "タグ完全一致",
+  "searchTargetTagExact": "タグ完全一致",
   "searchTargetText": "本文",
   "searchTargetTitleCaption": "タイトルキャプション",
   "searchUserPlaceholder": "ニックネームを入力",

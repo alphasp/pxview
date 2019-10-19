@@ -39,7 +39,7 @@ class SearchFilterModal extends Component {
     super(props);
     const {
       searchFilter: {
-        target,
+        search_target,
         period,
         sort,
         start_date,
@@ -49,7 +49,7 @@ class SearchFilterModal extends Component {
       },
     } = props.navigation.state.params;
     this.state = {
-      target: target || 'partial_match_for_tags',
+      target: search_target || 'partial_match_for_tags',
       period: period || SEARCH_PERIOD_TYPES.ALL,
       sort: sort || 'date_desc',
       startDate: start_date,
@@ -81,7 +81,7 @@ class SearchFilterModal extends Component {
         },
         {
           value: 'exact_match_for_tags',
-          label: i18n.searchTargetTagTotal,
+          label: i18n.searchTargetTagExact,
         },
         {
           value: 'title_and_caption',
@@ -93,6 +93,10 @@ class SearchFilterModal extends Component {
         {
           value: 'partial_match_for_tags',
           label: i18n.searchTargetTagPartial,
+        },
+        {
+          value: 'exact_match_for_tags',
+          label: i18n.searchTargetTagExact,
         },
         {
           value: 'text',
@@ -332,7 +336,7 @@ class SearchFilterModal extends Component {
       selectedFilterType,
       selectedPickerValue,
       filterList,
-      target,
+      searchTarget,
       period,
       startDate,
       endDate,
@@ -380,7 +384,7 @@ class SearchFilterModal extends Component {
             navigationStateKey={navigationStateKey}
             word={word}
             searchOptions={{
-              target,
+              search_target: searchTarget,
               period,
               start_date: startDate,
               end_date: endDate,
@@ -395,7 +399,7 @@ class SearchFilterModal extends Component {
             navigationStateKey={navigationStateKey}
             word={word}
             searchOptions={{
-              target,
+              search_target: searchTarget,
               period,
               start_date: startDate,
               end_date: endDate,

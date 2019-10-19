@@ -178,7 +178,7 @@
   "searchTarget": "搜索對象",
   "searchTargetKeyword": "關鍵詞",
   "searchTargetTagPartial": "標籤部分一致",
-  "searchTargetTagTotal": "標籤完全一致",
+  "searchTargetTagExact": "標籤完全一致",
   "searchTargetText": "正文",
   "searchTargetTitleCaption": "標題說明文",
   "searchUserPlaceholder": "輸入用戶暱稱",

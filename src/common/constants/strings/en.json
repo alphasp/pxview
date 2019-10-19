@@ -178,7 +178,7 @@
   "searchTarget": "Search Target",
   "searchTargetKeyword": "Keyword",
   "searchTargetTagPartial": "Tag Partial",
-  "searchTargetTagTotal": "Tag Total",
+  "searchTargetTagExact": "Tag Exact",
   "searchTargetText": "Novel Text",
   "searchTargetTitleCaption": "Title Caption",
   "searchUserPlaceholder": "Enter nickname",
