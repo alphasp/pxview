@@ -5,12 +5,12 @@ import ViewPager from '@react-native-community/viewpager';
 import Loader from './Loader';
 import { globalStyles, globalStyleVariables } from '../styles';
 
-const LIST_WINDOW_SIZE = 5;
+const LIST_WINDOW_SIZE = 3;
 
 class PXViewPager extends Component {
   handleOnIOSViewPagerPageSelected = e => {
     const { onPageSelected } = this.props;
-    const contentOffset = e.nativeEvent.contentOffset;
+    const { contentOffset } = e.nativeEvent;
     const viewSize = e.nativeEvent.layoutMeasurement;
     // Divide the horizontal offset by the width of the view to see which page is visible
     const index = Math.round(contentOffset.x / viewSize.width);
@@ -32,7 +32,6 @@ class PXViewPager extends Component {
 
   renderContentForAndroid = () => {
     const { items, keyExtractor, renderContent, index, theme } = this.props;
-    // console.log('renderContentForAndroid ', items);
     const size = Math.floor(LIST_WINDOW_SIZE / 2);
     return items.map((item, i) => {
       if (i >= index - size && i <= index + size) {
