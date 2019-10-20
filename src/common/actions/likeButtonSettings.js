@@ -2,11 +2,12 @@
 
 import { LIKE_BUTTON_SETTINGS } from '../constants/actionTypes';
 
-export function setLikeButtonAction(actionType) {
+export function setSettings({ actionType, isShowLikeCount }) {
   return {
     type: LIKE_BUTTON_SETTINGS.SET,
     payload: {
       actionType,
+      isShowLikeCount,
     },
   };
 }

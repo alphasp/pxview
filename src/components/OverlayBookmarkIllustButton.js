@@ -23,10 +23,11 @@ const styles = StyleSheet.create({
 });
 
 const OverlayBookmarkIllustButton = props => {
-  const { item } = props;
+  const { item, isShowLikeCount } = props;
+  const showLikeCount = isShowLikeCount && item.total_bookmarks > 0;
   return (
     <View style={styles.container}>
-      {item.total_bookmarks > 0 && (
+      {showLikeCount && (
         <Text style={styles.bookmarkCount}>{item.total_bookmarks}</Text>
       )}
       <BookmarkIllustButton {...props} />

@@ -10,8 +10,9 @@ class NovelItem extends Component {
       item: prevItem,
       isHighlight: prevIsHighlight,
       isMute: prevIsMute,
+      isShowLikeCount: prevIsShowLikeCount,
     } = this.props;
-    const { item, isHighlight, isMute } = nextProps;
+    const { item, isHighlight, isMute, isShowLikeCount } = nextProps;
     // console.log(
     //   item.id,
     //   prevItem.is_bookmarked !== item.is_bookmarked ||
@@ -21,7 +22,8 @@ class NovelItem extends Component {
       prevItem.is_bookmarked !== item.is_bookmarked ||
       prevItem.user.is_followed !== item.user.is_followed ||
       prevIsHighlight !== isHighlight ||
-      prevIsMute !== isMute
+      prevIsMute !== isMute ||
+      prevIsShowLikeCount !== isShowLikeCount
     );
   }
 
@@ -37,7 +39,7 @@ class NovelItem extends Component {
 export default connect(() => {
   const getNovelItem = makeGetNovelItem();
   return (state, props) => {
-    const { highlightTags, muteTags, muteUsers } = state;
+    const { highlightTags, muteTags, muteUsers, likeButtonSettings } = state;
     const item = getNovelItem(state, props);
     const { tags, user } = item;
     return {
@@ -46,6 +48,7 @@ export default connect(() => {
       isMute:
         tags.some(t => muteTags.items.includes(t.name)) ||
         muteUsers.items.some(m => m === user.id),
+      isShowLikeCount: likeButtonSettings.isShowLikeCount,
     };
   };
 })(NovelItem);

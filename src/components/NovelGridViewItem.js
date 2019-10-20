@@ -41,6 +41,7 @@ const NovelGridViewItem = ({
   imageStyle,
   isHighlight,
   isMute,
+  isShowLikeCount,
 }) => {
   const imageWidthOffset = isHighlight ? HIGHLIGHT_BORDER_WIDTH * 2 + 1 : 1;
   return (
@@ -81,7 +82,11 @@ const NovelGridViewItem = ({
           <View style={styles.overlayTitleContainer}>
             <Text style={styles.text}>{item.title}</Text>
           </View>
-          <OverlayBookmarkNovelButton item={item} gridView />
+          <OverlayBookmarkNovelButton
+            item={item}
+            isShowLikeCount={isShowLikeCount}
+            gridView
+          />
         </View>
       )}
       {item.page_count > 1 ? (

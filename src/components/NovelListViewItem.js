@@ -78,6 +78,7 @@ class NovelListViewItem extends Component {
       isHighlight,
       isMute,
       theme,
+      isShowLikeCount,
     } = this.props;
     return (
       <PXTouchable
@@ -111,6 +112,7 @@ class NovelListViewItem extends Component {
                 <OverlayBookmarkNovelButton
                   item={item}
                   total={item.total_bookmarks}
+                  isShowLikeCount={isShowLikeCount}
                 />
               }
               {item.page_count > 1 ? (

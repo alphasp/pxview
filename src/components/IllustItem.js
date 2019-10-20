@@ -46,14 +46,16 @@ class IllustItem extends Component {
       item: prevItem,
       isHighlight: prevIsHighlight,
       isMute: prevIsMute,
+      isShowLikeCount: prevIsShowLikeCount,
     } = this.props;
-    const { item, isHighlight, isMute } = nextProps;
+    const { item, isHighlight, isMute, isShowLikeCount } = nextProps;
     // console.log(item.id, (prevItem.is_bookmarked !== item.is_bookmarked) || (prevItem.user.is_followed !== item.user.is_followed));
     return (
       prevItem.is_bookmarked !== item.is_bookmarked ||
       prevItem.user.is_followed !== item.user.is_followed ||
       prevIsHighlight !== isHighlight ||
-      prevIsMute !== isMute
+      prevIsMute !== isMute ||
+      prevIsShowLikeCount !== isShowLikeCount
     );
   }
 
@@ -69,6 +71,7 @@ class IllustItem extends Component {
       isHighlight,
       isMute,
       hideBookmarkButton,
+      isShowLikeCount,
     } = this.props;
     const imageWidthOffset = isHighlight ? HIGHLIGHT_BORDER_WIDTH * 2 + 1 : 1;
     return (
@@ -116,7 +119,12 @@ class IllustItem extends Component {
                 imageStyle,
               ]}
             />
-            {!hideBookmarkButton && <OverlayBookmarkIllustButton item={item} />}
+            {!hideBookmarkButton && (
+              <OverlayBookmarkIllustButton
+                item={item}
+                isShowLikeCount={isShowLikeCount}
+              />
+            )}
           </View>
         )}
         {item.meta_pages && item.meta_pages.length ? (
@@ -131,7 +139,7 @@ class IllustItem extends Component {
 export default connect(() => {
   const getIllustItem = makeGetIllustItem();
   return (state, props) => {
-    const { highlightTags, muteTags, muteUsers } = state;
+    const { highlightTags, muteTags, muteUsers, likeButtonSettings } = state;
     const item = getIllustItem(state, props);
     const { tags, user } = item;
     return {
@@ -140,6 +148,7 @@ export default connect(() => {
       isMute:
         tags.some(t => muteTags.items.includes(t.name)) ||
         muteUsers.items.some(m => m === user.id),
+      isShowLikeCount: likeButtonSettings.isShowLikeCount,
     };
   };
 })(IllustItem);

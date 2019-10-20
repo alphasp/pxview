@@ -42,8 +42,8 @@ class LikeButtonSettingsModal extends Component {
   };
 
   handleOnOkPickerDialog = value => {
-    const { setLikeButtonAction } = this.props;
-    setLikeButtonAction(value);
+    const { setSettings } = this.props;
+    setSettings({ actionType: value });
     this.handleOnCancelPickerDialog();
   };
 

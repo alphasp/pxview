@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
   listViewContainer: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.3)',
-    left: 0,
   },
   bookmarkCount: {
     marginRight: 5,
@@ -27,17 +26,30 @@ const styles = StyleSheet.create({
   },
 });
 
-const OverlayBookmarkNovelButton = ({ total, gridView, ...restProps }) => (
-  <View
-    style={[
-      styles.container,
-      gridView ? styles.gridViewContainer : styles.listViewContainer,
-    ]}
-  >
-    {total > 0 && <Text style={styles.bookmarkCount}>{total}</Text>}
-
-    <BookmarkNovelButton {...restProps} />
-  </View>
-);
+const OverlayBookmarkNovelButton = ({
+  total,
+  gridView,
+  isShowLikeCount,
+  ...restProps
+}) => {
+  const showLikeCount = isShowLikeCount && total > 0;
+  return (
+    <View
+      style={[
+        styles.container,
+        gridView ? styles.gridViewContainer : styles.listViewContainer,
+        showLikeCount &&
+          !gridView && {
+            left: 0,
+          },
+      ]}
+    >
+      {isShowLikeCount && total > 0 && (
+        <Text style={styles.bookmarkCount}>{total}</Text>
+      )}
+      <BookmarkNovelButton {...restProps} />
+    </View>
+  );
+};
 
 export default OverlayBookmarkNovelButton;

@@ -4,6 +4,7 @@ import { LIKE_BUTTON_ACTION_TYPES } from '../constants';
 export default function likeButtonSettings(
   state = {
     actionType: LIKE_BUTTON_ACTION_TYPES.PUBLIC_LIKE,
+    isShowLikeCount: true,
   },
   action = {},
 ) {
@@ -11,7 +12,14 @@ export default function likeButtonSettings(
     case LIKE_BUTTON_SETTINGS.SET:
       return {
         ...state,
-        actionType: action.payload.actionType,
+        actionType:
+          action.payload.actionType !== undefined
+            ? action.payload.actionType
+            : state.actionType,
+        isShowLikeCount:
+          action.payload.isShowLikeCount !== undefined
+            ? action.payload.isShowLikeCount
+            : state.isShowLikeCount,
       };
     default:
       return state;

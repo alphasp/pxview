@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { withTheme } from 'react-native-paper';
+import { withTheme, Switch } from 'react-native-paper';
 import { connectLocalization } from '../../components/Localization';
 import PXListItem from '../../components/PXListItem';
 import * as modalActionCreators from '../../common/actions/modal';
@@ -31,8 +31,15 @@ class LikeButtonSettings extends Component {
     }
   };
 
+  handleOnSwitchIsShowLikeCount = () => {
+    const { setSettings, isShowLikeCount } = this.props;
+    setSettings({
+      isShowLikeCount: !isShowLikeCount,
+    });
+  };
+
   render() {
-    const { i18n, theme } = this.props;
+    const { i18n, theme, isShowLikeCount } = this.props;
     return (
       <View
         style={[
@@ -45,6 +52,15 @@ class LikeButtonSettings extends Component {
           description={this.mapActionName()}
           onPress={this.handleOnPressOpenLikeSettingsModal}
         />
+        <PXListItem
+          title={i18n.likeButtonSettingsShowLikeCount}
+          right={() => (
+            <Switch
+              value={isShowLikeCount}
+              onValueChange={this.handleOnSwitchIsShowLikeCount}
+            />
+          )}
+        />
       </View>
     );
   }
@@ -54,9 +70,10 @@ export default withTheme(
   connectLocalization(
     connect(
       state => {
-        const { actionType } = state.likeButtonSettings;
+        const { actionType, isShowLikeCount } = state.likeButtonSettings;
         return {
           actionType,
+          isShowLikeCount,
         };
       },
       { ...modalActionCreators, ...likeButtonSettingsActionCreators },
