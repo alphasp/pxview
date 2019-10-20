@@ -119,6 +119,10 @@ class IllustComments extends Component {
     );
   };
 
+  renderCommentButtonIcon = () => {
+    return <Icon name="pencil" size={24} color="#737373" />;
+  };
+
   render() {
     const {
       authorId,
@@ -151,7 +155,7 @@ class IllustComments extends Component {
         {!isFeatureInDetailPage && (
           <ActionButton
             buttonColor="#fff"
-            icon={<Icon name="pencil" size={24} color="#737373" />}
+            renderIcon={this.renderCommentButtonIcon}
             fixNativeFeedbackRadius
             onPress={this.handleOnPressCommentButton}
           />

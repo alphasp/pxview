@@ -119,6 +119,10 @@ class NovelComments extends Component {
     );
   };
 
+  renderCommentButtonIcon = () => {
+    return <Icon name="pencil" size={24} color="#737373" />;
+  };
+
   render() {
     const {
       authorId,
@@ -151,7 +155,7 @@ class NovelComments extends Component {
         {!isFeatureInDetailPage && (
           <ActionButton
             buttonColor="#fff"
-            icon={<Icon name="pencil" size={24} color="#737373" />}
+            renderIcon={this.renderCommentButtonIcon}
             onPress={this.handleOnPressCommentButton}
             fixNativeFeedbackRadius
           />

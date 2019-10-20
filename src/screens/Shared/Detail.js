@@ -111,14 +111,14 @@ class Detail extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { illustDetail: prevIllustDetail } = this.props;
+  componentDidUpdate(prevProps) {
     const {
       illustId,
       isFromDeepLink,
       illustDetail,
       addBrowsingHistoryIllusts,
-    } = nextProps;
+    } = this.props;
+    const { illustDetail: prevIllustDetail } = prevProps;
     if (
       illustId &&
       isFromDeepLink &&
@@ -361,7 +361,7 @@ class Detail extends Component {
   };
 
   renderContent = ({ item }) => {
-    const { navigation, authUser } = this.props;
+    const { navigation, authUser, index } = this.props;
     return (
       <View style={styles.content} key={item.id}>
         <PXHeader
@@ -417,6 +417,11 @@ class Detail extends Component {
     );
   }
 
+  renderBookmarkButtonIcon = () => {
+    const { item } = this.props;
+    return <BookmarkIllustButton item={item} />;
+  };
+
   render() {
     const { item, isMuteUser, i18n, navigation, theme } = this.props;
     const {
@@ -439,7 +444,7 @@ class Detail extends Component {
             <ActionButton
               buttonColor="rgba(255,255,255,1)"
               bgColor="red"
-              icon={<BookmarkIllustButton item={item} />}
+              renderIcon={this.renderBookmarkButtonIcon}
               fixNativeFeedbackRadius
             />
           )}

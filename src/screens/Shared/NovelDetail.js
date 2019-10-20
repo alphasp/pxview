@@ -393,6 +393,11 @@ class NovelDetail extends Component {
     );
   }
 
+  renderBookmarkButtonIcon = () => {
+    const { item } = this.props;
+    return <BookmarkNovelButton item={item} />;
+  };
+
   render() {
     const { item, isMuteUser, i18n, navigation, theme } = this.props;
     const {
@@ -414,7 +419,7 @@ class NovelDetail extends Component {
             <ActionButton
               buttonColor="rgba(255,255,255,1)"
               bgColor="red"
-              icon={<BookmarkNovelButton item={item} />}
+              renderIcon={this.renderBookmarkButtonIcon}
               fixNativeFeedbackRadius
             />
           )}

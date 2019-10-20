@@ -49,7 +49,6 @@ class LikeButtonSettingsModal extends Component {
 
   render() {
     const { i18n, actionType } = this.props;
-    console.log('items ', this.mapItemsOptions(actionList), actionList);
     return (
       <SingleChoiceDialog
         visible
