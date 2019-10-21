@@ -87,6 +87,8 @@
   "logoutConfirmNoRegisterTitle": "Are you sure you want to log out?",
   "logoutConfirmNoRegisterDescription": "The account you're using doesn't have an email address or password set. If you log out then you will lose your account information.",
   "manga": "Manga",
+  "muteSettings": "Mute Settings",
+  "muteSettingsHide": "Hide muted works & users completely",
   "myPage": "My Page",
   "myPixiv": "My Pixiv",
   "myWorks": "Submitted Works",

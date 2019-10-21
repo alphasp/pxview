@@ -56,6 +56,7 @@ import ugoiraMeta from './ugoiraMeta';
 import browsingHistoryIllusts from './browsingHistoryIllusts';
 import browsingHistoryNovels from './browsingHistoryNovels';
 import highlightTags from './highlightTags';
+import muteSettings from './muteSettings';
 import muteTags from './muteTags';
 import muteUsers from './muteUsers';
 import auth from './auth';
@@ -130,6 +131,7 @@ const rootReducer = combineReducers({
   browsingHistoryIllusts,
   browsingHistoryNovels,
   highlightTags,
+  muteSettings,
   muteTags,
   muteUsers,
   auth,

@@ -46,7 +46,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// console.disableYellowBox = true;
+console.disableYellowBox = true;
 
 class Root extends Component {
   render() {

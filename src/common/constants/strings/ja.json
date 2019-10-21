@@ -87,6 +87,8 @@
   "logoutConfirmNoRegisterTitle": "本当にログアウトしますか?",
   "logoutConfirmNoRegisterDescription": "現在ご利用中のアカウントは、メールアドレスまたはパスワードが未設定なため、このままログアウトするとアカウント情報が失われます。",
   "manga": "マンガ",
+  "muteSettings": "ミュート設定",
+  "muteSettingsHide": "ミュート作品・ユーザーを完全に表示しない",
   "myPage": "マイページ",
   "myPixiv": "マイピク",
   "myWorks": "自分の作品",

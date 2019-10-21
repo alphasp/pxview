@@ -43,12 +43,8 @@ const settingsList = [
     title: 'tagHighlightSettings',
   },
   {
-    id: 'tagMuteSettings',
-    title: 'tagMuteSettings',
-  },
-  {
-    id: 'userMuteSettings',
-    title: 'userMuteSettings',
+    id: 'muteSettings',
+    title: 'muteSettings',
   },
   {
     id: 'lang',
@@ -156,16 +152,12 @@ class Settings extends Component {
         navigate(SCREENS.LikeButtonSettings);
         break;
       }
+      case 'muteSettings': {
+        navigate(SCREENS.MuteSettings);
+        break;
+      }
       case 'tagHighlightSettings': {
         navigate(SCREENS.HighlightTagsSettings);
-        break;
-      }
-      case 'tagMuteSettings': {
-        navigate(SCREENS.MuteTagsSettings);
-        break;
-      }
-      case 'userMuteSettings': {
-        navigate(SCREENS.MuteUsersSettings);
         break;
       }
       case 'lang': {

@@ -183,6 +183,7 @@ export default function configureStore() {
       'browsingHistoryIllusts',
       'browsingHistoryNovels',
       'highlightTags',
+      'muteSettings',
       'muteTags',
       'muteUsers',
       'saveImageSettings',

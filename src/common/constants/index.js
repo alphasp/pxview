@@ -210,6 +210,7 @@ export const SCREENS = {
   InitialScreenSettings: 'InitialScreenSettings',
   LikeButtonSettings: 'LikeButtonSettings',
   HighlightTagsSettings: 'HighlightTagsSettings',
+  MuteSettings: 'MuteSettings',
   MuteTagsSettings: 'MuteTagsSettings',
   MuteUsersSettings: 'MuteUsersSettings',
   Encyclopedia: 'Encyclopedia',

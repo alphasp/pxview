@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { View, FlatList, DeviceEventEmitter } from 'react-native';
 import { connect } from 'react-redux';
 import { withTheme } from 'react-native-paper';
-import { connectLocalization } from '../../components/Localization';
-import PXListItem from '../../components/PXListItem';
-import PXListItemRemoveButton from '../../components/PXListItemRemoveButton';
-import PXThumbnail from '../../components/PXThumbnail';
-import EmptyStateView from '../../components/EmptyStateView';
-import * as muteUsersActionCreators from '../../common/actions/muteUsers';
-import { getMuteUsersItems } from '../../common/selectors';
-import { SCREENS } from '../../common/constants';
-import { globalStyles } from '../../styles';
+import { connectLocalization } from '../../../components/Localization';
+import PXListItem from '../../../components/PXListItem';
+import PXListItemRemoveButton from '../../../components/PXListItemRemoveButton';
+import PXThumbnail from '../../../components/PXThumbnail';
+import EmptyStateView from '../../../components/EmptyStateView';
+import * as muteUsersActionCreators from '../../../common/actions/muteUsers';
+import { getMuteUsersItems } from '../../../common/selectors';
+import { SCREENS } from '../../../common/constants';
+import { globalStyles } from '../../../styles';
 
 class MuteUsersSettings extends Component {
   constructor(props) {

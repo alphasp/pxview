@@ -87,6 +87,8 @@
   "logoutConfirmNoRegisterTitle": "确定要退出账号吗?",
   "logoutConfirmNoRegisterDescription": "当前帐号没有设置邮箱或者密码，直接退出会导致账号信息丢失。",
   "manga": "漫画",
+  "muteSettings": "屏蔽设置",
+  "muteSettingsHide": "完全隐藏屏蔽作品与用户",
   "myPage": "个人页面",
   "myPixiv": "好P友",
   "myWorks": "我的作品",

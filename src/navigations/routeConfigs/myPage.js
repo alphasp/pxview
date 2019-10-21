@@ -8,8 +8,9 @@ import AdvanceAccountSettings from '../../screens/MyPage/AccountSettings/Advance
 import SaveImageSettings from '../../screens/MyPage/SaveImageSettings';
 import LikeButtonSettings from '../../screens/MyPage/LikeButtonSettings';
 import HighlightTagsSettings from '../../screens/MyPage/HighlightTagsSettings';
-import MuteTagsSettings from '../../screens/MyPage/MuteTagsSettings';
-import MuteUsersSettings from '../../screens/MyPage/MuteUsersSettings';
+import MuteSettings from '../../screens/MyPage/MuteSettings/MuteSettings';
+import MuteTagsSettings from '../../screens/MyPage/MuteSettings/MuteTagsSettings';
+import MuteUsersSettings from '../../screens/MyPage/MuteSettings/MuteUsersSettings';
 import Feedback from '../../screens/MyPage/Feedback';
 import PrivacyPolicy from '../../screens/MyPage/PrivacyPolicy';
 import About from '../../screens/MyPage/About';
@@ -96,6 +97,13 @@ const config = {
     screen: HighlightTagsSettings,
     navigationOptions: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.tagHighlightSettings,
+      headerStyle: getThemedHeaderStyle(theme),
+    }),
+  },
+  [SCREENS.MuteSettings]: {
+    screen: MuteSettings,
+    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+      title: i18n.muteSettings,
       headerStyle: getThemedHeaderStyle(theme),
     }),
   },

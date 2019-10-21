@@ -7,6 +7,48 @@ import { denormalize } from 'normalizr';
 import parseNovelText from '../helpers/novelTextParser';
 import Schemas from '../constants/schemas';
 
+const defaultArray = [];
+const defaultObject = {};
+
+function getNonMutedTagsAndUsersItems(items, muteTags, muteUsers) {
+  if (!items || !items.length) {
+    return defaultArray;
+  }
+  const filteredItems = items.filter(item => {
+    const hasMutedTag = item.tags.some(tag => {
+      return (
+        muteTags.includes(tag.name) || muteTags.includes(tag.translated_name)
+      );
+    });
+    const isMutedUser = muteUsers.includes(item.user.id);
+    return !hasMutedTag && !isMutedUser;
+  });
+  return filteredItems;
+}
+
+function getNonMutedUsersItems(items, muteUsers) {
+  if (!items || !items.length) {
+    return defaultArray;
+  }
+  const filteredItems = items.filter(item => {
+    const isMutedUser = muteUsers.includes(item.user.id);
+    return !isMutedUser;
+  });
+  return filteredItems;
+}
+
+function getNonMutedTagsItems(items, muteTags) {
+  if (!items || !items.length) {
+    return defaultArray;
+  }
+  const filteredItems = items.filter(item => {
+    const hasMutedTag =
+      muteTags.includes(item.tag) || muteTags.includes(item.translated_name);
+    return !hasMutedTag;
+  });
+  return filteredItems;
+}
+
 function defaultEqualityCheck(currentVal, previousVal) {
   return currentVal === previousVal;
 }
@@ -84,12 +126,10 @@ const selectBrowsingHistoryIllusts = state => state.browsingHistoryIllusts;
 const selectBrowsingHistoryNovels = state => state.browsingHistoryNovels;
 
 const selectHighlightTags = state => state.highlightTags.items;
+
+const selectMuteSettings = state => state.muteSettings;
 const selectMuteTags = state => state.muteTags.items;
-
-const selectMuteUsers = state => state.muteUsers;
-
-const defaultArray = [];
-const defaultObject = {};
+const selectMuteUsers = state => state.muteUsers.items;
 
 export const getAuth = state => state.auth;
 export const getAuthUser = state => state.auth.user;
@@ -254,178 +294,340 @@ const createTagsWithStatusSelector = createSelectorCreator(
 
 export const makeGetIllustRankingItems = () =>
   createIllustItemsSelector(
-    [selectRanking, selectEntities, getProps],
-    (ranking, entities, props) =>
-      denormalize(
+    [
+      selectRanking,
+      selectMuteSettings,
+      selectMuteTags,
+      selectMuteUsers,
+      selectEntities,
+      getProps,
+    ],
+    (ranking, muteSettings, muteTags, muteUsers, entities, props) => {
+      const items = denormalize(
         ranking[props.rankingMode].items,
         Schemas.ILLUST_ARRAY,
         entities,
-      ),
+      );
+      if (muteSettings.isHideMute) {
+        return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+      }
+      return items;
+    },
   );
 
 export const makeGetSearchIllustsItems = () =>
   createIllustItemsSelector(
-    [selectSearchIllusts, selectEntities, getProps],
-    (searchIllusts, entities, props) =>
-      searchIllusts[props.navigationStateKey]
-        ? denormalize(
-            searchIllusts[props.navigationStateKey].items,
-            Schemas.ILLUST_ARRAY,
-            entities,
-          )
-        : defaultArray,
+    [
+      selectSearchIllusts,
+      selectMuteSettings,
+      selectMuteTags,
+      selectMuteUsers,
+      selectEntities,
+      getProps,
+    ],
+    (searchIllusts, muteSettings, muteTags, muteUsers, entities, props) => {
+      if (searchIllusts[props.navigationStateKey]) {
+        const items = denormalize(
+          searchIllusts[props.navigationStateKey].items,
+          Schemas.ILLUST_ARRAY,
+          entities,
+        );
+        if (muteSettings.isHideMute) {
+          return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+        }
+        return items;
+      }
+      return defaultArray;
+    },
   );
 
 export const makeGetSearchNovelsItems = () =>
   createNovelItemsSelector(
-    [selectSearchNovels, selectEntities, getProps],
-    (searchNovels, entities, props) =>
-      searchNovels[props.navigationStateKey]
-        ? denormalize(
-            searchNovels[props.navigationStateKey].items,
-            Schemas.NOVEL_ARRAY,
-            entities,
-          )
-        : defaultArray,
+    [
+      selectSearchNovels,
+      selectMuteSettings,
+      selectMuteTags,
+      selectMuteUsers,
+      selectEntities,
+      getProps,
+    ],
+    (searchNovels, muteSettings, muteTags, muteUsers, entities, props) => {
+      if (searchNovels[props.navigationStateKey]) {
+        const items = denormalize(
+          searchNovels[props.navigationStateKey].items,
+          Schemas.NOVEL_ARRAY,
+          entities,
+        );
+        if (muteSettings.isHideMute) {
+          return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+        }
+        return items;
+      }
+      return defaultArray;
+    },
   );
 
 export const makeGetRelatedIllustsItems = () =>
   createIllustItemsSelector(
-    [selectRelatedIllusts, selectEntities, getProps],
-    (relatedIllusts, entities, props) => {
+    [
+      selectRelatedIllusts,
+      selectMuteSettings,
+      selectMuteTags,
+      selectMuteUsers,
+      selectEntities,
+      getProps,
+    ],
+    (relatedIllusts, muteSettings, muteTags, muteUsers, entities, props) => {
       const illustId = props.illustId || props.navigation.state.params.illustId;
-      return relatedIllusts[illustId]
-        ? denormalize(
-            relatedIllusts[illustId].items,
-            Schemas.ILLUST_ARRAY,
-            entities,
-          )
-        : defaultArray;
+      if (relatedIllusts[illustId]) {
+        const items = denormalize(
+          relatedIllusts[illustId].items,
+          Schemas.ILLUST_ARRAY,
+          entities,
+        );
+        if (muteSettings.isHideMute) {
+          return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+        }
+        return items;
+      }
+      return defaultArray;
     },
   );
 
 export const makeGetUserBookmarkIllustsItems = () =>
   createIllustItemsSelector(
-    [selectUserBookmarkIllusts, selectEntities, getProps],
-    (userBookmarkIllusts, entities, props) => {
+    [
+      selectUserBookmarkIllusts,
+      selectMuteSettings,
+      selectMuteTags,
+      selectMuteUsers,
+      selectEntities,
+      getProps,
+    ],
+    (
+      userBookmarkIllusts,
+      muteSettings,
+      muteTags,
+      muteUsers,
+      entities,
+      props,
+    ) => {
       const userId =
         props.userId ||
         props.navigation.state.params.userId ||
         parseInt(props.navigation.state.params.id, 10) ||
         parseInt(props.navigation.state.params.uid, 10);
-      return userBookmarkIllusts[userId]
-        ? denormalize(
-            userBookmarkIllusts[userId].items,
-            Schemas.ILLUST_ARRAY,
-            entities,
-          )
-        : defaultArray;
+      if (userBookmarkIllusts[userId]) {
+        const items = denormalize(
+          userBookmarkIllusts[userId].items,
+          Schemas.ILLUST_ARRAY,
+          entities,
+        );
+        if (muteSettings.isHideMute) {
+          return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+        }
+        return items;
+      }
+      return defaultArray;
     },
   );
 
 export const makeGetUserIllustsItems = () =>
   createIllustItemsSelector(
-    [selectUserIllusts, selectEntities, getProps],
-    (userIllusts, entities, props) => {
+    [
+      selectUserIllusts,
+      selectMuteSettings,
+      selectMuteTags,
+      selectMuteUsers,
+      selectEntities,
+      getProps,
+    ],
+    (userIllusts, muteSettings, muteTags, muteUsers, entities, props) => {
       const userId =
         props.userId ||
         props.navigation.state.params.userId ||
         parseInt(props.navigation.state.params.id, 10) ||
         parseInt(props.navigation.state.params.uid, 10);
-      return userIllusts[userId]
-        ? denormalize(userIllusts[userId].items, Schemas.ILLUST_ARRAY, entities)
-        : defaultArray;
+      if (userIllusts[userId]) {
+        const items = denormalize(
+          userIllusts[userId].items,
+          Schemas.ILLUST_ARRAY,
+          entities,
+        );
+        if (muteSettings.isHideMute) {
+          return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+        }
+        return items;
+      }
+      return defaultArray;
     },
   );
 
 export const makeGetUserMangasItems = () =>
   createIllustItemsSelector(
-    [selectUserMangas, selectEntities, getProps],
-    (userMangas, entities, props) => {
+    [
+      selectUserMangas,
+      selectMuteSettings,
+      selectMuteTags,
+      selectMuteUsers,
+      selectEntities,
+      getProps,
+    ],
+    (userMangas, muteSettings, muteTags, muteUsers, entities, props) => {
       const userId =
         props.userId ||
         props.navigation.state.params.userId ||
         parseInt(props.navigation.state.params.id, 10) ||
         parseInt(props.navigation.state.params.uid, 10);
-      return userMangas[userId]
-        ? denormalize(userMangas[userId].items, Schemas.ILLUST_ARRAY, entities)
-        : defaultArray;
+      if (userMangas[userId]) {
+        const items = denormalize(
+          userMangas[userId].items,
+          Schemas.ILLUST_ARRAY,
+          entities,
+        );
+        if (muteSettings.isHideMute) {
+          return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+        }
+        return items;
+      }
+      return defaultArray;
     },
   );
 
 export const makeGetUserNovelsItems = () =>
   createNovelItemsSelector(
-    [selectUserNovels, selectEntities, getProps],
-    (userNovels, entities, props) => {
+    [
+      selectUserNovels,
+      selectMuteSettings,
+      selectMuteTags,
+      selectMuteUsers,
+      selectEntities,
+      getProps,
+    ],
+    (userNovels, muteSettings, muteTags, muteUsers, entities, props) => {
       const userId =
         props.userId ||
         props.navigation.state.params.userId ||
         parseInt(props.navigation.state.params.id, 10) ||
         parseInt(props.navigation.state.params.uid, 10);
-      return userNovels[userId]
-        ? denormalize(userNovels[userId].items, Schemas.NOVEL_ARRAY, entities)
-        : defaultArray;
+      if (userNovels[userId]) {
+        const items = denormalize(
+          userNovels[userId].items,
+          Schemas.NOVEL_ARRAY,
+          entities,
+        );
+        if (muteSettings.isHideMute) {
+          return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+        }
+        return items;
+      }
+      return defaultArray;
     },
   );
 
 export const makeGetUserFollowingItems = () =>
   createUserPreviewItemsSelector(
-    [selectUserFollowing, selectEntities, getProps],
-    (userFollowing, entities, props) => {
+    [
+      selectUserFollowing,
+      selectMuteSettings,
+      selectMuteUsers,
+      selectEntities,
+      getProps,
+    ],
+    (userFollowing, muteSettings, muteUsers, entities, props) => {
       const userId = props.userId || props.navigation.state.params.userId;
       const followingType =
         props.followingType || props.navigation.state.params.followingType;
-      return userFollowing[followingType][userId]
-        ? denormalize(
-            userFollowing[followingType][userId].items,
-            Schemas.USER_PREVIEW_ARRAY,
-            entities,
-          )
-        : defaultArray;
+      if (userFollowing[followingType][userId]) {
+        const items = denormalize(
+          userFollowing[followingType][userId].items,
+          Schemas.USER_PREVIEW_ARRAY,
+          entities,
+        );
+        if (muteSettings.isHideMute) {
+          return getNonMutedUsersItems(items, muteUsers);
+        }
+        return items;
+      }
+      return defaultArray;
     },
   );
 
 export const makeGetUserFollowersItems = () =>
   createUserPreviewItemsSelector(
-    [selectUserFollowers, selectEntities, getProps],
-    (userFollowers, entities, props) => {
+    [
+      selectUserFollowers,
+      selectMuteSettings,
+      selectMuteUsers,
+      selectEntities,
+      getProps,
+    ],
+    (userFollowers, muteSettings, muteUsers, entities, props) => {
       const userId = props.userId || props.navigation.state.params.userId;
-      return userFollowers[userId]
-        ? denormalize(
-            userFollowers[userId].items,
-            Schemas.USER_PREVIEW_ARRAY,
-            entities,
-          )
-        : defaultArray;
+      if (userFollowers[userId]) {
+        const items = denormalize(
+          userFollowers[userId].items,
+          Schemas.USER_PREVIEW_ARRAY,
+          entities,
+        );
+        if (muteSettings.isHideMute) {
+          return getNonMutedUsersItems(items, muteUsers);
+        }
+        return items;
+      }
+      return defaultArray;
     },
   );
 
 export const makeGetUserMyPixivItems = () =>
   createUserPreviewItemsSelector(
-    [selectUserMyPixiv, selectEntities, getProps],
-    (userMyPixiv, entities, props) => {
+    [
+      selectUserMyPixiv,
+      selectMuteSettings,
+      selectMuteUsers,
+      selectEntities,
+      getProps,
+    ],
+    (userMyPixiv, muteSettings, muteUsers, entities, props) => {
       const userId = props.userId || props.navigation.state.params.userId;
-      return userMyPixiv[userId]
-        ? denormalize(
-            userMyPixiv[userId].items,
-            Schemas.USER_PREVIEW_ARRAY,
-            entities,
-          )
-        : defaultArray;
+      if (userMyPixiv[userId]) {
+        const items = denormalize(
+          userMyPixiv[userId].items,
+          Schemas.USER_PREVIEW_ARRAY,
+          entities,
+        );
+        if (muteSettings.isHideMute) {
+          return getNonMutedUsersItems(items, muteUsers);
+        }
+        return items;
+      }
+      return defaultArray;
     },
   );
 
 export const makeGetSearchUsersItems = () =>
   createUserPreviewItemsSelector(
-    [selectSearchUsers, selectEntities, getProps],
-    (searchUsers, entities, props) =>
-      searchUsers[props.navigationStateKey]
-        ? denormalize(
-            searchUsers[props.navigationStateKey].items,
-            Schemas.USER_PREVIEW_ARRAY,
-            entities,
-          )
-        : defaultArray,
+    [
+      selectSearchUsers,
+      selectMuteSettings,
+      selectMuteUsers,
+      selectEntities,
+      getProps,
+    ],
+    (searchUsers, muteSettings, muteUsers, entities, props) => {
+      if (searchUsers[props.navigationStateKey]) {
+        const items = denormalize(
+          searchUsers[props.navigationStateKey].items,
+          Schemas.USER_PREVIEW_ARRAY,
+          entities,
+        );
+        if (muteSettings.isHideMute) {
+          return getNonMutedUsersItems(items, muteUsers);
+        }
+        return items;
+      }
+      return defaultArray;
+    },
   );
 
 export const makeGetIllustCommentsItems = () =>
@@ -445,13 +647,25 @@ export const makeGetIllustCommentsItems = () =>
 
 export const makeGetNovelRankingItems = () =>
   createNovelItemsSelector(
-    [selectRanking, selectEntities, getProps],
-    (ranking, entities, props) =>
-      denormalize(
+    [
+      selectRanking,
+      selectMuteSettings,
+      selectMuteTags,
+      selectMuteUsers,
+      selectEntities,
+      getProps,
+    ],
+    (ranking, muteSettings, muteTags, muteUsers, entities, props) => {
+      const items = denormalize(
         ranking[props.rankingMode].items,
         Schemas.NOVEL_ARRAY,
         entities,
-      ),
+      );
+      if (muteSettings.isHideMute) {
+        return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+      }
+      return items;
+    },
   );
 
 export const makeGetIllustCommentRepliesItems = () =>
@@ -471,20 +685,39 @@ export const makeGetIllustCommentRepliesItems = () =>
 
 export const makeGetUserBookmarkNovelsItems = () =>
   createNovelItemsSelector(
-    [selectUserBookmarkNovels, selectEntities, getProps],
-    (userBookmarkNovels, entities, props) => {
+    [
+      selectUserBookmarkNovels,
+      selectMuteSettings,
+      selectMuteTags,
+      selectMuteUsers,
+      selectEntities,
+      getProps,
+    ],
+    (
+      userBookmarkNovels,
+      muteSettings,
+      muteTags,
+      muteUsers,
+      entities,
+      props,
+    ) => {
       const userId =
         props.userId ||
         props.navigation.state.params.userId ||
         parseInt(props.navigation.state.params.id, 10) ||
         parseInt(props.navigation.state.params.uid, 10);
-      return userBookmarkNovels[userId]
-        ? denormalize(
-            userBookmarkNovels[userId].items,
-            Schemas.NOVEL_ARRAY,
-            entities,
-          )
-        : defaultArray;
+      if (userBookmarkNovels[userId]) {
+        const items = denormalize(
+          userBookmarkNovels[userId].items,
+          Schemas.NOVEL_ARRAY,
+          entities,
+        );
+        if (muteSettings.isHideMute) {
+          return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+        }
+        return items;
+      }
+      return defaultArray;
     },
   );
 
@@ -676,103 +909,313 @@ export const getWalkthroughIllustsItems = createIllustItemsSelector(
 );
 
 export const getRecommendedIllustsItems = createIllustItemsSelector(
-  [selectRecommendedIllusts, selectEntities],
-  (recommendedIllusts, entities) =>
-    denormalize(recommendedIllusts.items, Schemas.ILLUST_ARRAY, entities),
+  [
+    selectRecommendedIllusts,
+    selectMuteSettings,
+    selectMuteTags,
+    selectMuteUsers,
+    selectEntities,
+  ],
+  (recommendedIllusts, muteSettings, muteTags, muteUsers, entities) => {
+    const items = denormalize(
+      recommendedIllusts.items,
+      Schemas.ILLUST_ARRAY,
+      entities,
+    );
+    if (muteSettings.isHideMute) {
+      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+    }
+    return items;
+  },
 );
 
 export const getRecommendedMangasItems = createIllustItemsSelector(
-  [selectRecommendedMangas, selectEntities],
-  (recommendedMangas, entities) =>
-    denormalize(recommendedMangas.items, Schemas.ILLUST_ARRAY, entities),
+  [
+    selectRecommendedMangas,
+    selectMuteSettings,
+    selectMuteTags,
+    selectMuteUsers,
+    selectEntities,
+  ],
+  (recommendedMangas, muteSettings, muteTags, muteUsers, entities) => {
+    const items = denormalize(
+      recommendedMangas.items,
+      Schemas.ILLUST_ARRAY,
+      entities,
+    );
+    if (muteSettings.isHideMute) {
+      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+    }
+    return items;
+  },
 );
 
 export const getRecommendedNovelsItems = createIllustItemsSelector(
-  [selectRecommendedNovels, selectEntities],
-  (recommendedNovels, entities) =>
-    denormalize(recommendedNovels.items, Schemas.NOVEL_ARRAY, entities),
+  [
+    selectRecommendedNovels,
+    selectMuteSettings,
+    selectMuteTags,
+    selectMuteUsers,
+    selectEntities,
+  ],
+  (recommendedNovels, muteSettings, muteTags, muteUsers, entities) => {
+    const items = denormalize(
+      recommendedNovels.items,
+      Schemas.NOVEL_ARRAY,
+      entities,
+    );
+    if (muteSettings.isHideMute) {
+      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+    }
+    return items;
+  },
 );
 
 export const getFollowingUserIllustsItems = createIllustItemsSelector(
-  [selectFollowingUserIllusts, selectEntities],
-  (followingUserIllusts, entities) =>
-    denormalize(followingUserIllusts.items, Schemas.ILLUST_ARRAY, entities),
+  [
+    selectFollowingUserIllusts,
+    selectMuteSettings,
+    selectMuteTags,
+    selectMuteUsers,
+    selectEntities,
+  ],
+  (followingUserIllusts, muteSettings, muteTags, muteUsers, entities) => {
+    const items = denormalize(
+      followingUserIllusts.items,
+      Schemas.ILLUST_ARRAY,
+      entities,
+    );
+    if (muteSettings.isHideMute) {
+      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+    }
+    return items;
+  },
 );
 
 export const getFollowingUserNovelsItems = createIllustItemsSelector(
-  [selectFollowingUserNovels, selectEntities],
-  (followingUserNovels, entities) =>
-    denormalize(followingUserNovels.items, Schemas.NOVEL_ARRAY, entities),
+  [
+    selectFollowingUserNovels,
+    selectMuteSettings,
+    selectMuteTags,
+    selectMuteUsers,
+    selectEntities,
+  ],
+  (followingUserNovels, muteSettings, muteTags, muteUsers, entities) => {
+    const items = denormalize(
+      followingUserNovels.items,
+      Schemas.NOVEL_ARRAY,
+      entities,
+    );
+    if (muteSettings.isHideMute) {
+      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+    }
+    return items;
+  },
 );
 
 export const getNewIllustsItems = createIllustItemsSelector(
-  [selectNewIllusts, selectEntities],
-  (newIllusts, entities) =>
-    denormalize(newIllusts.items, Schemas.ILLUST_ARRAY, entities),
+  [
+    selectNewIllusts,
+    selectMuteSettings,
+    selectMuteTags,
+    selectMuteUsers,
+    selectEntities,
+  ],
+  (newIllusts, muteSettings, muteTags, muteUsers, entities) => {
+    const items = denormalize(newIllusts.items, Schemas.ILLUST_ARRAY, entities);
+    if (muteSettings.isHideMute) {
+      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+    }
+    return items;
+  },
 );
 
 export const getNewMangasItems = createIllustItemsSelector(
-  [selectNewMangas, selectEntities],
-  (newMangas, entities) =>
-    denormalize(newMangas.items, Schemas.ILLUST_ARRAY, entities),
+  [
+    selectNewMangas,
+    selectMuteSettings,
+    selectMuteTags,
+    selectMuteUsers,
+    selectEntities,
+  ],
+  (newMangas, muteSettings, muteTags, muteUsers, entities) => {
+    const items = denormalize(newMangas.items, Schemas.ILLUST_ARRAY, entities);
+    if (muteSettings.isHideMute) {
+      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+    }
+    return items;
+  },
 );
 
 export const getNewNovelsItems = createIllustItemsSelector(
-  [selectNewNovels, selectEntities],
-  (newNovels, entities) =>
-    denormalize(newNovels.items, Schemas.NOVEL_ARRAY, entities),
+  [
+    selectNewNovels,
+    selectMuteSettings,
+    selectMuteTags,
+    selectMuteUsers,
+    selectEntities,
+  ],
+  (newNovels, muteSettings, muteTags, muteUsers, entities) => {
+    const items = denormalize(newNovels.items, Schemas.NOVEL_ARRAY, entities);
+    if (muteSettings.isHideMute) {
+      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+    }
+    return items;
+  },
 );
 
 export const getMyPixivIllustsItems = createIllustItemsSelector(
-  [selectMyPixivIllusts, selectEntities],
-  (myPixivIllusts, entities) =>
-    denormalize(myPixivIllusts.items, Schemas.ILLUST_ARRAY, entities),
+  [
+    selectMyPixivIllusts,
+    selectMuteSettings,
+    selectMuteTags,
+    selectMuteUsers,
+    selectEntities,
+  ],
+  (myPixivIllusts, muteSettings, muteTags, muteUsers, entities) => {
+    const items = denormalize(
+      myPixivIllusts.items,
+      Schemas.ILLUST_ARRAY,
+      entities,
+    );
+    if (muteSettings.isHideMute) {
+      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+    }
+    return items;
+  },
 );
 
 export const getMyPixivNovelsItems = createIllustItemsSelector(
-  [selectMyPixivNovels, selectEntities],
-  (myPixivNovels, entities) =>
-    denormalize(myPixivNovels.items, Schemas.NOVEL_ARRAY, entities),
+  [
+    selectMyPixivNovels,
+    selectMuteSettings,
+    selectMuteTags,
+    selectMuteUsers,
+    selectEntities,
+  ],
+  (myPixivNovels, muteSettings, muteTags, muteUsers, entities) => {
+    const items = denormalize(
+      myPixivNovels.items,
+      Schemas.NOVEL_ARRAY,
+      entities,
+    );
+    if (muteSettings.isHideMute) {
+      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+    }
+    return items;
+  },
 );
 
 export const getMyPrivateBookmarkIllustsItems = createIllustItemsSelector(
-  [selectMyPrivateBookmarkIllusts, selectEntities],
-  (myPrivateBookmarkIllusts, entities) =>
-    denormalize(myPrivateBookmarkIllusts.items, Schemas.ILLUST_ARRAY, entities),
+  [
+    selectMyPrivateBookmarkIllusts,
+    selectMuteSettings,
+    selectMuteTags,
+    selectMuteUsers,
+    selectEntities,
+  ],
+  (myPrivateBookmarkIllusts, muteSettings, muteTags, muteUsers, entities) => {
+    const items = denormalize(
+      myPrivateBookmarkIllusts.items,
+      Schemas.ILLUST_ARRAY,
+      entities,
+    );
+    if (muteSettings.isHideMute) {
+      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+    }
+    return items;
+  },
 );
 
 export const getMyPrivateBookmarkNovelsItems = createIllustItemsSelector(
-  [selectMyPrivateBookmarkNovels, selectEntities],
-  (myPrivateBookmarkNovels, entities) =>
-    denormalize(myPrivateBookmarkNovels.items, Schemas.NOVEL_ARRAY, entities),
+  [
+    selectMyPrivateBookmarkNovels,
+    selectMuteSettings,
+    selectMuteTags,
+    selectMuteUsers,
+    selectEntities,
+  ],
+  (myPrivateBookmarkNovels, muteSettings, muteTags, muteUsers, entities) => {
+    const items = denormalize(
+      myPrivateBookmarkNovels.items,
+      Schemas.NOVEL_ARRAY,
+      entities,
+    );
+    if (muteSettings.isHideMute) {
+      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
+    }
+    return items;
+  },
 );
 
 export const getTrendingIllustTagsItems = createTagItemsSelector(
-  [selectTrendingIllustTags, selectEntities],
-  (trendingIllustTags, entities) =>
-    denormalize(trendingIllustTags.items, Schemas.ILLUST_TAG_ARRAY, entities),
+  [
+    selectTrendingIllustTags,
+    selectMuteSettings,
+    selectMuteTags,
+    selectEntities,
+  ],
+  (trendingIllustTags, muteSettings, muteTags, entities) => {
+    const items = denormalize(
+      trendingIllustTags.items,
+      Schemas.ILLUST_TAG_ARRAY,
+      entities,
+    );
+    if (muteSettings.isHideMute) {
+      return getNonMutedTagsItems(items, muteTags);
+    }
+    return items;
+  },
 );
 
 export const getTrendingNovelTagsItems = createTagItemsSelector(
-  [selectTrendingNovelTags, selectEntities],
-  (trendingNovelTags, entities) =>
-    denormalize(trendingNovelTags.items, Schemas.ILLUST_TAG_ARRAY, entities),
+  [selectTrendingNovelTags, selectMuteSettings, selectMuteTags, selectEntities],
+  (trendingNovelTags, muteSettings, muteTags, entities) => {
+    const items = denormalize(
+      trendingNovelTags.items,
+      Schemas.ILLUST_TAG_ARRAY,
+      entities,
+    );
+    if (muteSettings.isHideMute) {
+      return getNonMutedTagsItems(items, muteTags);
+    }
+    return items;
+  },
 );
 
 export const getRecommendedUsersItems = createUserPreviewItemsSelector(
-  [selectRecommendedUsers, selectEntities],
-  (recommendedUsers, entities) =>
-    denormalize(recommendedUsers.items, Schemas.USER_PREVIEW_ARRAY, entities),
+  [selectRecommendedUsers, selectMuteSettings, selectMuteUsers, selectEntities],
+  (recommendedUsers, muteSettings, muteUsers, entities) => {
+    const items = denormalize(
+      recommendedUsers.items,
+      Schemas.USER_PREVIEW_ARRAY,
+      entities,
+    );
+    if (muteSettings.isHideMute) {
+      return getNonMutedUsersItems(items, muteUsers);
+    }
+    return items;
+  },
 );
 
 export const getSearchUsersAutoCompleteItems = createUserPreviewItemsSelector(
-  [selectSearchUsersAutoComplete, selectEntities],
-  (searchUsersAutoComplete, entities) =>
-    denormalize(
+  [
+    selectSearchUsersAutoComplete,
+    selectMuteSettings,
+    selectMuteUsers,
+    selectEntities,
+  ],
+  (searchUsersAutoComplete, muteSettings, muteUsers, entities) => {
+    const items = denormalize(
       searchUsersAutoComplete.items,
       Schemas.USER_PREVIEW_ARRAY,
       entities,
-    ),
+    );
+    if (muteSettings.isHideMute) {
+      return getNonMutedUsersItems(items, muteUsers);
+    }
+    return items;
+  },
 );
 
 export const getBrowsingHistoryIllustsItems = createIllustItemsSelector(
@@ -789,6 +1232,5 @@ export const getBrowsingHistoryNovelsItems = createNovelItemsSelector(
 
 export const getMuteUsersItems = createMuteUserItemsSelector(
   [selectMuteUsers, selectEntities],
-  (muteUsers, entities) =>
-    denormalize(muteUsers.items, Schemas.USER_ARRAY, entities),
+  (muteUsers, entities) => denormalize(muteUsers, Schemas.USER_ARRAY, entities),
 );
