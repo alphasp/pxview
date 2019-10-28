@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux';
 import { withFormik, Field } from 'formik';
 import { withTheme, Button, Text } from 'react-native-paper';
-import { CsModule } from '@contentsquare/react-native-sdk';
+import { Contentsquare } from '@contentsquare/react-native-sdk';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../../components/Localization';
 import PXFormInput from '../../components/PXFormInput';
@@ -107,7 +107,7 @@ class Login extends Component {
       setFieldTouched,
       theme,
     } = this.props;
-    CsModule.send('Login');
+    Contentsquare.send('Login');
     return (
       <View style={styles.container}>
         <View style={styles.container}>

@@ -6,7 +6,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import { withTheme } from 'react-native-paper';
-import { CsModule } from '@contentsquare/react-native-sdk';
+import { Contentsquare } from '@contentsquare/react-native-sdk';
 import RankingHorizontalList from './RankingHorizontalList';
 import NovelRankingPreview from './NovelRankingPreview';
 import { connectLocalization } from '../../components/Localization';
@@ -42,7 +42,7 @@ class RankingPreview extends Component {
   render() {
     const { navigation, theme } = this.props;
     const { refreshing } = this.state;
-    CsModule.send('Ranking');
+    Contentsquare.send('Ranking');
     return (
       <SafeAreaView
         style={[styles.container, { backgroundColor: theme.colors.background }]}
