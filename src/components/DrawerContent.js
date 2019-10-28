@@ -5,7 +5,7 @@ import { DrawerItems, DrawerActions, withNavigation } from 'react-navigation';
 import { withTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import CookieManager from 'react-native-cookies';
-import { CsModule } from '@contentsquare/react-native-sdk';
+import { Contentsquare } from '@contentsquare/react-native-sdk';
 import { connectLocalization } from './Localization';
 import UserCover from './UserCover';
 import Separator from './Separator';
@@ -195,10 +195,10 @@ class DrawerContent extends Component {
       navigation: { navigate },
     } = this.props;
     if (themeName === THEME_TYPES.DARK) {
-      CsModule.optIn();
+      Contentsquare.optIn();
       setTheme(THEME_TYPES.LIGHT);
     } else {
-      CsModule.optOut();
+      Contentsquare.optOut();
       setTheme(THEME_TYPES.DARK);
     }
     navigate('DrawerClose');

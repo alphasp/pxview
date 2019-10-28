@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CsModule } from '@contentsquare/react-native-sdk';
+import { Contentsquare } from '@contentsquare/react-native-sdk';
 import PXTabView from '../../components/PXTabView';
 import RecommendedIllusts from './RecommendedIllusts';
 import RecommendedMangas from './RecommendedMangas';
@@ -61,7 +61,7 @@ class Recommended extends Component {
 
   render() {
     const { index } = this.state;
-    CsModule.send(tags[index]);
+    Contentsquare.send(tags[index]);
     return (
       <PXTabView
         navigationState={this.state}

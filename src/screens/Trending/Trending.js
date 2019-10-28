@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Keyboard } from 'react-native';
 import { AndroidBackHandler } from 'react-navigation-backhandler';
-import { CsModule } from '@contentsquare/react-native-sdk';
+import { Contentsquare } from '@contentsquare/react-native-sdk';
 import TrendingIllustTags from './TrendingIllustTags';
 import TrendingNovelTags from './TrendingNovelTags';
 import RecommendedUsers from '../Shared/RecommendedUsers';
@@ -132,7 +132,7 @@ class Trending extends Component {
   render() {
     const { navigation } = this.props;
     const { word, isFocusSearchBar, searchType } = this.state;
-    CsModule.send('Search');
+    Contentsquare.send('Search');
     return (
       <AndroidBackHandler onBackPress={this.handleOnPressBackButton}>
         <View style={styles.container}>

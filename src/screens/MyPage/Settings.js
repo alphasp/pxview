@@ -7,7 +7,7 @@ import {
   DeviceEventEmitter,
   Linking,
 } from 'react-native';
-import { CsModule, Currency } from '@contentsquare/react-native-sdk';
+import { Contentsquare, Currency } from '@contentsquare/react-native-sdk';
 import { connect } from 'react-redux';
 import { withTheme } from 'react-native-paper';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -142,7 +142,7 @@ class Settings extends Component {
     } = this.props;
     switch (item.id) {
       case 'accountSettings': {
-        CsModule.getUserId(string => {
+        Contentsquare.getUserId(string => {
           return console.log(string);
         });
         navigate(SCREENS.AccountSettings);
@@ -161,7 +161,7 @@ class Settings extends Component {
         break;
       }
       case 'tagHighlightSettings': {
-        CsModule.resumeTracking();
+        Contentsquare.resumeTracking();
         navigate(SCREENS.HighlightTagsSettings);
         break;
       }
@@ -170,7 +170,7 @@ class Settings extends Component {
         break;
       }
       case 'userMuteSettings': {
-        CsModule.forgetMe();
+        Contentsquare.forgetMe();
         navigate(SCREENS.MuteUsersSettings);
         break;
       }
@@ -183,7 +183,7 @@ class Settings extends Component {
         break;
       }
       case 'about': {
-        CsModule.sendTransaction(23.45, Currency.USD);
+        Contentsquare.sendTransaction(23.45, Currency.USD);
         navigate(SCREENS.About);
         break;
       }
@@ -196,7 +196,7 @@ class Settings extends Component {
         break;
       }
       case 'cacheClear': {
-        CsModule.stopTracking();
+        Contentsquare.stopTracking();
         Alert.alert(
           i18n.cacheClearConfirmation,
           null,
@@ -249,7 +249,7 @@ class Settings extends Component {
 
   render() {
     const { theme } = this.props;
-    CsModule.send('Settings');
+    Contentsquare.send('Settings');
     return (
       <ScrollView
         style={[styles.container, { backgroundColor: theme.colors.background }]}
