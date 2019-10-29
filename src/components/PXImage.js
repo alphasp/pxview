@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
-import { Image } from 'react-native';
+import FastImage from 'react-native-fast-image'
 
 class PXImage extends PureComponent {
   render() {
     const { style, uri, ...otherProps } = this.props;
     return (
-      <Image
+      <FastImage
         source={{
           uri,
           headers: {

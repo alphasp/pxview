@@ -14,7 +14,10 @@
 
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-#import "SplashScreen.h"
+#import "RNSplashScreen.h"
+
+#import "SDImageCodersManager.h"
+#import <SDWebImageWebPCoder/SDImageWebPCoder.h>
 
 @implementation AppDelegate
 
@@ -32,7 +35,9 @@
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"PxView"
                                             initialProperties:nil];                                                
-
+[SDImageCodersManager.sharedManager addCoder:SDImageWebPCoder.sharedCoder];
+  
+  
 rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -41,7 +46,7 @@ rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   [Fabric with:@[[Crashlytics class]]];
-  [SplashScreen show];
+  [RNSplashScreen show];
   return YES;
 }
 

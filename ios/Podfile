@@ -53,6 +53,8 @@ target 'PxView' do
 
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
+  pod 'SDWebImageWebPCoder'
+
   target 'PxViewTests' do
     inherit! :search_paths
     # Pods for testing

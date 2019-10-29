@@ -34,8 +34,6 @@
 		D5E5A830C3DC4F51B3392710 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B812EF683CA4853B43DCA9A /* Entypo.ttf */; };
 		DA438169BE3D4E17A624A091 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC732969F28648BA95D98558 /* Octicons.ttf */; };
 		DAB81E5792734691BAE13F26 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4360CC2187B4402392C4ED6E /* AntDesign.ttf */; };
-		DE3D19D822E4A84300849A75 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE3D19D622E4A84200849A75 /* WebP.framework */; };
-		DE3D19D922E4A84300849A75 /* WebPDemux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE3D19D722E4A84300849A75 /* WebPDemux.framework */; };
 		DEB52BCC1F0CC73D003F7E27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DEB52BCE1F0CC73D003F7E27 /* InfoPlist.strings */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
 		ED414B39AFC34FE387DE69B9 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0DEABD7ABAF2437C9AEF7949 /* Fontisto.ttf */; };
@@ -121,8 +119,6 @@
 		D42A446ADBF14ABEE1A9CA90 /* Pods-PxView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PxView.release.xcconfig"; path = "Target Support Files/Pods-PxView/Pods-PxView.release.xcconfig"; sourceTree = "<group>"; };
 		DE1100751F1505F100D3527B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		DE1100761F1505F700D3527B /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		DE3D19D622E4A84200849A75 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = "../node_modules/react-native-webp-support/WebP.framework"; sourceTree = "<group>"; };
-		DE3D19D722E4A84300849A75 /* WebPDemux.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebPDemux.framework; path = "../node_modules/react-native-webp-support/WebPDemux.framework"; sourceTree = "<group>"; };
 		DEB52BCD1F0CC73D003F7E27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DEB52BCF1F0CC748003F7E27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DEB52BD01F0CC7C8003F7E27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -147,8 +143,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE3D19D922E4A84300849A75 /* WebPDemux.framework in Frameworks */,
-				DE3D19D822E4A84300849A75 /* WebP.framework in Frameworks */,
 				3858716E3253F17F63041403 /* libPods-PxView.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,8 +235,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				DE3D19D622E4A84200849A75 /* WebP.framework */,
-				DE3D19D722E4A84300849A75 /* WebPDemux.framework */,
 				13B07FAE1A68108700A75B9A /* PxView */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* PxViewTests */,
@@ -427,7 +419,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = S75J7D267F;
+						DevelopmentTeam = 8W5KPEWZ25;
 						SystemCapabilities = {
 							com.apple.Keychain = {
 								enabled = 0;
@@ -450,6 +442,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 				ja,
@@ -860,7 +853,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = S75J7D267F;
+				DEVELOPMENT_TEAM = 8W5KPEWZ25;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Crashlytics/iOS\"",
@@ -902,7 +895,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = S75J7D267F;
+				DEVELOPMENT_TEAM = 8W5KPEWZ25;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Crashlytics/iOS\"",
