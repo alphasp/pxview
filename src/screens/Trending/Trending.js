@@ -129,10 +129,19 @@ class Trending extends Component {
     }
   };
 
+  componentDidMount() {
+    const currentRoute = this.props.navigation.state.routeName;
+    this.props.navigation.addListener('didFocus', (event) => {
+
+      if (currentRoute === event.state.routeName) {
+        Contentsquare.send('Search');
+      }
+    });
+  }
+
   render() {
     const { navigation } = this.props;
     const { word, isFocusSearchBar, searchType } = this.state;
-    Contentsquare.send('Search');
     return (
       <AndroidBackHandler onBackPress={this.handleOnPressBackButton}>
         <View style={styles.container}>

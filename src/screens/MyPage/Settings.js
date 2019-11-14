@@ -247,9 +247,18 @@ class Settings extends Component {
     );
   };
 
+  componentDidMount() {
+    const currentRoute = this.props.navigation.state.routeName;
+    this.props.navigation.addListener('didFocus', (event) => {
+
+      if (currentRoute === event.state.routeName) {
+        Contentsquare.send('Settings');
+      }
+    });
+  }
+
   render() {
     const { theme } = this.props;
-    Contentsquare.send('Settings');
     return (
       <ScrollView
         style={[styles.container, { backgroundColor: theme.colors.background }]}

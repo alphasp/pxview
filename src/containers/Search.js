@@ -208,8 +208,17 @@ class Search extends Component {
     }
   };
 
+  componentDidMount() {
+    const currentRoute = this.props.navigation.state.routeName;
+    this.props.navigation.addListener('didFocus', (event) => {
+
+      if (currentRoute === event.state.routeName) {
+        Contentsquare.send('Search results');
+      }
+    });
+  }
+
   render() {
-    Contentsquare.send('Search results');
     return (
       <View style={styles.container}>
         {this.renderHeader()}
