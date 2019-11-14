@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux';
 import { withFormik, Field } from 'formik';
 import { withTheme, Button, Text } from 'react-native-paper';
-import { Contentsquare } from '@contentsquare/react-native-sdk';
+import { Contentsquare, Currency } from '@contentsquare/react-native-sdk';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../../components/Localization';
 import PXFormInput from '../../components/PXFormInput';
@@ -84,6 +84,7 @@ const handleOnSubmit = (values, { props }) => {
 
 class Login extends Component {
   handleOnPressSignUp = () => {
+    Contentsquare.sendTransaction(23.45, Currency.USD);
     const {
       navigation: { navigate },
     } = this.props;
@@ -97,6 +98,16 @@ class Login extends Component {
     navigate(SCREENS.PrivacyPolicy);
   };
 
+  componentDidMount() {
+    const currentRoute = this.props.navigation.state.routeName;
+    this.props.navigation.addListener('didFocus', (event) => {
+
+      if (currentRoute === event.state.routeName) {
+        Contentsquare.send('Login');
+      }
+    });
+  }
+
   render() {
     const {
       auth: { loading },
@@ -107,7 +118,6 @@ class Login extends Component {
       setFieldTouched,
       theme,
     } = this.props;
-    Contentsquare.send('Login');
     return (
       <View style={styles.container}>
         <View style={styles.container}>

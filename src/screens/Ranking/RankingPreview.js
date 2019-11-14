@@ -39,10 +39,19 @@ class RankingPreview extends Component {
     });
   };
 
+  componentDidMount() {
+    const currentRoute = this.props.navigation.state.routeName;
+    this.props.navigation.addListener('didFocus', (event) => {
+
+      if (currentRoute === event.state.routeName) {
+        Contentsquare.send('Ranking');
+      }
+    });
+  }
+
   render() {
     const { navigation, theme } = this.props;
     const { refreshing } = this.state;
-    Contentsquare.send('Ranking');
     return (
       <SafeAreaView
         style={[styles.container, { backgroundColor: theme.colors.background }]}

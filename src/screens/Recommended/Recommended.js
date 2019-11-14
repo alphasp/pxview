@@ -59,9 +59,18 @@ class Recommended extends Component {
     }
   };
 
+  componentDidMount() {
+    const currentRoute = this.props.navigation.state.routeName;
+    this.props.navigation.addListener('didFocus', (event) => {
+
+      if (currentRoute === event.state.routeName) {
+        Contentsquare.send(tags[index]);
+      }
+    });
+  }
+
   render() {
     const { index } = this.state;
-    Contentsquare.send(tags[index]);
     return (
       <PXTabView
         navigationState={this.state}

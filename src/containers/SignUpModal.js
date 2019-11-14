@@ -108,6 +108,17 @@ class SignUpModal extends Component {
     navigate(SCREENS.PrivacyPolicy);
   };
 
+  componentDidMount() {
+    const currentRoute = this.props.navigation.state.routeName;
+    this.props.navigation.addListener('didFocus', (event) => {
+
+      if (currentRoute === event.state.routeName) {
+        Contentsquare.send('Signup - Nickname');
+        Contentsquare.sendTransaction(23.45, Currency.USD);
+      }
+    });
+  }
+
   render() {
     const {
       auth: { loading },
@@ -118,7 +129,6 @@ class SignUpModal extends Component {
       theme,
     } = this.props;
     const { isShowModal } = this.state;
-    Contentsquare.send('Signup - Nickname');
     return (
       <Modal
         animationType="fade"
