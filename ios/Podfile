@@ -57,7 +57,7 @@ target 'PxView' do
     inherit! :search_paths
     # Pods for testing
   end
-  use_native_modules!
+  # use_native_modules!
   pod 'Fabric'
   pod 'Crashlytics'
 
