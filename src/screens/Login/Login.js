@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux';
 import { withFormik, Field } from 'formik';
 import { withTheme, Button, Text } from 'react-native-paper';
-import Contentsquare, { Currency} from '@contentsquare/react-native-sdk';
+import Contentsquare, { Currency } from '@contentsquare/react-native-sdk';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../../components/Localization';
 import PXFormInput from '../../components/PXFormInput';
