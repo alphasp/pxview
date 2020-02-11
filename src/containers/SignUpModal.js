@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigationFocus } from 'react-navigation';
-import { Contentsquare } from '@contentsquare/react-native-sdk';
+import Contentsquare from '@contentsquare/react-native-sdk';
 import { withFormik, Field } from 'formik';
 import { withTheme, Button } from 'react-native-paper';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';

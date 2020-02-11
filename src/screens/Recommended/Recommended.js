@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Contentsquare } from '@contentsquare/react-native-sdk';
+import Contentsquare from '@contentsquare/react-native-sdk';
 import PXTabView from '../../components/PXTabView';
 import RecommendedIllusts from './RecommendedIllusts';
 import RecommendedMangas from './RecommendedMangas';

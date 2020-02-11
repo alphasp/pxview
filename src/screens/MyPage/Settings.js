@@ -7,7 +7,7 @@ import {
   DeviceEventEmitter,
   Linking,
 } from 'react-native';
-import { Contentsquare, Currency } from '@contentsquare/react-native-sdk';
+import Contentsquare, { Currency} from '@contentsquare/react-native-sdk';
 import { connect } from 'react-redux';
 import { withTheme } from 'react-native-paper';
 import RNFetchBlob from 'rn-fetch-blob';
