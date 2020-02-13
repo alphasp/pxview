@@ -7,7 +7,7 @@ import android.util.Log;
 import androidx.multidex.MultiDex;
 
 import com.squareup.leakcanary.LeakCanary;
-import com.contentsquare.rn.CsSdkPackage;
+import com.contentsquare.rn.ContentsquareModulePackage;
 import com.rnziparchive.RNZipArchivePackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
@@ -54,7 +54,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-          new CsSdkPackage(),
+          new ContentsquareModulePackage(),
           new AsyncStoragePackage(),
           new RNCViewPagerPackage(),
           new RNScreensPackage(),
