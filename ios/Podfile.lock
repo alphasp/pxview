@@ -2,7 +2,7 @@ PODS:
   - boost-for-react-native (1.63.0)
   - BVLinearGradient (2.5.6):
     - React
-  - ContentsquareModule (0.1.2):
+  - ContentsquareModule (0.2.0):
     - CS_iOS_SDK (= 2.2.2)
     - React
   - Crashlytics (3.14.0):
@@ -417,7 +417,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
-  ContentsquareModule: d3b3feaec31ee04f24588a9cdf0b435b17d79611
+  ContentsquareModule: a4fe6c78325358acacd12374de4bede0b2124198
   Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   CS_iOS_SDK: 68f9e0f52d3b2ca07b6f69a5d95488122eaffc90
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
