@@ -18,7 +18,7 @@
     "postinstall": "npx jetify"
   },
   "dependencies": {
-    "@contentsquare/react-native-sdk": "file:../contentsquare-react-native-sdk-0.1.2.tgz",
+    "@contentsquare/react-native-sdk": "file:../contentsquare-react-native-sdk-0.2.0.tgz",
     "@react-native-community/async-storage": "^1.6.1",
     "@react-native-community/cameraroll": "^1.1.1",
     "@react-native-community/viewpager": "^1.1.7",
@@ -113,6 +113,7 @@
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-native": "^3.7.0",
     "jest": "^24.1.0",
+    "jetifier": "^1.6.5",
     "metro-react-native-babel-preset": "^0.54.1",
     "prettier": "^1.18.2",
     "prettier-eslint": "^9.0.0",
