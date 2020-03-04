@@ -19,6 +19,7 @@ import * as authActionCreators from '../../common/actions/auth';
 import * as modalActionCreators from '../../common/actions/modal';
 import { MODAL_TYPES, SCREENS } from '../../common/constants';
 import { globalStyleVariables } from '../../styles';
+import { WebView } from 'react-native-webview';
 
 const styles = StyleSheet.create({
   container: {
@@ -83,6 +84,16 @@ const handleOnSubmit = (values, { props }) => {
 };
 
 class Login extends Component {
+  
+  constructor(props) {
+    super(props);
+
+    this.webview = null;
+    this.setWebviewRef = element => {
+      this.webview = element;
+    };
+  }
+
   handleOnPressSignUp = () => {
     Contentsquare.sendTransaction(23.45, Currency.USD);
     const {
@@ -105,6 +116,11 @@ class Login extends Component {
       if (currentRoute === event.state.routeName) {
         Contentsquare.send('Login');
       }
+      Contentsquare.registerWebView(this.webview);
+    });
+
+    this.props.navigation.addListener('didBlur', (event) => {
+      Contentsquare.unregisterWebView(this.webview);
     });
   }
 
@@ -183,6 +199,11 @@ class Login extends Component {
                 </TouchableOpacity>
               </View>
             </KeyboardAvoidingView>
+            <WebView
+              source={{ uri: 'https://tupeuxpastest.csq.io/mobile/web-view.html' }}
+              useWebKit={true}
+              ref={this.setWebviewRef}
+            />
             <OverlaySpinner visible={loading} />
           </View>
         )}
