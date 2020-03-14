@@ -196,9 +196,9 @@ export default withTheme(
         modal: state.modal,
         onLoginSuccess:
           props.onLoginSuccess ||
-          (props.navigation.state &&
-            props.navigation.state.params &&
-            props.navigation.state.params.onLoginSuccess),
+          (props.route &&
+            props.route.params &&
+            props.route.params.onLoginSuccess),
       }),
       {
         ...authActionCreators,

@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
 });
 
 class ReplyNovelComment extends Component {
-  static navigationOptions = ({ navigation }) => {
+  static options = ({ navigation }) => {
     const { state } = navigation;
     const { submit, comment, novelId } = state.params;
     return {

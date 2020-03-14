@@ -23,121 +23,121 @@ const config = {
   [SCREENS.Detail]: {
     screen: Detail,
     path: '(member_illust.php|illusts|artworks|en/artworks)/:illustId?',
-    navigationOptions: {
+    options: {
       header: null,
     },
   },
   [SCREENS.NovelDetail]: {
     screen: NovelDetail,
     path: '(novel/show.php|novels)/:novelId?',
-    navigationOptions: {
+    options: {
       header: null,
     },
   },
   [SCREENS.UserDetail]: {
     screen: UserDetail,
     path: '(member.php|users)/:uid?',
-    navigationOptions: {
+    options: {
       header: null,
     },
   },
   [SCREENS.ImagesViewer]: {
     screen: ImagesViewer,
-    navigationOptions: {
+    options: {
       header: null,
     },
   },
   [SCREENS.NovelReader]: {
     screen: NovelReader,
-    navigationOptions: {
+    options: {
       header: null,
     },
   },
   [SCREENS.IllustComments]: {
     screen: IllustComments,
-    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+    options: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.comments,
       headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.NovelComments]: {
     screen: NovelComments,
-    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+    options: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.comments,
       headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.NovelSeries]: {
     screen: NovelSeries,
-    // navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+    // options: ({ screenProps: { i18n, theme } }) => ({
     //   title: i18n.comments,
     // }),
   },
   [SCREENS.RelatedIllusts]: {
     screen: RelatedIllusts,
-    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+    options: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.relatedWorks,
       headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.UserIllusts]: {
     screen: UserIllusts,
-    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+    options: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.userIllusts,
       headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.UserMangas]: {
     screen: UserMangas,
-    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+    options: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.userMangas,
       headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.UserNovels]: {
     screen: UserNovels,
-    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+    options: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.userNovels,
       headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.UserBookmarkIllusts]: {
     screen: UserBookmarkIllusts,
-    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+    options: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.collection,
       headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.UserBookmarkNovels]: {
     screen: UserBookmarkNovels,
-    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+    options: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.collection,
       headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.UserFollowing]: {
     screen: UserFollowing,
-    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+    options: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.following,
       headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.UserMyPixiv]: {
     screen: UserMyPixiv,
-    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+    options: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.myPixiv,
       headerStyle: getThemedHeaderStyle(theme),
     }),
   },
   [SCREENS.SearchResult]: {
     screen: SearchResultTabs,
-    navigationOptions: {
+    options: {
       header: null,
     },
   },
   [SCREENS.RecommendedUsers]: {
     screen: RecommendedUsers,
-    navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+    options: ({ screenProps: { i18n, theme } }) => ({
       title: i18n.recommendedUsers,
       headerStyle: getThemedHeaderStyle(theme),
     }),

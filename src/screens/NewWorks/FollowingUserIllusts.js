@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { connectLocalization } from '../../components/Localization';
 import IllustList from '../../components/IllustList';
 import * as followingUserIllustsActionCreators from '../../common/actions/followingUserIllusts';
@@ -86,7 +86,7 @@ export default connectLocalization(
         return {
           followingUserIllusts,
           items: getFollowingUserIllustsItems(state),
-          listKey: `${props.navigation.state.key}-followingUserIllusts`,
+          listKey: `${props.route.key}-followingUserIllusts`,
         };
       },
       followingUserIllustsActionCreators,

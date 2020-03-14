@@ -49,7 +49,7 @@ export default connect(
       myPixivNovels,
       items: getMyPixivNovelsItems(state, props),
       user,
-      listKey: `${props.navigation.state.key}-myPixivNovels`,
+      listKey: `${props.route.key}-myPixivNovels`,
     };
   },
   myPixivNovelsActionCreators,

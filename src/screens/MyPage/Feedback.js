@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 });
 
 class Feedback extends Component {
-  static navigationOptions = ({ navigation }) => {
+  static options = ({ navigation }) => {
     const { params } = navigation.state;
     return {
       headerRight: params && params.submit && (

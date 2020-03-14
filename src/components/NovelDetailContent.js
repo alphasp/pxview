@@ -85,6 +85,7 @@ class NovelDetailContent extends Component {
     const {
       item,
       navigation,
+      route,
       authUser,
       highlightTags,
       muteTags,
@@ -127,6 +128,7 @@ class NovelDetailContent extends Component {
             item={item}
             tags={tags}
             navigation={navigation}
+            route={route}
             authUser={authUser}
             onPressAvatar={this.handleOnPressAvatar}
             onPressTag={this.handleOnPressTag}

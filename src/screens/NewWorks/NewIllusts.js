@@ -48,7 +48,7 @@ export default connect(
     return {
       newIllusts,
       items: getNewIllustsItems(state),
-      listKey: `${props.navigation.state.key}-newUserIllusts`,
+      listKey: `${props.route.key}-newUserIllusts`,
     };
   },
   newIllustsActionCreators,

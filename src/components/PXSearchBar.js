@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { withTheme, Searchbar } from 'react-native-paper';
 // import { SearchBar } from 'react-native-elements';
 import { connectLocalization } from './Localization';

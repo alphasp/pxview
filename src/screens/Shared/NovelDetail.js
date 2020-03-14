@@ -339,7 +339,7 @@ class NovelDetail extends Component {
   );
 
   renderContent = ({ item }) => {
-    const { navigation, authUser } = this.props;
+    const { navigation, authUser, route } = this.props;
     return (
       <View key={item.id} style={styles.content}>
         <PXHeader
@@ -353,6 +353,7 @@ class NovelDetail extends Component {
         <NovelDetailContent
           item={item}
           navigation={navigation}
+          route={route}
           authUser={authUser}
           onLongPressImage={this.handleOnLongPressImage}
         />
@@ -485,7 +486,7 @@ export default withTheme(
             index,
             onListEndReached,
             parentListKey,
-          } = props.navigation.state.params;
+          } = props.route.params;
           const id = parseInt(novelIdFromQS || novelId, 0);
           return {
             novelId: id || item.id,

@@ -112,6 +112,7 @@ class DetailFooter extends PureComponent {
       item,
       authUser,
       navigation,
+      route,
       i18n,
       onLayoutView,
       onPressTag,
@@ -210,7 +211,7 @@ class DetailFooter extends PureComponent {
               </View>
               <RelatedIllusts
                 illustId={item.id}
-                listKey={`relatedIllusts-${navigation.state.key}-${item.id}`}
+                listKey={`relatedIllusts-${route.key}-${item.id}`}
                 isFeatureInDetailPage
                 maxItems={6}
                 navigation={navigation}

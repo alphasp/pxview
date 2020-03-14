@@ -53,7 +53,7 @@ export default connectLocalization(
       const getUserFollowersItems = makeGetUserFollowersItems();
       return (state, props) => {
         const { userFollowers } = state;
-        const userId = props.userId || props.navigation.state.params.userId;
+        const userId = props.userId || props.route.params.userId;
         return {
           userFollowers: userFollowers[userId],
           items: getUserFollowersItems(state, props),

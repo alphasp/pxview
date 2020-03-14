@@ -4,7 +4,7 @@ import { SCREENS } from '../../common/constants';
 const config = {
   [SCREENS.Recommended]: {
     screen: Recommended,
-    navigationOptions: {
+    options: {
       header: null,
     },
   },

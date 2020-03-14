@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 class ImagesViewer extends Component {
   constructor(props) {
     super(props);
-    const { images, viewerIndex } = this.props.navigation.state.params;
+    const { images, viewerIndex } = this.props.route.params;
     this.state = {
       loading: true,
       index: viewerIndex,
@@ -86,7 +86,7 @@ class ImagesViewer extends Component {
   };
 
   render() {
-    const { images, item } = this.props.navigation.state.params;
+    const { images, item } = this.props.route.params;
     const { index, hideHeader } = this.state;
     const selectedImages = [images[index]];
     return (

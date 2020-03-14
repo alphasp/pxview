@@ -665,12 +665,8 @@ export default withTheme(
           } = state;
           const userId =
             props.userId ||
-            props.navigation.state.params.userId ||
-            parseInt(
-              props.navigation.state.params.id ||
-                props.navigation.state.params.uid,
-              10,
-            );
+            props.route.params.userId ||
+            parseInt(props.route.params.id || props.route.params.uid, 10);
           const {
             userDetailItem,
             userIllustsItems,

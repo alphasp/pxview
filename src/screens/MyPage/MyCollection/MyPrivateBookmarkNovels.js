@@ -69,12 +69,12 @@ class MyPrivateBookmarkNovels extends Component {
 export default connect(
   (state, props) => {
     const { myPrivateBookmarkNovels } = state;
-    const userId = props.userId || props.navigation.state.params.userId;
+    const userId = props.userId || props.route.params.userId;
     return {
       myPrivateBookmarkNovels,
       items: getMyPrivateBookmarkNovelsItems(state),
       userId,
-      listKey: props.navigation.state.key,
+      listKey: props.route.key,
     };
   },
   myPrivateBookmarkNovelsActionCreators,

@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
-import { DrawerNavigatorItems, DrawerActions } from 'react-navigation-drawer';
+import { withNavigation } from '@react-navigation/compat';
+// import { DrawerNavigatorItems, DrawerActions } from 'react-navigation-drawer';
+import {
+  DrawerContentScrollView,
+  DrawerItemList,
+} from '@react-navigation/drawer';
 import { withTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import CookieManager from 'react-native-cookies';
@@ -70,6 +74,7 @@ const menuList2 = [
 class DrawerContent extends Component {
   renderCover = () => {
     const { user, i18n, themeName } = this.props;
+    console.log('cover ', user, themeName);
     return (
       <UserCover
         user={user}
@@ -82,12 +87,9 @@ class DrawerContent extends Component {
   };
 
   handleOnDrawerItemPress = (item, focused) => {
-    const {
-      user,
-      navigation: { navigate, dispatch },
-    } = this.props;
-    // navigation.closeDrawer();
-    dispatch(DrawerActions.closeDrawer());
+    const { user, navigation } = this.props;
+    const { navigate } = navigation;
+    navigation.closeDrawer();
     if (!focused) {
       switch (item.id) {
         case 'works':
@@ -177,29 +179,22 @@ class DrawerContent extends Component {
   };
 
   handleOnPressAvatar = () => {
-    const {
-      user,
-      navigation: { navigate, dispatch },
-    } = this.props;
-    // navigation.closeDrawer();
-    dispatch(DrawerActions.closeDrawer());
+    const { user, navigation } = this.props;
+    const { navigate } = navigation;
+    navigation.closeDrawer();
     navigate(SCREENS.UserDetail, {
       userId: user.id,
     });
   };
 
   handleOnPressChangeTheme = () => {
-    const {
-      themeName,
-      setTheme,
-      navigation: { navigate },
-    } = this.props;
+    const { themeName, setTheme, navigation } = this.props;
     if (themeName === THEME_TYPES.DARK) {
       setTheme(THEME_TYPES.LIGHT);
     } else {
       setTheme(THEME_TYPES.DARK);
     }
-    navigate('DrawerClose');
+    navigation.closeDrawer();
   };
 
   renderList = list => {
@@ -224,26 +219,24 @@ class DrawerContent extends Component {
   render() {
     const { theme } = this.props;
     return (
-      <View
+      <DrawerContentScrollView
         style={[
           globalStyles.container,
           { backgroundColor: theme.colors.surface },
         ]}
       >
-        <ScrollView>
-          {this.renderCover()}
-          <DrawerNavigatorItems
-            {...this.props}
-            inactiveTintColor={theme.colors.text}
-            activeBackgroundColor="#D3D3D3"
-            activeTintColor={theme.colors.activeTint}
-          />
-          <Separator noPadding />
-          {this.renderList(menuList)}
-          <Separator noPadding />
-          {this.renderList(menuList2)}
-        </ScrollView>
-      </View>
+        {this.renderCover()}
+        <DrawerItemList
+          {...this.props}
+          inactiveTintColor={theme.colors.text}
+          activeBackgroundColor="#D3D3D3"
+          activeTintColor={theme.colors.activeTint}
+        />
+        <Separator noPadding />
+        {this.renderList(menuList)}
+        <Separator noPadding />
+        {this.renderList(menuList2)}
+      </DrawerContentScrollView>
     );
   }
 }

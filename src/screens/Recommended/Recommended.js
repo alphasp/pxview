@@ -10,6 +10,7 @@ class Recommended extends Component {
   constructor(props) {
     super(props);
     const { i18n } = props;
+    console.log('rr ', i18n.illust, i18n);
     this.state = {
       index: 0,
       routes: [
@@ -39,14 +40,13 @@ class Recommended extends Component {
   };
 
   renderScene = ({ route }) => {
-    const { navigation } = this.props;
     switch (route.key) {
       case '1':
-        return <RecommendedIllusts navigation={navigation} />;
+        return <RecommendedIllusts />;
       case '2':
-        return <RecommendedMangas navigation={navigation} />;
+        return <RecommendedMangas />;
       case '3':
-        return <RecommendedNovels navigation={navigation} />;
+        return <RecommendedNovels />;
       default:
         return null;
     }

@@ -1,7 +1,8 @@
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import React from 'react';
+import { useTheme } from 'react-native-paper';
+import { createStackNavigator } from '@react-navigation/stack';
 import createAppTabNavigator from './AppTabNavigator';
-import createAppDrawerNavigator from './AppDrawerNavigator';
+import AppDrawerNavigator from './AppDrawerNavigator';
 import SearchFilterModal from '../screens/Shared/SearchFilterModal';
 import SearchFilterPeriodDateModal from '../screens/Shared/SearchFilterPeriodDateModal';
 import AddIllustComment from '../screens/Shared/AddIllustComment';
@@ -10,98 +11,414 @@ import ReplyIllustComment from '../screens/Shared/ReplyIllustComment';
 import ReplyNovelComment from '../screens/Shared/ReplyNovelComment';
 import AccountSettings from '../screens/MyPage/AccountSettings/AccountSettings';
 import Encyclopedia from '../screens/Shared/Encyclopedia';
-import myPageRouteConfig from './routeConfigs/myPage';
-import sharedRouteConfig from './routeConfigs/shared';
+import Detail from '../screens/Shared/Detail';
+import NovelDetail from '../screens/Shared/NovelDetail';
+import UserDetail from '../screens/Shared/UserDetail';
+import IllustComments from '../screens/Shared/IllustComments';
+import NovelComments from '../screens/Shared/NovelComments';
+import NovelSeries from '../screens/Shared/NovelSeries';
+import NovelReader from '../screens/Shared/NovelReader';
+import UserIllusts from '../screens/Shared/UserIllusts';
+import UserMangas from '../screens/Shared/UserMangas';
+import UserNovels from '../screens/Shared/UserNovels';
+import UserBookmarkIllusts from '../screens/Shared/UserBookmarkIllusts';
+import UserBookmarkNovels from '../screens/Shared/UserBookmarkNovels';
+import UserFollowing from '../screens/MyPage/MyConnection/UserFollowing';
+import UserMyPixiv from '../screens/MyPage/MyConnection/UserMyPixiv';
+import RelatedIllusts from '../screens/Shared/RelatedIllusts';
+import SearchResultTabs from '../screens/Shared/SearchResultTabs';
+import RecommendedUsers from '../screens/Shared/RecommendedUsers';
+import ImagesViewer from '../screens/Shared/ImagesViewer';
+
+import MyWorks from '../screens/MyPage/MyWorks';
+import MyConnection from '../screens/MyPage/MyConnection/MyConnection';
+import MyCollection from '../screens/MyPage/MyCollection/MyCollection';
+import BrowsingHistory from '../screens/MyPage/BrowsingHistory/BrowsingHistory';
+import Settings from '../screens/MyPage/Settings';
+import AdvanceAccountSettings from '../screens/MyPage/AccountSettings/AdvanceAccountSettings';
+import SaveImageSettings from '../screens/MyPage/SaveImageSettings';
+import LikeButtonSettings from '../screens/MyPage/LikeButtonSettings';
+import HighlightTagsSettings from '../screens/MyPage/HighlightTagsSettings';
+import MuteSettings from '../screens/MyPage/MuteSettings/MuteSettings';
+import MuteTagsSettings from '../screens/MyPage/MuteSettings/MuteTagsSettings';
+import MuteUsersSettings from '../screens/MyPage/MuteSettings/MuteUsersSettings';
+import Feedback from '../screens/MyPage/Feedback';
+import PrivacyPolicy from '../screens/MyPage/PrivacyPolicy';
+import About from '../screens/MyPage/About';
+import useLocalization from '../components/Localization/useLocalization';
 import {
   globalStyles,
   globalStyleVariables,
   getThemedHeaderStyle,
 } from '../styles';
-import config from '../common/config';
 import { SCREENS } from '../common/constants';
 
-const stackConfig = {
-  defaultNavigationOptions: {
-    // headerStyle: globalStyles.header,
-    headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
-    headerBackTitle: null,
-  },
-  cardStyle: globalStyles.card,
-  headerMode: 'screen',
-};
+const Stack = createStackNavigator();
 
+// todo screenProps by context
 const createAppNavigator = ({ initialRouteName }) => {
-  const AppNavigator = createStackNavigator(
-    {
-      [SCREENS.Main]: {
-        screen: config.navigation.tab
-          ? createAppTabNavigator({ initialRouteName })
-          : createAppDrawerNavigator({ initialRouteName }),
-        navigationOptions: {
-          header: null,
-        },
-      },
-      [SCREENS.SearchFilterModal]: {
-        screen: SearchFilterModal,
-        navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+  const theme = useTheme();
+  const { i18n } = useLocalization();
+  const headerStyle = getThemedHeaderStyle(theme);
+  const headerStyleWithoutShadow = {
+    ...headerStyle,
+    ...globalStyles.headerWithoutShadow,
+  };
+  return (
+    <Stack.Navigator
+      initialRouteName={initialRouteName}
+      screenOptions={{
+        headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
+        headerBackTitle: null,
+      }}
+      cardStyle={globalStyles.card}
+      headerMode="screen"
+    >
+      <Stack.Screen
+        name={SCREENS.Main}
+        // component={
+        //   // config.navigation.tab
+        //   //   ? createAppTabNavigator({ initialRouteName })
+        //   //   : createAppDrawerNavigator({ initialRouteName })
+        // }
+        initialRouteName={initialRouteName}
+        options={{
+          header: () => null,
+        }}
+      >
+        {({ props }) => (
+          <AppDrawerNavigator {...props} initialRouteName={initialRouteName} />
+        )}
+      </Stack.Screen>
+      <Stack.Screen
+        name={SCREENS.SearchFilterModal}
+        component={SearchFilterModal}
+        options={{
           title: i18n.searchDisplayOptions,
-          headerStyle: getThemedHeaderStyle(theme),
-        }),
-      },
-      [SCREENS.SearchFilterPeriodDateModal]: {
-        screen: SearchFilterPeriodDateModal,
-        navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.SearchFilterPeriodDateModal}
+        component={SearchFilterPeriodDateModal}
+        options={{
           title: i18n.searchPeriodSpecifyDate,
-          headerStyle: getThemedHeaderStyle(theme),
-        }),
-      },
-      [SCREENS.AddIllustComment]: {
-        screen: AddIllustComment,
-        navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.AddIllustComment}
+        component={AddIllustComment}
+        options={{
           title: i18n.commentAdd,
-          headerStyle: getThemedHeaderStyle(theme),
-        }),
-      },
-      [SCREENS.AddNovelComment]: {
-        screen: AddNovelComment,
-        navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.AddNovelComment}
+        component={AddNovelComment}
+        options={{
           title: i18n.commentAdd,
-          headerStyle: getThemedHeaderStyle(theme),
-        }),
-      },
-      [SCREENS.ReplyIllustComment]: {
-        screen: ReplyIllustComment,
-        navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.ReplyIllustComment}
+        component={ReplyIllustComment}
+        options={{
           title: i18n.commentAdd,
-          headerStyle: getThemedHeaderStyle(theme),
-        }),
-      },
-      [SCREENS.ReplyNovelComment]: {
-        screen: ReplyNovelComment,
-        navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.ReplyNovelComment}
+        component={ReplyNovelComment}
+        options={{
           title: i18n.commentAdd,
-          headerStyle: getThemedHeaderStyle(theme),
-        }),
-      },
-      [SCREENS.AccountSettingsModal]: {
-        screen: AccountSettings,
-        navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.AccountSettingsModal}
+        component={AccountSettings}
+        options={{
           title: i18n.accountSettings,
-          headerStyle: getThemedHeaderStyle(theme),
-        }),
-      },
-      [SCREENS.Encyclopedia]: {
-        screen: Encyclopedia,
-        navigationOptions: ({ screenProps: { theme } }) => ({
-          headerStyle: getThemedHeaderStyle(theme),
-        }),
-      },
-      ...myPageRouteConfig,
-      ...sharedRouteConfig,
-    },
-    stackConfig,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.Encyclopedia}
+        component={Encyclopedia}
+        options={{
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.Detail}
+        component={Detail}
+        // todo handle deep link in component
+        // path="(member_illust.php|illusts|artworks|en/artworks)/:illustId?"
+        options={{
+          header: () => null,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.NovelDetail}
+        component={NovelDetail}
+        // path: '(novel/show.php|novels)/:novelId?',
+        options={{
+          header: () => null,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.UserDetail}
+        component={UserDetail}
+        // path: '(member.php|users)/:uid?',
+        options={{
+          header: () => null,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.ImagesViewer}
+        component={ImagesViewer}
+        options={{
+          header: () => null,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.NovelReader}
+        component={NovelReader}
+        options={{
+          header: () => null,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.IllustComments}
+        component={IllustComments}
+        options={{
+          title: i18n.comments,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.NovelComments}
+        component={NovelComments}
+        options={{
+          title: i18n.comments,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen name={SCREENS.NovelSeries} component={NovelSeries} />
+      <Stack.Screen
+        name={SCREENS.RelatedIllusts}
+        component={RelatedIllusts}
+        options={{
+          title: i18n.relatedWorks,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.UserIllusts}
+        component={UserIllusts}
+        options={{
+          title: i18n.userIllusts,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.UserMangas}
+        component={UserMangas}
+        options={{
+          title: i18n.userMangas,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.UserNovels}
+        component={UserNovels}
+        options={{
+          title: i18n.userNovels,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.UserBookmarkIllusts}
+        component={UserBookmarkIllusts}
+        options={{
+          title: i18n.collection,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.UserBookmarkNovels}
+        component={UserBookmarkNovels}
+        options={{
+          title: i18n.collection,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.UserFollowing}
+        component={UserFollowing}
+        options={{
+          title: i18n.following,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.UserMyPixiv}
+        component={UserMyPixiv}
+        options={{
+          title: i18n.myPixiv,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.SearchResult}
+        component={SearchResultTabs}
+        options={{
+          header: () => null,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.RecommendedUsers}
+        component={RecommendedUsers}
+        options={{
+          title: i18n.recommendedUsers,
+          headerStyle,
+        }}
+      />
+      {/* my page route */}
+      <Stack.Screen
+        name={SCREENS.MyConnection}
+        component={MyConnection}
+        options={{
+          title: i18n.connection,
+          headerStyle: headerStyleWithoutShadow,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.MyCollection}
+        component={MyCollection}
+        options={{
+          title: i18n.collection,
+          headerStyle: headerStyleWithoutShadow,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.MyWorks}
+        component={MyWorks}
+        options={{
+          title: i18n.myWorks,
+          headerStyle: headerStyleWithoutShadow,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.BrowsingHistory}
+        component={BrowsingHistory}
+        options={{
+          title: i18n.browsingHistory,
+          headerStyle: headerStyleWithoutShadow,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.Settings}
+        component={Settings}
+        options={{
+          title: i18n.settings,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.AccountSettings}
+        component={AccountSettings}
+        options={{
+          title: i18n.accountSettings,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.AdvanceAccountSettings}
+        component={AdvanceAccountSettings}
+        options={{
+          title: null,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.SaveImageSettings}
+        component={SaveImageSettings}
+        options={{
+          title: i18n.saveImageSettings,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.LikeButtonSettings}
+        component={LikeButtonSettings}
+        options={{
+          title: i18n.likeButtonSettings,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.HighlightTagsSettings}
+        component={HighlightTagsSettings}
+        options={{
+          title: i18n.tagHighlightSettings,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.MuteSettings}
+        component={MuteSettings}
+        options={{
+          title: i18n.muteSettings,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.MuteTagsSettings}
+        component={MuteTagsSettings}
+        options={{
+          title: i18n.tagMuteSettings,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.MuteUsersSettings}
+        component={MuteUsersSettings}
+        options={{
+          title: i18n.userMuteSettings,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.Feedback}
+        component={Feedback}
+        options={{
+          title: i18n.feedback,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.PrivacyPolicy}
+        component={PrivacyPolicy}
+        options={{
+          title: i18n.privacyPolicy,
+          headerStyle,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.About}
+        component={About}
+        options={{
+          title: i18n.about,
+          headerStyle,
+        }}
+      />
+    </Stack.Navigator>
   );
-  return createAppContainer(AppNavigator);
 };
 
 export default createAppNavigator;

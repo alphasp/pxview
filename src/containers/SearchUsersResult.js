@@ -89,7 +89,7 @@ export default connectLocalization(
       return (state, props) => {
         const { searchUsers } = state;
         const { navigationStateKey } = props;
-        const word = props.word || props.navigation.state.params.word;
+        const word = props.word || props.route.params.word;
         return {
           searchUsers: searchUsers[navigationStateKey],
           items: getSearchUsersItems(state, props),

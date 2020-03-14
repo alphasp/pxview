@@ -49,7 +49,7 @@ export default connect(
       newNovels,
       items: getNewNovelsItems(state, props),
       user,
-      listKey: `${props.navigation.state.key}-newNovels`,
+      listKey: `${props.route.key}-newNovels`,
     };
   },
   newNovelsActionCreators,

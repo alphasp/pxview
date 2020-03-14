@@ -1,5 +1,6 @@
 import React from 'react';
-import { createStackNavigator } from 'react-navigation-stack';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createCompatNavigatorFactory } from '@react-navigation/compat';
 import RankingPreview from '../screens/Ranking/RankingPreview';
 import Ranking from '../screens/Ranking/Ranking';
 import NovelRanking from '../screens/Ranking/NovelRanking';
@@ -29,19 +30,19 @@ const mapRankingTypeString = (rankingType, i18n) => {
 const routeConfig = {
   [SCREENS.RankingPreview]: {
     screen: RankingPreview,
-    navigationOptions: config.navigation.tab
+    options: config.navigation.tab
       ? { header: null }
       : ({ navigation, screenProps: { i18n, theme } }) => ({
           title: i18n.ranking,
           headerStyle: getThemedHeaderStyle(theme),
-          headerLeft: (
+          headerLeft: () => (
             <DrawerMenuButton onPress={() => navigation.openDrawer()} />
           ),
         }),
   },
   [SCREENS.Ranking]: {
     screen: Ranking,
-    navigationOptions: ({ screenProps: { i18n, theme }, navigation }) => ({
+    options: ({ screenProps: { i18n, theme }, navigation }) => ({
       title: `${mapRankingTypeString(
         navigation.state.params.rankingType,
         i18n,
@@ -51,7 +52,7 @@ const routeConfig = {
   },
   [SCREENS.NovelRanking]: {
     screen: NovelRanking,
-    navigationOptions: ({ screenProps: { i18n, theme }, navigation }) => ({
+    options: ({ screenProps: { i18n, theme }, navigation }) => ({
       title: `${mapRankingTypeString(
         navigation.state.params.rankingType,
         i18n,
@@ -62,7 +63,7 @@ const routeConfig = {
 };
 
 const stackConfig = {
-  defaultNavigationOptions: {
+  screenOptions: {
     headerStyle: config.navigation.tab
       ? globalStyles.header
       : globalStyles.headerWithoutShadow,
@@ -73,10 +74,13 @@ const stackConfig = {
   headerMode: 'screen',
 };
 
-const RankingNavigator = createStackNavigator(routeConfig, stackConfig);
+const RankingNavigator = createCompatNavigatorFactory(createStackNavigator)(
+  routeConfig,
+  stackConfig,
+);
 
 if (!config.navigation.tab) {
-  RankingNavigator.navigationOptions = ({ screenProps: { i18n } }) => ({
+  RankingNavigator.options = ({ screenProps: { i18n } }) => ({
     drawerLabel: i18n.ranking,
     drawerIcon: ({ tintColor }) => (
       <DrawerIcon name="trophy" color={tintColor} />

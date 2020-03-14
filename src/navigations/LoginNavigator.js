@@ -1,5 +1,6 @@
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createCompatNavigatorFactory } from '@react-navigation/compat';
+import { useTheme } from 'react-native-paper';
 import Login from '../screens/Login/Login';
 import SignUp from '../screens/Login/SignUp';
 import PrivacyPolicy from '../screens/MyPage/PrivacyPolicy';
@@ -10,24 +11,24 @@ import {
 } from '../styles';
 import { SCREENS } from '../common/constants';
 
-const LoginNavigator = createStackNavigator(
+const LoginNavigator = createCompatNavigatorFactory(createStackNavigator)(
   {
     [SCREENS.Login]: {
       screen: Login,
-      navigationOptions: {
-        header: null,
+      options: {
+        header: () => null,
       },
     },
     [SCREENS.SignUp]: {
       screen: SignUp,
-      navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+      options: ({ screenProps: { i18n, theme } }) => ({
         title: i18n.signUp,
         headerStyle: getThemedHeaderStyle(theme),
       }),
     },
     [SCREENS.PrivacyPolicy]: {
       screen: PrivacyPolicy,
-      navigationOptions: ({ screenProps: { i18n, theme } }) => ({
+      options: ({ screenProps: { i18n, theme } }) => ({
         title: i18n.privacyPolicy,
         headerStyle: getThemedHeaderStyle(theme),
       }),
@@ -35,7 +36,7 @@ const LoginNavigator = createStackNavigator(
   },
   {
     headerMode: 'screen',
-    defaultNavigationOptions: {
+    screenOptions: {
       headerStyle: {
         backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
       },
@@ -46,4 +47,7 @@ const LoginNavigator = createStackNavigator(
   },
 );
 
-export default createAppContainer(LoginNavigator);
+// const LoginNavigator = () => {
+//   const theme = useTheme();
+// }
+export default LoginNavigator;

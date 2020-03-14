@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { withTheme } from 'react-native-paper';
 import UserList from '../components/UserList';
 import * as followUserActionCreators from '../common/actions/followUser';

@@ -80,7 +80,7 @@ export default connect(
       return {
         ranking: ranking[props.rankingMode],
         items: getRankingItems(state, props),
-        listKey: `${props.navigation.state.key}-${props.rankingMode}`,
+        listKey: `${props.route.key}-${props.rankingMode}`,
       };
     };
   },

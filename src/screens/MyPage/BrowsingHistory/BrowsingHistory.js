@@ -10,7 +10,7 @@ import * as browsingHistoryIllustsActionCreators from '../../../common/actions/b
 import * as browsingHistoryNovelsActionCreators from '../../../common/actions/browsingHistoryNovels';
 
 class BrowsingHistory extends Component {
-  static navigationOptions = ({ navigation }) => {
+  static options = ({ navigation }) => {
     const { params } = navigation.state;
     return {
       headerRight: params && params.onPressClearBrowsingHistory && (

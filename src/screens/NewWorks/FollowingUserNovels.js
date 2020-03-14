@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { connectLocalization } from '../../components/Localization';
 import NovelList from '../../components/NovelList';
 import * as followingUserNovelsActionCreators from '../../common/actions/followingUserNovels';
@@ -86,7 +86,7 @@ export default connectLocalization(
         return {
           followingUserNovels,
           items: getFollowingUserNovelsItems(state),
-          listKey: `${props.navigation.state.key}-followingUserNovels`,
+          listKey: `${props.route.key}-followingUserNovels`,
         };
       },
       followingUserNovelsActionCreators,

@@ -41,7 +41,7 @@ const createAppTabNavigator = ({ initialRouteName }) =>
     {
       [SCREENS.RecommendedTab]: {
         screen: Platform.OS === 'android' ? Recommended : RecommendedNavigator,
-        navigationOptions: ({ screenProps: { i18n } }) => ({
+        options: ({ screenProps: { i18n } }) => ({
           tabBarLabel: i18n.recommended,
           tabBarIcon: ({ tintColor, focused }) =>
             renderTabBarIcon(tintColor, focused, 'thumbs-up'),
@@ -49,7 +49,7 @@ const createAppTabNavigator = ({ initialRouteName }) =>
       },
       [SCREENS.RankingTab]: {
         screen: Platform.OS === 'android' ? Ranking : RankingNavigator,
-        navigationOptions: ({ screenProps: { i18n } }) => ({
+        options: ({ screenProps: { i18n } }) => ({
           tabBarLabel: i18n.ranking,
           tabBarIcon: ({ tintColor, focused }) =>
             renderTabBarIcon(tintColor, focused, 'trophy'),
@@ -57,7 +57,7 @@ const createAppTabNavigator = ({ initialRouteName }) =>
       },
       [SCREENS.TrendingTab]: {
         screen: Platform.OS === 'android' ? Trending : TrendingNavigator,
-        navigationOptions: ({ screenProps: { i18n } }) => ({
+        options: ({ screenProps: { i18n } }) => ({
           tabBarLabel: i18n.search,
           tabBarIcon: ({ tintColor, focused }) =>
             renderTabBarIcon(tintColor, focused, 'search'),
@@ -65,7 +65,7 @@ const createAppTabNavigator = ({ initialRouteName }) =>
       },
       [SCREENS.NewWorksTab]: {
         screen: Platform.OS === 'android' ? NewWorks : NewWorksNavigator,
-        navigationOptions: ({ screenProps: { i18n } }) => ({
+        options: ({ screenProps: { i18n } }) => ({
           tabBarLabel: i18n.newest,
           tabBarIcon: ({ tintColor, focused }) =>
             renderTabBarIcon(tintColor, focused, 'fiber-new', 'material'),
@@ -73,7 +73,7 @@ const createAppTabNavigator = ({ initialRouteName }) =>
       },
       [SCREENS.MyPageTab]: {
         screen: Platform.OS === 'android' ? MyPage : MyPageNavigator,
-        navigationOptions: ({ screenProps: { i18n } }) => ({
+        options: ({ screenProps: { i18n } }) => ({
           tabBarLabel: i18n.myPage,
           tabBarIcon: ({ tintColor, focused }) =>
             renderTabBarIcon(tintColor, focused, 'user'),

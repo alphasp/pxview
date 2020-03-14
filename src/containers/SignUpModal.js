@@ -10,7 +10,7 @@ import {
   Keyboard,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { withNavigationFocus } from 'react-navigation';
+import { withNavigationFocus } from '@react-navigation/compat';
 import { withFormik, Field } from 'formik';
 import { withTheme, Button } from 'react-native-paper';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';

@@ -48,7 +48,7 @@ export default connect(
     return {
       newMangas,
       items: getNewMangasItems(state),
-      listKey: `${props.navigation.state.key}-newMangas`,
+      listKey: `${props.route.key}-newMangas`,
     };
   },
   newMangasActionCreators,

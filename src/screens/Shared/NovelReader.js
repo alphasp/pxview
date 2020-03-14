@@ -105,7 +105,7 @@ export default withTheme(
       return (state, props) => {
         const { novelText, novelSettings } = state;
         const parsedNovelText = getParsedNovelText(state, props);
-        const novelId = props.novelId || props.navigation.state.params.novelId;
+        const novelId = props.novelId || props.route.params.novelId;
         return {
           novelText: novelText[novelId],
           novelId,

@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 });
 
 class MyCollection extends Component {
-  static navigationOptions = ({ navigation }) => {
+  static options = ({ navigation }) => {
     const { setParams } = navigation;
     return {
       headerRight: (
@@ -154,7 +154,7 @@ class MyCollection extends Component {
 
   render() {
     const isOpenFilterModal =
-      this.props.navigation.state.params.isOpenFilterModal || false;
+      this.props.route.params.isOpenFilterModal || false;
     const {
       index,
       selectedPublicIllustTag,

@@ -8,7 +8,7 @@ import {
   DeviceEventEmitter,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { withTheme, Divider } from 'react-native-paper';
 import NovelItem from './NovelItem';
 import Loader from './Loader';

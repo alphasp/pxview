@@ -172,9 +172,8 @@ export default enhancePostComment(
       const getNovelCommentsItems = makeGetNovelCommentsItems();
       return (state, props) => {
         const { novelComments } = state;
-        const novelId = props.novelId || props.navigation.state.params.novelId;
-        const authorId =
-          props.authorId || props.navigation.state.params.authorId;
+        const novelId = props.novelId || props.route.params.novelId;
+        const authorId = props.authorId || props.route.params.authorId;
         return {
           novelComments: novelComments[novelId],
           items: getNovelCommentsItems(state, props),

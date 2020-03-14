@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { withTheme } from 'react-native-paper';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';

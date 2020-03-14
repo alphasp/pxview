@@ -378,7 +378,7 @@ export const makeGetRelatedIllustsItems = () =>
       getProps,
     ],
     (relatedIllusts, muteSettings, muteTags, muteUsers, entities, props) => {
-      const illustId = props.illustId || props.navigation.state.params.illustId;
+      const illustId = props.illustId || props.route.params.illustId;
       if (relatedIllusts[illustId]) {
         const items = denormalize(
           relatedIllusts[illustId].items,
@@ -414,9 +414,9 @@ export const makeGetUserBookmarkIllustsItems = () =>
     ) => {
       const userId =
         props.userId ||
-        props.navigation.state.params.userId ||
-        parseInt(props.navigation.state.params.id, 10) ||
-        parseInt(props.navigation.state.params.uid, 10);
+        props.route.params.userId ||
+        parseInt(props.route.params.id, 10) ||
+        parseInt(props.route.params.uid, 10);
       if (userBookmarkIllusts[userId]) {
         const items = denormalize(
           userBookmarkIllusts[userId].items,
@@ -445,9 +445,9 @@ export const makeGetUserIllustsItems = () =>
     (userIllusts, muteSettings, muteTags, muteUsers, entities, props) => {
       const userId =
         props.userId ||
-        props.navigation.state.params.userId ||
-        parseInt(props.navigation.state.params.id, 10) ||
-        parseInt(props.navigation.state.params.uid, 10);
+        props.route.params.userId ||
+        parseInt(props.route.params.id, 10) ||
+        parseInt(props.route.params.uid, 10);
       if (userIllusts[userId]) {
         const items = denormalize(
           userIllusts[userId].items,
@@ -476,9 +476,9 @@ export const makeGetUserMangasItems = () =>
     (userMangas, muteSettings, muteTags, muteUsers, entities, props) => {
       const userId =
         props.userId ||
-        props.navigation.state.params.userId ||
-        parseInt(props.navigation.state.params.id, 10) ||
-        parseInt(props.navigation.state.params.uid, 10);
+        props.route.params.userId ||
+        parseInt(props.route.params.id, 10) ||
+        parseInt(props.route.params.uid, 10);
       if (userMangas[userId]) {
         const items = denormalize(
           userMangas[userId].items,
@@ -507,9 +507,9 @@ export const makeGetUserNovelsItems = () =>
     (userNovels, muteSettings, muteTags, muteUsers, entities, props) => {
       const userId =
         props.userId ||
-        props.navigation.state.params.userId ||
-        parseInt(props.navigation.state.params.id, 10) ||
-        parseInt(props.navigation.state.params.uid, 10);
+        props.route.params.userId ||
+        parseInt(props.route.params.id, 10) ||
+        parseInt(props.route.params.uid, 10);
       if (userNovels[userId]) {
         const items = denormalize(
           userNovels[userId].items,
@@ -535,9 +535,9 @@ export const makeGetUserFollowingItems = () =>
       getProps,
     ],
     (userFollowing, muteSettings, muteUsers, entities, props) => {
-      const userId = props.userId || props.navigation.state.params.userId;
+      const userId = props.userId || props.route.params.userId;
       const followingType =
-        props.followingType || props.navigation.state.params.followingType;
+        props.followingType || props.route.params.followingType;
       if (userFollowing[followingType][userId]) {
         const items = denormalize(
           userFollowing[followingType][userId].items,
@@ -563,7 +563,7 @@ export const makeGetUserFollowersItems = () =>
       getProps,
     ],
     (userFollowers, muteSettings, muteUsers, entities, props) => {
-      const userId = props.userId || props.navigation.state.params.userId;
+      const userId = props.userId || props.route.params.userId;
       if (userFollowers[userId]) {
         const items = denormalize(
           userFollowers[userId].items,
@@ -589,7 +589,7 @@ export const makeGetUserMyPixivItems = () =>
       getProps,
     ],
     (userMyPixiv, muteSettings, muteUsers, entities, props) => {
-      const userId = props.userId || props.navigation.state.params.userId;
+      const userId = props.userId || props.route.params.userId;
       if (userMyPixiv[userId]) {
         const items = denormalize(
           userMyPixiv[userId].items,
@@ -634,7 +634,7 @@ export const makeGetIllustCommentsItems = () =>
   createUserItemsSelector(
     [selectIllustComments, selectEntities, getProps],
     (illustComments, entities, props) => {
-      const illustId = props.illustId || props.navigation.state.params.illustId;
+      const illustId = props.illustId || props.route.params.illustId;
       return illustComments[illustId]
         ? denormalize(
             illustComments[illustId].items,
@@ -703,9 +703,9 @@ export const makeGetUserBookmarkNovelsItems = () =>
     ) => {
       const userId =
         props.userId ||
-        props.navigation.state.params.userId ||
-        parseInt(props.navigation.state.params.id, 10) ||
-        parseInt(props.navigation.state.params.uid, 10);
+        props.route.params.userId ||
+        parseInt(props.route.params.id, 10) ||
+        parseInt(props.route.params.uid, 10);
       if (userBookmarkNovels[userId]) {
         const items = denormalize(
           userBookmarkNovels[userId].items,
@@ -725,7 +725,7 @@ export const makeGetNovelCommentsItems = () =>
   createUserItemsSelector(
     [selectNovelComments, selectEntities, getProps],
     (novelComments, entities, props) => {
-      const novelId = props.novelId || props.navigation.state.params.novelId;
+      const novelId = props.novelId || props.route.params.novelId;
       return novelComments[novelId]
         ? denormalize(
             novelComments[novelId].items,
@@ -755,7 +755,7 @@ export const makeGetNovelSeriesItems = () =>
   createNovelItemsSelector(
     [selectNovelSeries, selectEntities, getProps],
     (novelSeries, entities, props) => {
-      const seriesId = props.seriesId || props.navigation.state.params.seriesId;
+      const seriesId = props.seriesId || props.route.params.seriesId;
       return novelSeries[seriesId]
         ? denormalize(
             novelSeries[seriesId].items,
@@ -770,7 +770,7 @@ export const makeGetParsedNovelText = () =>
   createSelector(
     [selectNovelText, getProps],
     (novelText, props) => {
-      const novelId = props.novelId || props.navigation.state.params.novelId;
+      const novelId = props.novelId || props.route.params.novelId;
       return novelText[novelId] && novelText[novelId].text
         ? parseNovelText(novelText[novelId].text)
         : null;
@@ -779,7 +779,7 @@ export const makeGetParsedNovelText = () =>
 
 export const makeGetUserItem = () =>
   createUserItemSelector([selectEntities, getProps], (entities, props) => {
-    const userId = props.userId || props.navigation.state.params.userId;
+    const userId = props.userId || props.route.params.userId;
     return (
       denormalize(userId, Schemas.USER, entities) ||
       denormalize(userId, Schemas.USER_PROFILE, entities)
@@ -792,9 +792,9 @@ const makeGetUserDetailItem = () =>
     (userDetail, entities, props) => {
       const userId =
         props.userId ||
-        props.navigation.state.params.userId ||
-        parseInt(props.navigation.state.params.id, 10) ||
-        parseInt(props.navigation.state.params.uid, 10);
+        props.route.params.userId ||
+        parseInt(props.route.params.id, 10) ||
+        parseInt(props.route.params.uid, 10);
       return userDetail[userId]
         ? denormalize(userDetail[userId].item, Schemas.USER_PROFILE, entities)
         : defaultObject;
@@ -844,7 +844,7 @@ export const makeGetDetailItem = () =>
       illustId, // from deep link params
       items,
       index,
-    } = props.navigation.state.params;
+    } = props.route.params;
     let id;
     if (illustIdFromQS) {
       id = parseInt(illustIdFromQS, 10);
@@ -863,7 +863,7 @@ export const makeGetDetailNovelItem = () =>
       novelId, // from deep link params
       items,
       index,
-    } = props.navigation.state.params;
+    } = props.route.params;
     let id;
     if (novelIdFromQS) {
       id = parseInt(novelIdFromQS, 10);

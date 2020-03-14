@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 });
 
 class NovelSeries extends Component {
-  static navigationOptions = ({ navigation }) => {
+  static options = ({ navigation }) => {
     const { seriesTitle } = navigation.state.params || {};
     return {
       title: seriesTitle,
@@ -104,14 +104,13 @@ export default connectLocalization(
       return (state, props) => {
         const { novelSeries } = state;
         const { isFeatureInDetailPage } = props;
-        const seriesId =
-          props.seriesId || props.navigation.state.params.seriesId;
+        const seriesId = props.seriesId || props.route.params.seriesId;
         return {
           novelSeries: novelSeries[seriesId],
           items: getNovelSeriesItems(state, props),
           seriesId,
           listKey: !isFeatureInDetailPage
-            ? `${props.navigation.state.key}-${seriesId}-NovelSeries`
+            ? `${props.route.key}-${seriesId}-NovelSeries`
             : null,
         };
       };

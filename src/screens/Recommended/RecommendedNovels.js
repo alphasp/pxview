@@ -1,64 +1,45 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigationState } from '@react-navigation/native';
 import NovelList from '../../components/NovelList';
-import * as recommendedNovelsActionCreators from '../../common/actions/recommendedNovels';
+import {
+  fetchRecommendedNovels,
+  clearRecommendedNovels,
+} from '../../common/actions/recommendedNovels';
 import { getRecommendedNovelsItems } from '../../common/selectors';
 
-class RecommendedNovels extends Component {
-  componentDidMount() {
-    const { fetchRecommendedNovels, clearRecommendedNovels } = this.props;
-    clearRecommendedNovels();
-    fetchRecommendedNovels();
-  }
+const RecommendedNovels = props => {
+  const dispatch = useDispatch();
+  const allState = useSelector(state => state);
+  const recommendedNovels = useSelector(state => state.recommendedNovels);
+  const navigationState = useNavigationState(state => state);
+  const items = getRecommendedNovelsItems(allState, props);
+  const listKey = `${navigationState.key}-recommendedNovels`;
+  useEffect(() => {
+    dispatch(clearRecommendedNovels());
+    dispatch(fetchRecommendedNovels());
+  }, []);
 
-  componentWillReceiveProps(nextProps) {
-    const { user: prevUser } = this.props;
-    const { user } = nextProps;
-    if ((!user && prevUser) || (user && !prevUser)) {
-      const { fetchRecommendedNovels, clearRecommendedNovels } = this.props;
-      clearRecommendedNovels();
-      fetchRecommendedNovels();
-    }
-  }
-
-  loadMoreItems = () => {
-    const {
-      recommendedNovels: { nextUrl, loading },
-      fetchRecommendedNovels,
-    } = this.props;
+  const loadMoreItems = () => {
+    const { nextUrl, loading } = recommendedNovels;
     if (!loading && nextUrl) {
-      fetchRecommendedNovels(null, nextUrl);
+      dispatch(fetchRecommendedNovels(null, nextUrl));
     }
   };
 
-  handleOnRefresh = () => {
-    const { clearRecommendedNovels, fetchRecommendedNovels } = this.props;
-    clearRecommendedNovels();
-    fetchRecommendedNovels(null, null, true);
+  const handleOnRefresh = () => {
+    dispatch(clearRecommendedNovels());
+    dispatch(fetchRecommendedNovels(null, null, true));
   };
 
-  render() {
-    const { recommendedNovels, items, listKey } = this.props;
-    return (
-      <NovelList
-        data={{ ...recommendedNovels, items }}
-        listKey={listKey}
-        loadMoreItems={this.loadMoreItems}
-        onRefresh={this.handleOnRefresh}
-      />
-    );
-  }
-}
+  return (
+    <NovelList
+      data={{ ...recommendedNovels, items }}
+      listKey={listKey}
+      loadMoreItems={loadMoreItems}
+      onRefresh={handleOnRefresh}
+    />
+  );
+};
 
-export default connect(
-  (state, props) => {
-    const { recommendedNovels, user } = state;
-    return {
-      recommendedNovels,
-      items: getRecommendedNovelsItems(state, props),
-      user,
-      listKey: `${props.navigation.state.key}-recommendedNovels`,
-    };
-  },
-  recommendedNovelsActionCreators,
-)(RecommendedNovels);
+export default RecommendedNovels;

@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
 });
 
 class ReplyIllustComment extends Component {
-  static navigationOptions = ({ navigation }) => {
+  static options = ({ navigation }) => {
     const { state } = navigation;
     const { submit, comment, illustId } = state.params;
     return {

@@ -4,7 +4,7 @@ import { SCREENS } from '../../common/constants';
 const config = {
   [SCREENS.NewWorks]: {
     screen: NewWorks,
-    navigationOptions: {
+    options: {
       header: null,
     },
   },

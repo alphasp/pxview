@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 });
 
 class AddNovelComment extends Component {
-  static navigationOptions = ({ navigation }) => {
+  static options = ({ navigation }) => {
     const { state } = navigation;
     const { submit, comment, novelId } = state.params;
     return {

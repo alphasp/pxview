@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { withTheme } from 'react-native-paper';
 import SearchHistory from '../components/SearchHistory';
 import SearchUsersAutoCompleteList from '../components/SearchUsersAutoCompleteList';

@@ -241,8 +241,8 @@ class SearchResultTabs extends Component {
 export default connectLocalization(
   connect(
     (state, props) => ({
-      word: props.navigation.state.params.word,
-      navigationStateKey: props.navigation.state.key,
+      word: props.route.params.word,
+      navigationStateKey: props.route.key,
     }),
     {
       ...searchAutoCompleteActionCreators,

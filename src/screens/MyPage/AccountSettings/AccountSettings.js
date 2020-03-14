@@ -185,8 +185,8 @@ export default withTheme(
         modal: state.modal,
         myAccountState: state.myAccountState,
         hideAdvanceSettings:
-          props.navigation.state.params &&
-          props.navigation.state.params.hideAdvanceSettings,
+          props.route.params &&
+          props.route.params.hideAdvanceSettings,
       }),
       {
         ...authActionCreators,

@@ -82,12 +82,12 @@ export default connect(
     const getUserBookmarkNovelsItems = makeGetUserBookmarkNovelsItems();
     return (state, props) => {
       const { userBookmarkNovels } = state;
-      const userId = props.userId || props.navigation.state.params.userId;
+      const userId = props.userId || props.route.params.userId;
       return {
         userBookmarkNovels: userBookmarkNovels[userId],
         items: getUserBookmarkNovelsItems(state, props),
         userId,
-        listKey: `${props.navigation.state.key}-userbookmarkNovels`,
+        listKey: `${props.route.key}-userbookmarkNovels`,
       };
     };
   },

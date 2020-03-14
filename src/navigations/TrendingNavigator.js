@@ -1,5 +1,6 @@
 import React from 'react';
-import { createStackNavigator } from 'react-navigation-stack';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createCompatNavigatorFactory } from '@react-navigation/compat';
 import Trending from '../screens/Trending/Trending';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import DrawerIcon from '../components/DrawerIcon';
@@ -10,11 +11,11 @@ import { SCREENS } from '../common/constants';
 const routeConfig = {
   [SCREENS.Trending]: {
     screen: Trending,
-    navigationOptions: config.navigation.tab
+    options: config.navigation.tab
       ? { header: null }
       : ({ navigation }) => ({
           header: null,
-          headerLeft: (
+          headerLeft: () => (
             <DrawerMenuButton onPress={() => navigation.openDrawer()} />
           ),
         }),
@@ -22,7 +23,7 @@ const routeConfig = {
 };
 
 const stackConfig = {
-  defaultNavigationOptions: {
+  screenOptions: {
     headerStyle: config.navigation.tab
       ? globalStyles.header
       : globalStyles.headerWithoutShadow,
@@ -33,10 +34,13 @@ const stackConfig = {
   headerMode: 'screen',
 };
 
-const TrendingNavigator = createStackNavigator(routeConfig, stackConfig);
+const TrendingNavigator = createCompatNavigatorFactory(createStackNavigator)(
+  routeConfig,
+  stackConfig,
+);
 
 if (!config.navigation.tab) {
-  TrendingNavigator.navigationOptions = ({ screenProps: { i18n } }) => ({
+  TrendingNavigator.options = ({ screenProps: { i18n } }) => ({
     drawerLabel: i18n.search,
     drawerIcon: ({ tintColor }) => (
       <DrawerIcon name="search" color={tintColor} />

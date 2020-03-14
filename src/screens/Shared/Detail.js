@@ -361,7 +361,7 @@ class Detail extends Component {
   };
 
   renderContent = ({ item }) => {
-    const { navigation, authUser, index } = this.props;
+    const { navigation, authUser, route } = this.props;
     return (
       <View style={styles.content} key={item.id}>
         <PXHeader
@@ -375,6 +375,7 @@ class Detail extends Component {
         <IllustDetailContent
           item={item}
           navigation={navigation}
+          route={route}
           authUser={authUser}
           onPressImage={this.handleOnPressImage}
           onLongPressImage={this.handleOnLongPressImage}
@@ -501,6 +502,7 @@ export default withTheme(
       () => {
         const getDetailItem = makeGetDetailItem();
         return (state, props) => {
+          console.log('props ', props);
           const item = getDetailItem(state, props);
           const isMuteUser = item
             ? state.muteUsers.items.some(m => m === item.user.id)
@@ -512,7 +514,7 @@ export default withTheme(
             index,
             onListEndReached,
             parentListKey,
-          } = props.navigation.state.params;
+          } = props.route.params;
           const id = parseInt(illustIdFromQS || illustId, 0);
           return {
             illustId: id || item.id,

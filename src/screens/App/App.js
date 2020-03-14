@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, DeviceEventEmitter, StatusBar } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  DeviceEventEmitter,
+  StatusBar,
+  Text,
+} from 'react-native';
 import { connect } from 'react-redux';
 import {
   DefaultTheme,
@@ -9,7 +15,7 @@ import {
 import SplashScreen from 'react-native-splash-screen';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import Toast, { DURATION } from 'react-native-easy-toast';
-import createAppNavigator from '../../navigations/AppNavigator';
+import AppNavigator from '../../navigations/AppNavigator';
 import LoginNavigator from '../../navigations/LoginNavigator';
 import { connectLocalization } from '../../components/Localization';
 import Loader from '../../components/Loader';
@@ -25,14 +31,6 @@ const styles = StyleSheet.create({
 });
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    const { initialRouteName } = props;
-    this.appNavigator = createAppNavigator({
-      initialRouteName,
-    });
-  }
-
   componentDidMount() {
     MessageBarManager.registerMessageBar(this.messageBarAlert);
     this.showToastListener = DeviceEventEmitter.addListener(
@@ -62,7 +60,7 @@ class App extends Component {
   }
 
   render() {
-    const { rehydrated, user, i18n, themeName } = this.props;
+    const { rehydrated, user, i18n, themeName, initialRouteName } = this.props;
     let renderComponent;
     const selectedTheme =
       themeName === THEME_TYPES.DARK ? DarkTheme : DefaultTheme;
@@ -86,14 +84,15 @@ class App extends Component {
           : globalStyleVariables.PRIMARY_COLOR,
         modalTitleBackground: selectedTheme.dark ? '#1a1a1a' : '#E9EBEE',
       },
+      mode: 'exact',
     };
     if (!rehydrated) {
       renderComponent = <Loader />;
     } else if (user) {
-      const Navigator = this.appNavigator;
       renderComponent = (
-        <Navigator
-          screenProps={{ i18n, theme }}
+        <AppNavigator
+          // screenProps={{ i18n, theme }}
+          initialRouteName={initialRouteName}
           uriPrefix={/^(?:https?:\/\/)?(?:www|touch)\.pixiv\.net\/|^pixiv:\/\//}
         />
       );

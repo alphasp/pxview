@@ -1,5 +1,6 @@
 import React from 'react';
-import { createStackNavigator } from 'react-navigation-stack';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createCompatNavigatorFactory } from '@react-navigation/compat';
 import NewWorks from '../screens/NewWorks/NewWorks';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import DrawerIcon from '../components/DrawerIcon';
@@ -14,12 +15,12 @@ import { SCREENS } from '../common/constants';
 const routeConfig = {
   [SCREENS.NewWorks]: {
     screen: NewWorks,
-    navigationOptions: config.navigation.tab
+    options: config.navigation.tab
       ? { header: null }
       : ({ navigation, screenProps: { i18n, theme } }) => ({
           title: i18n.newest,
           headerStyle: getThemedHeaderStyle(theme, false),
-          headerLeft: (
+          headerLeft: () => (
             <DrawerMenuButton onPress={() => navigation.openDrawer()} />
           ),
         }),
@@ -27,7 +28,7 @@ const routeConfig = {
 };
 
 const stackConfig = {
-  defaultNavigationOptions: {
+  screenOptions: {
     headerStyle: config.navigation.tab
       ? globalStyles.header
       : globalStyles.headerWithoutShadow,
@@ -38,10 +39,13 @@ const stackConfig = {
   headerMode: 'screen',
 };
 
-const NewWorksNavigator = createStackNavigator(routeConfig, stackConfig);
+const NewWorksNavigator = createCompatNavigatorFactory(createStackNavigator)(
+  routeConfig,
+  stackConfig,
+);
 
 if (!config.navigation.tab) {
-  NewWorksNavigator.navigationOptions = ({ screenProps: { i18n } }) => ({
+  NewWorksNavigator.options = ({ screenProps: { i18n } }) => ({
     drawerLabel: i18n.newest,
     drawerIcon: ({ tintColor }) => (
       <DrawerIcon name="fiber-new" type="material" color={tintColor} />

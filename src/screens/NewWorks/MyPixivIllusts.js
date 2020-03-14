@@ -48,7 +48,7 @@ export default connect(
     return {
       myPixivIllusts,
       items: getMyPixivIllustsItems(state),
-      listKey: `${props.navigation.state.key}-myPixivIllusts`,
+      listKey: `${props.route.key}-myPixivIllusts`,
     };
   },
   myPixivIllustsActionCreators,

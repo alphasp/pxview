@@ -1,4 +1,5 @@
-import { createStackNavigator } from 'react-navigation-stack';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createCompatNavigatorFactory } from '@react-navigation/compat';
 import MyPage from '../screens/MyPage/MyPage';
 import { globalStyles, globalStyleVariables } from '../styles';
 import config from '../common/config';
@@ -7,13 +8,13 @@ import { SCREENS } from '../common/constants';
 const routeConfig = {
   [SCREENS.MyPage]: {
     screen: MyPage,
-    navigationOptions: { header: null },
+    options: { header: null },
   },
 };
 
 const stackConfig = {
   headerMode: 'screen',
-  defaultNavigationOptions: {
+  screenOptions: {
     headerStyle: config.navigation.tab
       ? globalStyles.header
       : globalStyles.headerWithoutShadow,
@@ -23,6 +24,9 @@ const stackConfig = {
   cardStyle: globalStyles.card,
 };
 
-const MyPageNavigator = createStackNavigator(routeConfig, stackConfig);
+const MyPageNavigator = createCompatNavigatorFactory(createStackNavigator)(
+  routeConfig,
+  stackConfig,
+);
 
 export default MyPageNavigator;

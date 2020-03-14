@@ -12,6 +12,6 @@ export default connect((state, props) => {
   return {
     browsingHistoryNovels,
     items: getBrowsingHistoryNovelsItems(state, props),
-    listKey: `${props.navigation.state.key}-browsingHistoryNovels`,
+    listKey: `${props.route.key}-browsingHistoryNovels`,
   };
 })(BrowsingHistoryNovels);

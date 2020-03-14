@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 class SearchFilterPeriodDateModal extends Component {
   constructor(props) {
     super(props);
-    const { startDate, endDate } = props.navigation.state.params;
+    const { startDate, endDate } = props.route.params;
     this.state = {
       isStartDatePickerVisible: false,
       isEndDatePickerVisible: false,
@@ -109,7 +109,7 @@ class SearchFilterPeriodDateModal extends Component {
   };
 
   handleOnPressConfirm = () => {
-    const { onConfirmPeriodDate } = this.props.navigation.state.params;
+    const { onConfirmPeriodDate } = this.props.route.params;
     const { startDate, endDate } = this.state;
     onConfirmPeriodDate(startDate, endDate);
   };

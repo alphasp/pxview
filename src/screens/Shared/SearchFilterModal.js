@@ -47,7 +47,7 @@ class SearchFilterModal extends Component {
         bookmark_num_min,
         bookmark_num_max,
       },
-    } = props.navigation.state.params;
+    } = props.route.params;
     this.state = {
       target: search_target || 'partial_match_for_tags',
       period: period || SEARCH_PERIOD_TYPES.ALL,
@@ -308,7 +308,7 @@ class SearchFilterModal extends Component {
   };
 
   handleOnPressApplyFilter = () => {
-    const { onPressApplyFilter } = this.props.navigation.state.params;
+    const { onPressApplyFilter } = this.props.route.params;
     const {
       target,
       period,
@@ -418,7 +418,7 @@ export default withTheme(
   connectLocalization(
     connect((state, props) => ({
       user: state.auth.user,
-      navigationStateKey: props.navigation.state.key,
+      navigationStateKey: props.route.key,
     }))(SearchFilterModal),
   ),
 );

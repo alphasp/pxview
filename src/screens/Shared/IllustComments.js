@@ -172,10 +172,8 @@ export default enhancePostComment(
       const getIllustCommentsItems = makeGetIllustCommentsItems();
       return (state, props) => {
         const { illustComments } = state;
-        const illustId =
-          props.illustId || props.navigation.state.params.illustId;
-        const authorId =
-          props.authorId || props.navigation.state.params.authorId;
+        const illustId = props.illustId || props.route.params.illustId;
+        const authorId = props.authorId || props.route.params.authorId;
         return {
           illustComments: illustComments[illustId],
           items: getIllustCommentsItems(state, props),

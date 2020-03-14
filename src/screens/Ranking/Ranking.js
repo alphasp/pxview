@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { View } from 'react-native';
 import RankingList from './RankingList';
 import PastRanking from './PastRanking';
 import PXTabView from '../../components/PXTabView';
@@ -112,41 +113,42 @@ class Ranking extends Component {
     this.setState({ index });
   };
 
-  renderScene = ({ index }) => {
-    const { navigation } = this.props;
-    const { rankingType } = navigation.state.params;
-    const { rankingMode, reload } = this.state.routes[index];
-    return (
-      <TabContentWrapper active={index === this.state.index}>
-        {rankingMode === RANKING_FOR_UI.PAST_ILLUST ||
-        rankingMode === RANKING_FOR_UI.PAST_MANGA ? (
-          <PastRanking
-            rankingType={rankingType}
-            rankingMode={rankingMode}
-            navigation={navigation}
-          />
-        ) : (
-          <RankingList
-            rankingMode={rankingMode}
-            navigation={navigation}
-            reload={reload}
-          />
-        )}
-      </TabContentWrapper>
-    );
-  };
+  // renderScene = ({ index }) => {
+  //   const { navigation } = this.props;
+  //   const { rankingType } = navigation.state.params;
+  //   const { rankingMode, reload } = this.state.routes[index];
+  //   return (
+  //     <TabContentWrapper active={index === this.state.index}>
+  //       {rankingMode === RANKING_FOR_UI.PAST_ILLUST ||
+  //       rankingMode === RANKING_FOR_UI.PAST_MANGA ? (
+  //         <PastRanking
+  //           rankingType={rankingType}
+  //           rankingMode={rankingMode}
+  //           navigation={navigation}
+  //         />
+  //       ) : (
+  //         <RankingList
+  //           rankingMode={rankingMode}
+  //           navigation={navigation}
+  //           reload={reload}
+  //         />
+  //       )}
+  //     </TabContentWrapper>
+  //   );
+  // };
 
   render() {
-    return (
-      <PXTabView
-        navigationState={this.state}
-        renderScene={this.renderScene}
-        onIndexChange={this.handleChangeTab}
-        tabBarProps={{
-          scrollEnabled: true,
-        }}
-      />
-    );
+    return <View />;
+    // return (
+    //   <PXTabView
+    //     navigationState={this.state}
+    //     renderScene={this.renderScene}
+    //     onIndexChange={this.handleChangeTab}
+    //     tabBarProps={{
+    //       scrollEnabled: true,
+    //     }}
+    //   />
+    // );
   }
 }
 

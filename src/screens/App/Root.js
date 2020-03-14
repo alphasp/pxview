@@ -3,6 +3,7 @@ import 'react-native-gesture-handler'; // https://github.com/kmagiera/react-nati
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
 import { useScreens } from 'react-native-screens';
+import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
@@ -54,7 +55,9 @@ class Root extends Component {
       <Provider store={store}>
         <LocalizationProvider i18n={i18n}>
           <PersistGate loading={<Loader />} persistor={persistor}>
-            <App />
+            <NavigationContainer>
+              <App />
+            </NavigationContainer>
           </PersistGate>
         </LocalizationProvider>
       </Provider>
