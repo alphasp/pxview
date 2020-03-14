@@ -1,25 +1,27 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import hoistNonReactStatic from 'hoist-non-react-statics';
+import React from 'react';
+import { LocalizationContext } from './LocalizationProvider';
 
-const connectLocalization = WrappedComponent => {
-  class Localization extends Component {
-    static contextTypes = {
-      i18n: PropTypes.object.isRequired,
-    };
+// todo
+// const connectLocalization = WrappedComponent => {
+//   class Localization extends Component {
+//     render() {
+//       const { innerRef } = this.props;
+//       const { i18n } = LocalizationContext;
+//       return <WrappedComponent {...this.props} i18n={i18n} ref={innerRef} />;
+//     }
+//   }
 
-    render() {
-      const { innerRef } = this.props;
-      const { i18n } = this.context;
-      return <WrappedComponent {...this.props} i18n={i18n} ref={innerRef} />;
-    }
-  }
+//   hoistNonReactStatic(Localization, WrappedComponent);
 
-  hoistNonReactStatic(Localization, WrappedComponent);
+//   return connect(state => ({
+//     lang: state.i18n.lang,
+//   }))(Localization);
+// };
 
-  return connect(state => ({
-    lang: state.i18n.lang,
-  }))(Localization);
-};
+const connectLocalization = Comp => props => (
+  <LocalizationContext.Consumer>
+    {i18n => <Comp {...{ ...props, ...i18n }} />}
+  </LocalizationContext.Consumer>
+);
+
 export default connectLocalization;
