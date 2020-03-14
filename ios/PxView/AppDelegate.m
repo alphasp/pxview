@@ -14,7 +14,7 @@
 
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-#import "SplashScreen.h"
+#import "RNSplashScreen.h"
 
 @implementation AppDelegate
 
@@ -41,7 +41,7 @@ rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   [Fabric with:@[[Crashlytics class]]];
-  [SplashScreen show];
+  [RNSplashScreen show];
   return YES;
 }
 

@@ -24,6 +24,8 @@ import com.react.rnspinkit.RNSpinkitPackage;
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
+import org.reactnative.maskedview.RNCMaskedViewPackage;
+import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
@@ -64,6 +66,8 @@ public class MainApplication extends Application implements ReactApplication {
 
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNCMaskedViewPackage(),
+            new SafeAreaContextPackage(),
             new ReanimatedPackage(),
             new AsyncStoragePackage(),
             new RNCViewPagerPackage(),

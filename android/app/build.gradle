@@ -185,6 +185,8 @@ repositories {
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 dependencies {
+    implementation project(':@react-native-community_masked-view')
+    implementation project(':react-native-safe-area-context')
     implementation project(':react-native-reanimated')
     implementation project(':@react-native-community_async-storage')
     implementation project(':@react-native-community_viewpager')

@@ -53,6 +53,10 @@ target 'PxView' do
 
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
+  pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
+
+  pod 'RNCMaskedView', :path => '../node_modules/@react-native-community/masked-view'
+
   target 'PxViewTests' do
     inherit! :search_paths
     # Pods for testing
