@@ -2,10 +2,10 @@
 import 'react-native-gesture-handler'; // https://github.com/kmagiera/react-native-gesture-handler/issues/320
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
-import { useScreens } from 'react-native-screens';
-import { NavigationContainer } from '@react-navigation/native';
+import { enableScreens } from 'react-native-screens';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import App from './App';
 import { LocalizationProvider } from '../../components/Localization';
 import Loader from '../../components/Loader';
@@ -15,7 +15,7 @@ import configureStore from '../../common/store/configureStore';
 
 const { store, persistor } = configureStore();
 
-useScreens();
+enableScreens();
 
 if (process.env.NODE_ENV === 'production') {
   // eslint-disable-line no-undef
@@ -54,11 +54,11 @@ class Root extends Component {
     return (
       <Provider store={store}>
         <LocalizationProvider i18n={i18n}>
-          <PersistGate loading={<Loader />} persistor={persistor}>
-            <NavigationContainer>
+          <SafeAreaProvider>
+            <PersistGate loading={<Loader />} persistor={persistor}>
               <App />
-            </NavigationContainer>
-          </PersistGate>
+            </PersistGate>
+          </SafeAreaProvider>
         </LocalizationProvider>
       </Provider>
     );

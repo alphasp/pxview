@@ -12,14 +12,14 @@ const globalStyles = StyleSheet.create({
   },
   header: {
     backgroundColor: globalStyleVariables.HEADER_BACKGROUND_COLOR,
-    ...Platform.select({
-      android: {
-        paddingTop: globalStyleVariables.STATUSBAR_HEIGHT,
-        height:
-          globalStyleVariables.STATUSBAR_HEIGHT +
-          globalStyleVariables.APPBAR_HEIGHT,
-      },
-    }),
+    // ...Platform.select({
+    //   android: {
+    //     // paddingTop: globalStyleVariables.STATUSBAR_HEIGHT,
+    //     height:
+    //       globalStyleVariables.STATUSBAR_HEIGHT +
+    //       globalStyleVariables.APPBAR_HEIGHT,
+    //   },
+    // }),
   },
   headerWithoutShadow: {
     shadowOpacity: 0,

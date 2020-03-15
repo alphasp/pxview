@@ -35,27 +35,25 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    height:
-      globalStyleVariables.APPBAR_HEIGHT +
-      globalStyleVariables.STATUSBAR_HEIGHT,
+    height: globalStyleVariables.APPBAR_HEIGHT,
     zIndex: 100,
     backgroundColor: 'rgba(0, 0, 0, .3)',
   },
   subContainer: {
-    ...Platform.select({
-      ios: {
-        paddingTop:
-          parseInt(Platform.Version, 10) < 11
-            ? globalStyleVariables.STATUSBAR_HEIGHT
-            : 0,
-      },
-      android: {
-        paddingTop: globalStyleVariables.STATUSBAR_HEIGHT,
-        height:
-          globalStyleVariables.STATUSBAR_HEIGHT +
-          globalStyleVariables.APPBAR_HEIGHT,
-      },
-    }),
+    // ...Platform.select({
+    //   ios: {
+    //     paddingTop:
+    //       parseInt(Platform.Version, 10) < 11
+    //         ? globalStyleVariables.STATUSBAR_HEIGHT
+    //         : 0,
+    //   },
+    //   android: {
+    //     paddingTop: globalStyleVariables.STATUSBAR_HEIGHT,
+    //     height:
+    //       globalStyleVariables.STATUSBAR_HEIGHT +
+    //       globalStyleVariables.APPBAR_HEIGHT,
+    //   },
+    // }),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

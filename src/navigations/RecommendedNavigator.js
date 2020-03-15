@@ -82,6 +82,7 @@ const RecommendedNavigator = () => {
           headerLeft: () => (
             <DrawerMenuButton onPress={() => navigation.openDrawer()} />
           ),
+          headerStatusBarHeight: 0,
         }}
       />
     </Stack.Navigator>

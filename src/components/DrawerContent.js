@@ -74,7 +74,6 @@ const menuList2 = [
 class DrawerContent extends Component {
   renderCover = () => {
     const { user, i18n, themeName } = this.props;
-    console.log('cover ', user, themeName);
     return (
       <UserCover
         user={user}
@@ -224,6 +223,9 @@ class DrawerContent extends Component {
           globalStyles.container,
           { backgroundColor: theme.colors.surface },
         ]}
+        contentContainerStyle={{
+          paddingTop: 0,
+        }}
       >
         {this.renderCover()}
         <DrawerItemList

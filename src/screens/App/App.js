@@ -8,8 +8,13 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
-  DefaultTheme,
-  DarkTheme,
+  NavigationContainer,
+  DefaultTheme as NavigationDefaultTheme,
+  DarkTheme as NavigationDarkTheme,
+} from '@react-navigation/native';
+import {
+  DefaultTheme as PaperDefaulTheme,
+  DarkTheme as PaperDarkTheme,
   Provider as PaperProvider,
 } from 'react-native-paper';
 import SplashScreen from 'react-native-splash-screen';
@@ -62,30 +67,63 @@ class App extends Component {
   render() {
     const { rehydrated, user, i18n, themeName, initialRouteName } = this.props;
     let renderComponent;
-    const selectedTheme =
-      themeName === THEME_TYPES.DARK ? DarkTheme : DefaultTheme;
-    const theme = {
-      ...selectedTheme,
-      fonts: {
-        ...selectedTheme.fonts,
-        regular: null, // use default font
-        medium: null,
-        light: null,
-        thin: null,
-      },
-      colors: {
-        ...selectedTheme.colors,
-        primary: globalStyleVariables.PRIMARY_COLOR,
-        activeTint: selectedTheme.dark
+    // const theme = {
+    //   ...selectedTheme,
+    //   fonts: {
+    //     ...selectedTheme.fonts,
+    //     regular: null, // use default font
+    //     medium: null,
+    //     light: null,
+    //     thin: null,
+    //   },
+    //   colors: {
+    //     ...selectedTheme.colors,
+    //     primary: globalStyleVariables.PRIMARY_COLOR,
+    //     activeTint: selectedTheme.dark
+    //       ? '#000000'
+    //       : globalStyleVariables.PRIMARY_COLOR,
+    //     headerBackground: selectedTheme.dark
+    //       ? '#1a1a1a'
+    //       : globalStyleVariables.PRIMARY_COLOR,
+    //     modalTitleBackground: selectedTheme.dark ? '#1a1a1a' : '#E9EBEE',
+    //   },
+    //   mode: 'exact',
+    // };
+    let theme;
+    const extraColorsConfig = {
+      primary: globalStyleVariables.PRIMARY_COLOR,
+      activeTint:
+        themeName === THEME_TYPES.DARK
           ? '#000000'
           : globalStyleVariables.PRIMARY_COLOR,
-        headerBackground: selectedTheme.dark
+      headerBackground:
+        themeName === THEME_TYPES.DARK
           ? '#1a1a1a'
           : globalStyleVariables.PRIMARY_COLOR,
-        modalTitleBackground: selectedTheme.dark ? '#1a1a1a' : '#E9EBEE',
-      },
-      mode: 'exact',
+      modalTitleBackground:
+        themeName === THEME_TYPES.DARK ? '#1a1a1a' : '#E9EBEE',
     };
+    if (themeName === THEME_TYPES.DARK) {
+      theme = {
+        ...PaperDarkTheme,
+        ...NavigationDarkTheme,
+        colors: {
+          ...PaperDarkTheme.colors,
+          ...NavigationDarkTheme.colors,
+          ...extraColorsConfig,
+        },
+      };
+    } else {
+      theme = {
+        ...PaperDefaulTheme,
+        ...NavigationDefaultTheme,
+        colors: {
+          ...PaperDefaulTheme.colors,
+          ...NavigationDefaultTheme.colors,
+          ...extraColorsConfig,
+        },
+      };
+    }
     if (!rehydrated) {
       renderComponent = <Loader />;
     } else if (user) {
@@ -101,18 +139,20 @@ class App extends Component {
     }
     return (
       <PaperProvider theme={theme}>
-        <View style={styles.container}>
-          <StatusBar
-            barStyle="light-content"
-            backgroundColor="rgba(0, 0, 0, 0.3)"
-            translucent
-            animated
-          />
-          {renderComponent}
-          <MessageBar ref={ref => (this.messageBarAlert = ref)} />
-          <Toast ref={ref => (this.toast = ref)} opacity={0.7} />
-          <ModalRoot />
-        </View>
+        <NavigationContainer>
+          <View style={styles.container}>
+            <StatusBar
+              barStyle="light-content"
+              backgroundColor="rgba(0, 0, 0, 0.3)"
+              translucent
+              animated
+            />
+            {renderComponent}
+            <MessageBar ref={ref => (this.messageBarAlert = ref)} />
+            <Toast ref={ref => (this.toast = ref)} opacity={0.7} />
+            <ModalRoot />
+          </View>
+        </NavigationContainer>
       </PaperProvider>
     );
   }
