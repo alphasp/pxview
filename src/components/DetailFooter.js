@@ -193,6 +193,7 @@ class DetailFooter extends PureComponent {
                 isFeatureInDetailPage
                 maxItems={6}
                 navigation={navigation}
+                route={route}
               />
             ) : (
               <IllustComments
@@ -201,6 +202,7 @@ class DetailFooter extends PureComponent {
                 isFeatureInDetailPage
                 maxItems={6}
                 navigation={navigation}
+                route={route}
               />
             )}
           </View>
@@ -215,6 +217,7 @@ class DetailFooter extends PureComponent {
                 isFeatureInDetailPage
                 maxItems={6}
                 navigation={navigation}
+                route={route}
               />
             </View>
           )}
@@ -234,6 +237,7 @@ class DetailFooter extends PureComponent {
                 isFeatureInDetailPage
                 maxItems={6}
                 navigation={navigation}
+                route={route}
               />
             </View>
           )}

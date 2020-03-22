@@ -44,6 +44,26 @@ class IllustComments extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const {
+      route,
+      navigation: { setParams },
+      illustId,
+    } = this.props;
+    const { route: prevRoute } = prevProps;
+    if (
+      route.params?.reload &&
+      !prevRoute.params?.reload &&
+      route.params?.fromId === illustId
+    ) {
+      this.handleOnSubmitComment();
+      setParams({
+        reload: false,
+        fromId: null,
+      });
+    }
+  }
+
   loadMoreItems = () => {
     const { fetchIllustComments, illustComments, illustId } = this.props;
     if (illustComments && !illustComments.loading && illustComments.nextUrl) {
@@ -70,34 +90,42 @@ class IllustComments extends Component {
   };
 
   handleOnPressCommentButton = () => {
-    const { checkIfUserEligibleToPostComment } = this.props;
+    const {
+      checkIfUserEligibleToPostComment,
+      illustId,
+      navigation: { navigate },
+      route,
+    } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
-      const {
-        illustId,
-        navigation: { navigate },
-      } = this.props;
       navigate(SCREENS.AddIllustComment, {
         illustId,
-        onSubmitComment: this.handleOnSubmitComment,
+        navigateFrom: {
+          name: route.name,
+          key: route.key,
+        },
       });
     }
   };
 
   handleOnPressReplyCommentButton = (commentItem) => {
-    const { checkIfUserEligibleToPostComment } = this.props;
+    const {
+      checkIfUserEligibleToPostComment,
+      illustId,
+      authorId,
+      navigation: { navigate },
+      route,
+    } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
-      const {
-        illustId,
-        authorId,
-        navigation: { navigate },
-      } = this.props;
       navigate(SCREENS.ReplyIllustComment, {
         illustId,
         authorId,
         commentItem,
-        onSubmitComment: this.handleOnSubmitComment,
+        navigateFrom: {
+          name: route.name,
+          key: route.key,
+        },
       });
     }
   };

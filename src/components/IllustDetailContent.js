@@ -65,8 +65,9 @@ class IllustDetailContent extends Component {
       item: prevItem,
       tags: prevTags,
       isMuteUser: prevIsMuteUser,
+      route: prevRoute,
     } = this.props;
-    const { item, tags, isMuteUser } = nextProps;
+    const { item, tags, isMuteUser, route } = nextProps;
     const {
       isInitState: prevIsInitState,
       isScrolling: prevIsScrolling,
@@ -91,7 +92,8 @@ class IllustDetailContent extends Component {
       isOpenTagBottomSheet !== prevIsOpenTagBottomSheet ||
       selectedTag !== prevSelectedTag ||
       tags !== prevTags ||
-      isMuteUser !== prevIsMuteUser
+      isMuteUser !== prevIsMuteUser ||
+      route !== prevRoute
     ) {
       return true;
     }

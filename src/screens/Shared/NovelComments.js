@@ -44,6 +44,26 @@ class NovelComments extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const {
+      route,
+      navigation: { setParams },
+      novelId,
+    } = this.props;
+    const { route: prevRoute } = prevProps;
+    if (
+      route.params?.reload &&
+      !prevRoute.params?.reload &&
+      route.params?.fromId === novelId
+    ) {
+      this.handleOnSubmitComment();
+      setParams({
+        reload: false,
+        fromId: null,
+      });
+    }
+  }
+
   loadMoreItems = () => {
     const { fetchNovelComments, novelComments, novelId } = this.props;
     if (novelComments && !novelComments.loading && novelComments.nextUrl) {
@@ -70,34 +90,42 @@ class NovelComments extends Component {
   };
 
   handleOnPressCommentButton = () => {
-    const { checkIfUserEligibleToPostComment } = this.props;
+    const {
+      checkIfUserEligibleToPostComment,
+      novelId,
+      navigation: { navigate },
+      route,
+    } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
-      const {
-        novelId,
-        navigation: { navigate },
-      } = this.props;
       navigate(SCREENS.AddNovelComment, {
         novelId,
-        onSubmitComment: this.handleOnSubmitComment,
+        navigateFrom: {
+          name: route.name,
+          key: route.key,
+        },
       });
     }
   };
 
   handleOnPressReplyCommentButton = (commentItem) => {
-    const { checkIfUserEligibleToPostComment } = this.props;
+    const {
+      checkIfUserEligibleToPostComment,
+      novelId,
+      authorId,
+      navigation: { navigate },
+      route,
+    } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
-      const {
-        novelId,
-        authorId,
-        navigation: { navigate },
-      } = this.props;
       navigate(SCREENS.ReplyNovelComment, {
         novelId,
         authorId,
         commentItem,
-        onSubmitComment: this.handleOnSubmitComment,
+        navigateFrom: {
+          name: route.name,
+          key: route.key,
+        },
       });
     }
   };

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import { withTheme, TextInput } from 'react-native-paper';
+import { CommonActions } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../../components/Localization';
@@ -20,23 +21,6 @@ const styles = StyleSheet.create({
 });
 
 class AddNovelComment extends Component {
-  static options = ({ navigation }) => {
-    const { state } = navigation;
-    const { submit, comment, novelId } = state.params;
-    return {
-      headerRight: submit && novelId && (
-        <PXTouchable onPress={submit} disabled={!comment}>
-          <Icon
-            name="pencil"
-            style={{ padding: 10 }}
-            size={20}
-            color={comment ? '#fff' : 'gray'}
-          />
-        </PXTouchable>
-      ),
-    };
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -45,41 +29,60 @@ class AddNovelComment extends Component {
   }
 
   componentDidMount() {
-    const {
-      navigation: { setParams },
-    } = this.props;
-    setParams({
-      submit: this.handleOnSubmitComment,
-      comment: '',
-    });
+    this.setHeaderRight();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { result: prevResult } = this.props;
-    const {
-      result,
-      navigation: { goBack, state },
-    } = nextProps;
+  componentDidUpdate(prevProps) {
+    const { result, navigation, route } = this.props;
+    const { result: prevResult } = prevProps;
     if (result !== prevResult && result.success) {
-      const { onSubmitComment } = state.params;
-      goBack();
-      onSubmitComment();
+      const { navigateFrom, novelId } = route.params;
+      navigation.dispatch(
+        CommonActions.navigate({
+          name: navigateFrom.name,
+          key: navigateFrom.key,
+          params: {
+            reload: true,
+            fromId: novelId,
+          },
+        }),
+      );
     }
   }
 
-  handleOnChangeComment = (text) => {
-    const { setParams } = this.props.navigation;
-    this.setState({
-      comment: text,
-    });
-    setParams({
-      comment: text,
+  setHeaderRight = () => {
+    const {
+      navigation: { setOptions },
+    } = this.props;
+    const { comment } = this.state;
+    setOptions({
+      headerRight: () => (
+        <PXTouchable onPress={this.handleOnSubmitComment} disabled={!comment}>
+          <Icon
+            name="pencil"
+            style={{ padding: 10 }}
+            size={20}
+            color={comment ? '#fff' : 'gray'}
+          />
+        </PXTouchable>
+      ),
     });
   };
 
+  handleOnChangeComment = (text) => {
+    this.setState(
+      {
+        comment: text,
+      },
+      () => {
+        this.setHeaderRight();
+      },
+    );
+  };
+
   handleOnSubmitComment = () => {
-    const { addNovelComment, navigation } = this.props;
-    const { novelId } = navigation.state.params;
+    const { addNovelComment, route } = this.props;
+    const { novelId } = route.params;
     const { comment } = this.state;
     Keyboard.dismiss();
     addNovelComment(novelId, comment);
