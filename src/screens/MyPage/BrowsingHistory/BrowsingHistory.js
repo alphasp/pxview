@@ -1,62 +1,35 @@
-import React, { Component } from 'react';
+import React, { useState, useLayoutEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import BrowsingHistoryIllusts from './BrowsingHistoryIllusts';
 import BrowsingHistoryNovels from './BrowsingHistoryNovels';
-import { connectLocalization } from '../../../components/Localization';
 import PXTabView from '../../../components/PXTabView';
 import HeaderClearButton from '../../../components/HeaderClearButton';
-import * as browsingHistoryIllustsActionCreators from '../../../common/actions/browsingHistoryIllusts';
-import * as browsingHistoryNovelsActionCreators from '../../../common/actions/browsingHistoryNovels';
+import { clearBrowsingHistoryIllusts } from '../../../common/actions/browsingHistoryIllusts';
+import { clearBrowsingHistoryNovels } from '../../../common/actions/browsingHistoryNovels';
+import useLocalization from '../../../components/Localization/useLocalization';
 
-class BrowsingHistory extends Component {
-  static options = oo => {
-    console.log('options ', oo);
-    const { navigation } = oo;
-    const { params } = navigation.state;
-    return {
-      headerRight: params && params.onPressClearBrowsingHistory && (
-        <HeaderClearButton onPress={params.onPressClearBrowsingHistory} />
-      ),
-    };
-  };
+const BrowsingHistory = (props) => {
+  const { navigation, route: navigationRoute } = props;
+  const dispatch = useDispatch();
+  const { i18n } = useLocalization();
+  const [tabsNavigationState, setTabsNavigationState] = useState({
+    index: 0,
+    routes: [
+      { key: '1', title: i18n.illustManga },
+      { key: '2', title: i18n.novel },
+    ],
+  });
 
-  constructor(props) {
-    super(props);
-    const { i18n } = props;
-    this.state = {
-      index: 0,
-      routes: [
-        { key: '1', title: i18n.illustManga },
-        { key: '2', title: i18n.novel },
-      ],
-    };
-  }
-
-  componentDidMount() {
-    const {
-      navigation: { setOptions },
-    } = this.props;
-    setOptions({
-      onPressClearBrowsingHistory: this.handleOnPressClearBrowsingHistory,
-    });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { lang: prevLang } = this.props;
-    const { lang, i18n } = nextProps;
-    if (lang !== prevLang) {
-      this.setState({
-        routes: [
-          { key: '1', title: i18n.illustManga },
-          { key: '2', title: i18n.novel },
-        ],
-      });
+  const handleOnPressConfirmClearBrowsingHistory = useCallback(() => {
+    if (tabsNavigationState.index === 0) {
+      dispatch(clearBrowsingHistoryIllusts());
+    } else {
+      dispatch(clearBrowsingHistoryNovels());
     }
-  }
+  }, [dispatch, tabsNavigationState.index]);
 
-  handleOnPressClearBrowsingHistory = () => {
-    const { i18n } = this.props;
+  const handleOnPressClearBrowsingHistory = useCallback(() => {
     Alert.alert(
       i18n.browsingHistoryClearConfirmation,
       null,
@@ -64,32 +37,34 @@ class BrowsingHistory extends Component {
         { text: i18n.cancel, style: 'cancel' },
         {
           text: i18n.ok,
-          onPress: this.handleOnPressConfirmClearBrowsingHistory,
+          onPress: handleOnPressConfirmClearBrowsingHistory,
         },
       ],
       { cancelable: false },
     );
+  }, [
+    handleOnPressConfirmClearBrowsingHistory,
+    i18n.browsingHistoryClearConfirmation,
+    i18n.cancel,
+    i18n.ok,
+  ]);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderClearButton onPress={handleOnPressClearBrowsingHistory} />
+      ),
+    });
+  }, [handleOnPressClearBrowsingHistory, navigation]);
+
+  const handleChangeTab = (index) => {
+    setTabsNavigationState({
+      ...tabsNavigationState,
+      index,
+    });
   };
 
-  handleOnPressConfirmClearBrowsingHistory = () => {
-    const {
-      clearBrowsingHistoryIllusts,
-      clearBrowsingHistoryNovels,
-    } = this.props;
-    const { index } = this.state;
-    if (index === 0) {
-      clearBrowsingHistoryIllusts();
-    } else {
-      clearBrowsingHistoryNovels();
-    }
-  };
-
-  handleChangeTab = index => {
-    this.setState({ index });
-  };
-
-  renderScene = ({ route }) => {
-    const { route: navigationRoute } = this.props;
+  const renderScene = ({ route }) => {
     switch (route.key) {
       case '1':
         return <BrowsingHistoryIllusts route={navigationRoute} />;
@@ -100,24 +75,13 @@ class BrowsingHistory extends Component {
     }
   };
 
-  render() {
-    console.log('ssss ', this.props);
-    return (
-      <PXTabView
-        navigationState={this.state}
-        renderScene={this.renderScene}
-        onIndexChange={this.handleChangeTab}
-      />
-    );
-  }
-}
+  return (
+    <PXTabView
+      navigationState={tabsNavigationState}
+      renderScene={renderScene}
+      onIndexChange={handleChangeTab}
+    />
+  );
+};
 
-export default connectLocalization(
-  connect(
-    null,
-    {
-      ...browsingHistoryIllustsActionCreators,
-      ...browsingHistoryNovelsActionCreators,
-    },
-  )(BrowsingHistory),
-);
+export default BrowsingHistory;
