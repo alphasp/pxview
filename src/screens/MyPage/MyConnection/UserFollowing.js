@@ -45,7 +45,9 @@ class UserFollowing extends Component {
   };
 
   handleOnPressFindRecommendedUsers = () => {
-    const { push } = this.props.navigation;
+    const {
+      navigation: { push },
+    } = this.props;
     push(SCREENS.RecommendedUsers);
   };
 

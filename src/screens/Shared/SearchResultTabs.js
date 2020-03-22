@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
-import { AndroidBackHandler } from 'react-navigation-backhandler';
 import Search from '../../containers/Search';
 import SearchIllustsResult from '../../containers/SearchIllustsResult';
 import SearchNovelsResult from '../../containers/SearchNovelsResult';
 import SearchUsersResult from '../../containers/SearchUsersResult';
 import { connectLocalization } from '../../components/Localization';
+import AndroidBackHandler from '../../components/AndroidBackHandler';
 import PXSearchBar from '../../components/PXSearchBar';
 import HeaderFilterButton from '../../components/HeaderFilterButton';
 import HeaderEncyclopediaButton from '../../components/HeaderEncyclopediaButton';
@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
 class SearchResultTabs extends Component {
   constructor(props) {
     super(props);
-    const { word, navigation } = props;
-    const { searchType } = navigation.state.params;
+    const { word, route } = props;
+    const { searchType } = route.params;
     this.state = {
       searchType,
       newSearchType: searchType,

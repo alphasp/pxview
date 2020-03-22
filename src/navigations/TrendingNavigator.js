@@ -1,51 +1,48 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createCompatNavigatorFactory } from '@react-navigation/compat';
+import { useTheme } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 import Trending from '../screens/Trending/Trending';
 import DrawerMenuButton from '../components/DrawerMenuButton';
-import DrawerIcon from '../components/DrawerIcon';
-import { globalStyles, globalStyleVariables } from '../styles';
+import {
+  globalStyles,
+  globalStyleVariables,
+  getThemedHeaderStyle,
+} from '../styles';
 import config from '../common/config';
 import { SCREENS } from '../common/constants';
 
-const routeConfig = {
-  [SCREENS.Trending]: {
-    screen: Trending,
-    options: config.navigation.tab
-      ? { header: null }
-      : ({ navigation }) => ({
-          header: null,
+const Stack = createStackNavigator();
+
+const TrendingNavigator = () => {
+  const theme = useTheme();
+  const navigation = useNavigation();
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: config.navigation.tab
+          ? globalStyles.header
+          : globalStyles.headerWithoutShadow,
+        headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
+        headerBackTitle: null,
+      }}
+      cardStyle={globalStyles.card}
+      headerMode="screen"
+    >
+      <Stack.Screen
+        name={SCREENS.Trending}
+        component={Trending}
+        options={{
+          headerStyle: getThemedHeaderStyle(theme, false),
           headerLeft: () => (
             <DrawerMenuButton onPress={() => navigation.openDrawer()} />
           ),
-        }),
-  },
+          headerStatusBarHeight: 0,
+          header: () => null,
+        }}
+      />
+    </Stack.Navigator>
+  );
 };
-
-const stackConfig = {
-  screenOptions: {
-    headerStyle: config.navigation.tab
-      ? globalStyles.header
-      : globalStyles.headerWithoutShadow,
-    headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
-    headerBackTitle: null,
-  },
-  cardStyle: globalStyles.card,
-  headerMode: 'screen',
-};
-
-const TrendingNavigator = createCompatNavigatorFactory(createStackNavigator)(
-  routeConfig,
-  stackConfig,
-);
-
-if (!config.navigation.tab) {
-  TrendingNavigator.options = ({ screenProps: { i18n } }) => ({
-    drawerLabel: i18n.search,
-    drawerIcon: ({ tintColor }) => (
-      <DrawerIcon name="search" color={tintColor} />
-    ),
-  });
-}
 
 export default TrendingNavigator;

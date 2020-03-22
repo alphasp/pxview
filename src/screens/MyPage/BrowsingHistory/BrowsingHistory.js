@@ -10,7 +10,9 @@ import * as browsingHistoryIllustsActionCreators from '../../../common/actions/b
 import * as browsingHistoryNovelsActionCreators from '../../../common/actions/browsingHistoryNovels';
 
 class BrowsingHistory extends Component {
-  static options = ({ navigation }) => {
+  static options = oo => {
+    console.log('options ', oo);
+    const { navigation } = oo;
     const { params } = navigation.state;
     return {
       headerRight: params && params.onPressClearBrowsingHistory && (
@@ -32,8 +34,10 @@ class BrowsingHistory extends Component {
   }
 
   componentDidMount() {
-    const { setParams } = this.props.navigation;
-    setParams({
+    const {
+      navigation: { setOptions },
+    } = this.props;
+    setOptions({
       onPressClearBrowsingHistory: this.handleOnPressClearBrowsingHistory,
     });
   }
@@ -85,18 +89,19 @@ class BrowsingHistory extends Component {
   };
 
   renderScene = ({ route }) => {
-    const { navigation } = this.props;
+    const { route: navigationRoute } = this.props;
     switch (route.key) {
       case '1':
-        return <BrowsingHistoryIllusts navigation={navigation} />;
+        return <BrowsingHistoryIllusts route={navigationRoute} />;
       case '2':
-        return <BrowsingHistoryNovels navigation={navigation} />;
+        return <BrowsingHistoryNovels route={navigationRoute} />;
       default:
         return null;
     }
   };
 
   render() {
+    console.log('ssss ', this.props);
     return (
       <PXTabView
         navigationState={this.state}

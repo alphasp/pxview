@@ -1,91 +1,68 @@
 import React from 'react';
+import { useTheme } from 'react-native-paper';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createCompatNavigatorFactory } from '@react-navigation/compat';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import RankingPreview from '../screens/Ranking/RankingPreview';
 import Ranking from '../screens/Ranking/Ranking';
 import NovelRanking from '../screens/Ranking/NovelRanking';
+import useLocalization from '../components/Localization/useLocalization';
 import DrawerMenuButton from '../components/DrawerMenuButton';
-import DrawerIcon from '../components/DrawerIcon';
 import {
   globalStyles,
   globalStyleVariables,
   getThemedHeaderStyle,
 } from '../styles';
 import config from '../common/config';
-import { SCREENS, RANKING_TYPES } from '../common/constants';
+import { SCREENS } from '../common/constants';
 
-const mapRankingTypeString = (rankingType, i18n) => {
-  switch (rankingType) {
-    case RANKING_TYPES.ILLUST:
-      return i18n.illustration;
-    case RANKING_TYPES.MANGA:
-      return i18n.manga;
-    case RANKING_TYPES.NOVEL:
-      return i18n.novel;
-    default:
-      return '';
-  }
-};
+const Stack = createStackNavigator();
 
-const routeConfig = {
-  [SCREENS.RankingPreview]: {
-    screen: RankingPreview,
-    options: config.navigation.tab
-      ? { header: null }
-      : ({ navigation, screenProps: { i18n, theme } }) => ({
+const RankingNavigator = () => {
+  const theme = useTheme();
+  const { i18n } = useLocalization();
+  const navigation = useNavigation();
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: config.navigation.tab
+          ? globalStyles.header
+          : globalStyles.headerWithoutShadow,
+        headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
+        headerBackTitle: null,
+      }}
+      cardStyle={globalStyles.card}
+      headerMode="screen"
+    >
+      <Stack.Screen
+        name={SCREENS.RankingPreview}
+        component={RankingPreview}
+        options={{
           title: i18n.ranking,
           headerStyle: getThemedHeaderStyle(theme),
           headerLeft: () => (
             <DrawerMenuButton onPress={() => navigation.openDrawer()} />
           ),
-        }),
-  },
-  [SCREENS.Ranking]: {
-    screen: Ranking,
-    options: ({ screenProps: { i18n, theme }, navigation }) => ({
-      title: `${mapRankingTypeString(
-        navigation.state.params.rankingType,
-        i18n,
-      )} ${i18n.ranking}`,
-      headerStyle: getThemedHeaderStyle(theme),
-    }),
-  },
-  [SCREENS.NovelRanking]: {
-    screen: NovelRanking,
-    options: ({ screenProps: { i18n, theme }, navigation }) => ({
-      title: `${mapRankingTypeString(
-        navigation.state.params.rankingType,
-        i18n,
-      )} ${i18n.ranking}`,
-      headerStyle: getThemedHeaderStyle(theme),
-    }),
-  },
+          headerStatusBarHeight: 0,
+        }}
+      />
+      {/* <Stack.Screen
+        name={SCREENS.Ranking}
+        component={Ranking}
+        options={{
+          headerStyle: getThemedHeaderStyle(theme),
+          headerStatusBarHeight: 0,
+        }}
+      /> */}
+      {/* <Stack.Screen
+        name={SCREENS.NovelRanking}
+        component={NovelRanking}
+        options={{
+          headerStyle: getThemedHeaderStyle(theme),
+          headerStatusBarHeight: 0,
+        }}
+      /> */}
+    </Stack.Navigator>
+  );
 };
-
-const stackConfig = {
-  screenOptions: {
-    headerStyle: config.navigation.tab
-      ? globalStyles.header
-      : globalStyles.headerWithoutShadow,
-    headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
-    headerBackTitle: null,
-  },
-  cardStyle: globalStyles.card,
-  headerMode: 'screen',
-};
-
-const RankingNavigator = createCompatNavigatorFactory(createStackNavigator)(
-  routeConfig,
-  stackConfig,
-);
-
-if (!config.navigation.tab) {
-  RankingNavigator.options = ({ screenProps: { i18n } }) => ({
-    drawerLabel: i18n.ranking,
-    drawerIcon: ({ tintColor }) => (
-      <DrawerIcon name="trophy" color={tintColor} />
-    ),
-  });
-}
 
 export default RankingNavigator;

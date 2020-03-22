@@ -6,6 +6,7 @@ import TabContentWrapper from '../../components/TabContentWrapper';
 import { connectLocalization } from '../../components/Localization';
 import { RANKING_FOR_UI } from '../../common/constants';
 import config from '../../common/config';
+import mapRankingTypeString from '../../common/helpers/mapRankingTypeString';
 
 class NovelRanking extends Component {
   constructor(props) {
@@ -14,6 +15,15 @@ class NovelRanking extends Component {
       index: 0,
       routes: this.getRoutes(),
     };
+  }
+
+  componentDidMount() {
+    const { navigation, route, i18n } = this.props;
+    navigation.setOptions({
+      title: `${mapRankingTypeString(route.params?.rankingType, i18n)} ${
+        i18n.ranking
+      }`,
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -69,8 +79,8 @@ class NovelRanking extends Component {
   };
 
   renderScene = ({ index }) => {
-    const { navigation } = this.props;
-    const { rankingType } = navigation.state.params;
+    const { route } = this.props;
+    const { rankingType } = route;
     const { rankingMode, reload } = this.state.routes[index];
     return (
       <TabContentWrapper active={index === this.state.index}>
@@ -78,12 +88,12 @@ class NovelRanking extends Component {
           <PastRanking
             rankingType={rankingType}
             rankingMode={rankingMode}
-            navigation={navigation}
+            route={route}
           />
         ) : (
           <NovelRankingList
             rankingMode={rankingMode}
-            navigation={navigation}
+            route={route}
             reload={reload}
           />
         )}

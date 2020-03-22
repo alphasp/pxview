@@ -10,7 +10,6 @@ class Recommended extends Component {
   constructor(props) {
     super(props);
     const { i18n } = props;
-    console.log('rr ', i18n.illust, i18n);
     this.state = {
       index: 0,
       routes: [

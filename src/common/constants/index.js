@@ -179,6 +179,7 @@ export const SCREENS = {
   NewWorksTab: 'NewWorksTab',
   MyPageTab: 'MyPageTab',
   Recommended: 'Recommended',
+  RankingPreview: 'RankingPreview',
   Ranking: 'Ranking',
   NovelRanking: 'NovelRanking',
   Trending: 'Trending',

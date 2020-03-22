@@ -67,8 +67,8 @@ class MyCollection extends Component {
   };
 
   renderScene = ({ route }) => {
-    const { navigation } = this.props;
-    const { userId } = navigation.state.params;
+    const { navigation, route: navigationRoute } = this.props;
+    const { userId } = navigationRoute.params;
     const {
       selectedPublicIllustTag,
       selectedPrivateIllustTag,
@@ -83,6 +83,7 @@ class MyCollection extends Component {
             tag={selectedPublicIllustTag}
             reload
             navigation={navigation}
+            route={route}
           />
         );
       case '2':
@@ -91,6 +92,7 @@ class MyCollection extends Component {
             userId={userId}
             tag={selectedPrivateIllustTag}
             navigation={navigation}
+            route={route}
           />
         );
       case '3':
@@ -100,6 +102,7 @@ class MyCollection extends Component {
             tag={selectedPublicNovelTag}
             reload
             navigation={navigation}
+            route={route}
           />
         );
       case '4':
@@ -108,6 +111,7 @@ class MyCollection extends Component {
             userId={userId}
             tag={selectedPrivateNovelTag}
             navigation={navigation}
+            route={route}
           />
         );
       default:
@@ -153,8 +157,8 @@ class MyCollection extends Component {
   };
 
   render() {
-    const isOpenFilterModal =
-      this.props.route.params.isOpenFilterModal || false;
+    const { route } = this.props;
+    const isOpenFilterModal = route.params?.isOpenFilterModal || false;
     const {
       index,
       selectedPublicIllustTag,

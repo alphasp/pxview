@@ -41,8 +41,9 @@ class MyConnection extends Component {
   };
 
   renderScene = ({ route }) => {
-    const { navigation } = this.props;
-    const { userId } = navigation.state.params;
+    const { navigation, route: navigationRoute } = this.props;
+    const { userId } = navigationRoute.params;
+
     switch (route.key) {
       case '1':
         return (
@@ -50,6 +51,7 @@ class MyConnection extends Component {
             userId={userId}
             followingType={FOLLOWING_TYPES.PUBLIC}
             navigation={navigation}
+            route={navigationRoute}
           />
         );
       case '2':
@@ -58,12 +60,25 @@ class MyConnection extends Component {
             userId={userId}
             followingType={FOLLOWING_TYPES.PRIVATE}
             navigation={navigation}
+            route={navigationRoute}
           />
         );
       case '3':
-        return <UserFollowers userId={userId} navigation={navigation} />;
+        return (
+          <UserFollowers
+            userId={userId}
+            navigation={navigation}
+            route={navigationRoute}
+          />
+        );
       case '4':
-        return <UserMyPixiv userId={userId} navigation={navigation} />;
+        return (
+          <UserMyPixiv
+            userId={userId}
+            navigation={navigation}
+            route={navigationRoute}
+          />
+        );
       default:
         return null;
     }

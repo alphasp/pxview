@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
 import RankingList from './RankingList';
 import PastRanking from './PastRanking';
 import PXTabView from '../../components/PXTabView';
 import TabContentWrapper from '../../components/TabContentWrapper';
 import { connectLocalization } from '../../components/Localization';
 import { RANKING_TYPES, RANKING_FOR_UI } from '../../common/constants';
+import mapRankingTypeString from '../../common/helpers/mapRankingTypeString';
 
 class Ranking extends Component {
   constructor(props) {
@@ -14,6 +14,15 @@ class Ranking extends Component {
       index: 0,
       routes: this.getRoutes(),
     };
+  }
+
+  componentDidMount() {
+    const { navigation, route, i18n } = this.props;
+    navigation.setOptions({
+      title: `${mapRankingTypeString(route.params?.rankingType, i18n)} ${
+        i18n.ranking
+      }`,
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -27,8 +36,8 @@ class Ranking extends Component {
   }
 
   getRoutes = () => {
-    const { i18n, navigation } = this.props;
-    const { rankingType } = navigation.state.params;
+    const { i18n, route } = this.props;
+    const { rankingType } = route.params;
     // always return new array so that localized title will be updated on switch language
     switch (rankingType) {
       case RANKING_TYPES.ILLUST:
@@ -113,42 +122,41 @@ class Ranking extends Component {
     this.setState({ index });
   };
 
-  // renderScene = ({ index }) => {
-  //   const { navigation } = this.props;
-  //   const { rankingType } = navigation.state.params;
-  //   const { rankingMode, reload } = this.state.routes[index];
-  //   return (
-  //     <TabContentWrapper active={index === this.state.index}>
-  //       {rankingMode === RANKING_FOR_UI.PAST_ILLUST ||
-  //       rankingMode === RANKING_FOR_UI.PAST_MANGA ? (
-  //         <PastRanking
-  //           rankingType={rankingType}
-  //           rankingMode={rankingMode}
-  //           navigation={navigation}
-  //         />
-  //       ) : (
-  //         <RankingList
-  //           rankingMode={rankingMode}
-  //           navigation={navigation}
-  //           reload={reload}
-  //         />
-  //       )}
-  //     </TabContentWrapper>
-  //   );
-  // };
+  renderScene = ({ index }) => {
+    const { route } = this.props;
+    const { rankingType } = route.params;
+    const { rankingMode, reload } = this.state.routes[index];
+    return (
+      <TabContentWrapper active={index === this.state.index}>
+        {rankingMode === RANKING_FOR_UI.PAST_ILLUST ||
+        rankingMode === RANKING_FOR_UI.PAST_MANGA ? (
+          <PastRanking
+            rankingType={rankingType}
+            rankingMode={rankingMode}
+            route={route}
+          />
+        ) : (
+          <RankingList
+            rankingMode={rankingMode}
+            route={route}
+            reload={reload}
+          />
+        )}
+      </TabContentWrapper>
+    );
+  };
 
   render() {
-    return <View />;
-    // return (
-    //   <PXTabView
-    //     navigationState={this.state}
-    //     renderScene={this.renderScene}
-    //     onIndexChange={this.handleChangeTab}
-    //     tabBarProps={{
-    //       scrollEnabled: true,
-    //     }}
-    //   />
-    // );
+    return (
+      <PXTabView
+        navigationState={this.state}
+        renderScene={this.renderScene}
+        onIndexChange={this.handleChangeTab}
+        tabBarProps={{
+          scrollEnabled: true,
+        }}
+      />
+    );
   }
 }
 

@@ -49,23 +49,32 @@ class UserNewWorks extends Component {
   };
 
   renderContent = () => {
-    const { navigation } = this.props;
+    const { navigation, route } = this.props;
     const { index } = this.state;
     switch (index) {
       case 0:
         return (
           <NewIllusts
             navigation={navigation}
+            route={route}
             renderHeader={this.renderHeader}
           />
         );
       case 1:
         return (
-          <NewMangas navigation={navigation} renderHeader={this.renderHeader} />
+          <NewMangas
+            navigation={navigation}
+            route={route}
+            renderHeader={this.renderHeader}
+          />
         );
       case 2:
         return (
-          <NewNovels navigation={navigation} renderHeader={this.renderHeader} />
+          <NewNovels
+            navigation={navigation}
+            route={route}
+            renderHeader={this.renderHeader}
+          />
         );
       default:
         return null;

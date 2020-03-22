@@ -8,13 +8,14 @@ import {
   LayoutAnimation,
   UIManager,
   DeviceEventEmitter,
+  BackHandler,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withTheme } from 'react-native-paper';
-import { AndroidBackHandler } from 'react-navigation-backhandler';
 import Share from 'react-native-share';
 import ActionButton from 'react-native-action-button';
 import enhanceSaveImage from '../../components/HOC/enhanceSaveImage';
+import AndroidBackHandler from '../../components/AndroidBackHandler';
 import IllustDetailContent from '../../components/IllustDetailContent';
 import PXHeader from '../../components/PXHeader';
 import PXViewPager from '../../components/PXViewPager';
@@ -424,7 +425,7 @@ class Detail extends Component {
   };
 
   render() {
-    const { item, isMuteUser, i18n, navigation, theme } = this.props;
+    const { item, isMuteUser, i18n, navigation, theme, route } = this.props;
     const {
       isActionButtonVisible,
       isOpenDetailInfoModal,
@@ -452,6 +453,7 @@ class Detail extends Component {
           <DetailInfoModal
             item={item}
             navigation={navigation}
+            route={route}
             visible={isOpenDetailInfoModal}
             onCancel={this.handleOnCancelDetailInfoModal}
           />
@@ -502,7 +504,6 @@ export default withTheme(
       () => {
         const getDetailItem = makeGetDetailItem();
         return (state, props) => {
-          console.log('props ', props);
           const item = getDetailItem(state, props);
           const isMuteUser = item
             ? state.muteUsers.items.some(m => m === item.user.id)

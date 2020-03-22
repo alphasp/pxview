@@ -192,6 +192,7 @@ class DetailInfoModal extends Component {
       highlightTags,
       muteTags,
       theme,
+      route,
     } = this.props;
     const {
       animatedHeight,
@@ -298,7 +299,7 @@ class DetailInfoModal extends Component {
                   </View>
                   <RelatedIllusts
                     illustId={item.id}
-                    listKey={`relatedIllusts-${navigation.state.key}-${item.id}`}
+                    listKey={`relatedIllusts-${route.key}-${item.id}`}
                     isFeatureInDetailPage
                     maxItems={6}
                     navigation={navigation}

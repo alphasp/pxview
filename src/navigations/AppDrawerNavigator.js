@@ -37,7 +37,7 @@ const createAppDrawerNavigator = ({ initialRouteName }) => {
         }}
       />
       <Drawer.Screen
-        name={SCREENS.Ranking}
+        name={SCREENS.RankingPreview}
         component={RankingNavigator}
         options={{
           drawerLabel: i18n.ranking,

@@ -11,10 +11,10 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withTheme } from 'react-native-paper';
-import { AndroidBackHandler } from 'react-navigation-backhandler';
 import Share from 'react-native-share';
 import ActionButton from 'react-native-action-button';
 import enhanceSaveImage from '../../components/HOC/enhanceSaveImage';
+import AndroidBackHandler from '../../components/AndroidBackHandler';
 import NovelDetailContent from '../../components/NovelDetailContent';
 import PXHeader from '../../components/PXHeader';
 import PXViewPager from '../../components/PXViewPager';
@@ -137,6 +137,9 @@ class NovelDetail extends Component {
   componentWillUnmount() {
     if (this.masterListUpdateListener) {
       this.masterListUpdateListener.remove();
+    }
+    if (this.navigationListener) {
+      this.navigationListener();
     }
   }
 
@@ -400,7 +403,7 @@ class NovelDetail extends Component {
   };
 
   render() {
-    const { item, isMuteUser, i18n, navigation, theme } = this.props;
+    const { item, isMuteUser, i18n, navigation, route, theme } = this.props;
     const {
       isActionButtonVisible,
       isOpenMenuBottomSheet,
@@ -427,6 +430,7 @@ class NovelDetail extends Component {
           <DetailInfoModal
             item={item}
             navigation={navigation}
+            route={route}
             visible={isOpenDetailInfoModal}
             onCancel={this.handleOnCancelDetailInfoModal}
           />

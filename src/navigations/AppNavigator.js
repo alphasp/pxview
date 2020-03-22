@@ -30,7 +30,8 @@ import RelatedIllusts from '../screens/Shared/RelatedIllusts';
 import SearchResultTabs from '../screens/Shared/SearchResultTabs';
 import RecommendedUsers from '../screens/Shared/RecommendedUsers';
 import ImagesViewer from '../screens/Shared/ImagesViewer';
-
+import Ranking from '../screens/Ranking/Ranking';
+import NovelRanking from '../screens/Ranking/NovelRanking';
 import MyWorks from '../screens/MyPage/MyWorks';
 import MyConnection from '../screens/MyPage/MyConnection/MyConnection';
 import MyCollection from '../screens/MyPage/MyCollection/MyCollection';
@@ -421,6 +422,22 @@ const AppNavigator = ({ initialRouteName }) => {
             options={{
               title: i18n.about,
               headerStyle,
+            }}
+          />
+          <Stack.Screen
+            name={SCREENS.NovelRanking}
+            component={NovelRanking}
+            options={{
+              headerStyle: getThemedHeaderStyle(theme),
+              headerStatusBarHeight: 0,
+            }}
+          />
+          <Stack.Screen
+            name={SCREENS.Ranking}
+            component={Ranking}
+            options={{
+              headerStyle: getThemedHeaderStyle(theme),
+              headerStatusBarHeight: 0,
             }}
           />
         </Stack.Navigator>

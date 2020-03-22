@@ -141,14 +141,7 @@ class PastRanking extends Component {
   );
 
   render() {
-    const {
-      user,
-      i18n,
-      navigation,
-      rankingMode,
-      rankingType,
-      theme,
-    } = this.props;
+    const { user, i18n, route, rankingMode, rankingType, theme } = this.props;
     const { date, mode, isOpenRankingModeBottomSheet } = this.state;
     const selectedRankingMode =
       rankingType === RANKING_TYPES.MANGA ? mode.replace('_manga', '') : mode;
@@ -204,13 +197,13 @@ class PastRanking extends Component {
           <NovelRankingList
             rankingMode={rankingMode}
             options={{ date, mode }}
-            navigation={navigation}
+            route={route}
           />
         ) : (
           <RankingList
             rankingMode={rankingMode}
             options={{ date, mode }}
-            navigation={navigation}
+            route={route}
           />
         )}
 

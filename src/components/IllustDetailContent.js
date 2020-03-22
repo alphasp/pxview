@@ -247,7 +247,6 @@ class IllustDetailContent extends Component {
 
   renderFooter = () => {
     const { item, navigation, authUser, tags, route } = this.props;
-    console.log('foo ', this.props);
     return (
       <DetailFooter
         onLayoutView={this.handleOnLayoutFooter}

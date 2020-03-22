@@ -11,7 +11,7 @@ const screenList = [
     id: SCREENS.Recommended,
   },
   {
-    id: SCREENS.Ranking,
+    id: SCREENS.RankingPreview,
   },
   {
     id: SCREENS.Trending,
@@ -27,6 +27,7 @@ class InitialScreenSettingsModal extends Component {
     switch (routeId) {
       case SCREENS.Recommended:
         return i18n.recommended;
+      case SCREENS.RankingPreview:
       case SCREENS.Ranking:
         return i18n.ranking;
       case SCREENS.Trending:

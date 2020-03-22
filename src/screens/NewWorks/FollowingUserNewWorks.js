@@ -118,13 +118,14 @@ class FollowingUserNewWorks extends Component {
   };
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, route } = this.props;
     const { index, isOpenFilterModal, options } = this.state;
     return (
       <View style={globalStyles.container}>
         {index === 0 ? (
           <FollowingUserIllusts
             navigation={navigation}
+            route={route}
             renderEmpty={this.renderEmpty}
             renderHeader={this.renderHeader}
             options={options}
@@ -132,6 +133,7 @@ class FollowingUserNewWorks extends Component {
         ) : (
           <FollowingUserNovels
             navigation={navigation}
+            route={route}
             renderEmpty={this.renderEmpty}
             renderHeader={this.renderHeader}
             options={options}
