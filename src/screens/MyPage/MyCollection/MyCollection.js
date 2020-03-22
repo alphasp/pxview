@@ -18,17 +18,6 @@ const styles = StyleSheet.create({
 });
 
 class MyCollection extends Component {
-  static options = ({ navigation }) => {
-    const { setParams } = navigation;
-    return {
-      headerRight: (
-        <HeaderFilterButton
-          onPress={() => setParams({ isOpenFilterModal: true })}
-        />
-      ),
-    };
-  };
-
   constructor(props) {
     super(props);
     const { i18n } = props;
@@ -44,23 +33,24 @@ class MyCollection extends Component {
       selectedPrivateIllustTag: '',
       selectedPublicNovelTag: '',
       selectedPrivateNovelTag: '',
+      isOpenFilterModal: false,
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { lang: prevLang } = this.props;
-    const { lang, i18n } = nextProps;
-    if (lang !== prevLang) {
-      this.setState({
-        routes: [
-          { key: '1', title: i18n.illustrationPublic },
-          { key: '2', title: i18n.illustrationPrivate },
-          { key: '3', title: i18n.novelPublic },
-          { key: '4', title: i18n.novelPrivate },
-        ],
-      });
-    }
+  componentDidMount() {
+    this.setHeaderRight();
   }
+
+  setHeaderRight = () => {
+    const {
+      navigation: { setOptions },
+    } = this.props;
+    setOptions({
+      headerRight: () => (
+        <HeaderFilterButton onPress={this.handleOnPressOpenFilterModal} />
+      ),
+    });
+  };
 
   handleChangeTab = (index) => {
     this.setState({ index });
@@ -119,21 +109,23 @@ class MyCollection extends Component {
     }
   };
 
+  handleOnPressOpenFilterModal = () => {
+    this.setState({
+      isOpenFilterModal: true,
+    });
+  };
+
   handleOnPressCloseFilterButton = () => {
-    const {
-      navigation: { setParams },
-    } = this.props;
-    setParams({
+    this.setState({
       isOpenFilterModal: false,
     });
   };
 
   handleOnSelectTag = (tag) => {
-    const {
-      navigation: { setParams },
-    } = this.props;
     const { index } = this.state;
-    const newState = {};
+    const newState = {
+      isOpenFilterModal: false,
+    };
     switch (index) {
       case 0:
         newState.selectedPublicIllustTag = tag;
@@ -150,16 +142,12 @@ class MyCollection extends Component {
       default:
         break;
     }
-    setParams({
-      isOpenFilterModal: false,
-    });
     this.setState(newState);
   };
 
   render() {
-    const { route } = this.props;
-    const isOpenFilterModal = route.params?.isOpenFilterModal || false;
     const {
+      isOpenFilterModal,
       index,
       selectedPublicIllustTag,
       selectedPrivateIllustTag,

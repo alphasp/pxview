@@ -36,22 +36,6 @@ const styles = StyleSheet.create({
 });
 
 class Feedback extends Component {
-  static options = ({ navigation }) => {
-    const { params } = navigation.state;
-    return {
-      headerRight: params && params.submit && (
-        <PXTouchable onPress={params.submit} disabled={!params.feedback}>
-          <Icon
-            name="pencil"
-            style={{ padding: 10 }}
-            size={20}
-            color={params.feedback ? '#fff' : 'gray'}
-          />
-        </PXTouchable>
-      ),
-    };
-  };
-
   constructor(props) {
     super(props);
     const { user } = props;
@@ -63,13 +47,7 @@ class Feedback extends Component {
   }
 
   componentDidMount() {
-    const {
-      navigation: { setParams },
-    } = this.props;
-    setParams({
-      submit: this.handleOnSubmitFeedback,
-      feedback: '',
-    });
+    this.setHeaderRight();
     this.ref = firebase.database().ref('feedback');
   }
 
@@ -77,14 +55,34 @@ class Feedback extends Component {
     this.ref.off();
   }
 
+  setHeaderRight = () => {
+    const {
+      navigation: { setOptions },
+    } = this.props;
+    const { feedback } = this.state;
+    setOptions({
+      headerRight: () => (
+        <PXTouchable onPress={this.handleOnSubmitFeedback} disabled={!feedback}>
+          <Icon
+            name="pencil"
+            style={{ padding: 10 }}
+            size={20}
+            color={feedback ? '#fff' : 'gray'}
+          />
+        </PXTouchable>
+      ),
+    });
+  };
+
   handleOnChangeFeedback = (text) => {
-    const { setParams } = this.props.navigation;
-    this.setState({
-      feedback: text,
-    });
-    setParams({
-      feedback: text,
-    });
+    this.setState(
+      {
+        feedback: text,
+      },
+      () => {
+        this.setHeaderRight();
+      },
+    );
   };
 
   handleOnChangeEmail = (text) => {
