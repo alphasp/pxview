@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import rootReducer from '../reducers';
 import rootSaga from '../sagas';
 import getStoredStateMigrateToFileSystemStorage from './getStoredStateMigrateToFileSystemStorage';
+import { SCREENS } from '../constants';
 
 const myTransform = createTransform(
   (inboundState, key, state) => {
@@ -79,6 +80,17 @@ const myTransform = createTransform(
           ),
         };
       }
+      case 'initialScreenSettings': {
+        const { initialScreenSettings } = state;
+        // migrate Ranking To RankingPreview as navigator changed
+        return {
+          ...inboundState,
+          routeName:
+            initialScreenSettings.routeName === SCREENS.Ranking
+              ? SCREENS.RankingPreview
+              : initialScreenSettings.routeName,
+        };
+      }
       default:
         return inboundState;
     }
@@ -90,6 +102,7 @@ const myTransform = createTransform(
       'browsingHistoryIllusts',
       'browsingHistoryNovels',
       'muteUsers',
+      'initialScreenSettings',
     ],
   },
 );
