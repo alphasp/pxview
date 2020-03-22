@@ -76,7 +76,7 @@ class DetailFooter extends PureComponent {
     onPressAvatar(item.user.id);
   };
 
-  handleOnPressLink = url => {
+  handleOnPressLink = (url) => {
     const {
       navigation: { push },
     } = this.props;
@@ -97,13 +97,13 @@ class DetailFooter extends PureComponent {
       }
     } else {
       Linking.canOpenURL(url)
-        .then(supported => {
+        .then((supported) => {
           if (!supported) {
             return null;
           }
           return Linking.openURL(url);
         })
-        .catch(err => err);
+        .catch((err) => err);
     }
   };
 

@@ -8,11 +8,11 @@ import {
 } from '../../common/actions/recommendedMangas';
 import { getRecommendedMangasItems } from '../../common/selectors';
 
-const RecommendedMangas = props => {
+const RecommendedMangas = (props) => {
   const dispatch = useDispatch();
-  const allState = useSelector(state => state);
-  const recommendedMangas = useSelector(state => state.recommendedMangas);
-  const navigationState = useNavigationState(state => state);
+  const allState = useSelector((state) => state);
+  const recommendedMangas = useSelector((state) => state.recommendedMangas);
+  const navigationState = useNavigationState((state) => state);
   const items = getRecommendedMangasItems(allState, props);
   const listKey = `${navigationState.key}-recommendedMangas`;
   useEffect(() => {

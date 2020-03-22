@@ -20,7 +20,7 @@ export function* handleFetchUserMyPixiv(action) {
     }
     const transformedResult = {
       ...response,
-      user_previews: response.user_previews.map(result => ({
+      user_previews: response.user_previews.map((result) => ({
         ...result,
         id: result.user.id,
       })),

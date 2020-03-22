@@ -52,16 +52,16 @@ class TagSettings extends Component {
     }
   };
 
-  handleOnPressRemoveTag = tag => {
+  handleOnPressRemoveTag = (tag) => {
     const { removeTag } = this.props;
     removeTag(tag);
   };
 
-  handleOnChangeFormInputText = text => {
+  handleOnChangeFormInputText = (text) => {
     this.setState({ newTag: text });
   };
 
-  showToast = message => {
+  showToast = (message) => {
     DeviceEventEmitter.emit('showToast', message);
   };
 
@@ -87,7 +87,7 @@ class TagSettings extends Component {
       >
         <View style={styles.inputContainer}>
           <TextInput
-            ref={ref => (this.textInput = ref)}
+            ref={(ref) => (this.textInput = ref)}
             placeholder={textInputPlaceholder}
             autoCorrect={false}
             style={[
@@ -109,7 +109,7 @@ class TagSettings extends Component {
         </View>
         <FlatList
           data={items}
-          keyExtractor={item => item}
+          keyExtractor={(item) => item}
           renderItem={this.renderItem}
         />
       </View>

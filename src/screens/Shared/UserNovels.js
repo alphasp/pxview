@@ -42,19 +42,16 @@ class UserNovels extends Component {
   }
 }
 
-export default connect(
-  () => {
-    const getUserNovelsItems = makeGetUserNovelsItems();
-    return (state, props) => {
-      const { userNovels } = state;
-      const userId = props.userId || props.route.params.userId;
-      return {
-        userNovels: userNovels[userId],
-        items: getUserNovelsItems(state, props),
-        userId,
-        listKey: props.route.key,
-      };
+export default connect(() => {
+  const getUserNovelsItems = makeGetUserNovelsItems();
+  return (state, props) => {
+    const { userNovels } = state;
+    const userId = props.userId || props.route.params.userId;
+    return {
+      userNovels: userNovels[userId],
+      items: getUserNovelsItems(state, props),
+      userId,
+      listKey: props.route.key,
     };
-  },
-  userNovelsActionCreators,
-)(UserNovels);
+  };
+}, userNovelsActionCreators)(UserNovels);

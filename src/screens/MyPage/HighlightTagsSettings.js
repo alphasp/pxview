@@ -20,7 +20,7 @@ const HighlightTagsSettings = ({
 
 export default connectLocalization(
   connect(
-    state => ({
+    (state) => ({
       highlightTags: state.highlightTags.items,
     }),
     highlightTagsActionCreators,

@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 
 const Tags = ({ tags, onPressTag, onLongPressTag }) => (
   <View style={styles.container}>
-    {tags.map(tag => (
+    {tags.map((tag) => (
       <PXTouchable
         key={tag.name}
         style={

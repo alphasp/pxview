@@ -72,17 +72,14 @@ class NovelRankingList extends Component {
   }
 }
 
-export default connect(
-  () => {
-    const getRankingItems = makeGetNovelRankingItems();
-    return (state, props) => {
-      const { ranking } = state;
-      return {
-        ranking: ranking[props.rankingMode],
-        items: getRankingItems(state, props),
-        listKey: `${props.route.key}-${props.rankingMode}`,
-      };
+export default connect(() => {
+  const getRankingItems = makeGetNovelRankingItems();
+  return (state, props) => {
+    const { ranking } = state;
+    return {
+      ranking: ranking[props.rankingMode],
+      items: getRankingItems(state, props),
+      listKey: `${props.route.key}-${props.rankingMode}`,
     };
-  },
-  rankingActionCreators,
-)(NovelRankingList);
+  };
+}, rankingActionCreators)(NovelRankingList);

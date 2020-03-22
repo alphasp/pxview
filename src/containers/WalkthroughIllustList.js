@@ -92,14 +92,11 @@ class WalkthroughIllustList extends Component {
   }
 }
 
-export default connect(
-  (state, props) => {
-    const { walkthroughIllusts } = state;
-    return {
-      walkthroughIllusts,
-      items: getWalkthroughIllustsItems(state, props),
-      listKey: 'walkthroughIllustList',
-    };
-  },
-  walkthroughIllustsActionCreators,
-)(WalkthroughIllustList);
+export default connect((state, props) => {
+  const { walkthroughIllusts } = state;
+  return {
+    walkthroughIllusts,
+    items: getWalkthroughIllustsItems(state, props),
+    listKey: 'walkthroughIllustList',
+  };
+}, walkthroughIllustsActionCreators)(WalkthroughIllustList);

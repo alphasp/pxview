@@ -141,7 +141,7 @@ const AccountChangeEmailModalForm = withFormik({
 
 export default connectLocalization(
   connect(
-    state => ({
+    (state) => ({
       editAccountState: state.editAccount,
     }),
     {

@@ -22,7 +22,7 @@ const screenList = [
 ];
 
 class InitialScreenSettingsModal extends Component {
-  mapScreenName = routeId => {
+  mapScreenName = (routeId) => {
     const { i18n } = this.props;
     switch (routeId) {
       case SCREENS.Recommended:
@@ -39,15 +39,18 @@ class InitialScreenSettingsModal extends Component {
     }
   };
 
-  mapItemsOptions = items =>
-    items.map(item => ({ value: item.id, label: this.mapScreenName(item.id) }));
+  mapItemsOptions = (items) =>
+    items.map((item) => ({
+      value: item.id,
+      label: this.mapScreenName(item.id),
+    }));
 
   handleOnCancelPickerDialog = () => {
     const { closeModal } = this.props;
     closeModal();
   };
 
-  handleOnOkPickerDialog = value => {
+  handleOnOkPickerDialog = (value) => {
     const { setInitialRoute } = this.props;
     setInitialRoute(value);
     this.handleOnCancelPickerDialog();
@@ -69,11 +72,8 @@ class InitialScreenSettingsModal extends Component {
 }
 
 export default connectLocalization(
-  connect(
-    null,
-    {
-      ...modalActionCreators,
-      ...initialScreenSettingsActionCreators,
-    },
-  )(InitialScreenSettingsModal),
+  connect(null, {
+    ...modalActionCreators,
+    ...initialScreenSettingsActionCreators,
+  })(InitialScreenSettingsModal),
 );

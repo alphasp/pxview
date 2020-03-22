@@ -84,7 +84,7 @@ class IllustComments extends Component {
     }
   };
 
-  handleOnPressReplyCommentButton = commentItem => {
+  handleOnPressReplyCommentButton = (commentItem) => {
     const { checkIfUserEligibleToPostComment } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
@@ -108,7 +108,7 @@ class IllustComments extends Component {
     fetchIllustComments(illustId);
   };
 
-  renderCommentReplies = commentId => {
+  renderCommentReplies = (commentId) => {
     const { authorId, navigation } = this.props;
     return (
       <IllustCommentReplies
@@ -167,21 +167,18 @@ class IllustComments extends Component {
 }
 
 export default enhancePostComment(
-  connect(
-    () => {
-      const getIllustCommentsItems = makeGetIllustCommentsItems();
-      return (state, props) => {
-        const { illustComments } = state;
-        const illustId = props.illustId || props.route.params.illustId;
-        const authorId = props.authorId || props.route.params.authorId;
-        return {
-          illustComments: illustComments[illustId],
-          items: getIllustCommentsItems(state, props),
-          illustId,
-          authorId,
-        };
+  connect(() => {
+    const getIllustCommentsItems = makeGetIllustCommentsItems();
+    return (state, props) => {
+      const { illustComments } = state;
+      const illustId = props.illustId || props.route.params.illustId;
+      const authorId = props.authorId || props.route.params.authorId;
+      return {
+        illustComments: illustComments[illustId],
+        items: getIllustCommentsItems(state, props),
+        illustId,
+        authorId,
       };
-    },
-    illustCommentsActionCreators,
-  )(IllustComments),
+    };
+  }, illustCommentsActionCreators)(IllustComments),
 );

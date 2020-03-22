@@ -101,7 +101,7 @@ class ReplyNovelComment extends Component {
     }
   }
 
-  handleOnChangeComment = text => {
+  handleOnChangeComment = (text) => {
     const { setParams } = this.props.navigation;
     this.setState({
       comment: text,
@@ -178,7 +178,7 @@ class ReplyNovelComment extends Component {
 export default withTheme(
   connectLocalization(
     connect(
-      state => ({
+      (state) => ({
         result: state.addNovelComment,
       }),
       addNovelCommentActionCreators,

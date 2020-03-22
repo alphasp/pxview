@@ -8,11 +8,11 @@ import {
 } from '../../common/actions/recommendedIllusts';
 import { getRecommendedIllustsItems } from '../../common/selectors';
 
-const RecommendedIllusts = props => {
+const RecommendedIllusts = (props) => {
   const dispatch = useDispatch();
-  const allState = useSelector(state => state);
-  const recommendedIllusts = useSelector(state => state.recommendedIllusts);
-  const navigationState = useNavigationState(state => state);
+  const allState = useSelector((state) => state);
+  const recommendedIllusts = useSelector((state) => state.recommendedIllusts);
+  const navigationState = useNavigationState((state) => state);
   const items = getRecommendedIllustsItems(allState, props);
   const listKey = `${navigationState.key}-recommendedIllusts`;
   useEffect(() => {

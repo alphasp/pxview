@@ -91,7 +91,7 @@ class NovelViewer extends Component {
     openModal(MODAL_TYPES.NOVEL_SETTINGS);
   };
 
-  renderPager = props =>
+  renderPager = (props) =>
     Platform.OS === 'ios' ? (
       <TabViewPagerScroll {...props} />
     ) : (

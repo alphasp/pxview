@@ -21,8 +21,8 @@ export function* handleFetchSearchUsersAutoComplete(action) {
     const transformedResult = {
       ...response,
       user_previews: response.user_previews
-        .filter(result => result.illusts && result.illusts.length)
-        .map(result => ({
+        .filter((result) => result.illusts && result.illusts.length)
+        .map((result) => ({
           ...result,
           id: result.user.id,
         })),

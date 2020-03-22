@@ -36,7 +36,7 @@ class NovelDetailContent extends Component {
     };
   }
 
-  handleOnPressAvatar = userId => {
+  handleOnPressAvatar = (userId) => {
     const { push } = this.props.navigation;
     push(SCREENS.UserDetail, { userId });
   };
@@ -51,12 +51,12 @@ class NovelDetailContent extends Component {
     });
   };
 
-  handleOnPressAvatar = userId => {
+  handleOnPressAvatar = (userId) => {
     const { push } = this.props.navigation;
     push(SCREENS.UserDetail, { userId });
   };
 
-  handleOnPressTag = tag => {
+  handleOnPressTag = (tag) => {
     const {
       addSearchHistory,
       navigation: { push },
@@ -68,7 +68,7 @@ class NovelDetailContent extends Component {
     });
   };
 
-  handleOnLongPressTag = tag => {
+  handleOnLongPressTag = (tag) => {
     this.setState({
       isOpenTagBottomSheet: true,
       selectedTag: tag,
@@ -95,7 +95,7 @@ class NovelDetailContent extends Component {
       theme,
     } = this.props;
     const { isOpenTagBottomSheet, selectedTag } = this.state;
-    const isMute = tags.some(t => t.isMute) || isMuteUser;
+    const isMute = tags.some((t) => t.isMute) || isMuteUser;
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -149,16 +149,13 @@ class NovelDetailContent extends Component {
 }
 
 export default withTheme(
-  connect(
-    () => {
-      const getTagsWithStatus = makeGetTagsWithStatus();
-      return (state, props) => ({
-        highlightTags: state.highlightTags.items,
-        muteTags: state.muteTags.items,
-        isMuteUser: state.muteUsers.items.some(m => m === props.item.user.id),
-        tags: getTagsWithStatus(state, props),
-      });
-    },
-    searchHistoryActionCreators,
-  )(NovelDetailContent),
+  connect(() => {
+    const getTagsWithStatus = makeGetTagsWithStatus();
+    return (state, props) => ({
+      highlightTags: state.highlightTags.items,
+      muteTags: state.muteTags.items,
+      isMuteUser: state.muteUsers.items.some((m) => m === props.item.user.id),
+      tags: getTagsWithStatus(state, props),
+    });
+  }, searchHistoryActionCreators)(NovelDetailContent),
 );

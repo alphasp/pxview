@@ -15,7 +15,7 @@ const MuteTagSettings = ({ muteTags, i18n, addMuteTag, removeMuteTag }) => (
 
 export default connectLocalization(
   connect(
-    state => ({
+    (state) => ({
       muteTags: state.muteTags.items,
     }),
     muteTagsActionCreators,

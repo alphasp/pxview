@@ -117,7 +117,7 @@ class DetailInfoModal extends Component {
     }
   }
 
-  setModalVisible = visible => {
+  setModalVisible = (visible) => {
     const { height, duration } = this.props;
     const { modalVisible, animatedHeight } = this.state;
     if (visible && !modalVisible) {
@@ -145,18 +145,18 @@ class DetailInfoModal extends Component {
     onPressAvatar(item.user.id);
   };
 
-  handleOnPressLink = url => {
+  handleOnPressLink = (url) => {
     Linking.canOpenURL(url)
-      .then(supported => {
+      .then((supported) => {
         if (!supported) {
           return null;
         }
         return Linking.openURL(url);
       })
-      .catch(err => err);
+      .catch((err) => err);
   };
 
-  handleOnPressTag = tag => {
+  handleOnPressTag = (tag) => {
     const {
       addSearchHistory,
       navigation: { push },
@@ -168,7 +168,7 @@ class DetailInfoModal extends Component {
     });
   };
 
-  handleOnLongPressTag = tag => {
+  handleOnLongPressTag = (tag) => {
     this.setState({
       isOpenTagBottomSheet: true,
       selectedTag: tag,
@@ -204,7 +204,7 @@ class DetailInfoModal extends Component {
       return null;
     }
     return (
-      <Fragment>
+      <>
         <TouchableWithoutFeedback onPress={onCancel}>
           <View style={styles.backdropContainer} />
         </TouchableWithoutFeedback>
@@ -336,23 +336,20 @@ class DetailInfoModal extends Component {
           navigation={navigation}
           onCancel={this.handleOnCancelTagBottomSheet}
         />
-      </Fragment>
+      </>
     );
   }
 }
 
 export default withTheme(
   connectLocalization(
-    connect(
-      () => {
-        const getTagsWithStatus = makeGetTagsWithStatus();
-        return (state, props) => ({
-          highlightTags: state.highlightTags.items,
-          muteTags: state.muteTags.items,
-          tags: getTagsWithStatus(state, props),
-        });
-      },
-      searchHistoryActionCreators,
-    )(DetailInfoModal),
+    connect(() => {
+      const getTagsWithStatus = makeGetTagsWithStatus();
+      return (state, props) => ({
+        highlightTags: state.highlightTags.items,
+        muteTags: state.muteTags.items,
+        tags: getTagsWithStatus(state, props),
+      });
+    }, searchHistoryActionCreators)(DetailInfoModal),
   ),
 );

@@ -45,13 +45,10 @@ class RecommendedUsers extends Component {
   }
 }
 
-export default connect(
-  state => {
-    const { recommendedUsers } = state;
-    return {
-      recommendedUsers,
-      items: getRecommendedUsersItems(state),
-    };
-  },
-  recommendedUsersActionCreators,
-)(RecommendedUsers);
+export default connect((state) => {
+  const { recommendedUsers } = state;
+  return {
+    recommendedUsers,
+    items: getRecommendedUsersItems(state),
+  };
+}, recommendedUsersActionCreators)(RecommendedUsers);

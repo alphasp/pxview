@@ -95,22 +95,18 @@ class RelatedIllusts extends Component {
 }
 
 export default connectLocalization(
-  connect(
-    () => {
-      const getRelatedIllustsItems = makeGetRelatedIllustsItems();
-      return (state, props) => {
-        const { relatedIllusts } = state;
-        const { listKey } = props;
-        const illustId =
-          props.illustId || props.route.params.illustId;
-        return {
-          relatedIllusts: relatedIllusts[illustId],
-          items: getRelatedIllustsItems(state, props),
-          illustId,
-          listKey: listKey || `${props.route.key}-${illustId}`,
-        };
+  connect(() => {
+    const getRelatedIllustsItems = makeGetRelatedIllustsItems();
+    return (state, props) => {
+      const { relatedIllusts } = state;
+      const { listKey } = props;
+      const illustId = props.illustId || props.route.params.illustId;
+      return {
+        relatedIllusts: relatedIllusts[illustId],
+        items: getRelatedIllustsItems(state, props),
+        illustId,
+        listKey: listKey || `${props.route.key}-${illustId}`,
       };
-    },
-    relatedIllustsActionCreators,
-  )(RelatedIllusts),
+    };
+  }, relatedIllustsActionCreators)(RelatedIllusts),
 );

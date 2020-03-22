@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Pills = props => {
+const Pills = (props) => {
   const {
     items,
     selectedIndex,

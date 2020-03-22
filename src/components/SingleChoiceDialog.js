@@ -39,7 +39,7 @@ class SingleChoiceDialog extends Component {
     };
   }
 
-  handleOnSelectItem = value => {
+  handleOnSelectItem = (value) => {
     const { enableOkButton, onSelectItem } = this.props;
     this.setState(
       {
@@ -64,7 +64,7 @@ class SingleChoiceDialog extends Component {
     const { selectedItemValue } = this.state;
     return (
       <View>
-        {items.map(item => (
+        {items.map((item) => (
           <TouchableRipple
             key={item.value}
             onPress={() => this.handleOnSelectItem(item.value)}

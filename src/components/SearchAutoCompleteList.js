@@ -50,7 +50,7 @@ class SearchAutoCompleteList extends PureComponent {
         {items && items.length ? (
           <FlatList
             data={items}
-            keyExtractor={item => item.name}
+            keyExtractor={(item) => item.name}
             renderItem={this.renderItem}
             ItemSeparatorComponent={Separator}
             keyboardShouldPersistTaps="always"

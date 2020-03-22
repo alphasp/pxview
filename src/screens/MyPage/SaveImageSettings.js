@@ -42,7 +42,7 @@ class SaveImageSettings extends Component {
     });
   };
 
-  mapUserFolderNameFormatLabel = value => {
+  mapUserFolderNameFormatLabel = (value) => {
     const { i18n } = this.props;
     switch (value) {
       case SAVE_FILE_NAME_USER_FOLDER_FORMAT.USER_ID:
@@ -56,7 +56,7 @@ class SaveImageSettings extends Component {
     }
   };
 
-  mapImageFileNameFormatLabel = value => {
+  mapImageFileNameFormatLabel = (value) => {
     const { i18n } = this.props;
     switch (value) {
       case SAVE_FILE_NAME_FORMAT.WORK_ID:
@@ -112,7 +112,7 @@ class SaveImageSettings extends Component {
 export default withTheme(
   connectLocalization(
     connect(
-      state => {
+      (state) => {
         const {
           userFolderName,
           fileName,

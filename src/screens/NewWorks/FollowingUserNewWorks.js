@@ -34,7 +34,7 @@ class FollowingUserNewWorks extends Component {
     };
   }
 
-  handleOnPressPill = index => {
+  handleOnPressPill = (index) => {
     this.setState({ index });
   };
 
@@ -50,7 +50,7 @@ class FollowingUserNewWorks extends Component {
     });
   };
 
-  handleOnSelectVisibility = visibility => {
+  handleOnSelectVisibility = (visibility) => {
     this.setState({
       isOpenFilterModal: false,
       options: {

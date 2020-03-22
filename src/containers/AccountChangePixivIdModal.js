@@ -74,7 +74,7 @@ class AccountChangePixivIdModal extends Component {
     editAccountClear();
   }
 
-  submit = data => {
+  submit = (data) => {
     const { editAccount, user } = this.props;
     const { currentPassword, newPassword, pixivId } = data;
     let password;
@@ -165,7 +165,7 @@ const AccountChangePixivIdModalForm = withFormik({
 
 export default connectLocalization(
   connect(
-    state => ({
+    (state) => ({
       editAccountState: state.editAccount,
     }),
     {

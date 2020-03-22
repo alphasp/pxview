@@ -23,7 +23,7 @@ const createAppDrawerNavigator = ({ initialRouteName }) => {
       }}
       unmountInactiveRoutes
       cardStyle={globalStyles.card}
-      drawerContent={props => <DrawerContent {...props} />}
+      drawerContent={(props) => <DrawerContent {...props} />}
       overlayColor="#00000090"
     >
       <Drawer.Screen

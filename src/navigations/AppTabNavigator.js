@@ -24,7 +24,7 @@ const renderTabBarIcon = (tintColor, focused, name, iconType) => (
   />
 );
 
-const tabBarComponent = props => {
+const tabBarComponent = (props) => {
   const { theme } = props.screenProps;
   return (
     <BottomTabBar

@@ -19,7 +19,7 @@ export function* handleFetchRecommendedNovels(action) {
       response = yield apply(pixiv, pixiv.novelRecommended, [options]);
     }
     const normalized = normalize(
-      response.novels.filter(novel => novel.visible && novel.id),
+      response.novels.filter((novel) => novel.visible && novel.id),
       Schemas.NOVEL_ARRAY,
     );
     yield put(

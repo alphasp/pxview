@@ -181,7 +181,7 @@ export default withNavigationFocus(
   withTheme(
     connectLocalization(
       connect(
-        state => ({
+        (state) => ({
           auth: state.auth,
         }),
         {

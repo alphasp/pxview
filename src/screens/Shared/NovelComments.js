@@ -84,7 +84,7 @@ class NovelComments extends Component {
     }
   };
 
-  handleOnPressReplyCommentButton = commentItem => {
+  handleOnPressReplyCommentButton = (commentItem) => {
     const { checkIfUserEligibleToPostComment } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
@@ -108,7 +108,7 @@ class NovelComments extends Component {
     fetchNovelComments(novelId);
   };
 
-  renderCommentReplies = commentId => {
+  renderCommentReplies = (commentId) => {
     const { authorId, navigation } = this.props;
     return (
       <NovelCommentReplies
@@ -167,21 +167,18 @@ class NovelComments extends Component {
 }
 
 export default enhancePostComment(
-  connect(
-    () => {
-      const getNovelCommentsItems = makeGetNovelCommentsItems();
-      return (state, props) => {
-        const { novelComments } = state;
-        const novelId = props.novelId || props.route.params.novelId;
-        const authorId = props.authorId || props.route.params.authorId;
-        return {
-          novelComments: novelComments[novelId],
-          items: getNovelCommentsItems(state, props),
-          novelId,
-          authorId,
-        };
+  connect(() => {
+    const getNovelCommentsItems = makeGetNovelCommentsItems();
+    return (state, props) => {
+      const { novelComments } = state;
+      const novelId = props.novelId || props.route.params.novelId;
+      const authorId = props.authorId || props.route.params.authorId;
+      return {
+        novelComments: novelComments[novelId],
+        items: getNovelCommentsItems(state, props),
+        novelId,
+        authorId,
       };
-    },
-    novelCommentsActionCreators,
-  )(NovelComments),
+    };
+  }, novelCommentsActionCreators)(NovelComments),
 );

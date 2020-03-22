@@ -69,7 +69,7 @@ class LikeButtonSettings extends Component {
 export default withTheme(
   connectLocalization(
     connect(
-      state => {
+      (state) => {
         const { actionType, isShowLikeCount } = state.likeButtonSettings;
         return {
           actionType,

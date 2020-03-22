@@ -25,7 +25,7 @@ class PXSearchBar extends Component {
     firstQuery: '',
   };
 
-  handleOnSubmitSearch = e => {
+  handleOnSubmitSearch = (e) => {
     const { addSearchHistory, onSubmitSearch } = this.props;
     const word = e.nativeEvent.text.trim();
     if (word) {
@@ -92,11 +92,6 @@ class PXSearchBar extends Component {
 
 export default connectLocalization(
   withTheme(
-    withNavigation(
-      connect(
-        null,
-        searchHistoryActionCreators,
-      )(PXSearchBar),
-    ),
+    withNavigation(connect(null, searchHistoryActionCreators)(PXSearchBar)),
   ),
 );

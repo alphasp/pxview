@@ -67,7 +67,7 @@ class BookmarkIllustButton extends Component {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     loading: state.bookmarkIllust.loading,
     actionType: state.likeButtonSettings.actionType,
   }),

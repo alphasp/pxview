@@ -32,7 +32,7 @@ class BookmarkNovelModal extends Component {
     this.handleOnModalClose();
   };
 
-  handleOnPressRemoveButton = novelId => {
+  handleOnPressRemoveButton = (novelId) => {
     const { unbookmarkNovel } = this.props;
     unbookmarkNovel(novelId);
     this.handleOnModalClose();
@@ -63,7 +63,7 @@ class BookmarkNovelModal extends Component {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     novelBookmarkDetail: state.novelBookmarkDetail,
   }),
   {

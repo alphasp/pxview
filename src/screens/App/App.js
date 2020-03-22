@@ -40,7 +40,7 @@ class App extends Component {
     MessageBarManager.registerMessageBar(this.messageBarAlert);
     this.showToastListener = DeviceEventEmitter.addListener(
       'showToast',
-      text => {
+      (text) => {
         this.toast.show(text, DURATION.LENGTH_LONG);
       },
     );
@@ -148,8 +148,8 @@ class App extends Component {
               animated
             />
             {renderComponent}
-            <MessageBar ref={ref => (this.messageBarAlert = ref)} />
-            <Toast ref={ref => (this.toast = ref)} opacity={0.7} />
+            <MessageBar ref={(ref) => (this.messageBarAlert = ref)} />
+            <Toast ref={(ref) => (this.toast = ref)} opacity={0.7} />
             <ModalRoot />
           </View>
         </NavigationContainer>
@@ -160,7 +160,7 @@ class App extends Component {
 
 export default connectLocalization(
   connect(
-    state => ({
+    (state) => ({
       error: state.error,
       rehydrated: state.auth.rehydrated,
       user: state.auth.user,

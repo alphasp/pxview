@@ -31,7 +31,7 @@ export default function browsingHistoryIllusts(
     case BROWSING_HISTORY_ILLUSTS.REMOVE:
       return {
         ...state,
-        items: state.items.filter(item => item !== action.payload.item),
+        items: state.items.filter((item) => item !== action.payload.item),
       };
     case BROWSING_HISTORY_ILLUSTS.CLEAR:
       return {

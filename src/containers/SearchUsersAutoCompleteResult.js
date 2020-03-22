@@ -60,7 +60,7 @@ class SearchUsersAutoCompleteResult extends Component {
     fetchSearchUsersAutoComplete(word, null, true);
   };
 
-  submitSearchUsersAutoComplete = word => {
+  submitSearchUsersAutoComplete = (word) => {
     const { fetchSearchUsersAutoComplete } = this.props;
     if (word && word.length > 1) {
       fetchSearchUsersAutoComplete(word);

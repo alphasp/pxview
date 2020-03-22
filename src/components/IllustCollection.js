@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const IllustCollection = props => {
+const IllustCollection = (props) => {
   const {
     navigation: { push },
     items,

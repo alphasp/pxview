@@ -67,7 +67,7 @@ class AddIllustComment extends Component {
     }
   }
 
-  handleOnChangeComment = text => {
+  handleOnChangeComment = (text) => {
     const { setParams } = this.props.navigation;
     this.setState({
       comment: text,
@@ -115,7 +115,7 @@ class AddIllustComment extends Component {
 export default withTheme(
   connectLocalization(
     connect(
-      state => ({
+      (state) => ({
         result: state.addIllustComment,
       }),
       addIllustCommentActionCreators,

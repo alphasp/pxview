@@ -20,7 +20,7 @@ import {
   SAVE_FILE_NAME_FORMAT,
 } from '../../common/constants';
 
-const enhanceSaveImage = WrappedComponent => {
+const enhanceSaveImage = (WrappedComponent) => {
   class Hoc extends Component {
     requestWriteExternalStoragePermission = async () => {
       try {
@@ -206,7 +206,7 @@ const enhanceSaveImage = WrappedComponent => {
       return null;
     };
 
-    showToast = message => {
+    showToast = (message) => {
       DeviceEventEmitter.emit('showToast', message);
     };
 
@@ -218,7 +218,7 @@ const enhanceSaveImage = WrappedComponent => {
   hoistNonReactStatic(Hoc, WrappedComponent);
 
   return connectLocalization(
-    connect(state => ({
+    connect((state) => ({
       saveImageSettings: state.saveImageSettings,
     }))(Hoc),
   );

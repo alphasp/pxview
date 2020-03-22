@@ -18,9 +18,9 @@ class SearchIllustsBookmarkRangesPickerDialog extends Component {
     fetchSearchIllustsBookmarkRanges(navigationStateKey, word, searchOptions);
   }
 
-  mapItemsOptions = items => {
+  mapItemsOptions = (items) => {
     const { i18n } = this.props;
-    return items.map(item => {
+    return items.map((item) => {
       let value;
       let label;
       if (item.bookmark_num_min === '*' && item.bookmark_num_max === '*') {

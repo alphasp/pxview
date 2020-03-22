@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const OutlineButton = props => {
+const OutlineButton = (props) => {
   const { onPress, onLongPress, text, style, textStyle } = props;
   return (
     <PXTouchable

@@ -83,20 +83,17 @@ class SearchUsersResult extends Component {
 }
 
 export default connectLocalization(
-  connect(
-    () => {
-      const getSearchUsersItems = makeGetSearchUsersItems();
-      return (state, props) => {
-        const { searchUsers } = state;
-        const { navigationStateKey } = props;
-        const word = props.word || props.route.params.word;
-        return {
-          searchUsers: searchUsers[navigationStateKey],
-          items: getSearchUsersItems(state, props),
-          word,
-        };
+  connect(() => {
+    const getSearchUsersItems = makeGetSearchUsersItems();
+    return (state, props) => {
+      const { searchUsers } = state;
+      const { navigationStateKey } = props;
+      const word = props.word || props.route.params.word;
+      return {
+        searchUsers: searchUsers[navigationStateKey],
+        items: getSearchUsersItems(state, props),
+        word,
       };
-    },
-    searchUsersActionCreators,
-  )(SearchUsersResult),
+    };
+  }, searchUsersActionCreators)(SearchUsersResult),
 );

@@ -21,7 +21,7 @@ class UserNewWorks extends Component {
     };
   }
 
-  handleOnPressPill = index => {
+  handleOnPressPill = (index) => {
     this.setState({ index });
   };
 

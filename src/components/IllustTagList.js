@@ -118,7 +118,7 @@ class IllustTagList extends Component {
     );
   };
 
-  handleOnPressItem = item => {
+  handleOnPressItem = (item) => {
     const {
       addSearchHistory,
       searchType,
@@ -161,10 +161,5 @@ class IllustTagList extends Component {
 }
 
 export default withTheme(
-  withNavigation(
-    connect(
-      null,
-      searchHistoryActionCreators,
-    )(IllustTagList),
-  ),
+  withNavigation(connect(null, searchHistoryActionCreators)(IllustTagList)),
 );

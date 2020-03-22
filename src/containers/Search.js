@@ -64,7 +64,7 @@ class Search extends Component {
     };
   }
 
-  submitSearch = word => {
+  submitSearch = (word) => {
     word = word.trim();
     if (word) {
       const { onSubmitSearch, addSearchHistory } = this.props;
@@ -75,21 +75,21 @@ class Search extends Component {
     }
   };
 
-  handleOnPressAutoCompleteItem = word => {
+  handleOnPressAutoCompleteItem = (word) => {
     this.submitSearch(word);
   };
 
-  handleOnPressSearchHistoryItem = word => {
+  handleOnPressSearchHistoryItem = (word) => {
     this.submitSearch(word);
   };
 
-  handleOnPressUser = userId => {
+  handleOnPressUser = (userId) => {
     const { navigation } = this.props;
     const { push } = navigation;
     push(SCREENS.UserDetail, { userId });
   };
 
-  handleOnPressRemoveSearchHistoryItem = item => {
+  handleOnPressRemoveSearchHistoryItem = (item) => {
     const { removeSearchHistory } = this.props;
     removeSearchHistory(item);
   };
@@ -109,7 +109,7 @@ class Search extends Component {
     }
   };
 
-  handleOnPressPill = index => {
+  handleOnPressPill = (index) => {
     const newState = {
       index,
     };

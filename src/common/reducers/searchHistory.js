@@ -14,7 +14,7 @@ export default function searchHistory(
       if (items && items.length) {
         newItems = [
           newItem,
-          ...items.filter(item => item !== newItem).slice(0, 99),
+          ...items.filter((item) => item !== newItem).slice(0, 99),
         ];
       } else {
         newItems = [newItem];
@@ -27,7 +27,7 @@ export default function searchHistory(
     case SEARCH_HISTORY.REMOVE:
       return {
         ...state,
-        items: state.items.filter(item => item !== action.payload.item),
+        items: state.items.filter((item) => item !== action.payload.item),
       };
     case SEARCH_HISTORY.CLEAR:
       return {

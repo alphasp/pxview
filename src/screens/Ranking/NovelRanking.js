@@ -74,7 +74,7 @@ class NovelRanking extends Component {
     ];
   };
 
-  handleChangeTab = index => {
+  handleChangeTab = (index) => {
     this.setState({ index });
   };
 

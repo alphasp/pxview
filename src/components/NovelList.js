@@ -32,7 +32,7 @@ class NovelList extends Component {
       listKey,
       maxItems,
     } = this.props;
-    if (listKey && (items && items.length) && items !== prevItems) {
+    if (listKey && items && items.length && items !== prevItems) {
       DeviceEventEmitter.emit('masterListUpdate', {
         listKey,
         items: maxItems ? items.slice(0, maxItems) : items,
@@ -76,7 +76,7 @@ class NovelList extends Component {
     });
   };
 
-  handleOnLayout = e => {
+  handleOnLayout = (e) => {
     const { onListLayout } = this.props;
     if (onListLayout) {
       onListLayout(e, this.novelList);
@@ -110,13 +110,13 @@ class NovelList extends Component {
         {loaded ? (
           <FlatList
             onLayout={this.handleOnLayout}
-            ref={ref => (this.novelList = ref)}
+            ref={(ref) => (this.novelList = ref)}
             data={
-              maxItems && (items && items.length)
+              maxItems && items && items.length
                 ? items.slice(0, maxItems)
                 : items
             }
-            keyExtractor={item => item.id.toString()}
+            keyExtractor={(item) => item.id.toString()}
             renderItem={this.renderItem}
             removeClippedSubviews={Platform.OS === 'android'}
             initialNumToRender={5}
@@ -143,10 +143,5 @@ class NovelList extends Component {
 }
 
 export default withTheme(
-  withNavigation(
-    connect(
-      null,
-      bookmarkIllustActionCreators,
-    )(NovelList),
-  ),
+  withNavigation(connect(null, bookmarkIllustActionCreators)(NovelList)),
 );

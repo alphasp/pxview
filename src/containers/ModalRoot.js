@@ -30,6 +30,6 @@ const ModalRoot = ({ modal: { modalType, modalProps } }) => {
   return <SpecificModal {...modalProps} />;
 };
 
-export default connect(state => ({
+export default connect((state) => ({
   modal: state.modal,
 }))(ModalRoot);

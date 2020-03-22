@@ -31,11 +31,11 @@ class NovelReader extends Component {
     }
   }
 
-  handleOnIndexChange = index => {
+  handleOnIndexChange = (index) => {
     this.setState({ index });
   };
 
-  handleOnPressPageLink = page => {
+  handleOnPressPageLink = (page) => {
     this.setState({ index: parseInt(page, 10) - 1 });
   };
 
@@ -81,7 +81,7 @@ class NovelReader extends Component {
           headerTitle={parsedNovelText && this.renderHeaderTitle()}
           headerRight={this.renderHeaderRight()}
         />
-        {(!novelText || (!novelText.loaded || novelText.loading)) && <Loader />}
+        {(!novelText || !novelText.loaded || novelText.loading) && <Loader />}
         {parsedNovelText && (
           <NovelViewer
             novelId={novelId}

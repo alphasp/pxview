@@ -62,9 +62,9 @@ const styles = StyleSheet.create({
 });
 
 class NovelListViewItem extends Component {
-  renderTags = tags => (
+  renderTags = (tags) => (
     <View style={styles.tagsContainer}>
-      <Text style={styles.tag}>{tags.map(tag => tag.name).join('・')}</Text>
+      <Text style={styles.tag}>{tags.map((tag) => tag.name).join('・')}</Text>
     </View>
   );
 
@@ -133,9 +133,7 @@ class NovelListViewItem extends Component {
                   styles.text,
                   styles.user,
                   theme.dark && {
-                    color: Color(theme.colors.text)
-                      .alpha(0.7)
-                      .string(),
+                    color: Color(theme.colors.text).alpha(0.7).string(),
                   },
                 ]}
               >

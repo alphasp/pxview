@@ -17,7 +17,7 @@ class MuteSettings extends Component {
     });
   };
 
-  handleOnPressListItem = type => {
+  handleOnPressListItem = (type) => {
     const {
       navigation: { navigate },
     } = this.props;
@@ -69,7 +69,7 @@ class MuteSettings extends Component {
 export default withTheme(
   connectLocalization(
     connect(
-      state => {
+      (state) => {
         const { isHideMute } = state.muteSettings;
         return {
           isHideMute,

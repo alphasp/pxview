@@ -82,7 +82,7 @@ function getStoredStateV4(v4Config) {
     let storage = v4Config.storage || createAsyncLocalStorage();
     const deserializer =
       v4Config.serialize === false
-        ? data => data
+        ? (data) => data
         : (serial: string) => JSON.parse(serial);
     const blacklist = v4Config.blacklist || [];
     const whitelist = v4Config.whitelist || false;
@@ -139,13 +139,13 @@ function getStoredStateV4(v4Config) {
       }
 
       const persistKeys = allKeys
-        .filter(key => key.indexOf(keyPrefix) === 0)
-        .map(key => key.slice(keyPrefix.length));
+        .filter((key) => key.indexOf(keyPrefix) === 0)
+        .map((key) => key.slice(keyPrefix.length));
       const keysToRestore = persistKeys.filter(passWhitelistBlacklist);
 
       const restoreCount = keysToRestore.length;
       if (restoreCount === 0) resolve(undefined);
-      keysToRestore.forEach(key => {
+      keysToRestore.forEach((key) => {
         storage.getItem(createStorageKey(key), (err, serialized) => {
           if (err && process.env.NODE_ENV !== 'production')
             console.warn(
@@ -166,7 +166,7 @@ export default function getStoredStateMigrateToFileSystemStorage(
   v5Config,
   v4Config,
 ) {
-  return async currentConfig => {
+  return async (currentConfig) => {
     const filePersistStorePath = `${RNFetchBlob.fs.dirs.DocumentDir}/persistStore`;
     const isFilePersistStoreExists = await RNFetchBlob.fs.exists(
       filePersistStorePath,
@@ -175,7 +175,7 @@ export default function getStoredStateMigrateToFileSystemStorage(
       const state = await getStoredState(currentConfig);
       return state;
     }
-    return getStoredState(v5Config).then(v5State => {
+    return getStoredState(v5Config).then((v5State) => {
       if (v5State) {
         return v5State;
       }

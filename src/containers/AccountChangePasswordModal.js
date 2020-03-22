@@ -106,7 +106,7 @@ const AccountChangePasswordModalForm = withFormik({
 
 export default connectLocalization(
   connect(
-    state => ({
+    (state) => ({
       editAccountState: state.editAccount,
     }),
     {

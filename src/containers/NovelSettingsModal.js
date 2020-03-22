@@ -57,12 +57,12 @@ class NovelSettingsModal extends Component {
     closeModal();
   };
 
-  handleOnFontSizeSlidingComplete = value => {
+  handleOnFontSizeSlidingComplete = (value) => {
     const { setProperties } = this.props;
     setProperties({ fontSize: value });
   };
 
-  handleOnLineHeightSlidingComplete = value => {
+  handleOnLineHeightSlidingComplete = (value) => {
     const { setProperties } = this.props;
     setProperties({ lineHeight: value });
   };
@@ -130,7 +130,7 @@ class NovelSettingsModal extends Component {
 export default withTheme(
   connectLocalization(
     connect(
-      state => {
+      (state) => {
         const { novelSettings } = state;
         return {
           novelSettings,

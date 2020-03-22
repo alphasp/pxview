@@ -24,7 +24,7 @@ const myTransform = createTransform(
         } = state;
         const selectedUsersEntities = {};
         const selectedIllustsEntities = browsingHistoryIllusts.items
-          .filter(id => entities.illusts[id])
+          .filter((id) => entities.illusts[id])
           .reduce((prev, id) => {
             prev[id] = entities.illusts[id];
             const userId = entities.illusts[id].user;
@@ -32,7 +32,7 @@ const myTransform = createTransform(
             return prev;
           }, {});
         const selectedNovelsEntities = browsingHistoryNovels.items
-          .filter(id => entities.novels[id])
+          .filter((id) => entities.novels[id])
           .reduce((prev, id) => {
             prev[id] = entities.novels[id];
             const userId = entities.novels[id].user;
@@ -40,7 +40,7 @@ const myTransform = createTransform(
             return prev;
           }, {});
         const selectedUsersEntities2 = muteUsers.items
-          .filter(id => entities.users[id])
+          .filter((id) => entities.users[id])
           .reduce((prev, id) => {
             prev[id] = entities.users[id];
             return prev;
@@ -61,7 +61,7 @@ const myTransform = createTransform(
         return {
           ...inboundState,
           items: browsingHistoryIllusts.items.filter(
-            id =>
+            (id) =>
               entities.illusts[id] &&
               entities.illusts[id].user &&
               entities.users[entities.illusts[id].user],
@@ -73,7 +73,7 @@ const myTransform = createTransform(
         return {
           ...inboundState,
           items: browsingHistoryNovels.items.filter(
-            id =>
+            (id) =>
               entities.novels[id] &&
               entities.novels[id].user &&
               entities.users[entities.novels[id].user],
@@ -95,7 +95,7 @@ const myTransform = createTransform(
         return inboundState;
     }
   },
-  outboundState => outboundState,
+  (outboundState) => outboundState,
   {
     whitelist: [
       'entities',
@@ -111,13 +111,13 @@ const clearV4PersistedContents = () =>
   AsyncStorage.getAllKeys((err, keys) => {
     if (!err && keys && keys.length) {
       const keyPrefix = 'persist:root';
-      const v5PersistKeys = keys.filter(key => key.indexOf(keyPrefix) === 0);
+      const v5PersistKeys = keys.filter((key) => key.indexOf(keyPrefix) === 0);
       if (v5PersistKeys.length) {
         AsyncStorage.multiRemove(v5PersistKeys, () => Promise.resolve());
       } else {
         const v4KeyPrefix = 'reduxPersist:';
         const v4PersistKeys = keys.filter(
-          key => key.indexOf(v4KeyPrefix) === 0,
+          (key) => key.indexOf(v4KeyPrefix) === 0,
         );
         if (v4PersistKeys.length) {
           AsyncStorage.multiRemove(v4PersistKeys, () => Promise.resolve());

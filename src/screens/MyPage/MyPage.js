@@ -72,7 +72,7 @@ const menuList2 = [
 ];
 
 class MyPage extends Component {
-  handleOnPressListItem = item => {
+  handleOnPressListItem = (item) => {
     const {
       user,
       navigation: { navigate },
@@ -200,14 +200,14 @@ class MyPage extends Component {
     );
   };
 
-  renderList = list => {
+  renderList = (list) => {
     const { user, i18n } = this.props;
-    if (!user && list.some(l => l.id === 'logout')) {
-      list = list.filter(l => l.id !== 'logout');
+    if (!user && list.some((l) => l.id === 'logout')) {
+      list = list.filter((l) => l.id !== 'logout');
     }
     return (
       <View style={styles.listContainer}>
-        {list.map(item => (
+        {list.map((item) => (
           <PXListItem
             key={item.id}
             title={i18n[item.title]}
@@ -245,7 +245,7 @@ class MyPage extends Component {
 export default withTheme(
   connectLocalization(
     connect(
-      state => ({
+      (state) => ({
         user: state.auth.user,
         themeName: state.theme.name,
       }),

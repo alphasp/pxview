@@ -102,7 +102,7 @@ class TagsFilterModal extends Component {
                 <View style={{ backgroundColor: theme.colors.background }}>
                   <FlatList
                     data={items}
-                    keyExtractor={item => item.name}
+                    keyExtractor={(item) => item.name}
                     renderItem={this.renderItem}
                     keyboardShouldPersistTaps="always"
                     onEndReachedThreshold={0.1}

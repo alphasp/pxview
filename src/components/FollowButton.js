@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const FollowButton = props => {
+const FollowButton = (props) => {
   const {
     isFollow,
     onPress,

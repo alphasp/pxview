@@ -38,7 +38,7 @@ class Trending extends Component {
     this.setState({ isFocusSearchBar: true });
   };
 
-  handleOnChangeSearchText = word => {
+  handleOnChangeSearchText = (word) => {
     this.setState({ word });
   };
 
@@ -55,14 +55,14 @@ class Trending extends Component {
     return false;
   };
 
-  handleOnSubmitSearch = word => {
+  handleOnSubmitSearch = (word) => {
     const { push } = this.props.navigation;
     const { searchType } = this.state;
     this.handleOnPressBackButton();
     push(SCREENS.SearchResult, { word, searchType });
   };
 
-  handleOnChangePill = index => {
+  handleOnChangePill = (index) => {
     const newState = {
       index,
     };
@@ -76,7 +76,7 @@ class Trending extends Component {
     this.setState(newState);
   };
 
-  handleOnPressPill = index => {
+  handleOnPressPill = (index) => {
     const newState = {
       index,
     };

@@ -37,7 +37,7 @@ class FollowButtonContainer extends Component {
     followUser(userId, followType);
   };
 
-  unfollowUser = userId => {
+  unfollowUser = (userId) => {
     const { unfollowUser } = this.props;
     unfollowUser(userId);
   };

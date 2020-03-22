@@ -18,9 +18,9 @@ import { LocalizationContext } from './LocalizationProvider';
 //   }))(Localization);
 // };
 
-const connectLocalization = Comp => props => (
+const connectLocalization = (Comp) => (props) => (
   <LocalizationContext.Consumer>
-    {i18n => <Comp {...{ ...props, ...i18n }} />}
+    {(i18n) => <Comp {...{ ...props, ...i18n }} />}
   </LocalizationContext.Consumer>
 );
 

@@ -20,7 +20,7 @@ class PXTabView extends Component {
     lazy: true,
   };
 
-  renderHeader = props => {
+  renderHeader = (props) => {
     const { includeStatusBarPadding, tabBarProps, theme } = this.props;
     return (
       <TabBar
@@ -40,7 +40,7 @@ class PXTabView extends Component {
     );
   };
 
-  renderPager = props =>
+  renderPager = (props) =>
     Platform.OS === 'ios' ? (
       <TabViewPagerScroll {...props} />
     ) : (

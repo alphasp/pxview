@@ -20,17 +20,17 @@ class MuteUsersSettings extends Component {
     };
   }
 
-  handleOnPressRemoveMuteUser = userId => {
+  handleOnPressRemoveMuteUser = (userId) => {
     const { removeMuteUser } = this.props;
     removeMuteUser(userId);
   };
 
-  handleOnPressUser = userId => {
+  handleOnPressUser = (userId) => {
     const { push } = this.props.navigation;
     push(SCREENS.UserDetail, { userId });
   };
 
-  showToast = message => {
+  showToast = (message) => {
     DeviceEventEmitter.emit('showToast', message);
   };
 
@@ -61,7 +61,7 @@ class MuteUsersSettings extends Component {
         {items.length ? (
           <FlatList
             data={items}
-            keyExtractor={item => item.id.toString()}
+            keyExtractor={(item) => item.id.toString()}
             renderItem={this.renderItem}
           />
         ) : (
@@ -79,7 +79,7 @@ class MuteUsersSettings extends Component {
 export default withTheme(
   connectLocalization(
     connect(
-      state => ({
+      (state) => ({
         items: getMuteUsersItems(state),
       }),
       muteUsersActionCreators,

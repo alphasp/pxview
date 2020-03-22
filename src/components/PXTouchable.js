@@ -6,7 +6,7 @@ import {
   View,
 } from 'react-native';
 
-const PXTouchable = props => {
+const PXTouchable = (props) => {
   if (Platform.OS === 'android' && Platform.Version >= 21) {
     const { style, children, ...otherProps } = props;
     return (

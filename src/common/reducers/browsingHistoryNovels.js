@@ -31,7 +31,7 @@ export default function browsingHistoryNovels(
     case BROWSING_HISTORY_NOVELS.REMOVE:
       return {
         ...state,
-        items: state.items.filter(item => item !== action.payload.item),
+        items: state.items.filter((item) => item !== action.payload.item),
       };
     case BROWSING_HISTORY_NOVELS.CLEAR:
       return {

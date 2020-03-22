@@ -15,7 +15,7 @@ export function* handleFetchSearchIllustsBookmarkRanges(action) {
     let finalOptions;
     if (options) {
       finalOptions = Object.keys(options)
-        .filter(key => options[key] && key !== 'period')
+        .filter((key) => options[key] && key !== 'period')
         .reduce((prev, key) => {
           prev[key] = options[key];
           return prev;

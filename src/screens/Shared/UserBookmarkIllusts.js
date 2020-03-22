@@ -77,19 +77,16 @@ class UserBookmarkIllusts extends Component {
   }
 }
 
-export default connect(
-  () => {
-    const getUserBookmarkIllustsItems = makeGetUserBookmarkIllustsItems();
-    return (state, props) => {
-      const { userBookmarkIllusts } = state;
-      const userId = props.userId || props.route.params.userId;
-      return {
-        userBookmarkIllusts: userBookmarkIllusts[userId],
-        items: getUserBookmarkIllustsItems(state, props),
-        userId,
-        listKey: `${props.route.key}-userbookmarkIllusts`,
-      };
+export default connect(() => {
+  const getUserBookmarkIllustsItems = makeGetUserBookmarkIllustsItems();
+  return (state, props) => {
+    const { userBookmarkIllusts } = state;
+    const userId = props.userId || props.route.params.userId;
+    return {
+      userBookmarkIllusts: userBookmarkIllusts[userId],
+      items: getUserBookmarkIllustsItems(state, props),
+      userId,
+      listKey: `${props.route.key}-userbookmarkIllusts`,
     };
-  },
-  userBookmarkIllustsActionCreators,
-)(UserBookmarkIllusts);
+  };
+}, userBookmarkIllustsActionCreators)(UserBookmarkIllusts);

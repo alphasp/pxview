@@ -14,8 +14,8 @@ function getNonMutedTagsAndUsersItems(items, muteTags, muteUsers) {
   if (!items || !items.length) {
     return defaultArray;
   }
-  const filteredItems = items.filter(item => {
-    const hasMutedTag = item.tags.some(tag => {
+  const filteredItems = items.filter((item) => {
+    const hasMutedTag = item.tags.some((tag) => {
       return (
         muteTags.includes(tag.name) || muteTags.includes(tag.translated_name)
       );
@@ -30,7 +30,7 @@ function getNonMutedUsersItems(items, muteUsers) {
   if (!items || !items.length) {
     return defaultArray;
   }
-  const filteredItems = items.filter(item => {
+  const filteredItems = items.filter((item) => {
     const isMutedUser = muteUsers.includes(item.user.id);
     return !isMutedUser;
   });
@@ -41,7 +41,7 @@ function getNonMutedTagsItems(items, muteTags) {
   if (!items || !items.length) {
     return defaultArray;
   }
-  const filteredItems = items.filter(item => {
+  const filteredItems = items.filter((item) => {
     const hasMutedTag =
       muteTags.includes(item.tag) || muteTags.includes(item.translated_name);
     return !hasMutedTag;
@@ -79,61 +79,62 @@ function specialMemoize(
 }
 
 const getProps = (state, props) => props;
-const selectEntities = state => state.entities;
-const selectRanking = state => state.ranking;
-const selectWalkthroughIllusts = state => state.walkthroughIllusts;
-const selectRecommendedIllusts = state => state.recommendedIllusts;
-const selectRecommendedMangas = state => state.recommendedMangas;
-const selectRecommendedNovels = state => state.recommendedNovels;
-const selectTrendingIllustTags = state => state.trendingIllustTags;
-const selectTrendingNovelTags = state => state.trendingNovelTags;
-const selectSearchIllusts = state => state.searchIllusts;
-const selectSearchNovels = state => state.searchNovels;
-const selectRelatedIllusts = state => state.relatedIllusts;
-const selectFollowingUserIllusts = state => state.followingUserIllusts;
-const selectFollowingUserNovels = state => state.followingUserNovels;
-const selectNewIllusts = state => state.newIllusts;
-const selectNewMangas = state => state.newMangas;
-const selectNewNovels = state => state.newNovels;
-const selectMyPixivIllusts = state => state.myPixivIllusts;
-const selectMyPixivNovels = state => state.myPixivNovels;
-const selectUserBookmarkIllusts = state => state.userBookmarkIllusts;
-const selectMyPrivateBookmarkIllusts = state => state.myPrivateBookmarkIllusts;
-const selectUserBookmarkNovels = state => state.userBookmarkNovels;
-const selectMyPrivateBookmarkNovels = state => state.myPrivateBookmarkNovels;
-const selectUserIllusts = state => state.userIllusts;
-const selectUserMangas = state => state.userMangas;
-const selectUserNovels = state => state.userNovels;
+const selectEntities = (state) => state.entities;
+const selectRanking = (state) => state.ranking;
+const selectWalkthroughIllusts = (state) => state.walkthroughIllusts;
+const selectRecommendedIllusts = (state) => state.recommendedIllusts;
+const selectRecommendedMangas = (state) => state.recommendedMangas;
+const selectRecommendedNovels = (state) => state.recommendedNovels;
+const selectTrendingIllustTags = (state) => state.trendingIllustTags;
+const selectTrendingNovelTags = (state) => state.trendingNovelTags;
+const selectSearchIllusts = (state) => state.searchIllusts;
+const selectSearchNovels = (state) => state.searchNovels;
+const selectRelatedIllusts = (state) => state.relatedIllusts;
+const selectFollowingUserIllusts = (state) => state.followingUserIllusts;
+const selectFollowingUserNovels = (state) => state.followingUserNovels;
+const selectNewIllusts = (state) => state.newIllusts;
+const selectNewMangas = (state) => state.newMangas;
+const selectNewNovels = (state) => state.newNovels;
+const selectMyPixivIllusts = (state) => state.myPixivIllusts;
+const selectMyPixivNovels = (state) => state.myPixivNovels;
+const selectUserBookmarkIllusts = (state) => state.userBookmarkIllusts;
+const selectMyPrivateBookmarkIllusts = (state) =>
+  state.myPrivateBookmarkIllusts;
+const selectUserBookmarkNovels = (state) => state.userBookmarkNovels;
+const selectMyPrivateBookmarkNovels = (state) => state.myPrivateBookmarkNovels;
+const selectUserIllusts = (state) => state.userIllusts;
+const selectUserMangas = (state) => state.userMangas;
+const selectUserNovels = (state) => state.userNovels;
 
-const selectRecommendedUsers = state => state.recommendedUsers;
-const selectSearchUsersAutoComplete = state => state.searchUsersAutoComplete;
-const selectUserFollowing = state => state.userFollowing;
-const selectUserFollowers = state => state.userFollowers;
-const selectUserMyPixiv = state => state.userMyPixiv;
-const selectSearchUsers = state => state.searchUsers;
+const selectRecommendedUsers = (state) => state.recommendedUsers;
+const selectSearchUsersAutoComplete = (state) => state.searchUsersAutoComplete;
+const selectUserFollowing = (state) => state.userFollowing;
+const selectUserFollowers = (state) => state.userFollowers;
+const selectUserMyPixiv = (state) => state.userMyPixiv;
+const selectSearchUsers = (state) => state.searchUsers;
 
-const selectUserDetail = state => state.userDetail;
+const selectUserDetail = (state) => state.userDetail;
 
-const selectIllustComments = state => state.illustComments;
-const selectNovelComments = state => state.novelComments;
-const selectIllustCommentReplies = state => state.illustCommentReplies;
-const selectNovelCommentReplies = state => state.novelCommentReplies;
+const selectIllustComments = (state) => state.illustComments;
+const selectNovelComments = (state) => state.novelComments;
+const selectIllustCommentReplies = (state) => state.illustCommentReplies;
+const selectNovelCommentReplies = (state) => state.novelCommentReplies;
 
-const selectNovelSeries = state => state.novelSeries;
-const selectNovelText = state => state.novelText;
+const selectNovelSeries = (state) => state.novelSeries;
+const selectNovelText = (state) => state.novelText;
 
-const selectBrowsingHistoryIllusts = state => state.browsingHistoryIllusts;
-const selectBrowsingHistoryNovels = state => state.browsingHistoryNovels;
+const selectBrowsingHistoryIllusts = (state) => state.browsingHistoryIllusts;
+const selectBrowsingHistoryNovels = (state) => state.browsingHistoryNovels;
 
-const selectHighlightTags = state => state.highlightTags.items;
+const selectHighlightTags = (state) => state.highlightTags.items;
 
-const selectMuteSettings = state => state.muteSettings;
-const selectMuteTags = state => state.muteTags.items;
-const selectMuteUsers = state => state.muteUsers.items;
+const selectMuteSettings = (state) => state.muteSettings;
+const selectMuteTags = (state) => state.muteTags.items;
+const selectMuteUsers = (state) => state.muteUsers.items;
 
-export const getAuth = state => state.auth;
-export const getAuthUser = state => state.auth.user;
-export const getLang = state => state.i18n.lang;
+export const getAuth = (state) => state.auth;
+export const getAuthUser = (state) => state.auth.user;
+export const getLang = (state) => state.i18n.lang;
 
 const createIllustItemsSelector = createSelectorCreator(
   specialMemoize,
@@ -767,15 +768,12 @@ export const makeGetNovelSeriesItems = () =>
   );
 
 export const makeGetParsedNovelText = () =>
-  createSelector(
-    [selectNovelText, getProps],
-    (novelText, props) => {
-      const novelId = props.novelId || props.route.params.novelId;
-      return novelText[novelId] && novelText[novelId].text
-        ? parseNovelText(novelText[novelId].text)
-        : null;
-    },
-  );
+  createSelector([selectNovelText, getProps], (novelText, props) => {
+    const novelId = props.novelId || props.route.params.novelId;
+    return novelText[novelId] && novelText[novelId].text
+      ? parseNovelText(novelText[novelId].text)
+      : null;
+  });
 
 export const makeGetUserItem = () =>
   createUserItemSelector([selectEntities, getProps], (entities, props) => {
@@ -892,7 +890,7 @@ export const makeGetTagsWithStatus = () =>
     [selectHighlightTags, selectMuteTags, getProps],
     (highlightTags, muteTags, { item }) => {
       if (item && item.tags && item.tags.length) {
-        return item.tags.map(tag => ({
+        return item.tags.map((tag) => ({
           ...tag,
           isHighlight: highlightTags.includes(tag.name),
           isMute: muteTags.includes(tag.name),

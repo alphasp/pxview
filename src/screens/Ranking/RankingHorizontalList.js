@@ -85,19 +85,19 @@ class RankingHorizontalList extends Component {
     });
   };
 
-  handleOnPressItem = item => {
+  handleOnPressItem = (item) => {
     const {
       items,
       navigation: { push },
     } = this.props;
-    const index = items.findIndex(i => i.id === item.id);
+    const index = items.findIndex((i) => i.id === item.id);
     push(SCREENS.Detail, {
       items,
       index,
     });
   };
 
-  mapRankingTypeString = rankingType => {
+  mapRankingTypeString = (rankingType) => {
     const { i18n } = this.props;
     switch (rankingType) {
       case RANKING_TYPES.ILLUST:
@@ -151,7 +151,7 @@ class RankingHorizontalList extends Component {
         {loading && <Loader />}
         {loaded && (
           <Carousel
-            ref={ref => {
+            ref={(ref) => {
               this.carousel = ref;
             }}
             data={items}
@@ -171,18 +171,15 @@ class RankingHorizontalList extends Component {
 
 export default withTheme(
   connectLocalization(
-    connect(
-      () => {
-        const getRankingItems = makeGetIllustRankingItems();
-        return (state, props) => {
-          const { ranking } = state;
-          return {
-            ranking: ranking[props.rankingMode],
-            items: getRankingItems(state, props),
-          };
+    connect(() => {
+      const getRankingItems = makeGetIllustRankingItems();
+      return (state, props) => {
+        const { ranking } = state;
+        return {
+          ranking: ranking[props.rankingMode],
+          items: getRankingItems(state, props),
         };
-      },
-      rankingActionCreators,
-    )(RankingHorizontalList),
+      };
+    }, rankingActionCreators)(RankingHorizontalList),
   ),
 );

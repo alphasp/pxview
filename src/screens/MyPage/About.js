@@ -57,7 +57,7 @@ const list = [
 ];
 
 class About extends Component {
-  handleOnPressListItem = item => {
+  handleOnPressListItem = (item) => {
     switch (item.id) {
       case 'contactUs': {
         this.openUrl('mailto:gmerudotcom@gmail.com?subject=About PxView');
@@ -79,15 +79,15 @@ class About extends Component {
     }
   };
 
-  openUrl = url => {
+  openUrl = (url) => {
     Linking.canOpenURL(url)
-      .then(supported => {
+      .then((supported) => {
         if (!supported) {
           return null;
         }
         return Linking.openURL(url);
       })
-      .catch(err => err);
+      .catch((err) => err);
   };
 
   render() {
@@ -109,7 +109,7 @@ class About extends Component {
           </View>
         </View>
         <View style={styles.listContainer}>
-          {list.map(item => (
+          {list.map((item) => (
             <PXListItem
               key={item.id}
               title={i18n.formatString(

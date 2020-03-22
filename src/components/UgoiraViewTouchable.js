@@ -132,7 +132,7 @@ class UgoiraViewTouchable extends Component {
       const { zipUrl, frames } = ugoiraMeta.item;
       if (ugoiraPath) {
         if (zipUrl && frames && frames.length) {
-          this.setState(state => ({
+          this.setState((state) => ({
             paused: !state.paused,
           }));
         }
@@ -169,7 +169,7 @@ class UgoiraViewTouchable extends Component {
         >
           {ugoiraPath ? (
             <UgoiraView
-              images={ugoiraMeta.item.frames.map(frame => ({
+              images={ugoiraMeta.item.frames.map((frame) => ({
                 uri:
                   Platform.OS === 'android'
                     ? `file://${ugoiraPath}/${frame.file}`
@@ -199,13 +199,10 @@ class UgoiraViewTouchable extends Component {
   }
 }
 
-export default connect(
-  (state, props) => {
-    const { ugoiraMeta } = state;
-    const { item } = props;
-    return {
-      ugoiraMeta: ugoiraMeta[item.id],
-    };
-  },
-  ugoiraMetaActionCreators,
-)(UgoiraViewTouchable);
+export default connect((state, props) => {
+  const { ugoiraMeta } = state;
+  const { item } = props;
+  return {
+    ugoiraMeta: ugoiraMeta[item.id],
+  };
+}, ugoiraMetaActionCreators)(UgoiraViewTouchable);

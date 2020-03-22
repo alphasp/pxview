@@ -44,10 +44,10 @@ export default connect(() => {
     const { tags, user } = item;
     return {
       item,
-      isHighlight: tags.some(t => highlightTags.items.includes(t.name)),
+      isHighlight: tags.some((t) => highlightTags.items.includes(t.name)),
       isMute:
-        tags.some(t => muteTags.items.includes(t.name)) ||
-        muteUsers.items.some(m => m === user.id),
+        tags.some((t) => muteTags.items.includes(t.name)) ||
+        muteUsers.items.some((m) => m === user.id),
       isShowLikeCount: likeButtonSettings.isShowLikeCount,
     };
   };

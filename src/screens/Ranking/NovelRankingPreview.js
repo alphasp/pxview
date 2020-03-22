@@ -104,17 +104,14 @@ class NovelRankingPreview extends Component {
 }
 
 export default connectLocalization(
-  connect(
-    () => {
-      const getRankingItems = makeGetNovelRankingItems();
-      return (state, props) => {
-        const { ranking } = state;
-        return {
-          ranking: ranking[props.rankingMode],
-          items: getRankingItems(state, props),
-        };
+  connect(() => {
+    const getRankingItems = makeGetNovelRankingItems();
+    return (state, props) => {
+      const { ranking } = state;
+      return {
+        ranking: ranking[props.rankingMode],
+        items: getRankingItems(state, props),
       };
-    },
-    rankingActionCreators,
-  )(NovelRankingPreview),
+    };
+  }, rankingActionCreators)(NovelRankingPreview),
 );

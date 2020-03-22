@@ -81,22 +81,19 @@ class UserFollowing extends Component {
 }
 
 export default connectLocalization(
-  connect(
-    () => {
-      const getUserFollowingItems = makeGetUserFollowingItems();
-      return (state, props) => {
-        const { userFollowing } = state;
-        const userId = props.userId || props.route.params.userId;
-        const followingType =
-          props.followingType || props.route.params.followingType;
-        return {
-          userFollowing: userFollowing[followingType][userId],
-          items: getUserFollowingItems(state, props),
-          userId,
-          followingType,
-        };
+  connect(() => {
+    const getUserFollowingItems = makeGetUserFollowingItems();
+    return (state, props) => {
+      const { userFollowing } = state;
+      const userId = props.userId || props.route.params.userId;
+      const followingType =
+        props.followingType || props.route.params.followingType;
+      return {
+        userFollowing: userFollowing[followingType][userId],
+        items: getUserFollowingItems(state, props),
+        userId,
+        followingType,
       };
-    },
-    userFollowingActionCreators,
-  )(UserFollowing),
+    };
+  }, userFollowingActionCreators)(UserFollowing),
 );

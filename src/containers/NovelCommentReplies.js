@@ -57,7 +57,7 @@ class NovelCommentReplies extends Component {
     });
   };
 
-  handleOnPressReplyCommentButton = commentItem => {
+  handleOnPressReplyCommentButton = (commentItem) => {
     const { checkIfUserEligibleToPostComment } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
@@ -114,18 +114,15 @@ class NovelCommentReplies extends Component {
 }
 
 export default enhancePostComment(
-  connect(
-    () => {
-      const getNovelCommentRepliesItems = makeGetNovelCommentRepliesItems();
-      return (state, props) => {
-        const { novelCommentReplies } = state;
-        const { commentId } = props;
-        return {
-          novelCommentReplies: novelCommentReplies[commentId],
-          items: getNovelCommentRepliesItems(state, props),
-        };
+  connect(() => {
+    const getNovelCommentRepliesItems = makeGetNovelCommentRepliesItems();
+    return (state, props) => {
+      const { novelCommentReplies } = state;
+      const { commentId } = props;
+      return {
+        novelCommentReplies: novelCommentReplies[commentId],
+        items: getNovelCommentRepliesItems(state, props),
       };
-    },
-    novelCommentRepliesActionCreators,
-  )(NovelCommentReplies),
+    };
+  }, novelCommentRepliesActionCreators)(NovelCommentReplies),
 );

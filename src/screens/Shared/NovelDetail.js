@@ -143,7 +143,7 @@ class NovelDetail extends Component {
     }
   }
 
-  handleOnScrollDetailImageList = e => {
+  handleOnScrollDetailImageList = (e) => {
     // Simple fade-in / fade-out animation
     const CustomLayoutLinear = {
       duration: 100,
@@ -177,7 +177,7 @@ class NovelDetail extends Component {
     this.handleOnPressOpenMenuBottomSheet();
   };
 
-  handleOnViewPagerPageSelected = index => {
+  handleOnViewPagerPageSelected = (index) => {
     const { items, addBrowsingHistoryNovels, navigation } = this.props;
     if (this.props.index !== undefined && this.props.index !== index) {
       const { setParams } = navigation;
@@ -290,7 +290,7 @@ class NovelDetail extends Component {
     return false;
   };
 
-  renderHeaderTitle = item => {
+  renderHeaderTitle = (item) => {
     const {
       navigation: { push },
     } = this.props;
@@ -325,7 +325,7 @@ class NovelDetail extends Component {
     );
   };
 
-  renderHeaderRight = item => (
+  renderHeaderRight = (item) => (
     <View style={styles.headerRightContainer}>
       <HeaderInfoButton onPress={this.handleOnPressOpenDetailInfoModal} />
       <HeaderSaveImageButton
@@ -377,7 +377,7 @@ class NovelDetail extends Component {
       return (
         <PXViewPager
           items={[item]}
-          keyExtractor={vpItem => vpItem.id.toString()}
+          keyExtractor={(vpItem) => vpItem.id.toString()}
           index={0}
           renderContent={this.renderContent}
           onPageSelected={this.handleOnViewPagerPageSelected}
@@ -388,7 +388,7 @@ class NovelDetail extends Component {
     return (
       <PXViewPager
         items={items}
-        keyExtractor={vpItem => vpItem.id.toString()}
+        keyExtractor={(vpItem) => vpItem.id.toString()}
         index={index}
         renderContent={this.renderContent}
         onPageSelected={this.handleOnViewPagerPageSelected}
@@ -416,7 +416,7 @@ class NovelDetail extends Component {
             globalStyles.container,
             { backgroundColor: theme.colors.background },
           ]}
-          ref={ref => (this.detailView = ref)}
+          ref={(ref) => (this.detailView = ref)}
         >
           {this.renderMainContent()}
           {isActionButtonVisible && item && (
@@ -481,7 +481,7 @@ export default withTheme(
         return (state, props) => {
           const item = getDetailItem(state, props);
           const isMuteUser = item
-            ? state.muteUsers.items.some(m => m === item.user.id)
+            ? state.muteUsers.items.some((m) => m === item.user.id)
             : false;
           const {
             id: novelIdFromQS,

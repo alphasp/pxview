@@ -20,7 +20,7 @@ export function* handleFetchNovelSeries(action) {
     }
     //
     const normalized = normalize(
-      response.novels.filter(novel => novel.visible && novel.id),
+      response.novels.filter((novel) => novel.visible && novel.id),
       Schemas.NOVEL_ARRAY,
     );
     yield put(

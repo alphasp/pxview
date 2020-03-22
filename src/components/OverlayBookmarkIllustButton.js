@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const OverlayBookmarkIllustButton = props => {
+const OverlayBookmarkIllustButton = (props) => {
   const { item, isShowLikeCount } = props;
   const showLikeCount = isShowLikeCount && item.total_bookmarks > 0;
   return (

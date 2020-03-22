@@ -184,15 +184,15 @@ class UserDetail extends Component {
     fetchUserBookmarkNovels(userId);
   };
 
-  handleOnLinkPress = url => {
+  handleOnLinkPress = (url) => {
     Linking.canOpenURL(url)
-      .then(supported => {
+      .then((supported) => {
         if (!supported) {
           return null;
         }
         return Linking.openURL(url);
       })
-      .catch(err => err);
+      .catch((err) => err);
   };
 
   handleOnRefresh = () => {
@@ -356,7 +356,7 @@ class UserDetail extends Component {
     );
   };
 
-  renderProfile = detail => {
+  renderProfile = (detail) => {
     const { i18n, theme } = this.props;
     return (
       <View>
@@ -397,7 +397,7 @@ class UserDetail extends Component {
                     detail.profile.webpage.replace(/https?:\/\//i, ''),
                     { length: 15 },
                   )}
-                  onPress={url => this.handleOnLinkPress(url)}
+                  onPress={(url) => this.handleOnLinkPress(url)}
                 >
                   <Text style={styles.stat}>{detail.profile.webpage}</Text>
                 </Hyperlink>
@@ -409,7 +409,7 @@ class UserDetail extends Component {
                 <Hyperlink
                   linkStyle={styles.externalLink}
                   linkText={detail.profile.twitter_account}
-                  onPress={url => this.handleOnLinkPress(url)}
+                  onPress={(url) => this.handleOnLinkPress(url)}
                 >
                   <Text style={styles.stat}>{detail.profile.twitter_url}</Text>
                 </Hyperlink>
@@ -440,7 +440,7 @@ class UserDetail extends Component {
           <View style={styles.commentContainer}>
             <Hyperlink
               linkStyle={styles.hyperlink}
-              onPress={url => this.handleOnLinkPress(url)}
+              onPress={(url) => this.handleOnLinkPress(url)}
             >
               <Text selectable>{detail.user.comment}</Text>
             </Hyperlink>
@@ -494,7 +494,7 @@ class UserDetail extends Component {
     );
   };
 
-  renderBookmarkIllusts = items => {
+  renderBookmarkIllusts = (items) => {
     const { userId, navigation, i18n } = this.props;
     return (
       <IllustCollection
@@ -510,7 +510,7 @@ class UserDetail extends Component {
     );
   };
 
-  renderBookmarkNovels = items => {
+  renderBookmarkNovels = (items) => {
     const { userId, navigation, i18n } = this.props;
     return (
       <NovelCollection
@@ -525,7 +525,7 @@ class UserDetail extends Component {
     );
   };
 
-  renderContent = detail => {
+  renderContent = (detail) => {
     const {
       userIllusts,
       userMangas,
@@ -675,7 +675,7 @@ export default withTheme(
             userBookmarkIllustsItems,
             userBookmarkNovelsItems,
           } = getUserDetailPageItem(state, props);
-          const isMuteUser = muteUsers.items.some(m => m === userId);
+          const isMuteUser = muteUsers.items.some((m) => m === userId);
           return {
             authUser: auth.user,
             userDetail: userDetail[userId],

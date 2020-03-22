@@ -24,10 +24,10 @@ const languageList = [
   },
 ];
 class LanguageSettingsModal extends Component {
-  mapItemsOptions = items =>
-    items.map(item => ({ value: item.id, label: item.title }));
+  mapItemsOptions = (items) =>
+    items.map((item) => ({ value: item.id, label: item.title }));
 
-  mapSelectedValue = lang => {
+  mapSelectedValue = (lang) => {
     if (['zh', 'zh-CN', 'zh-SG'].includes(lang)) {
       return 'zh';
     }
@@ -42,7 +42,7 @@ class LanguageSettingsModal extends Component {
     closeModal();
   };
 
-  handleOnOkPickerDialog = value => {
+  handleOnOkPickerDialog = (value) => {
     const { setLanguage } = this.props;
     setLanguage(value);
     this.handleOnCancelPickerDialog();
@@ -64,11 +64,8 @@ class LanguageSettingsModal extends Component {
 }
 
 export default connectLocalization(
-  connect(
-    null,
-    {
-      ...modalActionCreators,
-      ...i18nActionCreators,
-    },
-  )(LanguageSettingsModal),
+  connect(null, {
+    ...modalActionCreators,
+    ...i18nActionCreators,
+  })(LanguageSettingsModal),
 );

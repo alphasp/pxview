@@ -42,14 +42,11 @@ class NewIllusts extends Component {
   }
 }
 
-export default connect(
-  (state, props) => {
-    const { newIllusts } = state;
-    return {
-      newIllusts,
-      items: getNewIllustsItems(state),
-      listKey: `${props.route.key}-newUserIllusts`,
-    };
-  },
-  newIllustsActionCreators,
-)(NewIllusts);
+export default connect((state, props) => {
+  const { newIllusts } = state;
+  return {
+    newIllusts,
+    items: getNewIllustsItems(state),
+    listKey: `${props.route.key}-newUserIllusts`,
+  };
+}, newIllustsActionCreators)(NewIllusts);

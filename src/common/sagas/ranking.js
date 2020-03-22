@@ -101,12 +101,12 @@ export function* handleFetchRanking(action) {
     let normalized;
     if (rankingType === RANKING_TYPES.NOVEL) {
       normalized = normalize(
-        response.novels.filter(novel => novel.visible && novel.id),
+        response.novels.filter((novel) => novel.visible && novel.id),
         Schemas.NOVEL_ARRAY,
       );
     } else {
       normalized = normalize(
-        response.illusts.filter(illust => illust.visible && illust.id),
+        response.illusts.filter((illust) => illust.visible && illust.id),
         Schemas.ILLUST_ARRAY,
       );
     }

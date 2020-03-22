@@ -87,7 +87,7 @@ class FollowModal extends Component {
     }
   }
 
-  handleOnChangeIsPrivate = value => {
+  handleOnChangeIsPrivate = (value) => {
     this.setState({
       isPrivate: value,
     });
@@ -109,7 +109,7 @@ class FollowModal extends Component {
     this.handleOnModalClose();
   };
 
-  handleOnPressModalRemoveButton = userId => {
+  handleOnPressModalRemoveButton = (userId) => {
     this.unfollowUser(userId);
     this.handleOnModalClose();
   };
@@ -124,7 +124,7 @@ class FollowModal extends Component {
     followUser(userId, followType);
   };
 
-  unfollowUser = userId => {
+  unfollowUser = (userId) => {
     const { unfollowUser } = this.props;
     unfollowUser(userId);
   };
@@ -227,7 +227,7 @@ class FollowModal extends Component {
 export default withTheme(
   connectLocalization(
     connect(
-      state => ({
+      (state) => ({
         userFollowDetail: state.userFollowDetail,
       }),
       {

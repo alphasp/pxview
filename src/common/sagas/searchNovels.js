@@ -20,14 +20,14 @@ export function* handleFetchSearchNovels(action) {
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
       normalized = normalize(
-        response.novels.filter(novel => novel.visible && novel.id),
+        response.novels.filter((novel) => novel.visible && novel.id),
         Schemas.NOVEL_ARRAY,
       );
     } else {
       let finalOptions;
       if (options) {
         finalOptions = Object.keys(options)
-          .filter(key => options[key] && key !== 'period')
+          .filter((key) => options[key] && key !== 'period')
           .reduce((prev, key) => {
             prev[key] = options[key];
             return prev;
@@ -63,7 +63,7 @@ export function* handleFetchSearchNovels(action) {
         response = yield apply(pixiv, pixiv.searchNovel, [word, finalOptions]);
       }
       normalized = normalize(
-        response.novels.filter(novel => novel.visible && novel.id),
+        response.novels.filter((novel) => novel.visible && novel.id),
         Schemas.NOVEL_ARRAY,
       );
       if (!response.novels || !response.novels.length) {

@@ -28,7 +28,7 @@ export default function muteTags(
     case MUTE_USERS.REMOVE:
       return {
         ...state,
-        items: state.items.filter(item => item !== action.payload.item),
+        items: state.items.filter((item) => item !== action.payload.item),
       };
     case MUTE_USERS.CLEAR:
       return {

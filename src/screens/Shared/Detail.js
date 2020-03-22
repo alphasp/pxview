@@ -140,7 +140,7 @@ class Detail extends Component {
     }
   }
 
-  handleOnScrollDetailImageList = e => {
+  handleOnScrollDetailImageList = (e) => {
     // Simple fade-in / fade-out animation
     const CustomLayoutLinear = {
       duration: 100,
@@ -170,11 +170,11 @@ class Detail extends Component {
     this.listViewOffset = currentOffset;
   };
 
-  handleOnPressImage = index => {
+  handleOnPressImage = (index) => {
     const { navigation, item } = this.props;
     const images =
       item.page_count > 1
-        ? item.meta_pages.map(page => page.image_urls.original)
+        ? item.meta_pages.map((page) => page.image_urls.original)
         : [item.meta_single_page.original_image_url];
     navigation.navigate(SCREENS.ImagesViewer, {
       images,
@@ -183,11 +183,11 @@ class Detail extends Component {
     });
   };
 
-  handleOnLongPressImage = index => {
+  handleOnLongPressImage = (index) => {
     this.handleOnPressOpenMenuBottomSheet(index);
   };
 
-  handleOnViewPagerPageSelected = index => {
+  handleOnViewPagerPageSelected = (index) => {
     const { items, addBrowsingHistoryIllusts, navigation } = this.props;
     if (this.props.index !== undefined && this.props.index !== index) {
       const { setParams } = navigation;
@@ -222,7 +222,7 @@ class Detail extends Component {
     goBack();
   };
 
-  handleOnPressOpenMenuBottomSheet = selectedImageIndex => {
+  handleOnPressOpenMenuBottomSheet = (selectedImageIndex) => {
     const newState = {
       isOpenMenuBottomSheet: true,
     };
@@ -265,7 +265,7 @@ class Detail extends Component {
     const { selectedImageIndex } = this.state;
     const images =
       item.page_count > 1
-        ? item.meta_pages.map(page => page.image_urls.original)
+        ? item.meta_pages.map((page) => page.image_urls.original)
         : [item.meta_single_page.original_image_url];
     saveImage({
       imageUrls: [images[selectedImageIndex]],
@@ -302,7 +302,7 @@ class Detail extends Component {
     return false;
   };
 
-  renderHeaderTitle = item => {
+  renderHeaderTitle = (item) => {
     const {
       navigation: { push },
     } = this.props;
@@ -337,10 +337,10 @@ class Detail extends Component {
     );
   };
 
-  renderHeaderRight = item => {
+  renderHeaderRight = (item) => {
     const images =
       item.page_count > 1
-        ? item.meta_pages.map(page => page.image_urls.original)
+        ? item.meta_pages.map((page) => page.image_urls.original)
         : [item.meta_single_page.original_image_url];
     return (
       <View style={styles.headerRightContainer}>
@@ -399,7 +399,7 @@ class Detail extends Component {
       return (
         <PXViewPager
           items={[item]}
-          keyExtractor={vpItem => vpItem.id.toString()}
+          keyExtractor={(vpItem) => vpItem.id.toString()}
           index={0}
           renderContent={this.renderContent}
           onPageSelected={this.handleOnViewPagerPageSelected}
@@ -410,7 +410,7 @@ class Detail extends Component {
     return (
       <PXViewPager
         items={items}
-        keyExtractor={vpItem => vpItem.id.toString()}
+        keyExtractor={(vpItem) => vpItem.id.toString()}
         index={index}
         renderContent={this.renderContent}
         onPageSelected={this.handleOnViewPagerPageSelected}
@@ -439,7 +439,7 @@ class Detail extends Component {
             globalStyles.container,
             { backgroundColor: theme.colors.background },
           ]}
-          ref={ref => (this.detailView = ref)}
+          ref={(ref) => (this.detailView = ref)}
         >
           {this.renderMainContent()}
           {isActionButtonVisible && item && (
@@ -506,7 +506,7 @@ export default withTheme(
         return (state, props) => {
           const item = getDetailItem(state, props);
           const isMuteUser = item
-            ? state.muteUsers.items.some(m => m === item.user.id)
+            ? state.muteUsers.items.some((m) => m === item.user.id)
             : false;
           const {
             illust_id: illustIdFromQS,

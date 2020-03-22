@@ -57,7 +57,7 @@ class IllustCommentReplies extends Component {
     });
   };
 
-  handleOnPressReplyCommentButton = commentItem => {
+  handleOnPressReplyCommentButton = (commentItem) => {
     const { checkIfUserEligibleToPostComment } = this.props;
     const isEligible = checkIfUserEligibleToPostComment();
     if (isEligible) {
@@ -114,18 +114,15 @@ class IllustCommentReplies extends Component {
 }
 
 export default enhancePostComment(
-  connect(
-    () => {
-      const getIllustCommentRepliesItems = makeGetIllustCommentRepliesItems();
-      return (state, props) => {
-        const { illustCommentReplies } = state;
-        const { commentId } = props;
-        return {
-          illustCommentReplies: illustCommentReplies[commentId],
-          items: getIllustCommentRepliesItems(state, props),
-        };
+  connect(() => {
+    const getIllustCommentRepliesItems = makeGetIllustCommentRepliesItems();
+    return (state, props) => {
+      const { illustCommentReplies } = state;
+      const { commentId } = props;
+      return {
+        illustCommentReplies: illustCommentReplies[commentId],
+        items: getIllustCommentRepliesItems(state, props),
       };
-    },
-    illustCommentRepliesActionCreators,
-  )(IllustCommentReplies),
+    };
+  }, illustCommentRepliesActionCreators)(IllustCommentReplies),
 );

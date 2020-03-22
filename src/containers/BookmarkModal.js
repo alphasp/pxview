@@ -106,7 +106,7 @@ class BookmarkModal extends Component {
       let selectedTagsCount = 0;
       if (item.tags && item.tags.length) {
         selectedTagsCount = this.countSelectedTags(item.tags);
-        tags = item.tags.map(tag => ({
+        tags = item.tags.map((tag) => ({
           ...tag,
           editable: !!(tag.is_registered || selectedTagsCount < MAX_TAGS_COUNT),
         }));
@@ -119,13 +119,13 @@ class BookmarkModal extends Component {
     }
   }
 
-  handleOnChangeIsPrivate = value => {
+  handleOnChangeIsPrivate = (value) => {
     this.setState({
       isPrivate: value,
     });
   };
 
-  handleOnCheckTag = checkedTag => {
+  handleOnCheckTag = (checkedTag) => {
     const { i18n } = this.props;
     const { tags } = this.state;
     let selectedTagsCount = this.countSelectedTags(tags);
@@ -138,7 +138,7 @@ class BookmarkModal extends Component {
       }
       return;
     }
-    const selectedTag = tags.find(tag => tag.name === checkedTag.name);
+    const selectedTag = tags.find((tag) => tag.name === checkedTag.name);
     if (selectedTag) {
       if (selectedTag.is_registered) {
         selectedTagsCount -= 1;
@@ -146,7 +146,7 @@ class BookmarkModal extends Component {
         selectedTagsCount += 1;
       }
     }
-    const updatedTags = tags.map(tag => {
+    const updatedTags = tags.map((tag) => {
       const isRegistered =
         tag.name === checkedTag.name ? !tag.is_registered : tag.is_registered;
       return {
@@ -161,15 +161,15 @@ class BookmarkModal extends Component {
     });
   };
 
-  countSelectedTags = tags =>
+  countSelectedTags = (tags) =>
     tags.reduce((count, tag) => (tag.is_registered ? ++count : count), 0);
 
   handleOnPressBookmarkButton = () => {
     const { id, onPressBookmark } = this.props;
     const { tags, isPrivate } = this.state;
     const selectedTags = tags
-      .filter(tag => tag.is_registered)
-      .map(tag => tag.name);
+      .filter((tag) => tag.is_registered)
+      .map((tag) => tag.name);
     const bookmarkType = isPrivate
       ? BOOKMARK_TYPES.PRIVATE
       : BOOKMARK_TYPES.PUBLIC;
@@ -187,7 +187,7 @@ class BookmarkModal extends Component {
     if (!newTag) {
       return;
     }
-    const isExistingTag = tags.some(tag => tag.name === newTag);
+    const isExistingTag = tags.some((tag) => tag.name === newTag);
     const newTagEntry = {
       name: newTag,
       is_registered: true,
@@ -195,7 +195,7 @@ class BookmarkModal extends Component {
     };
     let updatedTags;
     if (isExistingTag) {
-      const excludeExistingTagTags = tags.filter(tag => tag.name !== newTag);
+      const excludeExistingTagTags = tags.filter((tag) => tag.name !== newTag);
       updatedTags = [newTagEntry, ...excludeExistingTagTags];
     } else {
       updatedTags = [newTagEntry, ...tags];
@@ -262,14 +262,14 @@ class BookmarkModal extends Component {
                 </View>
                 <View style={styles.newTagContainer}>
                   <TextInput
-                    ref={ref => (this.tagInput = ref)}
+                    ref={(ref) => (this.tagInput = ref)}
                     style={[
                       styles.tagInput,
                       { backgroundColor: theme.colors.background },
                     ]}
                     placeholder={i18n.collectionTagsAdd}
                     autoCorrect={false}
-                    onChangeText={text => this.setState({ newTag: text })}
+                    onChangeText={(text) => this.setState({ newTag: text })}
                   />
                   <PXTouchable
                     onPress={this.handleOnPressAddTag}
@@ -281,7 +281,7 @@ class BookmarkModal extends Component {
                 <View style={styles.tagsContainer}>
                   <FlatList
                     data={tags}
-                    keyExtractor={item => item.name}
+                    keyExtractor={(item) => item.name}
                     renderItem={this.renderItem}
                     keyboardShouldPersistTaps="always"
                   />
@@ -334,7 +334,7 @@ class BookmarkModal extends Component {
             </TouchableWithoutFeedback>
           </View>
         </TouchableWithoutFeedback>
-        <Toast ref={ref => (this.toast = ref)} />
+        <Toast ref={(ref) => (this.toast = ref)} />
       </Modal>
     );
   }

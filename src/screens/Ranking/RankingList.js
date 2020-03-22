@@ -72,17 +72,14 @@ class RankingList extends Component {
   }
 }
 
-export default connect(
-  () => {
-    const getRankingItems = makeGetIllustRankingItems();
-    return (state, props) => {
-      const { ranking } = state;
-      return {
-        ranking: ranking[props.rankingMode],
-        items: getRankingItems(state, props),
-        listKey: `${props.route.key}-${props.rankingMode}`,
-      };
+export default connect(() => {
+  const getRankingItems = makeGetIllustRankingItems();
+  return (state, props) => {
+    const { ranking } = state;
+    return {
+      ranking: ranking[props.rankingMode],
+      items: getRankingItems(state, props),
+      listKey: `${props.route.key}-${props.rankingMode}`,
     };
-  },
-  rankingActionCreators,
-)(RankingList);
+  };
+}, rankingActionCreators)(RankingList);

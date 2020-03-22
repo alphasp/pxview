@@ -77,7 +77,7 @@ class Feedback extends Component {
     this.ref.off();
   }
 
-  handleOnChangeFeedback = text => {
+  handleOnChangeFeedback = (text) => {
     const { setParams } = this.props.navigation;
     this.setState({
       feedback: text,
@@ -87,7 +87,7 @@ class Feedback extends Component {
     });
   };
 
-  handleOnChangeEmail = text => {
+  handleOnChangeEmail = (text) => {
     this.setState({
       email: text,
     });
@@ -163,7 +163,7 @@ class Feedback extends Component {
 export default withTheme(
   connectLocalization(
     connect(
-      state => ({
+      (state) => ({
         user: state.auth.user,
       }),
       errorActionCreators,

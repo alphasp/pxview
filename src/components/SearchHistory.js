@@ -65,7 +65,7 @@ class SearchHistory extends Component {
         </View>
         <FlatList
           data={items}
-          keyExtractor={item => item}
+          keyExtractor={(item) => item}
           renderItem={this.renderItem}
           ItemSeparatorComponent={Separator}
           keyboardShouldPersistTaps="always"

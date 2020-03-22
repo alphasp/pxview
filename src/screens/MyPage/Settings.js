@@ -72,7 +72,7 @@ const otherList = [
 ];
 
 class Settings extends Component {
-  getLanguage = lang => {
+  getLanguage = (lang) => {
     const zhIds = ['zh', 'zh-CN', 'zh-SG'];
     const zhHantIds = ['zh-TW', 'zh-HK', 'zh-MO'];
     if (zhIds.includes(lang)) {
@@ -87,7 +87,7 @@ class Settings extends Component {
     return 'en';
   };
 
-  mapScreenName = routeId => {
+  mapScreenName = (routeId) => {
     const { i18n } = this.props;
     switch (routeId) {
       case SCREENS.Recommended:
@@ -103,7 +103,7 @@ class Settings extends Component {
     }
   };
 
-  mapLanguageName = lang => {
+  mapLanguageName = (lang) => {
     switch (lang) {
       case 'ja':
         return '日本語';
@@ -130,7 +130,7 @@ class Settings extends Component {
     });
   };
 
-  handleOnPressListItem = item => {
+  handleOnPressListItem = (item) => {
     const {
       navigation: { navigate },
       i18n,
@@ -207,11 +207,11 @@ class Settings extends Component {
       .catch(() => {});
   };
 
-  renderList = list => {
+  renderList = (list) => {
     const { i18n, initialScreenId, lang } = this.props;
     return (
       <View>
-        {list.map(item => {
+        {list.map((item) => {
           let description;
           if (item.id === 'initialScreenSettings') {
             description = this.mapScreenName(initialScreenId);
@@ -247,7 +247,7 @@ class Settings extends Component {
 export default withTheme(
   connectLocalization(
     connect(
-      state => ({
+      (state) => ({
         initialScreenId: state.initialScreenSettings.routeName,
         lang: state.i18n.lang,
       }),

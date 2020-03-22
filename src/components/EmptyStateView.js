@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const EmptyState = props => {
+const EmptyState = (props) => {
   const {
     iconName,
     iconType,

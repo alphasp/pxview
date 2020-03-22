@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const NovelCollection = props => {
+const NovelCollection = (props) => {
   const {
     items,
     title,

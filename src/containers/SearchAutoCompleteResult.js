@@ -34,7 +34,7 @@ class SearchAutoCompleteResult extends Component {
     }
   }
 
-  submitSearchAutoComplete = word => {
+  submitSearchAutoComplete = (word) => {
     const { fetchSearchAutoComplete, user } = this.props;
     if (user && word && word.length > 1) {
       fetchSearchAutoComplete(word);
@@ -79,7 +79,7 @@ class SearchAutoCompleteResult extends Component {
 
 export default withTheme(
   connect(
-    state => ({
+    (state) => ({
       searchAutoComplete: state.searchAutoComplete,
       user: state.auth.user,
     }),

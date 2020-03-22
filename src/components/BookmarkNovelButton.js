@@ -67,7 +67,7 @@ class BookmarkNovelButton extends Component {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     loading: state.bookmarkNovel.loading,
     actionType: state.likeButtonSettings.actionType,
   }),

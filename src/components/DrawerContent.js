@@ -196,14 +196,14 @@ class DrawerContent extends Component {
     navigation.closeDrawer();
   };
 
-  renderList = list => {
+  renderList = (list) => {
     const { user, i18n } = this.props;
-    if (!user && list.some(l => l.id === 'logout')) {
-      list = list.filter(l => l.id !== 'logout');
+    if (!user && list.some((l) => l.id === 'logout')) {
+      list = list.filter((l) => l.id !== 'logout');
     }
     return (
       <View>
-        {list.map(item => (
+        {list.map((item) => (
           <DrawerNavigatorItem
             key={item.id}
             label={i18n[item.title]}
@@ -247,7 +247,7 @@ export default withTheme(
   connectLocalization(
     withNavigation(
       connect(
-        state => ({
+        (state) => ({
           user: state.auth.user,
           themeName: state.theme.name,
         }),

@@ -21,8 +21,8 @@ export function* handleFetchSearchUsers(action) {
     const transformedResult = {
       ...response,
       user_previews: response.user_previews
-        .filter(user => user.illusts && user.illusts.length)
-        .map(result => ({
+        .filter((user) => user.illusts && user.illusts.length)
+        .map((result) => ({
           ...result,
           id: result.user.id,
         })),

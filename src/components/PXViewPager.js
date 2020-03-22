@@ -8,7 +8,7 @@ import { globalStyles, globalStyleVariables } from '../styles';
 const LIST_WINDOW_SIZE = 3;
 
 class PXViewPager extends Component {
-  handleOnIOSViewPagerPageSelected = e => {
+  handleOnIOSViewPagerPageSelected = (e) => {
     const { onPageSelected } = this.props;
     const { contentOffset } = e.nativeEvent;
     const viewSize = e.nativeEvent.layoutMeasurement;
@@ -19,7 +19,7 @@ class PXViewPager extends Component {
     }
   };
 
-  handleOnAndroidViewPagerPageSelected = e => {
+  handleOnAndroidViewPagerPageSelected = (e) => {
     const { items, onEndReached } = this.props;
     // const { position } = e.nativeEvent;
     const { onPageSelected } = this.props;

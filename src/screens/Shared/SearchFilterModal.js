@@ -66,7 +66,7 @@ class SearchFilterModal extends Component {
     };
   }
 
-  getFilterList = init => {
+  getFilterList = (init) => {
     const { i18n, navigation, user } = this.props;
     const {
       searchFilter: { start_date, end_date },
@@ -192,7 +192,7 @@ class SearchFilterModal extends Component {
     return filterOptions;
   };
 
-  getSearchTypeName = type => {
+  getSearchTypeName = (type) => {
     const { i18n } = this.props;
     switch (type) {
       case 'target':
@@ -210,7 +210,7 @@ class SearchFilterModal extends Component {
 
   getSelectedFilterName = (key, options) => {
     if (key !== 'likes') {
-      return options.find(o => o.value === this.state[key]).label;
+      return options.find((o) => o.value === this.state[key]).label;
     }
     const { bookmarkNumMin, bookmarkNumMax } = this.state;
     if (!bookmarkNumMin && !bookmarkNumMax) {
@@ -233,7 +233,7 @@ class SearchFilterModal extends Component {
     return `bookmarkNumMin=${bookmarkNumMin}&bookmarkNumMax=${bookmarkNumMax}`;
   };
 
-  handleOnPressFilterOption = filterType => {
+  handleOnPressFilterOption = (filterType) => {
     const value = this.state[filterType];
     this.setState({
       selectedFilterType: filterType,
@@ -241,7 +241,7 @@ class SearchFilterModal extends Component {
     });
   };
 
-  handleOnOkPickerDialog = value => {
+  handleOnOkPickerDialog = (value) => {
     const { selectedFilterType, startDate, endDate } = this.state;
     if (selectedFilterType === 'period') {
       if (value === SEARCH_PERIOD_TYPES.DATE) {
@@ -349,7 +349,7 @@ class SearchFilterModal extends Component {
         ]}
       >
         <View style={styles.listContainer}>
-          {filterList.map(list => (
+          {filterList.map((list) => (
             <PXListItem
               key={list.key}
               title={this.getSearchTypeName(list.key)}
@@ -367,8 +367,8 @@ class SearchFilterModal extends Component {
           <SingleChoiceDialog
             title={this.getSearchTypeName(selectedFilterType)}
             items={filterList
-              .find(f => f.key === selectedFilterType)
-              .options.map(option => ({
+              .find((f) => f.key === selectedFilterType)
+              .options.map((option) => ({
                 value: option.value,
                 label: option.label,
               }))}

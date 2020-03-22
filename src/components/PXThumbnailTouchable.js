@@ -2,7 +2,7 @@ import React from 'react';
 import PXTouchable from './PXTouchable';
 import PXThumbnail from './PXThumbnail';
 
-const PXThumbnailTouchable = props => {
+const PXThumbnailTouchable = (props) => {
   const { uri, size, style, thumbnailStyle, onPress, ...otherProps } = props;
   return (
     <PXTouchable

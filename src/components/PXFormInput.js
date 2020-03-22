@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
 
 class PXFormInput extends Component {
-  handleOnChangeText = text => {
+  handleOnChangeText = (text) => {
     const {
       onChangeText,
       field: { name },

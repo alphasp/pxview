@@ -29,32 +29,32 @@ class ImagesViewer extends Component {
     this.state = {
       loading: true,
       index: viewerIndex,
-      images: images.map(image => ({
+      images: images.map((image) => ({
         url: image,
         loading: true,
       })),
-      routes: images.map(image => ({
+      routes: images.map((image) => ({
         key: image.toString(),
       })),
       hideHeader: true,
     };
   }
 
-  handleOnImageLoaded = imageUrl => {
+  handleOnImageLoaded = (imageUrl) => {
     this.setState(({ images }) => ({
-      images: images.map(image =>
+      images: images.map((image) =>
         image.url === imageUrl ? { ...image, loading: false } : image,
       ),
     }));
   };
 
   handleOnPressImage = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       hideHeader: !prevState.hideHeader,
     }));
   };
 
-  renderPager = props =>
+  renderPager = (props) =>
     Platform.OS === 'ios' ? (
       <TabViewPagerScroll {...props} />
     ) : (
@@ -81,7 +81,7 @@ class ImagesViewer extends Component {
     );
   };
 
-  handleChangeTab = index => {
+  handleChangeTab = (index) => {
     this.setState({ index });
   };
 

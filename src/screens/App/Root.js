@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === 'production') {
     'timeStamp',
     'trace',
     'warn',
-  ].forEach(methodName => {
+  ].forEach((methodName) => {
     // eslint-disable-next-line no-console
     console[methodName] = () => {};
   });

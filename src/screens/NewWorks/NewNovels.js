@@ -42,15 +42,12 @@ class NewNovels extends Component {
   }
 }
 
-export default connect(
-  (state, props) => {
-    const { newNovels, user } = state;
-    return {
-      newNovels,
-      items: getNewNovelsItems(state, props),
-      user,
-      listKey: `${props.route.key}-newNovels`,
-    };
-  },
-  newNovelsActionCreators,
-)(NewNovels);
+export default connect((state, props) => {
+  const { newNovels, user } = state;
+  return {
+    newNovels,
+    items: getNewNovelsItems(state, props),
+    user,
+    listKey: `${props.route.key}-newNovels`,
+  };
+}, newNovelsActionCreators)(NewNovels);

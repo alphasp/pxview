@@ -42,14 +42,11 @@ class NewMangas extends Component {
   }
 }
 
-export default connect(
-  (state, props) => {
-    const { newMangas } = state;
-    return {
-      newMangas,
-      items: getNewMangasItems(state),
-      listKey: `${props.route.key}-newMangas`,
-    };
-  },
-  newMangasActionCreators,
-)(NewMangas);
+export default connect((state, props) => {
+  const { newMangas } = state;
+  return {
+    newMangas,
+    items: getNewMangasItems(state),
+    listKey: `${props.route.key}-newMangas`,
+  };
+}, newMangasActionCreators)(NewMangas);

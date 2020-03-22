@@ -77,19 +77,16 @@ class SearchIllustsResult extends Component {
 }
 
 export default connectLocalization(
-  connect(
-    () => {
-      const getSearchIllustsItems = makeGetSearchIllustsItems();
-      return (state, props) => {
-        const { searchIllusts } = state;
-        const { navigationStateKey } = props;
-        return {
-          searchIllusts: searchIllusts[navigationStateKey],
-          items: getSearchIllustsItems(state, props),
-          listKey: navigationStateKey,
-        };
+  connect(() => {
+    const getSearchIllustsItems = makeGetSearchIllustsItems();
+    return (state, props) => {
+      const { searchIllusts } = state;
+      const { navigationStateKey } = props;
+      return {
+        searchIllusts: searchIllusts[navigationStateKey],
+        items: getSearchIllustsItems(state, props),
+        listKey: navigationStateKey,
       };
-    },
-    searchIllustsActionCreators,
-  )(SearchIllustsResult),
+    };
+  }, searchIllustsActionCreators)(SearchIllustsResult),
 );

@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import PXImage from './PXImage';
 import { globalStyleVariables } from '../styles';
 
-const PXThumbnail = props => {
+const PXThumbnail = (props) => {
   const { uri, size, style, ...otherProps } = props;
   return (
     <View

@@ -84,11 +84,8 @@ class TagBottomSheet extends Component {
 }
 
 export default connectLocalization(
-  connect(
-    null,
-    {
-      ...highlightTagsActionCreators,
-      ...muteTagsActionCreators,
-    },
-  )(TagBottomSheet),
+  connect(null, {
+    ...highlightTagsActionCreators,
+    ...muteTagsActionCreators,
+  })(TagBottomSheet),
 );

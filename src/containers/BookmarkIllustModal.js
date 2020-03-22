@@ -32,7 +32,7 @@ class BookmarkIllustModal extends Component {
     this.handleOnModalClose();
   };
 
-  handleOnPressRemoveButton = illustId => {
+  handleOnPressRemoveButton = (illustId) => {
     const { unbookmarkIllust } = this.props;
     unbookmarkIllust(illustId);
     this.handleOnModalClose();
@@ -63,7 +63,7 @@ class BookmarkIllustModal extends Component {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     illustBookmarkDetail: state.illustBookmarkDetail,
   }),
   {

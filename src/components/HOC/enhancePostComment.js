@@ -6,7 +6,7 @@ import { connectLocalization } from '../Localization';
 import * as verificationEmailActionCreators from '../../common/actions/verificationEmail';
 import { SCREENS } from '../../common/constants';
 
-const enhancePostComment = WrappedComponent => {
+const enhancePostComment = (WrappedComponent) => {
   class Hoc extends Component {
     checkIfUserEligibleToPostComment = () => {
       const { user, i18n } = this.props;
@@ -70,16 +70,13 @@ const enhancePostComment = WrappedComponent => {
   hoistNonReactStatic(Hoc, WrappedComponent);
 
   return connectLocalization(
-    connect(
-      state => {
-        const { user } = state.auth;
-        return {
-          user,
-          verificationEmail: state.verificationEmail,
-        };
-      },
-      verificationEmailActionCreators,
-    )(Hoc),
+    connect((state) => {
+      const { user } = state.auth;
+      return {
+        user,
+        verificationEmail: state.verificationEmail,
+      };
+    }, verificationEmailActionCreators)(Hoc),
   );
 };
 

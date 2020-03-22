@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
 });
 class CommentList extends Component {
-  handleOnPressUser = userId => {
+  handleOnPressUser = (userId) => {
     const { push } = this.props.navigation;
     push(SCREENS.UserDetail, { userId });
   };
@@ -110,16 +110,14 @@ class CommentList extends Component {
               style={[
                 styles.date,
                 theme.dark && {
-                  color: Color(theme.colors.text)
-                    .alpha(0.7)
-                    .string(),
+                  color: Color(theme.colors.text).alpha(0.7).string(),
                 },
               ]}
             >
               {moment(item.date).format('YYYY-MM-DD HH:mm')}
             </Text>
             {onPressReplyCommentButton && (
-              <Fragment>
+              <>
                 <Text> ・ </Text>
                 <PXTouchable
                   onPress={() => onPressReplyCommentButton(item)}
@@ -129,7 +127,7 @@ class CommentList extends Component {
                     {i18n.commentReply}
                   </Text>
                 </PXTouchable>
-              </Fragment>
+              </>
             )}
           </View>
           {item.has_replies &&
@@ -151,7 +149,7 @@ class CommentList extends Component {
     ) : null;
   };
 
-  handleOnPressUser = userId => {
+  handleOnPressUser = (userId) => {
     const { push } = this.props.navigation;
     push(SCREENS.UserDetail, { userId });
   };
@@ -176,7 +174,7 @@ class CommentList extends Component {
         {loaded ? (
           <FlatList
             data={maxItems ? items.slice(0, maxItems) : items}
-            keyExtractor={item => item.id.toString()}
+            keyExtractor={(item) => item.id.toString()}
             renderItem={this.renderRow}
             onEndReachedThreshold={0.1}
             onEndReached={loadMoreItems}

@@ -19,7 +19,7 @@ const actionList = [
 ];
 
 class LikeButtonSettingsModal extends Component {
-  mapActionName = id => {
+  mapActionName = (id) => {
     const { i18n } = this.props;
     switch (id) {
       case LIKE_BUTTON_ACTION_TYPES.PUBLIC_LIKE:
@@ -33,15 +33,18 @@ class LikeButtonSettingsModal extends Component {
     }
   };
 
-  mapItemsOptions = items =>
-    items.map(item => ({ value: item.id, label: this.mapActionName(item.id) }));
+  mapItemsOptions = (items) =>
+    items.map((item) => ({
+      value: item.id,
+      label: this.mapActionName(item.id),
+    }));
 
   handleOnCancelPickerDialog = () => {
     const { closeModal } = this.props;
     closeModal();
   };
 
-  handleOnOkPickerDialog = value => {
+  handleOnOkPickerDialog = (value) => {
     const { setSettings } = this.props;
     setSettings({ actionType: value });
     this.handleOnCancelPickerDialog();
@@ -63,11 +66,8 @@ class LikeButtonSettingsModal extends Component {
 }
 
 export default connectLocalization(
-  connect(
-    null,
-    {
-      ...modalActionCreators,
-      ...likeButtonSettingsActionCreators,
-    },
-  )(LikeButtonSettingsModal),
+  connect(null, {
+    ...modalActionCreators,
+    ...likeButtonSettingsActionCreators,
+  })(LikeButtonSettingsModal),
 );

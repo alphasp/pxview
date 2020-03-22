@@ -46,7 +46,7 @@ class PXBottomSheet extends Component {
     }
   }
 
-  setModalVisible = visible => {
+  setModalVisible = (visible) => {
     const { height, duration } = this.props;
     const { modalVisible, animatedHeight } = this.state;
     if (visible && !modalVisible) {

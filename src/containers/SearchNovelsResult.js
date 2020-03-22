@@ -67,19 +67,16 @@ class SearchNovelsResult extends Component {
 }
 
 export default connectLocalization(
-  connect(
-    () => {
-      const getSearchNovelsItems = makeGetSearchNovelsItems();
-      return (state, props) => {
-        const { searchNovels } = state;
-        const { navigationStateKey } = props;
-        return {
-          searchNovels: searchNovels[navigationStateKey],
-          items: getSearchNovelsItems(state, props),
-          listKey: navigationStateKey,
-        };
+  connect(() => {
+    const getSearchNovelsItems = makeGetSearchNovelsItems();
+    return (state, props) => {
+      const { searchNovels } = state;
+      const { navigationStateKey } = props;
+      return {
+        searchNovels: searchNovels[navigationStateKey],
+        items: getSearchNovelsItems(state, props),
+        listKey: navigationStateKey,
       };
-    },
-    searchNovelsActionCreators,
-  )(SearchNovelsResult),
+    };
+  }, searchNovelsActionCreators)(SearchNovelsResult),
 );

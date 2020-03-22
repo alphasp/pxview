@@ -19,7 +19,7 @@ export function* handleFetchFollowingUserNovels(action) {
       response = yield apply(pixiv, pixiv.novelFollow, [options]);
     }
     const normalized = normalize(
-      response.novels.filter(illust => illust.visible && illust.id),
+      response.novels.filter((illust) => illust.visible && illust.id),
       Schemas.NOVEL_ARRAY,
     );
     // eslint-disable-next-line max-len

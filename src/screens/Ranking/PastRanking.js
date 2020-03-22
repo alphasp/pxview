@@ -101,9 +101,7 @@ class PastRanking extends Component {
     }
     this.state = {
       isOpenRankingModeBottomSheet: false,
-      date: moment()
-        .subtract(2, 'days')
-        .format('YYYY-MM-DD'),
+      date: moment().subtract(2, 'days').format('YYYY-MM-DD'),
       mode,
     };
   }
@@ -116,16 +114,16 @@ class PastRanking extends Component {
     this.setState({ isOpenRankingModeBottomSheet: false });
   };
 
-  handleOnPressRankingMode = mode => {
+  handleOnPressRankingMode = (mode) => {
     this.setState({ mode });
     this.handleOnCancelRankingModeBottomSheet();
   };
 
-  handleOnDateChange = date => {
+  handleOnDateChange = (date) => {
     this.setState({ date });
   };
 
-  mapRankingString = ranking => {
+  mapRankingString = (ranking) => {
     const { i18n } = this.props;
     return i18n[`ranking${ranking.charAt(0).toUpperCase() + ranking.slice(1)}`];
   };
@@ -212,17 +210,17 @@ class PastRanking extends Component {
           onCancel={this.handleOnCancelRankingModeBottomSheet}
         >
           <ScrollView>
-            {Object.keys(this.ranking).map(ranking =>
+            {Object.keys(this.ranking).map((ranking) =>
               this.renderRankingOptions(ranking, this.ranking[ranking]),
             )}
             {user &&
               user.x_restrict > 0 &&
-              Object.keys(this.r18Ranking).map(ranking =>
+              Object.keys(this.r18Ranking).map((ranking) =>
                 this.renderRankingOptions(ranking, this.r18Ranking[ranking]),
               )}
             {user &&
               user.x_restrict > 1 &&
-              Object.keys(this.r18GRanking).map(ranking =>
+              Object.keys(this.r18GRanking).map((ranking) =>
                 this.renderRankingOptions(ranking, this.r18GRanking[ranking]),
               )}
             <PXBottomSheetCancelButton
@@ -238,7 +236,7 @@ class PastRanking extends Component {
 
 export default withTheme(
   connectLocalization(
-    connect(state => ({
+    connect((state) => ({
       user: state.auth.user,
     }))(PastRanking),
   ),

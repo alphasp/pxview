@@ -62,7 +62,7 @@ class MyCollection extends Component {
     }
   }
 
-  handleChangeTab = index => {
+  handleChangeTab = (index) => {
     this.setState({ index });
   };
 
@@ -128,7 +128,7 @@ class MyCollection extends Component {
     });
   };
 
-  handleOnSelectTag = tag => {
+  handleOnSelectTag = (tag) => {
     const {
       navigation: { setParams },
     } = this.props;

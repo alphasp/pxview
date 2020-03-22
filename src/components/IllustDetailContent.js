@@ -102,7 +102,7 @@ class IllustDetailContent extends Component {
     clearTimeout(this.timer);
   }
 
-  handleOnPressTag = tag => {
+  handleOnPressTag = (tag) => {
     const {
       addSearchHistory,
       navigation: { push },
@@ -114,7 +114,7 @@ class IllustDetailContent extends Component {
     });
   };
 
-  handleOnLongPressTag = tag => {
+  handleOnLongPressTag = (tag) => {
     this.setState({
       isOpenTagBottomSheet: true,
       selectedTag: tag,
@@ -127,7 +127,7 @@ class IllustDetailContent extends Component {
     });
   };
 
-  handleOnPressAvatar = userId => {
+  handleOnPressAvatar = (userId) => {
     const { push } = this.props.navigation;
     push(SCREENS.UserDetail, { userId });
   };
@@ -150,7 +150,7 @@ class IllustDetailContent extends Component {
     }, 2000);
   };
 
-  handleOnScroll = e => {
+  handleOnScroll = (e) => {
     const { item, onScroll } = this.props;
     if (item.page_count > 1) {
       this.handleOnScrollMultiImagesList();
@@ -186,7 +186,7 @@ class IllustDetailContent extends Component {
     }
   };
 
-  handleOnLayoutFooter = e => {
+  handleOnLayoutFooter = (e) => {
     this.footerViewHeight = e.nativeEvent.layout.height;
   };
 
@@ -208,7 +208,7 @@ class IllustDetailContent extends Component {
     );
   };
 
-  renderImageOrUgoira = isMute => {
+  renderImageOrUgoira = (isMute) => {
     const { item, onPressImage, onLongPressImage, theme } = this.props;
     if (isMute) {
       return (
@@ -279,14 +279,14 @@ class IllustDetailContent extends Component {
       isOpenTagBottomSheet,
       selectedTag,
     } = this.state;
-    const isMute = tags.some(t => t.isMute) || isMuteUser;
+    const isMute = tags.some((t) => t.isMute) || isMuteUser;
     return (
       <View key={item.id} style={styles.container}>
         {!isMute && item.page_count > 1 ? (
           <View>
             <FlatList
               data={item.meta_pages}
-              keyExtractor={page => page.image_urls.large}
+              keyExtractor={(page) => page.image_urls.large}
               renderItem={this.renderItem}
               removeClippedSubviews={false}
               ListFooterComponent={this.renderFooter}
@@ -325,16 +325,13 @@ class IllustDetailContent extends Component {
 }
 
 export default withTheme(
-  connect(
-    () => {
-      const getTagsWithStatus = makeGetTagsWithStatus();
-      return (state, props) => ({
-        highlightTags: state.highlightTags.items,
-        muteTags: state.muteTags.items,
-        isMuteUser: state.muteUsers.items.some(m => m === props.item.user.id),
-        tags: getTagsWithStatus(state, props),
-      });
-    },
-    searchHistoryActionCreators,
-  )(IllustDetailContent),
+  connect(() => {
+    const getTagsWithStatus = makeGetTagsWithStatus();
+    return (state, props) => ({
+      highlightTags: state.highlightTags.items,
+      muteTags: state.muteTags.items,
+      isMuteUser: state.muteUsers.items.some((m) => m === props.item.user.id),
+      tags: getTagsWithStatus(state, props),
+    });
+  }, searchHistoryActionCreators)(IllustDetailContent),
 );

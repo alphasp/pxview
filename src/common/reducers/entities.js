@@ -30,7 +30,7 @@ export default function entities(
     // https://github.com/reactjs/redux/issues/1262
     // const t0 = performance.now();
     const newState = { ...state };
-    Object.keys(action.payload.entities).forEach(type => {
+    Object.keys(action.payload.entities).forEach((type) => {
       const entity = action.payload.entities[type];
       newState[type] = {
         ...newState[type],

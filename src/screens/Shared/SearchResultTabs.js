@@ -41,7 +41,7 @@ class SearchResultTabs extends Component {
     this.setState({ isFocusSearchBar: true });
   };
 
-  handleOnChangeSearchText = word => {
+  handleOnChangeSearchText = (word) => {
     this.setState({ newWord: word });
   };
 
@@ -127,7 +127,7 @@ class SearchResultTabs extends Component {
     return false;
   };
 
-  handleOnSubmitSearch = word => {
+  handleOnSubmitSearch = (word) => {
     const { setParams } = this.props.navigation;
     const { searchType, newSearchType } = this.state;
     Keyboard.dismiss();
@@ -146,7 +146,7 @@ class SearchResultTabs extends Component {
     return true;
   };
 
-  handleOnChangePill = index => {
+  handleOnChangePill = (index) => {
     const newState = {};
     if (index === 0) {
       newState.newSearchType = SEARCH_TYPES.ILLUST;

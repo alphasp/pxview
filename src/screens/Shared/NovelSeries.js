@@ -98,23 +98,20 @@ class NovelSeries extends Component {
 }
 
 export default connectLocalization(
-  connect(
-    () => {
-      const getNovelSeriesItems = makeGetNovelSeriesItems();
-      return (state, props) => {
-        const { novelSeries } = state;
-        const { isFeatureInDetailPage } = props;
-        const seriesId = props.seriesId || props.route.params.seriesId;
-        return {
-          novelSeries: novelSeries[seriesId],
-          items: getNovelSeriesItems(state, props),
-          seriesId,
-          listKey: !isFeatureInDetailPage
-            ? `${props.route.key}-${seriesId}-NovelSeries`
-            : null,
-        };
+  connect(() => {
+    const getNovelSeriesItems = makeGetNovelSeriesItems();
+    return (state, props) => {
+      const { novelSeries } = state;
+      const { isFeatureInDetailPage } = props;
+      const seriesId = props.seriesId || props.route.params.seriesId;
+      return {
+        novelSeries: novelSeries[seriesId],
+        items: getNovelSeriesItems(state, props),
+        seriesId,
+        listKey: !isFeatureInDetailPage
+          ? `${props.route.key}-${seriesId}-NovelSeries`
+          : null,
       };
-    },
-    novelSeriesActionCreators,
-  )(NovelSeries),
+    };
+  }, novelSeriesActionCreators)(NovelSeries),
 );

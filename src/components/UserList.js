@@ -128,7 +128,7 @@ class UserList extends Component {
     push(SCREENS.NovelDetail, { items: novels, index });
   };
 
-  handleOnPressAvatar = userId => {
+  handleOnPressAvatar = (userId) => {
     const { push } = this.props.navigation;
     push(SCREENS.UserDetail, { userId });
   };
@@ -148,7 +148,7 @@ class UserList extends Component {
         {items && items.length ? (
           <FlatList
             data={items}
-            keyExtractor={item => item.user.id.toString()}
+            keyExtractor={(item) => item.user.id.toString()}
             renderItem={this.renderItem}
             onEndReachedThreshold={0.1}
             onEndReached={loadMoreItems}

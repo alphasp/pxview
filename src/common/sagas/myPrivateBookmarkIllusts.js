@@ -26,7 +26,7 @@ export function* handleFetchMyPrivateBookmarkIllusts(action) {
       ]);
     }
     const normalized = normalize(
-      response.illusts.filter(illust => illust.visible && illust.id),
+      response.illusts.filter((illust) => illust.visible && illust.id),
       Schemas.ILLUST_ARRAY,
     );
     yield put(

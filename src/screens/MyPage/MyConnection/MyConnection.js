@@ -36,7 +36,7 @@ class MyConnection extends Component {
     }
   }
 
-  handleChangeTab = index => {
+  handleChangeTab = (index) => {
     this.setState({ index });
   };
 

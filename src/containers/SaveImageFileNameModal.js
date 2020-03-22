@@ -62,13 +62,13 @@ class SaveImageFileNameModal extends Component {
     this.handleOnModalClose();
   };
 
-  handleOnChangeIsCreateFolderForUser = value => {
+  handleOnChangeIsCreateFolderForUser = (value) => {
     this.setState({
       isCreateFolderForUser: value,
     });
   };
 
-  mapUserFolderNameFormatLabel = value => {
+  mapUserFolderNameFormatLabel = (value) => {
     const { i18n } = this.props;
     switch (value) {
       case SAVE_FILE_NAME_USER_FOLDER_FORMAT.USER_ID:
@@ -82,7 +82,7 @@ class SaveImageFileNameModal extends Component {
     }
   };
 
-  mapImageFileNameFormatLabel = value => {
+  mapImageFileNameFormatLabel = (value) => {
     const { i18n } = this.props;
     switch (value) {
       case SAVE_FILE_NAME_FORMAT.WORK_ID:
@@ -97,7 +97,7 @@ class SaveImageFileNameModal extends Component {
   };
 
   getUserFolderNameFormatList = () =>
-    Object.keys(SAVE_FILE_NAME_USER_FOLDER_FORMAT).map(key => ({
+    Object.keys(SAVE_FILE_NAME_USER_FOLDER_FORMAT).map((key) => ({
       value: SAVE_FILE_NAME_USER_FOLDER_FORMAT[key],
       label: this.mapUserFolderNameFormatLabel(
         SAVE_FILE_NAME_USER_FOLDER_FORMAT[key],
@@ -105,18 +105,18 @@ class SaveImageFileNameModal extends Component {
     }));
 
   getFileNameFormatList = () =>
-    Object.keys(SAVE_FILE_NAME_FORMAT).map(key => ({
+    Object.keys(SAVE_FILE_NAME_FORMAT).map((key) => ({
       value: SAVE_FILE_NAME_FORMAT[key],
       label: this.mapImageFileNameFormatLabel(SAVE_FILE_NAME_FORMAT[key]),
     }));
 
-  handleOnChangeUserFolderName = value => {
+  handleOnChangeUserFolderName = (value) => {
     this.setState({
       selectedFileNameUserFolder: value,
     });
   };
 
-  handleOnChangeFileName = value => {
+  handleOnChangeFileName = (value) => {
     this.setState({
       selectedFileNameWork: value,
     });
@@ -185,11 +185,8 @@ class SaveImageFileNameModal extends Component {
 }
 
 export default connectLocalization(
-  connect(
-    null,
-    {
-      ...modalActionCreators,
-      ...saveImageSettingsActionCreators,
-    },
-  )(SaveImageFileNameModal),
+  connect(null, {
+    ...modalActionCreators,
+    ...saveImageSettingsActionCreators,
+  })(SaveImageFileNameModal),
 );

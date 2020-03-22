@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { SEARCH_PERIOD_TYPES } from '../constants';
 
-const mapSearchPeriodToStartAndEndDates = period => {
+const mapSearchPeriodToStartAndEndDates = (period) => {
   const startDate = moment().subtract(1, 'day');
   const endDate = startDate.clone();
   switch (period) {

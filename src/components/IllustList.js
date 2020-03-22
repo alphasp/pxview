@@ -34,7 +34,7 @@ class IllustList extends Component {
       listKey,
       maxItems,
     } = this.props;
-    if (listKey && (items && items.length) && items !== prevItems) {
+    if (listKey && items && items.length && items !== prevItems) {
       DeviceEventEmitter.emit('masterListUpdate', {
         listKey,
         items: maxItems ? items.slice(0, maxItems) : items,
@@ -83,7 +83,7 @@ class IllustList extends Component {
     });
   };
 
-  handleOnLayout = e => {
+  handleOnLayout = (e) => {
     const { onListLayout } = this.props;
     if (onListLayout) {
       onListLayout(e, this.illustList);
@@ -116,14 +116,14 @@ class IllustList extends Component {
         {loaded ? (
           <FlatList
             onLayout={this.handleOnLayout}
-            ref={ref => (this.illustList = ref)}
+            ref={(ref) => (this.illustList = ref)}
             data={
-              maxItems && (items && items.length)
+              maxItems && items && items.length
                 ? items.slice(0, maxItems)
                 : items
             }
             numColumns={ILLUST_COLUMNS}
-            keyExtractor={item => item.id.toString()}
+            keyExtractor={(item) => item.id.toString()}
             listKey={listKey}
             renderItem={this.renderItem}
             getItemLayout={(data, index) => ({
@@ -156,10 +156,5 @@ class IllustList extends Component {
 }
 
 export default withTheme(
-  withNavigation(
-    connect(
-      null,
-      bookmarkIllustActionCreators,
-    )(IllustList),
-  ),
+  withNavigation(connect(null, bookmarkIllustActionCreators)(IllustList)),
 );
