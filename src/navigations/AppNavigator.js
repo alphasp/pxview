@@ -215,7 +215,13 @@ const AppNavigator = ({ initialRouteName }) => {
               headerStyle,
             }}
           />
-          <Stack.Screen name={SCREENS.NovelSeries} component={NovelSeries} />
+          <Stack.Screen
+            name={SCREENS.NovelSeries}
+            component={NovelSeries}
+            options={{
+              headerStyle,
+            }}
+          />
           <Stack.Screen
             name={SCREENS.RelatedIllusts}
             component={RelatedIllusts}

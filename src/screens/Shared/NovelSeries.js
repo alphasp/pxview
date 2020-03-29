@@ -16,20 +16,16 @@ const styles = StyleSheet.create({
 });
 
 class NovelSeries extends Component {
-  static options = ({ navigation }) => {
-    const { seriesTitle } = navigation.state.params || {};
-    return {
-      title: seriesTitle,
-    };
-  };
-
   componentDidMount() {
     const {
       novelSeries,
       seriesId,
       fetchNovelSeries,
       clearNovelSeries,
+      navigation,
+      route,
     } = this.props;
+    const { seriesTitle } = route.params;
     // will render blank unless scrolled
     // https://github.com/facebook/react-native/issues/10142
     if (!novelSeries || !novelSeries.items) {
@@ -38,6 +34,9 @@ class NovelSeries extends Component {
         fetchNovelSeries(seriesId);
       });
     }
+    navigation.setOptions({
+      title: seriesTitle,
+    });
   }
 
   loadMoreItems = () => {
