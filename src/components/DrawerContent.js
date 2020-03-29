@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Alert } from 'react-native';
+import { View, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { withNavigation } from '@react-navigation/compat';
 // import { DrawerNavigatorItems, DrawerActions } from 'react-navigation-drawer';
 import {
   DrawerContentScrollView,
   DrawerItemList,
+  DrawerItem,
 } from '@react-navigation/drawer';
 import { withTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -28,25 +28,36 @@ const menuList = [
     title: 'myWorks',
     icon: 'picture-o',
     type: 'font-awesome',
-    size: 22,
+    labelStyle: {
+      marginLeft: -2,
+    },
   },
   {
     id: 'connection',
     title: 'connection',
     icon: 'users',
     type: 'font-awesome',
+    labelStyle: {
+      marginLeft: -2,
+    },
   },
   {
     id: 'collection',
     title: 'collection',
     icon: 'heart',
     type: 'font-awesome',
+    labelStyle: {
+      marginLeft: -1,
+    },
   },
   {
     id: 'browsingHistory',
     title: 'browsingHistory',
     icon: 'clock-o',
     type: 'font-awesome',
+    labelStyle: {
+      marginLeft: 2,
+    },
   },
 ];
 
@@ -56,18 +67,27 @@ const menuList2 = [
     title: 'settings',
     icon: 'cog',
     type: 'font-awesome',
+    labelStyle: {
+      marginLeft: 1,
+    },
   },
   {
     id: 'feedback',
     title: 'feedback',
     icon: 'comment-o',
     type: 'font-awesome',
+    labelStyle: {
+      marginLeft: -2,
+    },
   },
   {
     id: 'logout',
     title: 'logout',
     icon: 'sign-out',
     type: 'font-awesome',
+    labelStyle: {
+      marginLeft: -1,
+    },
   },
 ];
 
@@ -197,17 +217,29 @@ class DrawerContent extends Component {
   };
 
   renderList = (list) => {
-    const { user, i18n } = this.props;
+    const { user, i18n, theme } = this.props;
     if (!user && list.some((l) => l.id === 'logout')) {
       list = list.filter((l) => l.id !== 'logout');
     }
     return (
       <View>
         {list.map((item) => (
-          <DrawerNavigatorItem
+          <DrawerItem
             key={item.id}
             label={i18n[item.title]}
-            icon={<Icon name={item.icon} size={item.size || 24} />}
+            icon={({ focused, size }) => {
+              return (
+                <Icon
+                  name={item.icon}
+                  size={item.size || size}
+                  color={focused ? theme.colors.activeTint : theme.colors.text}
+                />
+              );
+            }}
+            inactiveTintColor={theme.colors.text}
+            activeBackgroundColor="#D3D3D3"
+            activeTintColor={theme.colors.activeTint}
+            labelStyle={item.labelStyle}
             onPress={() => this.handleOnDrawerItemPress(item)}
           />
         ))}
@@ -245,20 +277,18 @@ class DrawerContent extends Component {
 
 export default withTheme(
   connectLocalization(
-    withNavigation(
-      connect(
-        (state) => ({
-          user: state.auth.user,
-          themeName: state.theme.name,
-        }),
-        {
-          ...authActionCreators,
-          ...browsingHistoryIllustsActionCreators,
-          ...browsingHistoryNovelsActionCreators,
-          ...searchHistoryActionCreators,
-          ...themeActionCreators,
-        },
-      )(DrawerContent),
-    ),
+    connect(
+      (state) => ({
+        user: state.auth.user,
+        themeName: state.theme.name,
+      }),
+      {
+        ...authActionCreators,
+        ...browsingHistoryIllustsActionCreators,
+        ...browsingHistoryNovelsActionCreators,
+        ...searchHistoryActionCreators,
+        ...themeActionCreators,
+      },
+    )(DrawerContent),
   ),
 );
