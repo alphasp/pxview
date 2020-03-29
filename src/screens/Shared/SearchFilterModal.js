@@ -67,11 +67,12 @@ class SearchFilterModal extends Component {
   }
 
   getFilterList = (init) => {
-    const { i18n, navigation, user } = this.props;
+    const { i18n, user, route } = this.props;
+    // const { startDate, endDate } = this.state;
     const {
       searchFilter: { start_date, end_date },
       searchType,
-    } = navigation.state.params;
+    } = route.params;
     let targetOptions;
     if (searchType === SEARCH_TYPES.ILLUST) {
       targetOptions = [
@@ -330,8 +331,8 @@ class SearchFilterModal extends Component {
   };
 
   render() {
-    const { i18n, navigationStateKey, navigation, theme } = this.props;
-    const { word, searchType } = navigation.state.params;
+    const { i18n, navigationStateKey, route, theme } = this.props;
+    const { word, searchType } = route.params;
     const {
       selectedFilterType,
       selectedPickerValue,

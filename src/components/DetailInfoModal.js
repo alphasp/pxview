@@ -281,6 +281,7 @@ class DetailInfoModal extends Component {
                     isFeatureInDetailPage
                     maxItems={6}
                     navigation={navigation}
+                    route={route}
                   />
                 ) : (
                   <IllustComments
@@ -289,6 +290,7 @@ class DetailInfoModal extends Component {
                     isFeatureInDetailPage
                     maxItems={6}
                     navigation={navigation}
+                    route={route}
                   />
                 )}
               </View>
@@ -303,6 +305,7 @@ class DetailInfoModal extends Component {
                     isFeatureInDetailPage
                     maxItems={6}
                     navigation={navigation}
+                    route={route}
                   />
                 </View>
               )}
@@ -322,6 +325,7 @@ class DetailInfoModal extends Component {
                     isFeatureInDetailPage
                     maxItems={6}
                     navigation={navigation}
+                    route={route}
                   />
                 </View>
               )}
