@@ -6,7 +6,7 @@ import TrendingNavigator from './TrendingNavigator';
 import NewWorksNavigator from './NewWorksNavigator';
 import DrawerContent from '../components/DrawerContent';
 import DrawerIcon from '../components/DrawerIcon';
-import useLocalization from '../components/Localization/useLocalization';
+import { useLocalization } from '../components/Localization';
 import { globalStyles, globalStyleVariables } from '../styles';
 import { SCREENS } from '../common/constants';
 

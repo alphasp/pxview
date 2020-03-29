@@ -7,7 +7,7 @@ import PXTabView from '../../../components/PXTabView';
 import HeaderClearButton from '../../../components/HeaderClearButton';
 import { clearBrowsingHistoryIllusts } from '../../../common/actions/browsingHistoryIllusts';
 import { clearBrowsingHistoryNovels } from '../../../common/actions/browsingHistoryNovels';
-import useLocalization from '../../../components/Localization/useLocalization';
+import { useLocalization } from '../../../components/Localization';
 
 const BrowsingHistory = (props) => {
   const { navigation, route: navigationRoute } = props;

@@ -5,7 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import RankingPreview from '../screens/Ranking/RankingPreview';
 import Ranking from '../screens/Ranking/Ranking';
 import NovelRanking from '../screens/Ranking/NovelRanking';
-import useLocalization from '../components/Localization/useLocalization';
+import { useLocalization } from '../components/Localization';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import {
   globalStyles,

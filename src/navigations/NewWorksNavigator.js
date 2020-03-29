@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import NewWorks from '../screens/NewWorks/NewWorks';
-import useLocalization from '../components/Localization/useLocalization';
+import { useLocalization } from '../components/Localization';
 import DrawerMenuButton from '../components/DrawerMenuButton';
 import {
   globalStyles,

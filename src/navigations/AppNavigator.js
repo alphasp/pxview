@@ -47,7 +47,7 @@ import MuteUsersSettings from '../screens/MyPage/MuteSettings/MuteUsersSettings'
 import Feedback from '../screens/MyPage/Feedback';
 import PrivacyPolicy from '../screens/MyPage/PrivacyPolicy';
 import About from '../screens/MyPage/About';
-import useLocalization from '../components/Localization/useLocalization';
+import { useLocalization } from '../components/Localization';
 import {
   globalStyles,
   globalStyleVariables,

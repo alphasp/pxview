@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 import { useTheme } from 'react-native-paper';
 import Login from '../screens/Login/Login';
 import PrivacyPolicy from '../screens/MyPage/PrivacyPolicy';
-import useLocalization from '../components/Localization/useLocalization';
+import { useLocalization } from '../components/Localization';
 import {
   globalStyles,
   globalStyleVariables,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { LocalizationContext } from './LocalizationProvider';
+import useLocalization from './useLocalization';
 
 // todo
 // const connectLocalization = WrappedComponent => {
@@ -18,10 +18,10 @@ import { LocalizationContext } from './LocalizationProvider';
 //   }))(Localization);
 // };
 
-const connectLocalization = (Comp) => (props) => (
-  <LocalizationContext.Consumer>
-    {(i18n) => <Comp {...{ ...props, ...i18n }} />}
-  </LocalizationContext.Consumer>
-);
+const connectLocalization = (Comp) => (props) => {
+  const i18n = useLocalization();
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <Comp {...{ ...props, ...i18n }} />;
+};
 
 export default connectLocalization;
