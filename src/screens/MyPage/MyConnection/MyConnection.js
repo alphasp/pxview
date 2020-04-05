@@ -90,9 +90,7 @@ class MyConnection extends Component {
         navigationState={this.state}
         renderScene={this.renderScene}
         onIndexChange={this.handleChangeTab}
-        tabBarProps={{
-          scrollEnabled: true,
-        }}
+        scrollEnabled
       />
     );
   }

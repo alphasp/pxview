@@ -1,27 +1,31 @@
-import React, { Component } from 'react';
-import { StyleSheet, Platform } from 'react-native';
-import {
-  TabViewAnimated,
-  TabBar,
-  TabViewPagerScroll,
-  TabViewPagerPan,
-} from 'react-native-tab-view';
-import { withTheme } from 'react-native-paper';
+import React from 'react';
+import { StyleSheet, Platform, Dimensions } from 'react-native';
+import { TabView, TabBar } from 'react-native-tab-view';
+import { useTheme } from 'react-native-paper';
 import { globalStyleVariables } from '../styles';
+
+const initialLayout = { width: Dimensions.get('window').width };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  tabStyle: {
+    width: 'auto',
+  },
 });
 
-class PXTabView extends Component {
-  static defaultProps = {
-    lazy: true,
-  };
-
-  renderHeader = (props) => {
-    const { includeStatusBarPadding, tabBarProps, theme } = this.props;
+const PXTabView = ({
+  navigationState,
+  renderScene,
+  onIndexChange,
+  lazy = true,
+  includeStatusBarPadding,
+  scrollEnabled,
+  ...restProps
+}) => {
+  const theme = useTheme();
+  const renderTabBar = (props) => {
     return (
       <TabBar
         style={{
@@ -34,41 +38,39 @@ class PXTabView extends Component {
           marginVertical: 8,
           marginHorizontal: 0,
         }}
-        {...tabBarProps}
+        tabStyle={[
+          {
+            width: scrollEnabled ? 'auto' : undefined,
+          },
+        ]}
+        scrollEnabled={scrollEnabled}
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...props}
       />
     );
   };
 
-  renderPager = (props) =>
-    Platform.OS === 'ios' ? (
-      <TabViewPagerScroll {...props} />
-    ) : (
-      <TabViewPagerPan {...props} />
-    );
+  // const renderPager = (props) =>
+  //   Platform.OS === 'ios' ? (
+  //     <TabViewPagerScroll {...props} />
+  //   ) : (
+  //     <TabViewPagerPan {...props} />
+  //   );
 
-  render() {
-    const {
-      navigationState,
-      renderScene,
-      onIndexChange,
-      lazy,
-      theme,
-      ...restProps
-    } = this.props;
-    return (
-      <TabViewAnimated
-        style={[styles.container, { backgroundColor: theme.colors.background }]}
-        navigationState={navigationState}
-        renderScene={renderScene}
-        renderHeader={this.renderHeader}
-        renderPager={this.renderPager}
-        onIndexChange={onIndexChange}
-        lazy={lazy}
-        {...restProps}
-      />
-    );
-  }
-}
+  return (
+    <TabView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+      navigationState={navigationState}
+      renderScene={renderScene}
+      onIndexChange={onIndexChange}
+      initialLayout={initialLayout}
+      renderTabBar={renderTabBar}
+      lazy={lazy}
+      // renderLazyPlaceholder={}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...restProps}
+    />
+  );
+};
 
-export default withTheme(PXTabView);
+export default PXTabView;
