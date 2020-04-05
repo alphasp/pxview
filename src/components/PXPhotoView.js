@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
-import PhotoView from 'react-native-photo-view';
+import PhotoView from 'react-native-photo-view-ex';
 import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
@@ -32,6 +32,7 @@ class PXPhotoView extends PureComponent {
         maximumZoomScale={3}
         style={[styles.photo, style]}
         onLoad={this.handleOnLoad}
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...restProps}
       />
     );

@@ -59,6 +59,8 @@ target 'PxView' do
 
   pod 'ReactNativeWebPFormat', :path => '../node_modules/react-native-webp-format'
 
+  pod 'react-native-photo-view-ex', :path => '../node_modules/react-native-photo-view-ex'
+
   target 'PxViewTests' do
     inherit! :search_paths
     # Pods for testing

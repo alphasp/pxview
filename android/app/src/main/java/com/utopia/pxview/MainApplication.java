@@ -23,6 +23,7 @@ import com.react.rnspinkit.RNSpinkitPackage;
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
+import io.amarcruz.photoview.PhotoViewPackage;
 import org.reactnative.maskedview.RNCMaskedViewPackage;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
@@ -31,7 +32,6 @@ import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
-import com.reactnative.photoview.PhotoViewPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.reactnativecommunity.cameraroll.CameraRollPackage;
 import com.facebook.react.ReactNativeHost;
@@ -65,6 +65,7 @@ public class MainApplication extends Application implements ReactApplication {
 
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new PhotoViewPackage(),
             new RNCMaskedViewPackage(),
             new SafeAreaContextPackage(),
             new ReanimatedPackage(),
@@ -73,10 +74,8 @@ public class MainApplication extends Application implements ReactApplication {
             new RNScreensPackage(),
             new RNGestureHandlerPackage(),
             new RNCWebViewPackage(),
-          new PhotoViewPackage(),
           new RNFetchBlobPackage(),
           new CameraRollPackage(),
-          new PhotoViewPackage(),
           new UgoiraViewPackage(),
           new RNZipArchivePackage(),
           new LinearGradientPackage(),

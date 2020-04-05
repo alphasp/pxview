@@ -61,7 +61,7 @@
     "react-native-message-bar": "github:alphasp/react-native-message-bar#iphonex",
     "react-native-modal-datetime-picker": "^4.13.0",
     "react-native-paper": "^3.7.0",
-    "react-native-photo-view": "github:alwx/react-native-photo-view#e28f5416574cbfa07b2d4fa862c0048df56f7b02",
+    "react-native-photo-view-ex": "^1.1.0",
     "react-native-progress": "^3.4.0",
     "react-native-reanimated": "^1.7.0",
     "react-native-safe-area-context": "^0.7.3",

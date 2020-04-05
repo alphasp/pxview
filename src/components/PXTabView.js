@@ -78,8 +78,13 @@ const PXTabView = ({
           return <ViewPagerAdapter {...props} transition="scroll" />;
         },
       })}
+      removeClippedSubviews={Platform.OS === 'android'}
+      // renderPager={(props) => (
+      //   // eslint-disable-next-line react/jsx-props-no-spreading
+      //   <ViewPagerAdapter {...props} transition="scroll" />
+      // )}
       lazy={lazy}
-      // renderLazyPlaceholder={}
+      lazyPreloadDistance={3}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...restProps}
     />
