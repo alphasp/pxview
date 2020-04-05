@@ -25,16 +25,6 @@ class Ranking extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { lang: prevLang } = this.props;
-    const { lang } = nextProps;
-    if (lang !== prevLang) {
-      this.setState({
-        routes: this.getRoutes(),
-      });
-    }
-  }
-
   getRoutes = () => {
     const { i18n, route } = this.props;
     const { rankingType } = route.params;
@@ -122,12 +112,13 @@ class Ranking extends Component {
     this.setState({ index });
   };
 
-  renderScene = ({ index }) => {
-    const { route } = this.props;
-    const { rankingType } = route.params;
-    const { rankingMode, reload } = this.state.routes[index];
+  renderScene = ({ route }) => {
+    const { route: navigationRoute } = this.props;
+    const { routes, index } = this.state;
+    const { rankingType } = navigationRoute.params;
+    const { rankingMode, reload } = route;
     return (
-      <TabContentWrapper active={index === this.state.index}>
+      <TabContentWrapper active={routes.indexOf(route) === index}>
         {rankingMode === RANKING_FOR_UI.PAST_ILLUST ||
         rankingMode === RANKING_FOR_UI.PAST_MANGA ? (
           <PastRanking
@@ -152,9 +143,7 @@ class Ranking extends Component {
         navigationState={this.state}
         renderScene={this.renderScene}
         onIndexChange={this.handleChangeTab}
-        tabBarProps={{
-          scrollEnabled: true,
-        }}
+        scrollEnabled
       />
     );
   }
