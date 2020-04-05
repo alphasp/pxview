@@ -96,11 +96,9 @@ class NovelViewer extends Component {
 
   renderScene = ({ route }) => {
     const { routes, index } = this.state;
-    if (Math.abs(index - routes.indexOf(route)) > 3) {
-      return null;
-    }
     const { novelId, fontSize, lineHeight, items } = this.props;
-    const item = items[index];
+    const sceneIndex = routes.indexOf(route);
+    const item = items[sceneIndex];
     // render text by chunks to prevent over text limit https://github.com/facebook/react-native/issues/15663
     return (
       <View style={styles.container}>
@@ -125,14 +123,17 @@ class NovelViewer extends Component {
     );
   };
 
+  renderTabBar = () => null;
+
   render() {
     const { onIndexChange } = this.props;
     return (
       <PXTabView
         navigationState={this.state}
-        renderTabBar={() => null}
+        renderTabBar={this.renderTabBar}
         renderScene={this.renderScene}
         onIndexChange={onIndexChange}
+        lazyPreloadDistance={3}
       />
     );
   }

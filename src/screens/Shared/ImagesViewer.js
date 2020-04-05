@@ -50,11 +50,9 @@ class ImagesViewer extends Component {
   };
 
   renderScene = ({ route }) => {
-    const { routes, index, images } = this.state;
-    if (Math.abs(index - routes.indexOf(route)) > 2) {
-      return null;
-    }
-    const image = images[index];
+    const { routes, images } = this.state;
+    const sceneIndex = routes.indexOf(route);
+    const image = images[sceneIndex];
     return (
       <View key={image.url} style={styles.slide}>
         {image.loading && (
@@ -73,6 +71,8 @@ class ImagesViewer extends Component {
   handleChangeTab = (index) => {
     this.setState({ index });
   };
+
+  renderTabBar = () => null;
 
   render() {
     const { route } = this.props;
@@ -114,9 +114,10 @@ class ImagesViewer extends Component {
         )}
         <PXTabView
           navigationState={this.state}
-          renderTabBar={() => null}
+          renderTabBar={this.renderTabBar}
           renderScene={this.renderScene}
           onIndexChange={this.handleChangeTab}
+          lazyPreloadDistance={3}
         />
       </View>
     );

@@ -24,6 +24,7 @@ const PXTabView = ({
   includeStatusBarPadding,
   scrollEnabled,
   renderTabBar,
+  lazyPreloadDistance,
   ...restProps
 }) => {
   const theme = useTheme();
@@ -84,7 +85,7 @@ const PXTabView = ({
       //   <ViewPagerAdapter {...props} transition="scroll" />
       // )}
       lazy={lazy}
-      lazyPreloadDistance={3}
+      lazyPreloadDistance={lazyPreloadDistance}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...restProps}
     />
