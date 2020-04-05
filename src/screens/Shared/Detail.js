@@ -253,7 +253,7 @@ class Detail extends Component {
     const { item } = this.props;
     const shareOptions = {
       message: `${item.title} | ${item.user.name} #pxview`,
-      url: `http://www.pixiv.net/member_illust.php?illust_id=${item.id}&mode=medium`,
+      url: `https://www.pixiv.net/artworks/${item.id}`,
     };
     Share.open(shareOptions)
       .then(this.handleOnCancelMenuBottomSheet)

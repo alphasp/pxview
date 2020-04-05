@@ -248,7 +248,7 @@ class UserDetail extends Component {
     const { user } = this.props.userDetailItem;
     const shareOptions = {
       message: `${user.name} #pxview`,
-      url: `http://www.pixiv.net/member.php?id=${user.id}`,
+      url: `https://www.pixiv.net/users/{user.id}`,
     };
     Share.open(shareOptions)
       .then(this.handleOnCancelMenuBottomSheet)
