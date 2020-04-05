@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Platform, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { TabView, TabBar } from 'react-native-tab-view';
+import ViewPagerAdapter from 'react-native-tab-view-viewpager-adapter';
 import { useTheme } from 'react-native-paper';
 import { globalStyleVariables } from '../styles';
 
@@ -22,10 +23,15 @@ const PXTabView = ({
   lazy = true,
   includeStatusBarPadding,
   scrollEnabled,
+  renderTabBar,
   ...restProps
 }) => {
   const theme = useTheme();
-  const renderTabBar = (props) => {
+
+  const handleRenderTabBar = (props) => {
+    if (renderTabBar) {
+      return renderTabBar(props);
+    }
     return (
       <TabBar
         style={{
@@ -64,7 +70,11 @@ const PXTabView = ({
       renderScene={renderScene}
       onIndexChange={onIndexChange}
       initialLayout={initialLayout}
-      renderTabBar={renderTabBar}
+      renderTabBar={handleRenderTabBar}
+      renderPager={(props) => (
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        <ViewPagerAdapter {...props} transition="scroll" />
+      )}
       lazy={lazy}
       // renderLazyPlaceholder={}
       // eslint-disable-next-line react/jsx-props-no-spreading

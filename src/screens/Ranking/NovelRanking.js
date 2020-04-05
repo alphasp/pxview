@@ -26,16 +26,6 @@ class NovelRanking extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { lang: prevLang } = this.props;
-    const { lang } = nextProps;
-    if (lang !== prevLang) {
-      this.setState({
-        routes: this.getRoutes(),
-      });
-    }
-  }
-
   getRoutes = () => {
     const { i18n } = this.props;
     // always return new array so that localized title will be updated on switch language
@@ -78,12 +68,13 @@ class NovelRanking extends Component {
     this.setState({ index });
   };
 
-  renderScene = ({ index }) => {
-    const { route } = this.props;
-    const { rankingType } = route;
-    const { rankingMode, reload } = this.state.routes[index];
+  renderScene = ({ route }) => {
+    const { route: navigationRoute } = this.props;
+    const { routes, index } = this.state;
+    const { rankingType } = navigationRoute.params;
+    const { rankingMode, reload } = route;
     return (
-      <TabContentWrapper active={index === this.state.index}>
+      <TabContentWrapper active={routes.indexOf(route) === index}>
         {rankingMode === RANKING_FOR_UI.PAST_NOVEL ? (
           <PastRanking
             rankingType={rankingType}

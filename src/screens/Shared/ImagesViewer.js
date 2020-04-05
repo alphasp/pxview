@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, View, StatusBar } from 'react-native';
-import {
-  TabViewAnimated,
-  TabViewPagerScroll,
-  TabViewPagerPan,
-} from 'react-native-tab-view';
+import { StyleSheet, View, StatusBar } from 'react-native';
 import PXHeader from '../../components/PXHeader';
+import PXTabView from '../../components/PXTabView';
 import PXPhotoView from '../../components/PXPhotoView';
 import HeaderTextTitle from '../../components/HeaderTextTitle';
 import HeaderSaveImageButton from '../../components/HeaderSaveImageButton';
 import Loader from '../../components/Loader';
-import { globalStyles } from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,9 +20,9 @@ const styles = StyleSheet.create({
 class ImagesViewer extends Component {
   constructor(props) {
     super(props);
-    const { images, viewerIndex } = this.props.route.params;
+    const { route } = props;
+    const { images, viewerIndex } = route.params;
     this.state = {
-      loading: true,
       index: viewerIndex,
       images: images.map((image) => ({
         url: image,
@@ -54,18 +49,12 @@ class ImagesViewer extends Component {
     }));
   };
 
-  renderPager = (props) =>
-    Platform.OS === 'ios' ? (
-      <TabViewPagerScroll {...props} />
-    ) : (
-      <TabViewPagerPan {...props} />
-    );
-
-  renderScene = ({ route, index }) => {
-    if (Math.abs(this.state.index - this.state.routes.indexOf(route)) > 2) {
+  renderScene = ({ route }) => {
+    const { routes, index, images } = this.state;
+    if (Math.abs(index - routes.indexOf(route)) > 2) {
       return null;
     }
-    const image = this.state.images[index];
+    const image = images[index];
     return (
       <View key={image.url} style={styles.slide}>
         {image.loading && (
@@ -86,7 +75,8 @@ class ImagesViewer extends Component {
   };
 
   render() {
-    const { images, item } = this.props.route.params;
+    const { route } = this.props;
+    const { images, item } = route.params;
     const { index, hideHeader } = this.state;
     const selectedImages = [images[index]];
     return (
@@ -122,11 +112,10 @@ class ImagesViewer extends Component {
             }
           />
         )}
-        <TabViewAnimated
-          style={globalStyles.container}
+        <PXTabView
           navigationState={this.state}
+          renderTabBar={() => null}
           renderScene={this.renderScene}
-          renderPager={this.renderPager}
           onIndexChange={this.handleChangeTab}
         />
       </View>

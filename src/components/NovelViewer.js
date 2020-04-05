@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import { View, Platform, StyleSheet, ScrollView } from 'react-native';
-import {
-  TabViewAnimated,
-  TabViewPagerScroll,
-  TabViewPagerPan,
-} from 'react-native-tab-view';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import HtmlView from 'react-native-htmlview';
 import { Text } from 'react-native-paper';
+import PXTabView from './PXTabView';
 import { MODAL_TYPES } from '../common/constants';
-import { globalStyles, globalStyleVariables } from '../styles';
+import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,27 +32,34 @@ class NovelViewer extends Component {
       routes: items.map((item, i) => ({
         key: i.toString(),
       })),
-      fontSize,
-      lineHeight,
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { index, fontSize, lineHeight } = nextProps;
-    const {
-      index: prevIndex,
-      fontSize: prevFontSize,
-      lineHeight: prevLineHeight,
-    } = this.props;
-    if (
-      index !== prevIndex ||
-      fontSize !== prevFontSize ||
-      lineHeight !== prevLineHeight
-    ) {
+  // componentWillReceiveProps(nextProps) {
+  //   const { index, fontSize, lineHeight } = nextProps;
+  //   const {
+  //     index: prevIndex,
+  //     fontSize: prevFontSize,
+  //     lineHeight: prevLineHeight,
+  //   } = this.props;
+  //   if (
+  //     index !== prevIndex ||
+  //     fontSize !== prevFontSize ||
+  //     lineHeight !== prevLineHeight
+  //   ) {
+  //     this.setState({
+  //       index,
+  //     });
+  //   }
+  // }
+
+  componentDidUpdate(prevProps) {
+    const { index } = this.props;
+    const { index: prevIndex } = prevProps;
+    if (index !== prevIndex) {
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         index,
-        fontSize,
-        lineHeight,
       });
     }
   }
@@ -91,15 +94,9 @@ class NovelViewer extends Component {
     openModal(MODAL_TYPES.NOVEL_SETTINGS);
   };
 
-  renderPager = (props) =>
-    Platform.OS === 'ios' ? (
-      <TabViewPagerScroll {...props} />
-    ) : (
-      <TabViewPagerPan {...props} />
-    );
-
-  renderScene = ({ route, index }) => {
-    if (Math.abs(this.state.index - this.state.routes.indexOf(route)) > 3) {
+  renderScene = ({ route }) => {
+    const { routes, index } = this.state;
+    if (Math.abs(index - routes.indexOf(route)) > 3) {
       return null;
     }
     const { novelId, fontSize, lineHeight, items } = this.props;
@@ -131,11 +128,10 @@ class NovelViewer extends Component {
   render() {
     const { onIndexChange } = this.props;
     return (
-      <TabViewAnimated
-        style={globalStyles.container}
+      <PXTabView
         navigationState={this.state}
+        renderTabBar={() => null}
         renderScene={this.renderScene}
-        renderPager={this.renderPager}
         onIndexChange={onIndexChange}
       />
     );
