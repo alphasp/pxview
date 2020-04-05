@@ -23,6 +23,7 @@
     "@react-native-community/viewpager": "^1.1.7",
     "@react-navigation/bottom-tabs": "^5.1.1",
     "@react-navigation/compat": "^5.1.1",
+    "@react-navigation/core": "^5.3.1",
     "@react-navigation/drawer": "^5.1.1",
     "@react-navigation/native": "^5.1.4",
     "@react-navigation/stack": "^5.1.1",

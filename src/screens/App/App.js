@@ -1,11 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, DeviceEventEmitter, StatusBar } from 'react-native';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   NavigationContainer,
   DefaultTheme as NavigationDefaultTheme,
   DarkTheme as NavigationDarkTheme,
+  useLinking,
 } from '@react-navigation/native';
+import { getStateFromPath } from '@react-navigation/core';
 import {
   DefaultTheme as PaperDefaulTheme,
   DarkTheme as PaperDarkTheme,
@@ -19,7 +21,7 @@ import LoginNavigator from '../../navigations/LoginNavigator';
 import { useLocalization } from '../../components/Localization';
 import Loader from '../../components/Loader';
 import ModalRoot from '../../containers/ModalRoot';
-import { THEME_TYPES } from '../../common/constants';
+import { THEME_TYPES, SCREENS } from '../../common/constants';
 import { globalStyleVariables } from '../../styles';
 import usePrevious from '../../common/hooks/usePrevious';
 
@@ -30,7 +32,8 @@ const styles = StyleSheet.create({
 });
 
 const App = () => {
-  // const error = useSelector((state) => state.error);
+  const [initialState, setInitialState] = React.useState();
+  const [navigationIsReady, setNavigationIsReady] = React.useState(false);
   const rehydrated = useSelector((state) => state.auth.rehydrated);
   const user = useSelector((state) => state.auth.user);
   const initialRouteName = useSelector(
@@ -38,10 +41,68 @@ const App = () => {
   );
   const themeName = useSelector((state) => state.theme.name);
 
-  const messageBarAlertRef = useRef(null);
-  const toastRef = useRef(null);
+  const messageBarAlertRef = useRef();
+  const toastRef = useRef();
+  const navigationRef = useRef();
   const prevRehydrated = usePrevious(rehydrated);
   const i18n = useLocalization();
+  const { getInitialState } = useLinking(navigationRef, {
+    prefixes: [
+      'https://www.pixiv.net/en',
+      'https://www.pixiv.net',
+      'http://www.pixiv.net',
+      'http://www.pixiv.net/en',
+      'https://touch.pixiv.net',
+      'pixiv://',
+    ],
+    config: {
+      [SCREENS.Detail]: 'artworks/:illustId',
+      [SCREENS.NovelDetail]: 'novel/show.php',
+      [SCREENS.UserDetail]: 'users/:uid',
+      // workaround to handle deep link to one screen with multiple path
+      [`${SCREENS.Detail}-1`]: 'illusts/:illustId',
+      [`${SCREENS.Detail}-2`]: 'member_illust.php',
+      [`${SCREENS.NovelDetail}-1`]: 'novels/:novelId',
+      [`${SCREENS.UserDetail}-1`]: 'member.php',
+    },
+    getStateFromPath: (path, options) => {
+      const state = getStateFromPath(path, options);
+      const newRoutes = [...state.routes];
+      // eslint-disable-next-line prefer-destructuring
+      newRoutes[0].name = newRoutes[0].name.split('-')[0];
+      return {
+        ...state,
+        routes: [
+          {
+            name: SCREENS.Main, // Load drawer navigation first
+          },
+          ...newRoutes,
+        ],
+      };
+    },
+  });
+
+  React.useEffect(() => {
+    Promise.race([
+      getInitialState(),
+      new Promise((resolve) =>
+        // Timeout in 150ms if `getInitialState` doesn't resolve
+        // Workaround for https://github.com/facebook/react-native/issues/25675
+        setTimeout(resolve, 150),
+      ),
+    ])
+      .catch((e) => {
+        console.error('Error getting initial state ', e);
+      })
+      .then((state) => {
+        console.log('initial state ', state);
+        if (state !== undefined) {
+          setInitialState(state);
+        }
+
+        setNavigationIsReady(true);
+      });
+  }, [getInitialState]);
 
   useEffect(() => {
     MessageBarManager.registerMessageBar(messageBarAlertRef.current);
@@ -103,7 +164,7 @@ const App = () => {
       },
     };
   }
-  if (!rehydrated) {
+  if (!rehydrated || !navigationIsReady) {
     renderComponent = <Loader />;
   } else if (user) {
     renderComponent = (
@@ -118,20 +179,23 @@ const App = () => {
   }
   return (
     <PaperProvider theme={theme}>
-      <NavigationContainer>
-        <View style={styles.container}>
-          <StatusBar
-            barStyle="light-content"
-            backgroundColor="rgba(0, 0, 0, 0.3)"
-            translucent
-            animated
-          />
-          {renderComponent}
-          <MessageBar ref={messageBarAlertRef} />
-          <Toast ref={toastRef} opacity={0.7} />
-          <ModalRoot />
-        </View>
-      </NavigationContainer>
+      {(!rehydrated || !navigationIsReady) && <Loader />}
+      {rehydrated && navigationIsReady && (
+        <NavigationContainer ref={navigationRef} initialState={initialState}>
+          <View style={styles.container}>
+            <StatusBar
+              barStyle="light-content"
+              backgroundColor="rgba(0, 0, 0, 0.3)"
+              translucent
+              animated
+            />
+            {renderComponent}
+            <MessageBar ref={messageBarAlertRef} />
+            <Toast ref={toastRef} opacity={0.7} />
+            <ModalRoot />
+          </View>
+        </NavigationContainer>
+      )}
     </PaperProvider>
   );
 };
