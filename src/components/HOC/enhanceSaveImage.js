@@ -6,11 +6,11 @@ import {
   Alert,
   PermissionsAndroid,
   DeviceEventEmitter,
+  Linking,
 } from 'react-native';
 import { connect } from 'react-redux';
 import CameraRoll from '@react-native-community/cameraroll';
 import RNFetchBlob from 'rn-fetch-blob';
-import OpenSettings from 'react-native-open-settings';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import Promise from 'bluebird';
 import sanitize from 'sanitize-filename';
@@ -34,7 +34,7 @@ const enhanceSaveImage = (WrappedComponent) => {
     };
 
     handleOnPressOpenAppSettings = () => {
-      OpenSettings.openSettings();
+      Linking.openSettings();
     };
 
     getImageSavePath = (

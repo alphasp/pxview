@@ -199,7 +199,6 @@ dependencies {
     implementation project(':react-native-zip-archive')
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-splash-screen')
-    implementation project(':react-native-open-settings')
     implementation project(':react-native-device-info')
     implementation project(':react-native-localization')
     implementation project(':react-native-share')

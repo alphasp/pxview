@@ -10,7 +10,6 @@ import com.squareup.leakcanary.LeakCanary;
 import com.rnziparchive.RNZipArchivePackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
-import com.opensettings.OpenSettingsPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 // import com.psykar.cookiemanager.CookieManagerPackage;
 import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
@@ -82,7 +81,6 @@ public class MainApplication extends Application implements ReactApplication {
           new RNZipArchivePackage(),
           new LinearGradientPackage(),
           new SplashScreenReactPackage(),
-          new OpenSettingsPackage(),
           new RNDeviceInfo(),
           new ReactNativeLocalizationPackage(),
           new RNSharePackage(),

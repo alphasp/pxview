@@ -197,7 +197,7 @@ PODS:
     - React
   - react-native-splash-screen (3.2.0):
     - React
-  - react-native-webview (6.11.1):
+  - react-native-webview (9.0.1):
     - React
   - React-RCTActionSheet (0.61.2):
     - React-Core/RCTActionSheetHeaders (= 0.61.2)
@@ -254,17 +254,17 @@ PODS:
     - React
   - RNReanimated (1.7.0):
     - React
-  - RNScreens (2.3.0):
+  - RNScreens (2.4.0):
     - React
   - RNShare (1.2.1):
     - React
   - RNVectorIcons (6.6.0):
     - React
-  - RNZipArchive (4.1.5):
+  - RNZipArchive (5.0.2):
     - React
-    - RNZipArchive/Core (= 4.1.5)
+    - RNZipArchive/Core (= 5.0.2)
     - SSZipArchive (= 2.2.2)
-  - RNZipArchive/Core (4.1.5):
+  - RNZipArchive/Core (5.0.2):
     - React
     - SSZipArchive (= 2.2.2)
   - SSZipArchive (2.2.2)
@@ -445,7 +445,7 @@ SPEC CHECKSUMS:
   react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
   react-native-spinkit: da294fd828216ad211fe36a5c14c1e09f09e62db
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
-  react-native-webview: f11ac6c8bcaba5b71ddda1c12a10c8ea059b080f
+  react-native-webview: a6c8c1d244240d8009197874bf93646b76ea6917
   React-RCTActionSheet: 89b037c0fb7d2671607cb645760164e7e0c013f6
   React-RCTAnimation: e3cefa93c38c004c318f7ec04b883eb14b8b8235
   React-RCTBlob: d26ac0e313fbf14e7203473fd593ccaaeee8329e
@@ -465,10 +465,10 @@ SPEC CHECKSUMS:
   RNDeviceInfo: e7c5fcde13d40e161d8a27f6c5dc69c638936002
   RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
   RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
-  RNScreens: 03bf608b92ac0acf323f47d8f5b63a8f829340c8
+  RNScreens: b5c0e1b2b04512919e78bd3898e144a157ce2363
   RNShare: 48cf88cadf9ca2143cdaa557c1ec7f8808040ffc
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
-  RNZipArchive: bcfa2661d573b0a2776146caeb5e5a02533f5cd5
+  RNZipArchive: f06fe0dcfb9e2fa7437fc7f6c03d5400952f2d57
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
