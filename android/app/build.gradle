@@ -221,7 +221,7 @@ dependencies {
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     // For WebP support, without animations
-    implementation 'com.facebook.fresco:webpsupport:1.9.0'
+    implementation 'com.facebook.fresco:webpsupport:2.0.0'
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
 

@@ -24,6 +24,30 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - libwebp (1.0.2):
+    - libwebp/core (= 1.0.2)
+    - libwebp/dec (= 1.0.2)
+    - libwebp/demux (= 1.0.2)
+    - libwebp/dsp (= 1.0.2)
+    - libwebp/enc (= 1.0.2)
+    - libwebp/mux (= 1.0.2)
+    - libwebp/utils (= 1.0.2)
+    - libwebp/webp (= 1.0.2)
+  - libwebp/core (1.0.2):
+    - libwebp/webp
+  - libwebp/dec (1.0.2):
+    - libwebp/core
+  - libwebp/demux (1.0.2):
+    - libwebp/core
+  - libwebp/dsp (1.0.2):
+    - libwebp/core
+  - libwebp/enc (1.0.2):
+    - libwebp/core
+  - libwebp/mux (1.0.2):
+    - libwebp/core
+  - libwebp/utils (1.0.2):
+    - libwebp/core
+  - libwebp/webp (1.0.2)
   - RCTRequired (0.61.2)
   - RCTTypeSafety (0.61.2):
     - FBLazyVector (= 0.61.2)
@@ -240,6 +264,9 @@ PODS:
     - React
   - ReactNativeLocalization (1.0.12):
     - React
+  - ReactNativeWebPFormat (1.0.1):
+    - React
+    - SDWebImageWebPCoder
   - rn-fetch-blob (0.10.16):
     - React-Core
   - RNCAsyncStorage (1.6.2):
@@ -267,6 +294,10 @@ PODS:
   - RNZipArchive/Core (5.0.2):
     - React
     - SSZipArchive (= 2.2.2)
+  - SDWebImage/Core (5.0.6)
+  - SDWebImageWebPCoder (0.2.3):
+    - libwebp (~> 1.0)
+    - SDWebImage/Core (~> 5.0)
   - SSZipArchive (2.2.2)
   - Yoga (1.14.0)
 
@@ -309,6 +340,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeFabric (from `../node_modules/react-native-fabric`)
   - ReactNativeLocalization (from `../node_modules/react-native-localization`)
+  - ReactNativeWebPFormat (from `../node_modules/react-native-webp-format`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
@@ -327,6 +359,9 @@ SPEC REPOS:
     - boost-for-react-native
     - Crashlytics
     - Fabric
+    - libwebp
+    - SDWebImage
+    - SDWebImageWebPCoder
     - SSZipArchive
 
 EXTERNAL SOURCES:
@@ -396,6 +431,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fabric"
   ReactNativeLocalization:
     :path: "../node_modules/react-native-localization"
+  ReactNativeWebPFormat:
+    :path: "../node_modules/react-native-webp-format"
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
   RNCAsyncStorage:
@@ -431,6 +468,7 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: 5a764c60abdc3336a213e5310c40b74741f32839
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
+  libwebp: b068a3bd7c45f7460f6715be7bed1a18fd5d6b48
   RCTRequired: c639d59ed389cfb1f1203f65c2ea946d8ec586e2
   RCTTypeSafety: dc23fb655d6c77667c78e327bf661bc11e3b8aec
   React: 7e586e5d7bec12b91c1a096826b0fc9ab1da7865
@@ -458,6 +496,7 @@ SPEC CHECKSUMS:
   ReactCommon: 5848032ed2f274fcb40f6b9ec24067787c42d479
   ReactNativeFabric: d05320ff347d5c72567c115b97edeead111ac4d2
   ReactNativeLocalization: 1360e4acfa073005b84b70bb5fbd71b67146045f
+  ReactNativeWebPFormat: d0b1fc330dcedfb5e5d3f93a899a526fa4c29165
   rn-fetch-blob: 651b8d076b43d0d7aa294a3d9ec16c00aab8bef9
   RNCAsyncStorage: 5ae4d57458804e99f73d427214442a6b10a53856
   RNCMaskedView: 90dd32f5b786bd562e876e1421ea77c700cbf71e
@@ -469,9 +508,11 @@ SPEC CHECKSUMS:
   RNShare: 48cf88cadf9ca2143cdaa557c1ec7f8808040ffc
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   RNZipArchive: f06fe0dcfb9e2fa7437fc7f6c03d5400952f2d57
+  SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
+  SDWebImageWebPCoder: 7568737603c50f6237850afedd7e9e28e5917e6b
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
-PODFILE CHECKSUM: 980b0dbcff443ceecfce42032b7166102eac1f1f
+PODFILE CHECKSUM: c425d57bc296c2ce79ff5d919a76a810b9c71cc0
 
 COCOAPODS: 1.7.5

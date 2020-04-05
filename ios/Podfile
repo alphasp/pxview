@@ -57,6 +57,8 @@ target 'PxView' do
 
   pod 'RNCMaskedView', :path => '../node_modules/@react-native-community/masked-view'
 
+  pod 'ReactNativeWebPFormat', :path => '../node_modules/react-native-webp-format'
+
   target 'PxViewTests' do
     inherit! :search_paths
     # Pods for testing
