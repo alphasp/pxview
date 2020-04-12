@@ -51,7 +51,7 @@
     "react-native-elements": "^0.18.2",
     "react-native-fabric": "^0.5.2",
     "react-native-gesture-handler": "^1.6.0",
-    "react-native-htmlview": "github:alphasp/react-native-htmlview#rn56",
+    "react-native-htmlview": "^0.15.0",
     "react-native-hyperlink": "0.0.11",
     "react-native-iphone-x-helper": "^1.0.2",
     "react-native-linear-gradient": "^2.4.0",
