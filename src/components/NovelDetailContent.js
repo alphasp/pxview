@@ -30,16 +30,29 @@ const styles = StyleSheet.create({
 class NovelDetailContent extends Component {
   constructor(props) {
     super(props);
+    const { itemIndex, currentIndex } = props;
     this.state = {
+      isVisible: itemIndex === currentIndex,
       isOpenTagBottomSheet: false,
       selectedTag: null,
     };
   }
 
-  handleOnPressAvatar = (userId) => {
-    const { push } = this.props.navigation;
-    push(SCREENS.UserDetail, { userId });
-  };
+  componentDidUpdate(prevProps) {
+    const { itemIndex, currentIndex } = this.props;
+    const { currentIndex: prevCurrentIndex } = prevProps;
+    const { isVisible } = this.state;
+    if (
+      !isVisible &&
+      currentIndex !== prevCurrentIndex &&
+      currentIndex - 1 <= itemIndex <= currentIndex + 1
+    ) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        isVisible: true,
+      });
+    }
+  }
 
   handleOnPressNovelImage = () => {
     const {
@@ -52,7 +65,9 @@ class NovelDetailContent extends Component {
   };
 
   handleOnPressAvatar = (userId) => {
-    const { push } = this.props.navigation;
+    const {
+      navigation: { push },
+    } = this.props;
     push(SCREENS.UserDetail, { userId });
   };
 
@@ -94,7 +109,10 @@ class NovelDetailContent extends Component {
       onLongPressImage,
       theme,
     } = this.props;
-    const { isOpenTagBottomSheet, selectedTag } = this.state;
+    const { isOpenTagBottomSheet, selectedTag, isVisible } = this.state;
+    if (!isVisible) {
+      return null;
+    }
     const isMute = tags.some((t) => t.isMute) || isMuteUser;
     return (
       <View style={styles.container}>

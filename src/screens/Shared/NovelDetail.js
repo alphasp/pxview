@@ -341,8 +341,8 @@ class NovelDetail extends Component {
     </View>
   );
 
-  renderContent = ({ item }) => {
-    const { navigation, authUser, route } = this.props;
+  renderContent = ({ item, index: itemIndex }) => {
+    const { navigation, authUser, route, index } = this.props;
     return (
       <View key={item.id} style={styles.content}>
         <PXHeader
@@ -355,6 +355,8 @@ class NovelDetail extends Component {
         />
         <NovelDetailContent
           item={item}
+          itemIndex={itemIndex}
+          currentIndex={index}
           navigation={navigation}
           route={route}
           authUser={authUser}

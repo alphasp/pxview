@@ -51,7 +51,9 @@ const styles = StyleSheet.create({
 class IllustDetailContent extends Component {
   constructor(props) {
     super(props);
+    const { itemIndex, currentIndex } = props;
     this.state = {
+      isVisible: itemIndex === currentIndex,
       isInitState: true,
       isScrolling: false,
       imagePageNumber: null,
@@ -60,12 +62,29 @@ class IllustDetailContent extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    const { itemIndex, currentIndex } = this.props;
+    const { currentIndex: prevCurrentIndex } = prevProps;
+    const { isVisible } = this.state;
+    if (
+      !isVisible &&
+      currentIndex !== prevCurrentIndex &&
+      currentIndex - 1 <= itemIndex <= currentIndex + 1
+    ) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        isVisible: true,
+      });
+    }
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     const {
       item: prevItem,
       tags: prevTags,
       isMuteUser: prevIsMuteUser,
       route: prevRoute,
+      isVisible,
     } = this.props;
     const { item, tags, isMuteUser, route } = nextProps;
     const {
@@ -74,6 +93,7 @@ class IllustDetailContent extends Component {
       imagePageNumber: prevImagePageNumber,
       isOpenTagBottomSheet: prevIsOpenTagBottomSheet,
       selectedTag: prevSelectedTag,
+      isVisible: prevIsVisible,
     } = this.state;
     const {
       isInitState,
@@ -93,7 +113,8 @@ class IllustDetailContent extends Component {
       selectedTag !== prevSelectedTag ||
       tags !== prevTags ||
       isMuteUser !== prevIsMuteUser ||
-      route !== prevRoute
+      route !== prevRoute ||
+      isVisible !== prevIsVisible
     ) {
       return true;
     }
@@ -130,7 +151,9 @@ class IllustDetailContent extends Component {
   };
 
   handleOnPressAvatar = (userId) => {
-    const { push } = this.props.navigation;
+    const {
+      navigation: { push },
+    } = this.props;
     push(SCREENS.UserDetail, { userId });
   };
 
@@ -280,7 +303,11 @@ class IllustDetailContent extends Component {
       isInitState,
       isOpenTagBottomSheet,
       selectedTag,
+      isVisible,
     } = this.state;
+    if (!isVisible) {
+      return null;
+    }
     const isMute = tags.some((t) => t.isMute) || isMuteUser;
     return (
       <View key={item.id} style={styles.container}>

@@ -95,7 +95,6 @@ const App = () => {
         console.error('Error getting initial state ', e);
       })
       .then((state) => {
-        console.log('initial state ', state);
         if (state !== undefined) {
           setInitialState(state);
         }
