@@ -4,6 +4,7 @@ import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 import AppDrawerNavigator from './AppDrawerNavigator';
+import AppTabNavigator from './AppTabNavigator';
 import SearchFilterModal from '../screens/Shared/SearchFilterModal';
 import SearchFilterPeriodDateModal from '../screens/Shared/SearchFilterPeriodDateModal';
 import AddIllustComment from '../screens/Shared/AddIllustComment';
@@ -91,10 +92,7 @@ const AppNavigator = ({ initialRouteName }) => {
             }}
           >
             {({ props }) => (
-              <AppDrawerNavigator
-                {...props}
-                initialRouteName={initialRouteName}
-              />
+              <AppTabNavigator {...props} initialRouteName={initialRouteName} />
             )}
           </Stack.Screen>
           <Stack.Screen

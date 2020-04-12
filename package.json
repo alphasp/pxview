@@ -25,6 +25,7 @@
     "@react-navigation/compat": "^5.1.1",
     "@react-navigation/core": "^5.3.1",
     "@react-navigation/drawer": "^5.1.1",
+    "@react-navigation/material-bottom-tabs": "^5.1.7",
     "@react-navigation/native": "^5.1.4",
     "@react-navigation/stack": "^5.1.1",
     "bluebird": "^3.5.0",

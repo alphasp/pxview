@@ -1,97 +1,81 @@
 import React from 'react';
-import { Platform } from 'react-native';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { Icon } from 'react-native-elements';
-import RecommendedNavigator from './RecommendedNavigator';
-import RankingNavigator from './RankingNavigator';
-import TrendingNavigator from './TrendingNavigator';
-import NewWorksNavigator from './NewWorksNavigator';
-import MyPageNavigator from './MyPageNavigator';
 import Recommended from '../screens/Recommended/Recommended';
-import Ranking from '../screens/Ranking/Ranking';
+import RankingPreview from '../screens/Ranking/RankingPreview';
 import Trending from '../screens/Trending/Trending';
 import NewWorks from '../screens/NewWorks/NewWorks';
 import MyPage from '../screens/MyPage/MyPage';
 import { SCREENS } from '../common/constants';
+import { useLocalization } from '../components/Localization';
 
-const renderTabBarIcon = (tintColor, focused, name, iconType) => (
-  <Icon
-    name={name}
-    type={iconType || 'font-awesome'}
-    size={24}
-    color={tintColor}
-  />
+const Tab = createMaterialBottomTabNavigator();
+
+const TabBarIcon = ({ color, name, iconType }) => (
+  <Icon name={name} type={iconType || 'font-awesome'} size={24} color={color} />
 );
 
-const tabBarComponent = (props) => {
-  const { theme } = props.screenProps;
+const createAppTabNavigator = ({ initialRouteName }) => {
+  const { i18n } = useLocalization();
   return (
-    <BottomTabBar
-      {...props}
-      activeBackgroundColor={theme.colors.background}
-      inactiveBackgroundColor={theme.colors.background}
-      activeTintColor={theme.colors.primary}
-    />
+    <Tab.Navigator initialRouteName={initialRouteName}>
+      <Tab.Screen
+        name={SCREENS.Recommended}
+        component={Recommended}
+        options={{
+          tabBarLabel: i18n.recommended,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name="thumbs-up" color={color} focused={focused} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={SCREENS.RankingPreview}
+        component={RankingPreview}
+        options={{
+          tabBarLabel: i18n.ranking,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name="trophy" color={color} focused={focused} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={SCREENS.Trending}
+        component={Trending}
+        options={{
+          tabBarLabel: i18n.search,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name="search" color={color} focused={focused} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={SCREENS.NewWorks}
+        component={NewWorks}
+        options={{
+          tabBarLabel: i18n.newest,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name="fiber-new"
+              iconType="material"
+              color={color}
+              focused={focused}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={SCREENS.MyPageTab}
+        component={MyPage}
+        options={{
+          tabBarLabel: i18n.myPage,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name="user" color={color} focused={focused} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 };
-
-const createAppTabNavigator = ({ initialRouteName }) =>
-  createBottomTabNavigator(
-    {
-      [SCREENS.RecommendedTab]: {
-        screen: Platform.OS === 'android' ? Recommended : RecommendedNavigator,
-        options: ({ screenProps: { i18n } }) => ({
-          tabBarLabel: i18n.recommended,
-          tabBarIcon: ({ tintColor, focused }) =>
-            renderTabBarIcon(tintColor, focused, 'thumbs-up'),
-        }),
-      },
-      [SCREENS.RankingTab]: {
-        screen: Platform.OS === 'android' ? Ranking : RankingNavigator,
-        options: ({ screenProps: { i18n } }) => ({
-          tabBarLabel: i18n.ranking,
-          tabBarIcon: ({ tintColor, focused }) =>
-            renderTabBarIcon(tintColor, focused, 'trophy'),
-        }),
-      },
-      [SCREENS.TrendingTab]: {
-        screen: Platform.OS === 'android' ? Trending : TrendingNavigator,
-        options: ({ screenProps: { i18n } }) => ({
-          tabBarLabel: i18n.search,
-          tabBarIcon: ({ tintColor, focused }) =>
-            renderTabBarIcon(tintColor, focused, 'search'),
-        }),
-      },
-      [SCREENS.NewWorksTab]: {
-        screen: Platform.OS === 'android' ? NewWorks : NewWorksNavigator,
-        options: ({ screenProps: { i18n } }) => ({
-          tabBarLabel: i18n.newest,
-          tabBarIcon: ({ tintColor, focused }) =>
-            renderTabBarIcon(tintColor, focused, 'fiber-new', 'material'),
-        }),
-      },
-      [SCREENS.MyPageTab]: {
-        screen: Platform.OS === 'android' ? MyPage : MyPageNavigator,
-        options: ({ screenProps: { i18n } }) => ({
-          tabBarLabel: i18n.myPage,
-          tabBarIcon: ({ tintColor, focused }) =>
-            renderTabBarIcon(tintColor, focused, 'user'),
-        }),
-      },
-    },
-    {
-      tabBarComponent,
-      initialRouteName: `${initialRouteName}Tab`,
-      headerMode: 'none',
-      lazy: true,
-      swipeEnabled: false,
-      animationEnabled: false,
-      tabBarOptions: {
-        showIcon: true,
-        showLabel: true,
-      },
-    },
-  );
 
 export default createAppTabNavigator;
