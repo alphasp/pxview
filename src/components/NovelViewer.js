@@ -69,7 +69,9 @@ class NovelViewer extends Component {
     if (node.name === 'chapter') {
       return (
         <Text key={index} style={styles.novelChapter}>
-          {defaultRenderer(node.children, parent)}
+          {node.children.length === 1 && node.children[0].type === 'text'
+            ? node.children[0].data
+            : defaultRenderer(node.children, parent)}
         </Text>
       );
     }
