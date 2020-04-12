@@ -98,14 +98,14 @@ const enhanceSaveImage = (WrappedComponent) => {
       let fileName;
       switch (saveImageSettings.fileName) {
         case SAVE_FILE_NAME_FORMAT.WORK_TITLE:
-          fileName = `${workTitle}_p${index}.jpg`;
+          fileName = `${workTitle}_p${index}.png`;
           break;
         case SAVE_FILE_NAME_FORMAT.WORK_ID_WORK_TITLE:
-          fileName = `${workId}_${workTitle}_p${index}.jpg`;
+          fileName = `${workId}_${workTitle}_p${index}.png`;
           break;
         case SAVE_FILE_NAME_FORMAT.WORK_ID:
         default:
-          fileName = `${workId}_p${index}.jpg`;
+          fileName = `${workId}_p${index}.png`;
           break;
       }
       return sanitize(fileName, {
