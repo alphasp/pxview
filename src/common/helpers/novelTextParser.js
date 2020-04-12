@@ -10,13 +10,13 @@ const parseNovelText = (novelText) => {
   let text = '';
   parsedNovelText.forEach((p, index) => {
     if (p.type === 'text') {
-      text += p.val;
+      text += p.val.replace(/</g, '＜');
     } else if (p.type === 'tag') {
       if (p.name === 'chapter') {
         text += '<chapter>';
         p.title.forEach((pp) => {
-          if (pp.name === 'text') {
-            text += pp.val;
+          if (pp.type === 'text') {
+            text += pp.val.replace(/</g, '＜');
           } else if (pp.name === 'rb') {
             text += `${pp.rubyBase}(${pp.rubyText})`;
           }
@@ -30,7 +30,7 @@ const parseNovelText = (novelText) => {
         text += `<a href='${p.uri}'>`;
         p.title.forEach((pp) => {
           if (pp.type === 'text') {
-            text += pp.val;
+            text += pp.val.replace(/</g, '＜');
           } else if (pp.type === 'rb') {
             text += `${pp.rubyBase}(${pp.rubyText})`;
           }
