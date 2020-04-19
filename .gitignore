@@ -29,6 +29,8 @@ build/
 local.properties
 *.iml
 /android/.settings/
+google-services.json
+
 
 # node.js
 #
@@ -62,3 +64,4 @@ flow-typed
 
 # CocoaPods
 /ios/Pods/
+GoogleService-Info.plist

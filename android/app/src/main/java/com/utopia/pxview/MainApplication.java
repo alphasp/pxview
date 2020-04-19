@@ -15,14 +15,13 @@ import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
 import cl.json.RNSharePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
-import com.smixx.fabric.FabricPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 // import com.facebook.react.PackageList;
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.crashlytics.ReactNativeFirebaseCrashlyticsPackage;
+import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 import io.amarcruz.photoview.PhotoViewPackage;
 import org.reactnative.maskedview.RNCMaskedViewPackage;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
@@ -65,6 +64,8 @@ public class MainApplication extends Application implements ReactApplication {
 
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeFirebaseCrashlyticsPackage(),
+            new ReactNativeFirebaseAppPackage(),
             new PhotoViewPackage(),
             new RNCMaskedViewPackage(),
             new SafeAreaContextPackage(),
@@ -84,7 +85,6 @@ public class MainApplication extends Application implements ReactApplication {
           new ReactNativeLocalizationPackage(),
           new RNSharePackage(),
           new VectorIconsPackage(),
-          new FabricPackage(),
           new RNSpinkitPackage()
       );
     }
@@ -111,7 +111,6 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
-    Fabric.with(this, new Crashlytics());
     if (LeakCanary.isInAnalyzerProcess(this)) {
       // This process is dedicated to LeakCanary for heap analysis.
       // You should not init your app in this process.

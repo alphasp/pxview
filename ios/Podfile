@@ -61,14 +61,15 @@ target 'PxView' do
 
   pod 'react-native-photo-view-ex', :path => '../node_modules/react-native-photo-view-ex'
 
+  pod 'RNFBApp', :path => '../node_modules/@react-native-firebase/app'
+
+  pod 'RNFBCrashlytics', :path => '../node_modules/@react-native-firebase/crashlytics'
+
   target 'PxViewTests' do
     inherit! :search_paths
     # Pods for testing
   end
   use_native_modules!
-  pod 'Fabric'
-  pod 'Crashlytics'
-
   # pod 'react-native-photo-view', :path => '../node_modules/react-native-photo-view'
 
 end

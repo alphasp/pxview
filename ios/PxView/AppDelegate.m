@@ -12,9 +12,8 @@
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
 
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
 #import "RNSplashScreen.h"
+#import <Firebase.h>
 
 @implementation AppDelegate
 
@@ -40,7 +39,9 @@ rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  [Fabric with:@[[Crashlytics class]]];
+  if ([FIRApp defaultApp] == nil) {
+    [FIRApp configure];
+  }
   [RNSplashScreen show];
   return YES;
 }

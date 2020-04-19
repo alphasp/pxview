@@ -35,20 +35,6 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>208</string>
-	<key>Fabric</key>
-	<dict>
-		<key>APIKey</key>
-		<string>5c8adb2c6ead3bae43d1e973cd147ccc6c264831</string>
-		<key>Kits</key>
-		<array>
-			<dict>
-				<key>KitInfo</key>
-				<dict/>
-				<key>KitName</key>
-				<string>Crashlytics</string>
-			</dict>
-		</array>
-	</dict>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>pixiv</string>
