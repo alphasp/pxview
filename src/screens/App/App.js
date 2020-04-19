@@ -8,6 +8,7 @@ import {
   useLinking,
 } from '@react-navigation/native';
 import { getStateFromPath } from '@react-navigation/core';
+import analytics from '@react-native-firebase/analytics';
 import {
   DefaultTheme as PaperDefaulTheme,
   DarkTheme as PaperDarkTheme,
@@ -31,6 +32,17 @@ const styles = StyleSheet.create({
   },
 });
 
+const getActiveRouteName = (state) => {
+  const route = state.routes[state.index];
+
+  if (route.state) {
+    // Dive into nested navigators
+    return getActiveRouteName(route.state);
+  }
+
+  return route.name;
+};
+
 const App = () => {
   const [initialState, setInitialState] = React.useState();
   const [navigationIsReady, setNavigationIsReady] = React.useState(false);
@@ -44,6 +56,7 @@ const App = () => {
   const messageBarAlertRef = useRef();
   const toastRef = useRef();
   const navigationRef = useRef();
+  const routeNameRef = useRef();
   const prevRehydrated = usePrevious(rehydrated);
   const i18n = useLocalization();
   const { getInitialState } = useLinking(navigationRef, {
@@ -109,6 +122,7 @@ const App = () => {
       MessageBarManager.unregisterMessageBar();
     };
   }, []);
+
   useEffect(() => {
     const showToastListener = DeviceEventEmitter.addListener(
       'showToast',
@@ -122,10 +136,27 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    if (rehydrated && navigationIsReady) {
+      const state = navigationRef.current.getRootState();
+      // Save the initial route name
+      routeNameRef.current = getActiveRouteName(state);
+    }
+  }, [rehydrated, navigationIsReady]);
+
+  useEffect(() => {
     if (!prevRehydrated && rehydrated) {
       SplashScreen.hide();
     }
   }, [prevRehydrated, rehydrated]);
+
+  const handleOnNavigationStateChange = (state) => {
+    const previousRouteName = routeNameRef.current;
+    const currentRouteName = getActiveRouteName(state);
+    if (previousRouteName !== currentRouteName) {
+      analytics().setCurrentScreen(currentRouteName, currentRouteName);
+    }
+    routeNameRef.current = currentRouteName;
+  };
 
   let renderComponent;
   let theme;
@@ -180,7 +211,11 @@ const App = () => {
     <PaperProvider theme={theme}>
       {(!rehydrated || !navigationIsReady) && <Loader />}
       {rehydrated && navigationIsReady && (
-        <NavigationContainer ref={navigationRef} initialState={initialState}>
+        <NavigationContainer
+          ref={navigationRef}
+          initialState={initialState}
+          onStateChange={handleOnNavigationStateChange}
+        >
           <View style={styles.container}>
             <StatusBar
               barStyle="light-content"
