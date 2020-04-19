@@ -45,25 +45,15 @@ class MyPixivNewWorks extends Component {
   };
 
   renderContent = () => {
-    const { navigation, route } = this.props;
+    const { active } = this.props;
     const { index } = this.state;
     if (index === 0) {
       return (
-        <MyPixivIllusts
-          navigation={navigation}
-          route={route}
-          renderHeader={this.renderHeader}
-        />
+        <MyPixivIllusts renderHeader={this.renderHeader} active={active} />
       );
     }
     if (index === 1) {
-      return (
-        <MyPixivNovels
-          navigation={navigation}
-          route={route}
-          renderHeader={this.renderHeader}
-        />
-      );
+      return <MyPixivNovels renderHeader={this.renderHeader} active={active} />;
     }
     return null;
   };

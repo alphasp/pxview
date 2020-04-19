@@ -1,53 +1,56 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigationState, useScrollToTop } from '@react-navigation/native';
 import NovelList from '../../components/NovelList';
-import * as myPixivNovelsActionCreators from '../../common/actions/myPixivNovels';
+import {
+  clearMyPixivNovels,
+  fetchMyPixivNovels,
+} from '../../common/actions/myPixivNovels';
 import { getMyPixivNovelsItems } from '../../common/selectors';
 
-class MyPixivNovels extends Component {
-  componentDidMount() {
-    const { fetchMyPixivNovels, clearMyPixivNovels } = this.props;
-    clearMyPixivNovels();
-    fetchMyPixivNovels();
-  }
+const MyPixivNovels = (props) => {
+  const { active, renderHeader } = props;
+  const scrollableRef = useRef(null);
+  const dummyRef = useRef(null);
+  const dispatch = useDispatch();
+  const allState = useSelector((state) => state);
+  const myPixivNovels = useSelector((state) => state.myPixivNovels);
+  const navigationState = useNavigationState((state) => state);
+  const items = getMyPixivNovelsItems(allState, props);
+  const listKey = `${navigationState.key}-myPixivNovels`;
 
-  loadMoreItems = () => {
-    const {
-      myPixivNovels: { nextUrl, loading },
-      fetchMyPixivNovels,
-    } = this.props;
-    if (!loading && nextUrl) {
-      fetchMyPixivNovels(nextUrl);
+  // only apply scroll to top when current tab is active
+  useScrollToTop(active ? scrollableRef : dummyRef);
+
+  useEffect(() => {
+    if (!myPixivNovels.loaded) {
+      dispatch(clearMyPixivNovels());
+      dispatch(fetchMyPixivNovels());
+    }
+  }, [dispatch, myPixivNovels.loaded]);
+
+  const loadMoreItems = () => {
+    if (!myPixivNovels.loading && myPixivNovels.nextUrl) {
+      dispatch(fetchMyPixivNovels(myPixivNovels.nextUrl));
     }
   };
 
-  handleOnRefresh = () => {
-    const { clearMyPixivNovels, fetchMyPixivNovels } = this.props;
-    clearMyPixivNovels();
-    fetchMyPixivNovels(null, true);
+  const handleOnRefresh = () => {
+    dispatch(clearMyPixivNovels());
+    dispatch(fetchMyPixivNovels(null, true));
   };
 
-  render() {
-    const { myPixivNovels, items, listKey, renderHeader } = this.props;
-    return (
-      <NovelList
-        data={{ ...myPixivNovels, items }}
-        listKey={listKey}
-        loadMoreItems={this.loadMoreItems}
-        onRefresh={this.handleOnRefresh}
-        renderHeader={renderHeader}
-        onEndReachedThreshold={0.3}
-      />
-    );
-  }
-}
+  return (
+    <NovelList
+      ref={scrollableRef}
+      data={{ ...myPixivNovels, items }}
+      listKey={listKey}
+      loadMoreItems={loadMoreItems}
+      onRefresh={handleOnRefresh}
+      renderHeader={renderHeader}
+      onEndReachedThreshold={0.3}
+    />
+  );
+};
 
-export default connect((state, props) => {
-  const { myPixivNovels, user } = state;
-  return {
-    myPixivNovels,
-    items: getMyPixivNovelsItems(state, props),
-    user,
-    listKey: `${props.route.key}-myPixivNovels`,
-  };
-}, myPixivNovelsActionCreators)(MyPixivNovels);
+export default MyPixivNovels;

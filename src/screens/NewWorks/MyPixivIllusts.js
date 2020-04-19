@@ -1,52 +1,56 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigationState, useScrollToTop } from '@react-navigation/native';
 import IllustList from '../../components/IllustList';
-import * as myPixivIllustsActionCreators from '../../common/actions/myPixivIllusts';
+import {
+  clearMyPixivIllusts,
+  fetchMyPixivIllusts,
+} from '../../common/actions/myPixivIllusts';
 import { getMyPixivIllustsItems } from '../../common/selectors';
 
-class MyPixivIllusts extends Component {
-  componentDidMount() {
-    const { fetchMyPixivIllusts, clearMyPixivIllusts } = this.props;
-    clearMyPixivIllusts();
-    fetchMyPixivIllusts();
-  }
+const MyPixivIllusts = (props) => {
+  const { active, renderHeader } = props;
+  const scrollableRef = useRef(null);
+  const dummyRef = useRef(null);
+  const dispatch = useDispatch();
+  const allState = useSelector((state) => state);
+  const myPixivIllusts = useSelector((state) => state.myPixivIllusts);
+  const navigationState = useNavigationState((state) => state);
+  const items = getMyPixivIllustsItems(allState, props);
+  const listKey = `${navigationState.key}-myPixivIllusts`;
 
-  loadMoreItems = () => {
-    const {
-      fetchMyPixivIllusts,
-      myPixivIllusts: { nextUrl, loading },
-    } = this.props;
-    if (!loading && nextUrl) {
-      fetchMyPixivIllusts(nextUrl);
+  // only apply scroll to top when current tab is active
+  useScrollToTop(active ? scrollableRef : dummyRef);
+
+  useEffect(() => {
+    if (!myPixivIllusts.loaded) {
+      dispatch(clearMyPixivIllusts());
+      dispatch(fetchMyPixivIllusts());
+    }
+  }, [dispatch, myPixivIllusts.loaded]);
+
+  const loadMoreItems = () => {
+    if (!myPixivIllusts.loading && myPixivIllusts.nextUrl) {
+      dispatch(fetchMyPixivIllusts(myPixivIllusts.nextUrl));
     }
   };
 
-  handleOnRefresh = () => {
-    const { fetchMyPixivIllusts, clearMyPixivIllusts } = this.props;
-    clearMyPixivIllusts();
-    fetchMyPixivIllusts(null, true);
+  const handleOnRefresh = () => {
+    dispatch(clearMyPixivIllusts());
+    dispatch(fetchMyPixivIllusts(null, true));
   };
 
-  render() {
-    const { myPixivIllusts, items, listKey, renderHeader } = this.props;
-    return (
-      <IllustList
-        data={{ ...myPixivIllusts, items }}
-        listKey={listKey}
-        loadMoreItems={this.loadMoreItems}
-        onRefresh={this.handleOnRefresh}
-        renderHeader={renderHeader}
-        onEndReachedThreshold={0.3}
-      />
-    );
-  }
-}
+  return (
+    <IllustList
+      ref={scrollableRef}
+      data={{ ...myPixivIllusts, items }}
+      listKey={listKey}
+      loadMoreItems={loadMoreItems}
+      onRefresh={handleOnRefresh}
+      renderHeader={renderHeader}
+      onEndReachedThreshold={0.3}
+    />
+  );
+};
 
-export default connect((state, props) => {
-  const { myPixivIllusts } = state;
-  return {
-    myPixivIllusts,
-    items: getMyPixivIllustsItems(state),
-    listKey: `${props.route.key}-myPixivIllusts`,
-  };
-}, myPixivIllustsActionCreators)(MyPixivIllusts);
+export default MyPixivIllusts;

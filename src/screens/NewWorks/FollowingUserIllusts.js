@@ -1,92 +1,66 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withNavigation } from '@react-navigation/compat';
-import { connectLocalization } from '../../components/Localization';
+import React, { useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigationState, useScrollToTop } from '@react-navigation/native';
 import IllustList from '../../components/IllustList';
-import * as followingUserIllustsActionCreators from '../../common/actions/followingUserIllusts';
+import {
+  clearFollowingUserIllusts,
+  fetchFollowingUserIllusts,
+} from '../../common/actions/followingUserIllusts';
 import { getFollowingUserIllustsItems } from '../../common/selectors';
-import { SCREENS } from '../../common/constants';
+import usePrevious from '../../common/hooks/usePrevious';
 
-class FollowingUserIllusts extends Component {
-  componentDidMount() {
-    const {
-      fetchFollowingUserIllusts,
-      clearFollowingUserIllusts,
-      options,
-    } = this.props;
-    clearFollowingUserIllusts();
-    fetchFollowingUserIllusts(options);
-  }
+const FollowingUserIllusts = (props) => {
+  const { active, options, renderEmpty, renderHeader } = props;
+  const scrollableRef = useRef(null);
+  const dummyRef = useRef(null);
+  const dispatch = useDispatch();
+  const allState = useSelector((state) => state);
+  const followingUserIllusts = useSelector(
+    (state) => state.followingUserIllusts,
+  );
+  const navigationState = useNavigationState((state) => state);
+  const prevOptions = usePrevious(options);
+  const items = getFollowingUserIllustsItems(allState, props);
+  const listKey = `${navigationState.key}-followingUserIllusts`;
 
-  componentWillReceiveProps(nextProps) {
-    const { options: prevOptions } = this.props;
-    const {
-      options,
-      fetchFollowingUserIllusts,
-      clearFollowingUserIllusts,
-    } = nextProps;
-    if (options !== prevOptions) {
-      clearFollowingUserIllusts();
-      fetchFollowingUserIllusts(options);
+  // only apply scroll to top when current tab is active
+  useScrollToTop(active ? scrollableRef : dummyRef);
+
+  useEffect(() => {
+    if (
+      !followingUserIllusts.loaded ||
+      (followingUserIllusts.loaded &&
+        prevOptions !== undefined &&
+        prevOptions !== options)
+    ) {
+      dispatch(clearFollowingUserIllusts());
+      dispatch(fetchFollowingUserIllusts(options));
     }
-  }
+  }, [dispatch, followingUserIllusts.loaded, options, prevOptions]);
 
-  loadMoreItems = () => {
-    const {
-      fetchFollowingUserIllusts,
-      followingUserIllusts: { loading, nextUrl },
-    } = this.props;
-    if (!loading && nextUrl) {
-      fetchFollowingUserIllusts(null, nextUrl);
+  const loadMoreItems = () => {
+    if (!followingUserIllusts.loading && followingUserIllusts.nextUrl) {
+      dispatch(fetchFollowingUserIllusts(null, followingUserIllusts.nextUrl));
     }
   };
 
-  handleOnRefresh = () => {
-    const {
-      fetchFollowingUserIllusts,
-      clearFollowingUserIllusts,
-      options,
-    } = this.props;
-    clearFollowingUserIllusts();
-    fetchFollowingUserIllusts(options, null, true);
+  const handleOnRefresh = () => {
+    dispatch(clearFollowingUserIllusts());
+    dispatch(fetchFollowingUserIllusts(options, null, true));
   };
 
-  handleOnPressFindRecommendedUsers = () => {
-    const { push } = this.props.navigation;
-    push(SCREENS.RecommendedUsers);
-  };
+  return (
+    <IllustList
+      ref={scrollableRef}
+      data={{ ...followingUserIllusts, items }}
+      listKey={listKey}
+      loadMoreItems={loadMoreItems}
+      onRefresh={handleOnRefresh}
+      renderEmpty={renderEmpty}
+      renderHeader={renderHeader}
+      onEndReachedThreshold={0.3}
+    />
+  );
+};
 
-  render() {
-    const {
-      followingUserIllusts,
-      items,
-      listKey,
-      renderEmpty,
-      renderHeader,
-    } = this.props;
-    return (
-      <IllustList
-        data={{ ...followingUserIllusts, items }}
-        listKey={listKey}
-        loadMoreItems={this.loadMoreItems}
-        onRefresh={this.handleOnRefresh}
-        renderEmpty={renderEmpty}
-        renderHeader={renderHeader}
-        onEndReachedThreshold={0.3}
-      />
-    );
-  }
-}
-
-export default connectLocalization(
-  withNavigation(
-    connect((state, props) => {
-      const { followingUserIllusts } = state;
-      return {
-        followingUserIllusts,
-        items: getFollowingUserIllustsItems(state),
-        listKey: `${props.route.key}-followingUserIllusts`,
-      };
-    }, followingUserIllustsActionCreators)(FollowingUserIllusts),
-  ),
-);
+export default FollowingUserIllusts;

@@ -1,52 +1,56 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigationState, useScrollToTop } from '@react-navigation/native';
 import IllustList from '../../components/IllustList';
-import * as newIllustsActionCreators from '../../common/actions/newIllusts';
+import {
+  clearNewIllusts,
+  fetchNewIllusts,
+} from '../../common/actions/newIllusts';
 import { getNewIllustsItems } from '../../common/selectors';
 
-class NewIllusts extends Component {
-  componentDidMount() {
-    const { fetchNewIllusts, clearNewIllusts } = this.props;
-    clearNewIllusts();
-    fetchNewIllusts();
-  }
+const NewIllusts = (props) => {
+  const { active, renderHeader } = props;
+  const scrollableRef = useRef(null);
+  const dummyRef = useRef(null);
+  const dispatch = useDispatch();
+  const allState = useSelector((state) => state);
+  const newIllusts = useSelector((state) => state.newIllusts);
+  const navigationState = useNavigationState((state) => state);
+  const items = getNewIllustsItems(allState, props);
+  const listKey = `${navigationState.key}-newIllusts`;
 
-  loadMoreItems = () => {
-    const {
-      fetchNewIllusts,
-      newIllusts: { nextUrl, loading },
-    } = this.props;
-    if (!loading && nextUrl) {
-      fetchNewIllusts(nextUrl);
+  // only apply scroll to top when current tab is active
+  useScrollToTop(active ? scrollableRef : dummyRef);
+
+  useEffect(() => {
+    if (!newIllusts.loaded) {
+      dispatch(clearNewIllusts());
+      dispatch(fetchNewIllusts());
+    }
+  }, [dispatch, newIllusts.loaded]);
+
+  const loadMoreItems = () => {
+    if (!newIllusts.loading && newIllusts.nextUrl) {
+      dispatch(fetchNewIllusts(newIllusts.nextUrl));
     }
   };
 
-  handleOnRefresh = () => {
-    const { fetchNewIllusts, clearNewIllusts } = this.props;
-    clearNewIllusts();
-    fetchNewIllusts(null, true);
+  const handleOnRefresh = () => {
+    dispatch(clearNewIllusts());
+    dispatch(fetchNewIllusts(null, true));
   };
 
-  render() {
-    const { newIllusts, items, listKey, renderHeader } = this.props;
-    return (
-      <IllustList
-        data={{ ...newIllusts, items }}
-        listKey={listKey}
-        loadMoreItems={this.loadMoreItems}
-        onRefresh={this.handleOnRefresh}
-        renderHeader={renderHeader}
-        onEndReachedThreshold={0.3}
-      />
-    );
-  }
-}
+  return (
+    <IllustList
+      ref={scrollableRef}
+      data={{ ...newIllusts, items }}
+      listKey={listKey}
+      loadMoreItems={loadMoreItems}
+      onRefresh={handleOnRefresh}
+      renderHeader={renderHeader}
+      onEndReachedThreshold={0.3}
+    />
+  );
+};
 
-export default connect((state, props) => {
-  const { newIllusts } = state;
-  return {
-    newIllusts,
-    items: getNewIllustsItems(state),
-    listKey: `${props.route.key}-newUserIllusts`,
-  };
-}, newIllustsActionCreators)(NewIllusts);
+export default NewIllusts;

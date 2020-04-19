@@ -7,8 +7,8 @@ import {
   Platform,
   DeviceEventEmitter,
 } from 'react-native';
-import { withNavigation } from '@react-navigation/compat';
-import { withTheme, Divider } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import { useTheme, Divider } from 'react-native-paper';
 import NovelItem from './NovelItem';
 import Loader from './Loader';
 import { globalStyles } from '../styles';
@@ -146,9 +146,16 @@ class NovelList extends Component {
   }
 }
 
-const NovelListWithHOC = withTheme(withNavigation(NovelList));
-
 export default forwardRef((props, ref) => {
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <NovelListWithHOC {...props} innerRef={ref} />;
+  const theme = useTheme();
+  const navigation = useNavigation();
+  return (
+    <NovelList
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...props}
+      theme={theme}
+      navigation={navigation}
+      innerRef={ref}
+    />
+  );
 });

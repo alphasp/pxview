@@ -39,21 +39,14 @@ class NewWorks extends Component {
   };
 
   renderScene = ({ route }) => {
-    const { navigation, route: navigationRoute } = this.props;
+    const { index } = this.state;
     switch (route.key) {
       case '1':
-        return (
-          <FollowingUserNewWorks
-            navigation={navigation}
-            route={navigationRoute}
-          />
-        );
+        return <FollowingUserNewWorks active={index === 0} />;
       case '2':
-        return <UserNewWorks navigation={navigation} route={navigationRoute} />;
+        return <UserNewWorks active={index === 1} />;
       case '3':
-        return (
-          <MyPixivNewWorks navigation={navigation} route={navigationRoute} />
-        );
+        return <MyPixivNewWorks active={index === 2} />;
       default:
         return null;
     }

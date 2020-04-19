@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, useRef } from 'react';
 import { StyleSheet, View, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
+import { useScrollToTop } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
 import { withTheme } from 'react-native-paper';
 // import CookieManager from 'react-native-cookies';
@@ -227,12 +228,12 @@ class MyPage extends Component {
   };
 
   render() {
-    const { theme } = this.props;
+    const { theme, scrollRef } = this.props;
     return (
       <View
         style={[styles.container, { backgroundColor: theme.colors.background }]}
       >
-        <ScrollView style={styles.container}>
+        <ScrollView ref={scrollRef} style={styles.container}>
           {this.renderCover()}
           {this.renderList(menuList)}
           {this.renderList(menuList2)}
@@ -242,7 +243,7 @@ class MyPage extends Component {
   }
 }
 
-export default withTheme(
+const MyPageWithHOC = withTheme(
   connectLocalization(
     connect(
       (state) => ({
@@ -259,3 +260,10 @@ export default withTheme(
     )(MyPage),
   ),
 );
+
+export default function (props) {
+  const ref = useRef(null);
+  useScrollToTop(ref);
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <MyPageWithHOC {...props} scrollRef={ref} />;
+}

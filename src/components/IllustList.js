@@ -7,8 +7,8 @@ import {
   Platform,
   DeviceEventEmitter,
 } from 'react-native';
-import { withNavigation } from '@react-navigation/compat';
-import { withTheme } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import { useTheme } from 'react-native-paper';
 import IllustItem from './IllustItem';
 import Loader from './Loader';
 import { globalStyles, globalStyleVariables } from '../styles';
@@ -159,9 +159,16 @@ class IllustList extends Component {
   }
 }
 
-const IllustListWithHOC = withTheme(withNavigation(IllustList));
-
 export default forwardRef((props, ref) => {
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <IllustListWithHOC {...props} innerRef={ref} />;
+  const theme = useTheme();
+  const navigation = useNavigation();
+  return (
+    <IllustList
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...props}
+      theme={theme}
+      navigation={navigation}
+      innerRef={ref}
+    />
+  );
 });

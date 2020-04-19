@@ -1,53 +1,53 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigationState, useScrollToTop } from '@react-navigation/native';
 import NovelList from '../../components/NovelList';
-import * as newNovelsActionCreators from '../../common/actions/newNovels';
+import { clearNewNovels, fetchNewNovels } from '../../common/actions/newNovels';
 import { getNewNovelsItems } from '../../common/selectors';
 
-class NewNovels extends Component {
-  componentDidMount() {
-    const { fetchNewNovels, clearNewNovels } = this.props;
-    clearNewNovels();
-    fetchNewNovels();
-  }
+const NewNovels = (props) => {
+  const { active, renderHeader } = props;
+  const scrollableRef = useRef(null);
+  const dummyRef = useRef(null);
+  const dispatch = useDispatch();
+  const allState = useSelector((state) => state);
+  const newNovels = useSelector((state) => state.newNovels);
+  const navigationState = useNavigationState((state) => state);
+  const items = getNewNovelsItems(allState, props);
+  const listKey = `${navigationState.key}-newNovels`;
 
-  loadMoreItems = () => {
-    const {
-      newNovels: { nextUrl, loading },
-      fetchNewNovels,
-    } = this.props;
-    if (!loading && nextUrl) {
-      fetchNewNovels(nextUrl);
+  // only apply scroll to top when current tab is active
+  useScrollToTop(active ? scrollableRef : dummyRef);
+
+  useEffect(() => {
+    if (!newNovels.loaded) {
+      dispatch(clearNewNovels());
+      dispatch(fetchNewNovels());
+    }
+  }, [dispatch, newNovels.loaded]);
+
+  const loadMoreItems = () => {
+    if (!newNovels.loading && newNovels.nextUrl) {
+      dispatch(fetchNewNovels(newNovels.nextUrl));
     }
   };
 
-  handleOnRefresh = () => {
-    const { clearNewNovels, fetchNewNovels } = this.props;
-    clearNewNovels();
-    fetchNewNovels(null, true);
+  const handleOnRefresh = () => {
+    dispatch(clearNewNovels());
+    dispatch(fetchNewNovels(null, true));
   };
 
-  render() {
-    const { newNovels, items, listKey, renderHeader } = this.props;
-    return (
-      <NovelList
-        data={{ ...newNovels, items }}
-        listKey={listKey}
-        loadMoreItems={this.loadMoreItems}
-        onRefresh={this.handleOnRefresh}
-        renderHeader={renderHeader}
-        onEndReachedThreshold={0.3}
-      />
-    );
-  }
-}
+  return (
+    <NovelList
+      ref={scrollableRef}
+      data={{ ...newNovels, items }}
+      listKey={listKey}
+      loadMoreItems={loadMoreItems}
+      onRefresh={handleOnRefresh}
+      renderHeader={renderHeader}
+      onEndReachedThreshold={0.3}
+    />
+  );
+};
 
-export default connect((state, props) => {
-  const { newNovels, user } = state;
-  return {
-    newNovels,
-    items: getNewNovelsItems(state, props),
-    user,
-    listKey: `${props.route.key}-newNovels`,
-  };
-}, newNovelsActionCreators)(NewNovels);
+export default NewNovels;

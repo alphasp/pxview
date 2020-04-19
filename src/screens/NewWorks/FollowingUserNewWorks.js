@@ -27,8 +27,12 @@ class FollowingUserNewWorks extends Component {
     super(props);
     this.state = {
       index: 0,
-      isOpenFilterModal: false,
-      options: {
+      isOpenIllustFilterModal: false,
+      isOpenNovelFilterModal: false,
+      illustFilterOptions: {
+        restrict: 'all',
+      },
+      novelFilterOptions: {
         restrict: 'all',
       },
     };
@@ -39,28 +43,60 @@ class FollowingUserNewWorks extends Component {
   };
 
   handleOnPressFilterButton = () => {
+    const { index } = this.state;
+    if (index === 0) {
+      this.handleOnPressIllustFilterButton();
+    } else {
+      this.handleOnPressNovelFilterButton();
+    }
+  };
+
+  handleOnPressIllustFilterButton = () => {
     this.setState({
-      isOpenFilterModal: true,
+      isOpenIllustFilterModal: true,
     });
   };
 
-  handleOnPressCloseFilterButton = () => {
+  handleOnPressCloseIllustFilterButton = () => {
     this.setState({
-      isOpenFilterModal: false,
+      isOpenIllustFilterModal: false,
     });
   };
 
-  handleOnSelectVisibility = (visibility) => {
+  handleOnSelectIllustVisibility = (visibility) => {
     this.setState({
-      isOpenFilterModal: false,
-      options: {
+      isOpenIllustFilterModal: false,
+      illustFilterOptions: {
+        restrict: visibility,
+      },
+    });
+  };
+
+  handleOnPressNovelFilterButton = () => {
+    this.setState({
+      isOpenNovelFilterModal: true,
+    });
+  };
+
+  handleOnPressCloseNovelFilterButton = () => {
+    this.setState({
+      isOpenNovelFilterModal: false,
+    });
+  };
+
+  handleOnSelectNovelVisibility = (visibility) => {
+    this.setState({
+      isOpenNovelFilterModal: false,
+      novelFilterOptions: {
         restrict: visibility,
       },
     });
   };
 
   handleOnPressFindRecommendedUsers = () => {
-    const { push } = this.props.navigation;
+    const {
+      navigation: { push },
+    } = this.props;
     push(SCREENS.RecommendedUsers);
   };
 
@@ -118,32 +154,42 @@ class FollowingUserNewWorks extends Component {
   };
 
   render() {
-    const { navigation, route } = this.props;
-    const { index, isOpenFilterModal, options } = this.state;
+    const { active } = this.props;
+    const {
+      index,
+      isOpenIllustFilterModal,
+      isOpenNovelFilterModal,
+      illustFilterOptions,
+      novelFilterOptions,
+    } = this.state;
     return (
       <View style={globalStyles.container}>
         {index === 0 ? (
           <FollowingUserIllusts
-            navigation={navigation}
-            route={route}
             renderEmpty={this.renderEmpty}
             renderHeader={this.renderHeader}
-            options={options}
+            active={active}
+            options={illustFilterOptions}
           />
         ) : (
           <FollowingUserNovels
-            navigation={navigation}
-            route={route}
             renderEmpty={this.renderEmpty}
             renderHeader={this.renderHeader}
-            options={options}
+            active={active}
+            options={novelFilterOptions}
           />
         )}
         <VisibilityFilterModal
-          isOpen={isOpenFilterModal}
-          onPressCloseButton={this.handleOnPressCloseFilterButton}
-          onSelectVisibility={this.handleOnSelectVisibility}
-          visibility={options.restrict}
+          isOpen={isOpenIllustFilterModal}
+          onPressCloseButton={this.handleOnPressCloseIllustFilterButton}
+          onSelectVisibility={this.handleOnSelectIllustVisibility}
+          visibility={illustFilterOptions.restrict}
+        />
+        <VisibilityFilterModal
+          isOpen={isOpenNovelFilterModal}
+          onPressCloseButton={this.handleOnPressCloseNovelFilterButton}
+          onSelectVisibility={this.handleOnSelectNovelVisibility}
+          visibility={novelFilterOptions.restrict}
         />
       </View>
     );
