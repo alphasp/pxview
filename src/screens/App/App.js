@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { View, StyleSheet, DeviceEventEmitter, StatusBar } from 'react-native';
 import { useSelector } from 'react-redux';
 import {
@@ -19,7 +19,6 @@ import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import Toast, { DURATION } from 'react-native-easy-toast';
 import AppNavigator from '../../navigations/AppNavigator';
 import LoginNavigator from '../../navigations/LoginNavigator';
-import { useLocalization } from '../../components/Localization';
 import Loader from '../../components/Loader';
 import ModalRoot from '../../containers/ModalRoot';
 import { THEME_TYPES, SCREENS } from '../../common/constants';
@@ -52,13 +51,22 @@ const App = () => {
     (state) => state.initialScreenSettings.routeName,
   );
   const themeName = useSelector((state) => state.theme.name);
-
-  const messageBarAlertRef = useRef();
+  const messageBarAlertRef = useRef(null);
   const toastRef = useRef();
   const navigationRef = useRef();
   const routeNameRef = useRef();
   const prevRehydrated = usePrevious(rehydrated);
-  const i18n = useLocalization();
+
+  const setMessageBarAlertRef = useCallback((node) => {
+    if (messageBarAlertRef.current) {
+      MessageBarManager.unregisterMessageBar();
+    }
+    messageBarAlertRef.current = node;
+    if (node) {
+      MessageBarManager.registerMessageBar(messageBarAlertRef.current);
+    }
+  }, []);
+
   const { getInitialState } = useLinking(navigationRef, {
     prefixes: [
       'https://www.pixiv.net/en',
@@ -115,13 +123,6 @@ const App = () => {
         setNavigationIsReady(true);
       });
   }, [getInitialState]);
-
-  useEffect(() => {
-    MessageBarManager.registerMessageBar(messageBarAlertRef.current);
-    return () => {
-      MessageBarManager.unregisterMessageBar();
-    };
-  }, []);
 
   useEffect(() => {
     const showToastListener = DeviceEventEmitter.addListener(
@@ -199,13 +200,12 @@ const App = () => {
   } else if (user) {
     renderComponent = (
       <AppNavigator
-        // screenProps={{ i18n, theme }}
         initialRouteName={initialRouteName}
         uriPrefix={/^(?:https?:\/\/)?(?:www|touch)\.pixiv\.net\/|^pixiv:\/\//}
       />
     );
   } else {
-    renderComponent = <LoginNavigator screenProps={{ i18n, theme }} />;
+    renderComponent = <LoginNavigator />;
   }
   return (
     <PaperProvider theme={theme}>
@@ -224,7 +224,7 @@ const App = () => {
               animated
             />
             {renderComponent}
-            <MessageBar ref={messageBarAlertRef} />
+            <MessageBar ref={setMessageBarAlertRef} />
             <Toast ref={toastRef} opacity={0.7} />
             <ModalRoot />
           </View>

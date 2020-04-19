@@ -92,6 +92,7 @@ const AppNavigator = ({ initialRouteName }) => {
             }}
           >
             {({ props }) => (
+              // eslint-disable-next-line react/jsx-props-no-spreading
               <AppTabNavigator {...props} initialRouteName={initialRouteName} />
             )}
           </Stack.Screen>
