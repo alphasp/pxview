@@ -31,39 +31,23 @@ target 'PxView' do
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
-  pod 'react-native-cameraroll', :path => '../node_modules/@react-native-community/cameraroll'
 
-  pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
 
-  pod 'RNShare', :path => '../node_modules/react-native-share'
 
-  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
-  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
-  pod 'RNScreens', :path => '../node_modules/react-native-screens'
 
-  pod 'RNCViewpager', :path => '../node_modules/@react-native-community/viewpager'
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
-  pod 'RNZipArchive', :path => '../node_modules/react-native-zip-archive'
 
-  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
-  pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
 
-  pod 'RNCMaskedView', :path => '../node_modules/@react-native-community/masked-view'
 
-  pod 'ReactNativeWebPFormat', :path => '../node_modules/react-native-webp-format'
 
-  pod 'react-native-photo-view-ex', :path => '../node_modules/react-native-photo-view-ex'
 
-  pod 'RNFBApp', :path => '../node_modules/@react-native-firebase/app'
 
-  pod 'RNFBCrashlytics', :path => '../node_modules/@react-native-firebase/crashlytics'
+
 
   target 'PxViewTests' do
     inherit! :search_paths

@@ -7,32 +7,11 @@ import android.util.Log;
 import androidx.multidex.MultiDex;
 
 import com.squareup.leakcanary.LeakCanary;
-import com.rnziparchive.RNZipArchivePackage;
-import com.BV.LinearGradient.LinearGradientPackage;
-import org.devio.rn.splashscreen.SplashScreenReactPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
 // import com.psykar.cookiemanager.CookieManagerPackage;
-import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
-import cl.json.RNSharePackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.react.rnspinkit.RNSpinkitPackage;
-// import com.facebook.react.PackageList;
+import com.facebook.react.PackageList;
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
-import io.invertase.firebase.crashlytics.ReactNativeFirebaseCrashlyticsPackage;
-import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
-import io.amarcruz.photoview.PhotoViewPackage;
-import org.reactnative.maskedview.RNCMaskedViewPackage;
-import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
-import com.swmansion.reanimated.ReanimatedPackage;
-import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
-import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
-import com.swmansion.rnscreens.RNScreensPackage;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
-import com.reactnativecommunity.webview.RNCWebViewPackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
-import com.reactnativecommunity.cameraroll.CameraRollPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -53,40 +32,14 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      // @SuppressWarnings("UnnecessaryLocalVariable")
-      // List<ReactPackage> packages = new PackageList(this).getPackages();
+      @SuppressWarnings("UnnecessaryLocalVariable")
+      List<ReactPackage> packages = new PackageList(this).getPackages();
       // // Packages that cannot be autolinked yet can be added manually here, for example:
       // // packages.add(new MyReactNativePackage());
       // packages.add(new RNFetchBlobPackage());
       // packages.add(new CameraRollPackage());
-      // packages.add(new UgoiraViewPackage());
-      // return packages;
-
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new ReactNativeFirebaseCrashlyticsPackage(),
-            new ReactNativeFirebaseAppPackage(),
-            new PhotoViewPackage(),
-            new RNCMaskedViewPackage(),
-            new SafeAreaContextPackage(),
-            new ReanimatedPackage(),
-            new AsyncStoragePackage(),
-            new RNCViewPagerPackage(),
-            new RNScreensPackage(),
-            new RNGestureHandlerPackage(),
-            new RNCWebViewPackage(),
-          new RNFetchBlobPackage(),
-          new CameraRollPackage(),
-          new UgoiraViewPackage(),
-          new RNZipArchivePackage(),
-          new LinearGradientPackage(),
-          new SplashScreenReactPackage(),
-          new RNDeviceInfo(),
-          new ReactNativeLocalizationPackage(),
-          new RNSharePackage(),
-          new VectorIconsPackage(),
-          new RNSpinkitPackage()
-      );
+      packages.add(new UgoiraViewPackage());
+      return packages;
     }
 
     @Override
