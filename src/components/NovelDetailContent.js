@@ -32,7 +32,7 @@ class NovelDetailContent extends Component {
     super(props);
     const { itemIndex, currentIndex } = props;
     this.state = {
-      isVisible: itemIndex === currentIndex,
+      isVisible: currentIndex == undefined || itemIndex === currentIndex, // currentIndex will be undefined if open from deep link
       isOpenTagBottomSheet: false,
       selectedTag: null,
     };

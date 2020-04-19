@@ -53,7 +53,7 @@ class IllustDetailContent extends Component {
     super(props);
     const { itemIndex, currentIndex } = props;
     this.state = {
-      isVisible: itemIndex === currentIndex,
+      isVisible: currentIndex === undefined || itemIndex === currentIndex, // currentIndex will be undefined if open from deep link
       isInitState: true,
       isScrolling: false,
       imagePageNumber: null,
