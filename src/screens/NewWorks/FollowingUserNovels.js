@@ -25,11 +25,6 @@ const FollowingUserNovels = (props) => {
   useScrollToTop(active ? scrollableRef : dummyRef);
 
   useEffect(() => {
-    console.log('options ', {
-      options,
-      prevOptions,
-      loaded: followingUserNovels.loaded,
-    });
     if (
       !followingUserNovels.loaded ||
       (followingUserNovels.loaded &&
