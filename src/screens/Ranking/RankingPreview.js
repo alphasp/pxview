@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
   RefreshControl,
 } from 'react-native';
-import { withTheme } from 'react-native-paper';
+import { useNavigation, useScrollToTop } from '@react-navigation/native';
+import { useTheme } from 'react-native-paper';
 import RankingHorizontalList from './RankingHorizontalList';
 import NovelRankingPreview from './NovelRankingPreview';
-import { connectLocalization } from '../../components/Localization';
 import { RANKING_TYPES, RANKING_FOR_UI } from '../../common/constants';
 
 const styles = StyleSheet.create({
@@ -18,66 +18,50 @@ const styles = StyleSheet.create({
   },
 });
 
-class RankingPreview extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      refreshing: false,
-    };
-  }
+const RankingPreview = () => {
+  const navigation = useNavigation();
+  const theme = useTheme();
+  const [refreshing, toggleRefreshing] = useState(false);
+  const ref = useRef(null);
+  useScrollToTop(ref);
 
-  handleOnRefresh = () => {
-    this.setState({
-      refreshing: true,
-    });
-  };
-
-  handleOnRefreshSuccess = () => {
-    this.setState({
-      refreshing: false,
-    });
-  };
-
-  render() {
-    const { navigation, theme } = this.props;
-    const { refreshing } = this.state;
-    return (
-      <SafeAreaView
-        style={[styles.container, { backgroundColor: theme.colors.background }]}
+  return (
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <ScrollView
+        ref={ref}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => toggleRefreshing(true)}
+          />
+        }
       >
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={this.handleOnRefresh}
-            />
-          }
-        >
-          <RankingHorizontalList
-            rankingMode={RANKING_FOR_UI.DAILY_ILLUST}
-            rankingType={RANKING_TYPES.ILLUST}
-            navigation={navigation}
-            refreshing={refreshing}
-            theme={theme}
-            onRefreshSuccess={this.handleOnRefreshSuccess}
-          />
-          <RankingHorizontalList
-            rankingMode={RANKING_FOR_UI.DAILY_MANGA}
-            rankingType={RANKING_TYPES.MANGA}
-            navigation={navigation}
-            refreshing={refreshing}
-            theme={theme}
-          />
-          <NovelRankingPreview
-            rankingMode={RANKING_FOR_UI.DAILY_NOVEL}
-            navigation={navigation}
-            refreshing={refreshing}
-            theme={theme}
-          />
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
-}
+        <RankingHorizontalList
+          rankingMode={RANKING_FOR_UI.DAILY_ILLUST}
+          rankingType={RANKING_TYPES.ILLUST}
+          navigation={navigation}
+          refreshing={refreshing}
+          theme={theme}
+          onRefreshSuccess={() => toggleRefreshing(false)}
+        />
+        <RankingHorizontalList
+          rankingMode={RANKING_FOR_UI.DAILY_MANGA}
+          rankingType={RANKING_TYPES.MANGA}
+          navigation={navigation}
+          refreshing={refreshing}
+          theme={theme}
+        />
+        <NovelRankingPreview
+          rankingMode={RANKING_FOR_UI.DAILY_NOVEL}
+          navigation={navigation}
+          refreshing={refreshing}
+          theme={theme}
+        />
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
 
-export default withTheme(connectLocalization(RankingPreview));
+export default RankingPreview;

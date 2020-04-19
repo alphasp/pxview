@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, InteractionManager, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import UserListContainer from './UserListContainer';
+import UserList from '../components/UserList';
 import { connectLocalization } from '../components/Localization';
 import NoResult from '../components/NoResult';
 import * as searchUsersActionCreators from '../common/actions/searchUsers';
@@ -69,7 +69,7 @@ class SearchUsersResult extends Component {
     const { searchUsers, items, i18n } = this.props;
     return (
       <View style={globalStyles.container}>
-        <UserListContainer
+        <UserList
           userList={{ ...searchUsers, items }}
           loadMoreItems={this.loadMoreItems}
           onRefresh={this.handleOnRefresh}

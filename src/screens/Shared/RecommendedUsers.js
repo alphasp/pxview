@@ -1,54 +1,47 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import UserListContainer from '../../containers/UserListContainer';
-import * as recommendedUsersActionCreators from '../../common/actions/recommendedUsers';
+import React, { useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useScrollToTop } from '@react-navigation/native';
+import UserList from '../../components/UserList';
+import {
+  clearRecommendedUsers,
+  fetchRecommendedUsers,
+} from '../../common/actions/recommendedUsers';
 import { getRecommendedUsersItems } from '../../common/selectors';
 
-class RecommendedUsers extends Component {
-  componentDidMount() {
-    const {
-      recommendedUsers: { loaded },
-      fetchRecommendedUsers,
-      clearRecommendedUsers,
-    } = this.props;
-    if (!loaded) {
-      clearRecommendedUsers();
-      fetchRecommendedUsers();
-    }
-  }
+const RecommendedUsers = () => {
+  const ref = useRef();
+  const dispatch = useDispatch();
+  const allState = useSelector((state) => state);
+  const recommendedUsers = useSelector((state) => state.recommendedUsers);
+  const items = getRecommendedUsersItems(allState);
+  useScrollToTop(ref);
 
-  loadMoreItems = () => {
-    const {
-      fetchRecommendedUsers,
-      recommendedUsers: { nextUrl, loading },
-    } = this.props;
-    if (!loading && nextUrl) {
-      fetchRecommendedUsers(null, nextUrl);
+  useEffect(() => {
+    if (!recommendedUsers.loaded) {
+      dispatch(clearRecommendedUsers());
+      dispatch(fetchRecommendedUsers());
+    }
+  }, [dispatch, recommendedUsers.loaded]);
+
+  const loadMoreItems = () => {
+    if (!recommendedUsers.loading && recommendedUsers.nextUrl) {
+      dispatch(fetchRecommendedUsers(null, recommendedUsers.nextUrl));
     }
   };
 
-  handleOnRefresh = () => {
-    const { fetchRecommendedUsers, clearRecommendedUsers } = this.props;
-    clearRecommendedUsers();
-    fetchRecommendedUsers(null, null, true);
+  const handleOnRefresh = () => {
+    dispatch(clearRecommendedUsers());
+    dispatch(fetchRecommendedUsers(null, null, true));
   };
 
-  render() {
-    const { recommendedUsers, items } = this.props;
-    return (
-      <UserListContainer
-        userList={{ ...recommendedUsers, items }}
-        loadMoreItems={this.loadMoreItems}
-        onRefresh={this.handleOnRefresh}
-      />
-    );
-  }
-}
+  return (
+    <UserList
+      ref={ref}
+      userList={{ ...recommendedUsers, items }}
+      loadMoreItems={loadMoreItems}
+      onRefresh={handleOnRefresh}
+    />
+  );
+};
 
-export default connect((state) => {
-  const { recommendedUsers } = state;
-  return {
-    recommendedUsers,
-    items: getRecommendedUsersItems(state),
-  };
-}, recommendedUsersActionCreators)(RecommendedUsers);
+export default RecommendedUsers;

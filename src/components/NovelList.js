@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, forwardRef } from 'react';
 import {
   StyleSheet,
   View,
@@ -7,12 +7,10 @@ import {
   Platform,
   DeviceEventEmitter,
 } from 'react-native';
-import { connect } from 'react-redux';
 import { withNavigation } from '@react-navigation/compat';
 import { withTheme, Divider } from 'react-native-paper';
 import NovelItem from './NovelItem';
 import Loader from './Loader';
-import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
 import { globalStyles } from '../styles';
 import { SCREENS } from '../common/constants';
 
@@ -97,6 +95,7 @@ class NovelList extends Component {
       showsVerticalScrollIndicator,
       maxItems,
       theme,
+      innerRef,
     } = this.props;
     return (
       <View
@@ -110,7 +109,12 @@ class NovelList extends Component {
         {loaded ? (
           <FlatList
             onLayout={this.handleOnLayout}
-            ref={(ref) => (this.novelList = ref)}
+            ref={(ref) => {
+              this.novelList = ref;
+              if (innerRef) {
+                innerRef.current = ref;
+              }
+            }}
             data={
               maxItems && items && items.length
                 ? items.slice(0, maxItems)
@@ -142,6 +146,9 @@ class NovelList extends Component {
   }
 }
 
-export default withTheme(
-  withNavigation(connect(null, bookmarkIllustActionCreators)(NovelList)),
-);
+const NovelListWithHOC = withTheme(withNavigation(NovelList));
+
+export default forwardRef((props, ref) => {
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <NovelListWithHOC {...props} innerRef={ref} />;
+});

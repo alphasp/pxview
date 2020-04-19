@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, forwardRef } from 'react';
 import { StyleSheet, View, FlatList, RefreshControl } from 'react-native';
-import { Text } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import { Text, useTheme } from 'react-native-paper';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXThumbnailTouchable from './PXThumbnailTouchable';
@@ -119,17 +120,23 @@ class UserList extends Component {
   };
 
   handleOnPressIllustPreview = (illusts, index) => {
-    const { push } = this.props.navigation;
+    const {
+      navigation: { push },
+    } = this.props;
     push(SCREENS.Detail, { items: illusts, index });
   };
 
   handleOnPressNovelPreview = (novels, index) => {
-    const { push } = this.props.navigation;
+    const {
+      navigation: { push },
+    } = this.props;
     push(SCREENS.NovelDetail, { items: novels, index });
   };
 
   handleOnPressAvatar = (userId) => {
-    const { push } = this.props.navigation;
+    const {
+      navigation: { push },
+    } = this.props;
     push(SCREENS.UserDetail, { userId });
   };
 
@@ -139,6 +146,7 @@ class UserList extends Component {
       loadMoreItems,
       onRefresh,
       theme,
+      innerRef,
     } = this.props;
     return (
       <View
@@ -147,6 +155,7 @@ class UserList extends Component {
         {!loaded && loading && <Loader />}
         {items && items.length ? (
           <FlatList
+            ref={innerRef}
             data={items}
             keyExtractor={(item) => item.user.id.toString()}
             renderItem={this.renderItem}
@@ -163,4 +172,11 @@ class UserList extends Component {
   }
 }
 
-export default UserList;
+export default forwardRef((props, ref) => {
+  const navigation = useNavigation();
+  const theme = useTheme();
+  return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    <UserList {...props} navigation={navigation} theme={theme} innerRef={ref} />
+  );
+});

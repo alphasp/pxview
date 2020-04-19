@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
-import UserListContainer from '../../../containers/UserListContainer';
+import UserList from '../../../components/UserList';
 import { connectLocalization } from '../../../components/Localization';
 import EmptyStateView from '../../../components/EmptyStateView';
 import * as userFollowingActionCreators from '../../../common/actions/userFollowing';
@@ -71,7 +71,7 @@ class UserFollowing extends Component {
       );
     }
     return (
-      <UserListContainer
+      <UserList
         userList={{ ...userFollowing, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}

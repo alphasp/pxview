@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import UserListContainer from '../../../containers/UserListContainer';
+import UserList from '../../../components/UserList';
 import { connectLocalization } from '../../../components/Localization';
 import EmptyStateView from '../../../components/EmptyStateView';
 import * as userFollowersActionCreators from '../../../common/actions/userFollowers';
@@ -38,7 +38,7 @@ class UserFollowers extends Component {
       );
     }
     return (
-      <UserListContainer
+      <UserList
         userList={{ ...userFollowers, items }}
         loadMoreItems={this.loadMoreItems}
         onRefresh={this.handleOnRefresh}

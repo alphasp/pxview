@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, forwardRef } from 'react';
 import {
   StyleSheet,
   View,
@@ -7,12 +7,10 @@ import {
   Platform,
   DeviceEventEmitter,
 } from 'react-native';
-import { connect } from 'react-redux';
 import { withNavigation } from '@react-navigation/compat';
 import { withTheme } from 'react-native-paper';
 import IllustItem from './IllustItem';
 import Loader from './Loader';
-import * as bookmarkIllustActionCreators from '../common/actions/bookmarkIllust';
 import { globalStyles, globalStyleVariables } from '../styles';
 import { SCREENS } from '../common/constants';
 
@@ -103,6 +101,7 @@ class IllustList extends Component {
       showsVerticalScrollIndicator,
       maxItems,
       theme,
+      innerRef,
     } = this.props;
     return (
       <View
@@ -116,7 +115,12 @@ class IllustList extends Component {
         {loaded ? (
           <FlatList
             onLayout={this.handleOnLayout}
-            ref={(ref) => (this.illustList = ref)}
+            ref={(ref) => {
+              this.illustList = ref;
+              if (innerRef) {
+                innerRef.current = ref;
+              }
+            }}
             data={
               maxItems && items && items.length
                 ? items.slice(0, maxItems)
@@ -155,6 +159,9 @@ class IllustList extends Component {
   }
 }
 
-export default withTheme(
-  withNavigation(connect(null, bookmarkIllustActionCreators)(IllustList)),
-);
+const IllustListWithHOC = withTheme(withNavigation(IllustList));
+
+export default forwardRef((props, ref) => {
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <IllustListWithHOC {...props} innerRef={ref} />;
+});

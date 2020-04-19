@@ -39,13 +39,14 @@ class Recommended extends Component {
   };
 
   renderScene = ({ route }) => {
+    const { index } = this.state;
     switch (route.key) {
       case '1':
-        return <RecommendedIllusts />;
+        return <RecommendedIllusts active={index === 0} />;
       case '2':
-        return <RecommendedMangas />;
+        return <RecommendedMangas active={index === 1} />;
       case '3':
-        return <RecommendedNovels />;
+        return <RecommendedNovels active={index === 2} />;
       default:
         return null;
     }

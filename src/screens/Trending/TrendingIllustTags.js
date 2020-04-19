@@ -1,46 +1,42 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useScrollToTop } from '@react-navigation/native';
 import IllustTagList from '../../components/IllustTagList';
-import * as trendingIllustTagsActionCreators from '../../common/actions/trendingIllustTags';
+import {
+  clearTrendingIllustTags,
+  fetchTrendingIllustTags,
+} from '../../common/actions/trendingIllustTags';
 import { getTrendingIllustTagsItems } from '../../common/selectors';
 import { SEARCH_TYPES } from '../../common/constants';
 
-class TrendingIllustTags extends Component {
-  componentDidMount() {
-    const {
-      trendingIllustTags: { loaded },
-      fetchTrendingIllustTags,
-      clearTrendingIllustTags,
-    } = this.props;
-    if (!loaded) {
-      clearTrendingIllustTags();
-      fetchTrendingIllustTags();
+const TrendingIllustTags = () => {
+  const ref = useRef();
+  const dispatch = useDispatch();
+  const allState = useSelector((state) => state);
+  const trendingIllustTags = useSelector((state) => state.trendingIllustTags);
+  const items = getTrendingIllustTagsItems(allState);
+  useScrollToTop(ref);
+
+  useEffect(() => {
+    if (!trendingIllustTags.loaded) {
+      dispatch(clearTrendingIllustTags());
+      dispatch(fetchTrendingIllustTags());
     }
-  }
+  }, [dispatch, trendingIllustTags.loaded]);
 
-  handleOnRefresh = () => {
-    const { fetchTrendingIllustTags, clearTrendingIllustTags } = this.props;
-    clearTrendingIllustTags();
-    fetchTrendingIllustTags(null, true);
+  const handleOnRefresh = () => {
+    dispatch(clearTrendingIllustTags());
+    dispatch(fetchTrendingIllustTags(null, true));
   };
 
-  render() {
-    const { trendingIllustTags, items } = this.props;
-    return (
-      <IllustTagList
-        data={{ ...trendingIllustTags, items }}
-        loadMoreItems={this.loadMoreItems}
-        onRefresh={this.handleOnRefresh}
-        searchType={SEARCH_TYPES.ILLUST}
-      />
-    );
-  }
-}
+  return (
+    <IllustTagList
+      ref={ref}
+      data={{ ...trendingIllustTags, items }}
+      onRefresh={handleOnRefresh}
+      searchType={SEARCH_TYPES.ILLUST}
+    />
+  );
+};
 
-export default connect((state) => {
-  const { trendingIllustTags } = state;
-  return {
-    trendingIllustTags,
-    items: getTrendingIllustTagsItems(state),
-  };
-}, trendingIllustTagsActionCreators)(TrendingIllustTags);
+export default TrendingIllustTags;

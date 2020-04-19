@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, forwardRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -136,6 +136,7 @@ class IllustTagList extends Component {
       data: { items, loading, loaded, refreshing },
       onRefresh,
       theme,
+      innerRef,
     } = this.props;
     return (
       <View
@@ -147,6 +148,7 @@ class IllustTagList extends Component {
         {(!items || (!loaded && loading)) && <Loader />}
         {items && items.length ? (
           <ScrollView
+            ref={innerRef}
             contentContainerStyle={styles.contentContainer}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -160,6 +162,11 @@ class IllustTagList extends Component {
   }
 }
 
-export default withTheme(
+const IllustTagListWithHOC = withTheme(
   withNavigation(connect(null, searchHistoryActionCreators)(IllustTagList)),
 );
+
+export default forwardRef((props, ref) => {
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <IllustTagListWithHOC {...props} innerRef={ref} />;
+});

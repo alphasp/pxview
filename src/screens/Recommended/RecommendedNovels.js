@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigationState } from '@react-navigation/native';
+import { useNavigationState, useScrollToTop } from '@react-navigation/native';
 import NovelList from '../../components/NovelList';
 import {
   fetchRecommendedNovels,
@@ -9,16 +9,23 @@ import {
 import { getRecommendedNovelsItems } from '../../common/selectors';
 
 const RecommendedNovels = (props) => {
+  const { active } = props;
+  const scrollableRef = useRef(null);
+  const dummyRef = useRef(null);
   const dispatch = useDispatch();
   const allState = useSelector((state) => state);
   const recommendedNovels = useSelector((state) => state.recommendedNovels);
   const navigationState = useNavigationState((state) => state);
   const items = getRecommendedNovelsItems(allState, props);
   const listKey = `${navigationState.key}-recommendedNovels`;
+
+  // only apply scroll to top when current tab is active
+  useScrollToTop(active ? scrollableRef : dummyRef);
+
   useEffect(() => {
     dispatch(clearRecommendedNovels());
     dispatch(fetchRecommendedNovels());
-  }, []);
+  }, [dispatch]);
 
   const loadMoreItems = () => {
     const { nextUrl, loading } = recommendedNovels;
@@ -34,6 +41,7 @@ const RecommendedNovels = (props) => {
 
   return (
     <NovelList
+      ref={scrollableRef}
       data={{ ...recommendedNovels, items }}
       listKey={listKey}
       loadMoreItems={loadMoreItems}
