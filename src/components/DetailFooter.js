@@ -107,6 +107,11 @@ class DetailFooter extends PureComponent {
     }
   };
 
+  renderHtmlViewTextComponent = (props) => {
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    return <Text {...props} />;
+  };
+
   render() {
     const {
       item,
@@ -158,7 +163,7 @@ class DetailFooter extends PureComponent {
                 value={item.caption}
                 onLinkPress={this.handleOnPressLink}
                 textComponentProps={{ selectable: true }}
-                TextComponent={Text}
+                TextComponent={this.renderHtmlViewTextComponent}
               />
             </View>
             <View style={styles.statContainer}>

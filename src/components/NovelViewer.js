@@ -96,6 +96,11 @@ class NovelViewer extends Component {
     openModal(MODAL_TYPES.NOVEL_SETTINGS);
   };
 
+  renderHtmlViewTextComponent = (props) => {
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    return <Text {...props} />;
+  };
+
   renderScene = ({ route }) => {
     const { routes, index } = this.state;
     const { novelId, fontSize, lineHeight, items } = this.props;
@@ -117,7 +122,7 @@ class NovelViewer extends Component {
                 },
                 selectable: true,
               }}
-              TextComponent={Text}
+              TextComponent={this.renderHtmlViewTextComponent}
             />
           ))}
         </ScrollView>

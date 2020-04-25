@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
@@ -109,9 +109,9 @@ class DetailInfoModal extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { visible } = nextProps;
-    const { visible: prevVisible } = this.props;
+  componentDidUpdate(prevProps) {
+    const { visible } = this.props;
+    const { visible: prevVisible } = prevProps;
     if (visible !== null && visible !== prevVisible) {
       this.setModalVisible(visible);
     }
@@ -181,6 +181,11 @@ class DetailInfoModal extends Component {
     });
   };
 
+  renderHtmlViewTextComponent = (props) => {
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    return <Text {...props} />;
+  };
+
   render() {
     const {
       onCancel,
@@ -246,7 +251,7 @@ class DetailInfoModal extends Component {
                     value={item.caption}
                     onLinkPress={this.handleOnPressLink}
                     textComponentProps={{ selectable: true }}
-                    TextComponent={Text}
+                    TextComponent={this.renderHtmlViewTextComponent}
                   />
                 </View>
                 <View style={styles.statContainer}>
