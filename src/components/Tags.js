@@ -11,13 +11,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tagContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
     backgroundColor: globalStyleVariables.PRIMARY_COLOR,
     borderRadius: 15,
     paddingHorizontal: 12,
     margin: 4,
-    flexWrap: 'wrap',
   },
   highlightTag: {
     backgroundColor: globalStyleVariables.HIGHLIGHT_COLOR,
@@ -35,6 +32,7 @@ const styles = StyleSheet.create({
     padding: 2,
     color: '#E0E0E0',
     backgroundColor: 'transparent',
+    fontWeight: 'normal',
   },
 });
 
@@ -63,18 +61,20 @@ const Tags = ({ tags, onPressTag, onLongPressTag }) => (
             ]}
             style={styles.tagContainer}
           >
-            <Text style={styles.tagLabel}>#{tag.name}</Text>
-            {tag.translated_name && (
-              <Text style={styles.translatedTagLabel}>
-                {tag.translated_name}
-              </Text>
-            )}
+            <Text style={styles.tagLabel}>
+              #{tag.name}{' '}
+              {tag.translated_name && (
+                <Text style={styles.translatedTagLabel}>
+                  {tag.translated_name}
+                </Text>
+              )}
+            </Text>
           </LinearGradient>
         ) : (
-          <>
-            <Text style={styles.tagLabel}>#{tag.name}</Text>
+          <Text style={styles.tagLabel}>
+            #{tag.name}{' '}
             <Text style={styles.translatedTagLabel}>{tag.translated_name}</Text>
-          </>
+          </Text>
         )}
       </PXTouchable>
     ))}
