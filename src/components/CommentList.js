@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, View, RefreshControl, FlatList } from 'react-native';
 import { withTheme, Text } from 'react-native-paper';
 import Color from 'color';
@@ -71,7 +71,9 @@ const styles = StyleSheet.create({
 });
 class CommentList extends Component {
   handleOnPressUser = (userId) => {
-    const { push } = this.props.navigation;
+    const {
+      navigation: { push },
+    } = this.props;
     push(SCREENS.UserDetail, { userId });
   };
 
@@ -150,16 +152,43 @@ class CommentList extends Component {
   };
 
   handleOnPressUser = (userId) => {
-    const { push } = this.props.navigation;
+    const {
+      navigation: { push },
+    } = this.props;
     push(SCREENS.UserDetail, { userId });
+  };
+
+  renderList = () => {
+    const {
+      data: { items, refreshing },
+      onRefresh,
+      loadMoreItems,
+      maxItems,
+    } = this.props;
+    if (maxItems) {
+      return items.slice(0, maxItems).map((item) => {
+        return this.renderRow({ item });
+      });
+    }
+    return (
+      <FlatList
+        data={items}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={this.renderRow}
+        onEndReachedThreshold={0.1}
+        onEndReached={loadMoreItems}
+        removeClippedSubviews={false}
+        ListFooterComponent={this.renderFooter}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      />
+    );
   };
 
   render() {
     const {
-      data: { items, loading, loaded, refreshing },
-      onRefresh,
-      loadMoreItems,
-      maxItems,
+      data: { items, loading, loaded },
       i18n,
       theme,
     } = this.props;
@@ -171,20 +200,7 @@ class CommentList extends Component {
         ]}
       >
         {!loaded && loading && <Loader />}
-        {loaded ? (
-          <FlatList
-            data={maxItems ? items.slice(0, maxItems) : items}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={this.renderRow}
-            onEndReachedThreshold={0.1}
-            onEndReached={loadMoreItems}
-            removeClippedSubviews={false}
-            ListFooterComponent={this.renderFooter}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-          />
-        ) : null}
+        {loaded ? this.renderList() : null}
         {loaded && (!items || !items.length) && (
           <NoResult text={i18n.noComments} />
         )}

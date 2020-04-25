@@ -3,6 +3,7 @@ import { View, StyleSheet, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import { connectLocalization } from '../../components/Localization';
 import IllustList from '../../components/IllustList';
+import IllustItem from '../../components/IllustItem';
 import NoResult from '../../components/NoResult';
 import ViewMoreButton from '../../components/ViewMoreButton';
 import * as relatedIllustsActionCreators from '../../common/actions/relatedIllusts';
@@ -13,6 +14,14 @@ import { SCREENS } from '../../common/constants';
 const styles = StyleSheet.create({
   viewMoreButtonContainer: {
     margin: 10,
+  },
+  // should be same with FlatList
+  listContainer: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    overflow: 'scroll',
   },
 });
 
@@ -57,32 +66,65 @@ class RelatedIllusts extends Component {
     });
   };
 
-  render() {
+  handleOnPressItem = (item, index) => {
+    const {
+      data: { items },
+      navigation: { push },
+      maxItems,
+    } = this.props;
+    push(SCREENS.Detail, {
+      items: maxItems ? items.slice(0, maxItems) : items,
+      index,
+    });
+  };
+
+  renderList = () => {
     const {
       relatedIllusts,
       items,
-      isFeatureInDetailPage,
       maxItems,
-      i18n,
+      isFeatureInDetailPage,
       listKey,
     } = this.props;
+    if (isFeatureInDetailPage) {
+      if (relatedIllusts?.loaded && items?.length) {
+        return (
+          <View style={styles.listContainer}>
+            {items.slice(0, maxItems).map((item, index) => {
+              return (
+                <IllustItem
+                  key={item.id}
+                  illustId={item.id}
+                  index={index}
+                  numColumns={3}
+                  onPressItem={() => this.handleOnPressItem(item, index)}
+                />
+              );
+            })}
+          </View>
+        );
+      }
+      return null;
+    }
+    return (
+      <IllustList
+        data={{ ...relatedIllusts, items }}
+        listKey={listKey}
+        loadMoreItems={this.loadMoreItem}
+        onRefresh={this.handleOnRefresh}
+      />
+    );
+  };
+
+  render() {
+    const { relatedIllusts, items, i18n, isFeatureInDetailPage } = this.props;
     return (
       <View style={globalStyles.container}>
-        <IllustList
-          data={{ ...relatedIllusts, items }}
-          listKey={listKey}
-          loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
-          onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
-          maxItems={isFeatureInDetailPage && maxItems}
-        />
-        {relatedIllusts &&
-          relatedIllusts.loaded &&
-          (!items || !items.length) && <NoResult text={i18n.noRelatedWorks} />}
-        {isFeatureInDetailPage &&
-        relatedIllusts &&
-        relatedIllusts.loaded &&
-        items &&
-        items.length ? (
+        {this.renderList()}
+        {relatedIllusts?.loaded && !items?.length && (
+          <NoResult text={i18n.noRelatedWorks} />
+        )}
+        {isFeatureInDetailPage && relatedIllusts?.loaded && items?.length ? (
           <View style={styles.viewMoreButtonContainer}>
             <ViewMoreButton
               onPress={this.handleOnPressViewMoreRelatedIllusts}

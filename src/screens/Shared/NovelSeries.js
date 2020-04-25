@@ -3,6 +3,7 @@ import { View, StyleSheet, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import { connectLocalization } from '../../components/Localization';
 import NovelList from '../../components/NovelList';
+import NovelItem from '../../components/NovelItem';
 import ViewMoreButton from '../../components/ViewMoreButton';
 import * as novelSeriesActionCreators from '../../common/actions/novelSeries';
 import { makeGetNovelSeriesItems } from '../../common/selectors';
@@ -12,6 +13,9 @@ import { SCREENS } from '../../common/constants';
 const styles = StyleSheet.create({
   viewMoreButtonContainer: {
     margin: 10,
+  },
+  listContainer: {
+    flex: 1,
   },
 });
 
@@ -64,29 +68,68 @@ class NovelSeries extends Component {
     });
   };
 
-  render() {
+  handleOnPressItem = (item, index) => {
+    const {
+      data: { items },
+      navigation: { push },
+      loadMoreItems,
+      listKey,
+      maxItems,
+    } = this.props;
+    push(SCREENS.NovelDetail, {
+      items: maxItems ? items.slice(0, maxItems) : items,
+      index,
+      onListEndReached: loadMoreItems,
+      parentListKey: listKey,
+    });
+  };
+
+  renderList = () => {
     const {
       novelSeries,
       items,
-      isFeatureInDetailPage,
       maxItems,
+      isFeatureInDetailPage,
       listKey,
     } = this.props;
+    if (isFeatureInDetailPage) {
+      if (novelSeries?.loaded && items?.length) {
+        return (
+          <View style={styles.listContainer}>
+            {items.slice(0, maxItems).map((item, index) => {
+              return (
+                <NovelItem
+                  key={item.id}
+                  novelId={item.id}
+                  index={index}
+                  onPressItem={() => this.handleOnPressItem(item, index)}
+                />
+              );
+            })}
+          </View>
+        );
+      }
+      return null;
+    }
+    return (
+      <NovelList
+        data={{ ...novelSeries, items }}
+        listKey={listKey}
+        loadMoreItems={this.loadMoreItems}
+        onRefresh={this.handleOnRefresh}
+      />
+    );
+  };
+
+  render() {
+    const { novelSeries, items, isFeatureInDetailPage, maxItems } = this.props;
     return (
       <View style={globalStyles.container}>
-        <NovelList
-          data={{ ...novelSeries, items }}
-          listKey={listKey}
-          loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
-          onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
-          maxItems={isFeatureInDetailPage && maxItems}
-        />
+        {this.renderList()}
         {isFeatureInDetailPage &&
-        novelSeries &&
-        novelSeries.loaded &&
-        items &&
-        items.length &&
-        items.length > maxItems ? (
+        novelSeries?.loaded &&
+        items?.length &&
+        items?.length > maxItems ? (
           <View style={styles.viewMoreButtonContainer}>
             <ViewMoreButton onPress={this.handleOnPressViewMoreNovelSeries} />
           </View>
