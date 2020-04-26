@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { StyleSheet, View, Platform, SafeAreaView } from 'react-native';
 import { withNavigation } from '@react-navigation/compat';
-import { HeaderBackButton } from 'react-navigation-stack';
+import { HeaderBackButton } from '@react-navigation/stack';
 import { withTheme } from 'react-native-paper';
 import DrawerMenuButton from './DrawerMenuButton';
 import { globalStyleVariables } from '../styles';

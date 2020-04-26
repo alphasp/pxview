@@ -12,7 +12,7 @@ import { globalStyles } from '../styles';
 
 const styles = StyleSheet.create({
   searchBar: {
-    marginRight: 5,
+    margin: 5,
   },
 });
 
@@ -44,11 +44,17 @@ class PXSearchBar extends Component {
       autoFocus,
       word,
       i18n,
+      showBackButton,
     } = this.props;
     return (
       <View style={globalStyles.container}>
         <Searchbar
-          style={styles.searchBar}
+          style={[
+            styles.searchBar,
+            showBackButton && {
+              marginLeft: 0,
+            },
+          ]}
           selectionColor="#90CAF9"
           placeholder={
             searchType === SEARCH_TYPES.USER
