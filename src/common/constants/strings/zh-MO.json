@@ -159,6 +159,7 @@
   "searchDisplayOptions": "顯示選項",
   "searchHistory": "搜索歷史",
   "searchHistoryClear": "刪除搜索歷史",
+  "searchHistoryClearConfirmation": "确定刪除搜索歷史?",
   "searchLikes": "喜歡！數",
   "searchLikesAll": "所有的喜歡！",
   "searchOrder": "排序方式",

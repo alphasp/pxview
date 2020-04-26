@@ -159,6 +159,7 @@
   "searchDisplayOptions": "Display Options",
   "searchHistory": "Search History",
   "searchHistoryClear": "Clear Search History",
+  "searchHistoryClearConfirmation": "Confirm clear Search History?",
   "searchLikes": "Likes",
   "searchLikesAll": "All Likes",
   "searchOrder": "Sort By",
