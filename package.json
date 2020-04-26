@@ -91,7 +91,7 @@
     "redux-define": "^1.1.1",
     "redux-enhancer-react-native-appstate": "^0.2.0",
     "redux-persist": "^5.9.1",
-    "redux-persist-filesystem-storage": "^1.2.0",
+    "redux-persist-filesystem-storage": "^2.1.0",
     "redux-saga": "^0.16.2",
     "reselect": "^3.0.1",
     "rn-fetch-blob": "^0.12.0",
