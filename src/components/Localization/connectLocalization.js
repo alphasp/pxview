@@ -19,9 +19,9 @@ import useLocalization from './useLocalization';
 // };
 
 const connectLocalization = (Comp) => (props) => {
-  const i18n = useLocalization();
+  const { i18n, lang } = useLocalization();
   // eslint-disable-next-line react/jsx-props-no-spreading
-  return <Comp {...{ ...props, ...i18n }} />;
+  return <Comp {...props} i18n={i18n} lang={lang} />;
 };
 
 export default connectLocalization;
