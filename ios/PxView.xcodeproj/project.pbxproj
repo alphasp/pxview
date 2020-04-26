@@ -17,8 +17,8 @@
 		2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6891FA4F8E400B85C8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* PxViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* PxViewTests.m */; };
 		31198F04C8C2518C1D020287 /* libPods-PxView-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44DD6E10D09E4811A88A2C65 /* libPods-PxView-tvOSTests.a */; };
+		54497BD615EE44D3478DED68 /* libPods-PxView-PxViewTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 987555023F1AD1F5197B926E /* libPods-PxView-PxViewTests.a */; };
 		7572DE5A3D27B1E9BE84B015 /* libPods-PxView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90616CBDB2FDC1A597C6C6AF /* libPods-PxView.a */; };
-		87AB9D39D2ABDA77A0C36BE9 /* libPods-PxViewTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B6A2004283C347985BC044 /* libPods-PxViewTests.a */; };
 		D299BAA63C7B349B1610BF52 /* libPods-PxView-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 384A6C85CC8A465A673CD658 /* libPods-PxView-tvOS.a */; };
 		DE18370E244C122600B687CB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DE18370D244C122600B687CB /* GoogleService-Info.plist */; };
 		DEB52BCC1F0CC73D003F7E27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DEB52BCE1F0CC73D003F7E27 /* InfoPlist.strings */; };
@@ -65,15 +65,17 @@
 		384A6C85CC8A465A673CD658 /* libPods-PxView-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PxView-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3890E215A593015BBD003DC5 /* Pods-PxView-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PxView-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-PxView-tvOS/Pods-PxView-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		3EABD1A774DFB2487F5A0519 /* Pods-PxViewTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PxViewTests.release.xcconfig"; path = "Target Support Files/Pods-PxViewTests/Pods-PxViewTests.release.xcconfig"; sourceTree = "<group>"; };
+		401AC177FD890FECA0D70ED2 /* Pods-PxView-PxViewTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PxView-PxViewTests.release.xcconfig"; path = "Target Support Files/Pods-PxView-PxViewTests/Pods-PxView-PxViewTests.release.xcconfig"; sourceTree = "<group>"; };
 		41B7E96A9799308B6BB17151 /* Pods-PxView-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PxView-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-PxView-tvOSTests/Pods-PxView-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		44DD6E10D09E4811A88A2C65 /* libPods-PxView-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PxView-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A598FCC993542FBBA3ABF7C /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
-		60B6A2004283C347985BC044 /* libPods-PxViewTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PxViewTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		646C74636B7334C71A06D444 /* Pods-PxViewTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PxViewTests.debug.xcconfig"; path = "Target Support Files/Pods-PxViewTests/Pods-PxViewTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6754E8DBFAB9A022F982427B /* Pods-PxView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PxView.release.xcconfig"; path = "Target Support Files/Pods-PxView/Pods-PxView.release.xcconfig"; sourceTree = "<group>"; };
 		700080E0F7754DBD8BF90711 /* libRNShare.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNShare.a; sourceTree = "<group>"; };
 		71DCC5B8F1A047CBA5903274 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		85BDED30A3F4B1A186D11F49 /* Pods-PxView-PxViewTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PxView-PxViewTests.debug.xcconfig"; path = "Target Support Files/Pods-PxView-PxViewTests/Pods-PxView-PxViewTests.debug.xcconfig"; sourceTree = "<group>"; };
 		90616CBDB2FDC1A597C6C6AF /* libPods-PxView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PxView.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		987555023F1AD1F5197B926E /* libPods-PxView-PxViewTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PxView-PxViewTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6CE49E9066A49E8BEE6F007 /* libReactNativeLocalization.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeLocalization.a; sourceTree = "<group>"; };
 		C8D152F5A08041C5B09E465E /* libSMXCrashlytics.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSMXCrashlytics.a; sourceTree = "<group>"; };
 		C91AA17575F514E4FDA39E2D /* Pods-PxView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PxView.debug.xcconfig"; path = "Target Support Files/Pods-PxView/Pods-PxView.debug.xcconfig"; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 		DE1100751F1505F100D3527B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		DE1100761F1505F700D3527B /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		DE18370D244C122600B687CB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DE7BE5252455913C00332E2C /* PxView-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PxView-Bridging-Header.h"; sourceTree = "<group>"; };
 		DEB52BCD1F0CC73D003F7E27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DEB52BCF1F0CC748003F7E27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DEB52BD01F0CC7C8003F7E27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -96,7 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87AB9D39D2ABDA77A0C36BE9 /* libPods-PxViewTests.a in Frameworks */,
+				54497BD615EE44D3478DED68 /* libPods-PxView-PxViewTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +159,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				DE7BE5252455913C00332E2C /* PxView-Bridging-Header.h */,
 			);
 			name = PxView;
 			sourceTree = "<group>";
@@ -181,6 +185,8 @@
 				41B7E96A9799308B6BB17151 /* Pods-PxView-tvOSTests.release.xcconfig */,
 				646C74636B7334C71A06D444 /* Pods-PxViewTests.debug.xcconfig */,
 				3EABD1A774DFB2487F5A0519 /* Pods-PxViewTests.release.xcconfig */,
+				85BDED30A3F4B1A186D11F49 /* Pods-PxView-PxViewTests.debug.xcconfig */,
+				401AC177FD890FECA0D70ED2 /* Pods-PxView-PxViewTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -229,7 +235,7 @@
 				90616CBDB2FDC1A597C6C6AF /* libPods-PxView.a */,
 				384A6C85CC8A465A673CD658 /* libPods-PxView-tvOS.a */,
 				44DD6E10D09E4811A88A2C65 /* libPods-PxView-tvOSTests.a */,
-				60B6A2004283C347985BC044 /* libPods-PxViewTests.a */,
+				987555023F1AD1F5197B926E /* libPods-PxView-PxViewTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -271,6 +277,7 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
+				D24D88BB214B8DC3C1F89E27 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -348,8 +355,8 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 940;
-				ORGANIZATIONNAME = Facebook;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -357,6 +364,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = S75J7D267F;
+						LastSwiftMigration = 1010;
 						SystemCapabilities = {
 							com.apple.Keychain = {
 								enabled = 0;
@@ -376,7 +384,7 @@
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "PxView" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -547,7 +555,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-PxViewTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-PxView-PxViewTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -594,6 +602,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D24D88BB214B8DC3C1F89E27 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PxView-PxViewTests/Pods-PxView-PxViewTests-resources.sh",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PxView-PxViewTests/Pods-PxView-PxViewTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F413B24BCEA697DC63EA6A8C /* [CP] Check Pods Manifest.lock */ = {
@@ -688,7 +744,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 646C74636B7334C71A06D444 /* Pods-PxViewTests.debug.xcconfig */;
+			baseConfigurationReference = 85BDED30A3F4B1A186D11F49 /* Pods-PxView-PxViewTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -720,7 +776,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3EABD1A774DFB2487F5A0519 /* Pods-PxViewTests.release.xcconfig */;
+			baseConfigurationReference = 401AC177FD890FECA0D70ED2 /* Pods-PxView-PxViewTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -751,10 +807,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C91AA17575F514E4FDA39E2D /* Pods-PxView.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = NO;
+				ENABLE_BITCODE = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"FB_SONARKIT_ENABLED=1",
+				);
 				DEVELOPMENT_TEAM = S75J7D267F;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -781,6 +843,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.utopia.pxview;
 				PRODUCT_NAME = PxView;
+				SWIFT_OBJC_BRIDGING_HEADER = "PxView-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -790,8 +855,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6754E8DBFAB9A022F982427B /* Pods-PxView.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = S75J7D267F;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -819,6 +886,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.utopia.pxview;
 				PRODUCT_NAME = PxView;
+				SWIFT_OBJC_BRIDGING_HEADER = "PxView-Bridging-Header.h";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1004,6 +1073,11 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\"",
+					"\"$(inherited)\"",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1051,6 +1125,11 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\"",
+					"\"$(inherited)\"",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
