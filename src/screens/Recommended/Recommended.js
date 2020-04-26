@@ -1,45 +1,32 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PXTabView from '../../components/PXTabView';
 import RecommendedIllusts from './RecommendedIllusts';
 import RecommendedMangas from './RecommendedMangas';
 import RecommendedNovels from './RecommendedNovels';
-import { connectLocalization } from '../../components/Localization';
+import { useLocalization } from '../../components/Localization';
 import config from '../../common/config';
+import useIsMounted from '../../common/hooks/useIsMounted';
 
-class Recommended extends Component {
-  constructor(props) {
-    super(props);
-    const { i18n } = props;
-    this.state = {
-      index: 0,
-      routes: [
+const Recommended = () => {
+  const { i18n, lang } = useLocalization();
+  const [index, setIndex] = useState(0);
+  const [routes, setRoutes] = useState([
+    { key: '1', title: i18n.illust },
+    { key: '2', title: i18n.manga },
+    { key: '3', title: i18n.novel },
+  ]);
+  const isMounted = useIsMounted();
+  useEffect(() => {
+    if (isMounted) {
+      setRoutes([
         { key: '1', title: i18n.illust },
         { key: '2', title: i18n.manga },
         { key: '3', title: i18n.novel },
-      ],
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { lang: prevLang } = this.props;
-    const { lang, i18n } = nextProps;
-    if (lang !== prevLang) {
-      this.setState({
-        routes: [
-          { key: '1', title: i18n.illustration },
-          { key: '2', title: i18n.manga },
-          { key: '3', title: i18n.novel },
-        ],
-      });
+      ]);
     }
-  }
+  }, [lang, isMounted, i18n]);
 
-  handleChangeTab = (index) => {
-    this.setState({ index });
-  };
-
-  renderScene = ({ route }) => {
-    const { index } = this.state;
+  const renderScene = ({ route }) => {
     switch (route.key) {
       case '1':
         return <RecommendedIllusts active={index === 0} />;
@@ -52,16 +39,14 @@ class Recommended extends Component {
     }
   };
 
-  render() {
-    return (
-      <PXTabView
-        navigationState={this.state}
-        renderScene={this.renderScene}
-        onIndexChange={this.handleChangeTab}
-        includeStatusBarPadding={config.navigation.tab}
-      />
-    );
-  }
-}
+  return (
+    <PXTabView
+      navigationState={{ index, routes }}
+      renderScene={renderScene}
+      onIndexChange={setIndex}
+      includeStatusBarPadding={config.navigation.tab}
+    />
+  );
+};
 
-export default connectLocalization(Recommended);
+export default Recommended;

@@ -1,45 +1,32 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import FollowingUserNewWorks from './FollowingUserNewWorks';
 import UserNewWorks from './UserNewWorks';
 import MyPixivNewWorks from './MyPixivNewWorks';
-import { connectLocalization } from '../../components/Localization';
 import PXTabView from '../../components/PXTabView';
+import { useLocalization } from '../../components/Localization';
 import config from '../../common/config';
+import useIsMounted from '../../common/hooks/useIsMounted';
 
-class NewWorks extends Component {
-  constructor(props) {
-    super(props);
-    const { i18n } = props;
-    this.state = {
-      index: 0,
-      routes: [
+const NewWorks = () => {
+  const { i18n, lang } = useLocalization();
+  const [index, setIndex] = useState(0);
+  const [routes, setRoutes] = useState([
+    { key: '1', title: i18n.following },
+    { key: '2', title: i18n.newest },
+    { key: '3', title: i18n.myPixiv },
+  ]);
+  const isMounted = useIsMounted();
+  useEffect(() => {
+    if (isMounted) {
+      setRoutes([
         { key: '1', title: i18n.following },
         { key: '2', title: i18n.newest },
         { key: '3', title: i18n.myPixiv },
-      ],
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { lang: prevLang } = this.props;
-    const { lang, i18n } = nextProps;
-    if (lang !== prevLang) {
-      this.setState({
-        routes: [
-          { key: '1', title: i18n.follow },
-          { key: '2', title: i18n.illustration },
-          { key: '3', title: i18n.myPixiv },
-        ],
-      });
+      ]);
     }
-  }
+  }, [lang, isMounted, i18n]);
 
-  handleChangeTab = (index) => {
-    this.setState({ index });
-  };
-
-  renderScene = ({ route }) => {
-    const { index } = this.state;
+  const renderScene = ({ route }) => {
     switch (route.key) {
       case '1':
         return <FollowingUserNewWorks active={index === 0} />;
@@ -52,16 +39,14 @@ class NewWorks extends Component {
     }
   };
 
-  render() {
-    return (
-      <PXTabView
-        navigationState={this.state}
-        renderScene={this.renderScene}
-        onIndexChange={this.handleChangeTab}
-        includeStatusBarPadding={config.navigation.tab}
-      />
-    );
-  }
-}
+  return (
+    <PXTabView
+      navigationState={{ index, routes }}
+      renderScene={renderScene}
+      onIndexChange={setIndex}
+      includeStatusBarPadding={config.navigation.tab}
+    />
+  );
+};
 
-export default connectLocalization(NewWorks);
+export default NewWorks;
