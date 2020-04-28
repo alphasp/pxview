@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Platform } from 'react-native';
 import FollowingUserNewWorks from './FollowingUserNewWorks';
 import UserNewWorks from './UserNewWorks';
 import MyPixivNewWorks from './MyPixivNewWorks';
 import PXTabView from '../../components/PXTabView';
 import { useLocalization } from '../../components/Localization';
-import config from '../../common/config';
 import useIsMounted from '../../common/hooks/useIsMounted';
 
 const NewWorks = () => {
@@ -44,7 +44,7 @@ const NewWorks = () => {
       navigationState={{ index, routes }}
       renderScene={renderScene}
       onIndexChange={setIndex}
-      includeStatusBarPadding={config.navigation.tab}
+      includeStatusBarPadding={Platform.OS === 'ios'}
     />
   );
 };

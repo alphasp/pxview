@@ -1,12 +1,8 @@
 import React, { useState, useRef } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  RefreshControl,
-} from 'react-native';
+import { ScrollView, StyleSheet, RefreshControl } from 'react-native';
 import { useNavigation, useScrollToTop } from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import RankingHorizontalList from './RankingHorizontalList';
 import NovelRankingPreview from './NovelRankingPreview';
 import { RANKING_TYPES, RANKING_FOR_UI } from '../../common/constants';
@@ -14,7 +10,6 @@ import { RANKING_TYPES, RANKING_FOR_UI } from '../../common/constants';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
   },
 });
 

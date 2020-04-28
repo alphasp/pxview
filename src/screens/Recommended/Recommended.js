@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Platform } from 'react-native';
 import PXTabView from '../../components/PXTabView';
 import RecommendedIllusts from './RecommendedIllusts';
 import RecommendedMangas from './RecommendedMangas';
 import RecommendedNovels from './RecommendedNovels';
 import { useLocalization } from '../../components/Localization';
-import config from '../../common/config';
 import useIsMounted from '../../common/hooks/useIsMounted';
 
 const Recommended = () => {
@@ -44,7 +44,7 @@ const Recommended = () => {
       navigationState={{ index, routes }}
       renderScene={renderScene}
       onIndexChange={setIndex}
-      includeStatusBarPadding={config.navigation.tab}
+      includeStatusBarPadding={Platform.OS === 'ios'}
     />
   );
 };

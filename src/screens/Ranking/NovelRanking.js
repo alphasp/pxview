@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import { Platform } from 'react-native';
 import NovelRankingList from './NovelRankingList';
 import PastRanking from './PastRanking';
 import PXTabView from '../../components/PXTabView';
 import TabContentWrapper from '../../components/TabContentWrapper';
 import { connectLocalization } from '../../components/Localization';
 import { RANKING_FOR_UI } from '../../common/constants';
-import config from '../../common/config';
 import mapRankingTypeString from '../../common/helpers/mapRankingTypeString';
 
 class NovelRanking extends Component {
@@ -99,7 +99,7 @@ class NovelRanking extends Component {
         renderScene={this.renderScene}
         onIndexChange={this.handleChangeTab}
         scrollEnabled
-        includeStatusBarPadding={config.navigation.tab}
+        includeStatusBarPadding={Platform.OS === 'ios'}
       />
     );
   }
