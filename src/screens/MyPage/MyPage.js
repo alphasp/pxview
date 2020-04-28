@@ -2,6 +2,7 @@ import React, { Component, useRef } from 'react';
 import { StyleSheet, View, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { useScrollToTop } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Icon } from 'react-native-elements';
 import { withTheme } from 'react-native-paper';
 // import CookieManager from 'react-native-cookies';
@@ -161,7 +162,9 @@ class MyPage extends Component {
   };
 
   handleOnPressRegisterAccount = () => {
-    const { navigate } = this.props.navigation;
+    const {
+      navigation: { navigate },
+    } = this.props;
     navigate(SCREENS.AccountSettingsModal, {
       hideAdvanceSettings: true,
     });
@@ -230,15 +233,20 @@ class MyPage extends Component {
   render() {
     const { theme, scrollRef } = this.props;
     return (
-      <View
-        style={[styles.container, { backgroundColor: theme.colors.background }]}
+      <SafeAreaView
+        style={[
+          styles.container,
+          {
+            backgroundColor: theme.colors.background,
+          },
+        ]}
       >
         <ScrollView ref={scrollRef} style={styles.container}>
           {this.renderCover()}
           {this.renderList(menuList)}
           {this.renderList(menuList2)}
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   }
 }

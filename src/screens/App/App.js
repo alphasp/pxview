@@ -1,5 +1,11 @@
 import React, { useEffect, useCallback, useRef } from 'react';
-import { View, StyleSheet, DeviceEventEmitter, StatusBar } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  DeviceEventEmitter,
+  StatusBar,
+  Platform,
+} from 'react-native';
 import { useSelector } from 'react-redux';
 import {
   NavigationContainer,
@@ -173,6 +179,10 @@ const App = () => {
         : globalStyleVariables.PRIMARY_COLOR,
     modalTitleBackground:
       themeName === THEME_TYPES.DARK ? '#1a1a1a' : '#E9EBEE',
+    bottomTabBarBackground:
+      themeName === THEME_TYPES.DARK
+        ? PaperDarkTheme.colors.surface
+        : globalStyleVariables.PRIMARY_COLOR,
   };
   if (themeName === THEME_TYPES.DARK) {
     theme = {
@@ -218,9 +228,17 @@ const App = () => {
         >
           <View style={styles.container}>
             <StatusBar
-              barStyle="light-content"
-              backgroundColor="rgba(0, 0, 0, 0.3)"
-              translucent
+              barStyle={
+                Platform.OS === 'ios' && themeName === THEME_TYPES.LIGHT
+                  ? 'dark-content'
+                  : 'light-content'
+              }
+              backgroundColor={
+                themeName === THEME_TYPES.DARK
+                  ? PaperDarkTheme.colors.surface
+                  : 'rgb(33,123,178)'
+              }
+              // translucent
               animated
             />
             {renderComponent}

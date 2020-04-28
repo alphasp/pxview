@@ -1,6 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { StyleSheet, View, Platform, SafeAreaView } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Platform,
+  SafeAreaView,
+  StatusBar,
+} from 'react-native';
 import { withNavigation } from '@react-navigation/compat';
 import { HeaderBackButton } from '@react-navigation/stack';
 import { withTheme } from 'react-native-paper';
@@ -21,7 +27,7 @@ const styles = StyleSheet.create({
         shadowOffset: {
           height: StyleSheet.hairlineWidth,
         },
-        elevation: 4,
+        elevation: 1,
       },
     }),
   },
@@ -30,8 +36,7 @@ const styles = StyleSheet.create({
   },
   absolutePosition: {
     position: 'absolute',
-    // top: StatusBar.currentHeight || 0, // android only for use with translucent status bar
-    top: 0,
+    top: StatusBar.currentHeight || 0, // android only for use with translucent status bar
     left: 0,
     right: 0,
     bottom: 0,
@@ -57,6 +62,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    height: globalStyleVariables.APPBAR_HEIGHT,
   },
 });
 

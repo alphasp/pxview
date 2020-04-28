@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from '@react-navigation/compat';
 import { withTheme, Searchbar } from 'react-native-paper';
@@ -12,7 +12,12 @@ import { globalStyles } from '../styles';
 
 const styles = StyleSheet.create({
   searchBar: {
-    margin: 5,
+    marginHorizontal: 5,
+    ...Platform.select({
+      ios: {
+        height: 36,
+      },
+    }),
   },
 });
 

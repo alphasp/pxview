@@ -9,7 +9,6 @@ import PXSearchBar from '../../components/PXSearchBar';
 import Pills from '../../components/Pills';
 import { connectLocalization } from '../../components/Localization';
 import { SEARCH_TYPES, SCREENS } from '../../common/constants';
-import config from '../../common/config';
 
 const styles = StyleSheet.create({
   container: {
@@ -56,7 +55,9 @@ class Trending extends Component {
   };
 
   handleOnSubmitSearch = (word) => {
-    const { push } = this.props.navigation;
+    const {
+      navigation: { push },
+    } = this.props;
     const { searchType } = this.state;
     this.handleOnPressBackButton();
     push(SCREENS.SearchResult, { word, searchType });
@@ -138,7 +139,7 @@ class Trending extends Component {
             showSearchBar
             word={word}
             showBackButton={isFocusSearchBar}
-            showMenuButton={!config.navigation.tab && !isFocusSearchBar}
+            // showMenuButton={!config.navigation.tab && !isFocusSearchBar}
             searchType={searchType}
             onFocus={this.handleOnFocusSearchBar}
             onChangeText={this.handleOnChangeSearchText}
