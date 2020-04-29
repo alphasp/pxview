@@ -38,6 +38,7 @@ import MyCollection from '../screens/MyPage/MyCollection/MyCollection';
 import BrowsingHistory from '../screens/MyPage/BrowsingHistory/BrowsingHistory';
 import Settings from '../screens/MyPage/Settings';
 import AdvanceAccountSettings from '../screens/MyPage/AccountSettings/AdvanceAccountSettings';
+import ReadingSettings from '../screens/MyPage/ReadingSettings';
 import SaveImageSettings from '../screens/MyPage/SaveImageSettings';
 import LikeButtonSettings from '../screens/MyPage/LikeButtonSettings';
 import HighlightTagsSettings from '../screens/MyPage/HighlightTagsSettings';
@@ -350,6 +351,14 @@ const AppNavigator = ({ initialRouteName }) => {
           component={AdvanceAccountSettings}
           options={{
             title: null,
+            headerStyle,
+          }}
+        />
+        <Stack.Screen
+          name={SCREENS.ReadingSettings}
+          component={ReadingSettings}
+          options={{
+            title: i18n.readingSettings,
             headerStyle,
           }}
         />

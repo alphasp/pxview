@@ -8,6 +8,7 @@ import InitialScreenSettingsModal from './InitialScreenSettingsModal';
 import LanguageSettingsModal from './LanguageSettingsModal';
 import SaveImageFileNameModal from './SaveImageFileNameModal';
 import LikeButtonSettingsModal from './LikeButtonSettingsModal';
+import ReadingDirectionSettingsModal from './ReadingDirectionSettingsModal';
 import SignUpModal from './SignUpModal';
 
 const MODAL_COMPONENTS = {
@@ -19,6 +20,7 @@ const MODAL_COMPONENTS = {
   LANGUAGE_SETTINGS: LanguageSettingsModal,
   SAVE_IMAGE_FILE_NAME_FORMAT: SaveImageFileNameModal,
   LIKE_BUTTON_SETTINGS: LikeButtonSettingsModal,
+  READING_DIRECTION_SETTINGS: ReadingDirectionSettingsModal,
   SIGNUP: SignUpModal,
 };
 
@@ -27,6 +29,7 @@ const ModalRoot = ({ modal: { modalType, modalProps } }) => {
     return null;
   }
   const SpecificModal = MODAL_COMPONENTS[modalType];
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <SpecificModal {...modalProps} />;
 };
 

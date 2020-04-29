@@ -103,6 +103,7 @@ const myTransform = createTransform(
       'browsingHistoryNovels',
       'muteUsers',
       'initialScreenSettings',
+      'readingSettings',
     ],
   },
 );
@@ -181,6 +182,7 @@ export default function configureStore() {
       'auth',
       'i18n',
       'theme',
+      'readingSettings',
     ],
     storage: AsyncStorage,
     transforms: [myTransform],
@@ -203,6 +205,7 @@ export default function configureStore() {
       'initialScreenSettings',
       'novelSettings',
       'likeButtonSettings',
+      'readingSettings',
       'entities',
       'auth',
       'i18n',

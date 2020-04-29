@@ -461,6 +461,12 @@ export const LIKE_BUTTON_SETTINGS = defineAction(
   appNamespace,
 );
 
+export const READING_SETTINGS = defineAction(
+  'READING_SETTINGS',
+  [SET],
+  appNamespace,
+);
+
 export const MUTE_SETTINGS = defineAction('MUTE_SETTINGS', [SET], appNamespace);
 
 export const THEME = defineAction('THEME', [SET], appNamespace);

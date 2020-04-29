@@ -13,11 +13,17 @@ export const FOLLOWING_TYPES = {
   PRIVATE: 'PRIVATE',
 };
 
+export const WORK_TYPES = {
+  IMAGE: 'IMAGE',
+  NOVEL: 'NOVEL',
+};
+
 export const MODAL_TYPES = {
   FOLLOW: 'FOLLOW',
   BOOKMARK_ILLUST: 'BOOKMARK_ILLUST',
   BOOKMARK_NOVEL: 'BOOKMARK_NOVEL',
   NOVEL_SETTINGS: 'NOVEL_SETTINGS',
+  READING_DIRECTION_SETTINGS: 'READING_DIRECTION_SETTINGS',
   INITIAL_SCREEN_SETTINGS: 'INITIAL_SCREEN_SETTINGS',
   LANGUAGE_SETTINGS: 'LANGUAGE_SETTINGS',
   SAVE_IMAGE_FILE_NAME_FORMAT: 'SAVE_IMAGE_FILE_NAME_FORMAT',
@@ -160,6 +166,11 @@ export const LIKE_BUTTON_ACTION_TYPES = {
   EDIT_LIKE: 'EDIT_LIKE',
 };
 
+export const READING_DIRECTION_TYPES = {
+  LEFT_TO_RIGHT: 'LEFT_TO_RIGHT',
+  RIGHT_TO_LEFT: 'RIGHT_TO_LEFT',
+};
+
 export const SCREENS = {
   Main: 'Main',
   Login: 'Login',
@@ -207,6 +218,7 @@ export const SCREENS = {
   Settings: 'Settings',
   AccountSettings: 'AccountSettings',
   AdvanceAccountSettings: 'AdvanceAccountSettings',
+  ReadingSettings: 'ReadingSettings',
   SaveImageSettings: 'SaveImageSettings',
   InitialScreenSettings: 'InitialScreenSettings',
   LikeButtonSettings: 'LikeButtonSettings',
