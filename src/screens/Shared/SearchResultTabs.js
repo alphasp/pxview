@@ -37,6 +37,41 @@ class SearchResultTabs extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    const { route } = this.props;
+    const { route: prevRoute } = prevProps;
+    if (
+      route?.params?.target !== prevRoute?.params.target ||
+      route?.params?.period !== prevRoute?.params.period ||
+      route?.params?.sort !== prevRoute?.params.sort ||
+      route?.params?.startDate !== prevRoute?.params.startDate ||
+      route?.params?.endDate !== prevRoute?.params.endDate ||
+      route?.params?.bookmarkNumMin !== prevRoute?.params.bookmarkNumMin ||
+      route?.params?.bookmarkNumMax !== prevRoute?.params.bookmarkNumMax
+    ) {
+      const {
+        target,
+        period,
+        sort,
+        startDate,
+        endDate,
+        bookmarkNumMin,
+        bookmarkNumMax,
+      } = route.params;
+      this.setState({
+        searchOptions: {
+          search_target: target,
+          period,
+          sort,
+          start_date: startDate,
+          end_date: endDate,
+          bookmark_num_min: bookmarkNumMin,
+          bookmark_num_max: bookmarkNumMax,
+        },
+      });
+    }
+  }
+
   handleOnFocusSearchBar = () => {
     this.setState({ isFocusSearchBar: true });
   };
@@ -47,7 +82,7 @@ class SearchResultTabs extends Component {
 
   handleOnPressShowFilterModal = () => {
     const { word, navigation } = this.props;
-    const { navigate, goBack } = navigation;
+    const { navigate } = navigation;
     const { searchOptions, newSearchType } = this.state;
     Keyboard.dismiss();
     this.setState({
@@ -58,28 +93,6 @@ class SearchResultTabs extends Component {
         word,
         searchFilter: searchOptions || {},
         searchType: newSearchType,
-        onPressApplyFilter: (
-          searchTarget,
-          period,
-          sort,
-          startDate,
-          endDate,
-          bookmarkNumMin,
-          bookmarkNumMax,
-        ) => {
-          goBack(null);
-          this.setState({
-            searchOptions: {
-              search_target: searchTarget,
-              period,
-              sort,
-              start_date: startDate,
-              end_date: endDate,
-              bookmark_num_min: bookmarkNumMin,
-              bookmark_num_max: bookmarkNumMax,
-            },
-          });
-        },
       });
     });
   };

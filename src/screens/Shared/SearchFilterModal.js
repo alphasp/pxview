@@ -309,7 +309,9 @@ class SearchFilterModal extends Component {
   };
 
   handleOnPressApplyFilter = () => {
-    const { onPressApplyFilter } = this.props.route.params;
+    const {
+      navigation: { navigate },
+    } = this.props;
     const {
       target,
       period,
@@ -319,7 +321,7 @@ class SearchFilterModal extends Component {
       bookmarkNumMin,
       bookmarkNumMax,
     } = this.state;
-    onPressApplyFilter(
+    navigate(SCREENS.SearchResult, {
       target,
       period,
       sort,
@@ -327,7 +329,7 @@ class SearchFilterModal extends Component {
       endDate,
       bookmarkNumMin,
       bookmarkNumMax,
-    );
+    });
   };
 
   render() {
