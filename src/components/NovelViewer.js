@@ -26,8 +26,9 @@ const styles = StyleSheet.create({
 class NovelViewer extends Component {
   constructor(props) {
     super(props);
-    const { items, index, fontSize, lineHeight } = props;
+    const { items, index } = props;
     this.state = {
+      // eslint-disable-next-line react/no-unused-state
       index,
       routes: items.map((item, i) => ({
         key: i.toString(),
@@ -35,30 +36,13 @@ class NovelViewer extends Component {
     };
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   const { index, fontSize, lineHeight } = nextProps;
-  //   const {
-  //     index: prevIndex,
-  //     fontSize: prevFontSize,
-  //     lineHeight: prevLineHeight,
-  //   } = this.props;
-  //   if (
-  //     index !== prevIndex ||
-  //     fontSize !== prevFontSize ||
-  //     lineHeight !== prevLineHeight
-  //   ) {
-  //     this.setState({
-  //       index,
-  //     });
-  //   }
-  // }
-
   componentDidUpdate(prevProps) {
     const { index } = this.props;
     const { index: prevIndex } = prevProps;
     if (index !== prevIndex) {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
+        // eslint-disable-next-line react/no-unused-state
         index,
       });
     }
@@ -102,8 +86,8 @@ class NovelViewer extends Component {
   };
 
   renderScene = ({ route }) => {
-    const { routes, index } = this.state;
-    const { novelId, fontSize, lineHeight, items } = this.props;
+    const { routes } = this.state;
+    const { novelId, fontSize, lineHeight, items, index } = this.props;
     const sceneIndex = routes.indexOf(route);
     const item = items[sceneIndex];
     // render text by chunks to prevent over text limit https://github.com/facebook/react-native/issues/15663
@@ -140,7 +124,7 @@ class NovelViewer extends Component {
         renderTabBar={this.renderTabBar}
         renderScene={this.renderScene}
         onIndexChange={onIndexChange}
-        lazyPreloadDistance={3}
+        lazyPreloadDistance={2}
       />
     );
   }

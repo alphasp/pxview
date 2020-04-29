@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, StatusBar } from 'react-native';
+import { connect } from 'react-redux';
 import PXHeader from '../../components/PXHeader';
 import PXTabView from '../../components/PXTabView';
 import PXPhotoView from '../../components/PXPhotoView';
 import HeaderTextTitle from '../../components/HeaderTextTitle';
 import HeaderSaveImageButton from '../../components/HeaderSaveImageButton';
 import Loader from '../../components/Loader';
+import { READING_DIRECTION_TYPES } from '../../common/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,15 +22,22 @@ const styles = StyleSheet.create({
 class ImagesViewer extends Component {
   constructor(props) {
     super(props);
-    const { route } = props;
+    const { route, imageReadingDirection } = props;
     const { images, viewerIndex } = route.params;
+    const imagesWithDirection =
+      imageReadingDirection === READING_DIRECTION_TYPES.RIGHT_TO_LEFT
+        ? images.reverse()
+        : images;
     this.state = {
-      index: viewerIndex,
-      images: images.map((image) => ({
+      index:
+        imageReadingDirection === READING_DIRECTION_TYPES.RIGHT_TO_LEFT
+          ? images.length - 1 - viewerIndex
+          : viewerIndex,
+      images: imagesWithDirection.map((image) => ({
         url: image,
         loading: true,
       })),
-      routes: images.map((image) => ({
+      routes: imagesWithDirection.map((image) => ({
         key: image.toString(),
       })),
       hideHeader: true,
@@ -72,37 +81,48 @@ class ImagesViewer extends Component {
     this.setState({ index });
   };
 
+  getCurrentPageNumber = () => {
+    const { route, imageReadingDirection } = this.props;
+    const { images } = route.params;
+    const { index } = this.state;
+    if (imageReadingDirection === READING_DIRECTION_TYPES.RIGHT_TO_LEFT) {
+      return images.length - index;
+    }
+    return index + 1;
+  };
+
   renderTabBar = () => null;
 
   render() {
-    const { route } = this.props;
+    const { route, imageReadingDirection } = this.props;
     const { images, item } = route.params;
     const { index, hideHeader } = this.state;
     const selectedImages = [images[index]];
     return (
       <View style={styles.container}>
-        <StatusBar
-          hidden={hideHeader}
-          barStyle="light-content"
-          translucent
-          animated
-        />
+        <StatusBar hidden={hideHeader} barStyle="light-content" animated />
         {!hideHeader && (
           <PXHeader
             darkTheme
             withShadow
-            hideStatusBar
             absolutePosition
             showBackButton
             headerTitle={
               <HeaderTextTitle>
-                {images.length > 1 ? `${index + 1}/${images.length}` : null}
+                {images.length > 1
+                  ? `${this.getCurrentPageNumber()}/${images.length}`
+                  : null}
               </HeaderTextTitle>
             }
             headerRight={
               <HeaderSaveImageButton
                 imageUrls={selectedImages}
-                imageIndex={index}
+                imageIndex={
+                  imageReadingDirection ===
+                  READING_DIRECTION_TYPES.RIGHT_TO_LEFT
+                    ? images.length - index
+                    : index
+                }
                 workId={item.id}
                 workTitle={item.title}
                 workType={item.type}
@@ -124,4 +144,9 @@ class ImagesViewer extends Component {
   }
 }
 
-export default ImagesViewer;
+export default connect((state) => {
+  const { imageReadingDirection } = state.readingSettings;
+  return {
+    imageReadingDirection,
+  };
+})(ImagesViewer);

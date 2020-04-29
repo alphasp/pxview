@@ -6,6 +6,7 @@ import equals from 'shallow-equals';
 import { denormalize } from 'normalizr';
 import parseNovelText from '../helpers/novelTextParser';
 import Schemas from '../constants/schemas';
+import { READING_DIRECTION_TYPES } from '../constants';
 
 const defaultArray = [];
 const defaultObject = {};
@@ -131,6 +132,8 @@ const selectHighlightTags = (state) => state.highlightTags.items;
 const selectMuteSettings = (state) => state.muteSettings;
 const selectMuteTags = (state) => state.muteTags.items;
 const selectMuteUsers = (state) => state.muteUsers.items;
+
+const selectReadingSettings = (state) => state.readingSettings;
 
 export const getAuth = (state) => state.auth;
 export const getAuthUser = (state) => state.auth.user;
@@ -768,12 +771,22 @@ export const makeGetNovelSeriesItems = () =>
   );
 
 export const makeGetParsedNovelText = () =>
-  createSelector([selectNovelText, getProps], (novelText, props) => {
-    const novelId = props.novelId || props.route.params.novelId;
-    return novelText[novelId] && novelText[novelId].text
-      ? parseNovelText(novelText[novelId].text)
-      : null;
-  });
+  createSelector(
+    [selectNovelText, selectReadingSettings, getProps],
+    (novelText, readingSettings, props) => {
+      const novelId = props.novelId || props.route.params.novelId;
+      if (novelText[novelId] && novelText[novelId].text) {
+        if (
+          readingSettings.novelReadingDirection ===
+          READING_DIRECTION_TYPES.RIGHT_TO_LEFT
+        ) {
+          return parseNovelText(novelText[novelId].text).reverse();
+        }
+        return parseNovelText(novelText[novelId].text);
+      }
+      return null;
+    },
+  );
 
 export const makeGetUserItem = () =>
   createUserItemSelector([selectEntities, getProps], (entities, props) => {

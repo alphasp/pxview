@@ -2,8 +2,7 @@ import { Parser as NovelParser } from 'pixiv-novel-parser';
 
 const parseNovelText = (novelText) => {
   // const parsedNovelText = NovelParser.parse(
-  //   `${novelText
-  //     .text}[jump:2]blabla[[jumpuri:とある[[rb: 魔術 > まじゅつ]]の[[rb:禁書目録>インデックス]] > http://www.project-index.net/]]`,
+  //   `${novelText}[jump:2]blabla[[jumpuri:とある[[rb: 魔術 > まじゅつ]]の[[rb:禁書目録>インデックス]] > http://www.project-index.net/]]`,
   // );
   const parsedNovelText = NovelParser.parse(novelText);
   const items = [];
