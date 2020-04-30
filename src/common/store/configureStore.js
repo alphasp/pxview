@@ -104,6 +104,7 @@ const myTransform = createTransform(
       'muteUsers',
       'initialScreenSettings',
       'readingSettings',
+      'trendingSearchSettings',
     ],
   },
 );
@@ -183,6 +184,7 @@ export default function configureStore() {
       'i18n',
       'theme',
       'readingSettings',
+      'trendingSearchSettings',
     ],
     storage: AsyncStorage,
     transforms: [myTransform],
@@ -206,6 +208,7 @@ export default function configureStore() {
       'novelSettings',
       'likeButtonSettings',
       'readingSettings',
+      'trendingSearchSettings',
       'entities',
       'auth',
       'i18n',

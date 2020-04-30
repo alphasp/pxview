@@ -1,7 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useScrollToTop } from '@react-navigation/native';
-import IllustTagList from '../../components/IllustTagList';
+import TagList from '../../components/TagList';
+import SimpleTagList from '../../components/SimpleTagList';
 import {
   clearTrendingNovelTags,
   fetchTrendingNovelTags,
@@ -14,6 +15,9 @@ const TrendingNovelTags = () => {
   const dispatch = useDispatch();
   const allState = useSelector((state) => state);
   const trendingNovelTags = useSelector((state) => state.trendingNovelTags);
+  const { isShowNovelImage } = useSelector(
+    (state) => state.trendingSearchSettings,
+  );
   const items = getTrendingNovelTagsItems(allState);
   useScrollToTop(ref);
 
@@ -29,8 +33,9 @@ const TrendingNovelTags = () => {
     dispatch(fetchTrendingNovelTags(null, true));
   };
 
+  const Comp = isShowNovelImage ? TagList : SimpleTagList;
   return (
-    <IllustTagList
+    <Comp
       ref={ref}
       data={{ ...trendingNovelTags, items }}
       onRefresh={handleOnRefresh}

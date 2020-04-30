@@ -41,6 +41,7 @@ import AdvanceAccountSettings from '../screens/MyPage/AccountSettings/AdvanceAcc
 import ReadingSettings from '../screens/MyPage/ReadingSettings';
 import SaveImageSettings from '../screens/MyPage/SaveImageSettings';
 import LikeButtonSettings from '../screens/MyPage/LikeButtonSettings';
+import TrendingSearchSettings from '../screens/MyPage/TrendingSearchSettings';
 import HighlightTagsSettings from '../screens/MyPage/HighlightTagsSettings';
 import MuteSettings from '../screens/MyPage/MuteSettings/MuteSettings';
 import MuteTagsSettings from '../screens/MyPage/MuteSettings/MuteTagsSettings';
@@ -375,6 +376,14 @@ const AppNavigator = ({ initialRouteName }) => {
           component={LikeButtonSettings}
           options={{
             title: i18n.likeButtonSettings,
+            headerStyle,
+          }}
+        />
+        <Stack.Screen
+          name={SCREENS.TrendingSearchSettings}
+          component={TrendingSearchSettings}
+          options={{
+            title: i18n.trendingSearchSettings,
             headerStyle,
           }}
         />

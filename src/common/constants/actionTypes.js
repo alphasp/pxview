@@ -467,6 +467,12 @@ export const READING_SETTINGS = defineAction(
   appNamespace,
 );
 
+export const TRENDING_SEARCH_SETTINGS = defineAction(
+  'TRENDING_SEARCH_SETTINGS',
+  [SET],
+  appNamespace,
+);
+
 export const MUTE_SETTINGS = defineAction('MUTE_SETTINGS', [SET], appNamespace);
 
 export const THEME = defineAction('THEME', [SET], appNamespace);

@@ -222,6 +222,7 @@ export const SCREENS = {
   SaveImageSettings: 'SaveImageSettings',
   InitialScreenSettings: 'InitialScreenSettings',
   LikeButtonSettings: 'LikeButtonSettings',
+  TrendingSearchSettings: 'TrendingSearchSettings',
   HighlightTagsSettings: 'HighlightTagsSettings',
   MuteSettings: 'MuteSettings',
   MuteTagsSettings: 'MuteTagsSettings',

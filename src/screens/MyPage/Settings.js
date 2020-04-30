@@ -43,6 +43,10 @@ const settingsList = [
     title: 'likeButtonSettings',
   },
   {
+    id: 'trendingSearchSettings',
+    title: 'trendingSearchSettings',
+  },
+  {
     id: 'tagHighlightSettings',
     title: 'tagHighlightSettings',
   },
@@ -162,6 +166,10 @@ class Settings extends Component {
       }
       case 'muteSettings': {
         navigate(SCREENS.MuteSettings);
+        break;
+      }
+      case 'trendingSearchSettings': {
+        navigate(SCREENS.TrendingSearchSettings);
         break;
       }
       case 'tagHighlightSettings': {

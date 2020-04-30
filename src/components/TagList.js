@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class IllustTagList extends Component {
+class TagList extends Component {
   renderItem = (item, index) => {
     const { theme } = this.props;
     let imageContainerStyle = {};
@@ -163,7 +163,7 @@ class IllustTagList extends Component {
 }
 
 const IllustTagListWithHOC = withTheme(
-  withNavigation(connect(null, searchHistoryActionCreators)(IllustTagList)),
+  withNavigation(connect(null, searchHistoryActionCreators)(TagList)),
 );
 
 export default forwardRef((props, ref) => {
