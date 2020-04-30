@@ -81,6 +81,7 @@
     "react-native-webp-format": "^1.0.1",
     "react-native-webview": "^9.0.1",
     "react-native-zip-archive": "^5.0.2",
+    "react-navigation-backhandler": "^2.0.0",
     "react-redux": "^7.1.0",
     "redux": "^4.0.4",
     "redux-define": "^1.1.1",

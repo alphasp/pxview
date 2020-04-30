@@ -8,14 +8,13 @@ import {
   LayoutAnimation,
   UIManager,
   DeviceEventEmitter,
-  BackHandler,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withTheme } from 'react-native-paper';
 import Share from 'react-native-share';
 import ActionButton from 'react-native-action-button';
+import { AndroidBackHandler } from 'react-navigation-backhandler';
 import enhanceSaveImage from '../../components/HOC/enhanceSaveImage';
-import AndroidBackHandler from '../../components/AndroidBackHandler';
 import IllustDetailContent from '../../components/IllustDetailContent';
 import PXHeader from '../../components/PXHeader';
 import PXViewPager from '../../components/PXViewPager';

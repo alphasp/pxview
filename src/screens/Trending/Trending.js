@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Keyboard } from 'react-native';
-import AndroidBackHandler from '../../components/AndroidBackHandler';
+import { AndroidBackHandler } from 'react-navigation-backhandler';
 import TrendingIllustTags from './TrendingIllustTags';
 import TrendingNovelTags from './TrendingNovelTags';
 import RecommendedUsers from '../Shared/RecommendedUsers';
