@@ -61,7 +61,6 @@
     "react-native-loading-spinner-overlay": "^0.5.0",
     "react-native-localization": "^1.0.11",
     "react-native-material-dialog": "^0.7.4",
-    "react-native-material-dropdown": "^0.11.1",
     "react-native-message-bar": "github:alphasp/react-native-message-bar#iphonex",
     "react-native-modal-datetime-picker": "^4.13.0",
     "react-native-paper": "^3.7.0",
