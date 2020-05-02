@@ -25,8 +25,6 @@
     "@react-native-firebase/app": "^6.4.0",
     "@react-native-firebase/crashlytics": "^6.4.0",
     "@react-native-firebase/perf": "^6.4.0",
-    "@react-navigation/bottom-tabs": "^5.2.7",
-    "@react-navigation/compat": "^5.1.1",
     "@react-navigation/core": "^5.3.1",
     "@react-navigation/drawer": "^5.1.1",
     "@react-navigation/material-bottom-tabs": "^5.1.9",
