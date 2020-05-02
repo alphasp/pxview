@@ -15,7 +15,7 @@ import {
   Provider as PaperProvider,
 } from 'react-native-paper';
 import SplashScreen from 'react-native-splash-screen';
-import { MessageBar, MessageBarManager } from 'react-native-message-bar';
+import FlashMessage from 'react-native-flash-message';
 import AppNavigator from '../../navigations/AppNavigator';
 import LoginNavigator from '../../navigations/LoginNavigator';
 import Loader from '../../components/Loader';
@@ -51,20 +51,9 @@ const App = () => {
     (state) => state.initialScreenSettings.routeName,
   );
   const themeName = useSelector((state) => state.theme.name);
-  const messageBarAlertRef = useRef(null);
   const navigationRef = useRef();
   const routeNameRef = useRef();
   const prevRehydrated = usePrevious(rehydrated);
-
-  const setMessageBarAlertRef = useCallback((node) => {
-    if (messageBarAlertRef.current) {
-      MessageBarManager.unregisterMessageBar();
-    }
-    messageBarAlertRef.current = node;
-    if (node) {
-      MessageBarManager.registerMessageBar(messageBarAlertRef.current);
-    }
-  }, []);
 
   const { getInitialState } = useLinking(navigationRef, {
     prefixes: [
@@ -223,7 +212,7 @@ const App = () => {
               animated
             />
             {renderComponent}
-            <MessageBar ref={setMessageBarAlertRef} />
+            <FlashMessage />
             <ModalRoot />
             <PXSnackbar />
           </View>

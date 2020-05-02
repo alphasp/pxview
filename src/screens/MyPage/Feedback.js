@@ -98,8 +98,6 @@ class Feedback extends Component {
       navigation: { goBack },
     } = this.props;
     const { feedback, email } = this.state;
-    addError(i18n.feedbackError);
-    return;
     Keyboard.dismiss();
     this.setState({ loading: true });
     this.ref
