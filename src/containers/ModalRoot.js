@@ -9,7 +9,6 @@ import LanguageSettingsModal from './LanguageSettingsModal';
 import SaveImageFileNameModal from './SaveImageFileNameModal';
 import LikeButtonSettingsModal from './LikeButtonSettingsModal';
 import ReadingDirectionSettingsModal from './ReadingDirectionSettingsModal';
-import SignUpModal from './SignUpModal';
 
 const MODAL_COMPONENTS = {
   FOLLOW: FollowModal,
@@ -21,7 +20,6 @@ const MODAL_COMPONENTS = {
   SAVE_IMAGE_FILE_NAME_FORMAT: SaveImageFileNameModal,
   LIKE_BUTTON_SETTINGS: LikeButtonSettingsModal,
   READING_DIRECTION_SETTINGS: ReadingDirectionSettingsModal,
-  SIGNUP: SignUpModal,
 };
 
 const ModalRoot = ({ modal: { modalType, modalProps } }) => {
