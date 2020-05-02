@@ -4,8 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.multidex.MultiDex;
-
 import com.squareup.leakcanary.LeakCanary;
 // import com.psykar.cookiemanager.CookieManagerPackage;
 import com.facebook.react.PackageList;
@@ -54,12 +52,6 @@ public class MainApplication extends Application implements ReactApplication {
     return mReactNativeHost;
   }
 
-  @Override
-  protected void attachBaseContext(Context base) {
-     super.attachBaseContext(base);
-     MultiDex.install(this);
-  }
-  
   @Override
   public void onCreate() {
     super.onCreate();
