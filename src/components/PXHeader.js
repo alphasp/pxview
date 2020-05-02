@@ -1,12 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View,
-  Platform,
-  SafeAreaView,
-  StatusBar,
-} from 'react-native';
+import { StyleSheet, View, Platform, SafeAreaView } from 'react-native';
 import { withNavigation } from '@react-navigation/compat';
 import { HeaderBackButton } from '@react-navigation/stack';
 import { withTheme } from 'react-native-paper';
@@ -36,7 +30,7 @@ const styles = StyleSheet.create({
   },
   absolutePosition: {
     position: 'absolute',
-    top: StatusBar.currentHeight || 0, // android only for use with translucent status bar
+    top: 0,
     left: 0,
     right: 0,
     bottom: 0,
