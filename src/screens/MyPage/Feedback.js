@@ -6,6 +6,7 @@ import {
   InteractionManager,
   Keyboard,
 } from 'react-native';
+import database from '@react-native-firebase/database';
 import { connect } from 'react-redux';
 import { withTheme, TextInput } from 'react-native-paper';
 import DeviceInfo from 'react-native-device-info';
@@ -14,7 +15,6 @@ import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../../components/Localization';
 import PXTouchable from '../../components/PXTouchable';
 import * as errorActionCreators from '../../common/actions/error';
-import firebase from '../../common/helpers/firebase';
 
 const styles = StyleSheet.create({
   container: {
@@ -48,7 +48,7 @@ class Feedback extends Component {
 
   componentDidMount() {
     this.setHeaderRight();
-    this.ref = firebase.database().ref('feedback');
+    this.ref = database().ref('feedback');
   }
 
   componentWillUnmount() {
@@ -111,7 +111,7 @@ class Feedback extends Component {
         appVersion: DeviceInfo.getVersion(),
         appBuildNumber: DeviceInfo.getBuildNumber(),
         locale: DeviceInfo.getDeviceLocale(),
-        createdAt: firebase.database.ServerValue.TIMESTAMP,
+        createdAt: database().getServerTime(),
         feedback,
         email,
       })

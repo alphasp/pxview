@@ -23,6 +23,9 @@ PODS:
     - FirebaseAnalytics (= 6.1.6)
   - Firebase/CoreOnly (6.13.0):
     - FirebaseCore (= 6.4.0)
+  - Firebase/Database (6.13.0):
+    - Firebase/CoreOnly
+    - FirebaseDatabase (~> 6.1.2)
   - Firebase/Performance (6.13.0):
     - Firebase/CoreOnly
     - FirebasePerformance (~> 3.1.7)
@@ -40,6 +43,7 @@ PODS:
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (= 0.3.9011)
   - FirebaseAnalyticsInterop (1.5.0)
+  - FirebaseAuthInterop (1.1.0)
   - FirebaseCore (6.4.0):
     - FirebaseCoreDiagnostics (~> 1.0)
     - FirebaseCoreDiagnosticsInterop (~> 1.0)
@@ -52,6 +56,10 @@ PODS:
     - GoogleUtilities/Logger (~> 6.5)
     - nanopb (~> 0.3.901)
   - FirebaseCoreDiagnosticsInterop (1.2.0)
+  - FirebaseDatabase (6.1.4):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 6.0)
+    - leveldb-library (~> 1.22)
   - FirebaseInstanceID (4.2.7):
     - FirebaseCore (~> 6.0)
     - GoogleUtilities/Environment (~> 6.0)
@@ -166,6 +174,7 @@ PODS:
   - GoogleUtilities/UserDefaults (6.5.2):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.3.1)
+  - leveldb-library (1.22)
   - libwebp (1.1.0):
     - libwebp/demux (= 1.1.0)
     - libwebp/mux (= 1.1.0)
@@ -447,6 +456,11 @@ PODS:
     - Firebase/Core (~> 6.13.0)
     - React
     - RNFBApp
+  - RNFBDatabase (6.7.1):
+    - Firebase/Core (~> 6.13.0)
+    - Firebase/Database (~> 6.13.0)
+    - React
+    - RNFBApp
   - RNFBPerf (6.7.1):
     - Firebase/Core (~> 6.13.0)
     - Firebase/Performance (~> 6.13.0)
@@ -542,6 +556,7 @@ DEPENDENCIES:
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBCrashlytics (from `../node_modules/@react-native-firebase/crashlytics`)"
+  - "RNFBDatabase (from `../node_modules/@react-native-firebase/database`)"
   - "RNFBPerf (from `../node_modules/@react-native-firebase/perf`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -562,9 +577,11 @@ SPEC REPOS:
     - FirebaseABTesting
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
+    - FirebaseAuthInterop
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseCoreDiagnosticsInterop
+    - FirebaseDatabase
     - FirebaseInstanceID
     - FirebasePerformance
     - FirebaseRemoteConfig
@@ -581,6 +598,7 @@ SPEC REPOS:
     - GoogleToolboxForMac
     - GoogleUtilities
     - GTMSessionFetcher
+    - leveldb-library
     - libwebp
     - nanopb
     - OpenSSL-Universal
@@ -673,6 +691,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBCrashlytics:
     :path: "../node_modules/@react-native-firebase/crashlytics"
+  RNFBDatabase:
+    :path: "../node_modules/@react-native-firebase/database"
   RNFBPerf:
     :path: "../node_modules/@react-native-firebase/perf"
   RNGestureHandler:
@@ -704,9 +724,11 @@ SPEC CHECKSUMS:
   FirebaseABTesting: 821a3a3e4a145987e80fee3657c4de1cb9adf693
   FirebaseAnalytics: 45f36d9c429fc91d206283900ab75390cd05ee8a
   FirebaseAnalyticsInterop: 3f86269c38ae41f47afeb43ebf32a001f58fcdae
+  FirebaseAuthInterop: a0f37ae05833af156e72028f648d313f7e7592e9
   FirebaseCore: 307ea2508df730c5865334e41965bd9ea344b0e5
   FirebaseCoreDiagnostics: 13a6564cd6d5375066bbc8940cc1753af24497f3
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
+  FirebaseDatabase: 0144e0706a4761f1b0e8679572eba8095ddb59be
   FirebaseInstanceID: ebd2ea79ee38db0cb5f5167b17a0d387e1cc7b6e
   FirebasePerformance: 22273a775eaed4cd3e072c9b88396a5e4b285c3f
   FirebaseRemoteConfig: 47abf7a04a9082091955ea555aa79cfdd249b19c
@@ -725,6 +747,7 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 800648f8b3127618c1b59c7f97684427630c5ea3
   GoogleUtilities: ad0f3b691c67909d03a3327cc205222ab8f42e0e
   GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
+  leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
@@ -764,6 +787,7 @@ SPEC CHECKSUMS:
   RNFBAnalytics: 7d56f7af0a1147e649df33e64372aea8923fdd01
   RNFBApp: 7b539bb25520fa73d6a240f5c6ea569e27683645
   RNFBCrashlytics: b34063b906dd0c57a5d286dd743a40c90c8326c7
+  RNFBDatabase: 2737d8e87c20246cd91e95743c514e08c791ebe1
   RNFBPerf: 5322fbb70e8a54e0cc92fb9097bd1790c5745389
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNReanimated: 955cf4068714003d2f1a6e2bae3fb1118f359aff

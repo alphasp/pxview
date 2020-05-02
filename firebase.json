@@ -1,5 +1,6 @@
 {
   "react-native": {
-    "crashlytics_debug_enabled": true
+    "crashlytics_debug_enabled": true,
+    "database_persistence_enabled": false
   }
 }

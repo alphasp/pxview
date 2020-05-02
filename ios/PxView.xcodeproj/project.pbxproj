@@ -20,8 +20,8 @@
 		54497BD615EE44D3478DED68 /* libPods-PxView-PxViewTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 987555023F1AD1F5197B926E /* libPods-PxView-PxViewTests.a */; };
 		7572DE5A3D27B1E9BE84B015 /* libPods-PxView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90616CBDB2FDC1A597C6C6AF /* libPods-PxView.a */; };
 		D299BAA63C7B349B1610BF52 /* libPods-PxView-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 384A6C85CC8A465A673CD658 /* libPods-PxView-tvOS.a */; };
-		DE18370E244C122600B687CB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DE18370D244C122600B687CB /* GoogleService-Info.plist */; };
 		DEB52BCC1F0CC73D003F7E27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DEB52BCE1F0CC73D003F7E27 /* InfoPlist.strings */; };
+		DEC0BA32245E032D00270507 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DEC0BA31245E032D00270507 /* GoogleService-Info.plist */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -83,12 +83,12 @@
 		DD524D96457A98524DD0BB51 /* Pods-PxView-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PxView-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-PxView-tvOSTests/Pods-PxView-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DE1100751F1505F100D3527B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		DE1100761F1505F700D3527B /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		DE18370D244C122600B687CB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DE7BE5252455913C00332E2C /* PxView-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PxView-Bridging-Header.h"; sourceTree = "<group>"; };
 		DEB52BCD1F0CC73D003F7E27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DEB52BCF1F0CC748003F7E27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DEB52BD01F0CC7C8003F7E27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DEBD363D1E31FF0D00B66C6C /* PxView.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = PxView.entitlements; path = PxView/PxView.entitlements; sourceTree = "<group>"; };
+		DEC0BA31245E032D00270507 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		ED4D0F8A280543A68F5E74F4 /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
@@ -201,7 +201,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				DE18370D244C122600B687CB /* GoogleService-Info.plist */,
+				DEC0BA31245E032D00270507 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* PxView */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* PxViewTests */,
@@ -301,6 +301,7 @@
 				01DE52212A468044571517A7 /* [CP] Copy Pods Resources */,
 				998EB7060ABB35942D63208E /* [CP-User] [RNFB] Core Configuration */,
 				82572159ED01E45D0808E4FF /* [CP-User] [RNFB] Crashlytics Configuration */,
+				DE6C6A1A245E082200208E26 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -420,7 +421,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				DEB52BCC1F0CC73D003F7E27 /* InfoPlist.strings in Resources */,
-				DE18370E244C122600B687CB /* GoogleService-Info.plist in Resources */,
+				DEC0BA32245E032D00270507 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -652,6 +653,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PxView-PxViewTests/Pods-PxView-PxViewTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		DE6C6A1A245E082200208E26 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/Fabric/run\"\n";
+		};
 		F413B24BCEA697DC63EA6A8C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -812,16 +830,16 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_BITCODE = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"FB_SONARKIT_ENABLED=1",
-				);
 				DEVELOPMENT_TEAM = S75J7D267F;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Crashlytics/iOS\"",
 					"\"${PODS_ROOT}/Fabric/iOS\"",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"FB_SONARKIT_ENABLED=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
