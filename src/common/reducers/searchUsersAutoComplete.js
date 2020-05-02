@@ -20,6 +20,7 @@ export default function searchUsersAutoComplete(state = initState, action) {
         loading: true,
         refreshing: action.payload.refreshing,
         word: action.payload.word,
+        offset: action.payload.offset,
       };
     case SEARCH_USERS_AUTOCOMPLETE.SUCCESS:
       return {

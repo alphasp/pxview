@@ -1,5 +1,6 @@
 import React, { Fragment, forwardRef } from 'react';
 import { StyleSheet, View, RefreshControl, ScrollView } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { useTheme, Text, Caption } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/core';
 import Loader from './Loader';
@@ -25,11 +26,12 @@ const SimpleTagList = forwardRef(
     },
     ref,
   ) => {
+    const dispatch = useDispatch();
     const theme = useTheme();
     const navigation = useNavigation();
 
     const handleOnPressItem = (item) => {
-      addSearchHistory(item.tag);
+      dispatch(addSearchHistory(item.tag));
       navigation.push(SCREENS.SearchResult, {
         word: item.tag,
         searchType,

@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, View, Platform, SafeAreaView } from 'react-native';
-import { withNavigation } from '@react-navigation/compat';
+import { useNavigation } from '@react-navigation/native';
 import { HeaderBackButton } from '@react-navigation/stack';
-import { withTheme } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 import DrawerMenuButton from './DrawerMenuButton';
 import { globalStyleVariables } from '../styles';
 
@@ -60,83 +59,58 @@ const styles = StyleSheet.create({
   },
 });
 
-class PXHeader extends Component {
-  static propTypes = {
-    onPressBackButton: PropTypes.func,
-    showMenuButton: PropTypes.bool,
-    showBackButton: PropTypes.bool,
-    headerTitle: PropTypes.element,
-    headerRight: PropTypes.element,
-    darkTheme: PropTypes.bool,
-    withShadow: PropTypes.bool,
-  };
+const PXHeader = ({
+  showMenuButton,
+  showBackButton,
+  headerTitle,
+  headerRight,
+  darkTheme,
+  absolutePosition,
+  withShadow = true,
+  onPressBackButton,
+}) => {
+  const theme = useTheme();
+  const navigation = useNavigation();
 
-  static defaultProps = {
-    onPressBackButton: null,
-    showMenuButton: false,
-    showBackButton: false,
-    headerTitle: null,
-    headerRight: null,
-    darkTheme: false,
-    withShadow: true,
-  };
-
-  handleOnPressDrawerMenuButton = () => {
-    const { navigation } = this.props;
+  const handleOnPressDrawerMenuButton = () => {
     navigation.openDrawer();
   };
 
-  handleOnPressBackButton = () => {
-    const {
-      onPressBackButton,
-      navigation: { goBack },
-    } = this.props;
+  const handleOnPressBackButton = () => {
     if (onPressBackButton) {
       onPressBackButton();
     } else {
-      goBack();
+      navigation.goBack();
     }
   };
 
-  render() {
-    const {
-      showMenuButton,
-      showBackButton,
-      headerTitle,
-      headerRight,
-      darkTheme,
-      absolutePosition,
-      withShadow,
-      theme,
-    } = this.props;
-    return (
-      <SafeAreaView
-        style={[
-          { backgroundColor: theme.colors.headerBackground },
-          // darkTheme && styles.containerDark,
-          absolutePosition && styles.absolutePosition,
-          withShadow && styles.containerShadow,
-        ]}
-      >
-        <View style={styles.subContainer}>
-          {showMenuButton && (
-            <DrawerMenuButton
-              onPress={this.handleOnPressDrawerMenuButton}
-              color={darkTheme ? '#fff' : globalStyleVariables.PRIMARY_COLOR}
-            />
-          )}
-          {showBackButton && (
-            <HeaderBackButton
-              onPress={this.handleOnPressBackButton}
-              tintColor={darkTheme && '#fff'}
-            />
-          )}
-          {headerTitle}
-          {headerRight}
-        </View>
-      </SafeAreaView>
-    );
-  }
-}
+  return (
+    <SafeAreaView
+      style={[
+        { backgroundColor: theme.colors.headerBackground },
+        // darkTheme && styles.containerDark,
+        absolutePosition && styles.absolutePosition,
+        withShadow && styles.containerShadow,
+      ]}
+    >
+      <View style={styles.subContainer}>
+        {showMenuButton && (
+          <DrawerMenuButton
+            onPress={handleOnPressDrawerMenuButton}
+            color={darkTheme ? '#fff' : globalStyleVariables.PRIMARY_COLOR}
+          />
+        )}
+        {showBackButton && (
+          <HeaderBackButton
+            onPress={handleOnPressBackButton}
+            tintColor={darkTheme && '#fff'}
+          />
+        )}
+        {headerTitle}
+        {headerRight}
+      </View>
+    </SafeAreaView>
+  );
+};
 
-export default withTheme(withNavigation(PXHeader));
+export default PXHeader;

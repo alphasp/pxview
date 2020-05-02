@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, InteractionManager } from 'react-native';
-import { connect } from 'react-redux';
-import { withNavigation } from '@react-navigation/compat';
-import { withTheme } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/core';
+import { useTheme } from 'react-native-paper';
 import SearchHistory from '../components/SearchHistory';
 import SearchUsersAutoCompleteList from '../components/SearchUsersAutoCompleteList';
-import * as searchUsersAutoCompleteActionCreators from '../common/actions/searchUsersAutoComplete';
+import {
+  fetchSearchUsersAutoComplete,
+  clearSearchUsersAutoComplete,
+} from '../common/actions/searchUsersAutoComplete';
 import { getSearchUsersAutoCompleteItems } from '../common/selectors';
+import usePrevious from '../common/hooks/usePrevious';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,107 +18,70 @@ const styles = StyleSheet.create({
   },
 });
 
-class SearchUsersAutoCompleteResult extends Component {
-  componentDidMount() {
-    const {
-      searchUsersAutoComplete,
-      word,
-      clearSearchUsersAutoComplete,
-    } = this.props;
-    if (word !== searchUsersAutoComplete.word) {
-      clearSearchUsersAutoComplete();
-      InteractionManager.runAfterInteractions(() => {
-        this.submitSearchUsersAutoComplete(word);
-      });
-    }
-  }
+const SearchUsersAutoCompleteResult = (props) => {
+  const {
+    word,
+    searchHistory,
+    onPressItem,
+    onPressSearchHistoryItem,
+    onPressRemoveSearchHistoryItem,
+    onPressClearSearchHistory,
+  } = props;
+  const theme = useTheme();
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const allState = useSelector((state) => state);
+  const searchUsersAutoComplete = useSelector(
+    (state) => state.searchUsersAutoComplete,
+  );
+  const items = getSearchUsersAutoCompleteItems(allState, props);
 
-  componentWillReceiveProps(nextProps) {
-    const { word: prevWord } = this.props;
-    const { word, clearSearchUsersAutoComplete } = nextProps;
-    if (word && word !== prevWord) {
-      clearSearchUsersAutoComplete();
-      InteractionManager.runAfterInteractions(() => {
-        this.submitSearchUsersAutoComplete(word);
-      });
-    }
-  }
-
-  loadMoreItems = () => {
-    const {
-      fetchSearchUsersAutoComplete,
-      searchUsersAutoComplete: { nextUrl, loading },
-    } = this.props;
-    if (!loading && nextUrl) {
-      fetchSearchUsersAutoComplete(null, nextUrl);
+  const loadMoreItems = () => {
+    if (!searchUsersAutoComplete.loading && searchUsersAutoComplete.nextUrl) {
+      dispatch(
+        fetchSearchUsersAutoComplete(word, searchUsersAutoComplete.nextUrl),
+      );
     }
   };
 
-  handleOnRefresh = () => {
-    const {
-      word,
-      fetchSearchUsersAutoComplete,
-      clearSearchUsersAutoComplete,
-    } = this.props;
-    clearSearchUsersAutoComplete();
-    fetchSearchUsersAutoComplete(word, null, true);
+  const handleOnRefresh = () => {
+    dispatch(clearSearchUsersAutoComplete());
+    dispatch(fetchSearchUsersAutoComplete(word, null, true));
   };
 
-  submitSearchUsersAutoComplete = (word) => {
-    const { fetchSearchUsersAutoComplete } = this.props;
-    if (word && word.length > 1) {
-      fetchSearchUsersAutoComplete(word);
-    }
-  };
+  useEffect(() => {
+    dispatch(clearSearchUsersAutoComplete());
+    InteractionManager.runAfterInteractions(() => {
+      if (word && word.length > 1) {
+        dispatch(fetchSearchUsersAutoComplete(word));
+      }
+    });
+  }, [dispatch, word]);
 
-  render() {
-    const {
-      searchUsersAutoComplete,
-      word,
-      searchUsersAutoComplete: { loading, loaded },
-      items,
-      searchHistory,
-      onPressItem,
-      onPressSearchHistoryItem,
-      onPressRemoveSearchHistoryItem,
-      onPressClearSearchHistory,
-      navigation,
-      theme,
-    } = this.props;
-    return (
-      <View
-        style={[styles.container, { backgroundColor: theme.colors.background }]}
-      >
-        {((!loaded && !loading) || !word) && (
-          <SearchHistory
-            items={searchHistory.items}
-            onPressItem={onPressSearchHistoryItem}
-            onPressRemoveSearchHistoryItem={onPressRemoveSearchHistoryItem}
-            onPressClearSearchHistory={onPressClearSearchHistory}
-          />
-        )}
-        {word && word.length > 1 ? (
-          <SearchUsersAutoCompleteList
-            data={{ ...searchUsersAutoComplete, items }}
-            onPressItem={onPressItem}
-            loadMoreItems={this.loadMoreItems}
-            onRefresh={this.handleOnRefresh}
-            navigation={navigation}
-          />
-        ) : null}
-      </View>
-    );
-  }
-}
+  return (
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      {((!searchUsersAutoComplete.loaded && !searchUsersAutoComplete.loading) ||
+        !word) && (
+        <SearchHistory
+          items={searchHistory.items}
+          onPressItem={onPressSearchHistoryItem}
+          onPressRemoveSearchHistoryItem={onPressRemoveSearchHistoryItem}
+          onPressClearSearchHistory={onPressClearSearchHistory}
+        />
+      )}
+      {word && word.length > 1 ? (
+        <SearchUsersAutoCompleteList
+          data={{ ...searchUsersAutoComplete, items }}
+          onPressItem={onPressItem}
+          loadMoreItems={loadMoreItems}
+          onRefresh={handleOnRefresh}
+          navigation={navigation}
+        />
+      ) : null}
+    </View>
+  );
+};
 
-export default withTheme(
-  withNavigation(
-    connect(
-      (state, props) => ({
-        searchUsersAutoComplete: state.searchUsersAutoComplete,
-        items: getSearchUsersAutoCompleteItems(state, props),
-      }),
-      searchUsersAutoCompleteActionCreators,
-    )(SearchUsersAutoCompleteResult),
-  ),
-);
+export default SearchUsersAutoCompleteResult;

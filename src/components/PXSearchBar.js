@@ -1,12 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
-import { connect } from 'react-redux';
-import { withNavigation } from '@react-navigation/compat';
-import { withTheme, Searchbar } from 'react-native-paper';
-// import { SearchBar } from 'react-native-elements';
-import { connectLocalization } from './Localization';
+import { useDispatch } from 'react-redux';
+import { Searchbar } from 'react-native-paper';
+import { useLocalization } from './Localization';
 import PXHeader from './PXHeader';
-import * as searchHistoryActionCreators from '../common/actions/searchHistory';
+import { addSearchHistory } from '../common/actions/searchHistory';
 import { SEARCH_TYPES } from '../common/constants';
 import { globalStyles } from '../styles';
 
@@ -21,36 +19,33 @@ const styles = StyleSheet.create({
   },
 });
 
-class PXSearchBar extends Component {
-  static defaultProps = {
-    searchType: SEARCH_TYPES.ILLUST,
-  };
+const PXSearchBar = ({
+  searchType = SEARCH_TYPES.ILLUST,
+  onFocus,
+  onChangeText,
+  autoFocus,
+  word,
+  headerRight,
+  showBackButton,
+  showMenuButton,
+  onPressBackButton,
+  onSubmitSearch,
+  withShadow,
+}) => {
+  const dispatch = useDispatch();
+  const { i18n } = useLocalization();
 
-  state = {
-    firstQuery: '',
-  };
-
-  handleOnSubmitSearch = (e) => {
-    const { addSearchHistory, onSubmitSearch } = this.props;
-    const word = e.nativeEvent.text.trim();
-    if (word) {
-      addSearchHistory(word);
+  const handleOnSubmitSearch = (e) => {
+    const searchWord = e.nativeEvent.text.trim();
+    if (searchWord) {
+      dispatch(addSearchHistory(searchWord));
       if (onSubmitSearch) {
-        onSubmitSearch(word);
+        onSubmitSearch(searchWord);
       }
     }
   };
 
-  renderSearchBar = () => {
-    const {
-      searchType,
-      onFocus,
-      onChangeText,
-      autoFocus,
-      word,
-      i18n,
-      showBackButton,
-    } = this.props;
+  const renderSearchBar = () => {
     return (
       <View style={globalStyles.container}>
         <Searchbar
@@ -69,7 +64,7 @@ class PXSearchBar extends Component {
           autoFocus={autoFocus}
           onFocus={onFocus}
           onChangeText={onChangeText}
-          onSubmitEditing={this.handleOnSubmitSearch}
+          onSubmitEditing={handleOnSubmitSearch}
           value={word}
           autoCorrect={false}
         />
@@ -77,32 +72,18 @@ class PXSearchBar extends Component {
     );
   };
 
-  render() {
-    const {
-      word,
-      showBackButton,
-      showMenuButton,
-      headerRight,
-      onPressBackButton,
-      withShadow,
-    } = this.props;
-    return (
-      <PXHeader
-        headerTitle={this.renderSearchBar()}
-        headerRight={headerRight}
-        word={word}
-        showBackButton={showBackButton}
-        showMenuButton={showMenuButton}
-        onPressBackButton={onPressBackButton}
-        withShadow={withShadow}
-        darkTheme
-      />
-    );
-  }
-}
+  return (
+    <PXHeader
+      headerTitle={renderSearchBar()}
+      headerRight={headerRight}
+      word={word}
+      showBackButton={showBackButton}
+      showMenuButton={showMenuButton}
+      onPressBackButton={onPressBackButton}
+      withShadow={withShadow}
+      darkTheme
+    />
+  );
+};
 
-export default connectLocalization(
-  withTheme(
-    withNavigation(connect(null, searchHistoryActionCreators)(PXSearchBar)),
-  ),
-);
+export default PXSearchBar;
