@@ -134,8 +134,6 @@ class SaveImageFileNameModal extends Component {
   };
 
   handleOnPressHardwareBackButton = () => {
-    console.log('gg');
-
     this.handleOnModalClose();
     return true;
   };

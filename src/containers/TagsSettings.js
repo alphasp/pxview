@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, StyleSheet, FlatList, DeviceEventEmitter } from 'react-native';
 import { withTheme, TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { DURATION } from 'react-native-easy-toast';
 import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
 import PXListItem from '../components/PXListItem';
@@ -38,10 +37,7 @@ class TagSettings extends Component {
     const { newTag } = this.state;
     if (newTag) {
       if (items.length + 1 > MAX_TAGS_COUNT) {
-        this.showToast(
-          i18n.formatString(i18n.tagsMaxLimit, MAX_TAGS_COUNT),
-          DURATION.LENGTH_LONG,
-        );
+        this.showToast(i18n.formatString(i18n.tagsMaxLimit, MAX_TAGS_COUNT));
         return;
       }
       addTag(newTag);

@@ -18,7 +18,7 @@ import {
 } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import Toast, { DURATION } from 'react-native-easy-toast';
+import Toast from 'react-native-easy-toast';
 import { connectLocalization } from '../components/Localization';
 import PXTouchable from '../components/PXTouchable';
 import Separator from '../components/Separator';
@@ -131,10 +131,7 @@ class BookmarkModal extends Component {
     let selectedTagsCount = this.countSelectedTags(tags);
     if (!checkedTag.editable) {
       if (selectedTagsCount > MAX_TAGS_COUNT - 1) {
-        this.toast.show(
-          i18n.formatString(i18n.tagsMaxLimit, MAX_TAGS_COUNT),
-          DURATION.LENGTH_LONG,
-        );
+        this.toast.show(i18n.formatString(i18n.tagsMaxLimit, MAX_TAGS_COUNT));
       }
       return;
     }
@@ -200,10 +197,7 @@ class BookmarkModal extends Component {
     } else {
       updatedTags = [newTagEntry, ...tags];
       if (this.countSelectedTags(updatedTags) > MAX_TAGS_COUNT) {
-        this.toast.show(
-          i18n.formatString(i18n.tagsMaxLimit, MAX_TAGS_COUNT),
-          DURATION.LENGTH_LONG,
-        );
+        this.toast.show(i18n.formatString(i18n.tagsMaxLimit, MAX_TAGS_COUNT));
         this.setState({
           newTag: null,
         });

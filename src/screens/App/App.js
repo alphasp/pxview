@@ -1,11 +1,5 @@
 import React, { useEffect, useCallback, useRef } from 'react';
-import {
-  View,
-  StyleSheet,
-  DeviceEventEmitter,
-  StatusBar,
-  Platform,
-} from 'react-native';
+import { View, StyleSheet, StatusBar, Platform } from 'react-native';
 import { useSelector } from 'react-redux';
 import {
   NavigationContainer,
@@ -22,11 +16,11 @@ import {
 } from 'react-native-paper';
 import SplashScreen from 'react-native-splash-screen';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
-import Toast, { DURATION } from 'react-native-easy-toast';
 import AppNavigator from '../../navigations/AppNavigator';
 import LoginNavigator from '../../navigations/LoginNavigator';
 import Loader from '../../components/Loader';
 import ModalRoot from '../../containers/ModalRoot';
+import PXSnackbar from '../../components/PXSnackbar';
 import { THEME_TYPES, SCREENS } from '../../common/constants';
 import { globalStyleVariables } from '../../styles';
 import usePrevious from '../../common/hooks/usePrevious';
@@ -58,7 +52,6 @@ const App = () => {
   );
   const themeName = useSelector((state) => state.theme.name);
   const messageBarAlertRef = useRef(null);
-  const toastRef = useRef();
   const navigationRef = useRef();
   const routeNameRef = useRef();
   const prevRehydrated = usePrevious(rehydrated);
@@ -129,18 +122,6 @@ const App = () => {
         setNavigationIsReady(true);
       });
   }, [getInitialState]);
-
-  useEffect(() => {
-    const showToastListener = DeviceEventEmitter.addListener(
-      'showToast',
-      (text) => {
-        toastRef.current.show(text, DURATION.LENGTH_LONG);
-      },
-    );
-    return () => {
-      showToastListener.remove();
-    };
-  }, []);
 
   useEffect(() => {
     if (rehydrated && navigationIsReady) {
@@ -243,8 +224,8 @@ const App = () => {
             />
             {renderComponent}
             <MessageBar ref={setMessageBarAlertRef} />
-            <Toast ref={toastRef} opacity={0.7} />
             <ModalRoot />
+            <PXSnackbar />
           </View>
         </NavigationContainer>
       )}

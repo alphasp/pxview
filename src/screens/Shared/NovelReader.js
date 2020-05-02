@@ -106,10 +106,6 @@ class NovelReader extends Component {
       theme,
     } = this.props;
     const { index } = this.state;
-    console.log('parsedNovelText ', {
-      parsedNovelText,
-      index,
-    });
     return (
       <View
         style={[

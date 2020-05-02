@@ -49,7 +49,7 @@
     "react-native-animatable": "^1.2.4",
     "react-native-datepicker": "^1.6.0",
     "react-native-device-info": "^0.24.3",
-    "react-native-easy-toast": "^1.0.9",
+    "react-native-easy-toast": "^1.2.0",
     "react-native-elements": "^0.18.2",
     "react-native-gesture-handler": "^1.6.0",
     "react-native-htmlview": "^0.15.0",
