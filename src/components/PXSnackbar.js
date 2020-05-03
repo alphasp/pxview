@@ -33,10 +33,16 @@ const PXSnackbar = () => {
           toggleSnackbar(false);
         },
       }}
+      theme={{
+        colors: {
+          surface: '#fff',
+          onSurface: '#424242',
+        },
+      }}
       style={{
         position: 'absolute',
         bottom: 60, // 85,
-        opacity: 0.7,
+        // opacity: 0.7,
       }}
     >
       {message}
