@@ -12,7 +12,7 @@ import { SCREENS } from '../common/constants';
 
 const Drawer = createDrawerNavigator();
 
-const createAppDrawerNavigator = ({ initialRouteName }) => {
+const AppDrawerNavigator = ({ initialRouteName }) => {
   const { i18n } = useLocalization();
   return (
     <Drawer.Navigator
@@ -23,7 +23,7 @@ const createAppDrawerNavigator = ({ initialRouteName }) => {
       }}
       unmountInactiveRoutes
       cardStyle={globalStyles.card}
-      drawerContent={(props) => <DrawerContent {...props} />}
+      drawerContent={DrawerContent}
       overlayColor="#00000090"
     >
       <Drawer.Screen
@@ -66,4 +66,4 @@ const createAppDrawerNavigator = ({ initialRouteName }) => {
   );
 };
 
-export default createAppDrawerNavigator;
+export default AppDrawerNavigator;
