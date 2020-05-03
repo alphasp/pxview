@@ -21,6 +21,11 @@ export default function likeButtonSettings(
             ? action.payload.isShowLikeCount
             : state.isShowLikeCount,
       };
+    case LIKE_BUTTON_SETTINGS.RESTORE:
+      return {
+        ...state,
+        ...action.payload.state,
+      };
     default:
       return state;
   }

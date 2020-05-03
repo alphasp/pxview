@@ -35,6 +35,11 @@ export default function highlightTags(
         ...state,
         items: [],
       };
+    case HIGHLIGHT_TAGS.RESTORE:
+      return {
+        ...state,
+        ...action.payload.state,
+      };
     default:
       return state;
   }

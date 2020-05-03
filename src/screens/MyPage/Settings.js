@@ -59,6 +59,10 @@ const settingsList = [
     title: 'lang',
   },
   {
+    id: 'backup',
+    title: 'backup',
+  },
+  {
     id: 'cacheClear',
     title: 'cacheClear',
   },
@@ -174,6 +178,10 @@ class Settings extends Component {
       }
       case 'tagHighlightSettings': {
         navigate(SCREENS.HighlightTagsSettings);
+        break;
+      }
+      case 'backup': {
+        navigate(SCREENS.Backup);
         break;
       }
       case 'lang': {

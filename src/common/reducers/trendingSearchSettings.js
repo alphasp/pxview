@@ -19,6 +19,11 @@ export default function trendingSearchSettings(state = initState, action) {
             ? action.payload.isShowNovelImage
             : state.isShowNovelImage,
       };
+    case TRENDING_SEARCH_SETTINGS.RESTORE:
+      return {
+        ...state,
+        ...action.payload.state,
+      };
     default:
       return state;
   }

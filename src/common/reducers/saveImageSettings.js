@@ -7,7 +7,7 @@ const initState = {
   isCreateMangaFolder: false,
 };
 
-export default function novelSettings(state = initState, action) {
+export default function saveImageSettings(state = initState, action) {
   switch (action.type) {
     case SAVE_IMAGE_SETTINGS.SET:
       return {
@@ -24,6 +24,11 @@ export default function novelSettings(state = initState, action) {
           action.payload.isCreateMangaFolder !== undefined
             ? action.payload.isCreateMangaFolder
             : state.isCreateMangaFolder,
+      };
+    case SAVE_IMAGE_SETTINGS.RESTORE:
+      return {
+        ...state,
+        ...action.payload.state,
       };
     default:
       return state;

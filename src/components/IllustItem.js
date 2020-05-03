@@ -147,7 +147,7 @@ export default connect(() => {
       isHighlight: tags.some((t) => highlightTags.items.includes(t.name)),
       isMute:
         tags.some((t) => muteTags.items.includes(t.name)) ||
-        muteUsers.items.some((m) => m === user.id),
+        muteUsers.items.some((m) => m.id === user.id),
       isShowLikeCount: likeButtonSettings.isShowLikeCount,
     };
   };

@@ -21,7 +21,7 @@ function getNonMutedTagsAndUsersItems(items, muteTags, muteUsers) {
         muteTags.includes(tag.name) || muteTags.includes(tag.translated_name)
       );
     });
-    const isMutedUser = muteUsers.includes(item.user.id);
+    const isMutedUser = muteUsers.some((m) => m.id === item.user.id);
     return !hasMutedTag && !isMutedUser;
   });
   return filteredItems;
@@ -32,7 +32,7 @@ function getNonMutedUsersItems(items, muteUsers) {
     return defaultArray;
   }
   const filteredItems = items.filter((item) => {
-    const isMutedUser = muteUsers.includes(item.user.id);
+    const isMutedUser = muteUsers.some((m) => m.id === item.user.id);
     return !isMutedUser;
   });
   return filteredItems;

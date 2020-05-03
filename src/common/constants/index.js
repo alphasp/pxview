@@ -227,6 +227,7 @@ export const SCREENS = {
   MuteSettings: 'MuteSettings',
   MuteTagsSettings: 'MuteTagsSettings',
   MuteUsersSettings: 'MuteUsersSettings',
+  Backup: 'Backup',
   Encyclopedia: 'Encyclopedia',
   Language: 'Language',
   Theme: 'Theme',

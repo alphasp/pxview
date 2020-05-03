@@ -11,3 +11,12 @@ export function setProperties({ fontSize, lineHeight }) {
     },
   };
 }
+
+export function restoreSettings(state) {
+  return {
+    type: NOVEL_SETTINGS.RESTORE,
+    payload: {
+      state,
+    },
+  };
+}

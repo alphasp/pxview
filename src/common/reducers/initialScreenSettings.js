@@ -12,6 +12,11 @@ export default function initialScreenSettings(state = initState, action) {
         ...state,
         routeName: action.payload.routeName,
       };
+    case INITIAL_SCREEN_SETTINGS.RESTORE:
+      return {
+        ...state,
+        ...action.payload.state,
+      };
     default:
       return state;
   }

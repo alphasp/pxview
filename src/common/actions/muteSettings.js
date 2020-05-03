@@ -10,3 +10,12 @@ export function setSettings({ isHideMute }) {
     },
   };
 }
+
+export function restoreSettings(state) {
+  return {
+    type: MUTE_SETTINGS.RESTORE,
+    payload: {
+      state,
+    },
+  };
+}

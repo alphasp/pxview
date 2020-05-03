@@ -14,6 +14,7 @@ import {
   CLOSE,
   STOP,
   SET,
+  RESTORE,
 } from './stateConstants';
 
 const appNamespace = defineAction('PIXIV');
@@ -404,7 +405,7 @@ export const UGOIRA_META = defineAction(
 
 export const SEARCH_HISTORY = defineAction(
   'SEARCH_HISTORY',
-  [ADD, REMOVE, CLEAR],
+  [ADD, REMOVE, CLEAR, RESTORE],
   appNamespace,
 );
 
@@ -421,60 +422,64 @@ export const BROWSING_HISTORY_NOVELS = defineAction(
 );
 export const MUTE_TAGS = defineAction(
   'MUTE_TAGS',
-  [ADD, REMOVE, CLEAR],
+  [ADD, REMOVE, CLEAR, RESTORE],
   appNamespace,
 );
 
 export const HIGHLIGHT_TAGS = defineAction(
   'HIGHLIGHT_TAGS',
-  [ADD, REMOVE, CLEAR],
+  [ADD, REMOVE, CLEAR, RESTORE],
   appNamespace,
 );
 
 export const MUTE_USERS = defineAction(
   'MUTE_USERS',
-  [ADD, REMOVE, CLEAR],
+  [ADD, REMOVE, CLEAR, RESTORE],
   appNamespace,
 );
 
 export const NOVEL_SETTINGS = defineAction(
   'NOVEL_SETTINGS',
-  [SET],
+  [SET, RESTORE],
   appNamespace,
 );
 
 export const SAVE_IMAGE_SETTINGS = defineAction(
   'SAVE_IMAGE_SETTINGS',
-  [SET],
+  [SET, RESTORE],
   appNamespace,
 );
 
 export const INITIAL_SCREEN_SETTINGS = defineAction(
   'INITIAL_SCREEN_SETTINGS',
-  [SET],
+  [SET, RESTORE],
   appNamespace,
 );
 
 export const LIKE_BUTTON_SETTINGS = defineAction(
   'LIKE_BUTTON_SETTINGS',
-  [SET],
+  [SET, RESTORE],
   appNamespace,
 );
 
 export const READING_SETTINGS = defineAction(
   'READING_SETTINGS',
-  [SET],
+  [SET, RESTORE],
   appNamespace,
 );
 
 export const TRENDING_SEARCH_SETTINGS = defineAction(
   'TRENDING_SEARCH_SETTINGS',
-  [SET],
+  [SET, RESTORE],
   appNamespace,
 );
 
-export const MUTE_SETTINGS = defineAction('MUTE_SETTINGS', [SET], appNamespace);
+export const MUTE_SETTINGS = defineAction(
+  'MUTE_SETTINGS',
+  [SET, RESTORE],
+  appNamespace,
+);
 
-export const THEME = defineAction('THEME', [SET], appNamespace);
+export const THEME = defineAction('THEME', [SET, RESTORE], appNamespace);
 
 export const MODAL = defineAction('MODAL', [OPEN, CLOSE], appNamespace);

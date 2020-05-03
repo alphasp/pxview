@@ -1,6 +1,6 @@
 import { MUTE_SETTINGS } from '../constants/actionTypes';
 
-export default function likeButtonSettings(
+export default function muteSettings(
   state = {
     isHideMute: false,
   },
@@ -14,6 +14,11 @@ export default function likeButtonSettings(
           action.payload.isHideMute !== undefined
             ? action.payload.isHideMute
             : state.isHideMute,
+      };
+    case MUTE_SETTINGS.RESTORE:
+      return {
+        ...state,
+        ...action.payload.state,
       };
     default:
       return state;

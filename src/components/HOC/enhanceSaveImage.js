@@ -131,7 +131,7 @@ const enhanceSaveImage = (WrappedComponent) => {
         if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
           return Alert.alert(
             i18n.formatString(
-              i18n.permissionPromptStorageTitle,
+              i18n.permissionPromptStorageToSaveImage,
               i18n.permissionStorage,
             ),
             i18n.formatString(

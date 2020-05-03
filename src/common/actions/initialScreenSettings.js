@@ -10,3 +10,12 @@ export function setInitialRoute(routeName) {
     },
   };
 }
+
+export function restoreSettings(state) {
+  return {
+    type: INITIAL_SCREEN_SETTINGS.RESTORE,
+    payload: {
+      state,
+    },
+  };
+}

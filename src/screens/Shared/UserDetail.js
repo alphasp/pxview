@@ -256,11 +256,21 @@ class UserDetail extends Component {
   };
 
   handleOnPressToggleMuteUser = () => {
-    const { userId, isMuteUser, addMuteUser, removeMuteUser } = this.props;
+    const {
+      userId,
+      isMuteUser,
+      addMuteUser,
+      removeMuteUser,
+      userDetailItem: { user },
+    } = this.props;
     if (isMuteUser) {
       removeMuteUser(userId);
     } else {
-      addMuteUser(userId);
+      addMuteUser({
+        id: user.id,
+        name: user.name,
+        profile_image_urls: user.profile_image_urls,
+      });
     }
     this.handleOnCancelMenuBottomSheet();
   };
@@ -675,7 +685,7 @@ export default withTheme(
             userBookmarkIllustsItems,
             userBookmarkNovelsItems,
           } = getUserDetailPageItem(state, props);
-          const isMuteUser = muteUsers.items.some((m) => m === userId);
+          const isMuteUser = muteUsers.items.some((m) => m.id === userId);
           return {
             authUser: auth.user,
             userDetail: userDetail[userId],

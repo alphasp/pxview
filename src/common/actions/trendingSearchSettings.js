@@ -11,3 +11,12 @@ export function setSettings({ isShowIllustImage, isShowNovelImage }) {
     },
   };
 }
+
+export function restoreSettings(state) {
+  return {
+    type: TRENDING_SEARCH_SETTINGS.RESTORE,
+    payload: {
+      state,
+    },
+  };
+}

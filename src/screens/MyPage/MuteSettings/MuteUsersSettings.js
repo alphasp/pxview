@@ -8,25 +8,19 @@ import PXListItemRemoveButton from '../../../components/PXListItemRemoveButton';
 import PXThumbnail from '../../../components/PXThumbnail';
 import EmptyStateView from '../../../components/EmptyStateView';
 import * as muteUsersActionCreators from '../../../common/actions/muteUsers';
-import { getMuteUsersItems } from '../../../common/selectors';
 import { SCREENS } from '../../../common/constants';
 import { globalStyles } from '../../../styles';
 
 class MuteUsersSettings extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      word: null,
-    };
-  }
-
   handleOnPressRemoveMuteUser = (userId) => {
     const { removeMuteUser } = this.props;
     removeMuteUser(userId);
   };
 
   handleOnPressUser = (userId) => {
-    const { push } = this.props.navigation;
+    const {
+      navigation: { push },
+    } = this.props;
     push(SCREENS.UserDetail, { userId });
   };
 
@@ -80,7 +74,7 @@ export default withTheme(
   connectLocalization(
     connect(
       (state) => ({
-        items: getMuteUsersItems(state),
+        items: state.muteUsers.items,
       }),
       muteUsersActionCreators,
     )(MuteUsersSettings),

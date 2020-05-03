@@ -46,6 +46,7 @@ import HighlightTagsSettings from '../screens/MyPage/HighlightTagsSettings';
 import MuteSettings from '../screens/MyPage/MuteSettings/MuteSettings';
 import MuteTagsSettings from '../screens/MyPage/MuteSettings/MuteTagsSettings';
 import MuteUsersSettings from '../screens/MyPage/MuteSettings/MuteUsersSettings';
+import Backup from '../screens/MyPage/Backup';
 import Feedback from '../screens/MyPage/Feedback';
 import PrivacyPolicy from '../screens/MyPage/PrivacyPolicy';
 import About from '../screens/MyPage/About';
@@ -416,6 +417,14 @@ const AppNavigator = ({ initialRouteName }) => {
           component={MuteUsersSettings}
           options={{
             title: i18n.userMuteSettings,
+            headerStyle,
+          }}
+        />
+        <Stack.Screen
+          name={SCREENS.Backup}
+          component={Backup}
+          options={{
+            title: i18n.backup,
             headerStyle,
           }}
         />

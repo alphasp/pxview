@@ -23,3 +23,12 @@ export function clearHighlightTags() {
     type: HIGHLIGHT_TAGS.CLEAR,
   };
 }
+
+export function restoreSettings(state) {
+  return {
+    type: HIGHLIGHT_TAGS.RESTORE,
+    payload: {
+      state,
+    },
+  };
+}

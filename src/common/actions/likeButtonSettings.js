@@ -11,3 +11,12 @@ export function setSettings({ actionType, isShowLikeCount }) {
     },
   };
 }
+
+export function restoreSettings(state) {
+  return {
+    type: LIKE_BUTTON_SETTINGS.RESTORE,
+    payload: {
+      state,
+    },
+  };
+}

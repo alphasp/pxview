@@ -23,3 +23,12 @@ export function clearSearchHistory() {
     type: SEARCH_HISTORY.CLEAR,
   };
 }
+
+export function restoreSettings(state) {
+  return {
+    type: SEARCH_HISTORY.RESTORE,
+    payload: {
+      state,
+    },
+  };
+}

@@ -359,7 +359,9 @@ export default withTheme(
     return (state, props) => ({
       highlightTags: state.highlightTags.items,
       muteTags: state.muteTags.items,
-      isMuteUser: state.muteUsers.items.some((m) => m === props.item.user.id),
+      isMuteUser: state.muteUsers.items.some(
+        (m) => m.id === props.item.user.id,
+      ),
       tags: getTagsWithStatus(state, props),
     });
   }, searchHistoryActionCreators)(IllustDetailContent),

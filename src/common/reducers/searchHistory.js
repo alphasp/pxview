@@ -34,6 +34,11 @@ export default function searchHistory(
         ...state,
         items: [],
       };
+    case SEARCH_HISTORY.RESTORE:
+      return {
+        ...state,
+        ...action.payload.state,
+      };
     default:
       return state;
   }

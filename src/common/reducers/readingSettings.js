@@ -6,7 +6,7 @@ const initState = {
   novelReadingDirection: READING_DIRECTION_TYPES.LEFT_TO_RIGHT,
 };
 
-export default function novelSettings(state = initState, action) {
+export default function readingSettings(state = initState, action) {
   switch (action.type) {
     case READING_SETTINGS.SET:
       return {
@@ -19,6 +19,11 @@ export default function novelSettings(state = initState, action) {
           action.payload.novelReadingDirection !== undefined
             ? action.payload.novelReadingDirection
             : state.novelReadingDirection,
+      };
+    case READING_SETTINGS.RESTORE:
+      return {
+        ...state,
+        ...action.payload.state,
       };
     default:
       return state;

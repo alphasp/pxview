@@ -12,7 +12,7 @@ export default function muteTags(
       const { items } = state;
       const newItem = action.payload.item;
       if (items && items.length) {
-        if (items.indexOf(newItem) === -1) {
+        if (items.some((item) => item.id !== newItem.id)) {
           newItems = [newItem, ...items.slice(0, 200)];
         } else {
           newItems = [...items];
@@ -28,12 +28,17 @@ export default function muteTags(
     case MUTE_USERS.REMOVE:
       return {
         ...state,
-        items: state.items.filter((item) => item !== action.payload.item),
+        items: state.items.filter((item) => item.id !== action.payload.id),
       };
     case MUTE_USERS.CLEAR:
       return {
         ...state,
         items: [],
+      };
+    case MUTE_USERS.RESTORE:
+      return {
+        ...state,
+        ...action.payload.state,
       };
     default:
       return state;

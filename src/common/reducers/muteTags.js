@@ -35,6 +35,11 @@ export default function muteTags(
         ...state,
         items: [],
       };
+    case MUTE_TAGS.RESTORE:
+      return {
+        ...state,
+        ...action.payload.state,
+      };
     default:
       return state;
   }

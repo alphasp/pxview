@@ -12,6 +12,11 @@ export default function theme(state = initState, action) {
         ...state,
         name: action.payload.name,
       };
+    case THEME.RESTORE:
+      return {
+        ...state,
+        ...action.payload.state,
+      };
     default:
       return state;
   }

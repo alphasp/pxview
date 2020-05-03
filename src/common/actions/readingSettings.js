@@ -11,3 +11,12 @@ export function setSettings({ imageReadingDirection, novelReadingDirection }) {
     },
   };
 }
+
+export function restoreSettings(state) {
+  return {
+    type: READING_SETTINGS.RESTORE,
+    payload: {
+      state,
+    },
+  };
+}

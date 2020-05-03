@@ -10,3 +10,12 @@ export function setTheme(name) {
     },
   };
 }
+
+export function restoreSettings(state) {
+  return {
+    type: THEME.RESTORE,
+    payload: {
+      state,
+    },
+  };
+}

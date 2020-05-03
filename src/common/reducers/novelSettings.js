@@ -19,6 +19,11 @@ export default function novelSettings(state = initState, action) {
             ? action.payload.lineHeight
             : state.lineHeight,
       };
+    case NOVEL_SETTINGS.RESTORE:
+      return {
+        ...state,
+        ...action.payload.state,
+      };
     default:
       return state;
   }

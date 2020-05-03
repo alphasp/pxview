@@ -23,3 +23,12 @@ export function clearMuteTags() {
     type: MUTE_TAGS.CLEAR,
   };
 }
+
+export function restoreSettings(state) {
+  return {
+    type: MUTE_TAGS.RESTORE,
+    payload: {
+      state,
+    },
+  };
+}

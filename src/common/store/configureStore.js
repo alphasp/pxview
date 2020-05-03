@@ -1,7 +1,12 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import invariant from 'redux-immutable-state-invariant';
-import { persistStore, persistReducer, createTransform } from 'redux-persist';
+import {
+  persistStore,
+  persistReducer,
+  createTransform,
+  createMigrate,
+} from 'redux-persist';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4';
 import applyAppStateListener from 'redux-enhancer-react-native-appstate';
@@ -13,7 +18,7 @@ import getStoredStateMigrateToFileSystemStorage from './getStoredStateMigrateToF
 import { SCREENS } from '../constants';
 
 const myTransform = createTransform(
-  (inboundState, key, state) => {
+  (inboundState, key, fullState) => {
     switch (key) {
       case 'entities': {
         const {
@@ -21,7 +26,7 @@ const myTransform = createTransform(
           browsingHistoryIllusts,
           browsingHistoryNovels,
           muteUsers,
-        } = state;
+        } = fullState;
         const selectedUsersEntities = {};
         const selectedIllustsEntities = browsingHistoryIllusts.items
           .filter((id) => entities.illusts[id])
@@ -40,9 +45,9 @@ const myTransform = createTransform(
             return prev;
           }, {});
         const selectedUsersEntities2 = muteUsers.items
-          .filter((id) => entities.users[id])
-          .reduce((prev, id) => {
-            prev[id] = entities.users[id];
+          .filter((m) => entities.users[m.id])
+          .reduce((prev, m) => {
+            prev[m.id] = entities.users[m.id];
             return prev;
           }, {});
         const finalSelectedUsersEntities = {
@@ -57,7 +62,7 @@ const myTransform = createTransform(
         };
       }
       case 'browsingHistoryIllusts': {
-        const { entities, browsingHistoryIllusts } = state;
+        const { entities, browsingHistoryIllusts } = fullState;
         return {
           ...inboundState,
           items: browsingHistoryIllusts.items.filter(
@@ -69,7 +74,7 @@ const myTransform = createTransform(
         };
       }
       case 'browsingHistoryNovels': {
-        const { entities, browsingHistoryNovels } = state;
+        const { entities, browsingHistoryNovels } = fullState;
         return {
           ...inboundState,
           items: browsingHistoryNovels.items.filter(
@@ -80,22 +85,48 @@ const myTransform = createTransform(
           ),
         };
       }
-      case 'initialScreenSettings': {
-        const { initialScreenSettings } = state;
-        // migrate Ranking To RankingPreview as navigator changed
-        return {
-          ...inboundState,
-          routeName:
-            initialScreenSettings.routeName === SCREENS.Ranking
-              ? SCREENS.RankingPreview
-              : initialScreenSettings.routeName,
-        };
-      }
       default:
         return inboundState;
     }
   },
-  (outboundState) => outboundState,
+  (outboundState, key, fullState) => {
+    switch (key) {
+      case 'browsingHistoryIllusts': {
+        try {
+          const entities = JSON.parse(fullState.entities);
+          const browsingHistoryIllusts = outboundState;
+          return {
+            ...outboundState,
+            items: browsingHistoryIllusts.items.filter(
+              (id) =>
+                entities.illusts[id]?.user &&
+                entities.users[entities.illusts[id]?.user],
+            ),
+          };
+        } catch (err) {
+          return outboundState;
+        }
+      }
+      case 'browsingHistoryNovels': {
+        try {
+          const entities = JSON.parse(fullState.entities);
+          const browsingHistoryNovels = outboundState;
+          return {
+            ...outboundState,
+            items: browsingHistoryNovels.items.filter(
+              (id) =>
+                entities.novels[id]?.user &&
+                entities.users[entities.novels[id]?.user],
+            ),
+          };
+        } catch (err) {
+          return outboundState;
+        }
+      }
+      default:
+        return outboundState;
+    }
+  },
   {
     whitelist: [
       'entities',
@@ -191,10 +222,47 @@ export default function configureStore() {
     getStoredState: getStoredStateMigrateV4(v4Config),
   };
 
+  const migirationToAppV4 = {
+    0: (state) => {
+      return state;
+    },
+    1: (state) => {
+      console.log('1 ', state);
+      const { entities, muteUsers, initialScreenSettings } = state;
+      // migrate from array of id to array of object
+      const items = muteUsers.items
+        .map((id) => {
+          const user = entities.users[id];
+          if (user) {
+            return {
+              id: user.id,
+              name: user.name,
+              profile_image_urls: user.profile_image_urls,
+            };
+          }
+          return null;
+        })
+        .filter((item) => item);
+      return {
+        ...state,
+        muteUsers: {
+          items,
+        },
+        initialScreenSettings: {
+          routeName:
+            initialScreenSettings.routeName === SCREENS.Ranking
+              ? SCREENS.RankingPreview
+              : initialScreenSettings.routeName,
+        },
+      };
+    },
+  };
+
   const persistConfig = {
     key: 'root',
     timeout: 15000, // https://github.com/rt2zz/redux-persist/issues/717
     stateReconciler: autoMergeLevel2,
+    version: 1,
     whitelist: [
       'searchHistory',
       'browsingHistoryIllusts',
@@ -220,6 +288,9 @@ export default function configureStore() {
       v5Config,
       v4Config,
     ),
+    migrate: createMigrate(migirationToAppV4, {
+      debug: process.env.NODE_ENV !== 'production',
+    }),
     debug: process.env.NODE_ENV !== 'production',
   };
   const persistedReducer = persistReducer(persistConfig, rootReducer);

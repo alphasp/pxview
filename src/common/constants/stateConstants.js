@@ -17,3 +17,5 @@ export const CLOSE = 'CLOSE';
 export const STOP = 'STOP';
 
 export const SET = 'SET';
+
+export const RESTORE = 'RESTORE';

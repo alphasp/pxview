@@ -12,3 +12,12 @@ export function setSettings({ userFolderName, fileName, isCreateMangaFolder }) {
     },
   };
 }
+
+export function restoreSettings(state) {
+  return {
+    type: SAVE_IMAGE_SETTINGS.RESTORE,
+    payload: {
+      state,
+    },
+  };
+}

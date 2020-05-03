@@ -9,11 +9,11 @@ export function addMuteUser(item) {
   };
 }
 
-export function removeMuteUser(item) {
+export function removeMuteUser(id) {
   return {
     type: MUTE_USERS.REMOVE,
     payload: {
-      item,
+      id,
     },
   };
 }
@@ -21,5 +21,14 @@ export function removeMuteUser(item) {
 export function clearMuteUsers() {
   return {
     type: MUTE_USERS.CLEAR,
+  };
+}
+
+export function restoreSettings(state) {
+  return {
+    type: MUTE_USERS.RESTORE,
+    payload: {
+      state,
+    },
   };
 }

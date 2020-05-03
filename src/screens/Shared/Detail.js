@@ -243,7 +243,11 @@ class Detail extends Component {
     if (isMuteUser) {
       removeMuteUser(item.user.id);
     } else {
-      addMuteUser(item.user.id);
+      addMuteUser({
+        id: item.user.id,
+        name: item.user.name,
+        profile_image_urls: item.user.profile_image_urls,
+      });
     }
     this.handleOnCancelMenuBottomSheet();
   };
@@ -507,7 +511,7 @@ export default withTheme(
         return (state, props) => {
           const item = getDetailItem(state, props);
           const isMuteUser = item
-            ? state.muteUsers.items.some((m) => m === item.user.id)
+            ? state.muteUsers.items.some((m) => m.id === item.user.id)
             : false;
           const {
             illust_id: illustIdFromQS,
