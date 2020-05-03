@@ -4,7 +4,10 @@
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/alphasp/pxview/pulls)
 
-Unofficial Pixiv app client for Android and iOS, built in React Native.
+Unofficial Pixiv app client for Android and iOS, built with React Native.
+
+## Note
+README for v4 under construction
 
 ## Gif
 ![gif](./screenshots/demoV2.gif)
