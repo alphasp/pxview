@@ -227,7 +227,6 @@ export default function configureStore() {
       return state;
     },
     1: (state) => {
-      console.log('1 ', state);
       const { entities, muteUsers, initialScreenSettings } = state;
       // migrate from array of id to array of object
       const items = muteUsers.items

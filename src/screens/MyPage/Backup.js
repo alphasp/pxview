@@ -133,9 +133,7 @@ const Backup = () => {
       }
       await writeFile(backupFilePath, backupSettings, 'utf8');
       showToast(i18n.formatString(i18n.backupSuccessfully, backupFilePath));
-    } catch (err) {
-      console.log('error ', err);
-    }
+    } catch (err) {}
   };
 
   const handleOnPressConfirmRestore = async () => {
@@ -200,9 +198,7 @@ const Backup = () => {
           showToast(i18n.backupRestoreSuccessfully);
         }
       }
-    } catch (err) {
-      console.log('err ', err);
-    }
+    } catch (err) {}
   };
 
   const handleOnPressBackup = () => {
