@@ -1,6 +1,7 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { Icon } from 'react-native-elements';
+import { useTheme } from 'react-native-paper';
 import Recommended from '../screens/Recommended/Recommended';
 import RankingPreview from '../screens/Ranking/RankingPreview';
 import Trending from '../screens/Trending/Trending';
@@ -15,10 +16,17 @@ const TabBarIcon = ({ color, name, iconType }) => (
   <Icon name={name} type={iconType || 'font-awesome'} size={24} color={color} />
 );
 
-const createAppTabNavigator = ({ initialRouteName }) => {
+const AppTabNavigator = ({ initialRouteName }) => {
   const { i18n } = useLocalization();
+  const theme = useTheme();
   return (
-    <Tab.Navigator initialRouteName={initialRouteName}>
+    <Tab.Navigator
+      initialRouteName={initialRouteName}
+      labeled
+      barStyle={{
+        backgroundColor: theme.colors.bottomTabBarBackground,
+      }}
+    >
       <Tab.Screen
         name={SCREENS.Recommended}
         component={Recommended}
@@ -78,4 +86,4 @@ const createAppTabNavigator = ({ initialRouteName }) => {
   );
 };
 
-export default createAppTabNavigator;
+export default AppTabNavigator;
