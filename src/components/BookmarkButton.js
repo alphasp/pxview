@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -9,12 +8,6 @@ import { LIKE_BUTTON_ACTION_TYPES } from '../common/constants';
 const AnimatableIcon = Animatable.createAnimatableComponent(Icon);
 
 class BookmarkButton extends Component {
-  static propTypes = {
-    item: PropTypes.object.isRequired,
-    onPress: PropTypes.func.isRequired,
-    onLongPress: PropTypes.func.isRequired,
-  };
-
   constructor(props) {
     const { item } = props;
     super(props);
@@ -24,9 +17,9 @@ class BookmarkButton extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { item: prevItem } = this.props;
-    const { item } = nextProps;
+  componentDidUpdate(prevProps) {
+    const { item } = this.props;
+    const { item: prevItem } = prevProps;
     const { isBookmark } = this.state;
     if (
       item.is_bookmarked !== prevItem.is_bookmarked &&
