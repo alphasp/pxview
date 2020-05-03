@@ -68,7 +68,7 @@ class RelatedIllusts extends Component {
 
   handleOnPressItem = (item, index) => {
     const {
-      data: { items },
+      items,
       navigation: { push },
       maxItems,
     } = this.props;
