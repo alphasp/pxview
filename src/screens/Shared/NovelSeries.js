@@ -70,7 +70,7 @@ class NovelSeries extends Component {
 
   handleOnPressItem = (item, index) => {
     const {
-      data: { items },
+      items,
       navigation: { push },
       loadMoreItems,
       listKey,
