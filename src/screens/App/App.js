@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, StyleSheet, StatusBar, Platform } from 'react-native';
 import { useSelector } from 'react-redux';
 import {
@@ -10,7 +10,7 @@ import {
 import { getStateFromPath } from '@react-navigation/core';
 import analytics from '@react-native-firebase/analytics';
 import {
-  DefaultTheme as PaperDefaulTheme,
+  DefaultTheme as PaperDefaultTheme,
   DarkTheme as PaperDarkTheme,
   Provider as PaperProvider,
 } from 'react-native-paper';
@@ -43,8 +43,8 @@ const getActiveRouteName = (state) => {
 };
 
 const App = () => {
-  const [initialState, setInitialState] = React.useState();
-  const [navigationIsReady, setNavigationIsReady] = React.useState(false);
+  const [initialState, setInitialState] = useState();
+  const [navigationIsReady, setNavigationIsReady] = useState(false);
   const rehydrated = useSelector((state) => state.auth.rehydrated);
   const user = useSelector((state) => state.auth.user);
   const initialRouteName = useSelector(
@@ -91,7 +91,7 @@ const App = () => {
     },
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     Promise.race([
       getInitialState(),
       new Promise((resolve) =>
@@ -166,10 +166,10 @@ const App = () => {
     };
   } else {
     theme = {
-      ...PaperDefaulTheme,
+      ...PaperDefaultTheme,
       ...NavigationDefaultTheme,
       colors: {
-        ...PaperDefaulTheme.colors,
+        ...PaperDefaultTheme.colors,
         ...NavigationDefaultTheme.colors,
         ...extraColorsConfig,
       },
