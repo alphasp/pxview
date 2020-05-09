@@ -141,8 +141,11 @@ class DetailInfoModal extends Component {
   };
 
   handleOnPressAvatar = () => {
-    const { onPressAvatar, item } = this.props;
-    onPressAvatar(item.user.id);
+    const {
+      navigation: { push },
+      item,
+    } = this.props;
+    push(SCREENS.UserDetail, { userId: item.user.id });
   };
 
   handleOnPressLink = (url) => {
