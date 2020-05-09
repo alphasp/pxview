@@ -221,14 +221,16 @@ class Settings extends Component {
     }
   };
 
-  handleOnPressConfirmClearCache = () => {
+  handleOnPressConfirmClearCache = async () => {
     const { i18n } = this.props;
-    RNFetchBlob.fs
-      .unlink(`${RNFetchBlob.fs.dirs.CacheDir}/pxview/`)
-      .then(() => {
-        DeviceEventEmitter.emit('showToast', i18n.cacheClearSuccess);
-      })
-      .catch(() => {});
+    const { dirs, exists, unlink } = RNFetchBlob.fs;
+    try {
+      const isCacheDirExists = await exists(dirs.CacheDir);
+      if (isCacheDirExists) {
+        await unlink(dirs.CacheDir);
+      }
+      DeviceEventEmitter.emit('showToast', i18n.cacheClearSuccess);
+    } catch (err) {}
   };
 
   renderList = (list) => {
