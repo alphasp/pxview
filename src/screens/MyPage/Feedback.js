@@ -111,7 +111,7 @@ class Feedback extends Component {
         appVersion: DeviceInfo.getVersion(),
         appBuildNumber: DeviceInfo.getBuildNumber(),
         locale: DeviceInfo.getDeviceLocale(),
-        createdAt: database().getServerTime(),
+        createdAt: database.ServerValue.TIMESTAMP,
         feedback,
         email,
       })
