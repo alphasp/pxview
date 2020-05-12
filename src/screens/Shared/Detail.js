@@ -103,7 +103,7 @@ class Detail extends Component {
       if (isFromDeepLink) {
         fetchIllustDetail(illustId);
         analytics().logEvent(`Screen_${SCREENS.Detail}`, {
-          id: item.id.toString(),
+          id: illustId.toString(),
           fromDeepLink: true,
         });
       } else {
