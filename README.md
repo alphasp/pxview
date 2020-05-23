@@ -6,22 +6,16 @@
 
 Unofficial Pixiv app client for Android and iOS, built with React Native.
 
-## Note
-README for v4 under construction
-
-## Gif
-![gif](./screenshots/demoV2.gif)
 
 ## Screenshots
-![android_recommended](./screenshots/android/en/1.png)
-![android_search](./screenshots/android/en/2.png)
-![android_detail](./screenshots/android/en/3.png)
-![ios_recommended](./screenshots/ios/ja/1.png)
-![ios_illust_ranking](./screenshots/ios/ja/2.png)
-![ios_newworks](./screenshots/ios/ja/3.png)
+![android_recommended](./screenshots/android/1.png)
+![android_search](./screenshots/android/2.png)
+![android_detail](./screenshots/android/3.png)
+![ios_illust_ranking](./screenshots/ios/1.png)
+![ios_recommended](./screenshots/ios/2.png)
 
 ## Features
-- Tab navigation on iOS, drawer navigation on Android
+- Bottom navigation
 - Ranking
 	- Enjoy the latest popular works.
  	- Find trending works over the past day, week, or month.
@@ -52,32 +46,26 @@ README for v4 under construction
 1. `$ git clone https://github.com/alphasp/pxview`
 2. `$ npm install`
 3. `$ npm run pod-install`
-4. `$ react-native link`
-5. `$ npm run ios` or `npm run android`
-6. (Optional) Set up Fabric / Crashlytics account on [Fabric.io](https://fabric.io/). 
-
-	a) `Android`: Change value for `io.fabric.ApiKey` in `./android/app/src/main/AndroidManifest.xml`
-	
-	b) `iOS`: Change value for `Fabric APIKey` in `./ios/PxView/info.plist`
-7. (Optional) Setup Firebase account on [Firebase](https://firebase.google.com/). Create a database, get apiKey, databaseURL, projectId from database settings, then change values for firebase config in `./src/common/config/env.dev.js` for development and `./src/common/config/env.prod.js` for production
+4. Set up Firebase account on [Firebase](https://console.firebase.google.com/). 
+	- Create a new project, and enable Google Analytics
+	- [Android] Add android app on firebase console, download `google-services.json` and move to `/android/app` folder
+	- [iOS] Add iOS app on firebase console, download `GoogleService-Info.plist` and move to `/ios` folder
+	- (Optional) In app feedback feature: Create Realtime Database from firebase console and enable rules to write to `feedback`
+5.	Run the app
+	- [Android] `$ npm run android`
+	- [iOS] `$ npm run ios`
 
 ## Application Architecture
 - [redux](https://github.com/reactjs/redux) is a predictable state container for JavaScript apps, 
 - [redux-saga](https://github.com/yelouafi/redux-saga/) is a library that aims to make side effects (i.e. asynchronous things like data fetching and impure things like accessing the browser cache) in React/Redux applications easier and better.
 - [redux-persist]() is use to persist and rehydrate a redux store. It is use in this project to persist redux store in react-native `AsyncStorage` and rehydrate on app start.
 - [react-navigation](https://github.com/react-community/react-navigation) is the official react-native navigation solution. It is extensible yet easy-to-use
+- [react-native-paper](https://github.com/callstack/react-native-paper) is a Material Design library for React Native (Android & iOS)
 - [react-native-localization](https://github.com/stefalda/ReactNativeLocalization) is a library to localize the ReactNative interface
-- [react-native-fabric](https://github.com/corymsmith/react-native-fabric) is a React Native library for Fabric, Crashlytics and Answers. It is use in this project for crash reporting.
+- [react-native-firebase](https://github.com/invertase/react-native-firebase) is a A well-tested feature-rich modular Firebase implementation for React Native. Supports both iOS & Android platforms for all Firebase services. It is use in this project for crash reporting and analytics.
 - [normalizr](https://github.com/paularmstrong/normalizr) normalizes nested JSON according to a schema
 - [reselect](https://github.com/reactjs/reselect) is a selector library for Redux that is efficient and can compute derived data, allowing Redux to store the minimal possible state.
 - And more..
- 
-## Troubleshooting
-
-### Could not list contents of '<YOUR-APP-PATH>/node_modules/react-native/third-party/glog-0.3.4/test-driver'. Couldn't follow symbolic link.
-
-`$ unlink node_modules/react-native/third-party/glog-0.3.4/test-driver`
-Related issue in react-native [https://github.com/facebook/react-native/issues/14464](https://github.com/facebook/react-native/issues/14464)
 
 
 ## Tests
