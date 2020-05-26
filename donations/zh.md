@@ -6,7 +6,10 @@
 发至gmerudotcom@gmail.com
 
 ### Paypal
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4FEHX7PTHQTQY)
+[![Donate](https://www.paypalobjects.com/zh_CN/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/hkkuah)
+
+### Github Sponsors
+[![github_sponsors](./github_sponsor.png)](https://github.com/sponsors/alphasp)
 
 ### 比特币
 ![btc](./btc.png)

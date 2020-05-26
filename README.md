@@ -90,20 +90,16 @@ If you like this application and think it is useful, you may consider making a d
 ### Amazon eGift Card (Amazon US or Amazon Japan)
 Send to gmerudotcom@gmail.com via email delivery option
 
+### Paypal
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/hkkuah)
+
+### Github Sponsors
+[![github_sponsors](./donations/github_sponsor.png)](https://github.com/sponsors/alphasp)
+
 ### Bitcoin
 ![btc](./donations/btc.png)
 
 34nfe2Jm8Tg8f8YfE4Vk12JGeXDqC4b5pU
-
-### Paypal
-USD
-
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4FEHX7PTHQTQY)
-
-JPY
-
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A7TA6Y8999S72) 
-
 
 
 ## License
