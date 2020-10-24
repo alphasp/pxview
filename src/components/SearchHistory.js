@@ -73,7 +73,12 @@ const SearchHistory = ({ onPressItem }) => {
   };
 
   return (
-    <View style={globalStyles.container}>
+    <View
+      style={[
+        globalStyles.container,
+        { backgroundColor: theme.colors.background },
+      ]}
+    >
       <View style={styles.searchHistoryContainer}>
         <Text style={styles.searchHistoryTitle}>{i18n.searchHistory}</Text>
         <PXTouchable
