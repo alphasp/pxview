@@ -151,11 +151,13 @@ class Trending extends Component {
     const { navigation, trendingSearchSettings } = this.props;
     const { word, isFocusSearchBar, searchType, index } = this.state;
     let showBackButton = isFocusSearchBar;
-    if (index === 0 && !trendingSearchSettings.isShowTrendingIllustTag) {
-      showBackButton = false;
-    }
-    if (index === 1 && !trendingSearchSettings.isShowTrendingNovelTag) {
-      showBackButton = false;
+    if (!isFocusSearchBar) {
+      if (index === 0 && !trendingSearchSettings.isShowTrendingIllustTag) {
+        showBackButton = false;
+      }
+      if (index === 1 && !trendingSearchSettings.isShowTrendingNovelTag) {
+        showBackButton = false;
+      }
     }
     return (
       <AndroidBackHandler onBackPress={this.handleOnPressBackButton}>
