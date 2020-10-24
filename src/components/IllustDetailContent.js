@@ -305,9 +305,9 @@ class IllustDetailContent extends Component {
       selectedTag,
       isVisible,
     } = this.state;
-    if (!isVisible) {
-      return null;
-    }
+    // if (!isVisible) {
+    //   return null;
+    // }
     const isMute = tags.some((t) => t.isMute) || isMuteUser;
     return (
       <View key={item.id} style={styles.container}>
