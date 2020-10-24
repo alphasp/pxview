@@ -366,8 +366,8 @@ PODS:
     - React
   - react-native-splash-screen (3.2.0):
     - React
-  - react-native-webview (9.3.0):
-    - React
+  - react-native-webview (10.9.3):
+    - React-Core
   - React-RCTActionSheet (0.62.2):
     - React-Core/RCTActionSheetHeaders (= 0.62.2)
   - React-RCTAnimation (0.62.2):
@@ -440,8 +440,8 @@ PODS:
     - React
   - RNCViewpager (1.1.7):
     - React
-  - RNDeviceInfo (0.21.5):
-    - React
+  - RNDeviceInfo (7.0.2):
+    - React-Core
   - RNFBAnalytics (6.7.1):
     - Firebase/Analytics (~> 6.13.0)
     - Firebase/Core (~> 6.13.0)
@@ -468,6 +468,8 @@ PODS:
     - RNFBApp
   - RNGestureHandler (1.6.1):
     - React
+  - RNLocalize (1.4.2):
+    - React-Core
   - RNReanimated (1.8.0):
     - React
   - RNScreens (2.7.0):
@@ -559,6 +561,7 @@ DEPENDENCIES:
   - "RNFBDatabase (from `../node_modules/@react-native-firebase/database`)"
   - "RNFBPerf (from `../node_modules/@react-native-firebase/perf`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNLocalize (from `../node_modules/react-native-localize`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNShare (from `../node_modules/react-native-share`)
@@ -567,7 +570,7 @@ DEPENDENCIES:
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - boost-for-react-native
     - CocoaAsyncSocket
     - CocoaLibEvent
@@ -697,6 +700,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/perf"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNLocalize:
+    :path: "../node_modules/react-native-localize"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -766,7 +771,7 @@ SPEC CHECKSUMS:
   react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
   react-native-spinkit: da294fd828216ad211fe36a5c14c1e09f09e62db
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
-  react-native-webview: bdde2a3c4cbdc0122bc2bfba13603db193f0cc5c
+  react-native-webview: 9ddd42644620c42fc8b07469d7f8ccde2b61926e
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
   React-RCTAnimation: 49ab98b1c1ff4445148b72a3d61554138565bad0
   React-RCTBlob: a332773f0ebc413a0ce85942a55b064471587a71
@@ -783,13 +788,14 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: b16697280b08bab4b5f2f67f752d93d13a52e9ed
   RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
   RNCViewpager: eff3ba6712d3aff9ea779ef1c99f78aa7cd36771
-  RNDeviceInfo: e7c5fcde13d40e161d8a27f6c5dc69c638936002
+  RNDeviceInfo: a37a15a98822c31c3982cb28eba6d336ba4d0968
   RNFBAnalytics: 7d56f7af0a1147e649df33e64372aea8923fdd01
   RNFBApp: 7b539bb25520fa73d6a240f5c6ea569e27683645
   RNFBCrashlytics: b34063b906dd0c57a5d286dd743a40c90c8326c7
   RNFBDatabase: 2737d8e87c20246cd91e95743c514e08c791ebe1
   RNFBPerf: 5322fbb70e8a54e0cc92fb9097bd1790c5745389
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
+  RNLocalize: 4071198b59b461f3b74eebc5fee8c50f13e39e79
   RNReanimated: 955cf4068714003d2f1a6e2bae3fb1118f359aff
   RNScreens: cf198f915f8a2bf163de94ca9f5bfc8d326c3706
   RNShare: 48cf88cadf9ca2143cdaa557c1ec7f8808040ffc
@@ -803,4 +809,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 7eb9cd51038d4e48114b87a1e7833a8507d9378f
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.10.0
