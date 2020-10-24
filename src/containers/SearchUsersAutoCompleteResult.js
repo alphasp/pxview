@@ -10,7 +10,6 @@ import {
   clearSearchUsersAutoComplete,
 } from '../common/actions/searchUsersAutoComplete';
 import { getSearchUsersAutoCompleteItems } from '../common/selectors';
-import usePrevious from '../common/hooks/usePrevious';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,14 +18,7 @@ const styles = StyleSheet.create({
 });
 
 const SearchUsersAutoCompleteResult = (props) => {
-  const {
-    word,
-    searchHistory,
-    onPressItem,
-    onPressSearchHistoryItem,
-    onPressRemoveSearchHistoryItem,
-    onPressClearSearchHistory,
-  } = props;
+  const { word, onPressItem, onPressSearchHistoryItem } = props;
   const theme = useTheme();
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -63,14 +55,7 @@ const SearchUsersAutoCompleteResult = (props) => {
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
       {((!searchUsersAutoComplete.loaded && !searchUsersAutoComplete.loading) ||
-        !word) && (
-        <SearchHistory
-          items={searchHistory.items}
-          onPressItem={onPressSearchHistoryItem}
-          onPressRemoveSearchHistoryItem={onPressRemoveSearchHistoryItem}
-          onPressClearSearchHistory={onPressClearSearchHistory}
-        />
-      )}
+        !word) && <SearchHistory onPressItem={onPressSearchHistoryItem} />}
       {word && word.length > 1 ? (
         <SearchUsersAutoCompleteList
           data={{ ...searchUsersAutoComplete, items }}

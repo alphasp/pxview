@@ -1,6 +1,8 @@
 import { TRENDING_SEARCH_SETTINGS } from '../constants/actionTypes';
 
 const initState = {
+  isShowTrendingIllustTag: true,
+  isShowTrendingNovelTag: true,
   isShowIllustImage: true,
   isShowNovelImage: true,
 };
@@ -10,6 +12,14 @@ export default function trendingSearchSettings(state = initState, action) {
     case TRENDING_SEARCH_SETTINGS.SET:
       return {
         ...state,
+        isShowTrendingIllustTag:
+          action.payload.isShowTrendingIllustTag !== undefined
+            ? action.payload.isShowTrendingIllustTag
+            : state.isShowTrendingIllustTag,
+        isShowTrendingNovelTag:
+          action.payload.isShowTrendingNovelTag !== undefined
+            ? action.payload.isShowTrendingNovelTag
+            : state.isShowTrendingNovelTag,
         isShowIllustImage:
           action.payload.isShowIllustImage !== undefined
             ? action.payload.isShowIllustImage

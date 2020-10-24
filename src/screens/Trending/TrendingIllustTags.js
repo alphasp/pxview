@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useScrollToTop } from '@react-navigation/native';
 import TagList from '../../components/TagList';
 import SimpleTagList from '../../components/SimpleTagList';
+import SearchHistory from '../../components/SearchHistory';
 import {
   clearTrendingIllustTags,
   fetchTrendingIllustTags,
@@ -10,12 +11,12 @@ import {
 import { getTrendingIllustTagsItems } from '../../common/selectors';
 import { SEARCH_TYPES } from '../../common/constants';
 
-const TrendingIllustTags = () => {
+const TrendingIllustTags = ({ onPressSearchHistoryItem }) => {
   const ref = useRef();
   const dispatch = useDispatch();
   const allState = useSelector((state) => state);
   const trendingIllustTags = useSelector((state) => state.trendingIllustTags);
-  const { isShowIllustImage } = useSelector(
+  const { isShowIllustImage, isShowTrendingIllustTag } = useSelector(
     (state) => state.trendingSearchSettings,
   );
   const items = getTrendingIllustTagsItems(allState);
@@ -33,6 +34,9 @@ const TrendingIllustTags = () => {
     dispatch(fetchTrendingIllustTags(null, true));
   };
 
+  if (!isShowTrendingIllustTag) {
+    return <SearchHistory onPressItem={onPressSearchHistoryItem} />;
+  }
   const Comp = isShowIllustImage ? TagList : SimpleTagList;
   return (
     <Comp
