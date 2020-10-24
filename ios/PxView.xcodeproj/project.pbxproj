@@ -853,7 +853,7 @@
 					"$(SRCROOT)/../node_modules/react-native-zip-archive/ios/**",
 				);
 				INFOPLIST_FILE = PxView/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -896,7 +896,7 @@
 					"$(SRCROOT)/../node_modules/react-native-zip-archive/ios/**",
 				);
 				INFOPLIST_FILE = PxView/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
