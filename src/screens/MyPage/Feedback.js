@@ -10,6 +10,7 @@ import database from '@react-native-firebase/database';
 import { connect } from 'react-redux';
 import { withTheme, TextInput } from 'react-native-paper';
 import DeviceInfo from 'react-native-device-info';
+import * as RNLocalize from 'react-native-localize';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 import { connectLocalization } from '../../components/Localization';
@@ -91,7 +92,7 @@ class Feedback extends Component {
     });
   };
 
-  handleOnSubmitFeedback = () => {
+  handleOnSubmitFeedback = async () => {
     const {
       i18n,
       addError,
@@ -100,17 +101,19 @@ class Feedback extends Component {
     const { feedback, email } = this.state;
     Keyboard.dismiss();
     this.setState({ loading: true });
+    const manufacturer = await DeviceInfo.getManufacturer();
     this.ref
       .push()
       .set({
         platform: DeviceInfo.getSystemName(),
-        manufacturer: DeviceInfo.getManufacturer(),
+        manufacturer,
         brand: DeviceInfo.getBrand(),
         model: DeviceInfo.getModel(),
         systemVersion: DeviceInfo.getSystemVersion(),
         appVersion: DeviceInfo.getVersion(),
         appBuildNumber: DeviceInfo.getBuildNumber(),
-        locale: DeviceInfo.getDeviceLocale(),
+        locale: RNLocalize.getLocales()[0].languageTag,
+        country: RNLocalize.getCountry(),
         createdAt: database.ServerValue.TIMESTAMP,
         feedback,
         email,

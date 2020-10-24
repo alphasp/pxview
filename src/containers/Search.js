@@ -151,19 +151,13 @@ class Search extends Component {
   };
 
   renderContent = () => {
-    const {
-      word,
-      searchAutoComplete,
-      searchUsersAutoComplete,
-      searchHistory,
-    } = this.props;
+    const { word, searchAutoComplete, searchUsersAutoComplete } = this.props;
     const { index } = this.state;
     switch (index) {
       case 0:
         return (
           <SearchAutoCompleteResult
             searchAutoComplete={searchAutoComplete}
-            searchHistory={searchHistory}
             onPressItem={this.handleOnPressAutoCompleteItem}
             onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
             onPressRemoveSearchHistoryItem={
@@ -177,7 +171,6 @@ class Search extends Component {
         return (
           <SearchAutoCompleteResult
             searchAutoComplete={searchAutoComplete}
-            searchHistory={searchHistory}
             onPressItem={this.handleOnPressAutoCompleteItem}
             onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
             onPressRemoveSearchHistoryItem={
@@ -191,7 +184,6 @@ class Search extends Component {
         return (
           <SearchUsersAutoCompleteResult
             searchUsersAutoComplete={searchUsersAutoComplete}
-            searchHistory={searchHistory}
             onPressItem={this.handleOnPressUser}
             onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
             onPressRemoveSearchHistoryItem={
@@ -224,7 +216,6 @@ export default connectLocalization(
       return {
         searchAutoComplete: state.searchAutoComplete,
         searchUsersAutoComplete: state.searchUsersAutoComplete,
-        searchHistory: state.searchHistory,
         word,
       };
     },

@@ -47,24 +47,17 @@ class SearchAutoCompleteResult extends Component {
       searchAutoComplete,
       word,
       searchAutoComplete: { loading, loaded },
-      searchHistory,
       onPressItem,
       onPressSearchHistoryItem,
-      onPressRemoveSearchHistoryItem,
-      onPressClearSearchHistory,
       theme,
     } = this.props;
+    console.log('w ', word);
     return (
       <View
         style={[styles.container, { backgroundColor: theme.colors.background }]}
       >
         {((!loaded && !loading) || !word) && (
-          <SearchHistory
-            items={searchHistory.items}
-            onPressItem={onPressSearchHistoryItem}
-            onPressRemoveSearchHistoryItem={onPressRemoveSearchHistoryItem}
-            onPressClearSearchHistory={onPressClearSearchHistory}
-          />
+          <SearchHistory onPressItem={onPressSearchHistoryItem} />
         )}
         {user && word && word.length > 1 ? (
           <SearchAutoCompleteList

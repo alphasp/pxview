@@ -11,9 +11,12 @@ const TrendingSearchSettings = () => {
   const theme = useTheme();
   const { i18n } = useLocalization();
   const dispatch = useDispatch();
-  const { isShowIllustImage, isShowNovelImage } = useSelector(
-    (state) => state.trendingSearchSettings,
-  );
+  const {
+    isShowIllustImage,
+    isShowNovelImage,
+    isShowTrendingIllustTag,
+    isShowTrendingNovelTag,
+  } = useSelector((state) => state.trendingSearchSettings);
 
   const handleOnSwitchIsShowIllustImage = () => {
     dispatch(
@@ -31,6 +34,21 @@ const TrendingSearchSettings = () => {
     );
   };
 
+  const handleOnSwitchIsShowIllustTag = () => {
+    dispatch(
+      setSettings({
+        isShowTrendingIllustTag: !isShowTrendingIllustTag,
+      }),
+    );
+  };
+
+  const handleOnSwitchIsShowNoveltag = () => {
+    dispatch(
+      setSettings({
+        isShowTrendingNovelTag: !isShowTrendingNovelTag,
+      }),
+    );
+  };
   return (
     <View
       style={[
@@ -38,6 +56,26 @@ const TrendingSearchSettings = () => {
         { backgroundColor: theme.colors.background },
       ]}
     >
+      <PXListItem
+        title={i18n.trendingSearchSettingsShowTrendingIllustTag}
+        description={i18n.trendingSearchSettingsShowTrendingTagDescription}
+        right={() => (
+          <Switch
+            value={isShowTrendingIllustTag}
+            onValueChange={handleOnSwitchIsShowIllustTag}
+          />
+        )}
+      />
+      <PXListItem
+        title={i18n.trendingSearchSettingsShowTrendingNovelTag}
+        description={i18n.trendingSearchSettingsShowTrendingTagDescription}
+        right={() => (
+          <Switch
+            value={isShowTrendingNovelTag}
+            onValueChange={handleOnSwitchIsShowNoveltag}
+          />
+        )}
+      />
       <PXListItem
         title={i18n.trendingSearchSettingsShowIllustImage}
         right={() => (
