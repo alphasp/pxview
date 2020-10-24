@@ -90,11 +90,12 @@ class NovelViewer extends Component {
     const { novelId, fontSize, lineHeight, items, index } = this.props;
     const sceneIndex = routes.indexOf(route);
     const item = items[sceneIndex];
+    const pagedItem = item.match(/(.|[\r\n]){1,3000}/g) || [];
     // render text by chunks to prevent over text limit https://github.com/facebook/react-native/issues/15663
     return (
       <View style={styles.container}>
         <ScrollView>
-          {item.match(/(.|[\r\n]){1,3000}/g).map((t, i) => (
+          {pagedItem.map((t, i) => (
             <HtmlView
               key={`${novelId}-${index}-${i}`} // eslint-disable-line react/no-array-index-key
               value={t}
