@@ -117,17 +117,17 @@ class AccountSettings extends Component {
         <PXListItem
           title={i18n.accountSettingsEmail}
           description={user.mail_address || null}
-          onPress={this.handleOnPressChangeEmail}
+          // onPress={this.handleOnPressChangeEmail}
         />
         <PXListItem
           title={i18n.accountSettingsPixivId}
           description={user.account}
-          onPress={this.handleOnPressChangePixivId}
+          // onPress={this.handleOnPressChangePixivId}
         />
         <PXListItem
           title={i18n.password}
           description="******"
-          onPress={this.handleOnPressChangePassword}
+          // onPress={this.handleOnPressChangePassword}
         />
         {!hideAdvanceSettings && (
           <PXListItem
