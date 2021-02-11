@@ -51,7 +51,6 @@ class SearchAutoCompleteResult extends Component {
       onPressSearchHistoryItem,
       theme,
     } = this.props;
-    console.log('w ', word);
     return (
       <View
         style={[styles.container, { backgroundColor: theme.colors.background }]}
