@@ -6,6 +6,17 @@ import {
   AUTH_REHYDRATE,
 } from '../constants/actionTypes';
 
+export function tokenRequest(code, codeVerifier) {
+  return {
+    type: AUTH_LOGIN.REQUEST,
+    payload: {
+      code,
+      codeVerifier,
+    },
+  };
+}
+
+// todo
 export function login(email, password, isProvisionalAccount = false) {
   return {
     type: AUTH_LOGIN.REQUEST,

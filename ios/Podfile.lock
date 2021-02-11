@@ -361,6 +361,8 @@ PODS:
     - React
   - react-native-photo-view-ex (1.1.0):
     - React
+  - react-native-pkce-challenge (3.0.0):
+    - React-Core
   - react-native-safe-area-context (0.7.3):
     - React
   - react-native-spinkit (1.4.1):
@@ -531,6 +533,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - react-native-photo-view-ex (from `../node_modules/react-native-photo-view-ex`)
+  - react-native-pkce-challenge (from `../node_modules/react-native-pkce-challenge`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-spinkit (from `../node_modules/react-native-spinkit`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
@@ -641,6 +644,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/cameraroll"
   react-native-photo-view-ex:
     :path: "../node_modules/react-native-photo-view-ex"
+  react-native-pkce-challenge:
+    :path: "../node_modules/react-native-pkce-challenge"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-spinkit:
@@ -760,6 +765,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 8e68ffbfe23880d3ee9bafa8be2777f60b25cbe2
   react-native-cameraroll: 81c6c271b5b853da398ccecc7ad6a5f765fd3001
   react-native-photo-view-ex: 201dddcbe44fe531b824eae5e1b99b1f494c0588
+  react-native-pkce-challenge: 64c3d66b481d4b4a02f82a7f351c61299e58b464
   react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
   react-native-spinkit: da294fd828216ad211fe36a5c14c1e09f09e62db
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865

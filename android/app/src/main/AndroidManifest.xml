@@ -51,6 +51,7 @@
             <data android:host="illusts" />
             <data android:host="novels" />
             <data android:host="users" />
+            <data android:host="account" />
             <!-- <data android:pathPrefix="/illusts" />
             <data android:pathPrefix="/user" /> -->
         </intent-filter>

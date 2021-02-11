@@ -173,6 +173,7 @@ export const READING_DIRECTION_TYPES = {
 
 export const SCREENS = {
   Main: 'Main',
+  Auth: 'Auth',
   Login: 'Login',
   SignUp: 'SignUp',
   SearchFilterModal: 'SearchFilterModal',

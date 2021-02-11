@@ -3,8 +3,9 @@ import { View } from 'react-native';
 import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from 'react-native-paper';
-import Login from '../screens/Login/Login';
-import SignUp from '../screens/Login/SignUp';
+import Auth from '../screens/Auth/Auth';
+import Login from '../screens/Auth/Login';
+import SignUp from '../screens/Auth/SignUp';
 import PrivacyPolicy from '../screens/MyPage/PrivacyPolicy';
 import { useLocalization } from '../components/Localization';
 import { globalStyleVariables, getThemedHeaderStyle } from '../styles';
@@ -12,7 +13,7 @@ import { SCREENS } from '../common/constants';
 
 const Stack = createNativeStackNavigator();
 
-const LoginNavigator = () => {
+const AuthNavigator = () => {
   const theme = useTheme();
   const { i18n } = useLocalization();
   const headerStyle = getThemedHeaderStyle(theme);
@@ -31,10 +32,18 @@ const LoginNavigator = () => {
           }}
         >
           <Stack.Screen
+            name={SCREENS.Auth}
+            component={Auth}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
             name={SCREENS.Login}
             component={Login}
             options={{
-              headerShown: false,
+              title: i18n.login,
+              headerStyle,
             }}
           />
           <Stack.Screen
@@ -59,4 +68,4 @@ const LoginNavigator = () => {
   );
 };
 
-export default LoginNavigator;
+export default AuthNavigator;
