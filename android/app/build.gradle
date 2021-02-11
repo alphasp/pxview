@@ -135,8 +135,8 @@ android {
         applicationId "com.utopia.pxview"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 308
-        versionName "4.6"
+        versionCode 309
+        versionName "4.7"
     }
     signingConfigs {
         release {
