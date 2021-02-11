@@ -104,6 +104,7 @@ class Settings extends Component {
     switch (routeId) {
       case SCREENS.Recommended:
         return i18n.recommended;
+      case SCREENS.RankingPreview:
       case SCREENS.Ranking:
         return i18n.ranking;
       case SCREENS.Trending:
