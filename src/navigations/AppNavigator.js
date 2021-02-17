@@ -39,6 +39,7 @@ import BrowsingHistory from '../screens/MyPage/BrowsingHistory/BrowsingHistory';
 import Settings from '../screens/MyPage/Settings';
 import AdvanceAccountSettings from '../screens/MyPage/AccountSettings/AdvanceAccountSettings';
 import ReadingSettings from '../screens/MyPage/ReadingSettings';
+import DisplaySettings from '../screens/MyPage/DisplaySettings';
 import SaveImageSettings from '../screens/MyPage/SaveImageSettings';
 import LikeButtonSettings from '../screens/MyPage/LikeButtonSettings';
 import TrendingSearchSettings from '../screens/MyPage/TrendingSearchSettings';
@@ -361,6 +362,14 @@ const AppNavigator = ({ initialRouteName }) => {
           component={ReadingSettings}
           options={{
             title: i18n.readingSettings,
+            headerStyle,
+          }}
+        />
+        <Stack.Screen
+          name={SCREENS.DisplaySettings}
+          component={DisplaySettings}
+          options={{
+            title: i18n.displaySettings,
             headerStyle,
           }}
         />

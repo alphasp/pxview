@@ -216,11 +216,11 @@ class IllustDetailContent extends Component {
   };
 
   renderItem = ({ item, index }) => {
-    const { onPressImage, onLongPressImage } = this.props;
+    const { onPressImage, onLongPressImage, imageQuality } = this.props;
     return (
       <PXCacheImageTouchable
-        key={item.image_urls.medium}
-        uri={item.image_urls.medium}
+        key={item.image_urls[imageQuality]}
+        uri={item.image_urls[imageQuality]}
         initWidth={globalStyleVariables.WINDOW_HEIGHT}
         initHeight={200}
         style={styles.multiImageContainer}
@@ -234,7 +234,13 @@ class IllustDetailContent extends Component {
   };
 
   renderImageOrUgoira = (isMute) => {
-    const { item, onPressImage, onLongPressImage, theme } = this.props;
+    const {
+      item,
+      onPressImage,
+      onLongPressImage,
+      theme,
+      imageQuality,
+    } = this.props;
     if (isMute) {
       return (
         <View
@@ -252,7 +258,7 @@ class IllustDetailContent extends Component {
     }
     return (
       <PXCacheImageTouchable
-        uri={item.image_urls.medium}
+        uri={item.image_urls[imageQuality]}
         initWidth={
           item.width > globalStyleVariables.WINDOW_WIDTH
             ? globalStyleVariables.WINDOW_WIDTH
@@ -363,6 +369,7 @@ export default withTheme(
         (m) => m.id === props.item.user.id,
       ),
       tags: getTagsWithStatus(state, props),
+      imageQuality: state.displaySettings.detailScreenImageQuality,
     });
   }, searchHistoryActionCreators)(IllustDetailContent),
 );
