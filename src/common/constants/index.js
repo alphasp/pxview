@@ -175,7 +175,6 @@ export const READING_DIRECTION_TYPES = {
 
 export const ILLUST_LIST_COLUMNS = {};
 for (let i = 1; i < 7; i += 1) {
-  console.log(i);
   ILLUST_LIST_COLUMNS[i.toString()] = i;
 }
 
