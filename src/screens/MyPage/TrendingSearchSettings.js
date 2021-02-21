@@ -14,8 +14,10 @@ const TrendingSearchSettings = () => {
   const {
     isShowIllustImage,
     isShowNovelImage,
+    isShowRecommendedUser,
     isShowTrendingIllustTag,
     isShowTrendingNovelTag,
+    isShowRecommendedUserWork,
   } = useSelector((state) => state.trendingSearchSettings);
 
   const handleOnSwitchIsShowIllustImage = () => {
@@ -49,6 +51,23 @@ const TrendingSearchSettings = () => {
       }),
     );
   };
+
+  const handleOnSwitchIsShowRecommendedUser = () => {
+    dispatch(
+      setSettings({
+        isShowRecommendedUser: !isShowRecommendedUser,
+      }),
+    );
+  };
+
+  const handleOnSwitchIsShowRecommendedUserWork = () => {
+    dispatch(
+      setSettings({
+        isShowRecommendedUserWork: !isShowRecommendedUserWork,
+      }),
+    );
+  };
+
   return (
     <View
       style={[
@@ -76,6 +95,17 @@ const TrendingSearchSettings = () => {
           />
         )}
       />
+
+      <PXListItem
+        title={i18n.trendingSearchSettingsShowRecommendedUser}
+        description={i18n.trendingSearchSettingsShowTrendingTagDescription}
+        right={() => (
+          <Switch
+            value={isShowRecommendedUser}
+            onValueChange={handleOnSwitchIsShowRecommendedUser}
+          />
+        )}
+      />
       <PXListItem
         title={i18n.trendingSearchSettingsShowIllustImage}
         right={() => (
@@ -91,6 +121,15 @@ const TrendingSearchSettings = () => {
           <Switch
             value={isShowNovelImage}
             onValueChange={handleOnSwitchIsShowNovelImage}
+          />
+        )}
+      />
+      <PXListItem
+        title={i18n.trendingSearchSettingsShowRecommendedUserWork}
+        right={() => (
+          <Switch
+            value={isShowRecommendedUserWork}
+            onValueChange={handleOnSwitchIsShowRecommendedUserWork}
           />
         )}
       />
