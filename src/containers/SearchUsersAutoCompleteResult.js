@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet, InteractionManager } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
 import SearchHistory from '../components/SearchHistory';
 import SearchUsersAutoCompleteList from '../components/SearchUsersAutoCompleteList';

@@ -1,4 +1,4 @@
-import React, { Component, forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';

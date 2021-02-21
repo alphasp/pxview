@@ -123,25 +123,22 @@ class Trending extends Component {
   };
 
   renderContent = () => {
-    const { navigation } = this.props;
     const { index } = this.state;
     switch (index) {
       case 0:
         return (
           <TrendingIllustTags
-            navigation={navigation}
             onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
           />
         );
       case 1:
         return (
           <TrendingNovelTags
-            navigation={navigation}
             onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
           />
         );
       case 2:
-        return <RecommendedUsers navigation={navigation} />;
+        return <RecommendedUsers />;
       default:
         return null;
     }

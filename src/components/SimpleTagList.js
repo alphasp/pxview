@@ -2,7 +2,7 @@ import React, { Fragment, forwardRef } from 'react';
 import { StyleSheet, View, RefreshControl, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useTheme, Text, Caption } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import Separator from './Separator';
