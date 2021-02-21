@@ -80,14 +80,20 @@ const App = () => {
       const newRoutes = [...state.routes];
       // eslint-disable-next-line prefer-destructuring
       newRoutes[0].name = newRoutes[0].name.split('-')[0];
+      let routes;
+      if (user) {
+        routes = [
+          {
+            name: SCREENS.Main, // Load tab navigation first
+          },
+          ...newRoutes,
+        ];
+      } else {
+        routes = newRoutes;
+      }
       return {
         ...state,
-        routes: [
-          // {
-          //   name: SCREENS.Main, // Load drawer navigation first
-          // },
-          ...newRoutes,
-        ],
+        routes,
       };
     },
   });
@@ -186,6 +192,7 @@ const App = () => {
   } else {
     renderComponent = <AuthNavigator />;
   }
+
   return (
     <PaperProvider theme={theme}>
       {(!rehydrated || !navigationIsReady) && <Loader />}
