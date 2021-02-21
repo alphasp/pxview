@@ -13,6 +13,7 @@ import IllustCommentReplies from '../../containers/IllustCommentReplies';
 import enhancePostComment from '../../components/HOC/enhancePostComment';
 import CommentList from '../../components/CommentList';
 import ViewMoreButton from '../../components/ViewMoreButton';
+import Loader from '../../components/Loader';
 import * as illustCommentsActionCreators from '../../common/actions/illustComments';
 import { makeGetIllustCommentsItems } from '../../common/selectors';
 import { globalStyles } from '../../styles';
@@ -160,22 +161,26 @@ class IllustComments extends Component {
       user,
       navigation,
       isFeatureInDetailPage,
+      isDetailPageReady,
       maxItems,
     } = this.props;
     return (
       <SafeAreaView style={globalStyles.container}>
-        <CommentList
-          authorId={authorId}
-          data={{ ...illustComments, items }}
-          loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
-          onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
-          maxItems={isFeatureInDetailPage && maxItems}
-          navigation={navigation}
-          user={user}
-          renderCommentReplies={this.renderCommentReplies}
-          onPressReplyCommentButton={this.handleOnPressReplyCommentButton}
-        />
-        {isFeatureInDetailPage && (
+        {isFeatureInDetailPage && !isDetailPageReady && <Loader />}
+        {(!isFeatureInDetailPage || isDetailPageReady) && (
+          <CommentList
+            authorId={authorId}
+            data={{ ...illustComments, items }}
+            loadMoreItems={!isFeatureInDetailPage ? this.loadMoreItems : null}
+            onRefresh={!isFeatureInDetailPage ? this.handleOnRefresh : null}
+            maxItems={isFeatureInDetailPage && maxItems}
+            navigation={navigation}
+            user={user}
+            renderCommentReplies={this.renderCommentReplies}
+            onPressReplyCommentButton={this.handleOnPressReplyCommentButton}
+          />
+        )}
+        {isFeatureInDetailPage && isDetailPageReady && (
           <View style={styles.viewMoreButtonContainer}>
             <ViewMoreButton onPress={this.handleOnPressViewMoreComments} />
           </View>

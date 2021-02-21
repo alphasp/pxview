@@ -287,6 +287,7 @@ class DetailInfoModal extends Component {
                     novelId={item.id}
                     authorId={item.user.id}
                     isFeatureInDetailPage
+                    isDetailPageReady
                     maxItems={6}
                     navigation={navigation}
                     route={route}
@@ -296,6 +297,7 @@ class DetailInfoModal extends Component {
                     illustId={item.id}
                     authorId={item.user.id}
                     isFeatureInDetailPage
+                    isDetailPageReady
                     maxItems={6}
                     navigation={navigation}
                     route={route}
@@ -311,6 +313,7 @@ class DetailInfoModal extends Component {
                     illustId={item.id}
                     listKey={`relatedIllusts-${route.key}-${item.id}`}
                     isFeatureInDetailPage
+                    isDetailPageReady
                     maxItems={6}
                     navigation={navigation}
                     route={route}
@@ -331,6 +334,7 @@ class DetailInfoModal extends Component {
                     seriesId={item.series.id}
                     seriesTitle={item.series.title}
                     isFeatureInDetailPage
+                    isDetailPageReady
                     maxItems={6}
                     navigation={navigation}
                     route={route}

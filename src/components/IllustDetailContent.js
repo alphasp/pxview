@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ScrollView,
+  InteractionManager,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { withTheme } from 'react-native-paper';
 import DetailFooter from './DetailFooter';
@@ -59,7 +66,16 @@ class IllustDetailContent extends Component {
       imagePageNumber: null,
       isOpenTagBottomSheet: false,
       selectedTag: null,
+      isMounted: false,
     };
+  }
+
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({
+        isMounted: true,
+      });
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -85,6 +101,7 @@ class IllustDetailContent extends Component {
       isMuteUser: prevIsMuteUser,
       route: prevRoute,
       isVisible,
+      isMounted,
     } = this.props;
     const { item, tags, isMuteUser, route } = nextProps;
     const {
@@ -94,6 +111,7 @@ class IllustDetailContent extends Component {
       isOpenTagBottomSheet: prevIsOpenTagBottomSheet,
       selectedTag: prevSelectedTag,
       isVisible: prevIsVisible,
+      isMounted: prevIsMounted,
     } = this.state;
     const {
       isInitState,
@@ -114,7 +132,8 @@ class IllustDetailContent extends Component {
       tags !== prevTags ||
       isMuteUser !== prevIsMuteUser ||
       route !== prevRoute ||
-      isVisible !== prevIsVisible
+      isVisible !== prevIsVisible ||
+      isMounted !== prevIsMounted
     ) {
       return true;
     }
@@ -272,6 +291,7 @@ class IllustDetailContent extends Component {
 
   renderFooter = () => {
     const { item, navigation, authUser, tags, route } = this.props;
+    const { isVisible } = this.state;
     return (
       <DetailFooter
         onLayoutView={this.handleOnLayoutFooter}
@@ -283,6 +303,7 @@ class IllustDetailContent extends Component {
         onPressAvatar={this.handleOnPressAvatar}
         onPressTag={this.handleOnPressTag}
         onLongPressTag={this.handleOnLongPressTag}
+        isDetailPageReady={isVisible}
       />
     );
   };
@@ -303,11 +324,11 @@ class IllustDetailContent extends Component {
       isInitState,
       isOpenTagBottomSheet,
       selectedTag,
-      isVisible,
+      isMounted,
     } = this.state;
-    // if (!isVisible) {
-    //   return null;
-    // }
+    if (!isMounted) {
+      return null;
+    }
     const isMute = tags.some((t) => t.isMute) || isMuteUser;
     return (
       <View key={item.id} style={styles.container}>

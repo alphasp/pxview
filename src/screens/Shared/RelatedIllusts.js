@@ -6,6 +6,7 @@ import IllustList from '../../components/IllustList';
 import IllustItem from '../../components/IllustItem';
 import NoResult from '../../components/NoResult';
 import ViewMoreButton from '../../components/ViewMoreButton';
+import Loader from '../../components/Loader';
 import * as relatedIllustsActionCreators from '../../common/actions/relatedIllusts';
 import { makeGetRelatedIllustsItems } from '../../common/selectors';
 import { globalStyles } from '../../styles';
@@ -84,9 +85,13 @@ class RelatedIllusts extends Component {
       items,
       maxItems,
       isFeatureInDetailPage,
+      isDetailPageReady,
       listKey,
     } = this.props;
     if (isFeatureInDetailPage) {
+      if (!isDetailPageReady) {
+        return <Loader />;
+      }
       if (relatedIllusts?.loaded && items?.length) {
         return (
           <View style={styles.listContainer}>
@@ -117,14 +122,23 @@ class RelatedIllusts extends Component {
   };
 
   render() {
-    const { relatedIllusts, items, i18n, isFeatureInDetailPage } = this.props;
+    const {
+      relatedIllusts,
+      items,
+      i18n,
+      isFeatureInDetailPage,
+      isDetailPageReady,
+    } = this.props;
     return (
       <View style={globalStyles.container}>
         {this.renderList()}
         {relatedIllusts?.loaded && !items?.length && (
           <NoResult text={i18n.noRelatedWorks} />
         )}
-        {isFeatureInDetailPage && relatedIllusts?.loaded && items?.length ? (
+        {isFeatureInDetailPage &&
+        isDetailPageReady &&
+        relatedIllusts?.loaded &&
+        items?.length ? (
           <View style={styles.viewMoreButtonContainer}>
             <ViewMoreButton
               onPress={this.handleOnPressViewMoreRelatedIllusts}
