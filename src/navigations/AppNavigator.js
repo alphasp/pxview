@@ -76,6 +76,7 @@ const AppNavigator = ({ initialRouteName }) => {
         screenOptions={{
           headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
           headerBackTitle: null,
+          headerTopInsetEnabled: false,
         }}
       >
         <Stack.Screen

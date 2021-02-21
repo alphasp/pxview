@@ -83,9 +83,9 @@ const App = () => {
       return {
         ...state,
         routes: [
-          {
-            name: SCREENS.Main, // Load drawer navigation first
-          },
+          // {
+          //   name: SCREENS.Main, // Load drawer navigation first
+          // },
           ...newRoutes,
         ],
       };
@@ -182,12 +182,7 @@ const App = () => {
   if (!rehydrated || !navigationIsReady) {
     renderComponent = <Loader />;
   } else if (user) {
-    renderComponent = (
-      <AppNavigator
-        initialRouteName={initialRouteName}
-        uriPrefix={/^(?:https?:\/\/)?(?:www|touch)\.pixiv\.net\/|^pixiv:\/\//}
-      />
-    );
+    renderComponent = <AppNavigator initialRouteName={initialRouteName} />;
   } else {
     renderComponent = <AuthNavigator />;
   }
