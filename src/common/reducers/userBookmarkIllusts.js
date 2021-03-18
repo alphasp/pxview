@@ -5,7 +5,13 @@ export default function userBookmarkIllusts(state = {}, action) {
     case USER_BOOKMARK_ILLUSTS.CLEAR:
       return {
         ...state,
-        [action.payload.userId]: {},
+        [action.payload.userId]: {
+          loading: false,
+          loaded: false,
+          refreshing: false,
+          items: [],
+          nextUrl: null,
+        },
       };
     case USER_BOOKMARK_ILLUSTS.CLEAR_ALL:
       return {};

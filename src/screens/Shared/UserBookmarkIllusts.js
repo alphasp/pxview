@@ -23,14 +23,14 @@ class UserBookmarkIllusts extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { userId: prevUserId, tag: prevTag } = this.props;
+  componentDidUpdate(prevProps) {
     const {
       userId,
       tag,
       fetchUserBookmarkIllusts,
       clearUserBookmarkIllusts,
-    } = nextProps;
+    } = this.props;
+    const { userId: prevUserId, tag: prevTag } = prevProps;
     if (userId !== prevUserId || tag !== prevTag) {
       clearUserBookmarkIllusts(userId);
       fetchUserBookmarkIllusts(userId, tag);

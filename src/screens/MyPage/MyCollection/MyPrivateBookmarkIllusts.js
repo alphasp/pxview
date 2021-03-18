@@ -16,14 +16,14 @@ class MyPrivateBookmarkIllusts extends Component {
     fetchMyPrivateBookmarkIllusts(userId, tag);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { userId: prevUserId, tag: prevTag } = this.props;
+  componentDidUpdate(prevProps) {
     const {
       userId,
       tag,
       fetchMyPrivateBookmarkIllusts,
       clearMyPrivateBookmarkIllusts,
-    } = nextProps;
+    } = this.props;
+    const { userId: prevUserId, tag: prevTag } = prevProps;
     if (userId !== prevUserId || tag !== prevTag) {
       clearMyPrivateBookmarkIllusts(userId);
       fetchMyPrivateBookmarkIllusts(userId, tag);

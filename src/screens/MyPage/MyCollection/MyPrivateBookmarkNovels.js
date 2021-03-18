@@ -16,14 +16,14 @@ class MyPrivateBookmarkNovels extends Component {
     fetchMyPrivateBookmarkNovels(userId, tag);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { userId: prevUserId, tag: prevTag } = this.props;
+  componentDidUpdate(prevProps) {
     const {
       userId,
       tag,
       fetchMyPrivateBookmarkNovels,
       clearMyPrivateBookmarkNovels,
-    } = nextProps;
+    } = this.props;
+    const { userId: prevUserId, tag: prevTag } = prevProps;
     if (userId !== prevUserId || tag !== prevTag) {
       clearMyPrivateBookmarkNovels(userId);
       fetchMyPrivateBookmarkNovels(userId, tag);

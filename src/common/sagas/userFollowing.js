@@ -45,7 +45,7 @@ export function* handleFetchUserFollowing(action) {
       ),
     );
   } catch (err) {
-    yield put(fetchUserFollowingFailure(userId));
+    yield put(fetchUserFollowingFailure(userId, followingType));
     yield put(addError(err));
   }
 }
