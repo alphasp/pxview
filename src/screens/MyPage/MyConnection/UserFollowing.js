@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'react-native-elements';
+import { Button } from 'react-native-paper';
 import UserList from '../../../components/UserList';
 import { connectLocalization } from '../../../components/Localization';
 import EmptyStateView from '../../../components/EmptyStateView';
@@ -61,11 +61,11 @@ class UserFollowing extends Component {
           title={i18n.noFollowUser}
           actionButton={
             <Button
-              title={i18n.recommendedUsersFind}
-              backgroundColor={globalStyleVariables.PRIMARY_COLOR}
+              mode="contained"
               onPress={this.handleOnPressFindRecommendedUsers}
-              raised
-            />
+            >
+              {i18n.recommendedUsersFind}
+            </Button>
           }
         />
       );

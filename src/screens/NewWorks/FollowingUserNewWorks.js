@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { withTheme } from 'react-native-paper';
-import { Button } from 'react-native-elements';
+import { withTheme, Button } from 'react-native-paper';
 import FollowingUserIllusts from './FollowingUserIllusts';
 import FollowingUserNovels from './FollowingUserNovels';
 import { connectLocalization } from '../../components/Localization';
@@ -143,18 +142,18 @@ class FollowingUserNewWorks extends Component {
         description={i18n.noNewWorkFollowSuggestion}
         actionButton={
           <Button
-            title={i18n.recommendedUsersFind}
-            backgroundColor={globalStyleVariables.PRIMARY_COLOR}
+            mode="contained"
             onPress={this.handleOnPressFindRecommendedUsers}
-            raised
-          />
+          >
+            {i18n.recommendedUsersFind}
+          </Button>
         }
       />
     );
   };
 
   render() {
-    const { active } = this.props;
+    const { active, navigation } = this.props;
     const {
       index,
       isOpenIllustFilterModal,
@@ -168,6 +167,7 @@ class FollowingUserNewWorks extends Component {
           <FollowingUserIllusts
             renderEmpty={this.renderEmpty}
             renderHeader={this.renderHeader}
+            navigation={navigation}
             active={active}
             options={illustFilterOptions}
           />
@@ -175,6 +175,7 @@ class FollowingUserNewWorks extends Component {
           <FollowingUserNovels
             renderEmpty={this.renderEmpty}
             renderHeader={this.renderHeader}
+            navigation={navigation}
             active={active}
             options={novelFilterOptions}
           />
