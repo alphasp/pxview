@@ -3,14 +3,13 @@ import { View } from 'react-native';
 import WebView from 'react-native-webview';
 import ProgressBar from 'react-native-progress/Bar';
 import { withTheme } from 'react-native-paper';
-import { globalStyles, globalStyleVariables } from '../styles';
+import { globalStyles } from '../styles';
 
 class PXWebView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
-      loadedOnce: false,
+      loading: false,
     };
   }
 
@@ -21,19 +20,14 @@ class PXWebView extends Component {
   };
 
   handleOnLoadEnd = () => {
-    const { loadedOnce } = this.state;
-    const newState = {
+    this.setState({
       loading: false,
-    };
-    if (!loadedOnce) {
-      newState.loadedOnce = true;
-    }
-    this.setState(newState);
+    });
   };
 
   render() {
     const { source, theme, ...otherProps } = this.props;
-    const { loadedOnce, loading } = this.state;
+    const { loading } = this.state;
     return (
       <View
         style={[
@@ -41,12 +35,12 @@ class PXWebView extends Component {
           { backgroundColor: theme.colors.background },
         ]}
       >
-        {loadedOnce && loading && (
+        {loading && (
           <ProgressBar
             indeterminate
             borderRadius={0}
-            width={globalStyleVariables.WINDOW_WIDTH}
-            height={3}
+            width={null}
+            useNativeDriver
           />
         )}
         <WebView
