@@ -201,10 +201,10 @@ class NovelDetail extends Component {
   };
 
   handleOnListEndReached = () => {
-    const { onListEndReached } = this.props;
-    if (onListEndReached) {
-      onListEndReached();
-    }
+    const { parentListKey } = this.props;
+    DeviceEventEmitter.emit(`onNovelDetailListEndReached`, {
+      parentListKey,
+    });
   };
 
   handleOnMasterListUpdate = ({ listKey, items }) => {

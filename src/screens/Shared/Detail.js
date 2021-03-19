@@ -209,10 +209,10 @@ class Detail extends Component {
   };
 
   handleOnListEndReached = () => {
-    const { onListEndReached } = this.props;
-    if (onListEndReached) {
-      onListEndReached();
-    }
+    const { parentListKey } = this.props;
+    DeviceEventEmitter.emit(`onDetailListEndReached`, {
+      parentListKey,
+    });
   };
 
   handleOnMasterListUpdate = ({ listKey, items }) => {
@@ -527,7 +527,6 @@ export default withTheme(
             illustId,
             items,
             index,
-            onListEndReached,
             parentListKey,
           } = props.route.params;
           const id = parseInt(illustIdFromQS || illustId, 0);
@@ -539,7 +538,6 @@ export default withTheme(
             isFromDeepLink: !!id,
             items,
             index,
-            onListEndReached,
             parentListKey,
             authUser: state.auth.user,
           };
