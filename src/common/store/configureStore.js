@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import { createNetworkMiddleware } from 'react-native-offline';
 import invariant from 'redux-immutable-state-invariant';
 import {
   persistStore,
@@ -163,19 +164,20 @@ const clearV4PersistedContents = () =>
 export default function configureStore() {
   let enhancer;
   const sagaMiddleware = createSagaMiddleware();
+  const networkMiddleware = createNetworkMiddleware();
   if (process.env.NODE_ENV !== 'production') {
     const composeEnhancers =
       // eslint-disable-next-line no-underscore-dangle
       window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
     enhancer = composeEnhancers(
       applyAppStateListener(),
-      applyMiddleware(invariant(), sagaMiddleware),
+      applyMiddleware(invariant(), networkMiddleware, sagaMiddleware),
       // devTools(),
     );
   } else {
     enhancer = compose(
       applyAppStateListener(),
-      applyMiddleware(sagaMiddleware),
+      applyMiddleware(networkMiddleware, sagaMiddleware),
     );
   }
 

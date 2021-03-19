@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as network } from 'react-native-offline';
 import entities from './entities';
 import walkthroughIllusts from './walkthroughIllusts';
 import recommendedIllusts from './recommendedIllusts';
@@ -149,6 +150,7 @@ const rootReducer = combineReducers({
   trendingSearchSettings,
   i18n,
   theme,
+  network,
 });
 
 export default rootReducer;
