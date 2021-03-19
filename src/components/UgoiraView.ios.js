@@ -17,9 +17,9 @@ class UgoiraView extends Component {
     this.resumeFrame();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { paused: prevPaused } = this.props;
-    const { paused } = nextProps;
+  componentDidUpdate(prevProps) {
+    const { paused } = this.props;
+    const { paused: prevPaused } = prevProps;
     if (paused !== null && paused !== prevPaused) {
       if (paused) {
         this.pauseFrame();

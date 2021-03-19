@@ -98,9 +98,9 @@ class BookmarkModal extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { item: prevItem } = this.props;
-    const { item } = nextProps;
+  componentDidUpdate(prevProps) {
+    const { item } = this.props;
+    const { item: prevItem } = prevProps;
     if (item && item !== prevItem) {
       let tags = [];
       let selectedTagsCount = 0;

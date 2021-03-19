@@ -73,13 +73,13 @@ class FollowModal extends Component {
     fetchUserFollowDetail(userId);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {
-      userFollowDetail: { item: prevItem },
-    } = this.props;
+  componentDidUpdate(prevProps) {
     const {
       userFollowDetail: { item },
-    } = nextProps;
+    } = this.props;
+    const {
+      userFollowDetail: { item: prevItem },
+    } = prevProps;
     if (item && item !== prevItem) {
       this.setState({
         isPrivate: item.restrict === 'private',
