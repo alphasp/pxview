@@ -3,6 +3,8 @@ import { View, Image, InteractionManager } from 'react-native';
 import { globalStyleVariables } from '../styles';
 
 class PXCacheImage extends Component {
+  mounted = false;
+
   constructor(props) {
     super(props);
     const { width, height } = props;
@@ -14,6 +16,7 @@ class PXCacheImage extends Component {
 
   componentDidMount() {
     const { uri, onFoundImageSize } = this.props;
+    this.mounted = true;
     InteractionManager.runAfterInteractions(() => {
       Image.getSizeWithHeaders(
         uri,
@@ -21,15 +24,20 @@ class PXCacheImage extends Component {
           referer: 'http://www.pixiv.net',
         },
         (width, height) => {
-          this.setState({
-            width,
-            height,
-            uri,
-          });
-          onFoundImageSize(width, height, uri);
+          if (this.mounted) {
+            this.setState({
+              width,
+              height,
+            });
+            onFoundImageSize(width, height, uri);
+          }
         },
       );
     });
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   render() {
