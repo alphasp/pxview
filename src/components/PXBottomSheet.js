@@ -38,9 +38,9 @@ class PXBottomSheet extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { visible } = nextProps;
-    const { visible: prevVisible } = this.props;
+  componentDidUpdate(prevProps) {
+    const { visible } = this.props;
+    const { visible: prevVisible } = prevProps;
     if (visible !== null && visible !== prevVisible) {
       this.setModalVisible(visible);
     }
@@ -56,11 +56,13 @@ class PXBottomSheet extends Component {
       Animated.timing(animatedHeight, {
         toValue: height,
         duration,
+        useNativeDriver: false,
       }).start();
     } else if (!visible && modalVisible) {
       Animated.timing(animatedHeight, {
         toValue: 0,
         duration,
+        useNativeDriver: false,
       }).start(() => {
         this.setState({ modalVisible: visible });
       });
