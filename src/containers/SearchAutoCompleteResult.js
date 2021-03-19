@@ -23,9 +23,10 @@ class SearchAutoCompleteResult extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { word: prevWord } = this.props;
-    const { word, clearSearchAutoComplete } = nextProps;
+  componentDidUpdate(prevProps) {
+    const { word, clearSearchAutoComplete } = this.props;
+    const { word: prevWord } = prevProps;
+
     if (word && word !== prevWord) {
       clearSearchAutoComplete();
       InteractionManager.runAfterInteractions(() => {

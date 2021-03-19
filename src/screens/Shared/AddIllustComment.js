@@ -8,7 +8,6 @@ import { CommonActions } from '@react-navigation/native';
 import { connectLocalization } from '../../components/Localization';
 import PXTouchable from '../../components/PXTouchable';
 import * as addIllustCommentActionCreators from '../../common/actions/addIllustComment';
-import NovelGridViewItem from '../../components/NovelGridViewItem';
 
 const styles = StyleSheet.create({
   container: {

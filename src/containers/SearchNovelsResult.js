@@ -17,9 +17,9 @@ class SearchNovelsResult extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { options: prevOptions, word: prevWord } = this.props;
-    const { clearSearchNovels, navigationStateKey, word, options } = nextProps;
+  componentDidUpdate(prevProps) {
+    const { clearSearchNovels, navigationStateKey, word, options } = this.props;
+    const { options: prevOptions, word: prevWord } = prevProps;
     if ((word && word !== prevWord) || (options && options !== prevOptions)) {
       clearSearchNovels(navigationStateKey);
       this.search(word, options);

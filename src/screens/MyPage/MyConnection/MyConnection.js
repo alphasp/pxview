@@ -21,21 +21,6 @@ class MyConnection extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { lang: prevLang } = this.props;
-    const { lang, i18n } = nextProps;
-    if (lang !== prevLang) {
-      this.setState({
-        routes: [
-          { key: '1', title: i18n.followingPublic },
-          { key: '2', title: i18n.followingPrivate },
-          { key: '3', title: i18n.follower },
-          { key: '4', title: i18n.myPixiv },
-        ],
-      });
-    }
-  }
-
   handleChangeTab = (index) => {
     this.setState({ index });
   };

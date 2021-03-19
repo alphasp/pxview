@@ -58,9 +58,9 @@ class RankingHorizontalList extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { refreshing: prevRefreshing } = this.props;
-    const { refreshing, onRefreshSuccess } = nextProps;
+  componentDidUpdate(prevProps) {
+    const { refreshing, onRefreshSuccess } = this.props;
+    const { refreshing: prevRefreshing } = prevProps;
     if (refreshing && refreshing !== prevRefreshing) {
       this.handleOnRefresh();
       if (onRefreshSuccess) {

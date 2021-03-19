@@ -28,14 +28,14 @@ class SearchUsersResult extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { word: prevWord } = this.props;
+  componentDidUpdate(prevProps) {
     const {
       navigationStateKey,
       fetchSearchUsers,
       clearSearchUsers,
       word,
-    } = nextProps;
+    } = this.props;
+    const { word: prevWord } = prevProps;
     if (word !== prevWord) {
       clearSearchUsers(navigationStateKey);
       fetchSearchUsers(navigationStateKey, word);

@@ -27,9 +27,9 @@ class RankingList extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { options: prevOptions } = this.props;
-    const { options, rankingMode, fetchRanking, clearRanking } = nextProps;
+  componentDidUpdate(prevProps) {
+    const { options, rankingMode, fetchRanking, clearRanking } = this.props;
+    const { options: prevOptions } = prevProps;
     if (
       options &&
       (options.mode !== prevOptions.mode || options.date !== prevOptions.date)
