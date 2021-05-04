@@ -1,23 +1,13 @@
 import React, { Component } from 'react';
 import { View, Platform, FlatList } from 'react-native';
 import { withTheme } from 'react-native-paper';
-import PagerView from 'react-native-pager-view';
+import ViewPager from '@react-native-community/viewpager';
 import Loader from './Loader';
 import { globalStyles, globalStyleVariables } from '../styles';
 
 const LIST_WINDOW_SIZE = 3;
 
 class PXViewPager extends Component {
-  state = {
-    isMounted: false,
-  };
-
-  componentDidMount() {
-    this.setState({
-      isMounted: true,
-    });
-  }
-
   handleOnIOSViewPagerPageSelected = (e) => {
     const { onPageSelected } = this.props;
     const { contentOffset } = e.nativeEvent;
@@ -66,13 +56,9 @@ class PXViewPager extends Component {
       viewPagerRef,
       theme,
     } = this.props;
-    const { isMounted } = this.state;
     if (Platform.OS === 'android') {
-      if (!isMounted) {
-        return <Loader />;
-      }
       return (
-        <PagerView
+        <ViewPager
           ref={viewPagerRef}
           key={`pxViewPager-${items.length}`} // https://github.com/facebook/react-native/issues/4775
           initialPage={index}
@@ -83,7 +69,7 @@ class PXViewPager extends Component {
           onPageSelected={this.handleOnAndroidViewPagerPageSelected}
         >
           {this.renderContentForAndroid()}
-        </PagerView>
+        </ViewPager>
       );
     }
     return (
