@@ -9,6 +9,7 @@ import {
 } from '@react-navigation/native';
 import { getStateFromPath } from '@react-navigation/core';
 import analytics from '@react-native-firebase/analytics';
+import remoteConfig from '@react-native-firebase/remote-config';
 import {
   DefaultTheme as PaperDefaultTheme,
   DarkTheme as PaperDarkTheme,
@@ -99,23 +100,36 @@ const App = () => {
   });
 
   useEffect(() => {
-    Promise.race([
-      getInitialState(),
-      new Promise((resolve) =>
-        // Timeout in 150ms if `getInitialState` doesn't resolve
-        // Workaround for https://github.com/facebook/react-native/issues/25675
-        setTimeout(resolve, 150),
-      ),
-    ])
-      .catch((e) => {
-        console.error('Error getting initial state ', e);
+    remoteConfig()
+      .setDefaults({
+        enableServerFiltering: false,
+        tagBlackList: '',
       })
-      .then((state) => {
-        if (state !== undefined) {
-          setInitialState(state);
-        }
+      .then(() =>
+        remoteConfig().setConfigSettings({
+          minimumFetchIntervalMillis: 3600000, // 1 hour
+        }),
+      )
+      .then(() => remoteConfig().fetchAndActivate())
+      .then(() => {
+        Promise.race([
+          getInitialState(),
+          new Promise((resolve) =>
+            // Timeout in 150ms if `getInitialState` doesn't resolve
+            // Workaround for https://github.com/facebook/react-native/issues/25675
+            setTimeout(resolve, 150),
+          ),
+        ])
+          .catch((e) => {
+            console.error('Error getting initial state ', e);
+          })
+          .then((state) => {
+            if (state !== undefined) {
+              setInitialState(state);
+            }
 
-        setNavigationIsReady(true);
+            setNavigationIsReady(true);
+          });
       });
   }, [getInitialState]);
 
