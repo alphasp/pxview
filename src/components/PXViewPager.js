@@ -8,6 +8,16 @@ import { globalStyles, globalStyleVariables } from '../styles';
 const LIST_WINDOW_SIZE = 3;
 
 class PXViewPager extends Component {
+  state = {
+    isMounted: false,
+  };
+
+  componentDidMount() {
+    this.setState({
+      isMounted: true,
+    });
+  }
+
   handleOnIOSViewPagerPageSelected = (e) => {
     const { onPageSelected } = this.props;
     const { contentOffset } = e.nativeEvent;
@@ -56,7 +66,11 @@ class PXViewPager extends Component {
       viewPagerRef,
       theme,
     } = this.props;
+    const { isMounted } = this.state;
     if (Platform.OS === 'android') {
+      if (!isMounted) {
+        return <Loader />;
+      }
       return (
         <ViewPager
           ref={viewPagerRef}
