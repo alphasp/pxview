@@ -132,7 +132,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.utopia.pxview"
+        applicationId "com.utopia.pxviewplus"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 309
@@ -140,11 +140,11 @@ android {
     }
     signingConfigs {
         release {
-            if (project.hasProperty('PXVIEW_RELEASE_STORE_FILE')) {
-                storeFile file(PXVIEW_RELEASE_STORE_FILE)
-                storePassword PXVIEW_RELEASE_STORE_PASSWORD
-                keyAlias PXVIEW_RELEASE_KEY_ALIAS
-                keyPassword PXVIEW_RELEASE_KEY_PASSWORD
+            if (project.hasProperty('PXVIEWPLUS_RELEASE_STORE_FILE')) {
+                storeFile file(PXVIEWPLUS_RELEASE_STORE_FILE)
+                storePassword PXVIEWPLUS_RELEASE_STORE_PASSWORD
+                keyAlias PXVIEWPLUS_RELEASE_KEY_ALIAS
+                keyPassword PXVIEWPLUS_RELEASE_KEY_PASSWORD
             }
         }
     }

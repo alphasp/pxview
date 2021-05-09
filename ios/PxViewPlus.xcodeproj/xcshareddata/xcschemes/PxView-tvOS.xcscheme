@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "PxView.app"
-               BlueprintName = "PxView"
+               BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
+               BuildableName = "PxView-tvOS.app"
+               BlueprintName = "PxView-tvOS"
                ReferencedContainer = "container:PxView.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,15 +32,13 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "PxViewTests.xctest"
-               BlueprintName = "PxViewTests"
+               BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
+               BuildableName = "PxView-tvOSTests.xctest"
+               BlueprintName = "PxView-tvOSTests"
                ReferencedContainer = "container:PxView.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -56,14 +54,12 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "PxView.app"
-            BlueprintName = "PxView"
+            BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
+            BuildableName = "PxView-tvOS.app"
+            BlueprintName = "PxView-tvOS"
             ReferencedContainer = "container:PxView.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -75,9 +71,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "PxView.app"
-            BlueprintName = "PxView"
+            BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
+            BuildableName = "PxView-tvOS.app"
+            BlueprintName = "PxView-tvOS"
             ReferencedContainer = "container:PxView.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

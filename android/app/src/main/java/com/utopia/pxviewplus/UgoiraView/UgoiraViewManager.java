@@ -1,4 +1,4 @@
-package com.utopia.pxview.UgoiraView;
+package com.utopia.pxviewplus.UgoiraView;
 
 
 import com.facebook.react.bridge.ReadableArray;
