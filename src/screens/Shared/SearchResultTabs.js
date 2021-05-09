@@ -171,7 +171,7 @@ class SearchResultTabs extends Component {
     this.setState(newState);
   };
 
-  renderContent() {
+  renderContent = () => {
     const { word, navigation, navigationStateKey } = this.props;
     const { searchOptions, searchType } = this.state;
     switch (searchType) {
@@ -204,7 +204,7 @@ class SearchResultTabs extends Component {
       default:
         return null;
     }
-  }
+  };
 
   render() {
     const { navigation } = this.props;
