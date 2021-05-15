@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  ScrollView,
   InteractionManager,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -198,17 +197,18 @@ class IllustDetailContent extends Component {
     const { item, onScroll } = this.props;
     if (item.page_count > 1) {
       this.handleOnScrollMultiImagesList();
+      const { imagePageNumber } = this.state;
+      // Check if the user is scrolling up or down by confronting the new scroll position with your own one
+      const currentOffset = e.nativeEvent.contentOffset.y;
+      const contentHeight = e.nativeEvent.contentSize.height;
+      const offsetToHideImagePageNumber = contentHeight - this.footerViewHeight;
+      if (currentOffset > offsetToHideImagePageNumber && imagePageNumber) {
+        this.setState({
+          imagePageNumber: null,
+        });
+      }
     }
-    const { imagePageNumber } = this.state;
-    // Check if the user is scrolling up or down by confronting the new scroll position with your own one
-    const currentOffset = e.nativeEvent.contentOffset.y;
-    const contentHeight = e.nativeEvent.contentSize.height;
-    const offsetToHideImagePageNumber = contentHeight - this.footerViewHeight;
-    if (currentOffset > offsetToHideImagePageNumber && imagePageNumber) {
-      this.setState({
-        imagePageNumber: null,
-      });
-    }
+
     if (onScroll) {
       onScroll(e);
     }
@@ -235,25 +235,16 @@ class IllustDetailContent extends Component {
   };
 
   renderItem = ({ item, index }) => {
-    const { onPressImage, onLongPressImage } = this.props;
-    return (
-      <PXCacheImageTouchable
-        key={item.image_urls.medium}
-        uri={item.image_urls.medium}
-        initWidth={globalStyleVariables.WINDOW_HEIGHT}
-        initHeight={200}
-        style={styles.multiImageContainer}
-        imageStyle={styles.image}
-        pageNumber={index + 1}
-        index={index}
-        onPress={onPressImage}
-        onLongPress={onLongPressImage}
-      />
-    );
-  };
-
-  renderImageOrUgoira = (isMute) => {
-    const { item, onPressImage, onLongPressImage, theme } = this.props;
+    const {
+      item: illustItem,
+      tags,
+      isMuteUser,
+      theme,
+      onPressImage,
+      onLongPressImage,
+    } = this.props;
+    const isMultiImages = illustItem.page_count > 1;
+    const isMute = tags.some((t) => t.isMute) || isMuteUser;
     if (isMute) {
       return (
         <View
@@ -271,20 +262,16 @@ class IllustDetailContent extends Component {
     }
     return (
       <PXCacheImageTouchable
+        key={item.image_urls.medium}
         uri={item.image_urls.medium}
-        initWidth={
-          item.width > globalStyleVariables.WINDOW_WIDTH
-            ? globalStyleVariables.WINDOW_WIDTH
-            : item.width
-        }
-        initHeight={
-          (globalStyleVariables.WINDOW_WIDTH * item.height) / item.width
-        }
-        style={styles.imageContainer}
+        initWidth={globalStyleVariables.WINDOW_HEIGHT}
+        initHeight={200}
+        style={styles.multiImageContainer}
         imageStyle={styles.image}
+        pageNumber={isMultiImages ? index + 1 : null}
+        index={index}
         onPress={onPressImage}
         onLongPress={onLongPressImage}
-        index={0}
       />
     );
   };
@@ -309,15 +296,7 @@ class IllustDetailContent extends Component {
   };
 
   render() {
-    const {
-      item,
-      onScroll,
-      navigation,
-      tags,
-      highlightTags,
-      muteTags,
-      isMuteUser,
-    } = this.props;
+    const { item, navigation, highlightTags, muteTags } = this.props;
     const {
       imagePageNumber,
       isScrolling,
@@ -329,38 +308,25 @@ class IllustDetailContent extends Component {
     if (!isMounted) {
       return null;
     }
-    const isMute = tags.some((t) => t.isMute) || isMuteUser;
     return (
       <View key={item.id} style={styles.container}>
-        {!isMute && item.page_count > 1 ? (
-          <View>
-            <FlatList
-              data={item.meta_pages}
-              keyExtractor={(page) => page.image_urls.large}
-              renderItem={this.renderItem}
-              removeClippedSubviews={false}
-              ListFooterComponent={this.renderFooter}
-              onScroll={this.handleOnScroll}
-              onViewableItemsChanged={this.handleOnViewableItemsChanged}
-              scrollEventThrottle={16}
-              bounces={false}
-            />
-            {(isInitState || isScrolling) && imagePageNumber && (
-              <View style={styles.imagePageNumberContainer}>
-                <Text style={styles.imagePageNumber}>{imagePageNumber}</Text>
-              </View>
-            )}
+        <FlatList
+          data={item.page_count > 1 ? item.meta_pages : [item]}
+          keyExtractor={(page) => page.image_urls.large}
+          renderItem={this.renderItem}
+          removeClippedSubviews={false}
+          ListFooterComponent={this.renderFooter}
+          onScroll={this.handleOnScroll}
+          onViewableItemsChanged={this.handleOnViewableItemsChanged}
+          scrollEventThrottle={16}
+          bounces={false}
+        />
+        {(isInitState || isScrolling) && imagePageNumber && (
+          <View style={styles.imagePageNumberContainer}>
+            <Text style={styles.imagePageNumber}>{imagePageNumber}</Text>
           </View>
-        ) : (
-          <ScrollView
-            onScroll={onScroll}
-            scrollEventThrottle={16}
-            bounces={false}
-          >
-            {this.renderImageOrUgoira(isMute)}
-            {this.renderFooter()}
-          </ScrollView>
         )}
+
         <TagBottomSheet
           visible={isOpenTagBottomSheet}
           selectedTag={selectedTag}
