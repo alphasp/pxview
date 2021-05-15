@@ -27,7 +27,7 @@ class NovelList extends Component {
   componentDidMount() {
     const { listKey, loadMoreItems } = this.props;
     if (listKey && loadMoreItems) {
-      this.onDetailListEndReachedListener = DeviceEventEmitter.addListener(
+      this.onNovelDetailListEndReachedListener = DeviceEventEmitter.addListener(
         `onNovelDetailListEndReached`,
         this.handleOnNovelDetailListEndReached,
       );
