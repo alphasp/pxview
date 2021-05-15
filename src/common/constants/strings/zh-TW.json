@@ -171,6 +171,8 @@
   "saveImagesStart": "開始保存圖片",
   "search": "搜索",
   "searchApplyFilter": "按這個條件搜索",
+  "searchBookmarkCountsTag": "收藏數",
+  "searchBookmarkCountsTagAll": "-",
   "searchDisplayOptions": "顯示選項",
   "searchHistory": "搜索歷史",
   "searchHistoryClear": "刪除搜索歷史",

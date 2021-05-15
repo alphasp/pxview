@@ -171,6 +171,8 @@
   "saveImagesStart": "保存を開始します",
   "search": "検索",
   "searchApplyFilter": "この条件で探す",
+  "searchBookmarkCountsTag": "ブックマーク数",
+  "searchBookmarkCountsTagAll": "すべて",
   "searchDisplayOptions": "表示オプション",
   "searchHistory": "検索履歴",
   "searchHistoryClear": "検索履歴をクリア",

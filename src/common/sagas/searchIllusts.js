@@ -24,6 +24,9 @@ export function* handleFetchSearchIllusts(action) {
         Schemas.ILLUST_ARRAY,
       );
     } else {
+      const searchWord = options?.bookmarkCountsTag
+        ? `${word} ${options.bookmarkCountsTag}`
+        : word;
       let finalOptions;
       if (options) {
         finalOptions = Object.keys(options)
@@ -49,18 +52,21 @@ export function* handleFetchSearchIllusts(action) {
         if (user.is_premium) {
           finalOptions.sort = 'popular_desc';
           response = yield apply(pixiv, pixiv.searchIllust, [
-            word,
+            searchWord,
             finalOptions,
           ]);
         } else {
           delete finalOptions.sort;
           response = yield apply(pixiv, pixiv.searchIllustPopularPreview, [
-            word,
+            searchWord,
             finalOptions,
           ]);
         }
       } else {
-        response = yield apply(pixiv, pixiv.searchIllust, [word, finalOptions]);
+        response = yield apply(pixiv, pixiv.searchIllust, [
+          searchWord,
+          finalOptions,
+        ]);
       }
       normalized = normalize(
         response.illusts.filter((illust) => illust.visible && illust.id),
