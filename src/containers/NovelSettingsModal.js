@@ -110,9 +110,9 @@ class NovelSettingsModal extends Component {
                   <Slider
                     style={styles.slider}
                     value={lineHeight}
-                    minimumValue={1}
+                    minimumValue={1.2}
                     maximumValue={2}
-                    step={0.25}
+                    step={0.2}
                     minimumTrackTintColor={globalStyleVariables.PRIMARY_COLOR}
                     thumbTintColor={globalStyleVariables.PRIMARY_COLOR}
                     onSlidingComplete={this.handleOnLineHeightSlidingComplete}

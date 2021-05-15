@@ -2,7 +2,7 @@ import { NOVEL_SETTINGS } from '../constants/actionTypes';
 
 const initState = {
   fontSize: 14,
-  lineHeight: 1,
+  lineHeight: 1.2,
 };
 
 export default function novelSettings(state = initState, action) {
