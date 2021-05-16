@@ -65,4 +65,4 @@ class Root extends Component {
   }
 }
 
-AppRegistry.registerComponent('PxViewPlus', () => Root);
+AppRegistry.registerComponent('PxViewR', () => Root);
