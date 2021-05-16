@@ -252,7 +252,7 @@ class UserDetail extends Component {
   handleOnPressShareUser = () => {
     const { user } = this.props.userDetailItem;
     const shareOptions = {
-      message: `${user.name} #pxview`,
+      message: `${user.name} #pxviewr`,
       url: `https://www.pixiv.net/users/${user.id}`,
     };
     Share.open(shareOptions)

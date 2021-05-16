@@ -264,7 +264,7 @@ class Detail extends Component {
   handleOnPressShareIllust = () => {
     const { item } = this.props;
     const shareOptions = {
-      message: `${item.title} | ${item.user.name} #pxview`,
+      message: `${item.title} | ${item.user.name} #pxviewr`,
       url: `https://www.pixiv.net/artworks/${item.id}`,
     };
     Share.open(shareOptions)
