@@ -206,7 +206,6 @@ const App = () => {
   } else {
     renderComponent = <AuthNavigator />;
   }
-
   return (
     <PaperProvider theme={theme}>
       {(!rehydrated || !navigationIsReady) && <Loader />}
@@ -214,6 +213,7 @@ const App = () => {
         <NavigationContainer
           ref={navigationRef}
           initialState={initialState}
+          theme={theme}
           onStateChange={handleOnNavigationStateChange}
         >
           <View style={styles.container}>
