@@ -77,7 +77,7 @@ const AppNavigator = ({ initialRouteName }) => {
           headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
           headerBackTitle: null,
           headerTopInsetEnabled: false,
-          // stackAnimation: 'fade',
+          stackAnimation: 'fade',
         }}
       >
         <Stack.Screen
