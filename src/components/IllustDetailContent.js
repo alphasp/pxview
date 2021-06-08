@@ -242,6 +242,7 @@ class IllustDetailContent extends Component {
       theme,
       onPressImage,
       onLongPressImage,
+      imageQuality,
     } = this.props;
     const isMultiImages = illustItem.page_count > 1;
     const isMute = tags.some((t) => t.isMute) || isMuteUser;
@@ -262,8 +263,8 @@ class IllustDetailContent extends Component {
     }
     return (
       <PXCacheImageTouchable
-        key={item.image_urls.medium}
-        uri={item.image_urls.medium}
+        key={item.image_urls[imageQuality]}
+        uri={item.image_urls[imageQuality]}
         initWidth={globalStyleVariables.WINDOW_HEIGHT}
         initHeight={200}
         style={styles.multiImageContainer}
@@ -350,6 +351,7 @@ export default withTheme(
         (m) => m.id === props.item.user.id,
       ),
       tags: getTagsWithStatus(state, props),
+      imageQuality: state.displaySettings.detailScreenImageQuality,
     });
   }, searchHistoryActionCreators)(IllustDetailContent),
 );

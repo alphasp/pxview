@@ -70,6 +70,7 @@ import initialScreenSettings from './initialScreenSettings';
 import novelSettings from './novelSettings';
 import likeButtonSettings from './likeButtonSettings';
 import readingSettings from './readingSettings';
+import displaySettings from './displaySettings';
 import trendingSearchSettings from './trendingSearchSettings';
 import i18n from './i18n';
 import theme from './theme';
@@ -147,6 +148,7 @@ const rootReducer = combineReducers({
   novelSettings,
   likeButtonSettings,
   readingSettings,
+  displaySettings,
   trendingSearchSettings,
   i18n,
   theme,

@@ -9,6 +9,8 @@ import LanguageSettingsModal from './LanguageSettingsModal';
 import SaveImageFileNameModal from './SaveImageFileNameModal';
 import LikeButtonSettingsModal from './LikeButtonSettingsModal';
 import ReadingDirectionSettingsModal from './ReadingDirectionSettingsModal';
+import IllustListColumnsSettingsModal from './IllustListColumnsSettingsModal';
+import DetailScreenImageQualitySettingsModal from './DetailScreenImageQualitySettingsModal';
 
 const MODAL_COMPONENTS = {
   FOLLOW: FollowModal,
@@ -20,6 +22,8 @@ const MODAL_COMPONENTS = {
   SAVE_IMAGE_FILE_NAME_FORMAT: SaveImageFileNameModal,
   LIKE_BUTTON_SETTINGS: LikeButtonSettingsModal,
   READING_DIRECTION_SETTINGS: ReadingDirectionSettingsModal,
+  ILLUST_LIST_COLUMNS_SETTINGS: IllustListColumnsSettingsModal,
+  DETAIL_SCREEN_IMAGE_QUALITY_SETTINGS: DetailScreenImageQualitySettingsModal,
 };
 
 const ModalRoot = ({ modal: { modalType, modalProps } }) => {

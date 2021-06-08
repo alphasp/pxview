@@ -24,6 +24,8 @@ export const MODAL_TYPES = {
   BOOKMARK_NOVEL: 'BOOKMARK_NOVEL',
   NOVEL_SETTINGS: 'NOVEL_SETTINGS',
   READING_DIRECTION_SETTINGS: 'READING_DIRECTION_SETTINGS',
+  ILLUST_LIST_COLUMNS_SETTINGS: 'ILLUST_LIST_COLUMNS_SETTINGS',
+  DETAIL_SCREEN_IMAGE_QUALITY_SETTINGS: 'DETAIL_SCREEN_IMAGE_QUALITY_SETTINGS',
   INITIAL_SCREEN_SETTINGS: 'INITIAL_SCREEN_SETTINGS',
   LANGUAGE_SETTINGS: 'LANGUAGE_SETTINGS',
   SAVE_IMAGE_FILE_NAME_FORMAT: 'SAVE_IMAGE_FILE_NAME_FORMAT',
@@ -171,6 +173,16 @@ export const READING_DIRECTION_TYPES = {
   RIGHT_TO_LEFT: 'RIGHT_TO_LEFT',
 };
 
+export const ILLUST_LIST_COLUMNS = {};
+for (let i = 1; i < 7; i += 1) {
+  ILLUST_LIST_COLUMNS[i.toString()] = i;
+}
+
+export const IMAGE_QUALITY_LEVELS = {
+  MEDIUM: 'medium',
+  HIGH: 'large',
+};
+
 export const SCREENS = {
   Main: 'Main',
   Auth: 'Auth',
@@ -220,6 +232,7 @@ export const SCREENS = {
   AccountSettings: 'AccountSettings',
   AdvanceAccountSettings: 'AdvanceAccountSettings',
   ReadingSettings: 'ReadingSettings',
+  DisplaySettings: 'DisplaySettings',
   SaveImageSettings: 'SaveImageSettings',
   InitialScreenSettings: 'InitialScreenSettings',
   LikeButtonSettings: 'LikeButtonSettings',
