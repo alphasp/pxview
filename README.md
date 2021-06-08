@@ -4,7 +4,7 @@
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/alphasp/pxview/pulls)
 
-Unofficial Pixiv app client for Android and iOS, built with React Native.
+PxView also know as PxView R is an unofficial Pixiv app client for Android and iOS, built with React Native.
 
 
 ## Screenshots
@@ -39,7 +39,7 @@ Unofficial Pixiv app client for Android and iOS, built with React Native.
 
 
 ## Download 
-<a href='https://play.google.com/store/apps/details?id=com.utopia.pxviewr&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="175" /></a>
+<a href='https://play.google.com/store/apps/details?id=com.utopia.pxviewr&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width='175' /></a></a>
 
 
 ## Getting Started
