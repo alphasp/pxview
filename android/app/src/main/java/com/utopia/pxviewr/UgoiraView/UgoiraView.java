@@ -1,4 +1,4 @@
-package com.utopia.pxview.UgoiraView;
+package com.utopia.pxviewr.UgoiraView;
 
 import android.content.Context;
 import android.graphics.Bitmap;

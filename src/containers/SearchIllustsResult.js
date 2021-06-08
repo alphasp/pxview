@@ -22,9 +22,14 @@ class SearchIllustsResult extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { options: prevOptions, word: prevWord } = this.props;
-    const { clearSearchIllusts, navigationStateKey, word, options } = nextProps;
+  componentDidUpdate(prevProps) {
+    const {
+      clearSearchIllusts,
+      navigationStateKey,
+      word,
+      options,
+    } = this.props;
+    const { options: prevOptions, word: prevWord } = prevProps;
     if ((word && word !== prevWord) || (options && options !== prevOptions)) {
       clearSearchIllusts(navigationStateKey);
       this.search(word, options);

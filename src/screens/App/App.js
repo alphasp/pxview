@@ -9,6 +9,7 @@ import {
 } from '@react-navigation/native';
 import { getStateFromPath } from '@react-navigation/core';
 import analytics from '@react-native-firebase/analytics';
+import remoteConfig from '@react-native-firebase/remote-config';
 import {
   DefaultTheme as PaperDefaultTheme,
   DarkTheme as PaperDarkTheme,
@@ -80,36 +81,55 @@ const App = () => {
       const newRoutes = [...state.routes];
       // eslint-disable-next-line prefer-destructuring
       newRoutes[0].name = newRoutes[0].name.split('-')[0];
-      return {
-        ...state,
-        routes: [
+      let routes;
+      if (user) {
+        routes = [
           {
-            name: SCREENS.Main, // Load drawer navigation first
+            name: SCREENS.Main, // Load tab navigation first
           },
           ...newRoutes,
-        ],
+        ];
+      } else {
+        routes = newRoutes;
+      }
+      return {
+        ...state,
+        routes,
       };
     },
   });
 
   useEffect(() => {
-    Promise.race([
-      getInitialState(),
-      new Promise((resolve) =>
-        // Timeout in 150ms if `getInitialState` doesn't resolve
-        // Workaround for https://github.com/facebook/react-native/issues/25675
-        setTimeout(resolve, 150),
-      ),
-    ])
-      .catch((e) => {
-        console.error('Error getting initial state ', e);
+    remoteConfig()
+      .setDefaults({
+        enableServerFiltering: false,
+        tagBlackList: '',
       })
-      .then((state) => {
-        if (state !== undefined) {
-          setInitialState(state);
-        }
+      .then(() =>
+        remoteConfig().setConfigSettings({
+          minimumFetchIntervalMillis: 3600000, // 1 hour
+        }),
+      )
+      .then(() => remoteConfig().fetchAndActivate())
+      .then(() => {
+        Promise.race([
+          getInitialState(),
+          new Promise((resolve) =>
+            // Timeout in 150ms if `getInitialState` doesn't resolve
+            // Workaround for https://github.com/facebook/react-native/issues/25675
+            setTimeout(resolve, 150),
+          ),
+        ])
+          .catch((e) => {
+            console.error('Error getting initial state ', e);
+          })
+          .then((state) => {
+            if (state !== undefined) {
+              setInitialState(state);
+            }
 
-        setNavigationIsReady(true);
+            setNavigationIsReady(true);
+          });
       });
   }, [getInitialState]);
 
@@ -182,12 +202,7 @@ const App = () => {
   if (!rehydrated || !navigationIsReady) {
     renderComponent = <Loader />;
   } else if (user) {
-    renderComponent = (
-      <AppNavigator
-        initialRouteName={initialRouteName}
-        uriPrefix={/^(?:https?:\/\/)?(?:www|touch)\.pixiv\.net\/|^pixiv:\/\//}
-      />
-    );
+    renderComponent = <AppNavigator initialRouteName={initialRouteName} />;
   } else {
     renderComponent = <AuthNavigator />;
   }
@@ -198,6 +213,7 @@ const App = () => {
         <NavigationContainer
           ref={navigationRef}
           initialState={initialState}
+          theme={theme}
           onStateChange={handleOnNavigationStateChange}
         >
           <View style={styles.container}>

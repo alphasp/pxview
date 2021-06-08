@@ -47,7 +47,8 @@ class SearchResultTabs extends Component {
       route?.params?.startDate !== prevRoute?.params.startDate ||
       route?.params?.endDate !== prevRoute?.params.endDate ||
       route?.params?.bookmarkNumMin !== prevRoute?.params.bookmarkNumMin ||
-      route?.params?.bookmarkNumMax !== prevRoute?.params.bookmarkNumMax
+      route?.params?.bookmarkNumMax !== prevRoute?.params.bookmarkNumMax ||
+      route?.params?.bookmarkCountsTag !== prevRoute?.params.bookmarkCountsTag
     ) {
       const {
         target,
@@ -57,6 +58,7 @@ class SearchResultTabs extends Component {
         endDate,
         bookmarkNumMin,
         bookmarkNumMax,
+        bookmarkCountsTag,
       } = route.params;
       this.setState({
         searchOptions: {
@@ -67,6 +69,7 @@ class SearchResultTabs extends Component {
           end_date: endDate,
           bookmark_num_min: bookmarkNumMin,
           bookmark_num_max: bookmarkNumMax,
+          bookmarkCountsTag,
         },
       });
     }
@@ -171,7 +174,7 @@ class SearchResultTabs extends Component {
     this.setState(newState);
   };
 
-  renderContent() {
+  renderContent = () => {
     const { word, navigation, navigationStateKey } = this.props;
     const { searchOptions, searchType } = this.state;
     switch (searchType) {
@@ -204,7 +207,7 @@ class SearchResultTabs extends Component {
       default:
         return null;
     }
-  }
+  };
 
   render() {
     const { navigation } = this.props;

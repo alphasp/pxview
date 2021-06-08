@@ -1,4 +1,3 @@
-import { delay } from 'redux-saga';
 import {
   take,
   call,
@@ -8,8 +7,9 @@ import {
   select,
   cancel,
   fork,
+  delay,
 } from 'redux-saga/effects';
-import { cloneableGenerator, createMockTask } from 'redux-saga/utils';
+import { cloneableGenerator, createMockTask } from '@redux-saga/testing-utils';
 import { REHYDRATE } from 'redux-persist';
 import {
   login,
@@ -48,6 +48,8 @@ import {
   AUTH_SIGNUP,
 } from '../../src/common/constants/actionTypes';
 
+const code = 'code';
+const codeVerifier = 'codeVerifier';
 const email = 'test@gmail.com';
 const password = 'password';
 const nickname = 'nickname';
@@ -58,11 +60,10 @@ const loginOptions = {
 };
 const refreshToken = 'refreshToken';
 const delayMilisecond = 1000 * 60 * 60;
-const loginRequestAction = {
+const tokenRequestAction = {
   payload: {
-    email,
-    password,
-    isProvisionalAccount,
+    code,
+    codeVerifier,
   },
 };
 const refreshTokenRequestAction = {
@@ -108,9 +109,9 @@ const mockError = {
 Date.now = jest.fn();
 
 test('authorize', () => {
-  const generator = authorize(email, password, isProvisionalAccount);
+  const generator = authorize(code, codeVerifier);
   expect(generator.next().value).toEqual(
-    apply(pixiv, pixiv.login, [email, password, false]),
+    apply(pixiv, pixiv.tokenRequest, [code, codeVerifier]),
   );
   expect(generator.next(mockLoginResponse).value).toEqual(
     put(loginSuccess(mockLoginResponse, loginOptions)),
@@ -146,7 +147,6 @@ describe('handleRefreshAccessToken', () => {
       expect(data.generator2.throw(mockError).value).toEqual(
         put(refreshAccessTokenFailure()),
       );
-      expect(data.generator2.next().value).toEqual(put(logout()));
       expect(data.generator2.next().done).toBe(true);
     });
   });
@@ -154,7 +154,7 @@ describe('handleRefreshAccessToken', () => {
 
 test('scheduleRefreshAccessToken', () => {
   const generator = scheduleRefreshAccessToken(refreshToken, delayMilisecond);
-  expect(generator.next().value).toEqual(call(delay, delayMilisecond));
+  expect(generator.next().value).toEqual(delay(delayMilisecond));
   expect(generator.next(mockLoginResponse).value).toEqual(
     call(handleRefreshAccessToken, refreshToken),
   );
@@ -185,8 +185,8 @@ describe('watchLoginRequestTask', () => {
 
   describe('on login success', () => {
     test('login success', () => {
-      expect(data.generator.next(loginRequestAction).value).toEqual(
-        call(authorize, email, password, isProvisionalAccount),
+      expect(data.generator.next(tokenRequestAction).value).toEqual(
+        call(authorize, code, codeVerifier),
       );
       // value inside next() = result of yield;
       expect(data.generator.next(mockLoginResponse).value).toEqual(

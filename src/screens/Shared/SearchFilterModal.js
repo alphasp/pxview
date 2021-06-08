@@ -46,11 +46,13 @@ class SearchFilterModal extends Component {
         end_date,
         bookmark_num_min,
         bookmark_num_max,
+        bookmarkCountsTag,
       },
     } = props.route.params;
     this.state = {
       target: search_target || 'partial_match_for_tags',
       period: period || SEARCH_PERIOD_TYPES.ALL,
+      bookmarkCountsTag: bookmarkCountsTag || '',
       sort: sort || 'date_desc',
       startDate: start_date,
       endDate: end_date,
@@ -109,6 +111,44 @@ class SearchFilterModal extends Component {
         },
       ];
     }
+    const bookmarkCountsTagOptions = [
+      {
+        value: '',
+        label: i18n.searchBookmarkCountsTagAll,
+      },
+      {
+        value: '100users入り',
+        label: '100users入り',
+      },
+      {
+        value: '500users入り',
+        label: '500users入り',
+      },
+      {
+        value: '1000users入り',
+        label: '1000users入り',
+      },
+      {
+        value: '5000users入り',
+        label: '5000users入り',
+      },
+      {
+        value: '10000users入り',
+        label: '10000users入り',
+      },
+      {
+        value: '30000users入り',
+        label: '30000users入り',
+      },
+      {
+        value: '50000users入り',
+        label: '50000users入り',
+      },
+      {
+        value: '100000users入り',
+        label: '100000users入り',
+      },
+    ];
     const extraPeriodOption = {};
     if (init) {
       if (start_date && end_date) {
@@ -162,6 +202,10 @@ class SearchFilterModal extends Component {
         options: periodOptions,
       },
       {
+        key: 'bookmarkCountsTag',
+        options: bookmarkCountsTagOptions,
+      },
+      {
         key: 'sort',
         options: [
           {
@@ -198,6 +242,8 @@ class SearchFilterModal extends Component {
     switch (type) {
       case 'target':
         return i18n.searchTarget;
+      case 'bookmarkCountsTag':
+        return i18n.searchBookmarkCountsTag;
       case 'period':
         return i18n.searchPeriod;
       case 'sort':
@@ -320,6 +366,7 @@ class SearchFilterModal extends Component {
       endDate,
       bookmarkNumMin,
       bookmarkNumMax,
+      bookmarkCountsTag,
     } = this.state;
     navigate(SCREENS.SearchResult, {
       target,
@@ -329,6 +376,7 @@ class SearchFilterModal extends Component {
       endDate,
       bookmarkNumMin,
       bookmarkNumMax,
+      bookmarkCountsTag,
     });
   };
 

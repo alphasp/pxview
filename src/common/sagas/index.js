@@ -1,4 +1,5 @@
-import { all } from 'redux-saga/effects';
+import { all, fork } from 'redux-saga/effects';
+import { networkSaga } from 'react-native-offline';
 import {
   watchLoginRequest,
   watchSignUpRequest,
@@ -129,5 +130,10 @@ export default function* rootSaga() {
     watchFetchMyAccountState(),
     watchEditAccount(),
     watchSendVerificationEmail(),
+    networkSaga({
+      // pingInterval: 10000,
+      pingOnlyIfOffline: true,
+      // pingServerUrl: 'http://192.168.1.6:4000',
+    }),
   ]);
 }

@@ -1,4 +1,3 @@
-import { delay } from 'redux-saga';
 import {
   take,
   call,
@@ -8,6 +7,7 @@ import {
   select,
   fork,
   cancel,
+  delay,
 } from 'redux-saga/effects';
 import moment from 'moment';
 import { REHYDRATE } from 'redux-persist';
@@ -66,13 +66,13 @@ export function* handleRefreshAccessToken(refreshToken) {
     return response;
   } catch (err) {
     yield put(refreshAccessTokenFailure());
-    yield put(logout());
+    // yield put(logout());
   }
   return null;
 }
 
 export function* scheduleRefreshAccessToken(refreshToken, delayMilisecond) {
-  yield call(delay, delayMilisecond);
+  yield delay(delayMilisecond);
   const response = yield call(handleRefreshAccessToken, refreshToken);
   return response;
 }

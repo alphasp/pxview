@@ -9,7 +9,7 @@ import { globalStyles } from '../../styles';
 
 const appStoreUrl = '';
 const googlePlayUrl =
-  'https://play.google.com/store/apps/details?id=com.utopia.pxview';
+  'https://play.google.com/store/apps/details?id=com.utopia.pxviewr';
 const sourceUrl = 'https://github.com/alphasp/pxview';
 
 const styles = StyleSheet.create({
@@ -60,7 +60,7 @@ class About extends Component {
   handleOnPressListItem = (item) => {
     switch (item.id) {
       case 'contactUs': {
-        this.openUrl('mailto:gmerudotcom@gmail.com?subject=About PxView');
+        this.openUrl('mailto:gmerudotcom@gmail.com?subject=About PxView R');
         break;
       }
       case 'rateApp': {
@@ -105,7 +105,7 @@ class About extends Component {
             style={styles.logo}
           />
           <View style={styles.nameContainer}>
-            <Text style={styles.name}>PxView v{DeviceInfo.getVersion()}</Text>
+            <Text style={styles.name}>PxView R v{DeviceInfo.getVersion()}</Text>
           </View>
         </View>
         <View style={styles.listContainer}>

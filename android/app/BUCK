@@ -34,12 +34,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.utopia.pxview",
+    package = "com.utopia.pxviewr",
 )
 
 android_resource(
     name = "res",
-    package = "com.utopia.pxview",
+    package = "com.utopia.pxviewr",
     res = "src/main/res",
 )
 

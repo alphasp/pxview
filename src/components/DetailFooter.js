@@ -124,6 +124,7 @@ class DetailFooter extends PureComponent {
       onLongPressTag,
       tags,
       theme,
+      isDetailPageReady,
     } = this.props;
     return (
       <SafeAreaView>
@@ -196,6 +197,7 @@ class DetailFooter extends PureComponent {
                 novelId={item.id}
                 authorId={item.user.id}
                 isFeatureInDetailPage
+                isDetailPageReady={isDetailPageReady}
                 maxItems={6}
                 navigation={navigation}
                 route={route}
@@ -205,6 +207,7 @@ class DetailFooter extends PureComponent {
                 illustId={item.id}
                 authorId={item.user.id}
                 isFeatureInDetailPage
+                isDetailPageReady={isDetailPageReady}
                 maxItems={6}
                 navigation={navigation}
                 route={route}
@@ -220,6 +223,7 @@ class DetailFooter extends PureComponent {
                 illustId={item.id}
                 listKey={`relatedIllusts-${route.key}-${item.id}`}
                 isFeatureInDetailPage
+                isDetailPageReady={isDetailPageReady}
                 maxItems={6}
                 navigation={navigation}
                 route={route}
@@ -240,6 +244,7 @@ class DetailFooter extends PureComponent {
                 seriesId={item.series.id}
                 seriesTitle={item.series.title}
                 isFeatureInDetailPage
+                isDetailPageReady={isDetailPageReady}
                 maxItems={6}
                 navigation={navigation}
                 route={route}

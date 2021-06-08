@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class Login extends Component {
+class Auth extends Component {
   handleOnPressLogin = async () => {
     const {
       navigation: { navigate },
@@ -158,6 +158,6 @@ export default withTheme(
       {
         ...modalActionCreators,
       },
-    )(Login),
+    )(Auth),
   ),
 );

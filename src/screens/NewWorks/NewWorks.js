@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import FollowingUserNewWorks from './FollowingUserNewWorks';
 import UserNewWorks from './UserNewWorks';
 import MyPixivNewWorks from './MyPixivNewWorks';
@@ -15,6 +16,7 @@ const NewWorks = () => {
     { key: '2', title: i18n.newest },
     { key: '3', title: i18n.myPixiv },
   ]);
+  const navigation = useNavigation();
   const isMounted = useIsMounted();
   useEffect(() => {
     if (isMounted) {
@@ -29,9 +31,11 @@ const NewWorks = () => {
   const renderScene = ({ route }) => {
     switch (route.key) {
       case '1':
-        return <FollowingUserNewWorks active={index === 0} />;
+        return (
+          <FollowingUserNewWorks active={index === 0} navigation={navigation} />
+        );
       case '2':
-        return <UserNewWorks active={index === 1} />;
+        return <UserNewWorks active={index === 1} navigation={navigation} />;
       case '3':
         return <MyPixivNewWorks active={index === 2} />;
       default:

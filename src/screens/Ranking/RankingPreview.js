@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { ScrollView, StyleSheet, RefreshControl } from 'react-native';
+import { ScrollView, FlatList, StyleSheet, RefreshControl } from 'react-native';
 import { useNavigation, useScrollToTop } from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -20,19 +20,9 @@ const RankingPreview = () => {
   const ref = useRef(null);
   useScrollToTop(ref);
 
-  return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}
-    >
-      <ScrollView
-        ref={ref}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={() => toggleRefreshing(true)}
-          />
-        }
-      >
+  const renderHeader = () => {
+    return (
+      <>
         <RankingHorizontalList
           rankingMode={RANKING_FOR_UI.DAILY_ILLUST}
           rankingType={RANKING_TYPES.ILLUST}
@@ -48,13 +38,31 @@ const RankingPreview = () => {
           refreshing={refreshing}
           theme={theme}
         />
-        <NovelRankingPreview
-          rankingMode={RANKING_FOR_UI.DAILY_NOVEL}
-          navigation={navigation}
-          refreshing={refreshing}
-          theme={theme}
-        />
-      </ScrollView>
+      </>
+    );
+  };
+  return (
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <FlatList
+        ref={ref}
+        ListHeaderComponent={renderHeader}
+        ListFooterComponent={
+          <NovelRankingPreview
+            rankingMode={RANKING_FOR_UI.DAILY_NOVEL}
+            navigation={navigation}
+            refreshing={refreshing}
+            theme={theme}
+          />
+        }
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => toggleRefreshing(true)}
+          />
+        }
+      />
     </SafeAreaView>
   );
 };

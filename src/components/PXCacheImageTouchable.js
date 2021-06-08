@@ -46,8 +46,9 @@ class PXCacheImageTouchable extends Component {
         height: newHeight,
         loading: false,
       });
-      if (this.props.onFoundImageSize) {
-        this.props.onFoundImageSize(newWidth, newHeight, url);
+      const { onFoundImageSize } = this.props;
+      if (onFoundImageSize) {
+        onFoundImageSize(newWidth, newHeight, url);
       }
     }
   };

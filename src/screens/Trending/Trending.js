@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { AndroidBackHandler } from 'react-navigation-backhandler';
 import TrendingIllustTags from './TrendingIllustTags';
 import TrendingNovelTags from './TrendingNovelTags';
-import RecommendedUsers from '../Shared/RecommendedUsers';
+import TrendingRecommendUsers from './TrendingRecommendedUsers';
 import Search from '../../containers/Search';
 import PXSearchBar from '../../components/PXSearchBar';
 import Pills from '../../components/Pills';
@@ -123,25 +123,26 @@ class Trending extends Component {
   };
 
   renderContent = () => {
-    const { navigation } = this.props;
     const { index } = this.state;
     switch (index) {
       case 0:
         return (
           <TrendingIllustTags
-            navigation={navigation}
             onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
           />
         );
       case 1:
         return (
           <TrendingNovelTags
-            navigation={navigation}
             onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
           />
         );
       case 2:
-        return <RecommendedUsers navigation={navigation} />;
+        return (
+          <TrendingRecommendUsers
+            onPressSearchHistoryItem={this.handleOnPressSearchHistoryItem}
+          />
+        );
       default:
         return null;
     }
@@ -156,6 +157,9 @@ class Trending extends Component {
         showBackButton = false;
       }
       if (index === 1 && !trendingSearchSettings.isShowTrendingNovelTag) {
+        showBackButton = false;
+      }
+      if (index === 2 && !trendingSearchSettings.isShowRecommendedUser) {
         showBackButton = false;
       }
     }

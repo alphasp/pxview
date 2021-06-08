@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet, InteractionManager } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
+import { useLocalization } from '../components/Localization';
 import SearchHistory from '../components/SearchHistory';
-import SearchUsersAutoCompleteList from '../components/SearchUsersAutoCompleteList';
+import SimpleUserList from '../components/SimpleUserList';
 import {
   fetchSearchUsersAutoComplete,
   clearSearchUsersAutoComplete,
@@ -21,6 +22,7 @@ const SearchUsersAutoCompleteResult = (props) => {
   const { word, onPressItem, onPressSearchHistoryItem } = props;
   const theme = useTheme();
   const navigation = useNavigation();
+  const { i18n } = useLocalization();
   const dispatch = useDispatch();
   const allState = useSelector((state) => state);
   const searchUsersAutoComplete = useSelector(
@@ -54,15 +56,15 @@ const SearchUsersAutoCompleteResult = (props) => {
     <View
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      {((!searchUsersAutoComplete.loaded && !searchUsersAutoComplete.loading) ||
-        !word) && <SearchHistory onPressItem={onPressSearchHistoryItem} />}
+      {!word && <SearchHistory onPressItem={onPressSearchHistoryItem} />}
       {word && word.length > 1 ? (
-        <SearchUsersAutoCompleteList
+        <SimpleUserList
           data={{ ...searchUsersAutoComplete, items }}
           onPressItem={onPressItem}
           loadMoreItems={loadMoreItems}
           onRefresh={handleOnRefresh}
           navigation={navigation}
+          title={i18n.searchSuggest}
         />
       ) : null}
     </View>

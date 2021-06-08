@@ -4,6 +4,7 @@
 import { createSelector, createSelectorCreator } from 'reselect';
 import equals from 'shallow-equals';
 import { denormalize } from 'normalizr';
+import remoteConfig from '@react-native-firebase/remote-config';
 import parseNovelText from '../helpers/novelTextParser';
 import Schemas from '../constants/schemas';
 import { READING_DIRECTION_TYPES } from '../constants';
@@ -11,30 +12,82 @@ import { READING_DIRECTION_TYPES } from '../constants';
 const defaultArray = [];
 const defaultObject = {};
 
-function getNonMutedTagsAndUsersItems(items, muteTags, muteUsers) {
+function getNonMutedTagsAndUsersItems(isHideMute, items, muteTags, muteUsers) {
   if (!items || !items.length) {
     return defaultArray;
   }
-  const filteredItems = items.filter((item) => {
-    const hasMutedTag = item.tags.some((tag) => {
-      return (
-        muteTags.includes(tag.name) || muteTags.includes(tag.translated_name)
-      );
+  let filteredItems = items;
+
+  const enableServerFiltering = remoteConfig()
+    .getValue('enableServerFiltering')
+    .asBoolean();
+  if (enableServerFiltering) {
+    const tagBlackListRaw = remoteConfig().getValue('tagBlackList').asString();
+    if (tagBlackListRaw) {
+      const tagBlackList = tagBlackListRaw.split(',');
+      filteredItems = items.filter((item) => {
+        const hasMutedTag = item.tags.some((tag) => {
+          return (
+            tagBlackList.includes(tag.name) ||
+            tagBlackList.includes(tag.translated_name)
+          );
+        });
+        return !hasMutedTag;
+      });
+    }
+  }
+
+  if (isHideMute) {
+    filteredItems = filteredItems.filter((item) => {
+      const hasMutedTag = item.tags.some((tag) => {
+        return (
+          muteTags.includes(tag.name) || muteTags.includes(tag.translated_name)
+        );
+      });
+      const isMutedUser = muteUsers.some((m) => m.id === item.user.id);
+      return !hasMutedTag && !isMutedUser;
     });
-    const isMutedUser = muteUsers.some((m) => m.id === item.user.id);
-    return !hasMutedTag && !isMutedUser;
-  });
+  }
   return filteredItems;
 }
 
-function getNonMutedUsersItems(items, muteUsers) {
+function getNonMutedUsersItems(isHideMute, items, muteUsers) {
   if (!items || !items.length) {
     return defaultArray;
   }
-  const filteredItems = items.filter((item) => {
-    const isMutedUser = muteUsers.some((m) => m.id === item.user.id);
-    return !isMutedUser;
-  });
+  let filteredItems = items;
+
+  if (isHideMute) {
+    filteredItems = items.filter((item) => {
+      const isMutedUser = muteUsers.some((m) => m.id === item.user.id);
+      return !isMutedUser;
+    });
+    return filteredItems;
+  }
+  const enableServerFiltering = remoteConfig()
+    .getValue('enableServerFiltering')
+    .asBoolean();
+  if (enableServerFiltering) {
+    const tagBlackListRaw = remoteConfig().getValue('tagBlackList').asString();
+    if (tagBlackListRaw) {
+      const tagBlackList = tagBlackListRaw.split(',');
+
+      filteredItems = filteredItems.map((item) => {
+        return {
+          ...item,
+          illusts: item.illusts.filter((illust) => {
+            const hasMutedTag = illust.tags.some((tag) => {
+              return (
+                tagBlackList.includes(tag.name) ||
+                tagBlackList.includes(tag.translated_name)
+              );
+            });
+            return !hasMutedTag;
+          }),
+        };
+      });
+    }
+  }
   return filteredItems;
 }
 
@@ -312,10 +365,13 @@ export const makeGetIllustRankingItems = () =>
         Schemas.ILLUST_ARRAY,
         entities,
       );
-      if (muteSettings.isHideMute) {
-        return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-      }
-      return items;
+
+      return getNonMutedTagsAndUsersItems(
+        muteSettings.isHideMute,
+        items,
+        muteTags,
+        muteUsers,
+      );
     },
   );
 
@@ -336,10 +392,12 @@ export const makeGetSearchIllustsItems = () =>
           Schemas.ILLUST_ARRAY,
           entities,
         );
-        if (muteSettings.isHideMute) {
-          return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-        }
-        return items;
+        return getNonMutedTagsAndUsersItems(
+          muteSettings.isHideMute,
+          items,
+          muteTags,
+          muteUsers,
+        );
       }
       return defaultArray;
     },
@@ -362,10 +420,12 @@ export const makeGetSearchNovelsItems = () =>
           Schemas.NOVEL_ARRAY,
           entities,
         );
-        if (muteSettings.isHideMute) {
-          return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-        }
-        return items;
+        return getNonMutedTagsAndUsersItems(
+          muteSettings.isHideMute,
+          items,
+          muteTags,
+          muteUsers,
+        );
       }
       return defaultArray;
     },
@@ -389,10 +449,12 @@ export const makeGetRelatedIllustsItems = () =>
           Schemas.ILLUST_ARRAY,
           entities,
         );
-        if (muteSettings.isHideMute) {
-          return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-        }
-        return items;
+        return getNonMutedTagsAndUsersItems(
+          muteSettings.isHideMute,
+          items,
+          muteTags,
+          muteUsers,
+        );
       }
       return defaultArray;
     },
@@ -427,10 +489,12 @@ export const makeGetUserBookmarkIllustsItems = () =>
           Schemas.ILLUST_ARRAY,
           entities,
         );
-        if (muteSettings.isHideMute) {
-          return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-        }
-        return items;
+        return getNonMutedTagsAndUsersItems(
+          muteSettings.isHideMute,
+          items,
+          muteTags,
+          muteUsers,
+        );
       }
       return defaultArray;
     },
@@ -458,10 +522,12 @@ export const makeGetUserIllustsItems = () =>
           Schemas.ILLUST_ARRAY,
           entities,
         );
-        if (muteSettings.isHideMute) {
-          return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-        }
-        return items;
+        return getNonMutedTagsAndUsersItems(
+          muteSettings.isHideMute,
+          items,
+          muteTags,
+          muteUsers,
+        );
       }
       return defaultArray;
     },
@@ -489,10 +555,12 @@ export const makeGetUserMangasItems = () =>
           Schemas.ILLUST_ARRAY,
           entities,
         );
-        if (muteSettings.isHideMute) {
-          return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-        }
-        return items;
+        return getNonMutedTagsAndUsersItems(
+          muteSettings.isHideMute,
+          items,
+          muteTags,
+          muteUsers,
+        );
       }
       return defaultArray;
     },
@@ -520,10 +588,12 @@ export const makeGetUserNovelsItems = () =>
           Schemas.NOVEL_ARRAY,
           entities,
         );
-        if (muteSettings.isHideMute) {
-          return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-        }
-        return items;
+        return getNonMutedTagsAndUsersItems(
+          muteSettings.isHideMute,
+          items,
+          muteTags,
+          muteUsers,
+        );
       }
       return defaultArray;
     },
@@ -548,10 +618,7 @@ export const makeGetUserFollowingItems = () =>
           Schemas.USER_PREVIEW_ARRAY,
           entities,
         );
-        if (muteSettings.isHideMute) {
-          return getNonMutedUsersItems(items, muteUsers);
-        }
-        return items;
+        return getNonMutedUsersItems(muteSettings.isHideMute, items, muteUsers);
       }
       return defaultArray;
     },
@@ -574,10 +641,7 @@ export const makeGetUserFollowersItems = () =>
           Schemas.USER_PREVIEW_ARRAY,
           entities,
         );
-        if (muteSettings.isHideMute) {
-          return getNonMutedUsersItems(items, muteUsers);
-        }
-        return items;
+        return getNonMutedUsersItems(muteSettings.isHideMute, items, muteUsers);
       }
       return defaultArray;
     },
@@ -600,10 +664,7 @@ export const makeGetUserMyPixivItems = () =>
           Schemas.USER_PREVIEW_ARRAY,
           entities,
         );
-        if (muteSettings.isHideMute) {
-          return getNonMutedUsersItems(items, muteUsers);
-        }
-        return items;
+        return getNonMutedUsersItems(muteSettings.isHideMute, items, muteUsers);
       }
       return defaultArray;
     },
@@ -625,10 +686,7 @@ export const makeGetSearchUsersItems = () =>
           Schemas.USER_PREVIEW_ARRAY,
           entities,
         );
-        if (muteSettings.isHideMute) {
-          return getNonMutedUsersItems(items, muteUsers);
-        }
-        return items;
+        return getNonMutedUsersItems(muteSettings.isHideMute, items, muteUsers);
       }
       return defaultArray;
     },
@@ -665,10 +723,12 @@ export const makeGetNovelRankingItems = () =>
         Schemas.NOVEL_ARRAY,
         entities,
       );
-      if (muteSettings.isHideMute) {
-        return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-      }
-      return items;
+      return getNonMutedTagsAndUsersItems(
+        muteSettings.isHideMute,
+        items,
+        muteTags,
+        muteUsers,
+      );
     },
   );
 
@@ -716,10 +776,12 @@ export const makeGetUserBookmarkNovelsItems = () =>
           Schemas.NOVEL_ARRAY,
           entities,
         );
-        if (muteSettings.isHideMute) {
-          return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-        }
-        return items;
+        return getNonMutedTagsAndUsersItems(
+          muteSettings.isHideMute,
+          items,
+          muteTags,
+          muteUsers,
+        );
       }
       return defaultArray;
     },
@@ -933,10 +995,12 @@ export const getRecommendedIllustsItems = createIllustItemsSelector(
       Schemas.ILLUST_ARRAY,
       entities,
     );
-    if (muteSettings.isHideMute) {
-      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-    }
-    return items;
+    return getNonMutedTagsAndUsersItems(
+      muteSettings.isHideMute,
+      items,
+      muteTags,
+      muteUsers,
+    );
   },
 );
 
@@ -954,10 +1018,12 @@ export const getRecommendedMangasItems = createIllustItemsSelector(
       Schemas.ILLUST_ARRAY,
       entities,
     );
-    if (muteSettings.isHideMute) {
-      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-    }
-    return items;
+    return getNonMutedTagsAndUsersItems(
+      muteSettings.isHideMute,
+      items,
+      muteTags,
+      muteUsers,
+    );
   },
 );
 
@@ -975,10 +1041,12 @@ export const getRecommendedNovelsItems = createIllustItemsSelector(
       Schemas.NOVEL_ARRAY,
       entities,
     );
-    if (muteSettings.isHideMute) {
-      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-    }
-    return items;
+    return getNonMutedTagsAndUsersItems(
+      muteSettings.isHideMute,
+      items,
+      muteTags,
+      muteUsers,
+    );
   },
 );
 
@@ -996,10 +1064,12 @@ export const getFollowingUserIllustsItems = createIllustItemsSelector(
       Schemas.ILLUST_ARRAY,
       entities,
     );
-    if (muteSettings.isHideMute) {
-      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-    }
-    return items;
+    return getNonMutedTagsAndUsersItems(
+      muteSettings.isHideMute,
+      items,
+      muteTags,
+      muteUsers,
+    );
   },
 );
 
@@ -1017,10 +1087,12 @@ export const getFollowingUserNovelsItems = createIllustItemsSelector(
       Schemas.NOVEL_ARRAY,
       entities,
     );
-    if (muteSettings.isHideMute) {
-      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-    }
-    return items;
+    return getNonMutedTagsAndUsersItems(
+      muteSettings.isHideMute,
+      items,
+      muteTags,
+      muteUsers,
+    );
   },
 );
 
@@ -1034,10 +1106,12 @@ export const getNewIllustsItems = createIllustItemsSelector(
   ],
   (newIllusts, muteSettings, muteTags, muteUsers, entities) => {
     const items = denormalize(newIllusts.items, Schemas.ILLUST_ARRAY, entities);
-    if (muteSettings.isHideMute) {
-      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-    }
-    return items;
+    return getNonMutedTagsAndUsersItems(
+      muteSettings.isHideMute,
+      items,
+      muteTags,
+      muteUsers,
+    );
   },
 );
 
@@ -1051,10 +1125,12 @@ export const getNewMangasItems = createIllustItemsSelector(
   ],
   (newMangas, muteSettings, muteTags, muteUsers, entities) => {
     const items = denormalize(newMangas.items, Schemas.ILLUST_ARRAY, entities);
-    if (muteSettings.isHideMute) {
-      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-    }
-    return items;
+    return getNonMutedTagsAndUsersItems(
+      muteSettings.isHideMute,
+      items,
+      muteTags,
+      muteUsers,
+    );
   },
 );
 
@@ -1068,10 +1144,12 @@ export const getNewNovelsItems = createIllustItemsSelector(
   ],
   (newNovels, muteSettings, muteTags, muteUsers, entities) => {
     const items = denormalize(newNovels.items, Schemas.NOVEL_ARRAY, entities);
-    if (muteSettings.isHideMute) {
-      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-    }
-    return items;
+    return getNonMutedTagsAndUsersItems(
+      muteSettings.isHideMute,
+      items,
+      muteTags,
+      muteUsers,
+    );
   },
 );
 
@@ -1089,10 +1167,12 @@ export const getMyPixivIllustsItems = createIllustItemsSelector(
       Schemas.ILLUST_ARRAY,
       entities,
     );
-    if (muteSettings.isHideMute) {
-      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-    }
-    return items;
+    return getNonMutedTagsAndUsersItems(
+      muteSettings.isHideMute,
+      items,
+      muteTags,
+      muteUsers,
+    );
   },
 );
 
@@ -1110,10 +1190,12 @@ export const getMyPixivNovelsItems = createIllustItemsSelector(
       Schemas.NOVEL_ARRAY,
       entities,
     );
-    if (muteSettings.isHideMute) {
-      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-    }
-    return items;
+    return getNonMutedTagsAndUsersItems(
+      muteSettings.isHideMute,
+      items,
+      muteTags,
+      muteUsers,
+    );
   },
 );
 
@@ -1131,10 +1213,12 @@ export const getMyPrivateBookmarkIllustsItems = createIllustItemsSelector(
       Schemas.ILLUST_ARRAY,
       entities,
     );
-    if (muteSettings.isHideMute) {
-      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-    }
-    return items;
+    return getNonMutedTagsAndUsersItems(
+      muteSettings.isHideMute,
+      items,
+      muteTags,
+      muteUsers,
+    );
   },
 );
 
@@ -1152,10 +1236,12 @@ export const getMyPrivateBookmarkNovelsItems = createIllustItemsSelector(
       Schemas.NOVEL_ARRAY,
       entities,
     );
-    if (muteSettings.isHideMute) {
-      return getNonMutedTagsAndUsersItems(items, muteTags, muteUsers);
-    }
-    return items;
+    return getNonMutedTagsAndUsersItems(
+      muteSettings.isHideMute,
+      items,
+      muteTags,
+      muteUsers,
+    );
   },
 );
 
@@ -1202,10 +1288,7 @@ export const getRecommendedUsersItems = createUserPreviewItemsSelector(
       Schemas.USER_PREVIEW_ARRAY,
       entities,
     );
-    if (muteSettings.isHideMute) {
-      return getNonMutedUsersItems(items, muteUsers);
-    }
-    return items;
+    return getNonMutedUsersItems(muteSettings.isHideMute, items, muteUsers);
   },
 );
 
@@ -1222,10 +1305,7 @@ export const getSearchUsersAutoCompleteItems = createUserPreviewItemsSelector(
       Schemas.USER_PREVIEW_ARRAY,
       entities,
     );
-    if (muteSettings.isHideMute) {
-      return getNonMutedUsersItems(items, muteUsers);
-    }
-    return items;
+    return getNonMutedUsersItems(muteSettings.isHideMute, items, muteUsers);
   },
 );
 

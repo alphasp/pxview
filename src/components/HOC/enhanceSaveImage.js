@@ -48,7 +48,7 @@ const enhanceSaveImage = (WrappedComponent) => {
       const { dirs } = RNFetchBlob.fs;
       const imagesBaseDir =
         Platform.OS === 'android' ? dirs.PictureDir : dirs.DocumentDir;
-      let imagesDir = `${imagesBaseDir}/pxview/`;
+      let imagesDir = `${imagesBaseDir}/pxviewr/`;
       if (saveImageSettings.userFolderName) {
         switch (saveImageSettings.userFolderName) {
           case SAVE_FILE_NAME_USER_FOLDER_FORMAT.USER_NAME:

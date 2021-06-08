@@ -18,9 +18,22 @@ const styles = StyleSheet.create({
   footer: {
     marginBottom: 20,
   },
+  contentContainer: {
+    flexGrow: 1,
+  },
 });
 
 class NovelList extends Component {
+  componentDidMount() {
+    const { listKey, loadMoreItems } = this.props;
+    if (listKey && loadMoreItems) {
+      this.onNovelDetailListEndReachedListener = DeviceEventEmitter.addListener(
+        `onNovelDetailListEndReached`,
+        this.handleOnNovelDetailListEndReached,
+      );
+    }
+  }
+
   componentDidUpdate(prevProps) {
     const {
       data: { items: prevItems },
@@ -37,6 +50,19 @@ class NovelList extends Component {
       });
     }
   }
+
+  componentWillUnmount() {
+    if (this.onNovelDetailListEndReachedListener) {
+      this.onNovelDetailListEndReachedListener.remove();
+    }
+  }
+
+  handleOnNovelDetailListEndReached = ({ parentListKey }) => {
+    const { loadMoreItems, listKey } = this.props;
+    if (loadMoreItems && listKey === parentListKey) {
+      loadMoreItems();
+    }
+  };
 
   renderItem = ({ item, index }) => (
     <NovelItem
@@ -62,14 +88,12 @@ class NovelList extends Component {
     const {
       data: { items },
       navigation: { push },
-      loadMoreItems,
       listKey,
       maxItems,
     } = this.props;
     push(SCREENS.NovelDetail, {
       items: maxItems ? items.slice(0, maxItems) : items,
       index,
-      onListEndReached: loadMoreItems,
       parentListKey: listKey,
     });
   };
@@ -126,6 +150,7 @@ class NovelList extends Component {
             initialNumToRender={5}
             onEndReachedThreshold={onEndReachedThreshold || 0.1}
             onEndReached={loadMoreItems}
+            contentContainerStyle={styles.contentContainer}
             ListEmptyComponent={renderEmpty}
             ListHeaderComponent={renderHeader}
             ListFooterComponent={this.renderFooter}

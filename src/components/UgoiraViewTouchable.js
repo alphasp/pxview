@@ -60,7 +60,7 @@ class UgoiraViewTouchable extends Component {
     } = this.props;
     const { zipUrl } = ugoiraMeta.item;
     try {
-      const ugoiraPath = `${RNFetchBlob.fs.dirs.CacheDir}/pxview/ugoira/${id}`;
+      const ugoiraPath = `${RNFetchBlob.fs.dirs.CacheDir}/pxviewr/ugoira/${id}`;
       const isDir = await RNFetchBlob.fs.isDir(ugoiraPath);
       if (isDir) {
         if (!this.unmounting) {
@@ -71,7 +71,7 @@ class UgoiraViewTouchable extends Component {
       } else {
         const downloadPath = `${
           RNFetchBlob.fs.dirs.CacheDir
-        }/pxview/ugoira_zip/${zipUrl.split('/').pop()}`;
+        }/pxviewr/ugoira_zip/${zipUrl.split('/').pop()}`;
         this.task = RNFetchBlob.config({
           fileCache: true,
           appendExt: 'zip',

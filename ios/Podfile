@@ -3,12 +3,12 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'PxView' do
+target 'PxViewR' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
-  target 'PxViewTests' do
+  target 'PxViewRTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -17,15 +17,21 @@ target 'PxView' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable these next few lines.
-  use_flipper!
+  use_flipper!({ 'Flipper' => '0.87.0' })
   post_install do |installer|
     flipper_post_install(installer)
+
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+      end
+     end
   end
 end
 
-target 'PxView-tvOS' do
+target 'PxViewR-tvOS' do
   # Pods for RnDiffApp-tvOS
-  target 'PxView-tvOSTests' do
+  target 'PxViewR-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

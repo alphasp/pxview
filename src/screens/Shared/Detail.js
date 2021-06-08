@@ -209,10 +209,10 @@ class Detail extends Component {
   };
 
   handleOnListEndReached = () => {
-    const { onListEndReached } = this.props;
-    if (onListEndReached) {
-      onListEndReached();
-    }
+    const { parentListKey } = this.props;
+    DeviceEventEmitter.emit(`onDetailListEndReached`, {
+      parentListKey,
+    });
   };
 
   handleOnMasterListUpdate = ({ listKey, items }) => {
@@ -264,7 +264,7 @@ class Detail extends Component {
   handleOnPressShareIllust = () => {
     const { item } = this.props;
     const shareOptions = {
-      message: `${item.title} | ${item.user.name} #pxview`,
+      message: `${item.title} | ${item.user.name} #pxviewr`,
       url: `https://www.pixiv.net/artworks/${item.id}`,
     };
     Share.open(shareOptions)
@@ -527,7 +527,6 @@ export default withTheme(
             illustId,
             items,
             index,
-            onListEndReached,
             parentListKey,
           } = props.route.params;
           const id = parseInt(illustIdFromQS || illustId, 0);
@@ -539,7 +538,6 @@ export default withTheme(
             isFromDeepLink: !!id,
             items,
             index,
-            onListEndReached,
             parentListKey,
             authUser: state.auth.user,
           };

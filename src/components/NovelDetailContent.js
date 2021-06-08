@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, InteractionManager } from 'react-native';
 import { connect } from 'react-redux';
 import { withTheme } from 'react-native-paper';
 import TagBottomSheet from './TagBottomSheet';
@@ -32,10 +32,19 @@ class NovelDetailContent extends Component {
     super(props);
     const { itemIndex, currentIndex } = props;
     this.state = {
-      isVisible: currentIndex == undefined || itemIndex === currentIndex, // currentIndex will be undefined if open from deep link
+      isVisible: currentIndex === undefined || itemIndex === currentIndex, // currentIndex will be undefined if open from deep link
       isOpenTagBottomSheet: false,
       selectedTag: null,
+      isMounted: false,
     };
+  }
+
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({
+        isMounted: true,
+      });
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -109,8 +118,13 @@ class NovelDetailContent extends Component {
       onLongPressImage,
       theme,
     } = this.props;
-    const { isOpenTagBottomSheet, selectedTag, isVisible } = this.state;
-    if (!isVisible) {
+    const {
+      isOpenTagBottomSheet,
+      selectedTag,
+      isVisible,
+      isMounted,
+    } = this.state;
+    if (!isMounted) {
       return null;
     }
     const isMute = tags.some((t) => t.isMute) || isMuteUser;
@@ -151,6 +165,7 @@ class NovelDetailContent extends Component {
             onPressAvatar={this.handleOnPressAvatar}
             onPressTag={this.handleOnPressTag}
             onLongPressTag={this.handleOnLongPressTag}
+            isDetailPageReady={isVisible}
           />
         </ScrollView>
         <TagBottomSheet

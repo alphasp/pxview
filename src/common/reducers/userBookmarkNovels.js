@@ -5,7 +5,13 @@ export default function userBookmarkNovels(state = {}, action) {
     case USER_BOOKMARK_NOVELS.CLEAR:
       return {
         ...state,
-        [action.payload.userId]: {},
+        [action.payload.userId]: {
+          loading: false,
+          loaded: false,
+          refreshing: false,
+          items: [],
+          nextUrl: null,
+        },
       };
     case USER_BOOKMARK_NOVELS.CLEAR_ALL:
       return {};

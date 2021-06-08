@@ -5,6 +5,7 @@ import { connectLocalization } from '../../components/Localization';
 import NovelList from '../../components/NovelList';
 import NovelItem from '../../components/NovelItem';
 import ViewMoreButton from '../../components/ViewMoreButton';
+import Loader from '../../components/Loader';
 import * as novelSeriesActionCreators from '../../common/actions/novelSeries';
 import { makeGetNovelSeriesItems } from '../../common/selectors';
 import { globalStyles } from '../../styles';
@@ -72,14 +73,12 @@ class NovelSeries extends Component {
     const {
       items,
       navigation: { push },
-      loadMoreItems,
       listKey,
       maxItems,
     } = this.props;
     push(SCREENS.NovelDetail, {
       items: maxItems ? items.slice(0, maxItems) : items,
       index,
-      onListEndReached: loadMoreItems,
       parentListKey: listKey,
     });
   };
@@ -91,8 +90,12 @@ class NovelSeries extends Component {
       maxItems,
       isFeatureInDetailPage,
       listKey,
+      isDetailPageReady,
     } = this.props;
     if (isFeatureInDetailPage) {
+      if (!isDetailPageReady) {
+        return <Loader />;
+      }
       if (novelSeries?.loaded && items?.length) {
         return (
           <View style={styles.listContainer}>
@@ -122,11 +125,18 @@ class NovelSeries extends Component {
   };
 
   render() {
-    const { novelSeries, items, isFeatureInDetailPage, maxItems } = this.props;
+    const {
+      novelSeries,
+      items,
+      isFeatureInDetailPage,
+      maxItems,
+      isDetailPageReady,
+    } = this.props;
     return (
       <View style={globalStyles.container}>
         {this.renderList()}
         {isFeatureInDetailPage &&
+        isDetailPageReady &&
         novelSeries?.loaded &&
         items?.length &&
         items?.length > maxItems ? (

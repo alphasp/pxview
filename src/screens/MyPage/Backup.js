@@ -54,7 +54,7 @@ const Backup = () => {
   const theme = useTheme();
   const { i18n } = useLocalization();
   const baseDir = Platform.OS === 'android' ? dirs.SDCardDir : dirs.DocumentDir;
-  const backupFileDir = `${baseDir}/pxview/backup`;
+  const backupFileDir = `${baseDir}/pxviewr/backup`;
   const backupFilePath = `${backupFileDir}/backup.json`;
 
   const showToast = (message) => {

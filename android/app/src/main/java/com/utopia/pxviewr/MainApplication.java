@@ -1,4 +1,4 @@
-package com.utopia.pxview;
+package com.utopia.pxviewr;
 
 import android.app.Application;
 import android.content.Context;
@@ -16,7 +16,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
-import com.utopia.pxview.UgoiraView.UgoiraViewPackage;
+import com.utopia.pxviewr.UgoiraView.UgoiraViewPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -80,7 +80,7 @@ public class MainApplication extends Application implements ReactApplication {
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("com.utopia.pxview.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("com.utopia.pxviewr.ReactNativeFlipper");
         aClass
             .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);

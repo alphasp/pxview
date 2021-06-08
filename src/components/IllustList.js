@@ -19,9 +19,22 @@ const styles = StyleSheet.create({
   footer: {
     marginBottom: 20,
   },
+  contentContainer: {
+    flexGrow: 1,
+  },
 });
 
 class IllustList extends Component {
+  componentDidMount() {
+    const { listKey, loadMoreItems } = this.props;
+    if (listKey && loadMoreItems) {
+      this.onDetailListEndReachedListener = DeviceEventEmitter.addListener(
+        `onDetailListEndReached`,
+        this.handleOnDetailListEndReached,
+      );
+    }
+  }
+
   componentDidUpdate(prevProps) {
     const {
       data: { items: prevItems },
@@ -38,6 +51,19 @@ class IllustList extends Component {
       });
     }
   }
+
+  componentWillUnmount() {
+    if (this.onDetailListEndReachedListener) {
+      this.onDetailListEndReachedListener.remove();
+    }
+  }
+
+  handleOnDetailListEndReached = ({ parentListKey }) => {
+    const { loadMoreItems, listKey } = this.props;
+    if (loadMoreItems && listKey === parentListKey) {
+      loadMoreItems();
+    }
+  };
 
   renderItem = ({ item, index }) => {
     const { hideBookmarkButton, illustColumns } = this.props;
@@ -68,14 +94,12 @@ class IllustList extends Component {
     const {
       data: { items },
       navigation: { push },
-      loadMoreItems,
       listKey,
       maxItems,
     } = this.props;
     push(SCREENS.Detail, {
       items: maxItems ? items.slice(0, maxItems) : items,
       index,
-      onListEndReached: loadMoreItems,
       parentListKey: listKey,
     });
   };
@@ -87,12 +111,35 @@ class IllustList extends Component {
     }
   };
 
+  renderEmpty = () => {
+    const { renderEmpty } = this.props;
+    // if (!isConnected) {
+    //   // todo
+    //   return (
+    //     <EmptyStateView
+    //       iconName="users"
+    //       iconType="font-awesome"
+    //       title="title here"
+    //       description="some description"
+    //       actionButton={
+    //         <Button mode="contained" onPress={onRefresh}>
+    //           Reload
+    //         </Button>
+    //       }
+    //     />
+    //   );
+    // }
+    if (renderEmpty) {
+      return renderEmpty();
+    }
+    return null;
+  };
+
   render() {
     const {
       data: { items, loading, loaded, refreshing },
       listKey,
       onRefresh,
-      renderEmpty,
       renderHeader,
       loadMoreItems,
       onScroll,
@@ -142,7 +189,8 @@ class IllustList extends Component {
             initialNumToRender={5}
             onEndReachedThreshold={onEndReachedThreshold || 0.1}
             onEndReached={loadMoreItems}
-            ListEmptyComponent={renderEmpty}
+            contentContainerStyle={styles.contentContainer}
+            ListEmptyComponent={this.renderEmpty}
             ListHeaderComponent={renderHeader}
             ListFooterComponent={this.renderFooter}
             onScroll={onScroll}
@@ -173,10 +221,12 @@ const ConnectedIllustList = connect(
 export default forwardRef((props, ref) => {
   const theme = useTheme();
   const navigation = useNavigation();
+  // const isConnected = useSelector((state) => state.network.isConnected);
   return (
     <ConnectedIllustList
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
+      // isConnected={isConnected}
       theme={theme}
       navigation={navigation}
       innerRef={ref}
