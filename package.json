@@ -17,8 +17,8 @@
     "pod-install": "cd ios && pod install"
   },
   "dependencies": {
-    "@react-native-community/async-storage": "^1.6.1",
-    "@react-native-community/cameraroll": "^1.5.2",
+    "@react-native-async-storage/async-storage": "^1.15.6",
+    "@react-native-community/cameraroll": "^4.0.4",
     "@react-native-community/datetimepicker": "^3.5.2",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/netinfo": "^6.0.0",

@@ -186,7 +186,7 @@ const enhanceSaveImage = (WrappedComponent) => {
           const filePath = res.path();
           if (Platform.OS === 'ios') {
             try {
-              await CameraRoll.saveToCameraRoll(filePath);
+              await CameraRoll.save(filePath);
               this.showToast(
                 i18n.formatString(i18n.saveImageSuccess, fileName),
               );
