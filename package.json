@@ -37,7 +37,7 @@
     "bluebird": "^3.5.0",
     "color": "^3.2.1",
     "formik": "^2.2.9",
-    "hoist-non-react-statics": "^2.0.0",
+    "hoist-non-react-statics": "^3.3.2",
     "lodash.camelcase": "^4.3.0",
     "lodash.truncate": "^4.4.2",
     "moment": "^2.29.1",
