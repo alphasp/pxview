@@ -83,7 +83,7 @@
     "react-native-vector-icons": "^8.1.0",
     "react-native-webp-format": "^1.1.2",
     "react-native-webview": "^10.10.2",
-    "react-native-zip-archive": "^5.0.6",
+    "react-native-zip-archive": "^6.0.3",
     "react-navigation-backhandler": "^2.0.1",
     "react-redux": "^7.2.4",
     "redux": "^4.1.1",
