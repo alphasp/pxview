@@ -2,7 +2,6 @@
 import 'react-native-gesture-handler'; // https://github.com/kmagiera/react-native-gesture-handler/issues/320
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
-import { enableScreens } from 'react-native-screens';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -14,8 +13,6 @@ import configureStore from '../../common/store/configureStore';
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 const { store, persistor } = configureStore();
-
-enableScreens();
 
 if (process.env.NODE_ENV === 'production') {
   // eslint-disable-line no-undef
