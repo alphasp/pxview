@@ -51,7 +51,7 @@
     "react-native-action-button": "github:alphasp/react-native-action-button",
     "react-native-animatable": "^1.2.4",
     "react-native-datepicker": "^1.6.0",
-    "react-native-device-info": "^7.4.0",
+    "react-native-device-info": "^8.3.1",
     "react-native-easy-toast": "^2.0.0",
     "react-native-elements": "^0.18.2",
     "react-native-flash-message": "^0.1.23",
