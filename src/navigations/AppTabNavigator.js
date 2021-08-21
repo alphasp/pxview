@@ -22,6 +22,9 @@ const AppTabNavigator = ({ initialRouteName }) => {
   return (
     <Tab.Navigator
       initialRouteName={initialRouteName}
+      screenOptions={{
+        headerShown: false,
+      }}
       labeled
       barStyle={{
         backgroundColor: theme.colors.bottomTabBarBackground,

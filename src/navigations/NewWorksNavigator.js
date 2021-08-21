@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/stack';
 import { useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import NewWorks from '../screens/NewWorks/NewWorks';
@@ -13,7 +13,7 @@ import {
 import config from '../common/config';
 import { SCREENS } from '../common/constants';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const NewWorksNavigator = () => {
   const theme = useTheme();
@@ -27,9 +27,10 @@ const NewWorksNavigator = () => {
           : globalStyles.headerWithoutShadow,
         headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
         headerBackTitle: null,
+        animation: 'none',
       }}
-      cardStyle={globalStyles.card}
-      headerMode="screen"
+      // cardStyle={globalStyles.card}
+      // headerMode="screen"
     >
       <Stack.Screen
         name={SCREENS.NewWorks}

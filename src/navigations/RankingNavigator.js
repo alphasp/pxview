@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from 'react-native-paper';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/stack';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import RankingPreview from '../screens/Ranking/RankingPreview';
 import Ranking from '../screens/Ranking/Ranking';
@@ -15,7 +15,7 @@ import {
 import config from '../common/config';
 import { SCREENS } from '../common/constants';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const RankingNavigator = () => {
   const theme = useTheme();
@@ -29,9 +29,10 @@ const RankingNavigator = () => {
           : globalStyles.headerWithoutShadow,
         headerTintColor: globalStyleVariables.HEADER_TINT_COLOR,
         headerBackTitle: null,
+        animation: 'none',
       }}
-      cardStyle={globalStyles.card}
-      headerMode="screen"
+      // cardStyle={globalStyles.card}
+      // headerMode="screen"
     >
       <Stack.Screen
         name={SCREENS.RankingPreview}
