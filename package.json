@@ -62,7 +62,7 @@
     "react-native-linear-gradient": "^2.4.0",
     "react-native-loading-spinner-overlay": "^2.0.0",
     "react-native-localization": "^1.0.11",
-    "react-native-localize": "^1.4.3",
+    "react-native-localize": "^2.1.1",
     "react-native-modal-datetime-picker": "^10.2.0",
     "react-native-offline": "^5.8.0",
     "react-native-pager-view": "^5.4.0",
