@@ -7,7 +7,7 @@ import {
   DarkTheme as NavigationDarkTheme,
 } from '@react-navigation/native';
 import { getStateFromPath } from '@react-navigation/core';
-import analytics from '@react-native-firebase/analytics';
+// import analytics from '@react-native-firebase/analytics';
 import remoteConfig from '@react-native-firebase/remote-config';
 import {
   DefaultTheme as PaperDefaultTheme,
@@ -23,7 +23,6 @@ import ModalRoot from '../../containers/ModalRoot';
 import PXSnackbar from '../../components/PXSnackbar';
 import { THEME_TYPES, SCREENS } from '../../common/constants';
 import { globalStyleVariables } from '../../styles';
-import usePrevious from '../../common/hooks/usePrevious';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,7 +37,6 @@ const App = () => {
     (state) => state.initialScreenSettings.routeName,
   );
   const themeName = useSelector((state) => state.theme.name);
-  const prevRehydrated = usePrevious(rehydrated);
 
   useEffect(() => {
     remoteConfig()
@@ -104,7 +102,7 @@ const App = () => {
   return (
     <PaperProvider theme={theme}>
       {!rehydrated && <Loader />}
-      {rehydrated && !prevRehydrated && (
+      {rehydrated && (
         <NavigationContainer
           theme={theme}
           onReady={SplashScreen.hide}
