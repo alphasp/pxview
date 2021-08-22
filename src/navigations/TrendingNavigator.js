@@ -1,5 +1,5 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import Trending from '../screens/Trending/Trending';
@@ -15,6 +15,7 @@ import { SCREENS } from '../common/constants';
 const Stack = createNativeStackNavigator();
 
 const TrendingNavigator = () => {
+  console.log('here');
   const theme = useTheme();
   const navigation = useNavigation();
   return (
