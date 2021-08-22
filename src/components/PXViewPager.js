@@ -11,14 +11,8 @@ class PXViewPager extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isMounted: false,
+      initialPage: props.index,
     };
-  }
-
-  componentDidMount() {
-    this.setState({
-      isMounted: true,
-    });
   }
 
   handleOnIOSViewPagerPageSelected = (e) => {
@@ -33,9 +27,7 @@ class PXViewPager extends Component {
   };
 
   handleOnAndroidViewPagerPageSelected = (e) => {
-    const { items, onEndReached } = this.props;
-    // const { position } = e.nativeEvent;
-    const { onPageSelected } = this.props;
+    const { items, onEndReached, onPageSelected } = this.props;
     const index = e.nativeEvent.position;
     onPageSelected(index);
     if (onEndReached && index >= items.length - 2) {
@@ -69,16 +61,17 @@ class PXViewPager extends Component {
       viewPagerRef,
       theme,
     } = this.props;
-    const { isMounted } = this.state;
+    const { initialPage } = this.state;
     if (Platform.OS === 'android') {
-      if (!isMounted) {
-        return <Loader />;
-      }
       return (
         <PagerView
           ref={viewPagerRef}
           key={`pxViewPager-${items.length}`} // https://github.com/facebook/react-native/issues/4775
-          initialPage={index}
+          // changing initialPage on the fly causes another call to
+          // onPageSelected (whole PagerView is rerendered?), which leads to
+          // pages jumping back and forth while quickly browsing forward or
+          // backward
+          initialPage={initialPage}
           style={[
             globalStyles.container,
             { backgroundColor: theme.colors.background },
