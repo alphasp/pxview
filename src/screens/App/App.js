@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, StyleSheet, StatusBar, Platform } from 'react-native';
 import { useSelector } from 'react-redux';
 import {
@@ -7,7 +7,7 @@ import {
   DarkTheme as NavigationDarkTheme,
 } from '@react-navigation/native';
 import { getStateFromPath } from '@react-navigation/core';
-// import analytics from '@react-native-firebase/analytics';
+import analytics from '@react-native-firebase/analytics';
 import remoteConfig from '@react-native-firebase/remote-config';
 import {
   DefaultTheme as PaperDefaultTheme,
@@ -30,13 +30,27 @@ const styles = StyleSheet.create({
   },
 });
 
+const getActiveRouteName = (state) => {
+  const route = state.routes[state.index];
+
+  if (route.state) {
+    // Dive into nested navigators
+    return getActiveRouteName(route.state);
+  }
+
+  return route.name;
+};
+
 const App = () => {
+  const [navigationIsReady, setNavigationIsReady] = useState(false);
   const rehydrated = useSelector((state) => state.auth.rehydrated);
   const user = useSelector((state) => state.auth.user);
   const initialRouteName = useSelector(
     (state) => state.initialScreenSettings.routeName,
   );
   const themeName = useSelector((state) => state.theme.name);
+  const navigationRef = useRef();
+  const routeNameRef = useRef();
 
   useEffect(() => {
     remoteConfig()
@@ -51,6 +65,26 @@ const App = () => {
       )
       .then(() => remoteConfig().fetchAndActivate());
   }, []);
+
+  useEffect(() => {
+    if (rehydrated && navigationIsReady) {
+      const state = navigationRef.current.getRootState();
+      // Save the initial route name
+      routeNameRef.current = getActiveRouteName(state);
+    }
+  }, [rehydrated, navigationIsReady]);
+
+  const handleOnNavigationStateChange = (state) => {
+    const previousRouteName = routeNameRef.current;
+    const currentRouteName = getActiveRouteName(state);
+    if (previousRouteName !== currentRouteName) {
+      analytics().logScreenView({
+        screen_name: currentRouteName,
+        screen_class: currentRouteName,
+      });
+    }
+    routeNameRef.current = currentRouteName;
+  };
 
   let renderComponent;
   let theme;
@@ -104,8 +138,13 @@ const App = () => {
       {!rehydrated && <Loader />}
       {rehydrated && (
         <NavigationContainer
+          ref={navigationRef}
           theme={theme}
-          onReady={SplashScreen.hide}
+          onReady={() => {
+            SplashScreen.hide();
+            setNavigationIsReady(true);
+          }}
+          onStateChange={handleOnNavigationStateChange}
           linking={{
             prefixes: [
               'https://www.pixiv.net/en',
