@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, StatusBar } from 'react-native';
+import { StyleSheet, View, StatusBar, Platform } from 'react-native';
 import { connect } from 'react-redux';
+import Orientation from 'react-native-orientation-locker';
 import PXHeader from '../../components/PXHeader';
 import PXTabView from '../../components/PXTabView';
 import PXPhotoView from '../../components/PXPhotoView';
@@ -43,6 +44,46 @@ class ImagesViewer extends Component {
       hideHeader: true,
     };
   }
+
+  componentDidMount = () => {
+    Orientation.addDeviceOrientationListener(this.handleOrientation);
+  };
+
+  componentWillUnmount = () => {
+    Orientation.removeDeviceOrientationListener(this.handleOrientation);
+    Orientation.lockToPortrait();
+  };
+
+  handleOrientation = (orientation) => {
+    if (Platform.OS === 'android') {
+      Orientation.getAutoRotateState((allowed) => {
+        if (allowed) {
+          this.setOrientation(orientation);
+        }
+      });
+    } else {
+      this.setOrientation(orientation);
+    }
+  };
+
+  setOrientation = (orientation) => {
+    switch (orientation) {
+      case 'PORTRAIT':
+        Orientation.lockToPortrait();
+        break;
+
+      case 'LANDSCAPE-LEFT':
+        Orientation.lockToLandscapeLeft();
+        break;
+
+      case 'LANDSCAPE-RIGHT':
+        Orientation.lockToLandscapeRight();
+        break;
+
+      default:
+        break;
+    }
+  };
 
   handleOnImageLoaded = (imageUrl) => {
     this.setState(({ images }) => ({
