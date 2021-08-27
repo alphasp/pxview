@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { createNativeStackNavigator } from 'react-native-screens/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import AppDrawerNavigator from './AppDrawerNavigator';
 import AppTabNavigator from './AppTabNavigator';
 import SearchFilterModal from '../screens/Shared/SearchFilterModal';

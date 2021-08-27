@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { createNativeStackNavigator } from 'react-native-screens/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useTheme } from 'react-native-paper';
 import Auth from '../screens/Auth/Auth';
 import Login from '../screens/Auth/Login';
