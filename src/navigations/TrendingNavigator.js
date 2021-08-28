@@ -15,7 +15,6 @@ import { SCREENS } from '../common/constants';
 const Stack = createNativeStackNavigator();
 
 const TrendingNavigator = () => {
-  console.log('here');
   const theme = useTheme();
   const navigation = useNavigation();
   return (
