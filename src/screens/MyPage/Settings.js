@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withTheme } from 'react-native-paper';
-import RNFetchBlob from 'rn-fetch-blob';
+import ReactNativeBlobUtil from 'react-native-blob-util';
 import { connectLocalization } from '../../components/Localization';
 import PXListItem from '../../components/PXListItem';
 import * as modalActionCreators from '../../common/actions/modal';
@@ -224,7 +224,7 @@ class Settings extends Component {
 
   handleOnPressConfirmClearCache = async () => {
     const { i18n } = this.props;
-    const { dirs, exists, unlink } = RNFetchBlob.fs;
+    const { dirs, exists, unlink } = ReactNativeBlobUtil.fs;
     try {
       const isCacheDirExists = await exists(dirs.CacheDir);
       if (isCacheDirExists) {

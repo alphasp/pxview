@@ -3,7 +3,7 @@
 // getStoredStateV4(v4Config) based from https://github.com/rt2zz/redux-persist/blob/master/src/integration/getStoredStateMigrateV4.js
 
 import { getStoredState } from 'redux-persist';
-import RNFetchBlob from 'rn-fetch-blob';
+import ReactNativeBlobUtil from 'react-native-blob-util';
 
 const KEY_PREFIX = 'reduxPersist:';
 
@@ -167,8 +167,8 @@ export default function getStoredStateMigrateToFileSystemStorage(
   v4Config,
 ) {
   return async (currentConfig) => {
-    const filePersistStorePath = `${RNFetchBlob.fs.dirs.DocumentDir}/persistStore`;
-    const isFilePersistStoreExists = await RNFetchBlob.fs.exists(
+    const filePersistStorePath = `${ReactNativeBlobUtil.fs.dirs.DocumentDir}/persistStore`;
+    const isFilePersistStoreExists = await ReactNativeBlobUtil.fs.exists(
       filePersistStorePath,
     );
     if (isFilePersistStoreExists) {

@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import CameraRoll from '@react-native-community/cameraroll';
-import RNFetchBlob from 'rn-fetch-blob';
+import ReactNativeBlobUtil from 'react-native-blob-util';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import Promise from 'bluebird';
 import sanitize from 'sanitize-filename';
@@ -45,7 +45,7 @@ const enhanceSaveImage = (WrappedComponent) => {
       userName,
       saveImageSettings,
     ) => {
-      const { dirs } = RNFetchBlob.fs;
+      const { dirs } = ReactNativeBlobUtil.fs;
       const imagesBaseDir =
         Platform.OS === 'android' ? dirs.PictureDir : dirs.DocumentDir;
       let imagesDir = `${imagesBaseDir}/pxviewr/`;
@@ -163,9 +163,9 @@ const enhanceSaveImage = (WrappedComponent) => {
         saveImageSettings,
       );
       try {
-        const imagesDirExists = await RNFetchBlob.fs.isDir(imagesDir);
+        const imagesDirExists = await ReactNativeBlobUtil.fs.isDir(imagesDir);
         if (!imagesDirExists) {
-          await RNFetchBlob.fs.mkdir(imagesDir);
+          await ReactNativeBlobUtil.fs.mkdir(imagesDir);
         }
       } catch (err) {}
       await Promise.mapSeries(imageUrls, async (url, index) => {
@@ -178,7 +178,7 @@ const enhanceSaveImage = (WrappedComponent) => {
           imageIndex || index,
         );
         try {
-          const res = await RNFetchBlob.config({
+          const res = await ReactNativeBlobUtil.config({
             path: `${imagesDir}/${fileName}`,
           }).fetch('GET', url, {
             referer: 'http://www.pixiv.net',
@@ -196,7 +196,7 @@ const enhanceSaveImage = (WrappedComponent) => {
           } else if (Platform.OS === 'android') {
             this.showToast(i18n.formatString(i18n.saveImageSuccess, fileName));
             try {
-              await RNFetchBlob.fs.scanFile([{ path: filePath }]);
+              await ReactNativeBlobUtil.fs.scanFile([{ path: filePath }]);
             } catch (err) {}
           }
         } catch (err) {
