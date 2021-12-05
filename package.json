@@ -11,7 +11,7 @@
     "android": "react-native run-android",
     "android-bundle": "cd android && ./gradlew bundleRelease",
     "android-release": "react-native run-android --variant=release",
-    "android-clean": "cd android && gradlew clean",
+    "android-clean": "cd android && ./gradlew clean",
     "ios": "react-native run-ios",
     "ios-release": "react-native run-ios --configuration Release",
     "pod-install": "cd ios && pod install"
