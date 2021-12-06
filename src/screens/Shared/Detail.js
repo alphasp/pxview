@@ -79,6 +79,7 @@ class Detail extends Component {
       isOpenMenuBottomSheet: false,
       isOpenDetailInfoModal: false,
       selectedImageIndex: null,
+      scrollState: 'idle',
     };
     this.listViewOffset = 0;
     if (Platform.OS === 'android') {
@@ -175,16 +176,22 @@ class Detail extends Component {
   };
 
   handleOnPressImage = (index) => {
-    const { navigation, item } = this.props;
-    const images =
-      item.page_count > 1
-        ? item.meta_pages.map((page) => page.image_urls.original)
-        : [item.meta_single_page.original_image_url];
-    navigation.navigate(SCREENS.ImagesViewer, {
-      images,
-      item,
-      viewerIndex: index,
-    });
+    const { scrollState } = this.state;
+    // pager-view triggers presses when scrolling,
+    // so allow navigating to image view only when pager-view is idle
+    // https://github.com/callstack/react-native-pager-view/issues/424
+    if (scrollState === 'idle') {
+      const { navigation, item } = this.props;
+      const images =
+        item.page_count > 1
+          ? item.meta_pages.map((page) => page.image_urls.original)
+          : [item.meta_single_page.original_image_url];
+      navigation.navigate(SCREENS.ImagesViewer, {
+        images,
+        item,
+        viewerIndex: index,
+      });
+    }
   };
 
   handleOnLongPressImage = (index) => {
@@ -314,6 +321,10 @@ class Detail extends Component {
     return false;
   };
 
+  handlePageScrollStateChange = (e) => {
+    this.setState({ scrollState: e.nativeEvent.pageScrollState });
+  };
+
   renderHeaderTitle = (item) => {
     const {
       navigation: { push },
@@ -416,6 +427,7 @@ class Detail extends Component {
           keyExtractor={(vpItem) => vpItem.id.toString()}
           index={0}
           renderContent={this.renderContent}
+          onPageScrollStateChanged={this.handlePageScrollStateChange}
           onPageSelected={this.handleOnViewPagerPageSelected}
           onEndReached={this.handleOnListEndReached}
         />
@@ -427,6 +439,7 @@ class Detail extends Component {
         keyExtractor={(vpItem) => vpItem.id.toString()}
         index={index}
         renderContent={this.renderContent}
+        onPageScrollStateChanged={this.handlePageScrollStateChange}
         onPageSelected={this.handleOnViewPagerPageSelected}
         onEndReached={this.handleOnListEndReached}
       />

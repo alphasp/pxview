@@ -51,6 +51,10 @@ class PXViewPager extends Component {
     });
   };
 
+  onPageScrollStateChanged = () => {
+    //
+  };
+
   render() {
     const {
       items,
@@ -60,6 +64,7 @@ class PXViewPager extends Component {
       onEndReached,
       viewPagerRef,
       theme,
+      onPageScrollStateChanged,
     } = this.props;
     const { initialPage } = this.state;
     if (Platform.OS === 'android') {
@@ -76,6 +81,9 @@ class PXViewPager extends Component {
             globalStyles.container,
             { backgroundColor: theme.colors.background },
           ]}
+          onPageScrollStateChanged={
+            onPageScrollStateChanged || this.onPageScrollStateChanged
+          }
           onPageSelected={this.handleOnAndroidViewPagerPageSelected}
         >
           {this.renderContentForAndroid()}
