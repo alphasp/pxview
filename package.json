@@ -40,7 +40,7 @@
     "hoist-non-react-statics": "^2.0.0",
     "lodash.camelcase": "^4.3.0",
     "lodash.truncate": "^4.4.2",
-    "moment": "^2.21.0",
+    "moment": "^2.29.2",
     "normalizr": "^3.2.3",
     "pixiv-api-client": "^0.25.0",
     "pixiv-novel-parser": "github:alphasp/pixiv-novel-parser",
