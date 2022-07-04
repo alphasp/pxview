@@ -269,9 +269,9 @@ const MyPageWithHOC = withTheme(
   ),
 );
 
-export default function (props) {
+export default (props) => {
   const ref = useRef(null);
   useScrollToTop(ref);
   // eslint-disable-next-line react/jsx-props-no-spreading
   return <MyPageWithHOC {...props} scrollRef={ref} />;
-}
+};

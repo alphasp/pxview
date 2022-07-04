@@ -30,7 +30,7 @@ target 'PxViewR' do
 end
 
 target 'PxViewR-tvOS' do
-  # Pods for RnDiffApp-tvOS
+  # Pods for pxviewr-tvOS
   target 'PxViewR-tvOSTests' do
     inherit! :search_paths
     # Pods for testing

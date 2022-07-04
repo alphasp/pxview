@@ -2,7 +2,6 @@ import React from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { withTheme } from 'react-native-paper';
 import { Button } from 'react-native-elements';
-import { globalStyleVariables } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,20 +29,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   pillButton: {
-    padding: 10,
-    paddingHorizontal: 10,
+    margin: 10,
+    borderRadius: 20,
   },
 });
 
 const Pills = (props) => {
-  const {
-    items,
-    selectedIndex,
-    style,
-    onPressItem,
-    renderRightButton,
-    theme,
-  } = props;
+  const { items, selectedIndex, style, onPressItem, renderRightButton, theme } =
+    props;
   return (
     <View
       style={[
@@ -59,17 +52,21 @@ const Pills = (props) => {
           <Button
             key={item.title}
             title={item.title}
-            buttonStyle={styles.pillButton}
-            fontSize={14}
-            rounded={index === selectedIndex}
+            containerStyle={styles.pillButton}
+            titleStyle={{
+              fontSize: 14,
+              color: index !== selectedIndex ? 'gray' : '#fff',
+            }}
+            buttonStyle={[
+              {
+                paddingHorizontal: 10,
+                backgroundColor:
+                  index === selectedIndex
+                    ? theme.colors.headerBackground
+                    : 'transparent',
+              },
+            ]}
             onPress={() => onPressItem(index)}
-            backgroundColor={
-              index === selectedIndex
-                ? theme.colors.headerBackground
-                : globalStyleVariables.BACKGROUND_COLOR
-            }
-            color={index !== selectedIndex ? 'gray' : '#fff'}
-            transparent={index !== selectedIndex}
           />
         ))}
       </View>

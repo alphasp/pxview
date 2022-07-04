@@ -1,0 +1,13 @@
+diff --git a/node_modules/patch-package/dist/getPackageResolution.js b/node_modules/patch-package/dist/getPackageResolution.js
+index bc7ffaa..1a9cea2 100644
+--- a/node_modules/patch-package/dist/getPackageResolution.js
++++ b/node_modules/patch-package/dist/getPackageResolution.js
+@@ -65,7 +65,7 @@ function getPackageResolution({ packageDetails, packageManager, appPath, }) {
+         lockFileStack.reverse();
+         const relevantStackEntry = lockFileStack.find((entry) => entry.dependencies && packageDetails.name in entry.dependencies);
+         const pkg = relevantStackEntry.dependencies[packageDetails.name];
+-        return pkg.resolved || pkg.from || pkg.version;
++        return pkg.resolved || pkg.version || pkg.from;
+     }
+ }
+ exports.getPackageResolution = getPackageResolution;
