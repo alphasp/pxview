@@ -67,11 +67,11 @@ class PXViewPager extends Component {
       onPageScrollStateChanged,
     } = this.props;
     const { initialPage } = this.state;
+    // TODO: Should PagerView be used also on iOS?
     if (Platform.OS === 'android') {
       return (
         <PagerView
           ref={viewPagerRef}
-          key={`pxViewPager-${items.length}`} // https://github.com/facebook/react-native/issues/4775
           // changing initialPage on the fly causes another call to
           // onPageSelected (whole PagerView is rerendered?), which leads to
           // pages jumping back and forth while quickly browsing forward or
