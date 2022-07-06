@@ -1,14 +1,11 @@
 {
-  "presets": [
-    "module:metro-react-native-babel-preset",
-    "@babel/preset-flow"
-  ],
-  "plugins": [],
+    "presets": ["module:metro-react-native-babel-preset", "@babel/preset-flow"],
+    "plugins": ["react-native-reanimated/plugin"],
     "env": {
-    "production": {
-      "plugins": ["react-native-paper/babel"],
+        "production": {
+            "plugins": ["react-native-paper/babel"]
+        }
     },
-  },
-  "sourceMaps": true // must be true react-native/packager/transformer using with node-module-debug
-  // because of some bugs from vscode-node-debug & vscode-react-native, "sourceMaps" cannot be "inline" or "both"
+    "sourceMaps": true // must be true react-native/packager/transformer using with node-module-debug
+    // because of some bugs from vscode-node-debug & vscode-react-native, "sourceMaps" cannot be "inline" or "both"
 }

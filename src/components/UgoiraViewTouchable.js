@@ -6,7 +6,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
-import RNFetchBlob from 'rn-fetch-blob';
+import ReactNativeBlobUtil from 'react-native-blob-util';
 import { unzip } from 'react-native-zip-archive';
 import UgoiraView from './UgoiraView';
 import PXCacheImage from './PXCacheImage';
@@ -60,8 +60,8 @@ class UgoiraViewTouchable extends Component {
     } = this.props;
     const { zipUrl } = ugoiraMeta.item;
     try {
-      const ugoiraPath = `${RNFetchBlob.fs.dirs.CacheDir}/pxviewr/ugoira/${id}`;
-      const isDir = await RNFetchBlob.fs.isDir(ugoiraPath);
+      const ugoiraPath = `${ReactNativeBlobUtil.fs.dirs.CacheDir}/pxviewr/ugoira/${id}`;
+      const isDir = await ReactNativeBlobUtil.fs.isDir(ugoiraPath);
       if (isDir) {
         if (!this.unmounting) {
           this.setState({
@@ -70,9 +70,9 @@ class UgoiraViewTouchable extends Component {
         }
       } else {
         const downloadPath = `${
-          RNFetchBlob.fs.dirs.CacheDir
+          ReactNativeBlobUtil.fs.dirs.CacheDir
         }/pxviewr/ugoira_zip/${zipUrl.split('/').pop()}`;
-        this.task = RNFetchBlob.config({
+        this.task = ReactNativeBlobUtil.config({
           fileCache: true,
           appendExt: 'zip',
           key: zipUrl,

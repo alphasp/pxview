@@ -368,15 +368,19 @@ class SearchFilterModal extends Component {
       bookmarkNumMax,
       bookmarkCountsTag,
     } = this.state;
-    navigate(SCREENS.SearchResult, {
-      target,
-      period,
-      sort,
-      startDate,
-      endDate,
-      bookmarkNumMin,
-      bookmarkNumMax,
-      bookmarkCountsTag,
+    navigate({
+      name: SCREENS.SearchResult,
+      params: {
+        target,
+        period,
+        sort,
+        startDate,
+        endDate,
+        bookmarkNumMin,
+        bookmarkNumMax,
+        bookmarkCountsTag,
+      },
+      merge: true,
     });
   };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Platform, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { HeaderBackButton } from '@react-navigation/stack';
+import { HeaderBackButton } from '@react-navigation/elements';
 import { useTheme } from 'react-native-paper';
 import DrawerMenuButton from './DrawerMenuButton';
 import { globalStyleVariables } from '../styles';

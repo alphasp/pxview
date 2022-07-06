@@ -3,7 +3,7 @@ import { StyleSheet, View, SafeAreaView } from 'react-native';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { withTheme, Text, Button } from 'react-native-paper';
-import DateTimePicker from 'react-native-modal-datetime-picker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { connectLocalization } from '../../components/Localization';
 import PXListItem from '../../components/PXListItem';
 import { globalStyles, globalStyleVariables } from '../../styles';
@@ -142,7 +142,7 @@ class SearchFilterPeriodDateModal extends Component {
             {i18n.ok}
           </Button>
         </View>
-        <DateTimePicker
+        <DateTimePickerModal
           isVisible={isStartDatePickerVisible}
           cancelTextIOS={i18n.cancel}
           confirmTextIOS={i18n.ok}
@@ -152,7 +152,7 @@ class SearchFilterPeriodDateModal extends Component {
           minimumDate={new Date('2007-09-13')}
           maximumDate={moment(endDate).toDate()}
         />
-        <DateTimePicker
+        <DateTimePickerModal
           isVisible={isEndDatePickerVisible}
           onConfirm={this.handleOnConfirmEndDatePicker}
           onCancel={this.handleOnCancelEndDatePicker}

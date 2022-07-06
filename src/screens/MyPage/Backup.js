@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'react-native-paper';
 import DeviceInfo from 'react-native-device-info';
 import moment from 'moment';
-import RNFetchBlob from 'rn-fetch-blob';
+import ReactNativeBlobUtil from 'react-native-blob-util';
 import { useLocalization } from '../../components/Localization';
 import PXListItem from '../../components/PXListItem';
 import { globalStyles } from '../../styles';
@@ -30,7 +30,7 @@ import {
   restoreTheme,
 } from '../../common/actions/dataBackup';
 
-const { dirs, isDir, mkdir, writeFile, readFile, exists } = RNFetchBlob.fs;
+const { dirs, isDir, mkdir, writeFile, readFile, exists } = ReactNativeBlobUtil.fs;
 
 const Backup = () => {
   const dispatch = useDispatch();

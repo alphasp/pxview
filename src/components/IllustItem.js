@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ViewPropTypes, Image } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import {
+  ViewPropTypes,
+  ImagePropTypes,
+} from 'deprecated-react-native-prop-types';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { DarkTheme } from 'react-native-paper';
@@ -21,26 +25,6 @@ const styles = StyleSheet.create({
 });
 
 class IllustItem extends Component {
-  static propTypes = {
-    item: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired,
-    numColumns: PropTypes.number.isRequired,
-    onPressItem: PropTypes.func.isRequired,
-    parentContainerMargin: PropTypes.number,
-    containerStyle: ViewPropTypes.style,
-    imageStyle: Image.propTypes.style,
-    isHighlight: PropTypes.bool,
-    isMute: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    parentContainerMargin: 0,
-    containerStyle: {},
-    imageStyle: {},
-    isHighlight: false,
-    isMute: false,
-  };
-
   shouldComponentUpdate(nextProps) {
     const {
       item: prevItem,
@@ -135,6 +119,25 @@ class IllustItem extends Component {
     );
   }
 }
+
+IllustItem.propTypes = {
+  item: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  numColumns: PropTypes.number.isRequired,
+  onPressItem: PropTypes.func.isRequired,
+  parentContainerMargin: PropTypes.number,
+  containerStyle: ViewPropTypes.style,
+  imageStyle: ImagePropTypes.style,
+  isHighlight: PropTypes.bool,
+  isMute: PropTypes.bool,
+};
+IllustItem.defaultProps = {
+  parentContainerMargin: 0,
+  containerStyle: {},
+  imageStyle: {},
+  isHighlight: false,
+  isMute: false,
+};
 
 export default connect(() => {
   const getIllustItem = makeGetIllustItem();

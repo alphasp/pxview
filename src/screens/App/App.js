@@ -5,7 +5,6 @@ import {
   NavigationContainer,
   DefaultTheme as NavigationDefaultTheme,
   DarkTheme as NavigationDarkTheme,
-  useLinking,
 } from '@react-navigation/native';
 import { getStateFromPath } from '@react-navigation/core';
 import analytics from '@react-native-firebase/analytics';
@@ -24,7 +23,6 @@ import ModalRoot from '../../containers/ModalRoot';
 import PXSnackbar from '../../components/PXSnackbar';
 import { THEME_TYPES, SCREENS } from '../../common/constants';
 import { globalStyleVariables } from '../../styles';
-import usePrevious from '../../common/hooks/usePrevious';
 
 const styles = StyleSheet.create({
   container: {
@@ -44,7 +42,6 @@ const getActiveRouteName = (state) => {
 };
 
 const App = () => {
-  const [initialState, setInitialState] = useState();
   const [navigationIsReady, setNavigationIsReady] = useState(false);
   const rehydrated = useSelector((state) => state.auth.rehydrated);
   const user = useSelector((state) => state.auth.user);
@@ -54,50 +51,6 @@ const App = () => {
   const themeName = useSelector((state) => state.theme.name);
   const navigationRef = useRef();
   const routeNameRef = useRef();
-  const prevRehydrated = usePrevious(rehydrated);
-
-  const { getInitialState } = useLinking(navigationRef, {
-    prefixes: [
-      'https://www.pixiv.net/en',
-      'https://www.pixiv.net',
-      'http://www.pixiv.net',
-      'http://www.pixiv.net/en',
-      'https://touch.pixiv.net',
-      'pixiv://',
-    ],
-    config: {
-      [SCREENS.Detail]: 'artworks/:illustId',
-      [SCREENS.NovelDetail]: 'novel/show.php',
-      [SCREENS.UserDetail]: 'users/:uid',
-      // workaround to handle deep link to one screen with multiple path
-      [`${SCREENS.Detail}-1`]: 'illusts/:illustId',
-      [`${SCREENS.Detail}-2`]: 'member_illust.php',
-      [`${SCREENS.NovelDetail}-1`]: 'novels/:novelId',
-      [`${SCREENS.UserDetail}-1`]: 'member.php',
-      [SCREENS.Login]: 'account/login',
-    },
-    getStateFromPath: (path, options) => {
-      const state = getStateFromPath(path, options);
-      const newRoutes = [...state.routes];
-      // eslint-disable-next-line prefer-destructuring
-      newRoutes[0].name = newRoutes[0].name.split('-')[0];
-      let routes;
-      if (user) {
-        routes = [
-          {
-            name: SCREENS.Main, // Load tab navigation first
-          },
-          ...newRoutes,
-        ];
-      } else {
-        routes = newRoutes;
-      }
-      return {
-        ...state,
-        routes,
-      };
-    },
-  });
 
   useEffect(() => {
     remoteConfig()
@@ -110,28 +63,8 @@ const App = () => {
           minimumFetchIntervalMillis: 3600000, // 1 hour
         }),
       )
-      .then(() => remoteConfig().fetchAndActivate())
-      .then(() => {
-        Promise.race([
-          getInitialState(),
-          new Promise((resolve) =>
-            // Timeout in 150ms if `getInitialState` doesn't resolve
-            // Workaround for https://github.com/facebook/react-native/issues/25675
-            setTimeout(resolve, 150),
-          ),
-        ])
-          .catch((e) => {
-            console.error('Error getting initial state ', e);
-          })
-          .then((state) => {
-            if (state !== undefined) {
-              setInitialState(state);
-            }
-
-            setNavigationIsReady(true);
-          });
-      });
-  }, [getInitialState]);
+      .then(() => remoteConfig().fetchAndActivate());
+  }, []);
 
   useEffect(() => {
     if (rehydrated && navigationIsReady) {
@@ -140,12 +73,6 @@ const App = () => {
       routeNameRef.current = getActiveRouteName(state);
     }
   }, [rehydrated, navigationIsReady]);
-
-  useEffect(() => {
-    if (!prevRehydrated && rehydrated) {
-      SplashScreen.hide();
-    }
-  }, [prevRehydrated, rehydrated]);
 
   const handleOnNavigationStateChange = (state) => {
     const previousRouteName = routeNameRef.current;
@@ -199,7 +126,7 @@ const App = () => {
       },
     };
   }
-  if (!rehydrated || !navigationIsReady) {
+  if (!rehydrated) {
     renderComponent = <Loader />;
   } else if (user) {
     renderComponent = <AppNavigator initialRouteName={initialRouteName} />;
@@ -208,13 +135,57 @@ const App = () => {
   }
   return (
     <PaperProvider theme={theme}>
-      {(!rehydrated || !navigationIsReady) && <Loader />}
-      {rehydrated && navigationIsReady && (
+      {!rehydrated && <Loader />}
+      {rehydrated && (
         <NavigationContainer
           ref={navigationRef}
-          initialState={initialState}
           theme={theme}
+          onReady={() => {
+            SplashScreen.hide();
+            setNavigationIsReady(true);
+          }}
           onStateChange={handleOnNavigationStateChange}
+          linking={{
+            prefixes: [
+              'https://www.pixiv.net/en',
+              'https://www.pixiv.net',
+              'http://www.pixiv.net',
+              'http://www.pixiv.net/en',
+              'https://touch.pixiv.net',
+              'pixiv://',
+            ],
+            config: {
+              screens: {
+                [SCREENS.Detail]: 'artworks/:illustId',
+                [SCREENS.NovelDetail]: 'novel/show.php',
+                [SCREENS.UserDetail]: 'users/:uid',
+                // workaround to handle deep link to one screen with multiple path
+                [`${SCREENS.Detail}-1`]: 'illusts/:illustId',
+                [`${SCREENS.Detail}-2`]: 'member_illust.php',
+                [`${SCREENS.NovelDetail}-1`]: 'novels/:novelId',
+                [`${SCREENS.UserDetail}-1`]: 'member.php',
+                [SCREENS.Login]: 'account/login',
+              },
+            },
+            getStateFromPath: (path, config) => {
+              const state = getStateFromPath(path, config);
+              const newRoutes = [...state.routes];
+              // eslint-disable-next-line prefer-destructuring
+              newRoutes[0].name = newRoutes[0].name.split('-')[0];
+              let routes;
+              if (user) {
+                routes = [
+                  {
+                    name: SCREENS.Main, // Load tab navigation first
+                  },
+                  ...newRoutes,
+                ];
+              } else {
+                routes = newRoutes;
+              }
+              return { ...state, routes };
+            },
+          }}
         >
           <View style={styles.container}>
             <StatusBar

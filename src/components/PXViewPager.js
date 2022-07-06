@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 import { View, Platform, FlatList } from 'react-native';
 import { withTheme } from 'react-native-paper';
-import ViewPager from '@react-native-community/viewpager';
+import PagerView from 'react-native-pager-view';
 import Loader from './Loader';
 import { globalStyles, globalStyleVariables } from '../styles';
 
 const LIST_WINDOW_SIZE = 3;
 
 class PXViewPager extends Component {
-  state = {
-    isMounted: false,
-  };
-
-  componentDidMount() {
-    this.setState({
-      isMounted: true,
-    });
+  constructor(props) {
+    super(props);
+    this.state = {
+      initialPage: props.index,
+    };
   }
 
   handleOnIOSViewPagerPageSelected = (e) => {
@@ -30,9 +27,7 @@ class PXViewPager extends Component {
   };
 
   handleOnAndroidViewPagerPageSelected = (e) => {
-    const { items, onEndReached } = this.props;
-    // const { position } = e.nativeEvent;
-    const { onPageSelected } = this.props;
+    const { items, onEndReached, onPageSelected } = this.props;
     const index = e.nativeEvent.position;
     onPageSelected(index);
     if (onEndReached && index >= items.length - 2) {
@@ -56,6 +51,10 @@ class PXViewPager extends Component {
     });
   };
 
+  onPageScrollStateChanged = () => {
+    //
+  };
+
   render() {
     const {
       items,
@@ -65,25 +64,30 @@ class PXViewPager extends Component {
       onEndReached,
       viewPagerRef,
       theme,
+      onPageScrollStateChanged,
     } = this.props;
-    const { isMounted } = this.state;
+    const { initialPage } = this.state;
+    // TODO: Should PagerView be used also on iOS?
     if (Platform.OS === 'android') {
-      if (!isMounted) {
-        return <Loader />;
-      }
       return (
-        <ViewPager
+        <PagerView
           ref={viewPagerRef}
-          key={`pxViewPager-${items.length}`} // https://github.com/facebook/react-native/issues/4775
-          initialPage={index}
+          // changing initialPage on the fly causes another call to
+          // onPageSelected (whole PagerView is rerendered?), which leads to
+          // pages jumping back and forth while quickly browsing forward or
+          // backward
+          initialPage={initialPage}
           style={[
             globalStyles.container,
             { backgroundColor: theme.colors.background },
           ]}
+          onPageScrollStateChanged={
+            onPageScrollStateChanged || this.onPageScrollStateChanged
+          }
           onPageSelected={this.handleOnAndroidViewPagerPageSelected}
         >
           {this.renderContentForAndroid()}
-        </ViewPager>
+        </PagerView>
       );
     }
     return (
