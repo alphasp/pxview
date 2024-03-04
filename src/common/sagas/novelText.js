@@ -10,8 +10,8 @@ import { NOVEL_TEXT } from '../constants/actionTypes';
 export function* handleFetchNovelText(action) {
   const { novelId } = action.payload;
   try {
-    const response = yield apply(pixiv, pixiv.novelText, [novelId]);
-    yield put(fetchNovelTextSuccess(response.novel_text, novelId));
+    const response = yield apply(pixiv, pixiv.novelWebview, [novelId]);
+    yield put(fetchNovelTextSuccess(response.text, novelId));
   } catch (err) {
     yield put(fetchNovelTextFailure(novelId));
     yield put(addError(err));
