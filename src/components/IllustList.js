@@ -7,16 +7,13 @@ import {
   Platform,
   DeviceEventEmitter,
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { useTheme, Button } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 import IllustItem from './IllustItem';
 import Loader from './Loader';
-import EmptyStateView from './EmptyStateView';
 import { globalStyles, globalStyleVariables } from '../styles';
 import { SCREENS } from '../common/constants';
-
-const ILLUST_COLUMNS = 3;
 
 const styles = StyleSheet.create({
   footer: {
@@ -69,13 +66,13 @@ class IllustList extends Component {
   };
 
   renderItem = ({ item, index }) => {
-    const { hideBookmarkButton } = this.props;
+    const { hideBookmarkButton, illustColumns } = this.props;
     return (
       <IllustItem
         key={item.id}
         illustId={item.id}
         index={index}
-        numColumns={ILLUST_COLUMNS}
+        numColumns={illustColumns}
         hideBookmarkButton={hideBookmarkButton}
         onPressItem={() => this.handleOnPressItem(item, index)}
       />
@@ -151,7 +148,9 @@ class IllustList extends Component {
       maxItems,
       theme,
       innerRef,
+      illustColumns,
     } = this.props;
+
     return (
       <View
         style={[
@@ -175,14 +174,15 @@ class IllustList extends Component {
                 ? items.slice(0, maxItems)
                 : items
             }
-            numColumns={ILLUST_COLUMNS}
+            key={illustColumns.toString()}
+            numColumns={illustColumns}
             keyExtractor={(item) => item.id.toString()}
             listKey={listKey}
             renderItem={this.renderItem}
             getItemLayout={(data, index) => ({
-              length: globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS,
+              length: globalStyleVariables.WINDOW_WIDTH / illustColumns,
               offset:
-                (globalStyleVariables.WINDOW_WIDTH / ILLUST_COLUMNS) * index,
+                (globalStyleVariables.WINDOW_WIDTH / illustColumns) * index,
               index,
             })}
             removeClippedSubviews={Platform.OS === 'android'}
@@ -209,12 +209,21 @@ class IllustList extends Component {
   }
 }
 
+const ConnectedIllustList = connect(
+  (state) => {
+    return { illustColumns: state.displaySettings.illustListColumns };
+  },
+  null,
+  null,
+  { forwardRef: true },
+)(IllustList);
+
 export default forwardRef((props, ref) => {
   const theme = useTheme();
   const navigation = useNavigation();
   // const isConnected = useSelector((state) => state.network.isConnected);
   return (
-    <IllustList
+    <ConnectedIllustList
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
       // isConnected={isConnected}
