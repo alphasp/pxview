@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { Component } from 'react';
 import { StyleSheet, View, RefreshControl, FlatList } from 'react-native';
 import { withTheme, Text } from 'react-native-paper';
@@ -8,6 +9,7 @@ import NoResult from './NoResult';
 import Loader from './Loader';
 import PXTouchable from './PXTouchable';
 import PXThumbnailTouchable from './PXThumbnailTouchable';
+import PXImage from './PXImage';
 import { globalStyles, globalStyleVariables } from '../styles';
 import { SCREENS } from '../common/constants';
 
@@ -61,6 +63,11 @@ const styles = StyleSheet.create({
   comment: {
     marginTop: 10,
   },
+  stamp: {
+    width: 100,
+    height: 100,
+    borderRadius: 10,
+  },
   nullResultContainer: {
     flex: 1,
     alignItems: 'center',
@@ -105,7 +112,10 @@ class CommentList extends Component {
             )}
           </View>
           <View style={styles.comment}>
-            <Text>{item.comment}</Text>
+            {item.comment ? <Text>{item.comment}</Text> : null}
+            {item.stamp?.stamp_url && (
+              <PXImage uri={item.stamp.stamp_url} style={styles.stamp} />
+            )}
           </View>
           <View style={styles.dateAndReply}>
             <Text
