@@ -16,7 +16,7 @@ export function* handleFetchIllustCommentReplies(action) {
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
     } else {
-      response = yield apply(pixiv, pixiv.illustCommentReplies, [
+      response = yield apply(pixiv, pixiv.illustCommentRepliesV2, [
         commentId,
         options,
       ]);

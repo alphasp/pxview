@@ -16,7 +16,7 @@ export function* handleFetchNovelCommentReplies(action) {
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
     } else {
-      response = yield apply(pixiv, pixiv.novelCommentReplies, [
+      response = yield apply(pixiv, pixiv.novelCommentRepliesV2, [
         commentId,
         options,
       ]);

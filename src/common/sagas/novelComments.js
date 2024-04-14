@@ -16,7 +16,7 @@ export function* handleFetchNovelComments(action) {
     if (nextUrl) {
       response = yield apply(pixiv, pixiv.requestUrl, [nextUrl]);
     } else {
-      response = yield apply(pixiv, pixiv.novelCommentsV2, [novelId, options]);
+      response = yield apply(pixiv, pixiv.novelCommentsV3, [novelId, options]);
     }
     const normalized = normalize(
       response.comments,
