@@ -31,6 +31,10 @@ const settingsList = [
     title: 'readingSettings',
   },
   {
+    id: 'displaySettings',
+    title: 'displaySettings',
+  },
+  {
     id: 'saveImageSettings',
     title: 'saveImageSettings',
   },
@@ -155,6 +159,10 @@ class Settings extends Component {
       }
       case 'readingSettings': {
         navigate(SCREENS.ReadingSettings);
+        break;
+      }
+      case 'displaySettings': {
+        navigate(SCREENS.DisplaySettings);
         break;
       }
       case 'saveImageSettings': {
