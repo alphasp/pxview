@@ -45,7 +45,7 @@
     "pixiv-api-client": "^0.27.0",
     "pixiv-novel-parser": "github:alphasp/pixiv-novel-parser",
     "prop-types": "^15.5.10",
-    "qs": "^6.5.0",
+    "qs": "^6.9.7",
     "react": "16.13.1",
     "react-native": "0.63.5",
     "react-native-action-button": "github:alphasp/react-native-action-button",
