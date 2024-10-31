@@ -27,7 +27,6 @@
     "@react-native-firebase/crashlytics": "^11.4.1",
     "@react-native-firebase/database": "^11.4.1",
     "@react-native-firebase/perf": "^11.4.1",
-    "@react-native-firebase/remote-config": "^11.4.1",
     "@react-navigation/core": "^5.15.1",
     "@react-navigation/drawer": "^5.12.3",
     "@react-navigation/material-bottom-tabs": "^5.3.13",

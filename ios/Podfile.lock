@@ -28,9 +28,6 @@ PODS:
   - Firebase/Performance (7.11.0):
     - Firebase/CoreOnly
     - FirebasePerformance (~> 7.11.0)
-  - Firebase/RemoteConfig (7.11.0):
-    - Firebase/CoreOnly
-    - FirebaseRemoteConfig (~> 7.11.0)
   - FirebaseABTesting (7.11.0):
     - FirebaseCore (~> 7.0)
   - FirebaseAnalytics (7.11.0):
@@ -493,10 +490,6 @@ PODS:
     - Firebase/Performance (= 7.11.0)
     - React-Core
     - RNFBApp
-  - RNFBRemoteConfig (11.4.1):
-    - Firebase/RemoteConfig (= 7.11.0)
-    - React-Core
-    - RNFBApp
   - RNGestureHandler (1.10.1):
     - React-Core
   - RNLocalize (1.4.2):
@@ -593,7 +586,6 @@ DEPENDENCIES:
   - "RNFBCrashlytics (from `../node_modules/@react-native-firebase/crashlytics`)"
   - "RNFBDatabase (from `../node_modules/@react-native-firebase/database`)"
   - "RNFBPerf (from `../node_modules/@react-native-firebase/perf`)"
-  - "RNFBRemoteConfig (from `../node_modules/@react-native-firebase/remote-config`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -734,8 +726,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/database"
   RNFBPerf:
     :path: "../node_modules/@react-native-firebase/perf"
-  RNFBRemoteConfig:
-    :path: "../node_modules/@react-native-firebase/remote-config"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNLocalize:
@@ -831,7 +821,6 @@ SPEC CHECKSUMS:
   RNFBCrashlytics: 59d9ecfaacddbe10819d9071ee3b9921b79b8c6b
   RNFBDatabase: 026067d3ce9d65c96146f7f32c1f044f27665f29
   RNFBPerf: d54d3ab9a11fb319074de3d4714168052ac225cd
-  RNFBRemoteConfig: 3035dd5d7b2a903f822505f04a5cd01752d5bc37
   RNGestureHandler: 5e58135436aacc1c5d29b75547d3d2b9430d052c
   RNLocalize: 4071198b59b461f3b74eebc5fee8c50f13e39e79
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad

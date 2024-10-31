@@ -4,7 +4,6 @@
 import { createSelector, createSelectorCreator } from 'reselect';
 import equals from 'shallow-equals';
 import { denormalize } from 'normalizr';
-import remoteConfig from '@react-native-firebase/remote-config';
 import parseNovelText from '../helpers/novelTextParser';
 import Schemas from '../constants/schemas';
 import { READING_DIRECTION_TYPES } from '../constants';
@@ -17,26 +16,6 @@ function getNonMutedTagsAndUsersItems(isHideMute, items, muteTags, muteUsers) {
     return defaultArray;
   }
   let filteredItems = items;
-
-  const enableServerFiltering = remoteConfig()
-    .getValue('enableServerFiltering')
-    .asBoolean();
-  if (enableServerFiltering) {
-    const tagBlackListRaw = remoteConfig().getValue('tagBlackList').asString();
-    if (tagBlackListRaw) {
-      const tagBlackList = tagBlackListRaw.split(',');
-      filteredItems = items.filter((item) => {
-        const hasMutedTag = item.tags.some((tag) => {
-          return (
-            tagBlackList.includes(tag.name) ||
-            tagBlackList.includes(tag.translated_name)
-          );
-        });
-        return !hasMutedTag;
-      });
-    }
-  }
-
   if (isHideMute) {
     filteredItems = filteredItems.filter((item) => {
       const hasMutedTag = item.tags.some((tag) => {
@@ -63,30 +42,6 @@ function getNonMutedUsersItems(isHideMute, items, muteUsers) {
       return !isMutedUser;
     });
     return filteredItems;
-  }
-  const enableServerFiltering = remoteConfig()
-    .getValue('enableServerFiltering')
-    .asBoolean();
-  if (enableServerFiltering) {
-    const tagBlackListRaw = remoteConfig().getValue('tagBlackList').asString();
-    if (tagBlackListRaw) {
-      const tagBlackList = tagBlackListRaw.split(',');
-
-      filteredItems = filteredItems.map((item) => {
-        return {
-          ...item,
-          illusts: item.illusts.filter((illust) => {
-            const hasMutedTag = illust.tags.some((tag) => {
-              return (
-                tagBlackList.includes(tag.name) ||
-                tagBlackList.includes(tag.translated_name)
-              );
-            });
-            return !hasMutedTag;
-          }),
-        };
-      });
-    }
   }
   return filteredItems;
 }
