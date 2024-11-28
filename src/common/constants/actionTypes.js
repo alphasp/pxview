@@ -468,6 +468,12 @@ export const READING_SETTINGS = defineAction(
   appNamespace,
 );
 
+export const DISPLAY_SETTINGS = defineAction(
+  'DISPLAY_SETTINGS',
+  [SET, RESTORE],
+  appNamespace,
+);
+
 export const TRENDING_SEARCH_SETTINGS = defineAction(
   'TRENDING_SEARCH_SETTINGS',
   [SET, RESTORE],
