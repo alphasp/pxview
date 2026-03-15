@@ -113,6 +113,25 @@ const enhanceSaveImage = (WrappedComponent) => {
       });
     };
 
+    getUniqueFilePath = async (imagesDir, fileName) => {
+      const lastDotIndex = fileName.lastIndexOf('.');
+      const hasExt = lastDotIndex > 0;
+      const baseName = hasExt ? fileName.slice(0, lastDotIndex) : fileName;
+      const ext = hasExt ? fileName.slice(lastDotIndex) : '';
+
+      let candidateName = fileName;
+      let candidatePath = `${imagesDir}/${candidateName}`;
+      let counter = 1;
+
+      while (await RNFetchBlob.fs.exists(candidatePath)) {
+        candidateName = `${baseName}_${counter}${ext}`;
+        candidatePath = `${imagesDir}/${candidateName}`;
+        counter += 1;
+      }
+
+      return { filePath: candidatePath, fileName: candidateName };
+    };
+
     saveImage = async ({
       imageUrls,
       imageIndex,
@@ -177,9 +196,11 @@ const enhanceSaveImage = (WrappedComponent) => {
           saveImageSettings,
           imageIndex || index,
         );
+        const { filePath: targetPath, fileName: targetFileName } =
+          await this.getUniqueFilePath(imagesDir, fileName);
         try {
           const res = await RNFetchBlob.config({
-            path: `${imagesDir}/${fileName}`,
+            path: targetPath,
           }).fetch('GET', url, {
             referer: 'http://www.pixiv.net',
           });
@@ -188,19 +209,25 @@ const enhanceSaveImage = (WrappedComponent) => {
             try {
               await CameraRoll.saveToCameraRoll(filePath);
               this.showToast(
-                i18n.formatString(i18n.saveImageSuccess, fileName),
+                i18n.formatString(i18n.saveImageSuccess, targetFileName),
               );
             } catch (err) {
-              this.showToast(i18n.formatString(i18n.saveImageError, fileName));
+              this.showToast(
+                i18n.formatString(i18n.saveImageError, targetFileName),
+              );
             }
           } else if (Platform.OS === 'android') {
-            this.showToast(i18n.formatString(i18n.saveImageSuccess, fileName));
+            this.showToast(
+              i18n.formatString(i18n.saveImageSuccess, targetFileName),
+            );
             try {
               await RNFetchBlob.fs.scanFile([{ path: filePath }]);
             } catch (err) {}
           }
         } catch (err) {
-          this.showToast(i18n.formatString(i18n.saveImageError, fileName));
+          this.showToast(
+            i18n.formatString(i18n.saveImageError, targetFileName),
+          );
         }
       });
       return null;
