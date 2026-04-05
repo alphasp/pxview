@@ -1,4 +1,5 @@
 import { Parser as NovelParser } from 'pixiv-novel-parser';
+import { renderTextWithInlineImages } from './novelInlineImage';
 
 const parseNovelText = (novelText) => {
   // const parsedNovelText = NovelParser.parse(
@@ -9,13 +10,13 @@ const parseNovelText = (novelText) => {
   let text = '';
   parsedNovelText.forEach((p, index) => {
     if (p.type === 'text') {
-      text += p.val.replace(/</g, '＜');
+      text += renderTextWithInlineImages(p.val);
     } else if (p.type === 'tag') {
       if (p.name === 'chapter') {
         text += '<chapter>';
         p.title.forEach((pp) => {
           if (pp.type === 'text') {
-            text += pp.val.replace(/</g, '＜');
+            text += renderTextWithInlineImages(pp.val);
           } else if (pp.name === 'rb') {
             text += `${pp.rubyBase}(${pp.rubyText})`;
           }
@@ -29,8 +30,8 @@ const parseNovelText = (novelText) => {
         text += `<a href='${p.uri}'>`;
         p.title.forEach((pp) => {
           if (pp.type === 'text') {
-            text += pp.val.replace(/</g, '＜');
-          } else if (pp.type === 'rb') {
+            text += renderTextWithInlineImages(pp.val);
+          } else if (pp.type === 'rb' || pp.name === 'rb') {
             text += `${pp.rubyBase}(${pp.rubyText})`;
           }
         });

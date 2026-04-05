@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, Linking } from 'react-native';
 import HtmlView from 'react-native-htmlview';
+import entities from 'entities';
 import { Text } from 'react-native-paper';
 import PXTabView from './PXTabView';
+import NovelInlineImage from './NovelInlineImage';
 import { MODAL_TYPES } from '../common/constants';
 import { globalStyleVariables } from '../styles';
 
@@ -22,6 +24,198 @@ const styles = StyleSheet.create({
     color: '#007AFF',
   },
 });
+
+const MAX_HTML_CHUNK_LENGTH = 3000;
+const PROTECTED_TAGS = new Set(['a', 'chapter', 'jump', 'px-image']);
+const SPLITTABLE_PROTECTED_TAGS = new Set(['a', 'chapter', 'jump']);
+
+const getTagInfo = (token) => {
+  const match = token.match(/^<\/?([a-zA-Z0-9-]+)/);
+  if (!match) {
+    return null;
+  }
+
+  return {
+    name: match[1],
+    isClosing: token[1] === '/',
+  };
+};
+
+const tokenizeHtml = (html) => html.match(/<[^>]+>|[^<]+/g) || [];
+const decodeHtmlText = (text = '') => entities.decodeHTML(text);
+
+const collectProtectedRegion = (tokens, startIndex) => {
+  const openingTag = tokens[startIndex];
+  const openingTagInfo = getTagInfo(openingTag);
+  if (!openingTagInfo || openingTagInfo.isClosing) {
+    return null;
+  }
+
+  const innerTokens = [];
+  let depth = 1;
+
+  for (let index = startIndex + 1; index < tokens.length; index += 1) {
+    const token = tokens[index];
+    const tagInfo = getTagInfo(token);
+
+    if (tagInfo && tagInfo.name === openingTagInfo.name) {
+      depth += tagInfo.isClosing ? -1 : 1;
+      if (!depth) {
+        return {
+          closeTag: token,
+          innerHtml: innerTokens.join(''),
+          nextIndex: index,
+          openTag: openingTag,
+          tagName: openingTagInfo.name,
+          text: `${openingTag}${innerTokens.join('')}${token}`,
+        };
+      }
+    }
+
+    innerTokens.push(token);
+  }
+
+  return {
+    closeTag: '',
+    innerHtml: innerTokens.join(''),
+    nextIndex: tokens.length - 1,
+    openTag: openingTag,
+    tagName: openingTagInfo.name,
+    text: `${openingTag}${innerTokens.join('')}`,
+  };
+};
+
+const normalizeProtectedRegions = (html, maxLength) => {
+  const tokens = tokenizeHtml(html);
+  let output = '';
+
+  for (let index = 0; index < tokens.length; index += 1) {
+    const token = tokens[index];
+    const tagInfo = getTagInfo(token);
+
+    if (tagInfo && !tagInfo.isClosing && PROTECTED_TAGS.has(tagInfo.name)) {
+      const region = collectProtectedRegion(tokens, index);
+      if (!region) {
+        output += token;
+        continue;
+      }
+
+      if (
+        region.text.length > maxLength &&
+        SPLITTABLE_PROTECTED_TAGS.has(region.tagName)
+      ) {
+        const wrapperLength = region.openTag.length + region.closeTag.length;
+        const innerMaxLength = maxLength - wrapperLength;
+
+        if (innerMaxLength > 0) {
+          const innerChunks = chunkHtmlPreservingTags(
+            region.innerHtml,
+            innerMaxLength,
+          );
+          output += innerChunks
+            .map((chunk) => `${region.openTag}${chunk}${region.closeTag}`)
+            .join('');
+        } else {
+          output += region.text;
+        }
+      } else {
+        output += region.text;
+      }
+
+      index = region.nextIndex;
+      continue;
+    }
+
+    output += token;
+  }
+
+  return output;
+};
+
+export const chunkHtmlPreservingTags = (
+  html,
+  maxLength = MAX_HTML_CHUNK_LENGTH,
+) => {
+  if (!html) {
+    return [];
+  }
+
+  const normalizedHtml = normalizeProtectedRegions(html, maxLength);
+  const tokens = tokenizeHtml(normalizedHtml);
+  const chunks = [];
+  let current = '';
+  let protectedDepth = 0;
+
+  const flushCurrent = () => {
+    if (current) {
+      chunks.push(current);
+      current = '';
+    }
+  };
+
+  tokens.forEach((token, tokenIndex) => {
+    const tagInfo = getTagInfo(token);
+    if (tagInfo) {
+      const isProtectedTag = PROTECTED_TAGS.has(tagInfo.name);
+      if (!tagInfo.isClosing && isProtectedTag) {
+        const protectedRegion = !protectedDepth
+          ? collectProtectedRegion(tokens, tokenIndex)
+          : null;
+        const protectedRegionLength = protectedRegion
+          ? protectedRegion.text.length
+          : token.length;
+
+        if (
+          !protectedDepth &&
+          current.length &&
+          current.length + protectedRegionLength > maxLength
+        ) {
+          flushCurrent();
+        }
+        current += token;
+        protectedDepth += 1;
+        return;
+      }
+
+      current += token;
+      if (tagInfo.isClosing && isProtectedTag && protectedDepth > 0) {
+        protectedDepth -= 1;
+      }
+
+      if (
+        !protectedDepth &&
+        current.length >= maxLength
+      ) {
+        flushCurrent();
+      }
+      return;
+    }
+
+    if (protectedDepth) {
+      current += token;
+      return;
+    }
+
+    let remaining = token;
+    while (remaining.length) {
+      if (current.length === maxLength) {
+        flushCurrent();
+      }
+
+      const spaceLeft = maxLength - current.length;
+      const nextLength = Math.min(spaceLeft, remaining.length);
+      current += remaining.slice(0, nextLength);
+      remaining = remaining.slice(nextLength);
+
+      if (current.length === maxLength) {
+        flushCurrent();
+      }
+    }
+  });
+
+  flushCurrent();
+  return chunks;
+};
 
 class NovelViewer extends Component {
   constructor(props) {
@@ -48,27 +242,145 @@ class NovelViewer extends Component {
     }
   }
 
-  handleRenderNode = (node, index, siblings, parent, defaultRenderer) => {
-    const { onPressPageLink } = this.props;
-    if (node.name === 'chapter') {
+  getHtmlTextComponentProps = (textProps = {}) => {
+    const { fontSize, lineHeight } = this.props;
+    const { style, ...restTextProps } = textProps;
+
+    return {
+      selectable: true,
+      ...restTextProps,
+      style: [
+        {
+          fontSize,
+          lineHeight: fontSize * lineHeight,
+        },
+        style,
+      ].filter(Boolean),
+    };
+  };
+
+  renderInlineSafeTextContainer = (
+    node,
+    index,
+    parent,
+    defaultRenderer,
+    textProps = {},
+  ) => {
+    const mergedTextProps = this.getHtmlTextComponentProps(textProps);
+    const { style: textStyle, ...restTextProps } = mergedTextProps;
+
+    if (node.children.length === 1 && node.children[0].type === 'text') {
       return (
-        <Text key={index} style={styles.novelChapter}>
-          {node.children.length === 1 && node.children[0].type === 'text'
-            ? node.children[0].data
-            : defaultRenderer(node.children, parent)}
+        <Text key={index} style={textStyle} {...restTextProps}>
+          {decodeHtmlText(node.children[0].data)}
         </Text>
       );
     }
+
+    const renderedChildren = node.children.reduce((children, child, childIndex) => {
+      const childKey = `${index}-${childIndex}`;
+
+      if (child.type === 'text') {
+        children.push(decodeHtmlText(child.data));
+        return children;
+      }
+
+      const renderedChild =
+        this.handleRenderNode(
+          child,
+          childKey,
+          node.children,
+          node,
+          defaultRenderer,
+        ) || defaultRenderer([child], node);
+
+      React.Children.toArray(renderedChild).forEach(
+        (renderedEntry, renderedEntryIndex) => {
+          const renderedKey = `${childKey}-${renderedEntryIndex}`;
+
+          if (
+            typeof renderedEntry === 'string' ||
+            typeof renderedEntry === 'number'
+          ) {
+            children.push(renderedEntry);
+            return;
+          }
+
+          if (!React.isValidElement(renderedEntry)) {
+            return;
+          }
+
+          children.push(
+            React.cloneElement(renderedEntry, {
+              key: renderedEntry.key || renderedKey,
+            }),
+          );
+        },
+      );
+
+      return children;
+    }, []);
+
+    return (
+      <Text key={index} style={textStyle} {...restTextProps}>
+        {renderedChildren}
+      </Text>
+    );
+  };
+
+  renderChapterNode = (node, index, parent, defaultRenderer) =>
+    this.renderInlineSafeTextContainer(
+      node,
+      index,
+      parent,
+      defaultRenderer,
+      { style: styles.novelChapter },
+    );
+
+  renderAnchorNode = (node, index, parent, defaultRenderer) => {
+    const { href } = node.attribs || {};
+
+    return this.renderInlineSafeTextContainer(
+      node,
+      index,
+      parent,
+      defaultRenderer,
+      {
+        onPress: href ? () => Linking.openURL(decodeHtmlText(href)) : undefined,
+        style: styles.pageLink,
+      },
+    );
+  };
+
+  handleRenderNode = (node, index, siblings, parent, defaultRenderer) => {
+    const { onPressPageLink } = this.props;
+    if (node.name === 'chapter') {
+      return this.renderChapterNode(node, index, parent, defaultRenderer);
+    }
     if (node.name === 'jump') {
       const { page } = node.attribs;
+      return this.renderInlineSafeTextContainer(
+        node,
+        index,
+        parent,
+        defaultRenderer,
+        {
+          onPress: () => onPressPageLink(page),
+          style: styles.pageLink,
+        },
+      );
+    }
+    if (node.name === 'a') {
+      return this.renderAnchorNode(node, index, parent, defaultRenderer);
+    }
+    if (node.name === 'px-image') {
+      const illustId = node.attribs && node.attribs['data-illust-id'];
       return (
-        <Text
+        <NovelInlineImage
           key={index}
-          style={styles.pageLink}
-          onPress={() => onPressPageLink(page)}
-        >
-          {defaultRenderer(node.children, parent)}
-        </Text>
+          illustId={illustId}
+          maxWidth={globalStyleVariables.WINDOW_WIDTH - 20}
+        />
       );
     }
     // other nodes render by default renderer
@@ -90,8 +402,8 @@ class NovelViewer extends Component {
     const { novelId, fontSize, lineHeight, items, index } = this.props;
     const sceneIndex = routes.indexOf(route);
     const item = items[sceneIndex];
-    const pagedItem = item.match(/(.|[\r\n]){1,3000}/g) || [];
-    // render text by chunks to prevent over text limit https://github.com/facebook/react-native/issues/15663
+    const pagedItem = chunkHtmlPreservingTags(item);
+    // render text by chunks to prevent over text limit while preserving HTML tags
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -100,13 +412,7 @@ class NovelViewer extends Component {
               key={`${novelId}-${index}-${i}`} // eslint-disable-line react/no-array-index-key
               value={t}
               renderNode={this.handleRenderNode}
-              textComponentProps={{
-                style: {
-                  fontSize,
-                  lineHeight: fontSize * lineHeight,
-                },
-                selectable: true,
-              }}
+              textComponentProps={this.getHtmlTextComponentProps()}
               TextComponent={this.renderHtmlViewTextComponent}
             />
           ))}
