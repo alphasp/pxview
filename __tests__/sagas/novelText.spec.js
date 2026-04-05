@@ -43,25 +43,28 @@ describe('handleFetchNovelText', () => {
       apply(pixiv, pixiv.requestUrl, [ajaxUrl, ajaxOptions]),
     );
     expect(generator.next(ajaxResponse).value).toEqual(
-      put(
-        fetchNovelTextSuccess(
-          'before[uploadedimage:24115550]after',
+      put({
+        type: 'PIXIV/NOVEL_TEXT_SUCCESS',
+        payload: expect.objectContaining({
           novelId,
-          {
+          text: 'before[uploadedimage:24115550]after',
+          embeddedImages: {
             24115550: {
               urls: {
                 original: 'https://i.pximg.net/novel-upload-original.jpg',
               },
             },
           },
-          {
+          debugInfo: {
             embeddedImageCount: 1,
             parsedKeys: ['content', 'id', 'textEmbeddedImages'],
             source: 'ajax',
-            summary: 'source=ajax embeddedCount=1 parsedKeys=content|id|textEmbeddedImages',
+            summary:
+              'source=ajax embeddedCount=1 parsedKeys=content|id|textEmbeddedImages',
           },
-        ),
-      ),
+          timestamp: expect.any(Number),
+        }),
+      }),
     );
     expect(generator.next().done).toBe(true);
   });
