@@ -1,5 +1,8 @@
 import { Parser as NovelParser } from 'pixiv-novel-parser';
-import { renderTextWithInlineImages } from './novelInlineImage';
+import {
+  createInlineImageTag,
+  renderTextWithInlineImages,
+} from './novelInlineImage';
 
 const parseNovelText = (novelText) => {
   // const parsedNovelText = NovelParser.parse(
@@ -36,6 +39,8 @@ const parseNovelText = (novelText) => {
           }
         });
         text += '</a>';
+      } else if (p.name === 'pixivimage') {
+        text += createInlineImageTag(p.illustID, 'pixivimage', p.pageNumber);
       } else if (p.name === 'newpage') {
         items.push(text);
         text = '';

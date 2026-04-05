@@ -1,11 +1,18 @@
 import { NOVEL_TEXT } from '../constants/actionTypes';
 
-export function fetchNovelTextSuccess(text, novelId) {
+export function fetchNovelTextSuccess(
+  text,
+  novelId,
+  embeddedImages = {},
+  debugInfo = null,
+) {
   return {
     type: NOVEL_TEXT.SUCCESS,
     payload: {
       novelId,
       text,
+      embeddedImages,
+      debugInfo,
       timestamp: Date.now(),
     },
   };

@@ -14,15 +14,117 @@ const styles = StyleSheet.create({
   },
 });
 
-const resolveIllustImageUrl = (illust) => {
+const getImageIdFromProps = (props) => props.imageId || props.illustId;
+
+const getImageKindFromProps = (props) => props.imageKind || 'loadedimage';
+
+const getEmbeddedImageCandidateIds = (embeddedImage) =>
+  [
+    embeddedImage && embeddedImage.id,
+    embeddedImage && embeddedImage.illustId,
+    embeddedImage && embeddedImage.imageId,
+    embeddedImage && embeddedImage.novelImageId,
+    embeddedImage && embeddedImage.illust_id,
+    embeddedImage && embeddedImage.image_id,
+  ]
+    .filter((value) => value !== undefined && value !== null)
+    .map((value) => String(value));
+
+const findEmbeddedImageById = (embeddedImages, imageId) => {
+  if (!embeddedImages || !imageId) {
+    return null;
+  }
+
+  const normalizedImageId = String(imageId);
+  const numericImageId = parseInt(imageId, 10);
+
+  if (Array.isArray(embeddedImages)) {
+    return (
+      embeddedImages.find(
+        (item) =>
+          item &&
+          getEmbeddedImageCandidateIds(item).includes(normalizedImageId),
+      ) || null
+    );
+  }
+
+  if (embeddedImages[imageId]) {
+    return embeddedImages[imageId];
+  }
+
+  if (!Number.isNaN(numericImageId) && embeddedImages[numericImageId]) {
+    return embeddedImages[numericImageId];
+  }
+
+  const embeddedImageValues = Object.values(embeddedImages);
+  return (
+    embeddedImageValues.find(
+      (item) =>
+        item && getEmbeddedImageCandidateIds(item).includes(normalizedImageId),
+    ) || null
+  );
+};
+
+const resolveEmbeddedImageUrl = (embeddedImage) => {
+  if (!embeddedImage) {
+    return null;
+  }
+
+  const { urls } = embeddedImage;
+  if (!urls) {
+    return (
+      embeddedImage.originalUrl ||
+      embeddedImage.url ||
+      embeddedImage.coverUrl ||
+      embeddedImage.thumbnailUrl ||
+      null
+    );
+  }
+
+  return (
+    urls.original ||
+    urls['1200x1200'] ||
+    urls['600x600'] ||
+    urls['480mw'] ||
+    urls['240mw'] ||
+    urls['128x128'] ||
+    urls.regular ||
+    urls.large ||
+    urls.medium ||
+    urls.small ||
+    null
+  );
+};
+
+const resolveEmbeddedImageAspectRatio = (embeddedImage) => {
+  if (!embeddedImage) {
+    return null;
+  }
+
+  const width =
+    embeddedImage.width || embeddedImage.originalWidth || embeddedImage.w;
+  const height =
+    embeddedImage.height || embeddedImage.originalHeight || embeddedImage.h;
+
+  return width && height ? width / height : null;
+};
+
+const resolveIllustImageUrl = (illust, pageNumber) => {
   if (!illust) {
     return null;
   }
 
   if (illust.meta_pages && illust.meta_pages.length) {
-    const firstPage = illust.meta_pages[0];
-    if (firstPage && firstPage.image_urls && firstPage.image_urls.original) {
-      return firstPage.image_urls.original;
+    const pageIndex =
+      pageNumber && pageNumber > 0 ? Math.min(pageNumber - 1, illust.meta_pages.length - 1) : 0;
+    const page = illust.meta_pages[pageIndex];
+    if (page && page.image_urls) {
+      return (
+        page.image_urls.original ||
+        page.image_urls.large ||
+        page.image_urls.medium ||
+        null
+      );
     }
   }
 
@@ -43,10 +145,12 @@ const resolveIllustImageUrl = (illust) => {
 class NovelInlineImage extends Component {
   constructor(props) {
     super(props);
+    const imageId = getImageIdFromProps(props);
     this.state = {
+      failureReason: null,
       imageUrl: null,
       isFailed: false,
-      isLoading: Boolean(props.illustId),
+      isLoading: Boolean(imageId),
       imageAspectRatio: 1,
     };
   }
@@ -56,14 +160,23 @@ class NovelInlineImage extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { illustId } = this.props;
-    if (illustId !== prevProps.illustId) {
+    const imageId = getImageIdFromProps(this.props);
+    const prevImageId = getImageIdFromProps(prevProps);
+    const imageKind = getImageKindFromProps(this.props);
+    const prevImageKind = getImageKindFromProps(prevProps);
+    if (
+      imageId !== prevImageId ||
+      imageKind !== prevImageKind ||
+      this.props.pageNumber !== prevProps.pageNumber ||
+      this.props.embeddedImages !== prevProps.embeddedImages
+    ) {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState(
         {
+          failureReason: null,
           imageUrl: null,
           isFailed: false,
-          isLoading: Boolean(illustId),
+          isLoading: Boolean(imageId),
           imageAspectRatio: 1,
         },
         this.loadImage,
@@ -78,9 +191,40 @@ class NovelInlineImage extends Component {
   loadImage = async () => {
     const requestId = (this.requestId || 0) + 1;
     this.requestId = requestId;
-    const { illustId } = this.props;
-    if (!illustId) {
+    const { embeddedImages, pageNumber } = this.props;
+    const imageId = getImageIdFromProps(this.props);
+    const imageKind = getImageKindFromProps(this.props);
+
+    if (!imageId) {
       this.setState({
+        failureReason: 'missing image id',
+        isLoading: false,
+        isFailed: true,
+      });
+      return;
+    }
+
+    const embeddedImage = findEmbeddedImageById(embeddedImages, imageId);
+    const embeddedImageUrl = resolveEmbeddedImageUrl(embeddedImage);
+    const embeddedImageAspectRatio =
+      resolveEmbeddedImageAspectRatio(embeddedImage);
+
+    if (embeddedImageUrl) {
+      this.setState({
+        failureReason: null,
+        imageUrl: embeddedImageUrl,
+        isLoading: false,
+        isFailed: false,
+        imageAspectRatio: embeddedImageAspectRatio || this.state.imageAspectRatio,
+      });
+      return;
+    }
+
+    if (imageKind === 'uploadedimage') {
+      this.setState({
+        failureReason: embeddedImage
+          ? 'embedded image metadata has no usable url'
+          : 'no embedded image metadata',
         isLoading: false,
         isFailed: true,
       });
@@ -88,19 +232,20 @@ class NovelInlineImage extends Component {
     }
 
     try {
-      const response = await pixiv.illustDetail(illustId);
+      const response = await pixiv.illustDetail(imageId);
       if (this.unmounted || requestId !== this.requestId) {
         return;
       }
 
       const illust = response && response.illust;
-      const imageUrl = resolveIllustImageUrl(illust);
+      const imageUrl = resolveIllustImageUrl(illust, pageNumber);
       const width = illust && illust.width;
       const height = illust && illust.height;
       const imageAspectRatio =
         width && height ? width / height : this.state.imageAspectRatio;
 
       this.setState({
+        failureReason: imageUrl ? null : 'illust detail has no usable url',
         imageUrl,
         isLoading: false,
         isFailed: !imageUrl,
@@ -109,6 +254,7 @@ class NovelInlineImage extends Component {
     } catch (err) {
       if (!this.unmounted && requestId === this.requestId) {
         this.setState({
+          failureReason: 'illust detail request failed',
           isLoading: false,
           isFailed: true,
         });
@@ -118,19 +264,27 @@ class NovelInlineImage extends Component {
 
   handleImageError = () => {
     this.setState({
+      failureReason: 'image request failed',
       isFailed: true,
       isLoading: false,
     });
   };
 
   renderContent() {
-    const { illustId, maxWidth } = this.props;
-    const { imageUrl, isFailed, isLoading, imageAspectRatio } = this.state;
+    const { debugInfo, maxWidth } = this.props;
+    const imageId = getImageIdFromProps(this.props);
+    const {
+      failureReason,
+      imageUrl,
+      isFailed,
+      isLoading,
+      imageAspectRatio,
+    } = this.state;
 
     if (isLoading) {
       return (
         <Text
-          accessibilityLabel={`novel-inline-image-${illustId}`}
+          accessibilityLabel={`novel-inline-image-${imageId}`}
           style={styles.fallback}
         >
           Loading image...
@@ -139,19 +293,27 @@ class NovelInlineImage extends Component {
     }
 
     if (!imageUrl || isFailed) {
+      const diagnosticSuffix =
+        failureReason === 'no embedded image metadata' &&
+        debugInfo &&
+        debugInfo.summary
+          ? `; ${debugInfo.summary}`
+          : '';
       return (
         <Text
-          accessibilityLabel={`novel-inline-image-${illustId}`}
+          accessibilityLabel={`novel-inline-image-${imageId}`}
           style={styles.fallback}
         >
-          Image unavailable
+          {`Image unavailable${
+            failureReason ? ` (${failureReason}${diagnosticSuffix})` : ''
+          }`}
         </Text>
       );
     }
 
     return (
       <PXImage
-        accessibilityLabel={`novel-inline-image-${illustId}`}
+        accessibilityLabel={`novel-inline-image-${imageId}`}
         uri={imageUrl}
         resizeMode="contain"
         onError={this.handleImageError}

@@ -128,6 +128,8 @@ class NovelReader extends Component {
           <NovelViewer
             novelId={novelId}
             items={parsedNovelText}
+            debugInfo={novelText && novelText.debugInfo}
+            embeddedImages={novelText && novelText.embeddedImages}
             index={index}
             fontSize={fontSize}
             lineHeight={lineHeight}

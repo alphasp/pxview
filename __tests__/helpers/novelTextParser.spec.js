@@ -6,7 +6,23 @@ describe('parseNovelText inline images', () => {
     const result = parseNovelText('before[loadedimage:24095674]after');
 
     expect(result).toEqual([
-      "before<px-image data-illust-id='24095674'></px-image>after",
+      "before<px-image data-illust-id='24095674' data-image-kind='loadedimage'></px-image>after",
+    ]);
+  });
+
+  it('converts uploadedimage markup into a px-image node', () => {
+    const result = parseNovelText('before[uploadedimage:24115550]after');
+
+    expect(result).toEqual([
+      "before<px-image data-illust-id='24115550' data-image-kind='uploadedimage'></px-image>after",
+    ]);
+  });
+
+  it('converts pixivimage markup into a px-image node and preserves page numbers', () => {
+    const result = parseNovelText('before[pixivimage:24095674-2]after');
+
+    expect(result).toEqual([
+      "before<px-image data-illust-id='24095674' data-image-kind='pixivimage' data-page-number='2'></px-image>after",
     ]);
   });
 
@@ -14,7 +30,7 @@ describe('parseNovelText inline images', () => {
     const result = parseNovelText('one[loadedimage:24095674][newpage]two');
 
     expect(result).toEqual([
-      "one<px-image data-illust-id='24095674'></px-image>",
+      "one<px-image data-illust-id='24095674' data-image-kind='loadedimage'></px-image>",
       'two',
     ]);
   });
@@ -37,7 +53,7 @@ describe('parseNovelText inline images', () => {
     );
 
     expect(result).toBe(
-      "<px-image data-illust-id='1'></px-image>mid<px-image data-illust-id='2'></px-image>",
+      "<px-image data-illust-id='1' data-image-kind='loadedimage'></px-image>mid<px-image data-illust-id='2' data-image-kind='loadedimage'></px-image>",
     );
   });
 

@@ -353,7 +353,7 @@ class NovelViewer extends Component {
   };
 
   handleRenderNode = (node, index, siblings, parent, defaultRenderer) => {
-    const { onPressPageLink } = this.props;
+    const { debugInfo, embeddedImages, onPressPageLink } = this.props;
     if (node.name === 'chapter') {
       return this.renderChapterNode(node, index, parent, defaultRenderer);
     }
@@ -374,11 +374,20 @@ class NovelViewer extends Component {
       return this.renderAnchorNode(node, index, parent, defaultRenderer);
     }
     if (node.name === 'px-image') {
-      const illustId = node.attribs && node.attribs['data-illust-id'];
+      const imageId = node.attribs && node.attribs['data-illust-id'];
+      const imageKind = node.attribs && node.attribs['data-image-kind'];
+      const parsedPageNumber = parseInt(
+        node.attribs && node.attribs['data-page-number'],
+        10,
+      );
       return (
         <NovelInlineImage
           key={index}
-          illustId={illustId}
+          debugInfo={debugInfo}
+          imageId={imageId}
+          imageKind={imageKind}
+          pageNumber={Number.isNaN(parsedPageNumber) ? null : parsedPageNumber}
+          embeddedImages={embeddedImages}
           maxWidth={globalStyleVariables.WINDOW_WIDTH - 20}
         />
       );

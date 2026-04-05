@@ -26,6 +26,8 @@ export default function novelText(state = {}, action) {
           loading: false,
           loaded: true,
           refreshing: false,
+          debugInfo: action.payload.debugInfo,
+          embeddedImages: action.payload.embeddedImages,
           text: action.payload.text,
           timestamp: action.payload.timestamp,
         },

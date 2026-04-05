@@ -390,7 +390,46 @@ describe('NovelViewer inline images', () => {
       'Text',
     );
 
-    expect(fallback.props.children).toBe('Image unavailable');
+    expect(fallback.props.children).toBe(
+      'Image unavailable (illust detail has no usable url)',
+    );
+  });
+
+  it('renders uploaded novel images from embedded image metadata in the page flow', async () => {
+    let instance;
+    await act(async () => {
+      instance = renderer.create(
+        <NovelViewer
+          novelId={1}
+          items={[
+            "before<px-image data-illust-id='24115550' data-image-kind='uploadedimage'></px-image>after",
+          ]}
+          embeddedImages={{
+            24115550: {
+              width: 400,
+              height: 200,
+              urls: { original: 'https://example.com/uploaded-inline.jpg' },
+            },
+          }}
+          index={0}
+          fontSize={16}
+          lineHeight={1.6}
+          onIndexChange={() => {}}
+          onPressPageLink={() => {}}
+          openModal={() => {}}
+        />,
+      );
+      await flushPromises();
+    });
+
+    const inlineImage = findHostNodeByAccessibilityLabel(
+      instance.root,
+      'novel-inline-image-24115550',
+      'Image',
+    );
+
+    expect(inlineImage.props.uri).toBe('https://example.com/uploaded-inline.jpg');
+    expect(illustDetail).not.toHaveBeenCalled();
   });
 
   it('renders chapter text after the custom chapter renderer rewrite', () => {
@@ -781,7 +820,9 @@ describe('NovelViewer inline images', () => {
     );
     const jumpPressTarget = findPressTarget(fallback);
 
-    expect(fallback.props.children).toBe('Image unavailable');
+    expect(fallback.props.children).toBe(
+      'Image unavailable (illust detail has no usable url)',
+    );
     expect(jumpPressTarget).not.toBeNull();
 
     act(() => {

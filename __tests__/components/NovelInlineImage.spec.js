@@ -86,7 +86,7 @@ describe('NovelInlineImage', () => {
         'novel-inline-image-24095674',
         'Text',
       ).props.children,
-    ).toBe('Image unavailable');
+    ).toBe('Image unavailable (illust detail has no usable url)');
   });
 
   it('falls back when the image request rejects', async () => {
@@ -106,7 +106,7 @@ describe('NovelInlineImage', () => {
         'novel-inline-image-24095674',
         'Text',
       ).props.children,
-    ).toBe('Image unavailable');
+    ).toBe('Image unavailable (illust detail request failed)');
   });
 
   it('forwards stable props to PXImage and falls back if the rendered image reports an error', async () => {
@@ -151,7 +151,7 @@ describe('NovelInlineImage', () => {
         'novel-inline-image-24095674',
         'Text',
       ).props.children,
-    ).toBe('Image unavailable');
+    ).toBe('Image unavailable (image request failed)');
   });
 
   it('renders loaded images without a block wrapper and preserves the accessibility label', async () => {
@@ -177,6 +177,224 @@ describe('NovelInlineImage', () => {
     );
 
     expect(imageNode.props.uri).toBe('https://example.com/image.jpg');
+  });
+
+  it('renders uploaded novel images from embedded image metadata without calling illustDetail', async () => {
+    let tree;
+
+    await act(async () => {
+      tree = renderer.create(
+        <NovelInlineImage
+          imageId="24115550"
+          imageKind="uploadedimage"
+          embeddedImages={{
+            24115550: {
+              width: 400,
+              height: 200,
+              urls: { original: 'https://example.com/uploaded-original.jpg' },
+            },
+          }}
+        />,
+      );
+      await flushPromises();
+    });
+
+    const imageNode = findHostNodeByAccessibilityLabel(
+      tree.root,
+      'novel-inline-image-24115550',
+      'Image',
+    );
+
+    expect(imageNode.props.uri).toBe(
+      'https://example.com/uploaded-original.jpg',
+    );
+    expect(illustDetail).not.toHaveBeenCalled();
+  });
+
+  it('renders uploaded novel images when Pixiv only provides sized textEmbeddedImages urls', async () => {
+    let tree;
+
+    await act(async () => {
+      tree = renderer.create(
+        <NovelInlineImage
+          imageId="24115550"
+          imageKind="uploadedimage"
+          embeddedImages={{
+            24115550: {
+              width: 600,
+              height: 400,
+              urls: {
+                '1200x1200': 'https://example.com/uploaded-1200.jpg',
+                '480mw': 'https://example.com/uploaded-480.jpg',
+              },
+            },
+          }}
+        />,
+      );
+      await flushPromises();
+    });
+
+    const imageNode = findHostNodeByAccessibilityLabel(
+      tree.root,
+      'novel-inline-image-24115550',
+      'Image',
+    );
+
+    expect(imageNode.props.uri).toBe('https://example.com/uploaded-1200.jpg');
+    expect(illustDetail).not.toHaveBeenCalled();
+  });
+
+  it('renders uploaded novel images when metadata is only discoverable by matching embedded image values', async () => {
+    let tree;
+
+    await act(async () => {
+      tree = renderer.create(
+        <NovelInlineImage
+          imageId="24115550"
+          imageKind="uploadedimage"
+          embeddedImages={{
+            preview: {
+              id: '24115550',
+              width: 400,
+              height: 200,
+              urls: { original: 'https://example.com/uploaded-by-value.jpg' },
+            },
+          }}
+        />,
+      );
+      await flushPromises();
+    });
+
+    const imageNode = findHostNodeByAccessibilityLabel(
+      tree.root,
+      'novel-inline-image-24115550',
+      'Image',
+    );
+
+    expect(imageNode.props.uri).toBe(
+      'https://example.com/uploaded-by-value.jpg',
+    );
+    expect(illustDetail).not.toHaveBeenCalled();
+  });
+
+  it('renders uploaded novel images when embedded metadata uses illustId instead of id', async () => {
+    let tree;
+
+    await act(async () => {
+      tree = renderer.create(
+        <NovelInlineImage
+          imageId="24115550"
+          imageKind="uploadedimage"
+          embeddedImages={{
+            preview: {
+              illustId: '24115550',
+              width: 400,
+              height: 200,
+              urls: { original: 'https://example.com/uploaded-by-illust-id.jpg' },
+            },
+          }}
+        />,
+      );
+      await flushPromises();
+    });
+
+    const imageNode = findHostNodeByAccessibilityLabel(
+      tree.root,
+      'novel-inline-image-24115550',
+      'Image',
+    );
+
+    expect(imageNode.props.uri).toBe(
+      'https://example.com/uploaded-by-illust-id.jpg',
+    );
+    expect(illustDetail).not.toHaveBeenCalled();
+  });
+
+  it('renders uploaded novel images when glossary-style metadata uses imageId and coverUrl', async () => {
+    let tree;
+
+    await act(async () => {
+      tree = renderer.create(
+        <NovelInlineImage
+          imageId="24115550"
+          imageKind="uploadedimage"
+          embeddedImages={{
+            glossaryEntry: {
+              imageId: '24115550',
+              width: 400,
+              height: 200,
+              coverUrl: 'https://example.com/uploaded-by-glossary-cover-url.jpg',
+            },
+          }}
+        />,
+      );
+      await flushPromises();
+    });
+
+    const imageNode = findHostNodeByAccessibilityLabel(
+      tree.root,
+      'novel-inline-image-24115550',
+      'Image',
+    );
+
+    expect(imageNode.props.uri).toBe(
+      'https://example.com/uploaded-by-glossary-cover-url.jpg',
+    );
+    expect(illustDetail).not.toHaveBeenCalled();
+  });
+
+  it('shows when uploadedimage metadata is completely missing', async () => {
+    let tree;
+
+    await act(async () => {
+      tree = renderer.create(
+        <NovelInlineImage
+          imageId="24115550"
+          imageKind="uploadedimage"
+          embeddedImages={{}}
+        />,
+      );
+      await flushPromises();
+    });
+
+    expect(
+      findHostNodeByAccessibilityLabel(
+        tree.root,
+        'novel-inline-image-24115550',
+        'Text',
+      ).props.children,
+    ).toBe('Image unavailable (no embedded image metadata)');
+  });
+
+  it('uses the requested pixivimage page when resolving multi-page illustrations', async () => {
+    illustDetail.mockResolvedValueOnce({
+      illust: {
+        meta_pages: [
+          { image_urls: { original: 'https://example.com/page-1.jpg' } },
+          { image_urls: { original: 'https://example.com/page-2.jpg' } },
+        ],
+      },
+    });
+
+    let tree;
+    await act(async () => {
+      tree = renderer.create(
+        <NovelInlineImage
+          imageId="24095674"
+          imageKind="pixivimage"
+          pageNumber={2}
+        />,
+      );
+      await flushPromises();
+    });
+
+    const imageNode = findHostNodeByAccessibilityLabel(
+      tree.root,
+      'novel-inline-image-24095674',
+      'Image',
+    );
+
+    expect(imageNode.props.uri).toBe('https://example.com/page-2.jpg');
   });
 
   it('ignores stale responses after the illust id changes', async () => {
@@ -238,5 +456,43 @@ describe('NovelInlineImage', () => {
     });
 
     expect(consoleError).not.toHaveBeenCalled();
+  });
+
+  it('shows when a resolved uploaded image url still fails to load', async () => {
+    let tree;
+    await act(async () => {
+      tree = renderer.create(
+        <NovelInlineImage
+          imageId="24115550"
+          imageKind="uploadedimage"
+          embeddedImages={{
+            24115550: {
+              width: 400,
+              height: 200,
+              urls: { original: 'https://example.com/uploaded-original.jpg' },
+            },
+          }}
+        />,
+      );
+      await flushPromises();
+    });
+
+    const imageNode = findHostNodeByAccessibilityLabel(
+      tree.root,
+      'novel-inline-image-24115550',
+      'Image',
+    );
+
+    await act(async () => {
+      imageNode.props.onError();
+    });
+
+    expect(
+      findHostNodeByAccessibilityLabel(
+        tree.root,
+        'novel-inline-image-24115550',
+        'Text',
+      ).props.children,
+    ).toBe('Image unavailable (image request failed)');
   });
 });
