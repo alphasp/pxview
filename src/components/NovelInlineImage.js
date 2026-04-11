@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { Image, StyleSheet, Text } from 'react-native';
 import PXImage from './PXImage';
 import pixiv from '../common/helpers/apiClient';
 import { globalStyleVariables } from '../styles';
@@ -116,7 +116,9 @@ const resolveIllustImageUrl = (illust, pageNumber) => {
 
   if (illust.meta_pages && illust.meta_pages.length) {
     const pageIndex =
-      pageNumber && pageNumber > 0 ? Math.min(pageNumber - 1, illust.meta_pages.length - 1) : 0;
+      pageNumber && pageNumber > 0
+        ? Math.min(pageNumber - 1, illust.meta_pages.length - 1)
+        : 0;
     const page = illust.meta_pages[pageIndex];
     if (page && page.image_urls) {
       return (
@@ -128,10 +130,7 @@ const resolveIllustImageUrl = (illust, pageNumber) => {
     }
   }
 
-  if (
-    illust.meta_single_page &&
-    illust.meta_single_page.original_image_url
-  ) {
+  if (illust.meta_single_page && illust.meta_single_page.original_image_url) {
     return illust.meta_single_page.original_image_url;
   }
 
@@ -206,17 +205,53 @@ class NovelInlineImage extends Component {
 
     const embeddedImage = findEmbeddedImageById(embeddedImages, imageId);
     const embeddedImageUrl = resolveEmbeddedImageUrl(embeddedImage);
-    const embeddedImageAspectRatio =
-      resolveEmbeddedImageAspectRatio(embeddedImage);
+    const embeddedImageAspectRatio = resolveEmbeddedImageAspectRatio(
+      embeddedImage,
+    );
 
     if (embeddedImageUrl) {
-      this.setState({
-        failureReason: null,
-        imageUrl: embeddedImageUrl,
-        isLoading: false,
-        isFailed: false,
-        imageAspectRatio: embeddedImageAspectRatio || this.state.imageAspectRatio,
-      });
+      if (embeddedImageAspectRatio) {
+        // Metadata had real dimensions — fast path, no network needed
+        this.setState({
+          failureReason: null,
+          imageUrl: embeddedImageUrl,
+          isLoading: false,
+          isFailed: false,
+          imageAspectRatio: embeddedImageAspectRatio,
+        });
+      } else {
+        // API returned URLs only — must fetch intrinsic size with Referer header
+        // Keep isLoading: true so the "Loading image..." placeholder stays visible
+        Image.getSizeWithHeaders(
+          embeddedImageUrl,
+          { referer: 'http://www.pixiv.net' },
+          (width, height) => {
+            if (this.unmounted || requestId !== this.requestId) {
+              return;
+            }
+            this.setState({
+              failureReason: null,
+              imageUrl: embeddedImageUrl,
+              isLoading: false,
+              isFailed: false,
+              imageAspectRatio: width && height ? width / height : 1,
+            });
+          },
+          () => {
+            if (this.unmounted || requestId !== this.requestId) {
+              return;
+            }
+            // getSize failed — show image and measure via onLoad fallback
+            this.setState({
+              failureReason: null,
+              imageUrl: embeddedImageUrl,
+              isLoading: false,
+              isFailed: false,
+              imageAspectRatio: null,
+            });
+          },
+        );
+      }
       return;
     }
 
@@ -270,6 +305,19 @@ class NovelInlineImage extends Component {
     });
   };
 
+  handleImageLoad = (event) => {
+    const { imageAspectRatio } = this.state;
+    if (imageAspectRatio !== null) {
+      return;
+    }
+    const source = event && event.nativeEvent && event.nativeEvent.source;
+    if (source && source.width && source.height) {
+      this.setState({ imageAspectRatio: source.width / source.height });
+    } else {
+      this.setState({ imageAspectRatio: 1 });
+    }
+  };
+
   renderContent() {
     const { debugInfo, maxWidth } = this.props;
     const imageId = getImageIdFromProps(this.props);
@@ -311,19 +359,20 @@ class NovelInlineImage extends Component {
       );
     }
 
+    const imageWidth = maxWidth || globalStyleVariables.WINDOW_WIDTH - 20;
+    const imageStyle =
+      imageAspectRatio !== null
+        ? { width: imageWidth, aspectRatio: imageAspectRatio }
+        : { width: imageWidth, height: imageWidth };
+
     return (
       <PXImage
         accessibilityLabel={`novel-inline-image-${imageId}`}
         uri={imageUrl}
         resizeMode="contain"
         onError={this.handleImageError}
-        style={[
-          styles.image,
-          {
-            width: maxWidth || globalStyleVariables.WINDOW_WIDTH - 20,
-            aspectRatio: imageAspectRatio,
-          },
-        ]}
+        onLoad={this.handleImageLoad}
+        style={[styles.image, imageStyle]}
       />
     );
   }

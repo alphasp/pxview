@@ -9,12 +9,25 @@ const Login = ({ route }) => {
   const { url } = route.params;
 
   useEffect(() => {
-    if (route?.params?.code) {
-      if (route.params?.code) {
-        const { codeVerifier } = PKCE.getPKCE();
+    let isMounted = true;
+
+    const handleLoginCallback = async () => {
+      if (!route?.params?.code) {
+        return;
+      }
+
+      const { codeVerifier } = await PKCE.getPKCE();
+
+      if (isMounted) {
         dispatch(tokenRequest(route.params?.code, codeVerifier));
       }
-    }
+    };
+
+    handleLoginCallback();
+
+    return () => {
+      isMounted = false;
+    };
   }, [dispatch, route]);
 
   return (
