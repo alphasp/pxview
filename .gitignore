@@ -67,3 +67,11 @@ flow-typed
 GoogleService-Info.plist
 .pnpm-store/*
 .worktrees/
+
+# React Native Android generated resources (release bundling side effects)
+/android/app/src/main/res/**/node_modules_*
+/android/app/src/main/res/raw/src_common_constants_strings_*.json
+/android/app/src/main/res/**/src_images_logo.png
+
+# Local device verification screenshots
+/tmp-device-screen*.png

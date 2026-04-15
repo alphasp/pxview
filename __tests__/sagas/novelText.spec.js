@@ -60,8 +60,59 @@ describe('handleFetchNovelText', () => {
             parsedKeys: ['content', 'id', 'textEmbeddedImages'],
             source: 'ajax',
             summary:
-              'source=ajax embeddedCount=1 parsedKeys=content|id|textEmbeddedImages',
+              'source=ajax embeddedCount=1 uploadedCount=1 parsedKeys=content|id|textEmbeddedImages',
+            uploadedImageCount: 1,
           },
+          timestamp: expect.any(Number),
+        }),
+      }),
+    );
+    expect(generator.next().done).toBe(true);
+  });
+
+  test('falls back to webview when ajax misses uploaded image metadata', () => {
+    const generator = handleFetchNovelText(action);
+    const ajaxUrl = `https://www.pixiv.net/ajax/novel/${novelId}`;
+    const ajaxOptions = {
+      headers: {
+        Accept: 'application/json',
+        Referer: `https://www.pixiv.net/novel/show.php?id=${novelId}`,
+      },
+    };
+    const ajaxResponse = {
+      error: false,
+      body: {
+        id: novelId,
+        content: 'before[uploadedimage:24115550]after',
+        textEmbeddedImages: {},
+      },
+    };
+    const webviewRawResponse = `
+      <meta id="meta-preload-data" content="{&quot;novel&quot;:{&quot;123&quot;:{&quot;id&quot;:&quot;123&quot;,&quot;text&quot;:&quot;before[uploadedimage:24115550]after&quot;,&quot;textEmbeddedImages&quot;:{&quot;24115550&quot;:{&quot;urls&quot;:{&quot;original&quot;:&quot;https://i.pximg.net/webview.jpg&quot;}}}}}}" />
+    `;
+
+    expect(generator.next().value).toEqual(
+      apply(pixiv, pixiv.requestUrl, [ajaxUrl, ajaxOptions]),
+    );
+    expect(generator.next(ajaxResponse).value).toEqual(
+      apply(pixiv, pixiv.novelWebview, [novelId, true]),
+    );
+    expect(generator.next(webviewRawResponse).value).toEqual(
+      put({
+        type: 'PIXIV/NOVEL_TEXT_SUCCESS',
+        payload: expect.objectContaining({
+          novelId,
+          text: 'before[uploadedimage:24115550]after',
+          embeddedImages: expect.objectContaining({
+            24115550: expect.objectContaining({
+              originalUrl: 'https://i.pximg.net/webview.jpg',
+            }),
+          }),
+          debugInfo: expect.objectContaining({
+            ajaxFallback: expect.objectContaining({
+              reason: 'missing uploaded image metadata',
+            }),
+          }),
           timestamp: expect.any(Number),
         }),
       }),
@@ -112,7 +163,9 @@ describe('handleFetchNovelText', () => {
     expect(generator.throw(error).value).toEqual(
       apply(pixiv, pixiv.novelWebview, [novelId, true]),
     );
-    expect(generator.throw(error).value).toEqual(put(fetchNovelTextFailure(novelId)));
+    expect(generator.throw(error).value).toEqual(
+      put(fetchNovelTextFailure(novelId)),
+    );
     expect(generator.next().value).toEqual(put(addError(error)));
     expect(generator.next().done).toBe(true);
   });

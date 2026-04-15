@@ -31,6 +31,43 @@ describe('extractNovelAjaxData', () => {
     });
   });
 
+  it('extracts nested novel payload by novel id', () => {
+    expect(
+      extractNovelAjaxData(
+        {
+          error: false,
+          body: {
+            novel: {
+              123: {
+                id: '123',
+                text: 'nested text',
+                textEmbeddedImages: {
+                  24115550: {
+                    urls: {
+                      original:
+                        'https://i.pximg.net/novel-upload-original-nested.jpg',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        '123',
+      ),
+    ).toEqual({
+      id: '123',
+      text: 'nested text',
+      textEmbeddedImages: {
+        24115550: {
+          urls: {
+            original: 'https://i.pximg.net/novel-upload-original-nested.jpg',
+          },
+        },
+      },
+    });
+  });
+
   it('returns null when ajax response does not contain a usable body', () => {
     expect(extractNovelAjaxData({ error: true, body: null })).toBe(null);
     expect(extractNovelAjaxData(null)).toBe(null);

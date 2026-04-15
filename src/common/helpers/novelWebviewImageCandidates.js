@@ -1,8 +1,7 @@
 const UPLOADED_IMAGE_PATTERN = /\[uploadedimage:(\d+)\]/g;
 const IMAGE_URL_PATTERN = /https?:\/\/[^"'\\<>\s]+(?:jpg|jpeg|png|webp)/gi;
 
-const escapeRegExp = (value) =>
-  value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 const parseNumericField = (snippet, fieldName) => {
   const match = snippet.match(
@@ -54,6 +53,85 @@ const extractUploadedImageCandidatesFromHtml = (rawHtml, text) => {
   }, {});
 };
 
+const extractBalancedObject = (value, startIndex) => {
+  if (!value || value[startIndex] !== '{') {
+    return null;
+  }
+
+  let depth = 0;
+  let inString = false;
+  let isEscaped = false;
+
+  for (let index = startIndex; index < value.length; index += 1) {
+    const currentChar = value[index];
+
+    if (inString) {
+      if (isEscaped) {
+        isEscaped = false;
+      } else if (currentChar === '\\') {
+        isEscaped = true;
+      } else if (currentChar === '"') {
+        inString = false;
+      }
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+
+    if (currentChar === '"') {
+      inString = true;
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+
+    if (currentChar === '{') {
+      depth += 1;
+    } else if (currentChar === '}') {
+      depth -= 1;
+      if (depth === 0) {
+        return value.slice(startIndex, index + 1);
+      }
+    }
+  }
+
+  return null;
+};
+
+const extractTextEmbeddedImagesFromHtml = (rawHtml) => {
+  if (!rawHtml || typeof rawHtml !== 'string') {
+    return {};
+  }
+
+  // Search for textEmbeddedImages key anywhere in the HTML
+  const pattern = /["']?textEmbeddedImages["']?\s*:\s*\{/g;
+  let match = pattern.exec(rawHtml);
+
+  while (match) {
+    const objectStart = rawHtml.indexOf('{', match.index + match[0].indexOf(':'));
+    if (objectStart === -1) {
+      match = pattern.exec(rawHtml);
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+
+    const objectValue = extractBalancedObject(rawHtml, objectStart);
+    if (objectValue) {
+      try {
+        const parsed = JSON.parse(objectValue);
+        if (parsed && typeof parsed === 'object' && Object.keys(parsed).length > 0) {
+          return parsed;
+        }
+      } catch (e) {
+        // try next match
+      }
+    }
+
+    match = pattern.exec(rawHtml);
+  }
+
+  return {};
+};
+
 module.exports = {
   extractUploadedImageCandidatesFromHtml,
+  extractTextEmbeddedImagesFromHtml,
 };
