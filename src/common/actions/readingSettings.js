@@ -2,12 +2,19 @@
 
 import { READING_SETTINGS } from '../constants/actionTypes';
 
-export function setSettings({ imageReadingDirection, novelReadingDirection }) {
+export function setSettings({
+  imageReadingDirection,
+  novelReadingDirection,
+  sliderSide,
+  sliderPercentageSide,
+}) {
   return {
     type: READING_SETTINGS.SET,
     payload: {
       imageReadingDirection,
       novelReadingDirection,
+      sliderSide,
+      sliderPercentageSide,
     },
   };
 }

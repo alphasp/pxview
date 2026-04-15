@@ -4,6 +4,7 @@ import {
   View,
   StyleSheet,
   TouchableWithoutFeedback,
+  TouchableOpacity,
   Modal,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -13,6 +14,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { connectLocalization } from '../components/Localization';
 import * as modalActionCreators from '../common/actions/modal';
 import * as novelSettingsActionCreators from '../common/actions/novelSettings';
+import * as readingSettingsActionCreators from '../common/actions/readingSettings';
 import { globalStyleVariables } from '../styles/index';
 
 const styles = StyleSheet.create({
@@ -35,18 +37,20 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 5,
   },
+  toggleButton: {
+    flex: 1,
+    marginLeft: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 6,
+  },
+  toggleValue: {
+    fontWeight: '500',
+  },
 });
 
-class NovelSettingsModal extends Component {
-  static propTypes = {
-    // userId: PropTypes.number.isRequired,
-    // isFollow: PropTypes.bool.isRequired,
-    // fetchUserFollowDetail: PropTypes.func.isRequired,
-    // clearUserFollowDetail: PropTypes.func.isRequired,
-    closeModal: PropTypes.func.isRequired,
-    setProperties: PropTypes.func.isRequired,
-  };
-
+export class NovelSettingsModal extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -67,9 +71,38 @@ class NovelSettingsModal extends Component {
     setProperties({ lineHeight: value });
   };
 
+  handleOnToggleSliderSide = () => {
+    const {
+      readingSettings: { sliderSide },
+      setReadingSettings,
+    } = this.props;
+    setReadingSettings({
+      sliderSide: sliderSide === 'left' ? 'right' : 'left',
+    });
+  };
+
+  handleOnToggleSliderPercentageSide = () => {
+    const {
+      readingSettings: { sliderPercentageSide },
+      setReadingSettings,
+    } = this.props;
+    setReadingSettings({
+      sliderPercentageSide:
+        sliderPercentageSide === 'left' ? 'right' : 'left',
+    });
+  };
+
+  mapSliderSideName = (sliderSide) => {
+    const { i18n } = this.props;
+    return sliderSide === 'left'
+      ? i18n.readingSettingsSliderSideLeft
+      : i18n.readingSettingsSliderSideRight;
+  };
+
   render() {
     const {
       novelSettings: { fontSize, lineHeight },
+      readingSettings: { sliderSide, sliderPercentageSide },
       i18n,
       theme,
     } = this.props;
@@ -118,6 +151,34 @@ class NovelSettingsModal extends Component {
                     onSlidingComplete={this.handleOnLineHeightSlidingComplete}
                   />
                 </View>
+                <View style={styles.form}>
+                  <Icon name="exchange" size={14} color={theme.colors.text} />
+                  <TouchableOpacity
+                    accessibilityLabel="novel-settings-slider-side-toggle"
+                    activeOpacity={0.7}
+                    onPress={this.handleOnToggleSliderSide}
+                    style={styles.toggleButton}
+                  >
+                    <Text>{i18n.readingSettingsSliderSide}</Text>
+                    <Text style={styles.toggleValue}>
+                      {this.mapSliderSideName(sliderSide)}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.form}>
+                  <Icon name="percent" size={14} color={theme.colors.text} />
+                  <TouchableOpacity
+                    accessibilityLabel="novel-settings-slider-percentage-side-toggle"
+                    activeOpacity={0.7}
+                    onPress={this.handleOnToggleSliderPercentageSide}
+                    style={styles.toggleButton}
+                  >
+                    <Text>{i18n.readingSettingsSliderPercentageSide}</Text>
+                    <Text style={styles.toggleValue}>
+                      {this.mapSliderSideName(sliderPercentageSide)}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </TouchableWithoutFeedback>
           </View>
@@ -127,16 +188,31 @@ class NovelSettingsModal extends Component {
   }
 }
 
+NovelSettingsModal.propTypes = {
+  closeModal: PropTypes.func.isRequired,
+  i18n: PropTypes.object.isRequired,
+  novelSettings: PropTypes.object.isRequired,
+  readingSettings: PropTypes.object.isRequired,
+  setReadingSettings: PropTypes.func.isRequired,
+  setProperties: PropTypes.func.isRequired,
+  theme: PropTypes.object.isRequired,
+};
+
 export default withTheme(
   connectLocalization(
     connect(
       (state) => {
-        const { novelSettings } = state;
+        const { novelSettings, readingSettings } = state;
         return {
           novelSettings,
+          readingSettings,
         };
       },
-      { ...modalActionCreators, ...novelSettingsActionCreators },
+      {
+        ...modalActionCreators,
+        ...novelSettingsActionCreators,
+        setReadingSettings: readingSettingsActionCreators.setSettings,
+      },
     )(NovelSettingsModal),
   ),
 );

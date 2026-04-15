@@ -4,6 +4,8 @@ import { READING_DIRECTION_TYPES } from '../constants';
 const initState = {
   imageReadingDirection: READING_DIRECTION_TYPES.LEFT_TO_RIGHT,
   novelReadingDirection: READING_DIRECTION_TYPES.LEFT_TO_RIGHT,
+  sliderSide: 'right',
+  sliderPercentageSide: 'right',
 };
 
 export default function readingSettings(state = initState, action) {
@@ -19,12 +21,29 @@ export default function readingSettings(state = initState, action) {
           action.payload.novelReadingDirection !== undefined
             ? action.payload.novelReadingDirection
             : state.novelReadingDirection,
+        sliderSide:
+          action.payload.sliderSide !== undefined
+            ? action.payload.sliderSide
+            : state.sliderSide,
+        sliderPercentageSide:
+          action.payload.sliderPercentageSide !== undefined
+            ? action.payload.sliderPercentageSide
+            : state.sliderPercentageSide,
       };
     case READING_SETTINGS.RESTORE:
-      return {
-        ...state,
-        ...action.payload.state,
-      };
+      {
+        const nextState = {
+          ...state,
+          ...action.payload.state,
+        };
+        if (
+          nextState.sliderPercentageSide === undefined &&
+          nextState.sliderSide !== undefined
+        ) {
+          nextState.sliderPercentageSide = nextState.sliderSide;
+        }
+        return nextState;
+      }
     default:
       return state;
   }

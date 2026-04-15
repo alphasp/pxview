@@ -135,6 +135,8 @@ class NovelReader extends Component {
             lineHeight={lineHeight}
             onIndexChange={this.handleOnIndexChange}
             onPressPageLink={this.handleOnPressPageLink}
+            sliderSide={this.props.sliderSide}
+            sliderPercentageSide={this.props.sliderPercentageSide}
           />
         )}
       </View>
@@ -156,6 +158,11 @@ export default withTheme(
           parsedNovelText,
           novelSettings,
           novelReadingDirection: readingSettings.novelReadingDirection,
+          sliderSide: readingSettings.sliderSide || 'right',
+          sliderPercentageSide:
+            readingSettings.sliderPercentageSide ||
+            readingSettings.sliderSide ||
+            'right',
         };
       };
     },

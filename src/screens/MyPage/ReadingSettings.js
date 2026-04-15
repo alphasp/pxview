@@ -5,6 +5,7 @@ import { useTheme } from 'react-native-paper';
 import { useLocalization } from '../../components/Localization';
 import PXListItem from '../../components/PXListItem';
 import { openModal } from '../../common/actions/modal';
+import { setSettings } from '../../common/actions/readingSettings';
 import {
   MODAL_TYPES,
   READING_DIRECTION_TYPES,
@@ -14,9 +15,12 @@ import { globalStyles } from '../../styles';
 
 const ReadingSettings = () => {
   const dispatch = useDispatch();
-  const { imageReadingDirection, novelReadingDirection } = useSelector(
-    (state) => state.readingSettings,
-  );
+  const {
+    imageReadingDirection,
+    novelReadingDirection,
+    sliderSide,
+    sliderPercentageSide,
+  } = useSelector((state) => state.readingSettings);
   const theme = useTheme();
   const { i18n } = useLocalization();
 
@@ -49,6 +53,11 @@ const ReadingSettings = () => {
     }
   };
 
+  const mapSliderSideName = (side) =>
+    side === 'left'
+      ? i18n.readingSettingsSliderSideLeft
+      : i18n.readingSettingsSliderSideRight;
+
   return (
     <View
       style={[
@@ -65,6 +74,29 @@ const ReadingSettings = () => {
         title={i18n.readingSettingsDirectionNovel}
         description={mapReadingDirectionName(novelReadingDirection)}
         onPress={handleOnPressOpenNovelReadingDirectionSettingsModal}
+      />
+      <PXListItem
+        title={i18n.readingSettingsSliderSide}
+        description={mapSliderSideName(sliderSide)}
+        onPress={() =>
+          dispatch(
+            setSettings({
+              sliderSide: sliderSide === 'left' ? 'right' : 'left',
+            }),
+          )
+        }
+      />
+      <PXListItem
+        title={i18n.readingSettingsSliderPercentageSide}
+        description={mapSliderSideName(sliderPercentageSide)}
+        onPress={() =>
+          dispatch(
+            setSettings({
+              sliderPercentageSide:
+                sliderPercentageSide === 'left' ? 'right' : 'left',
+            }),
+          )
+        }
       />
     </View>
   );
